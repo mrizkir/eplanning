@@ -1,0 +1,38 @@
+.page-info {
+    background: rgb(243, 156, 18);
+    padding: 20px 30px;
+    font-size: 16px;
+    font-weight: 600;
+    z-index: 999999;
+}
+.page-info p {
+    color: rgba(255, 255, 255, 0.9); 
+    text-decoration: none; 
+    margin-right: 10px; 
+    margin-bottom:0px; 
+    display: inline-block;
+}
+.page-info a {
+    background: rgb(255, 255, 255); 
+    border: 0px; 
+    border-image: none; 
+    color: rgb(243, 156, 18); 
+    font-weight: 600; 
+    margin-top: -5px; 
+    box-shadow: none;
+}
+/* 
+Customization Panel
+*/
+.box.box-green {
+    border-top-color:#12f36c;
+}
+.box-header>.fa, .box-header>.glyphicon, .box-header>.ion, .box-header .box-tools-left {
+    display: inline-block;
+    font-size: 18px;
+    margin: 0;
+    line-height: 1;
+}
+/*
+* customization form elements
+*/
