@@ -16,7 +16,8 @@ class UsersController extends Controller {
      */
     public function __construct()
     {
-       $this->middleware(['auth','role:superadmin']);
+        parent::__construct();
+        $this->middleware(['auth','role:superadmin']);         
     }
     /**
      * dapatkan daftar roles
@@ -113,7 +114,7 @@ class UsersController extends Controller {
         $this->setCurrentPageInsideSession('users',1);
         $data=$this->populateData();
 
-        $datatable = view('pages.default.setting.users.datatable')->with(['page_active'=>'users',
+        $datatable = view("pages.{$this->theme}.setting.users.datatable")->with(['page_active'=>'users',
                                                                             'search'=>$this->getControllerStateSession('users','search'),
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                             'column_order'=>$this->getControllerStateSession('users.orderby','column_name'),
@@ -153,7 +154,7 @@ class UsersController extends Controller {
 
         $data=$this->populateData();
         
-        $datatable = view('pages.default.setting.users.datatable')->with(['page_active'=>'users',
+        $datatable = view("pages.{$this->theme}.setting.users.datatable")->with(['page_active'=>'users',
                                                             'search'=>$this->getControllerStateSession('users','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                             'column_order'=>$this->getControllerStateSession('users.orderby','column_name'),
@@ -174,7 +175,7 @@ class UsersController extends Controller {
     {
         $this->setCurrentPageInsideSession('users',$id);
         $data=$this->populateData($id);
-        $datatable = view('pages.default.setting.users.datatable')->with(['page_active'=>'users',
+        $datatable = view("pages.{$this->theme}.setting.users.datatable")->with(['page_active'=>'users',
                                                                             'search'=>$this->getControllerStateSession('users','search'),
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                             'column_order'=>$this->getControllerStateSession('users.orderby','column_name'),
@@ -207,7 +208,7 @@ class UsersController extends Controller {
         $this->setCurrentPageInsideSession('users',1);
         $data=$this->populateData();
 
-        $datatable = view('pages.default.setting.users.datatable')->with(['page_active'=>'users',                                                            
+        $datatable = view("pages.{$this->theme}.setting.users.datatable")->with(['page_active'=>'users',                                                            
                                                             'search'=>$this->getControllerStateSession('users','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                             'column_order'=>$this->getControllerStateSession('users.orderby','column_name'),
@@ -233,7 +234,7 @@ class UsersController extends Controller {
         
         $data=$this->populateData();
 
-        $datatable = view('pages.default.setting.users.datatable')->with(['page_active'=>'users',
+        $datatable = view("pages.{$this->theme}.setting.users.datatable")->with(['page_active'=>'users',
                                                                             'search'=>$this->getControllerStateSession('users','search'),
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                             'column_order'=>$this->getControllerStateSession('users.orderby','column_name'),
@@ -262,7 +263,7 @@ class UsersController extends Controller {
         
         $this->setCurrentPageInsideSession('users',$data->currentPage());
         
-        return view('pages.default.setting.users.index')->with(['page_active'=>'users',
+        return view("pages.{$this->theme}.setting.users.index")->with(['page_active'=>'users',
                                                 'search'=>$this->getControllerStateSession('users','search'),
                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                                 'column_order'=>$this->getControllerStateSession('users.orderby','column_name'),
@@ -279,7 +280,7 @@ class UsersController extends Controller {
     public function create()
     {        
         $daftar_roles=$this->getDaftarRoles();
-        return view('pages.default.setting.users.create')->with(['page_active'=>'users',
+        return view("pages.{$this->theme}.setting.users.create")->with(['page_active'=>'users',
                                                                 'daftar_roles'=>$daftar_roles
                                                                 ]);  
     }
@@ -357,7 +358,7 @@ class UsersController extends Controller {
         if (!is_null($user) )  
         {             
             $permission_selected = $user->permissions->pluck('name','id')->toArray();                        
-            return view('pages.default.setting.users.show')->with(['page_active'=>'users',
+            return view("pages.{$this->theme}.setting.users.show")->with(['page_active'=>'users',
                                                                     'data'=>$user,
                                                                     'data_permission'=>$user->getPermissionsViaRoles(),
                                                                     'permission_selected'=>$permission_selected
@@ -366,7 +367,7 @@ class UsersController extends Controller {
         else
         {
             $errormessage="Data dengan ID ($id) tidak ditemukan.";            
-            return view('pages.default.setting.users.error')->with(['page_active'=>'permissions',
+            return view("pages.{$this->theme}.setting.users.error")->with(['page_active'=>'permissions',
                                                                     'errormessage'=>$errormessage
                                                                 ]);
         }
@@ -386,7 +387,7 @@ class UsersController extends Controller {
             $daftar_roles=$this->getDaftarRoles();
             $user = \App\Models\User::with('roles')->find($id);
             $user_roles=$user->roles->pluck('name', 'name')->toArray();           
-            return view('pages.default.setting.users.edit')->with(['page_active'=>'users',
+            return view("pages.{$this->theme}.setting.users.edit")->with(['page_active'=>'users',
                                                                     'daftar_roles'=>$daftar_roles,
                                                                     'user_roles'=>$user_roles,
                                                                     'data'=>$data,
@@ -395,7 +396,7 @@ class UsersController extends Controller {
         else
         {
             $errormessage="Data dengan ID ($id) tidak ditemukan.";            
-            return view('pages.default.setting.users.error')->with(['page_active'=>'permissions',
+            return view("pages.{$this->theme}.setting.users.error")->with(['page_active'=>'permissions',
                                                                     'errormessage'=>$errormessage
                                                                 ]);
         }
@@ -465,7 +466,7 @@ class UsersController extends Controller {
             {            
                 $data = $this->populateData($data->lastPage());
             }
-            $datatable = view('pages.default.setting.users.datatable')->with(['page_active'=>'users',
+            $datatable = view("pages.{$this->theme}.setting.users.datatable")->with(['page_active'=>'users',
                                                             'search'=>$this->getControllerStateSession('users','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                                             'column_order'=>$this->getControllerStateSession('users.orderby','column_name'),

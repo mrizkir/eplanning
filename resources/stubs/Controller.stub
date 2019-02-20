@@ -14,7 +14,8 @@ class {{modelName}}Controller extends Controller {
      */
     public function __construct()
     {
-       $this->middleware(['auth']);
+        parent::__construct();
+        $this->middleware(['auth']);
     }
     /**
      * collect data from resources for index view
@@ -70,7 +71,7 @@ class {{modelName}}Controller extends Controller {
         $this->setCurrentPageInsideSession('{{modelNameLower}}',1);
         $data=$this->populateData();
 
-        $datatable = view('{{viewName}}.datatable')->with(['page_active'=>'{{modelNameLower}}',
+        $datatable = view("{{viewName}}.datatable")->with(['page_active'=>'{{modelNameLower}}',
                                                                                 'search'=>$this->getControllerStateSession('{{modelNameLower}}','search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                 'column_order'=>$this->getControllerStateSession('{{modelNameLower}}.orderby','column_name'),
@@ -99,7 +100,7 @@ class {{modelName}}Controller extends Controller {
 
         $data=$this->populateData();
 
-        $datatable = view('{{viewName}}.datatable')->with(['page_active'=>'{{modelNameLower}}',
+        $datatable = view("{{viewName}}.datatable")->with(['page_active'=>'{{modelNameLower}}',
                                                             'search'=>$this->getControllerStateSession('{{modelNameLower}}','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                             'column_order'=>$this->getControllerStateSession('{{modelNameLower}}.orderby','column_name'),
@@ -118,7 +119,7 @@ class {{modelName}}Controller extends Controller {
     {
         $this->setCurrentPageInsideSession('{{modelNameLower}}',$id);
         $data=$this->populateData($id);
-        $datatable = view('{{viewName}}.datatable')->with(['page_active'=>'{{modelNameLower}}',
+        $datatable = view("{{viewName}}.datatable")->with(['page_active'=>'{{modelNameLower}}',
                                                                             'search'=>$this->getControllerStateSession('{{modelNameLower}}','search'),
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                             'column_order'=>$this->getControllerStateSession('{{modelNameLower}}.orderby','column_name'),
@@ -149,7 +150,7 @@ class {{modelName}}Controller extends Controller {
         $this->setCurrentPageInsideSession('{{modelNameLower}}',1);
         $data=$this->populateData();
 
-        $datatable = view('{{viewName}}.datatable')->with(['page_active'=>'{{modelNameLower}}',                                                            
+        $datatable = view("{{viewName}}.datatable")->with(['page_active'=>'{{modelNameLower}}',                                                            
                                                             'search'=>$this->getControllerStateSession('{{modelNameLower}}','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                             'column_order'=>$this->getControllerStateSession('{{modelNameLower}}.orderby','column_name'),
@@ -174,7 +175,7 @@ class {{modelName}}Controller extends Controller {
         }
         $this->setCurrentPageInsideSession('{{modelNameLower}}',$data->currentPage());
         
-        return view('{{viewName}}.index')->with(['page_active'=>'{{modelNameLower}}',
+        return view("{{viewName}}.index")->with(['page_active'=>'{{modelNameLower}}',
                                                 'search'=>$this->getControllerStateSession('{{modelNameLower}}','search'),
                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                                 'column_order'=>$this->getControllerStateSession('{{modelNameLower}}.orderby','column_name'),
@@ -188,7 +189,7 @@ class {{modelName}}Controller extends Controller {
      */
     public function create()
     {        
-        return view('{{viewName}}.create')->with(['page_active'=>'{{modelNameLower}}',
+        return view("{{viewName}}.create")->with(['page_active'=>'{{modelNameLower}}',
                                                                     
                                                 ]);  
     }
@@ -234,14 +235,14 @@ class {{modelName}}Controller extends Controller {
         $data = {{modelName}}Model::find($id);
         if (!is_null($data) )  
         {
-            return view('{{viewName}}.show')->with(['page_active'=>'{{modelNameLower}}',
+            return view("{{viewName}}.show")->with(['page_active'=>'{{modelNameLower}}',
                                                     'data'=>$data
                                                     ]);
         }
         else
         {
             $errormessage="Data dengan ID ($id) tidak ditemukan.";            
-            return view('{{viewName}}.error')->with(['page_active'=>'permissions',
+            return view("{{viewName}}.error")->with(['page_active'=>'permissions',
                                                                     'errormessage'=>$errormessage
                                                                 ]);
         }
@@ -258,14 +259,14 @@ class {{modelName}}Controller extends Controller {
         $data = {{modelName}}Model::find($id);
         if (!is_null($data) ) 
         {
-            return view('{{viewName}}.edit')->with(['page_active'=>'{{modelNameLower}}',
+            return view("{{viewName}}.edit")->with(['page_active'=>'{{modelNameLower}}',
                                                     'data'=>$data
                                                     ]);
         }
         else
         {
             $errormessage="Data dengan ID ($id) tidak ditemukan.";            
-            return view('{{viewName}}.error')->with(['page_active'=>'permissions',
+            return view("{{viewName}}.error")->with(['page_active'=>'permissions',
                                                                     'errormessage'=>$errormessage
                                                                 ]);
         }
@@ -320,7 +321,7 @@ class {{modelName}}Controller extends Controller {
             {            
                 $data = $this->populateData($data->lastPage());
             }
-            $datatable = view('{{viewName}}.datatable')->with(['page_active'=>'{{modelNameLower}}',
+            $datatable = view("{{viewName}}.datatable")->with(['page_active'=>'{{modelNameLower}}',
                                                             'search'=>$this->getControllerStateSession('{{modelNameLower}}','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                                             'column_order'=>$this->getControllerStateSession('{{modelNameLower}}.orderby','column_name'),

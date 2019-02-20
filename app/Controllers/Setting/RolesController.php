@@ -16,6 +16,7 @@ class RolesController extends Controller {
      */
     public function __construct()
     {
+        parent::__construct();
         $this->middleware(['auth','role:superadmin']);
     }
     /**
@@ -56,7 +57,7 @@ class RolesController extends Controller {
         $this->setCurrentPageInsideSession('roles',1);
         $data=$this->populateData();
 
-        $datatable = view('pages.default.setting.roles.datatable')->with(['page_active'=>'roles',
+        $datatable = view("pages.{$this->theme}.setting.roles.datatable")->with(['page_active'=>'roles',
                                                                                 'search'=>$this->getControllerStateSession('roles','search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                 'column_order'=>$this->getControllerStateSession('roles.orderby','column_name'),
@@ -94,7 +95,7 @@ class RolesController extends Controller {
 
         $data=$this->populateData();
 
-        $datatable = view('pages.default.setting.roles.datatable')->with(['page_active'=>'roles',
+        $datatable = view("pages.{$this->theme}.setting.roles.datatable")->with(['page_active'=>'roles',
                                                                                 'search'=>$this->getControllerStateSession('roles','search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                 'column_order'=>$this->getControllerStateSession('roles.orderby','column_name'),
@@ -112,7 +113,7 @@ class RolesController extends Controller {
     {
         $this->setCurrentPageInsideSession('roles',$id);
         $data=$this->populateData($id);
-        $datatable = view('pages.default.setting.roles.datatable')->with(['page_active'=>'roles',
+        $datatable = view("pages.{$this->theme}.setting.roles.datatable")->with(['page_active'=>'roles',
                                                                         'search'=>$this->getControllerStateSession('roles','search'),
                                                                         'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                         'column_order'=>$this->getControllerStateSession('roles.orderby','column_name'),
@@ -134,7 +135,7 @@ class RolesController extends Controller {
             $data = $this->populateData($data->lastPage());
         }
         $this->setCurrentPageInsideSession('roles',$data->currentPage());
-        return view('pages.default.setting.roles.index')->with(['page_active'=>'roles',
+        return view("pages.{$this->theme}.setting.roles.index")->with(['page_active'=>'roles',
                                                                 'search'=>$this->getControllerStateSession('roles','search'),
                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                 'column_order'=>$this->getControllerStateSession('roles.orderby','column_name'),
@@ -148,7 +149,7 @@ class RolesController extends Controller {
      */
     public function create()
     {        
-        return view('pages.default.setting.roles.create')->with(['page_active'=>'roles'
+        return view("pages.{$this->theme}.setting.roles.create")->with(['page_active'=>'roles'
                                                                     
                                                             ]);  
     }
@@ -214,7 +215,7 @@ class RolesController extends Controller {
             $data_permission = Permission::all();
             $permission_selected = $role->permissions->pluck('name','id')->toArray();            
          
-            return view('pages.default.setting.roles.show')->with(['page_active'=>'roles',                                                                    
+            return view("pages.{$this->theme}.setting.roles.show")->with(['page_active'=>'roles',                                                                    
                                                                     'data'=>$role,
                                                                     'data_permission'=>$data_permission,        
                                                                     'permission_selected'=>$permission_selected                                                            
@@ -223,7 +224,7 @@ class RolesController extends Controller {
         else
         {
             $errormessage="Data dengan ID ($id) tidak ditemukan.";            
-            return view('pages.default.setting.roles.error')->with(['page_active'=>'permissions',
+            return view("pages.{$this->theme}.setting.error")->with(['page_active'=>'permissions',
                                                                     'errormessage'=>$errormessage
                                                                 ]);
         }
@@ -240,14 +241,14 @@ class RolesController extends Controller {
         $data = Role::find($id);
         if (!is_null($data) ) 
         {
-            return view('pages.default.setting.roles.edit')->with(['page_active'=>'roles',
+            return view("pages.{$this->theme}.setting.roles.edit")->with(['page_active'=>'roles',
                                                                     'data'=>$data
                                                                     ]);
         }
         else
         {
             $errormessage="Data dengan ID ($id) tidak ditemukan.";            
-            return view('pages.default.setting.roles.error')->with(['page_active'=>'permissions',
+            return view("pages.{$this->theme}.setting.error")->with(['page_active'=>'permissions',
                                                                     'errormessage'=>$errormessage
                                                                 ]);
         }
@@ -282,7 +283,7 @@ class RolesController extends Controller {
         }
         else
         {
-            return redirect(route('pages.default.setting.roles.index'))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route("pages.{$this->theme}.setting.roles.index"))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 
@@ -305,7 +306,7 @@ class RolesController extends Controller {
             {            
                 $data = $this->populateData($data->lastPage());
             }
-            $datatable = view('pages.default.setting.roles.datatable')->with(['page_active'=>'roles',
+            $datatable = view("pages.{$this->theme}.setting.roles.datatable")->with(['page_active'=>'roles',
                                                                             'search'=>$this->getControllerStateSession('roles','search'),
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                             'column_order'=>$this->getControllerStateSession('roles.orderby','column_name'),

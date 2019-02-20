@@ -14,7 +14,8 @@ class GlobalSettingController extends Controller {
      */
     public function __construct()
     {
-       $this->middleware(['auth']);
+        parent::__construct();
+        $this->middleware(['auth']);
     }
     /**
      * collect data from resources for index view
@@ -70,7 +71,7 @@ class GlobalSettingController extends Controller {
         $this->setCurrentPageInsideSession('globalsetting',1);
         $data=$this->populateData();
 
-        $datatable = view('pages.default.setting.globalsetting.datatable')->with(['page_active'=>'globalsetting',
+        $datatable = view("pages.{$this->theme}.setting.globalsetting.datatable")->with(['page_active'=>'globalsetting',
                                                                                 'search'=>$this->getControllerStateSession('globalsetting','search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                 'column_order'=>$this->getControllerStateSession('globalsetting.orderby','column_name'),
@@ -99,7 +100,7 @@ class GlobalSettingController extends Controller {
 
         $data=$this->populateData();
 
-        $datatable = view('pages.default.setting.globalsetting.datatable')->with(['page_active'=>'globalsetting',
+        $datatable = view("pages.{$this->theme}.setting.globalsetting.datatable")->with(['page_active'=>'globalsetting',
                                                             'search'=>$this->getControllerStateSession('globalsetting','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                             'column_order'=>$this->getControllerStateSession('globalsetting.orderby','column_name'),
@@ -118,7 +119,7 @@ class GlobalSettingController extends Controller {
     {
         $this->setCurrentPageInsideSession('globalsetting',$id);
         $data=$this->populateData($id);
-        $datatable = view('pages.default.setting.globalsetting.datatable')->with(['page_active'=>'globalsetting',
+        $datatable = view("pages.{$this->theme}.setting.globalsetting.datatable")->with(['page_active'=>'globalsetting',
                                                                             'search'=>$this->getControllerStateSession('globalsetting','search'),
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                             'column_order'=>$this->getControllerStateSession('globalsetting.orderby','column_name'),
@@ -149,7 +150,7 @@ class GlobalSettingController extends Controller {
         $this->setCurrentPageInsideSession('globalsetting',1);
         $data=$this->populateData();
 
-        $datatable = view('pages.default.setting.globalsetting.datatable')->with(['page_active'=>'globalsetting',                                                            
+        $datatable = view("pages.{$this->theme}.setting.globalsetting.datatable")->with(['page_active'=>'globalsetting',                                                            
                                                             'search'=>$this->getControllerStateSession('globalsetting','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                             'column_order'=>$this->getControllerStateSession('globalsetting.orderby','column_name'),
@@ -174,7 +175,7 @@ class GlobalSettingController extends Controller {
         }
         $this->setCurrentPageInsideSession('globalsetting',$data->currentPage());
         
-        return view('pages.default.setting.globalsetting.index')->with(['page_active'=>'globalsetting',
+        return view("pages.{$this->theme}.setting.globalsetting.index")->with(['page_active'=>'globalsetting',
                                                 'search'=>$this->getControllerStateSession('globalsetting','search'),
                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                                 'column_order'=>$this->getControllerStateSession('globalsetting.orderby','column_name'),
@@ -188,7 +189,7 @@ class GlobalSettingController extends Controller {
      */
     public function create()
     {        
-        return view('pages.default.setting.globalsetting.create')->with(['page_active'=>'globalsetting',
+        return view("pages.{$this->theme}.setting.globalsetting.create")->with(['page_active'=>'globalsetting',
                                                                     
                                                 ]);  
     }
@@ -234,14 +235,14 @@ class GlobalSettingController extends Controller {
         $data = GlobalSettingModel::find($id);
         if (!is_null($data) )  
         {
-            return view('pages.default.setting.globalsetting.show')->with(['page_active'=>'globalsetting',
+            return view("pages.{$this->theme}.setting.globalsetting.show")->with(['page_active'=>'globalsetting',
                                                     'data'=>$data
                                                     ]);
         }
         else
         {
             $errormessage="Data dengan ID ($id) tidak ditemukan.";            
-            return view('pages.default.setting.globalsetting.error')->with(['page_active'=>'permissions',
+            return view("pages.{$this->theme}.setting.globalsetting.error")->with(['page_active'=>'permissions',
                                                                     'errormessage'=>$errormessage
                                                                 ]);
         }
@@ -258,14 +259,14 @@ class GlobalSettingController extends Controller {
         $data = GlobalSettingModel::find($id);
         if (!is_null($data) ) 
         {
-            return view('pages.default.setting.globalsetting.edit')->with(['page_active'=>'globalsetting',
+            return view("pages.{$this->theme}.setting.globalsetting.edit")->with(['page_active'=>'globalsetting',
                                                     'data'=>$data
                                                     ]);
         }
         else
         {
             $errormessage="Data dengan ID ($id) tidak ditemukan.";            
-            return view('pages.default.setting.globalsetting.error')->with(['page_active'=>'permissions',
+            return view("pages.{$this->theme}.setting.globalsetting.error")->with(['page_active'=>'permissions',
                                                                     'errormessage'=>$errormessage
                                                                 ]);
         }
@@ -320,7 +321,7 @@ class GlobalSettingController extends Controller {
             {            
                 $data = $this->populateData($data->lastPage());
             }
-            $datatable = view('pages.default.setting.globalsetting.datatable')->with(['page_active'=>'globalsetting',
+            $datatable = view("pages.{$this->theme}.setting.globalsetting.datatable")->with(['page_active'=>'globalsetting',
                                                             'search'=>$this->getControllerStateSession('globalsetting','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                                             'column_order'=>$this->getControllerStateSession('globalsetting.orderby','column_name'),
