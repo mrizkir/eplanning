@@ -47,4 +47,15 @@ class GlobalSettingModel extends Model {
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
+
+    public function writeToConfig ()
+    {
+        // Grab settings from database as a list
+        $settings = $this::lists('globalsetting_key', 'globalsetting_value')->all();
+
+        // Generate and save config file
+        $filePath = config_path() . '/globalsettings.php';
+        $content = '<?php return ' . var_export($settings, true) . ';';
+        File::put($filePath, $content);
+    }
 }

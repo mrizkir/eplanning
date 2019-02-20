@@ -25,7 +25,7 @@ class DashboardController extends Controller {
     public function index(Request $request)
     {   
         $data = array();
-        return view('pages.default.dashboard.index_sa')->with(['page_active'=>'dashboard',
+        return view("pages.{$this->theme}.dashboard.index")->with(['page_active'=>'dashboard',
                                                                 'data'=>$data]);               
     }    
 }

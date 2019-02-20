@@ -5,7 +5,7 @@
 @section('page_content')
 <div class="login-box">
     <div class="login-logo">
-        <a href="#"><b>SIMRENBANGDA </b>KABUPATEN BINTAN</a>
+        <a href="#"><b>{{config('app.name')}}</b></a>
     </div>
     <div class="login-box-body">
         <p class="login-box-msg">Masukan username dan password untuk masuk ke dalam Portal EKampus</p>          

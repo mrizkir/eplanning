@@ -3,8 +3,8 @@
 <div class="wrapper">
     <header class="main-header">          
         <a href="{{route('dashboard.index')}}" class="logo">
-            <span class="logo-mini"><b>PORTAL</b> EKAMPUS</span>
-            <span class="logo-lg"><b>PORTAL</b> EKAMPUS</span>
+            <span class="logo-mini"><b>{{config('app.name')}}</b></span>
+            <span class="logo-lg"><b>{{config('app.name')}}</b></span>
         </a>              
         <nav class="navbar navbar-static-top">
             <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
@@ -170,9 +170,9 @@
     </div>
     <footer class="main-footer">
         <div class="pull-right hidden-xs">
-            <b>Version</b> 3.0.0            
+            <b>Version</b> 1.0.0            
         </div>
-        <strong>Copyright &copy; 2014-2016 <a href="https://yacanet.com">Yacanet</a>.</strong> All rights reserved.
+        <strong>Copyright &copy; 2018-2019 <a href="http://bintankab.go.id">TIM IT KAB. BINTAN</a>.</strong> All rights reserved.
     </footer>
     @yield('page_sidebar')    
 </div>              

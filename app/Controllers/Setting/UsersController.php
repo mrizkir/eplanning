@@ -252,7 +252,7 @@ class UsersController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {                
+    {           
         $search=$this->getControllerStateSession('users','search');
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('users'); 
         $data = $this->populateData($currentpage);

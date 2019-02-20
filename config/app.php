@@ -1,10 +1,10 @@
 <?php
 
 return [
-    'name' => env('APP_NAME', 'SIMRENBANGDA'),
+    'name' => env('APP_NAME', 'e-PLANNING'),
     'env' => env('APP_ENV', 'production'),
     'debug' => env('APP_DEBUG', false),
-    'url' => env('APP_URL', 'http://localhost/simrenbangda'),
+    'url' => env('APP_URL', 'http://localhost/eplanning'),
     'timezone' => 'Asia/Jakarta',
     'locale' => 'id',
     'fallback_locale' => 'id',
