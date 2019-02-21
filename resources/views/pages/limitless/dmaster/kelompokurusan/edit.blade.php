@@ -1,16 +1,16 @@
-@extends('layouts.{{theme}}.l_main')
+@extends('layouts.limitless.l_main')
 @section('page_title')
-    {{modelNameUpper}}
+    KELOMPOKURUSAN
 @endsection
 @section('page_header')
     <i class="fa fa-lock"></i> 
-    {{modelNameUpper}}
+    KELOMPOKURUSAN
 @endsection
 @section('page_info')
-    @include('{{viewName}}.info')
+    @include('pages.limitless.dmaster.kelompokurusan.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('{{modelNameLower}}.index')!!}">{{modelNameUpper}}</a></li>
+    <li><a href="{!!route('kelompokurusan.index')!!}">KELOMPOKURUSAN</a></li>
     <li class="active">UBAH DATA</li>
 @endsection
 @section('page_content')
@@ -22,12 +22,12 @@
                     <i class="fa fa-pencil"></i> UBAH DATA
                 </h3>
                 <div class="box-tools">
-                    <a href="{!!route('{{modelNameLower}}.index')!!}" class="btn btn-default" title="keluar">
+                    <a href="{!!route('kelompokurusan.index')!!}" class="btn btn-default" title="keluar">
                         <i class="fa fa-close"></i>
                     </a>
                 </div>
             </div>
-            {!! Form::open(['action'=>['{{controllerName}}@update',$data->{{modelNameLower}}_id],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
+            {!! Form::open(['action'=>['DMaster\KelompokUrusanController@update',$data->kelompokurusan_id],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
                 <div class="box-body">
                     {{Form::hidden('_method','PUT')}}
                     <div class="form-group">

@@ -1,28 +1,28 @@
 <?php
 
-namespace {{namespace}};
+namespace App\Models\DMaster;
 
 use Illuminate\Database\Eloquent\Model;
 
-class {{modelName}}Model extends Model {
+class UrusanModel extends Model {
      /**
      * nama tabel model ini.
      *
      * @var string
      */
-    protected $table = '{{modelNameLower}}';
+    protected $table = 'tmKUrs';
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = '{{modelNameLower}}_id';
+    protected $primaryKey = 'UrsID';
     /**
      * disable auto_increment.
      *
      * @var string
      */
-    public $incrementing = true;
+    public $incrementing = false;
     /**
      * activated timestamps.
      *
@@ -35,11 +35,11 @@ class {{modelName}}Model extends Model {
      *
      * @var string
      */
-    // protected static $logName = '{{modelName}}Controller';
+    protected static $logName = 'UrusanController';
     /**
      * log the changed attributes for all these events 
      */
-    // protected static $logAttributes = ['replace_it', 'replace_it'];
+    protected static $logAttributes = ['Kd_Bidang', 'Nm_Bidang'];
     /**
      * log changes to all the $fillable attributes of the model
      */

@@ -1,16 +1,16 @@
-@extends('layouts.{{theme}}.l_main')
+@extends('layouts.limitless.l_main')
 @section('page_title')
-    {{modelNameUpper}}
+    URUSAN
 @endsection
 @section('page_header')
     <i class="fa fa-lock"></i> 
-    {{modelNameUpper}}
+    URUSAN
 @endsection
-@section('page_info')
-    @include('{{viewName}}.info')
+@section('page-info')
+    @include('pages.limitless.dmaster.urusan.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('{{modelNameLower}}.index')!!}">{{modelNameUpper}}</a></li>
+    <li><a href="{!!route('urusan.index')!!}">URUSAN</a></li>
     <li class="active">DETAIL DATA</li>
 @endsection
 @section('page_content')
@@ -19,16 +19,16 @@
         <div class="box box-primary with-border">
             <div class="box-header ">
                 <h3 class="box-title">
-                    <i class="icon-eye"></i> DATA {{modelNameUpper}}
+                    <i class="icon-eye"></i> DATA URUSAN
                 </h3>
                 <div class="box-tools">  
-                    <a href="{{route('{{modelNameLower}}.edit',['id'=>$data->{{primaryKey}}])}}" class="btn btn-primary btnEdit" title="Ubah Data {{modelName}}">
+                    <a href="{{route('urusan.edit',['id'=>$data->urusan_id])}}" class="btn btn-primary btnEdit" title="Ubah Data Urusan">
                         <i class="fa fa-pencil"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data {{modelName}}" data-id="{{$data->{{primaryKey}}}}" data-url="{{route('{{modelNameLower}}.index')}}" class="btn btn-danger btnDelete">
+                    <a href="javascript:;" title="Hapus Data Urusan" data-id="{{$data->urusan_id}}" data-url="{{route('urusan.index')}}" class="btn btn-danger btnDelete">
                         <i class='fa fa-trash'></i>
                     </a>
-                    <a href="{!!route('{{modelNameLower}}.index')!!}" class="btn btn-default" title="keluar">
+                    <a href="{!!route('urusan.index')!!}" class="btn btn-default" title="keluar">
                         <i class="fa fa-close"></i>
                     </a>            
                 </div>
@@ -38,9 +38,9 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>{{modelNameLower}} id: </strong></label>
+                                <label class="col-md-4 control-label"><strong>urusan id: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->{{modelNameLower}}_id}}</p>
+                                    <p class="form-control-static">{{$data->urusan_id}}</p>
                                 </div>                            
                             </div>                            
                         </div>
@@ -65,7 +65,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
     $(".btnDelete").click(function(ev) {
-        if (confirm('Apakah Anda ingin menghapus Data {{modelName}} ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data Urusan ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             let token = $('meta[name="csrf-token"]').attr('content');

@@ -4,7 +4,7 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class IgnoreIfDataIsEqualValidation implements Rule 
+class CheckRecordIsExistValidation implements Rule 
 {
     /**
      * nama table
@@ -13,20 +13,20 @@ class IgnoreIfDataIsEqualValidation implements Rule
      */
     private $tableName;
     /**
-     * nilai lama
+     * custom parameter for where clause
      * 
      * @var string
      */
-    private $oldValue;
+    private $clauses = null;
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct($tableName,$oldValue)
+    public function __construct($tableName,$clauses = null)
     {
         $this->tableName=$tableName;
-        $this->oldValue=$oldValue;
+        $this->clauses=$clauses;
     }
         /**
      * Determine if the validation rule passes.
@@ -35,31 +35,22 @@ class IgnoreIfDataIsEqualValidation implements Rule
      * @param  mixed  $value
      * @return bool
      */
-    public function passes ($attributes, $value,$clauses=null) 
-    {
-        $bool=false;        
-        if (strtolower($value) == strtolower($this->oldValue)) 
-        {
-            $bool=true;
-        }
-        elseif(is_array($clauses))
-        {
-            $table = \DB::table($this->tableName);
-            foreach ($clauses as $k=>$v)
+    public function passes ($attributes, $value) 
+    {     
+        $table = \DB::table($this->tableName);   
+        if(is_array($this->clauses))
+        {            
+            foreach ($this->clauses as $k=>$v)
             {
                 switch ($k)
                 {
                     case 'where' :
-                        $table->where($v);
+                        $table->where([$v]);
                     break;
                 }
-            }
-            $bool=!($table->count()>0);
+            }            
         }
-        else
-        {
-            $bool = !(\DB::table($this->tableName)->where($attributes,$value)->count() > 0);
-        }   
+        $bool = !($table->where($attributes,$value)->count() > 0);
         return $bool;
     }
     /**

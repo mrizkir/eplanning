@@ -1,17 +1,17 @@
-@extends('layouts.{{theme}}.l_main')
+@extends('layouts.limitless.l_main')
 @section('page_title')
-    {{modelNameUpper}}
+    URUSAN
 @endsection
 @section('page_header')
     <i class="fa fa-lock"></i> 
-    {{modelNameUpper}}
+    URUSAN
 @endsection
-@section('page_info')
-    @include('{{viewName}}.info')
+@section('page-info')
+    @include('pages.limitless.dmaster.urusan.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('{{modelNameLower}}.index')!!}">{{modelNameUpper}}</a></li>
-    <li class="active">UBAH DATA</li>
+    <li><a href="{!!route('urusan.index')!!}">URUSAN</a></li>
+    <li class="active">TAMBAH DATA</li>
 @endsection
 @section('page_content')
 <div class="row">
@@ -19,23 +19,22 @@
         <div class="box box-primary">
             <div class="box-header with-border">
                 <h3 class="box-title">
-                    <i class="fa fa-pencil"></i> UBAH DATA
+                    <i class="fa fa-plus-circle"></i> TAMBAH DATA
                 </h3>
                 <div class="box-tools">
-                    <a href="{!!route('{{modelNameLower}}.index')!!}" class="btn btn-default" title="keluar">
+                    <a href="{!!route('urusan.index')!!}" class="btn btn-default" title="keluar">
                         <i class="fa fa-close"></i>
                     </a>
                 </div>
             </div>
-            {!! Form::open(['action'=>['{{controllerName}}@update',$data->{{modelNameLower}}_id],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
-                <div class="box-body">
-                    {{Form::hidden('_method','PUT')}}
+            {!! Form::open(['action'=>'DMaster\UrusanController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}
+                <div class="box-body">                
                     <div class="form-group">
                         {{Form::label('replaceit','replaceit',['class'=>'control-label col-md-2'])}}
                         <div class="col-md-10">
-                            {{Form::text('replaceit',$data[''],['class'=>'form-control','placeholder'=>'replaceit'])}}
-                        </div>                
-                    </div>            
+                            {{Form::text('replaceit','',['class'=>'form-control','placeholder'=>'replaceit'])}}
+                        </div>
+                    </div>                                
                 </div>
                 <div class="box-footer">
                     <div class="form-group">            
@@ -46,7 +45,7 @@
                 </div>
             {!! Form::close()!!}
         </div>
-    </div>   
+    </div>
 </div>   
 @endsection
 @section('page_asset_js')
@@ -68,7 +67,7 @@ $(document).ready(function () {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             }
-        }     
+        }      
     });   
 });
 </script>

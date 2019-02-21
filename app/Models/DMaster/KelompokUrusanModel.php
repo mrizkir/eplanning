@@ -1,22 +1,30 @@
 <?php
 
-namespace {{namespace}};
+namespace App\Models\DMaster;
 
 use Illuminate\Database\Eloquent\Model;
 
-class {{modelName}}Model extends Model {
+class KelompokUrusanModel extends Model {
      /**
      * nama tabel model ini.
      *
      * @var string
      */
-    protected $table = '{{modelNameLower}}';
+    protected $table = 'tmKUrs';
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = '{{modelNameLower}}_id';
+    protected $primaryKey = 'KUrsID';
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'KUrsID', 'Kd_Urusan', 'Nm_Urusan', 'Descr','TA',
+    ];
     /**
      * disable auto_increment.
      *
@@ -35,11 +43,11 @@ class {{modelName}}Model extends Model {
      *
      * @var string
      */
-    // protected static $logName = '{{modelName}}Controller';
+    protected static $logName = 'KelompokUrusanController';
     /**
      * log the changed attributes for all these events 
      */
-    // protected static $logAttributes = ['replace_it', 'replace_it'];
+    protected static $logAttributes = ['Kd_Urusan', 'Nm_Urusan'];
     /**
      * log changes to all the $fillable attributes of the model
      */

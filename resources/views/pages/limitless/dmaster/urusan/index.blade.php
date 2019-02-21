@@ -1,16 +1,16 @@
-@extends('layouts.{{theme}}.l_main')
+@extends('layouts.limitless.l_main')
 @section('page_title')
-    {{modelNameUpper}}
+    URUSAN
 @endsection
 @section('page_header')
     <i class="fa fa-lock"></i>
-    {{modelNameUpper}}  
+    URUSAN  
 @endsection
-@section('page_info')
-    @include('{{viewName}}.info')
+@section('page-info')
+    @include('pages.limitless.dmaster.urusan.info')
 @endsection
 @section('page_breadcrumb')
-    <li class="active">{{modelNameUpper}}</li>
+    <li class="active">URUSAN</li>
 @endsection
 @section('page_content')
 <div class="row">
@@ -22,7 +22,7 @@
                     Pencarian Data
                 </h3>
             </div>
-            {!! Form::open(['action'=>'{{controllerName}}@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                
+            {!! Form::open(['action'=>'DMaster\UrusanController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                
                 <div class="box-body">                
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
@@ -51,7 +51,7 @@
         </div>
     </div>       
     <div class="col-md-12" id="divdatatable">
-        @include('{{viewName}}.datatable')
+        @include('pages.limitless.dmaster.urusan.datatable')
     </div>
 </div>
 @endsection
@@ -59,7 +59,7 @@
 <script type="text/javascript">
 $(document).ready(function () {  
     $("#divdatatable").on("click",".btnDelete", function(){
-        if (confirm('Apakah Anda ingin menghapus Data {{modelName}} ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data Urusan ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             $.ajax({            
@@ -75,7 +75,7 @@ $(document).ready(function () {
                     if (result.success==1){
                         $('#divdatatable').html(result.datatable);                        
                     }else{
-                        console.log("Gagal menghapus data {{modelName}} dengan id "+id);
+                        console.log("Gagal menghapus data Urusan dengan id "+id);
                     }                    
                 },
                 error:function(xhr, status, error){

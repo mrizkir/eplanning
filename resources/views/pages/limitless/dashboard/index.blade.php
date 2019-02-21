@@ -3,8 +3,10 @@
     DASHBOARD
 @endsection
 @section('page_header')
-    <i class="icon-display4 position-left"></i> <span class="text-semibold"> 
-    DASHBOARD
+    <i class="icon-display4 position-left"></i> 
+    <span class="text-semibold"> 
+        DASHBOARD 
+    </span>
 @endsection
 @section('page_breadcrumb')
     <li class="active">DASHBOARD</li>

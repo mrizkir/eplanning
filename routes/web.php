@@ -12,11 +12,15 @@ Route::get('/logout',['uses'=>'Auth\LoginController@logout','as'=>'logout']);
 Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'auth']],function() {     
     Route::get('/',['uses'=>'DashboardController@index','as'=>'dashboard.index']);          
 
+    //masters - data kelompok urusan 
+    Route::resource('/dmaster/kelompokurusan','DMaster\KelompokUrusanController',['parameters'=>['kelompokurusan'=>'id']]);           
+
     //setting - permissions    
     Route::resource('/setting/permissions','Setting\PermissionsController',[
                                                                             'parameters'=>['permissions'=>'id'],
                                                                             'only'=>['index','show','create','store','destroy']
                                                                         ]);               
+    
     Route::get('/setting/permissions/paginate/{id}',['uses'=>'Setting\PermissionsController@paginate','as'=>'permissions.paginate']);    
     Route::post('/setting/permissions/search',['uses'=>'Setting\PermissionsController@search','as'=>'permissions.search']);          
     Route::post('/setting/permissions/changenumberrecordperpage',['uses'=>'Setting\PermissionsController@changenumberrecordperpage','as'=>'permissions.changenumberrecordperpage']);  

@@ -12,7 +12,7 @@
         <p class="navbar-text">
             <a href="#">
                 <span class="label bg-success-400">
-                    Saat ini Anda berada di T.A Perencanaan 2020 Penyerapan Anggaran {{date('Y-m')}}
+                    Saat ini Anda berada di T.A untuk Perencanaan {{config('globalsettings.tahun_perencanaan')}} dan Penyerapan T.A {{config('globalsettings.tahun_penyerapan')}}
                 </span>
             </a>
         </p>
@@ -27,7 +27,9 @@
                     <li><a href="#"><i class="icon-user-plus"></i> My profile</a></li>                    
                     <li class="divider"></li>                    
                     <li>                       
-                        <a href="{{ route('logout') }}" class="btn btn-limitless btn-flat" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</a>
+                        <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                            <i class="icon-switch2"></i> Logout
+                        </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="post" style="display: none;">
                             @csrf
                         </form>
@@ -49,8 +51,50 @@
                 <a href="{!!route('dashboard.index')!!}">
                     <i class="icon-display4 position-left"></i> 
                     <span>DASHBOARD</span>											
-                </a>                                        
+                </a>   
             </li> 
+            <li class="dropdown mega-menu mega-menu-wide visible">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-puzzle4 position-left"></i> MASTERS <span class="caret"></span>
+                </a>
+                <div class="dropdown-menu dropdown-content">
+                    <div class="dropdown-content-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <span class="menu-heading underlined"><i class="icon-office"></i> DATA</span>
+                                <ul class="menu-list">
+                                    <li>
+                                        <a href="{{route('kelompokurusan.index')}}" title="Kelompok Urusan">
+                                            <i class="icon-home9"></i> Kelompok Urusan
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="dropdown mega-menu mega-menu-wide visible">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-puzzle4 position-left"></i> PERENCANAAN <span class="caret"></span>
+                </a>
+                <div class="dropdown-menu dropdown-content">
+                    <div class="dropdown-content-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <span class="menu-heading underlined"><i class="icon-office"></i> ASPIRASI/USULAN</span>
+                                <ul class="menu-list">                                   
+                                    <li>
+                                        <a href="{{route('kelompokurusan.index')}}" title="Kelompok Urusan">
+                                            <i class="icon-home9"></i> FORUM SKPD
+                                        </a>
+                                    </li>                                    
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
             <li class="dropdown visible">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-cogs position-left"></i> SETTING <span class="caret"></span>
@@ -91,19 +135,22 @@
 </div>
 <!-- /second navbar -->
 <!-- Page header -->
-<div class="page-header">
+<div class="page-header page-header-default border-bottom border-bottom-primary" style="border-top: 1px solid #ddd; border-left: 1px solid #ddd; border-right: 1px solid #ddd;">
     <div class="page-header-content">
         <div class="page-title">
             <h4>
                 @yield('page_header')
+                @yield('page_info')
             </h4>
-            <ul class="breadcrumb breadcrumb-caret position-right">
-                <li><a href="{!!route('dashboard.index')!!}">HOME</a></li>            
-                @yield('page_breadcrumb') 
-            </ul>
-            @yield('page_breadcrumbelement') 
         </div>
-        @yield('page_headerelement')    
+    </div>
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb breadcrumb-caret position-right">
+            <li><a href="{!!route('dashboard.index')!!}">HOME</a></li>            
+            @yield('page_breadcrumb') 
+        </ul>
+        @yield('page_breadcrumbelement') 
+        @yield('page_headerelement')   
     </div>
 </div>
 <!-- /page header -->

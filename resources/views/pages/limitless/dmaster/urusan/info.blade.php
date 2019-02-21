@@ -1,4 +1,4 @@
-<div class="page_info">            
+<div class="page-info">            
     <p>
         info halaman
     </p>

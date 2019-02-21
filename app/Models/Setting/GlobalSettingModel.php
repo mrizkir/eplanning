@@ -22,7 +22,7 @@ class GlobalSettingModel extends Model {
      *
      * @var string
      */
-    public $incremening = true;
+    public $incrementing = true;
     /**
      * activated timestamps.
      *
