@@ -1,4 +1,4 @@
-<div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
+<div class="panel panel-flat border-top-md border-top-info border-bottom-info">
     <div class="panel-heading">
         <div class="panel-title" style="width:70px">
             {!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control'])!!}            
@@ -66,7 +66,7 @@
             </tbody>
         </table>               
     </div>
-    <div class="panel-footer">
+    <div class="panel-body border-top-info text-center">
         {{$data->links('layouts.limitless.l_pagination')}}               
     </div>
     @else

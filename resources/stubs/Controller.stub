@@ -327,6 +327,8 @@ class {{modelName}}Controller extends Controller {
      */
     public function destroy(Request $request,$id)
     {
+        $theme = \Auth::user()->theme;
+        
         ${{modelNameLower}} = {{modelName}}Model::find($id);
         $result=${{modelNameLower}}->delete();
         if ($request->ajax()) 

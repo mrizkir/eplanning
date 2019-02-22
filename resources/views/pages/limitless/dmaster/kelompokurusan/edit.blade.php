@@ -71,17 +71,27 @@
 $(document).ready(function () {
     $('#frmdata').validate({
         rules: {
-            replaceit : {
+            Kd_Urusan : {
+                required: true,  
+                number: true,
+                maxlength: 4              
+            },
+            Nm_Urusan : {
                 required: true,
-                minlength: 2
+                minlength: 5
             }
         },
         messages : {
-            replaceit : {
+            Kd_Urusan : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
-                minlength: "Mohon di isi minimal 2 karakter atau lebih."
+                number: "Mohon input dengan tipe data bilangan bulat",
+                maxlength: "Nilai untuk Kode Urusan maksimal 4 digit"
+            },
+            Nm_Urusan : {
+                required: "Mohon untuk di isi karena ini diperlukan.",
+                minlength: "Mohon di isi minimal 5 karakter atau lebih."
             }
-        }     
+        }       
     });   
 });
 </script>

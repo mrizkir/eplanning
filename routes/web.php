@@ -14,7 +14,8 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
 
     //masters - data kelompok urusan 
     Route::resource('/dmaster/kelompokurusan','DMaster\KelompokUrusanController',['parameters'=>['kelompokurusan'=>'uuid']]);           
-
+    Route::post('/dmaster/kelompokurusan/changenumberrecordperpage',['uses'=>'DMaster\KelompokUrusanController@changenumberrecordperpage','as'=>'KelompokUrusanController.changenumberrecordperpage']);  
+    
     //setting - permissions    
     Route::resource('/setting/permissions','Setting\PermissionsController',[
                                                                             'parameters'=>['permissions'=>'id'],

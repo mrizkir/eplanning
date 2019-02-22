@@ -40,7 +40,7 @@ class KelompokUrusanController extends Controller {
         }
         $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
   
-        $data = KelompokUrusanModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+        $data = KelompokUrusanModel::where('TA',config('globalsettings.tahun_perencanaan'))->orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         
         $data->setPath(route('kelompokurusan.index'));
         return $data;
@@ -346,6 +346,8 @@ class KelompokUrusanController extends Controller {
      */
     public function destroy(Request $request,$uuid)
     {
+        $theme = \Auth::user()->theme;
+        
         $kelompokurusan = KelompokUrusanModel::find($uuid);
         $result=$kelompokurusan->delete();
         if ($request->ajax()) 
