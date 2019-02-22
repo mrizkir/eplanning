@@ -1,10 +1,7 @@
 @if ($paginator->hasPages())
 <div class="row" id="paginations">
     <div class="col-md-5">
-        <ul class="pagination">
-            <li>{{$paginator->total()}} Total Records  </li>
-        </ul>
-                              
+        <p>{{$paginator->total()}} Total Records</p>                           
     </div>
     <div class="col-md-7 text-right">
         <ul class="pagination pagination-separated pagination-rounded">

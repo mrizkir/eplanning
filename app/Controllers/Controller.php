@@ -11,11 +11,9 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;    
-    protected $theme;
-
     public function __construct () 
-    {
-        $this->theme = config('globalsettings.theme');
+    {   
+        
     }
 
     /**

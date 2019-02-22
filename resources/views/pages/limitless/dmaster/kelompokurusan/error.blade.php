@@ -1,16 +1,16 @@
-@extends('layouts.default.l_main')
+@extends('layouts.limitless.l_main')
 @section('page_title')
-    KELOMPOKURUSAN
+    KELOMPOK URUSAN {{config('globalsettings.tahun_perencanaan')}}
 @endsection
 @section('page_header')
     <i class="fa fa-lock"></i> 
-    KELOMPOKURUSAN
+    KELOMPO KURUSAN
 @endsection
 @section('page_info')
     @include('pages.limitless.dmaster.kelompokurusan.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('kelompokurusan.index')!!}">KELOMPOKURUSAN</a></li>
+    <li><a href="{!!route('kelompokurusan.index')!!}">KELOM POKURUSAN</a></li>
     <li class="active">ERROR</li>
 @endsection
 @section('page_content')

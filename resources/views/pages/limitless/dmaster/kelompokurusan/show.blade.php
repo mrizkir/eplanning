@@ -1,6 +1,6 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    KELOMPOKURUSAN
+    KELOMPOKURUSAN {{config('globalsettings.tahun_perencanaan')}}
 @endsection
 @section('page_header')
     <i class="fa fa-lock"></i> 

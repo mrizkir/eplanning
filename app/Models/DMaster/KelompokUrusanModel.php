@@ -30,7 +30,7 @@ class KelompokUrusanModel extends Model {
      *
      * @var string
      */
-    public $incrementing = true;
+    public $incrementing = false;
     /**
      * activated timestamps.
      *

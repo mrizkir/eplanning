@@ -3,9 +3,9 @@
     KELOMPOK URUSAN
 @endsection
 @section('page_header')
-    <i class="icon-alignment-unalign  position-left"></i>
+    <i class="icon-alignment-unalign position-left"></i>
     <span class="text-semibold">
-        KELOMPOK URUSAN  
+        KELOMPOK URUSAN TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
     </span>
 @endsection
 @section('page_info')
@@ -21,7 +21,7 @@
         <div class="panel-heading">
             <h5 class="panel-title">
                 <i class="icon-pencil7 position-left"></i> 
-                TAMBAH KELOMPOK URUSAN
+                TAMBAH DATA
             </h5>   
             <div class="heading-elements">
                 <ul class="icons-list">                    
@@ -52,8 +52,8 @@
                 </div>
             </div>
             <div class="form-group">            
-                    <div class="col-md-10 col-md-offset-2">                        
-                    {{ Form::button(' <b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] )  }}
+                <div class="col-md-10 col-md-offset-2">                        
+                    {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] )  }}
                 </div>
             </div>     
             {!! Form::close()!!}

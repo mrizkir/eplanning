@@ -23,8 +23,10 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //mencegah supaya id tetap integer
-        Route::pattern('id', '[0-9]+');        
+        //check route id tetap integer        
+        Route::pattern('id', '[0-9]+');    
+        //check route sesuai uuid
+        Route::pattern('uuid', 'uid[a-zA-Z0-9]+');
         parent::boot();
     }
 

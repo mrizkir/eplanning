@@ -152,7 +152,7 @@ class YacaCrudGenerator extends Command
                                                 'App\Models\\'.$this->name,
                                                 $this->nama_model, 
                                                 strtolower($this->nama_model),
-                                                "pages.{\$this->theme}.".strtolower(str_replace('\\','.',$this->name))
+                                                "pages.\$theme.".strtolower(str_replace('\\','.',$this->name))
                                             ],
                                             $this->getStub('Controller'));
 

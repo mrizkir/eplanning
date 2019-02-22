@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Models\DMaster\KelompokUrusanModel;
 use App\Rules\CheckRecordIsExistValidation;
+use App\Rules\IgnoreIfDataIsEqualValidation;
 
-class KelompokUrusanController extends Controller {
+class KelompokUrusanController extends Controller {    
      /**
      * Membuat sebuah objek
      *
@@ -40,7 +41,7 @@ class KelompokUrusanController extends Controller {
         $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
   
         $data = KelompokUrusanModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
-                
+        
         $data->setPath(route('kelompokurusan.index'));
         return $data;
     }
@@ -51,18 +52,20 @@ class KelompokUrusanController extends Controller {
      */
     public function changenumberrecordperpage (Request $request) 
     {
+        $theme = \Auth::user()->theme;
+
         $numberRecordPerPage = $request->input('numberRecordPerPage');
         $this->putControllerStateSession('global_controller','numberRecordPerPage',$numberRecordPerPage);
         
         $this->setCurrentPageInsideSession('kelompokurusan',1);
         $data=$this->populateData();
 
-        $datatable = view("pages.{$this->theme}.dmaster.kelompokurusan.datatable")->with(['page_active'=>'kelompokurusan',
-                                                                                'search'=>$this->getControllerStateSession('kelompokurusan','search'),
-                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                                'column_order'=>$this->getControllerStateSession('kelompokurusan.orderby','column_name'),
-                                                                                'direction'=>$this->getControllerStateSession('kelompokurusan.orderby','order'),
-                                                                                'data'=>$data])->render();      
+        $datatable = view("pages.$theme.dmaster.kelompokurusan.datatable")->with(['page_active'=>'kelompokurusan',
+                                                                                        'search'=>$this->getControllerStateSession('kelompokurusan','search'),
+                                                                                        'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                        'column_order'=>$this->getControllerStateSession('kelompokurusan.orderby','column_name'),
+                                                                                        'direction'=>$this->getControllerStateSession('kelompokurusan.orderby','order'),
+                                                                                        'data'=>$data])->render();      
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
     }
     /**
@@ -72,6 +75,8 @@ class KelompokUrusanController extends Controller {
      */
     public function orderby (Request $request) 
     {
+        $theme = \Auth::user()->theme;
+
         $orderby = $request->input('orderby') == 'asc'?'desc':'asc';
         $column=$request->input('column_name');
         switch($column) 
@@ -86,12 +91,12 @@ class KelompokUrusanController extends Controller {
 
         $data=$this->populateData();
 
-        $datatable = view("pages.{$this->theme}.dmaster.kelompokurusan.datatable")->with(['page_active'=>'kelompokurusan',
-                                                            'search'=>$this->getControllerStateSession('kelompokurusan','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('kelompokurusan.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('kelompokurusan.orderby','order'),
-                                                            'data'=>$data])->render();     
+        $datatable = view("pages.$theme.dmaster.kelompokurusan.datatable")->with(['page_active'=>'kelompokurusan',
+                                                                                        'search'=>$this->getControllerStateSession('kelompokurusan','search'),
+                                                                                        'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                        'column_order'=>$this->getControllerStateSession('kelompokurusan.orderby','column_name'),
+                                                                                        'direction'=>$this->getControllerStateSession('kelompokurusan.orderby','order'),
+                                                                                        'data'=>$data])->render();     
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
     }
@@ -101,16 +106,18 @@ class KelompokUrusanController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function paginate ($id) 
+    public function paginate ($uuid) 
     {
-        $this->setCurrentPageInsideSession('kelompokurusan',$id);
-        $data=$this->populateData($id);
-        $datatable = view("pages.{$this->theme}.dmaster.kelompokurusan.datatable")->with(['page_active'=>'kelompokurusan',
-                                                                            'search'=>$this->getControllerStateSession('kelompokurusan','search'),
-                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                            'column_order'=>$this->getControllerStateSession('kelompokurusan.orderby','column_name'),
-                                                                            'direction'=>$this->getControllerStateSession('kelompokurusan.orderby','order'),
-                                                                            'data'=>$data])->render(); 
+        $theme = \Auth::user()->theme;
+
+        $this->setCurrentPageInsideSession('kelompokurusan',$uuid);
+        $data=$this->populateData($uuid);
+        $datatable = view("pages.$theme.dmaster.kelompokurusan.datatable")->with(['page_active'=>'kelompokurusan',
+                                                                                        'search'=>$this->getControllerStateSession('kelompokurusan','search'),
+                                                                                        'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                        'column_order'=>$this->getControllerStateSession('kelompokurusan.orderby','column_name'),
+                                                                                        'direction'=>$this->getControllerStateSession('kelompokurusan.orderby','order'),
+                                                                                        'data'=>$data])->render(); 
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
     }
@@ -122,6 +129,8 @@ class KelompokUrusanController extends Controller {
      */
     public function search (Request $request) 
     {
+        $theme = \Auth::user()->theme;
+
         $action = $request->input('action');
         if ($action == 'reset') 
         {
@@ -136,12 +145,12 @@ class KelompokUrusanController extends Controller {
         $this->setCurrentPageInsideSession('kelompokurusan',1);
         $data=$this->populateData();
 
-        $datatable = view("pages.{$this->theme}.dmaster.kelompokurusan.datatable")->with(['page_active'=>'kelompokurusan',                                                            
-                                                            'search'=>$this->getControllerStateSession('kelompokurusan','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('kelompokurusan.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('kelompokurusan.orderby','order'),
-                                                            'data'=>$data])->render();      
+        $datatable = view("pages.$theme.dmaster.kelompokurusan.datatable")->with(['page_active'=>'kelompokurusan',                                                            
+                                                                                        'search'=>$this->getControllerStateSession('kelompokurusan','search'),
+                                                                                        'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                        'column_order'=>$this->getControllerStateSession('kelompokurusan.orderby','column_name'),
+                                                                                        'direction'=>$this->getControllerStateSession('kelompokurusan.orderby','order'),
+                                                                                        'data'=>$data])->render();      
         
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
     }
@@ -151,7 +160,9 @@ class KelompokUrusanController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {                
+    {                       
+        $theme = \Auth::user()->theme; 
+
         $search=$this->getControllerStateSession('kelompokurusan','search');
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('kelompokurusan'); 
         $data = $this->populateData($currentpage);
@@ -161,12 +172,12 @@ class KelompokUrusanController extends Controller {
         }
         $this->setCurrentPageInsideSession('kelompokurusan',$data->currentPage());
         
-        return view("pages.{$this->theme}.dmaster.kelompokurusan.index")->with(['page_active'=>'kelompokurusan',
-                                                'search'=>$this->getControllerStateSession('kelompokurusan','search'),
-                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                'column_order'=>$this->getControllerStateSession('kelompokurusan.orderby','column_name'),
-                                                'direction'=>$this->getControllerStateSession('kelompokurusan.orderby','order'),
-                                                'data'=>$data]);               
+        return view("pages.$theme.dmaster.kelompokurusan.index")->with(['page_active'=>'kelompokurusan',
+                                                                                'search'=>$this->getControllerStateSession('kelompokurusan','search'),
+                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                                'column_order'=>$this->getControllerStateSession('kelompokurusan.orderby','column_name'),
+                                                                                'direction'=>$this->getControllerStateSession('kelompokurusan.orderby','order'),
+                                                                                'data'=>$data]);               
     }
     /**
      * Show the form for creating a new resource.
@@ -175,7 +186,9 @@ class KelompokUrusanController extends Controller {
      */
     public function create()
     {        
-        return view("pages.{$this->theme}.dmaster.kelompokurusan.create")->with(['page_active'=>'kelompokurusan',
+        $theme = \Auth::user()->theme;
+
+        return view("pages.$theme.dmaster.kelompokurusan.create")->with(['page_active'=>'kelompokurusan',
                                                                     
                                                 ]);  
     }
@@ -230,22 +243,24 @@ class KelompokUrusanController extends Controller {
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $uuid
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($uuid)
     {
-        $data = KelompokUrusanModel::find($id);
+        $theme = \Auth::user()->theme;
+
+        $data = KelompokUrusanModel::find($uuid);
         if (!is_null($data) )  
         {
-            return view("pages.{$this->theme}.dmaster.kelompokurusan.show")->with(['page_active'=>'kelompokurusan',
+            return view("pages.$theme.dmaster.kelompokurusan.show")->with(['page_active'=>'kelompokurusan',
                                                     'data'=>$data
                                                     ]);
         }
         else
         {
-            $errormessage="Data dengan ID ($id) tidak ditemukan.";            
-            return view("pages.{$this->theme}.dmaster.kelompokurusan.error")->with(['page_active'=>'permissions',
+            $errormessage="Data dengan ID ($uuid) tidak ditemukan.";            
+            return view("pages.$theme.dmaster.kelompokurusan.error")->with(['page_active'=>'permissions',
                                                                     'errormessage'=>$errormessage
                                                                 ]);
         }
@@ -254,22 +269,24 @@ class KelompokUrusanController extends Controller {
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $uuid
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        $data = KelompokUrusanModel::find($id);
+    public function edit($uuid)
+    {        
+        $theme = \Auth::user()->theme;
+        
+        $data = KelompokUrusanModel::find($uuid);
         if (!is_null($data) ) 
         {
-            return view("pages.{$this->theme}.dmaster.kelompokurusan.edit")->with(['page_active'=>'kelompokurusan',
-                                                    'data'=>$data
-                                                    ]);
+            return view("pages.$theme.dmaster.kelompokurusan.edit")->with(['page_active'=>'kelompokurusan',
+                                                                                    'data'=>$data
+                                                                                ]);
         }
         else
         {
-            $errormessage="Data dengan ID ($id) tidak ditemukan.";            
-            return view("pages.{$this->theme}.dmaster.kelompokurusan.error")->with(['page_active'=>'permissions',
+            $errormessage="Data dengan ID ($uuid) tidak ditemukan.";            
+            return view("pages.$theme.dmaster.kelompokurusan.error")->with(['page_active'=>'permissions',
                                                                     'errormessage'=>$errormessage
                                                                 ]);
         }
@@ -280,17 +297,32 @@ class KelompokUrusanController extends Controller {
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int  $uuid
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $uuid)
     {
-        $this->validate($request, [
-            'replaceit'=>'required',
-        ]);
+        $kelompokurusan = KelompokUrusanModel::find($uuid);
+        $this->validate($request, 
+        [
+            'Kd_Urusan'=>[new IgnoreIfDataIsEqualValidation('tmKUrs',$kelompokurusan->Kd_Urusan,['where'=>['TA','=',config('globalsettings.tahun_perencanaan')]]),
+                            'required',
+                            'min:1',
+                            'max:4',
+                        ],   
+            'Nm_Urusan'=>'required|min:5', 
+        ],
+        [
+            'Kd_Urusan.required'=>'Mohon Kode Urusan untuk di isi karena ini diperlukan',
+            'Kd_Urusan.min'=>'Mohon Kode Urusan untuk di isi minimal 1 digit',
+            'Kd_Urusan.max'=>'Mohon Kode Urusan untuk di isi maksimal 4 digit',
+            'Nm_Urusan.required'=>'Mohon Nama Urusan untuk di isi karena ini diperlukan',
+            'Nm_Urusan.min'=>'Mohon Nama Urusan di isi minimal 5 karakter'        
+        ]);        
         
-        $kelompokurusan = KelompokUrusanModel::find($id);
-        $kelompokurusan->replaceit = $request->input('replaceit');
+        $kelompokurusan->Kd_Urusan = $request->input('Kd_Urusan');
+        $kelompokurusan->Nm_Urusan = $request->input('Nm_Urusan');
+        $kelompokurusan->Descr = $request->input('Descr');
         $kelompokurusan->save();
 
         if ($request->ajax()) 
@@ -302,19 +334,19 @@ class KelompokUrusanController extends Controller {
         }
         else
         {
-            return redirect(route('kelompokurusan.index'))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('kelompokurusan.index'))->with('success',"Data dengan id ($uuid) telah berhasil diubah.");
         }
     }
 
      /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $uuid
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request,$id)
+    public function destroy(Request $request,$uuid)
     {
-        $kelompokurusan = KelompokUrusanModel::find($id);
+        $kelompokurusan = KelompokUrusanModel::find($uuid);
         $result=$kelompokurusan->delete();
         if ($request->ajax()) 
         {
@@ -324,7 +356,7 @@ class KelompokUrusanController extends Controller {
             {            
                 $data = $this->populateData($data->lastPage());
             }
-            $datatable = view("pages.{$this->theme}.dmaster.kelompokurusan.datatable")->with(['page_active'=>'kelompokurusan',
+            $datatable = view("pages.$theme.dmaster.kelompokurusan.datatable")->with(['page_active'=>'kelompokurusan',
                                                             'search'=>$this->getControllerStateSession('kelompokurusan','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                                             'column_order'=>$this->getControllerStateSession('kelompokurusan.orderby','column_name'),
@@ -335,7 +367,7 @@ class KelompokUrusanController extends Controller {
         }
         else
         {
-            return redirect(route('kelompokurusan.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+            return redirect(route('kelompokurusan.index'))->with('success',"Data ini dengan ($uuid) telah berhasil dihapus.");
         }        
     }
 }

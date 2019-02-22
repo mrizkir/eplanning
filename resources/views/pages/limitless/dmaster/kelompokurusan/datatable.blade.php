@@ -6,7 +6,7 @@
         <div class="heading-elements">
             <div class="heading-btn">
                 <a href="{!!route('kelompokurusan.create')!!}" class="btn btn-info btn-xs" title="Tambah Kelompok Urusan">
-                        <i class="icon-googleplus5"></i>
+                    <i class="icon-googleplus5"></i>
                 </a>
             </div>
         </div>        
@@ -41,16 +41,25 @@
                     </td>                  
                     <td>{{$item->Kd_Urusan}}</td>
                     <td>{{$item->Nm_Urusan}}</td>
-                    <td class="text-nowrap">
-                        <a class="btn btnShow" href="{{route('kelompokurusan.show',['id'=>$item->kelompokurusan_id])}}" title="Detail Data KelompokUrusan">
-                            <i class='fa fa-eye text-blue'></i>
-                        </a>  
-                            <a class="btn btnEdit" href="{{route('kelompokurusan.edit',['id'=>$item->kelompokurusan_id])}}" title="Ubah Data KelompokUrusan">
-                            <i class='fa fa-pencil text-blue'></i>
-                        </a>  
-                        <a class="btn btnDelete" href="javascript:;" title="Hapus Data KelompokUrusan" data-id="{{$item->kelompokurusan_id}}" data-url="{{route('kelompokurusan.index')}}">
-                            <i class='fa fa-trash text-red'></i>
-                        </a> 
+                    <td>{{$item->Descr}}</td>
+                    <td>
+                        <ul class="icons-list">
+                            <li class="text-primary-600">
+                                <a class="btnShow" href="{{route('kelompokurusan.show',['id'=>$item->KUrsID])}}" title="Detail Data Kelompok Urusan">
+                                    <i class='icon-eye'></i>
+                                </a>  
+                            </li>                            
+                            <li class="text-primary-600">
+                                <a class="btnEdit" href="{{route('kelompokurusan.edit',['id'=>$item->KUrsID])}}" title="Ubah Data Kelompok Urusan">
+                                    <i class='icon-pencil7'></i>
+                                </a> 
+                            </li>
+                            <li class="text-danger-600">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data Kelompok Urusan" data-id="{{$item->KUrsID}}" data-url="{{route('kelompokurusan.index')}}">
+                                    <i class='icon-trash'></i>
+                                </a> 
+                            </li>
+                        </ul>
                     </td>
                 </tr>
             @endforeach                    

@@ -65,6 +65,8 @@ class {{modelName}}Controller extends Controller {
      */
     public function changenumberrecordperpage (Request $request) 
     {
+        $theme = \Auth::user()->theme;
+
         $numberRecordPerPage = $request->input('numberRecordPerPage');
         $this->putControllerStateSession('global_controller','numberRecordPerPage',$numberRecordPerPage);
         
@@ -86,6 +88,8 @@ class {{modelName}}Controller extends Controller {
      */
     public function orderby (Request $request) 
     {
+        $theme = \Auth::user()->theme;
+
         $orderby = $request->input('orderby') == 'asc'?'desc':'asc';
         $column=$request->input('column_name');
         switch($column) 
@@ -117,6 +121,8 @@ class {{modelName}}Controller extends Controller {
      */
     public function paginate ($id) 
     {
+        $theme = \Auth::user()->theme;
+
         $this->setCurrentPageInsideSession('{{modelNameLower}}',$id);
         $data=$this->populateData($id);
         $datatable = view("{{viewName}}.datatable")->with(['page_active'=>'{{modelNameLower}}',
@@ -136,6 +142,8 @@ class {{modelName}}Controller extends Controller {
      */
     public function search (Request $request) 
     {
+        $theme = \Auth::user()->theme;
+
         $action = $request->input('action');
         if ($action == 'reset') 
         {
@@ -166,6 +174,8 @@ class {{modelName}}Controller extends Controller {
      */
     public function index(Request $request)
     {                
+        $theme = \Auth::user()->theme;
+
         $search=$this->getControllerStateSession('{{modelNameLower}}','search');
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('{{modelNameLower}}'); 
         $data = $this->populateData($currentpage);
@@ -189,6 +199,8 @@ class {{modelName}}Controller extends Controller {
      */
     public function create()
     {        
+        $theme = \Auth::user()->theme;
+
         return view("{{viewName}}.create")->with(['page_active'=>'{{modelNameLower}}',
                                                                     
                                                 ]);  
@@ -232,6 +244,8 @@ class {{modelName}}Controller extends Controller {
      */
     public function show($id)
     {
+        $theme = \Auth::user()->theme;
+
         $data = {{modelName}}Model::find($id);
         if (!is_null($data) )  
         {
@@ -256,6 +270,8 @@ class {{modelName}}Controller extends Controller {
      */
     public function edit($id)
     {
+        $theme = \Auth::user()->theme;
+        
         $data = {{modelName}}Model::find($id);
         if (!is_null($data) ) 
         {

@@ -1,49 +1,62 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    KELOMPOKURUSAN
+    KELOMPOK URUSAN
 @endsection
 @section('page_header')
-    <i class="fa fa-lock"></i> 
-    KELOMPOKURUSAN
+    <i class="icon-alignment-unalign  position-left"></i>
+    <span class="text-semibold"> 
+        KELOMPOK URUSAN TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+    </span>
 @endsection
 @section('page_info')
     @include('pages.limitless.dmaster.kelompokurusan.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('kelompokurusan.index')!!}">KELOMPOKURUSAN</a></li>
+    <li><a href="{!!route('kelompokurusan.index')!!}">KELOMPOK URUSAN</a></li>
     <li class="active">UBAH DATA</li>
 @endsection
 @section('page_content')
-<div class="row">
-    <div class="col-md-12">
-        <div class="box box-primary">
-            <div class="box-header with-border">
-                <h3 class="box-title">
-                    <i class="fa fa-pencil"></i> UBAH DATA
-                </h3>
-                <div class="box-tools">
-                    <a href="{!!route('kelompokurusan.index')!!}" class="btn btn-default" title="keluar">
-                        <i class="fa fa-close"></i>
-                    </a>
-                </div>
+<div class="content">
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h5 class="panel-title">
+                <i class="icon-pencil7 position-left"></i> 
+                UBAH DATA
+            </h5>
+            <div class="heading-elements">
+                <ul class="icons-list">                    
+                    <li>
+                        <a href="{!!route('kelompokurusan.index')!!}" data-action="closeredirect" title="keluar"></a>
+                    </li>
+                </ul>
             </div>
-            {!! Form::open(['action'=>['DMaster\KelompokUrusanController@update',$data->kelompokurusan_id],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
-                <div class="box-body">
-                    {{Form::hidden('_method','PUT')}}
-                    <div class="form-group">
-                        {{Form::label('replaceit','replaceit',['class'=>'control-label col-md-2'])}}
-                        <div class="col-md-10">
-                            {{Form::text('replaceit',$data[''],['class'=>'form-control','placeholder'=>'replaceit'])}}
-                        </div>                
-                    </div>            
+        </div>
+        <div class="panel-body">
+            {!! Form::open(['action'=>['DMaster\KelompokUrusanController@update',$data->KUrsID],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                        
+                {{Form::hidden('_method','PUT')}}
+                <div class="form-group">
+                    {{Form::label('Kd_Urusan','KODE URUSAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('Kd_Urusan',$data['Kd_Urusan'],['class'=>'form-control','placeholder'=>'KODE URUSAN','maxlength'=>4])}}
+                    </div>
+                </div>            
+                <div class="form-group">
+                    {{Form::label('Nm_Urusan','NAMA URUSAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('Nm_Urusan',$data['Nm_Urusan'],['class'=>'form-control','placeholder'=>'NAMA URUSAN'])}}
+                    </div>
                 </div>
-                <div class="box-footer">
-                    <div class="form-group">            
-                        <div class="col-md-12 col-md-offset-2">                        
-                            {{ Form::button('<i class="fa fa-save"></i> Simpan', ['type' => 'submit', 'class' => 'btn btn-primary'] )  }}
-                        </div>
-                    </div>     
+                <div class="form-group">
+                    {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::textarea('Descr',$data['Descr'],['class'=>'form-control','placeholder'=>'KETERANGAN','rows' => 2, 'cols' => 40])}}
+                    </div>
                 </div>
+                <div class="form-group">            
+                    <div class="col-md-10 col-md-offset-2">                        
+                        {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] )  }}
+                    </div>
+                </div>                     
             {!! Form::close()!!}
         </div>
     </div>   

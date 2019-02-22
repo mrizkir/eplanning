@@ -24,6 +24,8 @@ class DashboardController extends Controller {
      */
     public function index(Request $request)
     {   
+        $theme = \Auth::user()->theme;
+        
         $data = array();
         return view("pages.{$this->theme}.dashboard.index")->with(['page_active'=>'dashboard',
                                                                 'data'=>$data]);               

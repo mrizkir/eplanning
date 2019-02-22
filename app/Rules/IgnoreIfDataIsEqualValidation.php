@@ -12,6 +12,12 @@ class IgnoreIfDataIsEqualValidation implements Rule
      * @var string
      */
     private $tableName;
+     /**
+     * nama atribut table yang akan dicek
+     * 
+     * @var string
+     */
+    private $attributes;
     /**
      * nilai lama
      * 
@@ -19,14 +25,21 @@ class IgnoreIfDataIsEqualValidation implements Rule
      */
     private $oldValue;
     /**
+     * custom parameter for where clause
+     * 
+     * @var string
+     */
+    private $clauses = null;
+    /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct($tableName,$oldValue)
+    public function __construct($tableName,$oldValue,$clauses = null)
     {
         $this->tableName=$tableName;
         $this->oldValue=$oldValue;
+        $this->clauses=$clauses;
     }
         /**
      * Determine if the validation rule passes.
@@ -35,31 +48,28 @@ class IgnoreIfDataIsEqualValidation implements Rule
      * @param  mixed  $value
      * @return bool
      */
-    public function passes ($attributes, $value,$clauses=null) 
-    {
-        $bool=false;        
+    public function passes ($attributes, $value) 
+    {      
+        $this->attributes=$attributes;
+        $table = \DB::table($this->tableName);  
         if (strtolower($value) == strtolower($this->oldValue)) 
         {
-            $bool=true;
+            return true;
         }
-        elseif(is_array($clauses))
+        elseif(is_array($this->clauses))
         {
             $table = \DB::table($this->tableName);
-            foreach ($clauses as $k=>$v)
+            foreach ($this->clauses as $k=>$v)
             {
                 switch ($k)
                 {
                     case 'where' :
-                        $table->where($v);
+                        $table->where([$v]);
                     break;
                 }
-            }
-            $bool=!($table->count()>0);
-        }
-        else
-        {
-            $bool = !(\DB::table($this->tableName)->where($attributes,$value)->count() > 0);
+            }                
         }   
+        $bool = !($table->where($attributes,$value)->count() > 0);    
         return $bool;
     }
     /**
@@ -69,6 +79,6 @@ class IgnoreIfDataIsEqualValidation implements Rule
      */
     public function message () 
     {
-        return 'Mohon maaf data yang anda inputkan sudah tersedia. Mohon ganti dengan yang lain';
+        return "Mohon maaf data untuk {$this->attributes} yang anda inputkan sudah tersedia. Mohon ganti dengan yang lain";
     }
 }

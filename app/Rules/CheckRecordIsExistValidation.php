@@ -13,6 +13,12 @@ class CheckRecordIsExistValidation implements Rule
      */
     private $tableName;
     /**
+     * nama atribut table yang akan dicek
+     * 
+     * @var string
+     */
+    private $attributes;
+    /**
      * custom parameter for where clause
      * 
      * @var string
@@ -37,6 +43,7 @@ class CheckRecordIsExistValidation implements Rule
      */
     public function passes ($attributes, $value) 
     {     
+        $this->attributes=$attributes;
         $table = \DB::table($this->tableName);   
         if(is_array($this->clauses))
         {            
@@ -60,6 +67,6 @@ class CheckRecordIsExistValidation implements Rule
      */
     public function message () 
     {
-        return 'Mohon maaf data yang anda inputkan sudah tersedia. Mohon ganti dengan yang lain';
+        return "Mohon maaf data untuk {$this->attributes} yang anda inputkan sudah tersedia. Mohon ganti dengan yang lain";
     }
 }

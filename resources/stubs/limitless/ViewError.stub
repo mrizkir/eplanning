@@ -1,4 +1,4 @@
-@extends('layouts.default.l_main')
+@extends('layouts.limitless.l_main')
 @section('page_title')
     {{modelNameUpper}}
 @endsection

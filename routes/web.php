@@ -13,7 +13,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::get('/',['uses'=>'DashboardController@index','as'=>'dashboard.index']);          
 
     //masters - data kelompok urusan 
-    Route::resource('/dmaster/kelompokurusan','DMaster\KelompokUrusanController',['parameters'=>['kelompokurusan'=>'id']]);           
+    Route::resource('/dmaster/kelompokurusan','DMaster\KelompokUrusanController',['parameters'=>['kelompokurusan'=>'uuid']]);           
 
     //setting - permissions    
     Route::resource('/setting/permissions','Setting\PermissionsController',[
