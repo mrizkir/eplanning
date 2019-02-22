@@ -65,7 +65,7 @@
                                 <ul class="menu-list">
                                     <li>
                                         <a href="{{route('kelompokurusan.index')}}" title="Kelompok Urusan">
-                                            <i class="icon-home9"></i> Kelompok Urusan
+                                            <i class="icon-chess-queen"></i> KELOMPOK URUSAN
                                         </a>
                                     </li>
                                 </ul>

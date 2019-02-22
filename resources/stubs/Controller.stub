@@ -246,20 +246,13 @@ class {{modelName}}Controller extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = {{modelName}}Model::find($id);
+        $data = {{modelName}}Model::findOrFail($id);
         if (!is_null($data) )  
         {
             return view("{{viewName}}.show")->with(['page_active'=>'{{modelNameLower}}',
                                                     'data'=>$data
                                                     ]);
-        }
-        else
-        {
-            $errormessage="Data dengan ID ($id) tidak ditemukan.";            
-            return view("{{viewName}}.error")->with(['page_active'=>'permissions',
-                                                                    'errormessage'=>$errormessage
-                                                                ]);
-        }
+        }        
     }
 
     /**
@@ -272,21 +265,13 @@ class {{modelName}}Controller extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $data = {{modelName}}Model::find($id);
+        $data = {{modelName}}Model::findOrFail($id);
         if (!is_null($data) ) 
         {
             return view("{{viewName}}.edit")->with(['page_active'=>'{{modelNameLower}}',
                                                     'data'=>$data
                                                     ]);
-        }
-        else
-        {
-            $errormessage="Data dengan ID ($id) tidak ditemukan.";            
-            return view("{{viewName}}.error")->with(['page_active'=>'permissions',
-                                                                    'errormessage'=>$errormessage
-                                                                ]);
-        }
-        
+        }        
     }
 
     /**

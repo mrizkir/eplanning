@@ -3,7 +3,7 @@
     KELOMPOK URUSAN
 @endsection
 @section('page_header')
-    <i class="icon-alignment-unalign position-left"></i>
+    <i class="icon-chess-queen position-left"></i>
     <span class="text-semibold">        
         KELOMPOK URUSAN TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
     </span>
@@ -12,6 +12,8 @@
     @include('pages.limitless.dmaster.kelompokurusan.info')
 @endsection
 @section('page_breadcrumb')
+    <li><a href="#">MASTERS</a></li>
+    <li><a href="#">DATA</a></li>
     <li><a href="{!!route('kelompokurusan.index')!!}">KELOMPOK URUSAN</a></li>
     <li class="active">DETAIL DATA</li>
 @endsection
@@ -50,7 +52,13 @@
                                 <div class="col-md-8">
                                     <p class="form-control-static">{{$data->Descr}}</p>
                                 </div>                            
-                            </div>                           
+                            </div>        
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}}</p>
+                                </div>                            
+                            </div>                    
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -66,7 +74,13 @@
                                 <div class="col-md-8">
                                     <p class="form-control-static">{{$data->TA}}</p>
                                 </div>                            
-                            </div>                    
+                            </div>         
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>TGL. UBAH: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->updated_at)}}</p>
+                                </div>                            
+                            </div>            
                         </div>
                     </div>
                 </div>

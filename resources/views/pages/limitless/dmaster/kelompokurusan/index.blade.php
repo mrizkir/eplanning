@@ -3,7 +3,7 @@
     KELOMPOK URUSAN
 @endsection
 @section('page_header')
-    <i class="icon-alignment-unalign position-left"></i>
+    <i class="icon-chess-queen position-left"></i>
     <span class="text-semibold">
         KELOMPOK URUSAN TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
     </span>
@@ -12,6 +12,8 @@
     @include('pages.limitless.dmaster.kelompokurusan.info')
 @endsection
 @section('page_breadcrumb')
+    <li><a href="#">MASTERS</a></li>
+    <li><a href="#">DATA</a></li>
     <li class="active">KELOMPOK URUSAN</li>
 @endsection
 @section('page_content')

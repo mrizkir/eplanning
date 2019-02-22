@@ -4,13 +4,15 @@
 @endsection
 @section('page_header')
     <i class="fa fa-lock"></i> 
-    KELOMPO KURUSAN
+    KELOMPOK URUSAN
 @endsection
 @section('page_info')
     @include('pages.limitless.dmaster.kelompokurusan.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('kelompokurusan.index')!!}">KELOM POKURUSAN</a></li>
+    <li><a href="#">MASTERS</a></li>
+    <li><a href="#">DATA</a></li>
+    <li><a href="{!!route('kelompokurusan.index')!!}">KELOMPOK URUSAN</a></li>
     <li class="active">ERROR</li>
 @endsection
 @section('page_content')

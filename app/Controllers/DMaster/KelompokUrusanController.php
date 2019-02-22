@@ -83,7 +83,10 @@ class KelompokUrusanController extends Controller {
         {
             case 'Kd_Urusan' :
                 $column_name = 'Kd_Urusan';
-            break;           
+            break;     
+            case 'Nm_Urusan' :
+                $column_name = 'Nm_Urusan';
+            break;       
             default :
                 $column_name = 'Kd_Urusan';
         }
@@ -106,12 +109,12 @@ class KelompokUrusanController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function paginate ($uuid) 
+    public function paginate ($id) 
     {
         $theme = \Auth::user()->theme;
 
-        $this->setCurrentPageInsideSession('kelompokurusan',$uuid);
-        $data=$this->populateData($uuid);
+        $this->setCurrentPageInsideSession('kelompokurusan',$id);
+        $data=$this->populateData($id);
         $datatable = view("pages.$theme.dmaster.kelompokurusan.datatable")->with(['page_active'=>'kelompokurusan',
                                                                                         'search'=>$this->getControllerStateSession('kelompokurusan','search'),
                                                                                         'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
@@ -250,19 +253,14 @@ class KelompokUrusanController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = KelompokUrusanModel::find($uuid);
+        $data = KelompokUrusanModel::where('TA',2020)
+                                    ->where('KUrsID',$uuid)
+                                    ->firstOrFail();
         if (!is_null($data) )  
         {
             return view("pages.$theme.dmaster.kelompokurusan.show")->with(['page_active'=>'kelompokurusan',
                                                     'data'=>$data
                                                     ]);
-        }
-        else
-        {
-            $errormessage="Data dengan ID ($uuid) tidak ditemukan.";            
-            return view("pages.$theme.dmaster.kelompokurusan.error")->with(['page_active'=>'permissions',
-                                                                    'errormessage'=>$errormessage
-                                                                ]);
         }
     }
 
@@ -276,21 +274,15 @@ class KelompokUrusanController extends Controller {
     {        
         $theme = \Auth::user()->theme;
         
-        $data = KelompokUrusanModel::find($uuid);
+        $data = KelompokUrusanModel::where('TA',2020)
+                                    ->where('KUrsID',$uuid)
+                                    ->firstOrFail();
         if (!is_null($data) ) 
         {
             return view("pages.$theme.dmaster.kelompokurusan.edit")->with(['page_active'=>'kelompokurusan',
                                                                                     'data'=>$data
                                                                                 ]);
         }
-        else
-        {
-            $errormessage="Data dengan ID ($uuid) tidak ditemukan.";            
-            return view("pages.$theme.dmaster.kelompokurusan.error")->with(['page_active'=>'permissions',
-                                                                    'errormessage'=>$errormessage
-                                                                ]);
-        }
-        
     }
 
     /**

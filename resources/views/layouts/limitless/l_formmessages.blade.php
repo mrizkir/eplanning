@@ -12,7 +12,7 @@
         @if (session('success'))
             <div class="alert alert-success no-border">
                 <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
-                <span class="text-semibold">Error!</span> {{session('success')}}
+                <span class="text-semibold">Sucess!</span> {{session('success')}}
             </div>
         @endif
         

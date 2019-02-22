@@ -66,7 +66,7 @@
             </tbody>
         </table>               
     </div>
-    <div class="panel-body border-top-info text-center">
+    <div class="panel-body border-top-info text-center" id="paginations">
         {{$data->links('layouts.limitless.l_pagination')}}               
     </div>
     @else
