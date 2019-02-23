@@ -4,7 +4,10 @@ namespace App\Controllers\DMaster;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
+use App\Models\DMaster\KelompokUrusanModel;
 use App\Models\DMaster\UrusanModel;
+use App\Rules\IgnoreIfDataIsEqualValidation;
+use App\Helpers\SQL;
 
 class UrusanController extends Controller {
      /**
@@ -24,13 +27,13 @@ class UrusanController extends Controller {
      */
     public function populateData ($currentpage=1) 
     {        
-        $columns=['*'];       
-        //if (!$this->checkStateIsExistSession('urusan','orderby')) 
-        //{            
-        //    $this->putControllerStateSession('urusan','orderby',['column_name'=>'replace_it','order'=>'asc']);
-        //}
-        //$column_order=$this->getControllerStateSession('urusan.orderby','column_name'); 
-        //$direction=$this->getControllerStateSession('urusan.orderby','order'); 
+        $columns=['tmUrs.UrsID','Kode_Bidang','tmUrs.Nm_Bidang','tmUrs.Descr'];       
+        if (!$this->checkStateIsExistSession('urusan','orderby')) 
+        {            
+           $this->putControllerStateSession('urusan','orderby',['column_name'=>'Kode_Bidang','order'=>'asc']);
+        }
+        $column_order=$this->getControllerStateSession('urusan.orderby','column_name'); 
+        $direction=$this->getControllerStateSession('urusan.orderby','order'); 
 
         if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
         {            
@@ -42,19 +45,28 @@ class UrusanController extends Controller {
             $search=$this->getControllerStateSession('urusan','search');
             switch ($search['kriteria']) 
             {
-                case 'replaceit' :
-                    $data = UrusanModel::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                case 'Kode_Bidang' :
+                    $data = UrusanModel::join('v_urusan','v_urusan.UrsID','tmUrs.UrsID')
+                                        ->where('tmUrs.TA',config('globalsettings.tahun_perencanaan'))
+                                        ->where(['Kode_Bidang'=>$search['isikriteria']])
+                                        ->orderBy($column_order,$direction); 
                 break;
-                case 'replaceit' :
-                    $data = UrusanModel::where('replaceit', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                case 'Nm_Bidang' :
+                    $data = UrusanModel::join('v_urusan','v_urusan.UrsID','tmUrs.UrsID')
+                                        ->where('tmUrs.TA',config('globalsettings.tahun_perencanaan'))
+                                        ->where('tmUrs.Nm_Bidang', SQL::like(), '%' . $search['isikriteria'] . '%')
+                                        ->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = UrusanModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
-        }        
+            $data = UrusanModel::join('v_urusan','v_urusan.UrsID','tmUrs.UrsID')
+                                ->where('tmUrs.TA',config('globalsettings.tahun_perencanaan'))
+                                ->orderBy($column_order,$direction)
+                                ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+        }
         $data->setPath(route('urusan.index'));
         return $data;
     }
@@ -65,13 +77,15 @@ class UrusanController extends Controller {
      */
     public function changenumberrecordperpage (Request $request) 
     {
+        $theme = \Auth::user()->theme;
+
         $numberRecordPerPage = $request->input('numberRecordPerPage');
         $this->putControllerStateSession('global_controller','numberRecordPerPage',$numberRecordPerPage);
         
         $this->setCurrentPageInsideSession('urusan',1);
         $data=$this->populateData();
 
-        $datatable = view("pages.{$this->theme}.dmaster.urusan.datatable")->with(['page_active'=>'urusan',
+        $datatable = view("pages.$theme.dmaster.urusan.datatable")->with(['page_active'=>'urusan',
                                                                                 'search'=>$this->getControllerStateSession('urusan','search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                 'column_order'=>$this->getControllerStateSession('urusan.orderby','column_name'),
@@ -86,21 +100,26 @@ class UrusanController extends Controller {
      */
     public function orderby (Request $request) 
     {
+        $theme = \Auth::user()->theme;
+
         $orderby = $request->input('orderby') == 'asc'?'desc':'asc';
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'replace_it' :
-                $column_name = 'replace_it';
-            break;           
+            case 'Kd_Bidang' :
+                $column_name = 'Kode_Bidang';
+            break;  
+            case 'Nm_Bidang' :
+                $column_name = 'Nm_Bidang';
+            break;          
             default :
-                $column_name = 'replace_it';
+                $column_name = 'Kode_Bidang';
         }
         $this->putControllerStateSession('urusan','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
         $data=$this->populateData();
 
-        $datatable = view("pages.{$this->theme}.dmaster.urusan.datatable")->with(['page_active'=>'urusan',
+        $datatable = view("pages.$theme.dmaster.urusan.datatable")->with(['page_active'=>'urusan',
                                                             'search'=>$this->getControllerStateSession('urusan','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                             'column_order'=>$this->getControllerStateSession('urusan.orderby','column_name'),
@@ -117,9 +136,11 @@ class UrusanController extends Controller {
      */
     public function paginate ($id) 
     {
+        $theme = \Auth::user()->theme;
+
         $this->setCurrentPageInsideSession('urusan',$id);
         $data=$this->populateData($id);
-        $datatable = view("pages.{$this->theme}.dmaster.urusan.datatable")->with(['page_active'=>'urusan',
+        $datatable = view("pages.$theme.dmaster.urusan.datatable")->with(['page_active'=>'urusan',
                                                                             'search'=>$this->getControllerStateSession('urusan','search'),
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                             'column_order'=>$this->getControllerStateSession('urusan.orderby','column_name'),
@@ -136,6 +157,8 @@ class UrusanController extends Controller {
      */
     public function search (Request $request) 
     {
+        $theme = \Auth::user()->theme;
+
         $action = $request->input('action');
         if ($action == 'reset') 
         {
@@ -150,7 +173,7 @@ class UrusanController extends Controller {
         $this->setCurrentPageInsideSession('urusan',1);
         $data=$this->populateData();
 
-        $datatable = view("pages.{$this->theme}.dmaster.urusan.datatable")->with(['page_active'=>'urusan',                                                            
+        $datatable = view("pages.$theme.dmaster.urusan.datatable")->with(['page_active'=>'urusan',                                                            
                                                             'search'=>$this->getControllerStateSession('urusan','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                             'column_order'=>$this->getControllerStateSession('urusan.orderby','column_name'),
@@ -166,6 +189,8 @@ class UrusanController extends Controller {
      */
     public function index(Request $request)
     {                
+        $theme = \Auth::user()->theme;
+
         $search=$this->getControllerStateSession('urusan','search');
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('urusan'); 
         $data = $this->populateData($currentpage);
@@ -175,7 +200,7 @@ class UrusanController extends Controller {
         }
         $this->setCurrentPageInsideSession('urusan',$data->currentPage());
         
-        return view("pages.{$this->theme}.dmaster.urusan.index")->with(['page_active'=>'urusan',
+        return view("pages.$theme.dmaster.urusan.index")->with(['page_active'=>'urusan',
                                                 'search'=>$this->getControllerStateSession('urusan','search'),
                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                                 'column_order'=>$this->getControllerStateSession('urusan.orderby','column_name'),
@@ -189,9 +214,11 @@ class UrusanController extends Controller {
      */
     public function create()
     {        
-        return view("pages.{$this->theme}.dmaster.urusan.create")->with(['page_active'=>'urusan',
-                                                                    
-                                                ]);  
+        $theme = \Auth::user()->theme;
+        $kelompok_urusan=KelompokUrusanModel::getKelompokUrusan(config('globalsettings.tahun_perencanaan'));
+        return view("pages.$theme.dmaster.urusan.create")->with(['page_active'=>'urusan',
+                                                                'kelompok_urusan'=>$kelompok_urusan
+                                                            ]);  
     }
     
     /**
@@ -201,14 +228,44 @@ class UrusanController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $this->validate($request, [
-            'replaceit'=>'required',
-        ]);
+    {        
+        $requestData = $request->all();
+        $requestData['Kode_Bidang']=$request->input('Kode_Bidang').'.'.$request->input('Kd_Bidang');
+        $request->replace($requestData);
+
+        $this->validate($request,
+        [
+            'Kd_Bidang'=>'required|min:1|max:4|regex:/^[0-9]+$/', 
+            'Kode_Bidang'=>['required',new IgnoreIfDataIsEqualValidation('v_urusan',
+                                                                        null,
+                                                                        ['where'=>['TA','=',config('globalsettings.tahun_perencanaan')]                                                                                
+                                                                        ],
+                                                                        'Kode Urusan')],   
+            'KUrsID'=>'required|not_in:none', 
+            'Nm_Bidang'=>'required|min:5', 
+        ],
+        [            
+            'Kd_Bidang.required'=>'Mohon Kode Urusan untuk di isi karena ini diperlukan',
+            'Kd_Bidang.min'=>'Mohon Kode Urusan untuk di isi minimal 1 digit',
+            'Kd_Bidang.max'=>'Mohon Kode Urusan untuk di isi maksimal 4 digit',
+            
+            'Kode_Bidang.required'=>'Mohon Kode Urusan untuk di isi karena ini diperlukan',
+
+            'KUrsID.required'=>'Mohon Kode Kelompok Urusan untuk dipilih',
+
+            'Nm_Bidang.required'=>'Mohon Nama Urusan untuk di isi karena ini diperlukan',
+            'Nm_Bidang.min'=>'Mohon Nama Urusan di isi minimal 5 karakter'
+        ]
+        );
         
-        $urusan = new UrusanModel;
-        $urusan->replaceit = $request->input('replaceit');
-        $urusan->save();
+        $urusan = UrusanModel::create ([
+            'UrsID'=> uniqid ('uid'),
+            'KUrsID'=>$request->input('KUrsID'),
+            'Kd_Bidang'=>$request->input('Kd_Bidang'),        
+            'Nm_Bidang'=>$request->input('Nm_Bidang'),
+            'Descr'=>$request->input('Descr'),
+            'TA'=>config('globalsettings.tahun_perencanaan'),
+        ]);
 
         if ($request->ajax()) 
         {
@@ -232,20 +289,16 @@ class UrusanController extends Controller {
      */
     public function show($id)
     {
-        $data = UrusanModel::find($id);
+        $theme = \Auth::user()->theme;
+
+        $data = UrusanModel::with('kelompokurusan')->findOrFail($id);
         if (!is_null($data) )  
         {
-            return view("pages.{$this->theme}.dmaster.urusan.show")->with(['page_active'=>'urusan',
-                                                    'data'=>$data
-                                                    ]);
-        }
-        else
-        {
-            $errormessage="Data dengan ID ($id) tidak ditemukan.";            
-            return view("pages.{$this->theme}.dmaster.urusan.error")->with(['page_active'=>'permissions',
-                                                                    'errormessage'=>$errormessage
+            
+            return view("pages.$theme.dmaster.urusan.show")->with(['page_active'=>'urusan',
+                                                                    'data'=>$data
                                                                 ]);
-        }
+        }        
     }
 
     /**
@@ -256,21 +309,17 @@ class UrusanController extends Controller {
      */
     public function edit($id)
     {
-        $data = UrusanModel::find($id);
-        if (!is_null($data) ) 
-        {
-            return view("pages.{$this->theme}.dmaster.urusan.edit")->with(['page_active'=>'urusan',
-                                                    'data'=>$data
-                                                    ]);
-        }
-        else
-        {
-            $errormessage="Data dengan ID ($id) tidak ditemukan.";            
-            return view("pages.{$this->theme}.dmaster.urusan.error")->with(['page_active'=>'permissions',
-                                                                    'errormessage'=>$errormessage
-                                                                ]);
-        }
+        $theme = \Auth::user()->theme;
         
+        $data = UrusanModel::with('kelompokurusan')->findOrFail($id);
+        if (!is_null($data) ) 
+        {   
+            $kelompok_urusan=KelompokUrusanModel::getKelompokUrusan(config('globalsettings.tahun_perencanaan'),false);
+            return view("pages.$theme.dmaster.urusan.edit")->with(['page_active'=>'urusan',
+                                                                    'kelompok_urusan'=>$kelompok_urusan,
+                                                                    'data'=>$data                                                                    
+                                                                ]);
+            }        
     }
 
     /**
@@ -282,12 +331,42 @@ class UrusanController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'replaceit'=>'required',
-        ]);
+        $urusan = UrusanModel::with('kelompokurusan')->find($id);
+
+        $requestData = $request->all();
+        $requestData['Kode_Bidang']=$request->input('Kode_Bidang').'.'.$request->input('Kd_Bidang');
+        $request->replace($requestData);
+
+        $this->validate($request,
+        [
+            'Kd_Bidang'=>'required|min:1|max:4|regex:/^[0-9]+$/', 
+            'Kode_Bidang'=>['required',new IgnoreIfDataIsEqualValidation('v_urusan',
+                                                                        $urusan->kelompokurusan->Kd_Urusan.'.'.$urusan->Kd_Bidang,
+                                                                        ['where'=>['TA','=',config('globalsettings.tahun_perencanaan')]                                                                                
+                                                                        ],
+                                                                        'Kode Urusan')],   
+            'KUrsID'=>'required|not_in:none', 
+            'Nm_Bidang'=>'required|min:5', 
+        ],
+        [            
+            'Kd_Bidang.required'=>'Mohon Kode Urusan untuk di isi karena ini diperlukan',
+            'Kd_Bidang.min'=>'Mohon Kode Urusan untuk di isi minimal 1 digit',
+            'Kd_Bidang.max'=>'Mohon Kode Urusan untuk di isi maksimal 4 digit',
+            
+            'Kode_Bidang.required'=>'Mohon Kode Urusan untuk di isi karena ini diperlukan',
+
+            'KUrsID.required'=>'Mohon Kode Kelompok Urusan untuk dipilih',
+
+            'Nm_Bidang.required'=>'Mohon Nama Urusan untuk di isi karena ini diperlukan',
+            'Nm_Bidang.min'=>'Mohon Nama Urusan di isi minimal 5 karakter'
+        ]
+        );
+
+        $urusan->KUrsID = $request->input('KUrsID');
+        $urusan->Kd_Bidang = $request->input('Kd_Bidang');
+        $urusan->Nm_Bidang = $request->input('Nm_Bidang');
+        $urusan->Descr = $request->input('Descr');
         
-        $urusan = UrusanModel::find($id);
-        $urusan->replaceit = $request->input('replaceit');
         $urusan->save();
 
         if ($request->ajax()) 
@@ -311,6 +390,8 @@ class UrusanController extends Controller {
      */
     public function destroy(Request $request,$id)
     {
+        $theme = \Auth::user()->theme;
+        
         $urusan = UrusanModel::find($id);
         $result=$urusan->delete();
         if ($request->ajax()) 
@@ -321,7 +402,7 @@ class UrusanController extends Controller {
             {            
                 $data = $this->populateData($data->lastPage());
             }
-            $datatable = view("pages.{$this->theme}.dmaster.urusan.datatable")->with(['page_active'=>'urusan',
+            $datatable = view("pages.$theme.dmaster.urusan.datatable")->with(['page_active'=>'urusan',
                                                             'search'=>$this->getControllerStateSession('urusan','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                                             'column_order'=>$this->getControllerStateSession('urusan.orderby','column_name'),

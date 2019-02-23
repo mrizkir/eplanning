@@ -56,7 +56,7 @@
             </tbody>
         </table>               
     </div>
-    <div class="box-footer">
+    <div class="panel-body border-top-info text-center" id="paginations">
         {{$data->links('layouts.{{theme}}.l_pagination')}}               
     </div>
     @else

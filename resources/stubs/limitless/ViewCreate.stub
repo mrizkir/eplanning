@@ -3,12 +3,12 @@
     {{modelNameUpper}}
 @endsection
 @section('page_header')
-    <i class="icon-alignment-unalign position-left"></i>
+    <i class="{{icon}} position-left"></i>
     <span class="text-semibold"> 
-        {{modelNameUpper}}
+        {{modelNameUpper}} TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
     </span>
 @endsection
-@section('page-info')
+@section('page_info')
     @include('{{viewName}}.info')
 @endsection
 @section('page_breadcrumb')

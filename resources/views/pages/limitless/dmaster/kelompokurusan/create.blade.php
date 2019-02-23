@@ -36,15 +36,15 @@
         <div class="panel-body">
         {!! Form::open(['action'=>'DMaster\KelompokUrusanController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                            
             <div class="form-group">
-                {{Form::label('Kd_Urusan','KODE URUSAN',['class'=>'control-label col-md-2'])}}
+                {{Form::label('Kd_Urusan','KODE KELOMPOK URUSAN',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
-                    {{Form::text('Kd_Urusan','',['class'=>'form-control','placeholder'=>'KODE URUSAN','maxlength'=>4])}}
+                    {{Form::text('Kd_Urusan','',['class'=>'form-control','placeholder'=>'KODE KELOMPOK URUSAN','maxlength'=>4])}}
                 </div>
             </div>  
             <div class="form-group">
-                {{Form::label('Nm_Urusan','NAMA URUSAN',['class'=>'control-label col-md-2'])}}
+                {{Form::label('Nm_Urusan','NAMA KELOMPOK URUSAN',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
-                    {{Form::text('Nm_Urusan','',['class'=>'form-control','placeholder'=>'NAMA URUSAN'])}}
+                    {{Form::text('Nm_Urusan','',['class'=>'form-control','placeholder'=>'NAMA KELOMPOK URUSAN'])}}
                 </div>
             </div>
             <div class="form-group">

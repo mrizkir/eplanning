@@ -26,7 +26,7 @@ class KelompokUrusanModel extends Model {
         'KUrsID', 'Kd_Urusan', 'Nm_Urusan', 'Descr','TA',
     ];
     /**
-     * disable auto_increment.
+     * enable auto_increment.
      *
      * @var string
      */
@@ -55,4 +55,15 @@ class KelompokUrusanModel extends Model {
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
+
+    public static function getKelompokUrusan ($ta,$prepend=true) 
+    {
+        $r=KelompokUrusanModel::where('TA',$ta)->orderBy('Kd_Urusan')->get();
+        $kelompok_urusan=($prepend==true)?['none'=>'DAFTAR KELOMPOK URUSAN']:[];        
+        foreach ($r as $k=>$v)
+        {
+            $kelompok_urusan[$v->KUrsID]=$v->Kd_Urusan.'. '.$v['Nm_Urusan'];
+        } 
+        return $kelompok_urusan;
+    }
 }

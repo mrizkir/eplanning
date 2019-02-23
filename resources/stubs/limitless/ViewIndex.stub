@@ -3,9 +3,9 @@
     {{modelNameUpper}}
 @endsection
 @section('page_header')
-    <i class="icon-alignment-unalign position-left"></i>
+    <i class="{{icon}} position-left"></i>
     <span class="text-semibold">
-        {{modelNameUpper}}  
+        {{modelNameUpper}} TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
     </span>
 @endsection
 @section('page_info')
@@ -42,8 +42,8 @@
                         <div class="col-md-offset-2 col-md-10">
                             {{ Form::button('<b><i class="icon-search4"></i></b> Cari', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs', 'id'=>'btnSearch'] )  }}                            
                             <a id="btnReset" href="javascript:;" title="Reset Pencarian" class="btn btn-default btn-labeled btn-xs">
-                                <i class="icon-reset"></i> Reset
-                            </a>                            
+                                <b><i class="icon-reset"></i></b> Reset
+                            </a>                           
                         </div>
                     </div>  
                 {!! Form::close()!!}

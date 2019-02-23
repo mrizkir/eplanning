@@ -214,11 +214,11 @@ class KelompokUrusanController extends Controller {
             'Nm_Urusan'=>'required|min:5', 
         ],
         [
-            'Kd_Urusan.required'=>'Mohon Kode Urusan untuk di isi karena ini diperlukan',
-            'Kd_Urusan.min'=>'Mohon Kode Urusan untuk di isi minimal 1 digit',
-            'Kd_Urusan.max'=>'Mohon Kode Urusan untuk di isi maksimal 4 digit',
-            'Nm_Urusan.required'=>'Mohon Nama Urusan untuk di isi karena ini diperlukan',
-            'Nm_Urusan.min'=>'Mohon Nama Urusan di isi minimal 5 karakter'
+            'Kd_Urusan.required'=>'Mohon Kode Kelompok Urusan untuk di isi karena ini diperlukan',
+            'Kd_Urusan.min'=>'Mohon Kode Kelompok Urusan untuk di isi minimal 1 digit',
+            'Kd_Urusan.max'=>'Mohon Kode Kelompok Urusan untuk di isi maksimal 4 digit',
+            'Nm_Urusan.required'=>'Mohon Nama Kelompok Urusan untuk di isi karena ini diperlukan',
+            'Nm_Urusan.min'=>'Mohon Nama Kelompok Urusan di isi minimal 5 karakter'
         ]
         );
 
@@ -253,7 +253,7 @@ class KelompokUrusanController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = KelompokUrusanModel::where('TA',2020)
+        $data = KelompokUrusanModel::where('TA',config('globalsettings.tahun_perencanaan'))
                                     ->where('KUrsID',$uuid)
                                     ->firstOrFail();
         if (!is_null($data) )  
@@ -274,7 +274,7 @@ class KelompokUrusanController extends Controller {
     {        
         $theme = \Auth::user()->theme;
         
-        $data = KelompokUrusanModel::where('TA',2020)
+        $data = KelompokUrusanModel::where('TA',config('globalsettings.tahun_perencanaan'))
                                     ->where('KUrsID',$uuid)
                                     ->firstOrFail();
         if (!is_null($data) ) 
@@ -305,11 +305,11 @@ class KelompokUrusanController extends Controller {
             'Nm_Urusan'=>'required|min:5', 
         ],
         [
-            'Kd_Urusan.required'=>'Mohon Kode Urusan untuk di isi karena ini diperlukan',
-            'Kd_Urusan.min'=>'Mohon Kode Urusan untuk di isi minimal 1 digit',
-            'Kd_Urusan.max'=>'Mohon Kode Urusan untuk di isi maksimal 4 digit',
-            'Nm_Urusan.required'=>'Mohon Nama Urusan untuk di isi karena ini diperlukan',
-            'Nm_Urusan.min'=>'Mohon Nama Urusan di isi minimal 5 karakter'        
+            'Kd_Urusan.required'=>'Mohon Kode Kelompok Urusan untuk di isi karena ini diperlukan',
+            'Kd_Urusan.min'=>'Mohon Kode Kelompok Urusan untuk di isi minimal 1 digit',
+            'Kd_Urusan.max'=>'Mohon Kode Kelompok Urusan untuk di isi maksimal 4 digit',
+            'Nm_Urusan.required'=>'Mohon Nama Kelompok Urusan untuk di isi karena ini diperlukan',
+            'Nm_Urusan.min'=>'Mohon Nama Kelompok Urusan di isi minimal 5 karakter'        
         ]);        
         
         $kelompokurusan->Kd_Urusan = $request->input('Kd_Urusan');
@@ -363,5 +363,20 @@ class KelompokUrusanController extends Controller {
         {
             return redirect(route('kelompokurusan.index'))->with('success',"Data ini dengan ($uuid) telah berhasil dihapus.");
         }        
+    }
+    /**
+     * digunakan untuk mendapatkan kode kelompok urusan
+     */
+
+    public function getkodekelompokurusan(Request $request,$uuid)
+    {
+        $data_kelompok = KelompokUrusanModel::where('KUrsID',$uuid)
+                                            ->get()->pluck('Kd_Urusan')->toArray();
+        $kode_kelompok_urusan = null;
+        if (isset($data_kelompok[0]))
+        {
+            $kode_kelompok_urusan=$data_kelompok[0];
+        }
+        return response()->json(['success'=>true,'kodekelompokurusan'=>$kode_kelompok_urusan],200);
     }
 }

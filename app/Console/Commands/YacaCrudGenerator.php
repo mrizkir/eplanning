@@ -15,7 +15,7 @@ class YacaCrudGenerator extends Command
      *
      * @var string
      */
-    protected $signature = 'crud:generator {name : Class (singular) for example user} {--theme=default} {--create=all}';
+    protected $signature = 'crud:generator {name : Class (singular) for example user} {--theme=default} {--create=all} {--icon=icon}';
 
     /**
      * The console command description.
@@ -46,6 +46,13 @@ class YacaCrudGenerator extends Command
     protected $create;
 
     /**
+     * icon name
+     *
+     * @var string
+     */
+    protected $icon;
+
+    /**
      * nama model
      *
      * @var string
@@ -72,6 +79,7 @@ class YacaCrudGenerator extends Command
         $this->name = $this->argument('name');
         $this->theme=$this->option('theme');
         $create=$this->option('create');
+        $this->icon = $this->option('icon');
         
         $arg=explode('\\',$this->name);
         $this->nama_model = $arg[count($arg)-1];
@@ -173,7 +181,8 @@ class YacaCrudGenerator extends Command
                     '{{modelNameLower}}',
                     '{{viewName}}',
                     '{{primaryKey}}',
-                    '{{theme}}'
+                    '{{theme}}',
+                    '{{icon}}'
                 ];
         $replace_with = [
                             $this->name.'Controller',
@@ -182,7 +191,8 @@ class YacaCrudGenerator extends Command
                             strtolower($this->nama_model),
                             "pages.".$this->theme.".".strtolower(str_replace('\\','.',$this->name)),
                             strtolower($this->nama_model).'_id',
-                            $this->theme                      
+                            $this->theme,
+                            $this->icon                     
                         ];
 
         //index

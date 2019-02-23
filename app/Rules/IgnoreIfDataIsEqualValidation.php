@@ -17,7 +17,7 @@ class IgnoreIfDataIsEqualValidation implements Rule
      * 
      * @var string
      */
-    private $attributes;
+    private $attributes_alias;
     /**
      * nilai lama
      * 
@@ -35,11 +35,12 @@ class IgnoreIfDataIsEqualValidation implements Rule
      *
      * @return void
      */
-    public function __construct($tableName,$oldValue,$clauses = null)
+    public function __construct($tableName,$oldValue=null,$clauses = null,$atributes_alias=null)
     {
         $this->tableName=$tableName;
         $this->oldValue=$oldValue;
         $this->clauses=$clauses;
+        $this->attributes_alias=$atributes_alias;
     }
         /**
      * Determine if the validation rule passes.
@@ -50,7 +51,6 @@ class IgnoreIfDataIsEqualValidation implements Rule
      */
     public function passes ($attributes, $value) 
     {      
-        $this->attributes=$attributes;
         $table = \DB::table($this->tableName);  
         if (strtolower($value) == strtolower($this->oldValue)) 
         {
@@ -58,7 +58,6 @@ class IgnoreIfDataIsEqualValidation implements Rule
         }
         elseif(is_array($this->clauses))
         {
-            $table = \DB::table($this->tableName);
             foreach ($this->clauses as $k=>$v)
             {
                 switch ($k)
@@ -79,6 +78,6 @@ class IgnoreIfDataIsEqualValidation implements Rule
      */
     public function message () 
     {
-        return "Mohon maaf data untuk {$this->attributes} yang anda inputkan sudah tersedia. Mohon ganti dengan yang lain";
+        return "Mohon maaf data {$this->attributes_alias} yang di inputkan sudah tersedia. Mohon ganti dengan yang lain";
     }
 }

@@ -14,7 +14,7 @@ class CreateKelompokurusanTable extends Migration
     public function up()
     {
         Schema::create('tmKUrs', function (Blueprint $table) {
-            $table->uuid('KUrsID',16);
+            $table->var('KUrsID',16);
             $table->tinyInteger('Kd_Urusan');
             $table->string('Nm_Urusan',100);
             $table->year('TA');
@@ -22,7 +22,8 @@ class CreateKelompokurusanTable extends Migration
             $table->string('KUrsID_Src',16)->nullable();
 
             $table->primary('KUrsID');
-
+            $table->index('Kd_Urusan');
+            
             $table->timestamps();
         });
     }

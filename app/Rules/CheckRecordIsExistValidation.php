@@ -67,6 +67,6 @@ class CheckRecordIsExistValidation implements Rule
      */
     public function message () 
     {
-        return "Mohon maaf data untuk {$this->attributes} yang anda inputkan sudah tersedia. Mohon ganti dengan yang lain";
+        return "Mohon maaf data untuk {$this->attributes} yang di inputkan sudah tersedia. Mohon ganti dengan yang lain";
     }
 }

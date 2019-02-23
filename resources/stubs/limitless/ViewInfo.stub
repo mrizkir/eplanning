@@ -1,5 +1,3 @@
-<div class="page_info">            
-    <p>
-        info halaman
-    </p>
-</div>
+<small class="display-block">          
+    <code>info halaman</code>
+</small>

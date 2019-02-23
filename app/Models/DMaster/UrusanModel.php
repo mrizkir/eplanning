@@ -10,7 +10,15 @@ class UrusanModel extends Model {
      *
      * @var string
      */
-    protected $table = 'tmKUrs';
+    protected $table = 'tmUrs';
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'UrsID', 'KUrsID','Kd_Bidang', 'Kode_Bidang', 'Nm_Bidang', 'Descr','TA',
+    ];
     /**
      * primary key tabel ini.
      *
@@ -18,7 +26,7 @@ class UrusanModel extends Model {
      */
     protected $primaryKey = 'UrsID';
     /**
-     * disable auto_increment.
+     * enable auto_increment.
      *
      * @var string
      */
@@ -39,7 +47,7 @@ class UrusanModel extends Model {
     /**
      * log the changed attributes for all these events 
      */
-    protected static $logAttributes = ['Kd_Bidang', 'Nm_Bidang'];
+    protected static $logAttributes = ['UrsID','KUrsID','Kd_Bidang', 'Kode_Bidang', 'Nm_Bidang'];
     /**
      * log changes to all the $fillable attributes of the model
      */
@@ -47,4 +55,9 @@ class UrusanModel extends Model {
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
+
+    public function kelompokurusan () 
+    {
+        return $this->belongsTo('App\Models\DMaster\KelompokUrusanModel','KUrsID');
+    }
 }

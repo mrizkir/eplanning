@@ -64,8 +64,13 @@
                                 <span class="menu-heading underlined"><i class="icon-office"></i> DATA</span>
                                 <ul class="menu-list">
                                     <li>
-                                        <a href="{{route('kelompokurusan.index')}}" title="Kelompok Urusan">
+                                        <a href="{{route('kelompokurusan.index')}}" title="Data Kelompok Urusan">
                                             <i class="icon-chess-queen"></i> KELOMPOK URUSAN
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('urusan.index')}}" title="Data Urusan">
+                                            <i class="icon-chess-king"></i> URUSAN
                                         </a>
                                     </li>
                                 </ul>

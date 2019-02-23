@@ -3,31 +3,35 @@
     URUSAN
 @endsection
 @section('page_header')
-    <i class="fa fa-lock"></i>
-    URUSAN  
+    <i class="icon-chess-king position-left"></i>
+    <span class="text-semibold">
+        URUSAN TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
+    </span>
 @endsection
-@section('page-info')
+@section('page_info')
     @include('pages.limitless.dmaster.urusan.info')
 @endsection
 @section('page_breadcrumb')
+    <li><a href="#">MASTERS</a></li>
+    <li><a href="#">DATA</a></li>
     <li class="active">URUSAN</li>
 @endsection
 @section('page_content')
 <div class="row">
     <div class="col-md-12">
-        <div class="box box-info">
-            <div class="box-header with-border">
-                <h3 class="box-title">
-                    <i class="fa fa-search"></i> 
+        <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
+            <div class="panel-heading">
+                <h5 class="panel-title">
+                    <i class="icon-search4 position-left"></i>
                     Pencarian Data
-                </h3>
+                </h5>
             </div>
-            {!! Form::open(['action'=>'DMaster\UrusanController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                
-                <div class="box-body">                
+            <div class="panel-body">
+                {!! Form::open(['action'=>'DMaster\UrusanController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">
-                            {{Form::select('cmbKriteria', ['replaceit'=>'replaceit','nama'=>'replaceit'], isset($search['kriteria'])?$search['kriteria']:'replaceit',['class'=>'form-control'])}}
+                            {{Form::select('cmbKriteria', ['Kode_Bidang'=>'KODE URUSAN','Nm_Bidang'=>'NAMA URUSAN'], isset($search['kriteria'])?$search['kriteria']:'replaceit',['class'=>'form-control'])}}
                         </div>
                     </div>
                     <div class="form-group" id="divKriteria">
@@ -36,18 +40,16 @@
                             {{Form::text('txtKriteria',isset($search['isikriteria'])?$search['isikriteria']:'',['class'=>'form-control','placeholder'=>'Isi Kriteria Pencarian','id'=>'txtKriteria'])}}                                                                  
                         </div>
                     </div>                                                     
-                </div>
-                <div class="box-footer">
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            {{ Form::button('<i class="fa fa-search"></i> Cari', ['type' => 'submit', 'class' => 'btn btn-primary', 'id'=>'btnSearch'] )  }}                            
-                            <a id="btnReset" href="javascript:;" title="Reset Pencarian" class="btn btn-default">
-                                <i class="fa fa-refresh"></i> Reset
-                            </a>                            
+                            {{ Form::button('<b><i class="icon-search4"></i></b> Cari', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs', 'id'=>'btnSearch'] )  }}                            
+                            <a id="btnReset" href="javascript:;" title="Reset Pencarian" class="btn btn-default btn-labeled btn-xs">
+                                <b><i class="icon-reset"></i></b> Reset
+                            </a>                           
                         </div>
-                    </div>    
-                </div>
-            {!! Form::close()!!}
+                    </div>  
+                {!! Form::close()!!}
+            </div>
         </div>
     </div>       
     <div class="col-md-12" id="divdatatable">

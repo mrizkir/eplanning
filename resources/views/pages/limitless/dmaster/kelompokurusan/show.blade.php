@@ -48,11 +48,11 @@
                                 </div>                            
                             </div> 
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>KETERANGAN: </strong></label>
+                                <label class="col-md-4 control-label"><strong>NAMA KELOMPOK URUSAN: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->Descr}}</p>
+                                    <p class="form-control-static">{{$data->Nm_Urusan}}</p>
                                 </div>                            
-                            </div>        
+                            </div>                              
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
                                 <div class="col-md-8">
@@ -64,9 +64,9 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>NAMA KELOMPOK URUSAN: </strong></label>
+                                <label class="col-md-4 control-label"><strong>KETERANGAN: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->Nm_Urusan}}</p>
+                                    <p class="form-control-static">{{$data->Descr}}</p>
                                 </div>                            
                             </div>        
                             <div class="form-group">

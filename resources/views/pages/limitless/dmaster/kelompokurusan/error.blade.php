@@ -1,10 +1,12 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    KELOMPOK URUSAN {{config('globalsettings.tahun_perencanaan')}}
+    KELOMPOK URUSAN
 @endsection
 @section('page_header')
-    <i class="fa fa-lock"></i> 
-    KELOMPOK URUSAN
+    <i class="icon-chess-queen position-left"></i>
+    <span class="text-semibold">
+        KELOMPOK URUSAN TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+    </span>
 @endsection
 @section('page_info')
     @include('pages.limitless.dmaster.kelompokurusan.info')
@@ -16,9 +18,8 @@
     <li class="active">ERROR</li>
 @endsection
 @section('page_content')
-<div class="alert alert-danger">
+<div class="alert alert-danger alert-styled-left alert-bordered">
     <button type="button" class="close" onclick="location.href='{{route('kelompokurusan.index')}}'">×</button>
-    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
     {{$errormessage}}
 </div>
 @endsection

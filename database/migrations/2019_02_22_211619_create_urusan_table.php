@@ -16,13 +16,21 @@ class CreateUrusanTable extends Migration
         Schema::create('tmUrs', function (Blueprint $table) {
             $table->string('UrsID',16);
             $table->string('KUrsID',16);
-            $table->tinyInteger('Kd_Urusan');
-            $table->string('Nm_Urusan',100);
+            $table->string('Kd_Bidang',4);
+            $table->string('Nm_Bidang',100);
             $table->year('TA');
-            $table->string('Descr');
-            $table->string('KUrsID_Src',16);
+            $table->string('Descr')->nullable();
+            $table->string('UrsID_Src',16)->nullable();
 
             $table->timestamps();
+
+            $table->index('KUrsID');
+
+            $table->foreign('KUrsID')
+                ->references('KUrsID')
+                ->on('tmKUrs')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 

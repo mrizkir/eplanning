@@ -3,8 +3,10 @@
     {{modelNameUpper}}
 @endsection
 @section('page_header')
-    <i class="fa fa-lock"></i> 
-    {{modelNameUpper}}
+    <i class="{{icon}} position-left"></i>
+    <span class="text-semibold"> 
+        {{modelNameUpper}} TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+    </span>     
 @endsection
 @section('page_info')
     @include('{{viewName}}.info')
@@ -16,24 +18,24 @@
 @section('page_content')
 <div class="row">    
     <div class="col-md-12">
-        <div class="box box-primary with-border">
-            <div class="box-header ">
-                <h3 class="box-title">
-                    <i class="icon-eye"></i> DATA {{modelNameUpper}}
-                </h3>
-                <div class="box-tools">  
-                    <a href="{{route('{{modelNameLower}}.edit',['id'=>$data->{{primaryKey}}])}}" class="btn btn-primary btnEdit" title="Ubah Data {{modelName}}">
-                        <i class="fa fa-pencil"></i>
+        <div class="panel panel-flat border-top-info border-bottom-info">
+            <div class="panel-heading">
+                <h5 class="panel-title"> 
+                    <i class="icon-eye"></i>  DATA {{modelNameUpper}}
+                </h5>
+                <div class="heading-elements">   
+                    <a href="{{route('{{modelNameLower}}.edit',['id'=>$data->{{primaryKey}}])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data {{modelName}}">
+                        <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data {{modelName}}" data-id="{{$data->{{primaryKey}}}}" data-url="{{route('{{modelNameLower}}.index')}}" class="btn btn-danger btnDelete">
-                        <i class='fa fa-trash'></i>
+                    <a href="javascript:;" title="Hapus Data {{modelName}}" data-id="{{$data->{{primaryKey}}}}" data-url="{{route('{{modelNameLower}}.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
+                        <i class='icon-trash'></i>
                     </a>
-                    <a href="{!!route('{{modelNameLower}}.index')!!}" class="btn btn-default" title="keluar">
-                        <i class="fa fa-close"></i>
+                    <a href="{!!route('{{modelNameLower}}.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
+                        <i class="icon-close2"></i>
                     </a>            
                 </div>
             </div>
-            <div class="box-body">
+            <div class="panel-body">
                 <div class="row">                                      
                     <div class="col-md-6">
                         <div class="form-horizontal">
@@ -43,13 +45,13 @@
                                     <p class="form-control-static">{{$data->{{modelNameLower}}_id}}</p>
                                 </div>                            
                             </div>                            
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
-                            <div class="col-md-8">
-                                <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}}</p>
-                            </div>                            
-                        </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}}</p>
+                                </div>                            
+                            </div>
+                        </div>                        
                     </div>
                     <div class="col-md-6">
                         <div class="form-horizontal">

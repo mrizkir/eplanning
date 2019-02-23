@@ -21,4 +21,22 @@ class SQL
             break;
         }
     }
+     /**
+     * like stye DBMS
+     * @var $tablename string
+     */
+    public static function like ()
+    {
+        $connection = config('database.default');
+        $driver = config("database.connections.{$connection}.driver");
+        switch ($driver)
+        {
+            case 'pgsql' :
+                return 'ILIKE';
+            break;
+            case 'mysql' :
+                return 'LIKE';
+            break;
+        }
+    }
 }

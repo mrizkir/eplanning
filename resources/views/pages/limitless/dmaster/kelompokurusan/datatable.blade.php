@@ -17,14 +17,14 @@
             <thead>
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
-                    <th width="150">
+                    <th width="190">
                         <a class="column-sort text-white" id="col-Kd_Urusan" data-order="{{$direction}}" href="#">
-                            KODE URUSAN  
+                            KODE KELOMPOK URUSAN  
                         </a>                                             
                     </th> 
                     <th>
                         <a class="column-sort text-white" id="col-Nm_Urusan" data-order="{{$direction}}" href="#">
-                            NAMA URUSAN  
+                            NAMA KELOMPOK URUSAN  
                         </a>                                             
                     </th> 
                     <th>
