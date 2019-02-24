@@ -60,4 +60,18 @@ class UrusanModel extends Model {
     {
         return $this->belongsTo('App\Models\DMaster\KelompokUrusanModel','KUrsID');
     }
+
+    public static function getDaftarUrusan ($ta,$prepend=true) 
+    {
+        $r=\DB::table('v_urusan')
+                ->where('TA',$ta)
+                ->orderBy('Kode_Bidang')->get();
+        
+        $daftar_urusan=($prepend==true)?['none'=>'DAFTAR URUSAN']:[];        
+        foreach ($r as $k=>$v)
+        {
+            $daftar_urusan[$v->UrsID]=$v->Kode_Bidang.'. '.$v->Nm_Bidang;
+        } 
+        return $daftar_urusan;
+    }
 }

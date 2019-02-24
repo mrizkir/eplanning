@@ -1,18 +1,18 @@
-@extends('layouts.{{theme}}.l_main')
+@extends('layouts.limitless.l_main')
 @section('page_title')
-    {{modelNameUpper}}
+    PROGRAM
 @endsection
 @section('page_header')
-    <i class="{{icon}} position-left"></i>
+    <i class="icon-codepen position-left"></i>
     <span class="text-semibold"> 
-        {{modelNameUpper}} TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        PROGRAM TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
     </span>     
 @endsection
 @section('page_info')
-    @include('{{viewName}}.info')
+    @include('pages.limitless.dmaster.program.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('{{modelNameLower}}.index')!!}">{{modelNameUpper}}</a></li>
+    <li><a href="{!!route('program.index')!!}">PROGRAM</a></li>
     <li class="active">UBAH DATA</li>
 @endsection
 @section('page_content')
@@ -26,19 +26,20 @@
             <div class="heading-elements">
                 <ul class="icons-list">                    
                     <li>
-                        <a href="{!!route('{{modelNameLower}}.index')!!}" data-action="closeredirect" title="keluar"></a>
+                        <a href="{!!route('program.index')!!}" data-action="closeredirect" title="keluar"></a>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>['{{controllerName}}@update',$data->{{modelNameLower}}_id],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
+            {!! Form::open(['action'=>['DMaster\ProgramController@update',$data->program_id],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
                 {{Form::hidden('_method','PUT')}}
                 <div class="form-group">
                     {{Form::label('replaceit','replaceit',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
                         {{Form::text('replaceit',$data[''],['class'=>'form-control','placeholder'=>'replaceit'])}}
                     </div>                
+                </div>   
                 </div>
                 <div class="form-group">            
                     <div class="col-md-10 col-md-offset-2">                        

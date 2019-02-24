@@ -34,6 +34,6 @@ class CreateVUrusanView extends Migration
      */
     public function down()
     {
-        \DB::statement('v_urusan_view');
+        \DB::statement('v_urusan');
     }
 }

@@ -27,7 +27,7 @@ class UrusanController extends Controller {
      */
     public function populateData ($currentpage=1) 
     {        
-        $columns=['tmUrs.UrsID','Kode_Bidang','tmUrs.Nm_Bidang','tmUrs.Descr'];       
+        $columns=['tmUrs.UrsID','v_urusan.Nm_Urusan','Kode_Bidang','tmUrs.Nm_Bidang','tmUrs.Descr'];       
         if (!$this->checkStateIsExistSession('urusan','orderby')) 
         {            
            $this->putControllerStateSession('urusan','orderby',['column_name'=>'Kode_Bidang','order'=>'asc']);

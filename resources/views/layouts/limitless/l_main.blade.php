@@ -73,6 +73,11 @@
                                             <i class="icon-chess-king"></i> URUSAN
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="{{route('program.index')}}" title="Data Program">
+                                            <i class="icon-codepen"></i> PROGAM
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>

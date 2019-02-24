@@ -4,27 +4,27 @@ namespace App\Models\DMaster;
 
 use Illuminate\Database\Eloquent\Model;
 
-class KelompokUrusanModel extends Model {
+class UrusanProgramModel extends Model {
      /**
      * nama tabel model ini.
      *
      * @var string
      */
-    protected $table = 'tmKUrs';
-    /**
-     * primary key tabel ini.
-     *
-     * @var string
-     */
-    protected $primaryKey = 'KUrsID';
+    protected $table = 'trUrsPrg';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'KUrsID', 'Kd_Urusan', 'Nm_Urusan', 'Descr','TA',
+        'UrsPrgID', 'UrsID','PrgID','Descr','TA'
     ];
+    /**
+     * primary key tabel ini.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'UrsPrgID';
     /**
      * enable auto_increment.
      *
@@ -43,11 +43,11 @@ class KelompokUrusanModel extends Model {
      *
      * @var string
      */
-    protected static $logName = 'KelompokUrusanController';
+    protected static $logName = 'ProgramController';
     /**
      * log the changed attributes for all these events 
      */
-    protected static $logAttributes = ['KUrsID','Kd_Urusan', 'Nm_Urusan'];
+    protected static $logAttributes = ['UrsPrgID', 'UrsID','PrgID'];
     /**
      * log changes to all the $fillable attributes of the model
      */
@@ -55,15 +55,4 @@ class KelompokUrusanModel extends Model {
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
-
-    public static function getKelompokUrusan ($ta,$prepend=true) 
-    {
-        $r=KelompokUrusanModel::where('TA',$ta)->orderBy('Kd_Urusan')->get();
-        $kelompok_urusan=($prepend==true)?['none'=>'DAFTAR KELOMPOK URUSAN']:[];        
-        foreach ($r as $k=>$v)
-        {
-            $kelompok_urusan[$v->KUrsID]=$v->Kd_Urusan.'. '.$v->Nm_Urusan;
-        } 
-        return $kelompok_urusan;
-    }
 }

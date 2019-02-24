@@ -25,6 +25,17 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::get('/dmaster/urusan/paginate/{id}',['uses'=>'DMaster\UrusanController@paginate','as'=>'urusan.paginate']);              
     Route::post('/dmaster/urusan/changenumberrecordperpage',['uses'=>'DMaster\UrusanController@changenumberrecordperpage','as'=>'urusan.changenumberrecordperpage']);  
     Route::post('/dmaster/urusan/orderby',['uses'=>'DMaster\UrusanController@orderby','as'=>'urusan.orderby']);  
+
+     //masters - data program 
+     Route::resource('/dmaster/program','DMaster\ProgramController',['parameters'=>['program'=>'uuid']]); 
+     Route::post('/dmaster/program/search',['uses'=>'DMaster\ProgramController@search','as'=>'program.search']);          
+     Route::get('/dmaster/program/paginate/{id}',['uses'=>'DMaster\ProgramController@paginate','as'=>'program.paginate']);              
+     Route::post('/dmaster/program/changenumberrecordperpage',['uses'=>'DMaster\ProgramController@changenumberrecordperpage','as'=>'program.changenumberrecordperpage']);  
+     Route::post('/dmaster/program/orderby',['uses'=>'DMaster\ProgramController@orderby','as'=>'program.orderby']);  
+
+     Route::post('/dmaster/program/mappingurusanprogram',['uses'=>'DMaster\ProgramController@mappingurusanprogram','as'=>'program.mappingurusanprogram']);  
+     Route::post('/dmaster/program/postmappingurusanprogram',['uses'=>'DMaster\ProgramController@postmappingurusanprogram','as'=>'program.postmappingurusanprogram']);  
+     
     
     //setting - permissions    
     Route::resource('/setting/permissions','Setting\PermissionsController',[

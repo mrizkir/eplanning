@@ -5,7 +5,7 @@
         </div>
         <div class="heading-elements">
             <div class="heading-btn">
-                <a href="{!!route('urusan.create')!!}" class="btn btn-info btn-xs" title="Tambah URUSAN">
+                <a href="{!!route('program.create')!!}" class="btn btn-info btn-xs" title="Tambah PROGRAM">
                     <i class="icon-googleplus5"></i>
                 </a>
             </div>            
@@ -17,24 +17,21 @@
             <thead>
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
-                    <th>
-                        <a class="column-sort text-white" id="col-Kd_Bidang" data-order="{{$direction}}" href="#">
-                            KODE URUSAN  
+                    <th width="100">
+                        <a class="column-sort text-white" id="col-Kd_Prog" data-order="{{$direction}}" href="#">
+                            KODE PROGRAM  
                         </a>                                             
                     </th> 
-                    <th>
+                    <th width="100">
+                        <a class="column-sort text-white" id="col-PrgNm" data-order="{{$direction}}" href="#">
+                            NAMA PROGRAM  
+                        </a>                                             
+                    </th> 
+                    <th width="100">
                         <a class="column-sort text-white" id="col-Nm_Urusan" data-order="{{$direction}}" href="#">
-                            KELOMPOK URUSAN
+                            URUSAN  
                         </a>                                             
                     </th>
-                    <th>
-                        <a class="column-sort text-white" id="col-Nm_Bidang" data-order="{{$direction}}" href="#">
-                            NAMA URUSAN  
-                        </a>                                             
-                    </th> 
-                    <th>
-                        KETERANGAN                                            
-                    </th> 
                     <th width="100">AKSI</th>
                 </tr>
             </thead>
@@ -44,24 +41,43 @@
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>                  
-                    <td>{{$item->Kode_Bidang}}</td>
-                    <td>{{$item->Nm_Urusan}}</td>
-                    <td>{{$item->Nm_Bidang}}</td>
-                    <td>{{$item->Descr}}</td>
+                    <td>
+                        @php
+                            if (!$item->Jns)
+                            {
+                                echo 'n.nn.'.$item->Kd_Prog;
+                            } 
+                            else {
+                                echo $item->kode_program;
+                            }   
+                        @endphp
+                    </td>
+                    <td>{{$item->PrgNm}}</td>
+                    <td>
+                        @php
+                            if (!$item->Jns)
+                            {
+                                echo "SELURUH URUSAN";
+                            } 
+                            else {
+                                echo $item->Nm_Urusan;
+                            }   
+                        @endphp
+                    </td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('urusan.show',['id'=>$item->UrsID])}}" title="Detail Data Urusan">
+                                <a class="btnShow" href="{{route('program.show',['id'=>$item->PrgID])}}" title="Detail Data Program">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('urusan.edit',['id'=>$item->UrsID])}}" title="Ubah Data Urusan">
+                                <a class="btnEdit" href="{{route('program.edit',['id'=>$item->PrgID])}}" title="Ubah Data Program">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data Urusan" data-id="{{$item->UrsID}}" data-url="{{route('urusan.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data Program" data-id="{{$item->PrgID}}" data-url="{{route('program.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>
@@ -84,4 +100,3 @@
     </div>   
     @endif            
 </div>
-

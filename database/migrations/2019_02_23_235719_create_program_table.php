@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateKelompokurusanTable extends Migration
+class CreateProgramTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,21 @@ class CreateKelompokurusanTable extends Migration
      */
     public function up()
     {
-        Schema::create('tmKUrs', function (Blueprint $table) {
-            $table->string('KUrsID',16);
-            $table->tinyInteger('Kd_Urusan');
-            $table->string('Nm_Urusan',100);            
+        Schema::create('tmPrg', function (Blueprint $table) {
+            $table->string('PrgID',16);
+            $table->string('Kd_Prog',4);
+            $table->string('PrgNm');
+            $table->boolean('Jns')->default(1);            
             $table->string('Descr')->nullable();
             $table->year('TA');
-            $table->string('KUrsID_Src',16)->nullable();
+            $table->string('PrgID_Src',16)->nullable();
             $table->boolean('Locked')->default(0);
-
-            $table->primary('KUrsID');
-            $table->index('Kd_Urusan');
             
             $table->timestamps();
+
+            $table->primary('PrgID');
+            $table->index('Kd_Prog');
+
         });
     }
 
@@ -36,6 +38,6 @@ class CreateKelompokurusanTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tmKUrs');
+        Schema::dropIfExists('tmPrg');
     }
 }
