@@ -1,15 +1,11 @@
 <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
     <div class="panel-heading">
-        <div class="panel-title">
-            <div class="row">
-                <div class="col-md-1">
-                    {!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control'])!!}                        
-                </div>
-            </div>
+        <div class="panel-title" style="width:70px">
+            {!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control'])!!}            
         </div>
         <div class="heading-elements">
             <div class="heading-btn">
-                <a href="{!!route('{{modelNameLower}}.create')!!}" class="btn btn-info btn-xs" title="Tambah {{modelNameUpper}}">
+                <a href="{!!route('programkegiatan.create')!!}" class="btn btn-info btn-xs" title="Tambah PROGRAMKEGIATAN">
                     <i class="icon-googleplus5"></i>
                 </a>
             </div>            
@@ -39,17 +35,17 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('{{modelNameLower}}.show',['id'=>$item->{{primaryKey}}])}}" title="Detail Data {{modelName}}">
+                                <a class="btnShow" href="{{route('programkegiatan.show',['id'=>$item->programkegiatan_id])}}" title="Detail Data ProgramKegiatan">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('{{modelNameLower}}.edit',['id'=>$item->{{primaryKey}}])}}" title="Ubah Data {{modelName}}">
+                                <a class="btnEdit" href="{{route('programkegiatan.edit',['id'=>$item->programkegiatan_id])}}" title="Ubah Data ProgramKegiatan">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data {{modelName}}" data-id="{{$item->{{primaryKey}}}}" data-url="{{route('{{modelNameLower}}.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data ProgramKegiatan" data-id="{{$item->programkegiatan_id}}" data-url="{{route('programkegiatan.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>
@@ -61,7 +57,7 @@
         </table>               
     </div>
     <div class="panel-body border-top-info text-center" id="paginations">
-        {{$data->links('layouts.{{theme}}.l_pagination')}}               
+        {{$data->links('layouts.limitless.l_pagination')}}               
     </div>
     @else
     <div class="panel-body">

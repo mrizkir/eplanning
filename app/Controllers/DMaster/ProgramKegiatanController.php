@@ -1,12 +1,12 @@
 <?php
 
-namespace {{namespace}};
+namespace App\Controllers\DMaster;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
-use {{modelnamespace}}Model;
+use App\Models\DMaster\ProgramKegiatanModel;
 
-class {{modelName}}Controller extends Controller {
+class ProgramKegiatanController extends Controller {
      /**
      * Membuat sebuah objek
      *
@@ -25,37 +25,37 @@ class {{modelName}}Controller extends Controller {
     public function populateData ($currentpage=1) 
     {        
         $columns=['*'];       
-        //if (!$this->checkStateIsExistSession('{{modelNameLower}}','orderby')) 
-        //{            
-        //    $this->putControllerStateSession('{{modelNameLower}}','orderby',['column_name'=>'replace_it','order'=>'asc']);
-        //}
-        //$column_order=$this->getControllerStateSession('{{modelNameLower}}.orderby','column_name'); 
-        //$direction=$this->getControllerStateSession('{{modelNameLower}}.orderby','order'); 
+        if (!$this->checkStateIsExistSession('programkegiatan','orderby')) 
+        {            
+           $this->putControllerStateSession('programkegiatan','orderby',['column_name'=>'Kd_Keg','order'=>'asc']);
+        }
+        $column_order=$this->getControllerStateSession('programkegiatan.orderby','column_name'); 
+        $direction=$this->getControllerStateSession('programkegiatan.orderby','order'); 
 
         if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
         {            
             $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
         }
         $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
-        if ($this->checkStateIsExistSession('{{modelNameLower}}','search')) 
+        if ($this->checkStateIsExistSession('programkegiatan','search')) 
         {
-            $search=$this->getControllerStateSession('{{modelNameLower}}','search');
+            $search=$this->getControllerStateSession('programkegiatan','search');
             switch ($search['kriteria']) 
             {
-                case 'replaceit' :
-                    $data = {{modelName}}Model::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                case 'Kd_Keg' :
+                    $data = ProgramKegiatanModel::where(['Kd_Keg'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
-                case 'replaceit' :
-                    $data = {{modelName}}Model::where('replaceit', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                case 'KgtNm' :
+                    $data = ProgramKegiatanModel::where('KgtNm', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = {{modelName}}Model::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data = ProgramKegiatanModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
-        $data->setPath(route('{{modelNameLower}}.index'));
+        $data->setPath(route('programkegiatan.index'));
         return $data;
     }
     /**
@@ -70,14 +70,14 @@ class {{modelName}}Controller extends Controller {
         $numberRecordPerPage = $request->input('numberRecordPerPage');
         $this->putControllerStateSession('global_controller','numberRecordPerPage',$numberRecordPerPage);
         
-        $this->setCurrentPageInsideSession('{{modelNameLower}}',1);
+        $this->setCurrentPageInsideSession('programkegiatan',1);
         $data=$this->populateData();
 
-        $datatable = view("{{viewName}}.datatable")->with(['page_active'=>'{{modelNameLower}}',
-                                                                                'search'=>$this->getControllerStateSession('{{modelNameLower}}','search'),
+        $datatable = view("pages.$theme.dmaster.programkegiatan.datatable")->with(['page_active'=>'programkegiatan',
+                                                                                'search'=>$this->getControllerStateSession('programkegiatan','search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                                'column_order'=>$this->getControllerStateSession('{{modelNameLower}}.orderby','column_name'),
-                                                                                'direction'=>$this->getControllerStateSession('{{modelNameLower}}.orderby','order'),
+                                                                                'column_order'=>$this->getControllerStateSession('programkegiatan.orderby','column_name'),
+                                                                                'direction'=>$this->getControllerStateSession('programkegiatan.orderby','order'),
                                                                                 'data'=>$data])->render();      
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
     }
@@ -94,21 +94,27 @@ class {{modelName}}Controller extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'replace_it' :
-                $column_name = 'replace_it';
-            break;           
+            case 'col-Kd_Keg' :
+                $column_name = 'Kd_Keg';
+            break; 
+            case 'col-KgtNm' :
+                $column_name = 'KgtNm';
+            break;
+            case 'col-PrgNm' :
+                $column_name = 'PrgNm';
+            break;          
             default :
-                $column_name = 'replace_it';
+                $column_name = 'Kd_Keg';
         }
-        $this->putControllerStateSession('{{modelNameLower}}','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
+        $this->putControllerStateSession('programkegiatan','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
         $data=$this->populateData();
 
-        $datatable = view("{{viewName}}.datatable")->with(['page_active'=>'{{modelNameLower}}',
-                                                            'search'=>$this->getControllerStateSession('{{modelNameLower}}','search'),
+        $datatable = view("pages.$theme.dmaster.programkegiatan.datatable")->with(['page_active'=>'programkegiatan',
+                                                            'search'=>$this->getControllerStateSession('programkegiatan','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('{{modelNameLower}}.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('{{modelNameLower}}.orderby','order'),
+                                                            'column_order'=>$this->getControllerStateSession('programkegiatan.orderby','column_name'),
+                                                            'direction'=>$this->getControllerStateSession('programkegiatan.orderby','order'),
                                                             'data'=>$data])->render();     
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
@@ -123,13 +129,13 @@ class {{modelName}}Controller extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $this->setCurrentPageInsideSession('{{modelNameLower}}',$id);
+        $this->setCurrentPageInsideSession('programkegiatan',$id);
         $data=$this->populateData($id);
-        $datatable = view("{{viewName}}.datatable")->with(['page_active'=>'{{modelNameLower}}',
-                                                                            'search'=>$this->getControllerStateSession('{{modelNameLower}}','search'),
+        $datatable = view("pages.$theme.dmaster.programkegiatan.datatable")->with(['page_active'=>'programkegiatan',
+                                                                            'search'=>$this->getControllerStateSession('programkegiatan','search'),
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                            'column_order'=>$this->getControllerStateSession('{{modelNameLower}}.orderby','column_name'),
-                                                                            'direction'=>$this->getControllerStateSession('{{modelNameLower}}.orderby','order'),
+                                                                            'column_order'=>$this->getControllerStateSession('programkegiatan.orderby','column_name'),
+                                                                            'direction'=>$this->getControllerStateSession('programkegiatan.orderby','order'),
                                                                             'data'=>$data])->render(); 
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
@@ -147,22 +153,22 @@ class {{modelName}}Controller extends Controller {
         $action = $request->input('action');
         if ($action == 'reset') 
         {
-            $this->destroyControllerStateSession('{{modelNameLower}}','search');
+            $this->destroyControllerStateSession('programkegiatan','search');
         }
         else
         {
             $kriteria = $request->input('cmbKriteria');
             $isikriteria = $request->input('txtKriteria');
-            $this->putControllerStateSession('{{modelNameLower}}','search',['kriteria'=>$kriteria,'isikriteria'=>$isikriteria]);
+            $this->putControllerStateSession('programkegiatan','search',['kriteria'=>$kriteria,'isikriteria'=>$isikriteria]);
         }      
-        $this->setCurrentPageInsideSession('{{modelNameLower}}',1);
+        $this->setCurrentPageInsideSession('programkegiatan',1);
         $data=$this->populateData();
 
-        $datatable = view("{{viewName}}.datatable")->with(['page_active'=>'{{modelNameLower}}',                                                            
-                                                            'search'=>$this->getControllerStateSession('{{modelNameLower}}','search'),
+        $datatable = view("pages.$theme.dmaster.programkegiatan.datatable")->with(['page_active'=>'programkegiatan',                                                            
+                                                            'search'=>$this->getControllerStateSession('programkegiatan','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('{{modelNameLower}}.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('{{modelNameLower}}.orderby','order'),
+                                                            'column_order'=>$this->getControllerStateSession('programkegiatan.orderby','column_name'),
+                                                            'direction'=>$this->getControllerStateSession('programkegiatan.orderby','order'),
                                                             'data'=>$data])->render();      
         
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
@@ -176,20 +182,20 @@ class {{modelName}}Controller extends Controller {
     {                
         $theme = \Auth::user()->theme;
 
-        $search=$this->getControllerStateSession('{{modelNameLower}}','search');
-        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('{{modelNameLower}}'); 
+        $search=$this->getControllerStateSession('programkegiatan','search');
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('programkegiatan'); 
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage())
         {            
             $data = $this->populateData($data->lastPage());
         }
-        $this->setCurrentPageInsideSession('{{modelNameLower}}',$data->currentPage());
+        $this->setCurrentPageInsideSession('programkegiatan',$data->currentPage());
         
-        return view("{{viewName}}.index")->with(['page_active'=>'{{modelNameLower}}',
-                                                'search'=>$this->getControllerStateSession('{{modelNameLower}}','search'),
+        return view("pages.$theme.dmaster.programkegiatan.index")->with(['page_active'=>'programkegiatan',
+                                                'search'=>$this->getControllerStateSession('programkegiatan','search'),
                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                'column_order'=>$this->getControllerStateSession('{{modelNameLower}}.orderby','column_name'),
-                                                'direction'=>$this->getControllerStateSession('{{modelNameLower}}.orderby','order'),
+                                                'column_order'=>$this->getControllerStateSession('programkegiatan.orderby','column_name'),
+                                                'direction'=>$this->getControllerStateSession('programkegiatan.orderby','order'),
                                                 'data'=>$data]);               
     }
     /**
@@ -201,9 +207,9 @@ class {{modelName}}Controller extends Controller {
     {        
         $theme = \Auth::user()->theme;
 
-        return view("{{viewName}}.create")->with(['page_active'=>'{{modelNameLower}}',
+        return view("pages.$theme.dmaster.programkegiatan.create")->with(['page_active'=>'programkegiatan',
                                                                     
-                                                ]);  
+                                                                ]);  
     }
     
     /**
@@ -218,7 +224,7 @@ class {{modelName}}Controller extends Controller {
             'replaceit'=>'required',
         ]);
         
-        ${{modelNameLower}} = {{modelName}}Model::create([
+        $programkegiatan = ProgramKegiatanModel::create([
             'replaceit' => $request->input('replaceit'),
         ]);        
         
@@ -231,7 +237,7 @@ class {{modelName}}Controller extends Controller {
         }
         else
         {
-            return redirect(route('{{modelNameLower}}.index'))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('programkegiatan.index'))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -246,10 +252,10 @@ class {{modelName}}Controller extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = {{modelName}}Model::findOrFail($id);
+        $data = ProgramKegiatanModel::findOrFail($id);
         if (!is_null($data) )  
         {
-            return view("{{viewName}}.show")->with(['page_active'=>'{{modelNameLower}}',
+            return view("pages.$theme.dmaster.programkegiatan.show")->with(['page_active'=>'programkegiatan',
                                                     'data'=>$data
                                                     ]);
         }        
@@ -265,10 +271,10 @@ class {{modelName}}Controller extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $data = {{modelName}}Model::findOrFail($id);
+        $data = ProgramKegiatanModel::findOrFail($id);
         if (!is_null($data) ) 
         {
-            return view("{{viewName}}.edit")->with(['page_active'=>'{{modelNameLower}}',
+            return view("pages.$theme.dmaster.programkegiatan.edit")->with(['page_active'=>'programkegiatan',
                                                     'data'=>$data
                                                     ]);
         }        
@@ -287,9 +293,9 @@ class {{modelName}}Controller extends Controller {
             'replaceit'=>'required',
         ]);
         
-        ${{modelNameLower}} = {{modelName}}Model::find($id);
-        ${{modelNameLower}}->replaceit = $request->input('replaceit');
-        ${{modelNameLower}}->save();
+        $programkegiatan = ProgramKegiatanModel::find($id);
+        $programkegiatan->replaceit = $request->input('replaceit');
+        $programkegiatan->save();
 
         if ($request->ajax()) 
         {
@@ -300,7 +306,7 @@ class {{modelName}}Controller extends Controller {
         }
         else
         {
-            return redirect(route('{{modelNameLower}}.index'))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('programkegiatan.index'))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 
@@ -314,28 +320,28 @@ class {{modelName}}Controller extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        ${{modelNameLower}} = {{modelName}}Model::find($id);
-        $result=${{modelNameLower}}->delete();
+        $programkegiatan = ProgramKegiatanModel::find($id);
+        $result=$programkegiatan->delete();
         if ($request->ajax()) 
         {
-            $currentpage=$this->getCurrentPageInsideSession('{{modelNameLower}}'); 
+            $currentpage=$this->getCurrentPageInsideSession('programkegiatan'); 
             $data=$this->populateData($currentpage);
             if ($currentpage > $data->lastPage())
             {            
                 $data = $this->populateData($data->lastPage());
             }
-            $datatable = view("{{viewName}}.datatable")->with(['page_active'=>'{{modelNameLower}}',
-                                                            'search'=>$this->getControllerStateSession('{{modelNameLower}}','search'),
+            $datatable = view("pages.$theme.dmaster.programkegiatan.datatable")->with(['page_active'=>'programkegiatan',
+                                                            'search'=>$this->getControllerStateSession('programkegiatan','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                            'column_order'=>$this->getControllerStateSession('{{modelNameLower}}.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('{{modelNameLower}}.orderby','order'),
+                                                            'column_order'=>$this->getControllerStateSession('programkegiatan.orderby','column_name'),
+                                                            'direction'=>$this->getControllerStateSession('programkegiatan.orderby','order'),
                                                             'data'=>$data])->render();      
             
             return response()->json(['success'=>true,'datatable'=>$datatable],200); 
         }
         else
         {
-            return redirect(route('{{modelNameLower}}.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+            return redirect(route('programkegiatan.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
         }        
     }
 }

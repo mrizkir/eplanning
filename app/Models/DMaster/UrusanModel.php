@@ -74,4 +74,21 @@ class UrusanModel extends Model {
         } 
         return $daftar_urusan;
     }
+
+    /**
+     * digunakan untuk mendapatkan kode urusan
+     */
+    public static function getKodeUrusanByUrsID($UrsID) 
+    {
+        $r = \DB::table('v_urusan')->where('UrsID',$UrsID)->pluck('Kode_Bidang')->toArray();
+        if (isset($r[0]))
+        {
+            return $r[0];
+        }
+        else
+        {
+            return null;
+        }
+    }
+
 }

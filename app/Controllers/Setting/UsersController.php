@@ -58,7 +58,7 @@ class UsersController extends Controller {
         }
         $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');       
 
-         //filter
+        //filter
         if (!$this->checkStateIsExistSession('users','filters')) 
         {            
             $this->putControllerStateSession('users','filters',['role_id'=>'none']);
@@ -220,7 +220,7 @@ class UsersController extends Controller {
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
     }    
     /**
-     * search resource in storage.
+     * filter resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response

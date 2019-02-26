@@ -1,18 +1,18 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    PROGRAM
+    PROGRAMKEGIATAN
 @endsection
 @section('page_header')
-    <i class="icon-codepen position-left"></i>
+    <i class="icon-code position-left"></i>
     <span class="text-semibold">
-        PROGRAM TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
+        PROGRAMKEGIATAN TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.dmaster.program.info')
+    @include('pages.limitless.dmaster.programkegiatan.info')
 @endsection
 @section('page_breadcrumb')
-    <li class="active">PROGRAM</li>
+    <li class="active">PROGRAMKEGIATAN</li>
 @endsection
 @section('page_content')
 <div class="row">
@@ -25,11 +25,11 @@
                 </h5>
             </div>
             <div class="panel-body">
-                {!! Form::open(['action'=>'DMaster\ProgramController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
+                {!! Form::open(['action'=>'DMaster\ProgramKegiatanController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">
-                            {{Form::select('cmbKriteria', ['kode_program'=>'KODE PROGRAM','ProgNm'=>'NAMA PROGRAM'], isset($search['kriteria'])?$search['kriteria']:'replaceit',['class'=>'form-control'])}}
+                            {{Form::select('cmbKriteria', ['replaceit'=>'replaceit','nama'=>'replaceit'], isset($search['kriteria'])?$search['kriteria']:'replaceit',['class'=>'form-control'])}}
                         </div>
                     </div>
                     <div class="form-group" id="divKriteria">
@@ -51,22 +51,15 @@
         </div>
     </div>       
     <div class="col-md-12" id="divdatatable">
-        @include('pages.limitless.dmaster.program.datatable')
+        @include('pages.limitless.dmaster.programkegiatan.datatable')
     </div>
 </div>
-@endsection
-@section('page_asset_js')
-<script src="{!!asset('limitless/assets/js/select2.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {  
-    //styling select
-    $('.select').select2({
-        allowClear:true
-    });
     $("#divdatatable").on("click",".btnDelete", function(){
-        if (confirm('Apakah Anda ingin menghapus Data Program ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data ProgramKegiatan ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             $.ajax({            
@@ -82,7 +75,7 @@ $(document).ready(function () {
                     if (result.success==1){
                         $('#divdatatable').html(result.datatable);                        
                     }else{
-                        console.log("Gagal menghapus data Program dengan id "+id);
+                        console.log("Gagal menghapus data ProgramKegiatan dengan id "+id);
                     }                    
                 },
                 error:function(xhr, status, error){
@@ -91,32 +84,6 @@ $(document).ready(function () {
                 },
             });
         }        
-    });
-    $(document).on('change','#filterurusan', function (ev)
-    {
-        ev.preventDefault();    
-        $.ajax({
-            type:'post',
-            url: url_current_page +'/filter',
-            dataType: 'json',
-            data: {                
-                "_token": token,
-                "UrsID": $('#filterurusan').val(),
-            },
-            success:function(result)
-            {          
-                $('#divdatatable').html(result.datatable);                                   
-                //styling select
-                $('.select').select2({
-                    allowClear:true
-                });
-            },
-            error:function(xhr, status, error)
-            {
-                console.log('ERROR');
-                console.log(parseMessageAjaxEror(xhr, status, error));                           
-            },
-        });
     });
 });
 </script>

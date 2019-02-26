@@ -1,7 +1,19 @@
 <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
     <div class="panel-heading">
-        <div class="panel-title" style="width:70px">
-            {!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control'])!!}            
+        <div class="panel-title">
+            <div class="row">
+                <div class="col-md-1">
+                    {!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control'])!!}                        
+                </div>
+                <div class="col-md-7">    
+                    <select id="filterurusan" class="select">
+                        <option></option>
+                        @foreach ($daftar_urusan as $k=>$item)
+                            <option value="{{$k}}"{{$k==$filter_ursid_selected?'selected':''}}>{{$item}}</option>
+                        @endforeach
+                    </select>                      
+                </div>
+            </div>            
         </div>
         <div class="heading-elements">
             <div class="heading-btn">
@@ -18,7 +30,7 @@
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
                     <th width="100">
-                        <a class="column-sort text-white" id="col-Kd_Prog" data-order="{{$direction}}" href="#">
+                        <a class="column-sort text-white" id="col-Kode_Program" data-order="{{$direction}}" href="#">
                             KODE PROGRAM  
                         </a>                                             
                     </th> 
@@ -43,10 +55,14 @@
                     </td>                  
                     <td>
                         @php
-                            if (!$item->Jns)
+                            if ($item->Jns==false && $filter_ursid_selected=='none')
                             {
                                 echo 'n.nn.'.$item->Kd_Prog;
                             } 
+                            elseif ($item->Jns==false && $filter_ursid_selected!='none') 
+                            {
+                                echo $filter_kode_urusan_selected.'.'.$item->Kd_Prog;
+                            }
                             else {
                                 echo $item->kode_program;
                             }   

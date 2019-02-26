@@ -30,7 +30,7 @@ class ProgramController extends Controller {
         $columns=['*'];       
         if (!$this->checkStateIsExistSession('program','orderby')) 
         {            
-           $this->putControllerStateSession('program','orderby',['column_name'=>'Kd_Prog','order'=>'asc']);
+           $this->putControllerStateSession('program','orderby',['column_name'=>'kode_program','order'=>'asc']);
         }
         $column_order=$this->getControllerStateSession('program.orderby','column_name'); 
         $direction=$this->getControllerStateSession('program.orderby','order'); 
@@ -39,13 +39,21 @@ class ProgramController extends Controller {
         {            
             $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
         }
-        $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
+        $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');   
+        
+        //filter
+        if (!$this->checkStateIsExistSession('program','filters')) 
+        {            
+            $this->putControllerStateSession('program','filters',['UrsID'=>'none']);
+        }
+        $filter_ursid=$this->getControllerStateSession('program.filters','UrsID'); 
+
         if ($this->checkStateIsExistSession('program','search')) 
         {
             $search=$this->getControllerStateSession('program','search');
             switch ($search['kriteria']) 
             {
-                case 'Kd_Prog' :
+                case 'kode_program' :
                     $data = \DB::table('v_urusan_program')->where(['kode_program'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
                 case 'ProgNm' :
@@ -56,9 +64,16 @@ class ProgramController extends Controller {
         }
         else
         {
-            $data = \DB::table('v_urusan_program')
-                        ->orderBy($column_order,$direction)
-                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data =$filter_ursid == 'none' ? 
+                                            \DB::table('v_urusan_program')
+                                                        ->orderBy($column_order,$direction)
+                                                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage)
+                                            :
+                                            \DB::table('v_urusan_program')
+                                                        ->orderBy($column_order,$direction)
+                                                        ->where('UrsID',$filter_ursid)
+                                                        ->orWhereNull('UrsID')
+                                                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
         }           
         $data->setPath(route('program.index'));
         return $data;
@@ -71,7 +86,10 @@ class ProgramController extends Controller {
     public function changenumberrecordperpage (Request $request) 
     {
         $theme = \Auth::user()->theme;
-
+        $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'));
+        $daftar_urusan['none']='SELURUH URUSAN';
+        $filter_kode_urusan_selected=UrusanModel::getKodeUrusanByUrsID($this->getControllerStateSession('program.filters','UrsID'));
+        
         $numberRecordPerPage = $request->input('numberRecordPerPage');
         $this->putControllerStateSession('global_controller','numberRecordPerPage',$numberRecordPerPage);
         
@@ -83,6 +101,9 @@ class ProgramController extends Controller {
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                 'column_order'=>$this->getControllerStateSession('program.orderby','column_name'),
                                                                                 'direction'=>$this->getControllerStateSession('program.orderby','order'),
+                                                                                'daftar_urusan'=>$daftar_urusan,
+                                                                                'filter_ursid_selected'=>$this->getControllerStateSession('program.filters','UrsID'), 
+                                                                                'filter_kode_urusan_selected'=>$filter_kode_urusan_selected,
                                                                                 'data'=>$data])->render();      
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
     }
@@ -94,12 +115,15 @@ class ProgramController extends Controller {
     public function orderby (Request $request) 
     {
         $theme = \Auth::user()->theme;
+        $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'));
+        $daftar_urusan['none']='SELURUH URUSAN';
+        $filter_kode_urusan_selected=UrusanModel::getKodeUrusanByUrsID($this->getControllerStateSession('program.filters','UrsID'));
 
         $orderby = $request->input('orderby') == 'asc'?'desc':'asc';
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'col-Kd_Prog' :
+            case 'col-Kode_Program' :
                 $column_name = 'kode_program';
             break;         
             case 'col-PrgNm' :
@@ -120,6 +144,9 @@ class ProgramController extends Controller {
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                             'column_order'=>$this->getControllerStateSession('program.orderby','column_name'),
                                                             'direction'=>$this->getControllerStateSession('program.orderby','order'),
+                                                            'daftar_urusan'=>$daftar_urusan,
+                                                            'filter_ursid_selected'=>$this->getControllerStateSession('program.filters','UrsID'), 
+                                                            'filter_kode_urusan_selected'=>$filter_kode_urusan_selected,
                                                             'data'=>$data])->render();     
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
@@ -133,6 +160,9 @@ class ProgramController extends Controller {
     public function paginate ($id) 
     {
         $theme = \Auth::user()->theme;
+        $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'));
+        $daftar_urusan['none']='SELURUH URUSAN';
+        $filter_kode_urusan_selected=UrusanModel::getKodeUrusanByUrsID($this->getControllerStateSession('program.filters','UrsID'));
 
         $this->setCurrentPageInsideSession('program',$id);
         $data=$this->populateData($id);
@@ -141,6 +171,9 @@ class ProgramController extends Controller {
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                             'column_order'=>$this->getControllerStateSession('program.orderby','column_name'),
                                                                             'direction'=>$this->getControllerStateSession('program.orderby','order'),
+                                                                            'daftar_urusan'=>$daftar_urusan,
+                                                                            'filter_ursid_selected'=>$this->getControllerStateSession('program.filters','UrsID'),
+                                                                            'filter_kode_urusan_selected'=>$filter_kode_urusan_selected,
                                                                             'data'=>$data])->render(); 
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
@@ -154,6 +187,9 @@ class ProgramController extends Controller {
     public function search (Request $request) 
     {
         $theme = \Auth::user()->theme;
+        $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'));
+        $daftar_urusan['none']='SELURUH URUSAN';
+        $filter_kode_urusan_selected=UrusanModel::getKodeUrusanByUrsID($this->getControllerStateSession('program.filters','UrsID'));
 
         $action = $request->input('action');
         if ($action == 'reset') 
@@ -174,8 +210,44 @@ class ProgramController extends Controller {
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                             'column_order'=>$this->getControllerStateSession('program.orderby','column_name'),
                                                             'direction'=>$this->getControllerStateSession('program.orderby','order'),
+                                                            'daftar_urusan'=>$daftar_urusan,
+                                                            'filter_ursid_selected'=>$this->getControllerStateSession('program.filters','UrsID'), 
+                                                            'filter_kode_urusan_selected'=>$filter_kode_urusan_selected,
                                                             'data'=>$data])->render();      
         
+        return response()->json(['success'=>true,'datatable'=>$datatable],200);        
+    }
+
+     /**
+     * filter resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function filter (Request $request) 
+    {
+        $theme = \Auth::user()->theme;
+        $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'));
+        $daftar_urusan['none']='SELURUH URUSAN';
+        $filter_kode_urusan_selected=UrusanModel::getKodeUrusanByUrsID($this->getControllerStateSession('program.filters','UrsID'));
+
+        $this->setCurrentPageInsideSession('program',1);
+
+        $UrsID = $request->input('UrsID');
+        $this->putControllerStateSession('program','filters',['UrsID'=>$UrsID]);
+        
+        $data=$this->populateData();
+
+        $datatable = view("pages.$theme.dmaster.program.datatable")->with(['page_active'=>'program',                                                            
+                                                                            'search'=>$this->getControllerStateSession('program','search'),
+                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                            'column_order'=>$this->getControllerStateSession('program.orderby','column_name'),
+                                                                            'direction'=>$this->getControllerStateSession('program.orderby','order'),
+                                                                            'daftar_urusan'=>$daftar_urusan,
+                                                                            'filter_ursid_selected'=>$this->getControllerStateSession('program.filters','UrsID'), 
+                                                                            'filter_kode_urusan_selected'=>$filter_kode_urusan_selected,
+                                                                            'data'=>$data])->render();      
+
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
     }
     /**
@@ -186,6 +258,10 @@ class ProgramController extends Controller {
     public function index(Request $request)
     {                
         $theme = \Auth::user()->theme;
+        
+        $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'));
+        $daftar_urusan['none']='SELURUH URUSAN';
+        $filter_kode_urusan_selected=UrusanModel::getKodeUrusanByUrsID($this->getControllerStateSession('program.filters','UrsID'));
 
         $search=$this->getControllerStateSession('program','search');
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('program'); 
@@ -196,12 +272,15 @@ class ProgramController extends Controller {
         }
         $this->setCurrentPageInsideSession('program',$data->currentPage());
         
-        return view("pages.$theme.dmaster.program.index")->with(['page_active'=>'program',
-                                                'search'=>$this->getControllerStateSession('program','search'),
-                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                'column_order'=>$this->getControllerStateSession('program.orderby','column_name'),
-                                                'direction'=>$this->getControllerStateSession('program.orderby','order'),
-                                                'data'=>$data]);               
+        return view("pages.$theme.dmaster.program.index")->with(['page_active'=>'program',                                                                
+                                                                'search'=>$this->getControllerStateSession('program','search'),
+                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                'column_order'=>$this->getControllerStateSession('program.orderby','column_name'),
+                                                                'direction'=>$this->getControllerStateSession('program.orderby','order'),
+                                                                'daftar_urusan'=>$daftar_urusan,
+                                                                'filter_ursid_selected'=>$this->getControllerStateSession('program.filters','UrsID'), 
+                                                                'filter_kode_urusan_selected'=>$filter_kode_urusan_selected,
+                                                                'data'=>$data]);               
     }
     /**
      * Show the form for creating a new resource.
@@ -369,7 +448,9 @@ class ProgramController extends Controller {
     public function destroy(Request $request,$id)
     {
         $theme = \Auth::user()->theme;
-        
+        $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'));
+        $daftar_urusan['none']='SELURUH URUSAN';
+
         $program = ProgramModel::find($id);
         $result=$program->delete();
         if ($request->ajax()) 
@@ -385,6 +466,8 @@ class ProgramController extends Controller {
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                                             'column_order'=>$this->getControllerStateSession('program.orderby','column_name'),
                                                             'direction'=>$this->getControllerStateSession('program.orderby','order'),
+                                                            'daftar_urusan'=>$daftar_urusan,
+                                                            'filter_ursid_selected'=>$this->getControllerStateSession('program.filters','UrsID'),
                                                             'data'=>$data])->render();      
             
             return response()->json(['success'=>true,'datatable'=>$datatable],200); 

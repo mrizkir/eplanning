@@ -72,11 +72,16 @@
                                         <a href="{{route('urusan.index')}}" title="Data Urusan">
                                             <i class="icon-chess-king"></i> URUSAN
                                         </a>
-                                    </li>
+                                    </li>                                    
                                     <li>
                                         <a href="{{route('program.index')}}" title="Data Program">
                                             <i class="icon-codepen"></i> PROGAM
                                         </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('programkegiatan.index')}}" title="Data Program Kegiatan">
+                                            <i class="icon-code"></i> KEGIATAN
+                                        </a>    
                                     </li>
                                 </ul>
                             </div>
