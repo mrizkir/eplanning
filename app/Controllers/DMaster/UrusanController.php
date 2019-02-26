@@ -106,10 +106,10 @@ class UrusanController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'Kd_Bidang' :
+            case 'col-Kd_Bidang' :
                 $column_name = 'Kode_Bidang';
             break;  
-            case 'Nm_Bidang' :
+            case 'col-Nm_Bidang' :
                 $column_name = 'Nm_Bidang';
             break;          
             default :
@@ -393,6 +393,7 @@ class UrusanController extends Controller {
         $theme = \Auth::user()->theme;
         
         $urusan = UrusanModel::find($id);
+        \DB::update('UPDATE "tmPrg" SET "Jns"=false FROM "v_urusan_program","tmPrg" AS program WHERE program."PrgID"=v_urusan_program."PrgID" AND v_urusan_program."UrsID"=?',[$urusan->UrsID]);
         $result=$urusan->delete();
         if ($request->ajax()) 
         {

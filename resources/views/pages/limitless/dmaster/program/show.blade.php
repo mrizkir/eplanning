@@ -24,10 +24,10 @@
                     <i class="icon-eye"></i>  DATA PROGRAM
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('program.edit',['id'=>$data->program_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Program">
+                    <a href="{{route('program.edit',['id'=>$data->PrgID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Program">
                         <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data Program" data-id="{{$data->program_id}}" data-url="{{route('program.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
+                    <a href="javascript:;" title="Hapus Data Program" data-id="{{$data->PrgID   }}" data-url="{{route('program.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
                     </a>
                     <a href="{!!route('program.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
@@ -40,9 +40,17 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>program id: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->program_id}}</p>
+                                <label class="col-md-4 control-label"><strong>KODE PROGRAM: </strong></label>
+                                <div class="col-md-8">                            
+                                    <p class="form-control-static">                                        
+                                        {{$data->Jns == true?$data->kode_program:'SELURUH URUSAN'}}
+                                    </p>
+                                </div>                            
+                            </div> 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>NAMA PROGRAM: </strong></label>
+                                <div class="col-md-8">                            
+                                    <p class="form-control-static">{{$data->PrgNm}}</p>
                                 </div>                            
                             </div>                            
                             <div class="form-group">
@@ -56,9 +64,15 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>replaceit: </strong></label>
+                                <label class="col-md-4 control-label"><strong>KETERANGAN: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">replaceit</p>
+                                    <p class="form-control-static">{{$data->Descr}}</p>
+                                </div>                            
+                            </div>    
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>TA: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->TA}}</p>
                                 </div>                            
                             </div>    
                             <div class="form-group">

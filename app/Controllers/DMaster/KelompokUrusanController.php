@@ -81,10 +81,10 @@ class KelompokUrusanController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'Kd_Urusan' :
+            case 'col-Kd_Urusan' :
                 $column_name = 'Kd_Urusan';
             break;     
-            case 'Nm_Urusan' :
+            case 'col-Nm_Urusan' :
                 $column_name = 'Nm_Urusan';
             break;       
             default :
@@ -246,15 +246,15 @@ class KelompokUrusanController extends Controller {
     /**
      * Display the specified resource.
      *
-     * @param  int  $uuid
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($uuid)
+    public function show($id)
     {
         $theme = \Auth::user()->theme;
 
         $data = KelompokUrusanModel::where('TA',config('globalsettings.tahun_perencanaan'))
-                                    ->where('KUrsID',$uuid)
+                                    ->where('KUrsID',$id)
                                     ->firstOrFail();
         if (!is_null($data) )  
         {
@@ -267,15 +267,15 @@ class KelompokUrusanController extends Controller {
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $uuid
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($uuid)
+    public function edit($id)
     {        
         $theme = \Auth::user()->theme;
         
         $data = KelompokUrusanModel::where('TA',config('globalsettings.tahun_perencanaan'))
-                                    ->where('KUrsID',$uuid)
+                                    ->where('KUrsID',$id)
                                     ->firstOrFail();
         if (!is_null($data) ) 
         {
@@ -289,12 +289,12 @@ class KelompokUrusanController extends Controller {
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $uuid
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $uuid)
+    public function update(Request $request, $id)
     {
-        $kelompokurusan = KelompokUrusanModel::find($uuid);
+        $kelompokurusan = KelompokUrusanModel::find($id);
         $this->validate($request, 
         [
             'Kd_Urusan'=>[new IgnoreIfDataIsEqualValidation('tmKUrs',$kelompokurusan->Kd_Urusan,['where'=>['TA','=',config('globalsettings.tahun_perencanaan')]]),
@@ -326,21 +326,22 @@ class KelompokUrusanController extends Controller {
         }
         else
         {
-            return redirect(route('kelompokurusan.index'))->with('success',"Data dengan id ($uuid) telah berhasil diubah.");
+            return redirect(route('kelompokurusan.index'))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 
      /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $uuid
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request,$uuid)
+    public function destroy(Request $request,$id)
     {
         $theme = \Auth::user()->theme;
         
-        $kelompokurusan = KelompokUrusanModel::find($uuid);
+        $kelompokurusan = KelompokUrusanModel::find($id);
+        \DB::update('UPDATE "tmPrg" SET "Jns"=false FROM "v_urusan_program","tmPrg" AS program WHERE program."PrgID"=v_urusan_program."PrgID" AND v_urusan_program."KUrsID"=?',[$kelompokurusan->KUrsID]);
         $result=$kelompokurusan->delete();
         if ($request->ajax()) 
         {
@@ -361,16 +362,16 @@ class KelompokUrusanController extends Controller {
         }
         else
         {
-            return redirect(route('kelompokurusan.index'))->with('success',"Data ini dengan ($uuid) telah berhasil dihapus.");
+            return redirect(route('kelompokurusan.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
         }        
     }
     /**
      * digunakan untuk mendapatkan kode kelompok urusan
      */
 
-    public function getkodekelompokurusan(Request $request,$uuid)
+    public function getkodekelompokurusan(Request $request,$id)
     {
-        $data_kelompok = KelompokUrusanModel::where('KUrsID',$uuid)
+        $data_kelompok = KelompokUrusanModel::where('KUrsID',$id)
                                             ->get()->pluck('Kd_Urusan')->toArray();
         $kode_kelompok_urusan = null;
         if (isset($data_kelompok[0]))

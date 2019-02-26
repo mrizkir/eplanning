@@ -14,12 +14,12 @@ class CreateKelompokurusanTable extends Migration
     public function up()
     {
         Schema::create('tmKUrs', function (Blueprint $table) {
-            $table->string('KUrsID',16);
+            $table->string('KUrsID',19);
             $table->tinyInteger('Kd_Urusan');
             $table->string('Nm_Urusan',100);            
             $table->string('Descr')->nullable();
             $table->year('TA');
-            $table->string('KUrsID_Src',16)->nullable();
+            $table->string('KUrsID_Src',19)->nullable();
             $table->boolean('Locked')->default(0);
 
             $table->primary('KUrsID');

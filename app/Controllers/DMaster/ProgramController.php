@@ -7,6 +7,7 @@ use App\Controllers\Controller;
 use App\Models\DMaster\UrusanModel;
 use App\Models\DMaster\ProgramModel;
 use App\Models\DMaster\UrusanProgramModel;
+use App\Helpers\SQL;
 
 class ProgramController extends Controller {
      /**
@@ -45,12 +46,12 @@ class ProgramController extends Controller {
             switch ($search['kriteria']) 
             {
                 case 'Kd_Prog' :
-                    $data = ProgramModel::where(['kode_program'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                    $data = \DB::table('v_urusan_program')->where(['kode_program'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
-                case 'PrgNm' :
-                    $data = ProgramModel::where('PrgNm', SQL::like(), '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                case 'ProgNm' :
+                    $data = \DB::table('v_urusan_program')->where('PrgNm', SQL::like(), '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
-            }           
+            }     
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
@@ -58,7 +59,7 @@ class ProgramController extends Controller {
             $data = \DB::table('v_urusan_program')
                         ->orderBy($column_order,$direction)
                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
-        }        
+        }           
         $data->setPath(route('program.index'));
         return $data;
     }
@@ -98,14 +99,17 @@ class ProgramController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'Kd_Prog' :
+            case 'col-Kd_Prog' :
                 $column_name = 'kode_program';
             break;         
-            case 'PrgNm' :
+            case 'col-PrgNm' :
                 $column_name = 'PrgNm';
             break;
+            case 'col-Nm_Urusan' :
+                $column_name = 'Nm_Urusan';
+            break;
             default :
-                $column_name = 'Kd_Prog';
+                $column_name = 'kode_program';
         }
         $this->putControllerStateSession('program','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
@@ -271,13 +275,15 @@ class ProgramController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = ProgramModel::findOrFail($id);
+        $data = ProgramModel::leftJoin('v_urusan_program','v_urusan_program.PrgID','tmPrg.PrgID')
+                            ->where('tmPrg.PrgID',$id)
+                            ->firstOrFail(['tmPrg.PrgID','v_urusan_program.kode_program','tmPrg.PrgNm','tmPrg.Descr','tmPrg.Jns','tmPrg.TA','tmPrg.created_at','tmPrg.updated_at']);
+        // dd($data);
         if (!is_null($data) )  
         {
-            return view("pages.$theme.dmaster.program.show")->with(['page_active'=>'program',
-                                           
-            'data'=>$data
-                                                    ]);
+            return view("pages.$theme.dmaster.program.show")->with(['page_active'=>'program',                                           
+                                                                    'data'=>$data
+                                                                ]);
         }        
     }
 
@@ -288,16 +294,20 @@ class ProgramController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
+    {        
         $theme = \Auth::user()->theme;
         
-        $data = ProgramModel::findOrFail($id);
+        $data = ProgramModel::leftJoin('trUrsPrg','trUrsPrg.PrgID','tmPrg.PrgID')
+                            ->where('tmPrg.PrgID',$id)
+                            ->firstOrFail(['tmPrg.PrgID','trUrsPrg.UrsID','tmPrg.Kd_Prog','tmPrg.PrgNm','tmPrg.Descr','tmPrg.Jns']);
         if (!is_null($data) ) 
-        {
+        {           
+            $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'),false);
             return view("pages.$theme.dmaster.program.edit")->with(['page_active'=>'program',
-                                                    'data'=>$data
-                                                    ]);
-        }        
+                                                                    'daftar_urusan'=>$daftar_urusan,
+                                                                    'data'=>$data
+                                                                    ]);
+        }       
     }
 
     /**
@@ -309,14 +319,33 @@ class ProgramController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'replaceit'=>'required',
+        $this->validate($request, [            
+            'Kd_Prog'=>'required|min:1|max:4|regex:/^[0-9]+$/',
+            'PrgNm'=>'required|min:5',
         ]);
         
+        $jns = $request->input('Jns');
+        
         $program = ProgramModel::find($id);
-        $program->replaceit = $request->input('replaceit');
+        $program->Kd_Prog = $request->input('Kd_Prog');
+        $program->PrgNm = $request->input('PrgNm');
+        $program->Descr = $request->input('Descr');
+        $program->Jns = $jns;
+        
+        if ($program->Jns==false && $jns == 1)  // per urusan
+        {
+            UrusanProgramModel::createOrUpdate ([
+                'UrsPrgID'=>uniqid ('uid'),
+                'UrsID'=>$request->input('UrsID'),
+                'PrgID'=>$program->PrgID,
+                'Descr'=>$program->Descr,
+                'TA'=>$program->TA,
+            ]);
+        }elseif ($program->Jns==true && $jns == 0)
+        {
+            UrusanProgramModel::where('PrgID',$program->PrgID)->delete();
+        }
         $program->save();
-
         if ($request->ajax()) 
         {
             return response()->json([
@@ -324,6 +353,7 @@ class ProgramController extends Controller {
                 'message'=>'Data ini telah berhasil diubah.'
             ]);
         }
+        
         else
         {
             return redirect(route('program.index'))->with('success',"Data dengan id ($id) telah berhasil diubah.");

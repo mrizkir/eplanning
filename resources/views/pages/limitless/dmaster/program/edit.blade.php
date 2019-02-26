@@ -32,15 +32,50 @@
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>['DMaster\ProgramController@update',$data->program_id],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
+            {!! Form::open(['action'=>['DMaster\ProgramController@update',$data->PrgID],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
                 {{Form::hidden('_method','PUT')}}
                 <div class="form-group">
-                    {{Form::label('replaceit','replaceit',['class'=>'control-label col-md-2'])}}
-                    <div class="col-md-10">
-                        {{Form::text('replaceit',$data[''],['class'=>'form-control','placeholder'=>'replaceit'])}}
-                    </div>                
-                </div>   
-                </div>
+                        {{Form::label('Jns','PROGRAM UNTUK',['class'=>'control-label col-md-2'])}}
+                        <div class="col-md-10">                        
+                            <label class="radio-inline">
+                                {{Form::radio('Jns','0',$data->Jns==0,['class'=>'styled'])}}
+                                Seluruh Urusan
+                            </label> 
+                            <label class="radio-inline">
+                                {{Form::radio('Jns','1',$data->Jns==1,['class'=>'styled'])}}
+                                Per Urusan
+                            </label>                                             
+                        </div>
+                    </div>       
+                    <div class="form-group">
+                        {{Form::label('UrsID','URUSAN',['class'=>'control-label col-md-2'])}}
+                        <div class="col-md-10">
+                            <select name="UrsID" id="UrsID" class="select"{{($data->Jns==0)?'disabled':''}}>
+                                <option></option>
+                                @foreach ($daftar_urusan as $k=>$item)
+                                    <option value="{{$k}}" {{$data->UrsID == $k?' selected':''}}> {{$item}}</option>
+                                @endforeach
+                            </select>                        
+                        </div>
+                    </div>         
+                    <div class="form-group">
+                        {{Form::label('Kd_Prog','KODE PROGRAM',['class'=>'control-label col-md-2'])}}
+                        <div class="col-md-10">
+                            {{Form::text('Kd_Prog',$data->Kd_Prog,['class'=>'form-control','placeholder'=>'KODE PROGRAM','maxlength'=>4])}}
+                        </div>
+                    </div>  
+                    <div class="form-group">
+                        {{Form::label('PrgNm','NAMA PROGRAM',['class'=>'control-label col-md-2'])}}
+                        <div class="col-md-10">
+                            {{Form::text('PrgNm',$data->PrgNm,['class'=>'form-control','placeholder'=>'NAMA PROGRAM'])}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
+                        <div class="col-md-10">
+                            {{Form::textarea('Descr',$data->Descr,['class'=>'form-control','placeholder'=>'KETERANGAN','rows' => 2, 'cols' => 40])}}
+                        </div>
+                    </div> 
                 <div class="form-group">            
                     <div class="col-md-10 col-md-offset-2">                        
                         {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] )  }}                        
@@ -54,23 +89,68 @@
 @section('page_asset_js')
 <script src="{!!asset('default/assets/jquery-validation/dist/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('default/assets/jquery-validation/dist/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('limitless/assets/js/uniform.min.js')!!}"></script>
+<script src="{!!asset('limitless/assets/js/select2.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
+    //styling radio button
+    $(".styled").uniform();
+    //styling select
+    $('.select').select2({
+        placeholder: "Pilih Urusan",
+        allowClear:true
+    });
+    $(document).on('change','#Jns',function (ev){
+        jns = $(this).val();
+        if (jns == 1)
+        {
+            $("#UrsID").prop("disabled", false);
+        }
+        else
+        {
+            $("#UrsID").prop("disabled", true);
+        }
+    });
     $('#frmdata').validate({
+        ignore: [],  
         rules: {
-            replaceit : {
+            UrsID : {
+                required : true
+            },
+            Kd_Prog : {
+                required: true,  
+                number: true,
+                maxlength: 4              
+            },
+            Kode_Program : {
+                required: true,  
+                valueNotEquals : 'none'           
+            },
+            PrgNm : {
                 required: true,
-                minlength: 2
+                minlength: 5
             }
         },
         messages : {
-            replaceit : {
+            UrsID : {
+                required: "Mohon dipilih Urusan !"
+            },
+            Kd_Prog : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
-                minlength: "Mohon di isi minimal 2 karakter atau lebih."
+                number: "Mohon input dengan tipe data bilangan bulat",
+                maxlength: "Nilai untuk Kode Program maksimal 4 digit"
+            },
+            Kode_Bidang : {
+                required: "Mohon dipilih Urusan !",
+                valueNotEquals: "Mohon dipilih Urusan !"
+            },
+            PrgNm : {
+                required: "Mohon untuk di isi karena ini diperlukan.",
+                minlength: "Mohon di isi minimal 5 karakter atau lebih."
             }
-        }     
+        }         
     });   
 });
 </script>

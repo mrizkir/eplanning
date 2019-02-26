@@ -14,9 +14,9 @@ class CreateUrusanprogramTable extends Migration
     public function up()
     {
         Schema::create('trUrsPrg', function (Blueprint $table) {
-            $table->string('UrsPrgID',16);
-            $table->string('UrsID',16);
-            $table->string('PrgID',16);
+            $table->string('UrsPrgID',19);
+            $table->string('UrsID',19);
+            $table->string('PrgID',19);
             $table->string('Descr')->nullable();
             $table->year('TA');
             $table->boolean('Locked')->default(0);
