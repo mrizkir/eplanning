@@ -4,33 +4,33 @@ namespace App\Models\DMaster;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProgramKegiatanModel extends Model {
+class OrganisasiModel extends Model {
      /**
      * nama tabel model ini.
      *
      * @var string
      */
-    protected $table = 'tmKgt';
+    protected $table = 'organisasi';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'KgtID', 'PrgID', 'Kd_Keg', 'KgtNm', 'Descr', 'TA'
+        'replace_it', 'replace_it'
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'KgtID';
+    protected $primaryKey = 'organisasi_id';
     /**
      * enable auto_increment.
      *
      * @var string
      */
-    public $incrementing = false;
+    public $incrementing = true;
     /**
      * activated timestamps.
      *
@@ -43,11 +43,11 @@ class ProgramKegiatanModel extends Model {
      *
      * @var string
      */
-    protected static $logName = 'ProgramKegiatanController';
+    // protected static $logName = 'OrganisasiController';
     /**
      * log the changed attributes for all these events 
      */
-    protected static $logAttributes = ['KgtID', 'PrgID', 'Kd_Keg', 'KgtNm'];
+    // protected static $logAttributes = ['replace_it', 'replace_it'];
     /**
      * log changes to all the $fillable attributes of the model
      */
@@ -55,5 +55,4 @@ class ProgramKegiatanModel extends Model {
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
-  
 }

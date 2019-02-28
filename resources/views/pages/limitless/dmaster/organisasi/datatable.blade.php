@@ -1,11 +1,15 @@
 <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
     <div class="panel-heading">
-        <div class="panel-title" style="width:70px">
-            {!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control'])!!}            
+        <div class="panel-title">
+            <div class="row">
+                <div class="col-md-1">                    		
+					{!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control'])!!}                        
+                </div>
+            </div>
         </div>
         <div class="heading-elements">
             <div class="heading-btn">
-                <a href="{!!route('urusan.create')!!}" class="btn btn-info btn-xs" title="Tambah URUSAN">
+                <a href="{!!route('organisasi.create')!!}" class="btn btn-info btn-xs" title="Tambah ORGANISASI">
                     <i class="icon-googleplus5"></i>
                 </a>
             </div>            
@@ -17,23 +21,10 @@
             <thead>
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
-                    <th>
-                        <a class="column-sort text-white" id="col-Kd_Bidang" data-order="{{$direction}}" href="#">
-                            KODE URUSAN  
+                    <th width="100">
+                        <a class="column-sort text-white" id="col-replace_it" data-order="{{$direction}}" href="#">
+                            replace_it  
                         </a>                                             
-                    </th> 
-                    <th>
-                        <a class="column-sort text-white" id="col-Nm_Bidang" data-order="{{$direction}}" href="#">
-                            NAMA URUSAN  
-                        </a>                                             
-                    </th> 
-                    <th>
-                        <a class="column-sort text-white" id="col-Nm_Urusan" data-order="{{$direction}}" href="#">
-                            KELOMPOK URUSAN
-                        </a>                                             
-                    </th>                    
-                    <th>
-                        KETERANGAN                                            
                     </th> 
                     <th width="100">AKSI</th>
                 </tr>
@@ -44,24 +35,21 @@
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>                  
-                    <td>{{$item->Kode_Bidang}}</td>                    
-                    <td>{{$item->Nm_Bidang}}</td>
-                    <td>{{$item->Nm_Urusan}}</td>
-                    <td>{{$item->Descr}}</td>
+                    <td>{{$item->replace_it}}</td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('urusan.show',['id'=>$item->UrsID])}}" title="Detail Data Urusan">
+                                <a class="btnShow" href="{{route('organisasi.show',['id'=>$item->organisasi_id])}}" title="Detail Data Organisasi">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('urusan.edit',['id'=>$item->UrsID])}}" title="Ubah Data Urusan">
+                                <a class="btnEdit" href="{{route('organisasi.edit',['id'=>$item->organisasi_id])}}" title="Ubah Data Organisasi">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data Urusan" data-id="{{$item->UrsID}}" data-url="{{route('urusan.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data Organisasi" data-id="{{$item->organisasi_id}}" data-url="{{route('organisasi.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>
@@ -84,4 +72,3 @@
     </div>   
     @endif            
 </div>
-

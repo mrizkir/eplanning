@@ -55,4 +55,44 @@ class ProgramModel extends Model {
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];    
+
+    public static function getDaftarProgram ($ta,$prepend=true) 
+    {
+        $r=\DB::table('v_urusan_program')
+                ->where('TA',$ta)
+                ->orderBy('Kd_Prog')
+                ->orderBy('kode_program')
+                ->get();
+        
+        $daftar_program=($prepend==true)?['none'=>'DAFTAR PROGRAM']:[];        
+        foreach ($r as $k=>$v)
+        {
+            if ($v->Jns)
+            {
+                $daftar_program[$v->PrgID]=$v->kode_program.'. '.$v->PrgNm;
+            }
+            else
+            {
+                $daftar_program[$v->PrgID]=$v->Kd_Prog.'. '.$v->PrgNm;
+            }
+            
+        }
+        return $daftar_program;
+    }
+
+    /**
+     * digunakan untuk mendapatkan kode urusan
+     */
+    public static function getKodeProgramByPrgID($PrgID) 
+    {
+        $r = \DB::table('v_urusan_program')->where('PrgID',$PrgID)->pluck('kode_program')->toArray();
+        if (isset($r[0]))
+        {
+            return $r[0];
+        }
+        else
+        {
+            return null;
+        }
+    }
 }

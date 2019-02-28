@@ -1,18 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    PROGRAMKEGIATAN
+    KEGIATAN
 @endsection
 @section('page_header')
     <i class="icon-code position-left"></i>
     <span class="text-semibold">
-        PROGRAMKEGIATAN TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
+        KEGIATAN TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
     </span>
 @endsection
 @section('page_info')
     @include('pages.limitless.dmaster.programkegiatan.info')
 @endsection
 @section('page_breadcrumb')
-    <li class="active">PROGRAMKEGIATAN</li>
+    <li><a href="#">MASTERS</a></li>
+    <li><a href="#">DATA</a></li>
+    <li class="active">KEGIATAN</li>
 @endsection
 @section('page_content')
 <div class="row">
@@ -29,7 +31,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">
-                            {{Form::select('cmbKriteria', ['replaceit'=>'replaceit','nama'=>'replaceit'], isset($search['kriteria'])?$search['kriteria']:'replaceit',['class'=>'form-control'])}}
+                            {{Form::select('cmbKriteria', ['kode_kegiatan'=>'KODE KEGIATAN','KgtNm'=>'NAMA KEGIATAN'], isset($search['kriteria'])?$search['kriteria']:'replaceit',['class'=>'form-control'])}}
                         </div>
                     </div>
                     <div class="form-group" id="divKriteria">

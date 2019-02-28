@@ -54,10 +54,16 @@ class ProgramController extends Controller {
             switch ($search['kriteria']) 
             {
                 case 'kode_program' :
-                    $data = \DB::table('v_urusan_program')->where(['kode_program'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                    $data = \DB::table('v_urusan_program')
+                                ->where('TA',config('globalsettings.tahun_perencanaan'))
+                                ->where(['kode_program'=>$search['isikriteria']])
+                                ->orderBy($column_order,$direction); 
                 break;
-                case 'ProgNm' :
-                    $data = \DB::table('v_urusan_program')->where('PrgNm', SQL::like(), '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                case 'PrgNm' :
+                    $data = \DB::table('v_urusan_program')
+                            ->where('TA',config('globalsettings.tahun_perencanaan'))
+                            ->where('PrgNm', SQL::like(), '%' . $search['isikriteria'] . '%')
+                            ->orderBy($column_order,$direction);                                        
                 break;
             }     
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
@@ -67,10 +73,12 @@ class ProgramController extends Controller {
             $data =$filter_ursid == 'none' ? 
                                             \DB::table('v_urusan_program')
                                                         ->orderBy($column_order,$direction)
+                                                        ->where('TA',config('globalsettings.tahun_perencanaan'))
                                                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage)
                                             :
                                             \DB::table('v_urusan_program')
                                                         ->orderBy($column_order,$direction)
+                                                        ->where('TA',config('globalsettings.tahun_perencanaan'))
                                                         ->where('UrsID',$filter_ursid)
                                                         ->orWhereNull('UrsID')
                                                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
@@ -227,15 +235,16 @@ class ProgramController extends Controller {
     public function filter (Request $request) 
     {
         $theme = \Auth::user()->theme;
+        
+        $UrsID = $request->input('UrsID');
+        $this->putControllerStateSession('program','filters',['UrsID'=>$UrsID]);
+
         $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'));
         $daftar_urusan['none']='SELURUH URUSAN';
         $filter_kode_urusan_selected=UrusanModel::getKodeUrusanByUrsID($this->getControllerStateSession('program.filters','UrsID'));
 
         $this->setCurrentPageInsideSession('program',1);
 
-        $UrsID = $request->input('UrsID');
-        $this->putControllerStateSession('program','filters',['UrsID'=>$UrsID]);
-        
         $data=$this->populateData();
 
         $datatable = view("pages.$theme.dmaster.program.datatable")->with(['page_active'=>'program',                                                            
@@ -260,8 +269,7 @@ class ProgramController extends Controller {
         $theme = \Auth::user()->theme;
         
         $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'));
-        $daftar_urusan['none']='SELURUH URUSAN';
-        $filter_kode_urusan_selected=UrusanModel::getKodeUrusanByUrsID($this->getControllerStateSession('program.filters','UrsID'));
+        $daftar_urusan['none']='SELURUH URUSAN';       
 
         $search=$this->getControllerStateSession('program','search');
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('program'); 
@@ -271,7 +279,8 @@ class ProgramController extends Controller {
             $data = $this->populateData($data->lastPage());
         }
         $this->setCurrentPageInsideSession('program',$data->currentPage());
-        
+        $filter_kode_urusan_selected=UrusanModel::getKodeUrusanByUrsID($this->getControllerStateSession('program.filters','UrsID'));
+
         return view("pages.$theme.dmaster.program.index")->with(['page_active'=>'program',                                                                
                                                                 'search'=>$this->getControllerStateSession('program','search'),
                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
@@ -357,7 +366,7 @@ class ProgramController extends Controller {
         $data = ProgramModel::leftJoin('v_urusan_program','v_urusan_program.PrgID','tmPrg.PrgID')
                             ->where('tmPrg.PrgID',$id)
                             ->firstOrFail(['tmPrg.PrgID','v_urusan_program.kode_program','tmPrg.PrgNm','tmPrg.Descr','tmPrg.Jns','tmPrg.TA','tmPrg.created_at','tmPrg.updated_at']);
-        // dd($data);
+        
         if (!is_null($data) )  
         {
             return view("pages.$theme.dmaster.program.show")->with(['page_active'=>'program',                                           

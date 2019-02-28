@@ -29,17 +29,17 @@
             <thead>
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
-                    <th width="100">
+                    <th>
                         <a class="column-sort text-white" id="col-Kode_Program" data-order="{{$direction}}" href="#">
                             KODE PROGRAM  
                         </a>                                             
                     </th> 
-                    <th width="100">
+                    <th>
                         <a class="column-sort text-white" id="col-PrgNm" data-order="{{$direction}}" href="#">
                             NAMA PROGRAM  
                         </a>                                             
                     </th> 
-                    <th width="100">
+                    <th>
                         <a class="column-sort text-white" id="col-Nm_Urusan" data-order="{{$direction}}" href="#">
                             URUSAN  
                         </a>                                             

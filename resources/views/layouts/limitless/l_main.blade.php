@@ -63,22 +63,27 @@
                             <div class="col-md-3">
                                 <span class="menu-heading underlined"><i class="icon-office"></i> DATA</span>
                                 <ul class="menu-list">
-                                    <li>
+                                    <li{!!Helper::isMenuActive ($page_active,'kelompokurusan',' class="active"')!!}>
                                         <a href="{{route('kelompokurusan.index')}}" title="Data Kelompok Urusan">
                                             <i class="icon-chess-queen"></i> KELOMPOK URUSAN
                                         </a>
                                     </li>
-                                    <li>
+                                    <li{!!Helper::isMenuActive ($page_active,'urusan',' class="active"')!!}>
                                         <a href="{{route('urusan.index')}}" title="Data Urusan">
                                             <i class="icon-chess-king"></i> URUSAN
                                         </a>
-                                    </li>                                    
-                                    <li>
+                                    </li>    
+                                    <li{!!Helper::isMenuActive ($page_active,'organisasi',' class="active"')!!}>
+                                        <a href="{{route('organisasi.index')}}" title="Data Organisasi">
+                                            <i class="icon-office"></i> URUSAN -> ORGANISASI
+                                        </a>
+                                    </li>                                
+                                    <li{!!Helper::isMenuActive ($page_active,'program',' class="active"')!!}>
                                         <a href="{{route('program.index')}}" title="Data Program">
-                                            <i class="icon-codepen"></i> PROGAM
+                                            <i class="icon-codepen"></i> URUSAN -> PROGAM
                                         </a>
                                     </li>
-                                    <li>
+                                    <li{!!Helper::isMenuActive ($page_active,'programkegiatan',' class="active"')!!}>
                                         <a href="{{route('programkegiatan.index')}}" title="Data Program Kegiatan">
                                             <i class="icon-code"></i> KEGIATAN
                                         </a>    

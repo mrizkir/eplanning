@@ -1,20 +1,18 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    KEGIATAN
+    ORGANISASI
 @endsection
 @section('page_header')
-    <i class="icon-code position-left"></i>
+    <i class="icon-office position-left"></i>
     <span class="text-semibold"> 
-        KEGIATAN TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        ORGANISASI TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
     </span>     
 @endsection
 @section('page_info')
-    @include('pages.limitless.dmaster.programkegiatan.info')
+    @include('pages.limitless.dmaster.organisasi.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="#">MASTERS</a></li>
-    <li><a href="#">DATA</a></li>
-    <li><a href="{!!route('programkegiatan.index')!!}">KEGIATAN</a></li>
+    <li><a href="{!!route('organisasi.index')!!}">ORGANISASI</a></li>
     <li class="active">DETAIL DATA</li>
 @endsection
 @section('page_content')
@@ -23,16 +21,16 @@
         <div class="panel panel-flat border-top-info border-bottom-info">
             <div class="panel-heading">
                 <h5 class="panel-title"> 
-                    <i class="icon-eye"></i>  DATA KEGIATAN
+                    <i class="icon-eye"></i>  DATA ORGANISASI
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('programkegiatan.edit',['id'=>$data->KgtID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data ProgramKegiatan">
+                    <a href="{{route('organisasi.edit',['id'=>$data->organisasi_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Organisasi">
                         <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data ProgramKegiatan" data-id="{{$data->KgtID}}" data-url="{{route('programkegiatan.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
+                    <a href="javascript:;" title="Hapus Data Organisasi" data-id="{{$data->organisasi_id}}" data-url="{{route('organisasi.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
                     </a>
-                    <a href="{!!route('programkegiatan.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
+                    <a href="{!!route('organisasi.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
                         <i class="icon-close2"></i>
                     </a>            
                 </div>
@@ -42,17 +40,11 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>KODE KEGIATAN: </strong></label>
+                                <label class="col-md-4 control-label"><strong>organisasi id: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->kode_kegiatan}}</p>
+                                    <p class="form-control-static">{{$data->organisasi_id}}</p>
                                 </div>                            
-                            </div> 
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>NAMA KEGIATAN: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->KgtNm}}</p>
-                                </div>                            
-                            </div>                           
+                            </div>                            
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
                                 <div class="col-md-8">
@@ -64,15 +56,9 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>MAMA PROGRAM: </strong></label>
+                                <label class="col-md-4 control-label"><strong>replaceit: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->PrgNm}}</p>
-                                </div>                            
-                            </div> 
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>TA: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->TA}}</p>
+                                    <p class="form-control-static">replaceit</p>
                                 </div>                            
                             </div>    
                             <div class="form-group">
@@ -93,7 +79,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
     $(".btnDelete").click(function(ev) {
-        if (confirm('Apakah Anda ingin menghapus Data ProgramKegiatan ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data Organisasi ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             let token = $('meta[name="csrf-token"]').attr('content');

@@ -1,20 +1,18 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    KEGIATAN
+    ORGANISASI
 @endsection
 @section('page_header')
-    <i class="icon-code position-left"></i>
+    <i class="icon-office position-left"></i>
     <span class="text-semibold">
-        KEGIATAN TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        ORGANISASI TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.dmaster.programkegiatan.info')
+    @include('pages.limitless.dmaster.organisasi.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="#">MASTERS</a></li>
-    <li><a href="#">DATA</a></li>
-    <li><a href="{!!route('programkegiatan.index')!!}">KEGIATAN</a></li>
+    <li><a href="{!!route('organisasi.index')!!}">ORGANISASI</a></li>
     <li class="active">ERROR</li>
 @endsection
 @section('page_content')

@@ -36,6 +36,13 @@ function parseMessageAjaxEror (xhr, status, error)
 
 document.addEventListener('DOMContentLoaded', function() {
 
+    /**
+     *  customization limitless menu
+     */
+    $('div.dropdown-menu li').filter(function() {
+        return this.className == 'active';
+    }).parents('.dropdown').addClass('active');
+
     // To make Pace works on Ajax calls
     $(document).ajaxStart(function () {
         Pace.restart()
@@ -69,11 +76,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 }         
             },
         });
-        //new method value not equal
+        //method value not equal
         $.validator.addMethod('valueNotEquals',function(value,element,arg){
             return arg !== value;
         }, "Value must not equal arg.");
-
+        //method check if greater than or equal
+        $.validator.addMethod('greaterthanorequal',function(value,element,arg){            
+            return parseInt(value) >= parseInt(arg); 
+        },'value must greater than or equal.');
+        //method check if less than or equal
+        $.validator.addMethod('lessthanorequal',function(value,element,arg){            
+            return parseInt(value) <= parseInt(arg);  
+        },'value must less than or equal.');
     }
     /**
     * form operations
@@ -157,10 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     $('.select').select2({
                         allowClear:true
                     });
-                }else
-                {
-                    alert('tak masuk bro');
-                }                               
+                }                              
             },
             error:function(xhr, status, error)
             {
@@ -187,8 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
             {          
                 $(selector).html(result.datatable);  
                 if ($(selector + ' *').hasClass('select')) {
-                    //styling select
-                    alert('none');
+                    //styling select                    
                     $('.select').select2({
                         allowClear:true
                     });

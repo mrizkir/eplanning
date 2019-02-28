@@ -4,6 +4,7 @@ namespace App\Controllers\DMaster;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
+use App\Models\DMaster\ProgramModel;
 use App\Models\DMaster\ProgramKegiatanModel;
 
 class ProgramKegiatanController extends Controller {
@@ -37,23 +38,47 @@ class ProgramKegiatanController extends Controller {
             $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
         }
         $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
+
+        //filter
+        if (!$this->checkStateIsExistSession('programkegiatan','filters')) 
+        {            
+            $this->putControllerStateSession('programkegiatan','filters',['PrgID'=>'none']);
+        }
+        $filter_prgid=$this->getControllerStateSession('programkegiatan.filters','PrgID'); 
         if ($this->checkStateIsExistSession('programkegiatan','search')) 
         {
             $search=$this->getControllerStateSession('programkegiatan','search');
             switch ($search['kriteria']) 
             {
-                case 'Kd_Keg' :
-                    $data = ProgramKegiatanModel::where(['Kd_Keg'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                case 'kode_kegiatan' :
+                    $data = \DB::table('v_program_kegiatan')
+                            ->where('TA',config('globalsettings.tahun_perencanaan'))
+                            ->where(['kode_kegiatan'=>$search['isikriteria']])
+                            ->orderBy($column_order,$direction); 
                 break;
                 case 'KgtNm' :
-                    $data = ProgramKegiatanModel::where('KgtNm', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = \DB::table('v_program_kegiatan')
+                            ->where('TA',config('globalsettings.tahun_perencanaan'))
+                            ->where('KgtNm', 'like', '%' . $search['isikriteria'] . '%')
+                            ->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = ProgramKegiatanModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data =$filter_prgid == 'none' ? 
+                                            \DB::table('v_program_kegiatan')
+                                                        ->orderBy($column_order,$direction)
+                                                        ->where('TA',config('globalsettings.tahun_perencanaan'))
+                                                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage)
+                                            :
+                                            \DB::table('v_program_kegiatan')
+                                                        ->orderBy($column_order,$direction)
+                                                        ->where('TA',config('globalsettings.tahun_perencanaan'))
+                                                        ->where('PrgID',$filter_prgid)
+                                                        ->orWhereNull('UrsID')
+                                                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
         }        
         $data->setPath(route('programkegiatan.index'));
         return $data;
@@ -66,7 +91,10 @@ class ProgramKegiatanController extends Controller {
     public function changenumberrecordperpage (Request $request) 
     {
         $theme = \Auth::user()->theme;
-
+        $daftar_program=ProgramModel::getDaftarProgram(config('globalsettings.tahun_perencanaan'));
+        $daftar_program['none']='SELURUH PROGRAM';
+        $filter_kode_program_selected=ProgramModel::getKodeProgramByPrgID($this->getControllerStateSession('programkegiatan.filters','PrgID'));
+        
         $numberRecordPerPage = $request->input('numberRecordPerPage');
         $this->putControllerStateSession('global_controller','numberRecordPerPage',$numberRecordPerPage);
         
@@ -78,6 +106,9 @@ class ProgramKegiatanController extends Controller {
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                 'column_order'=>$this->getControllerStateSession('programkegiatan.orderby','column_name'),
                                                                                 'direction'=>$this->getControllerStateSession('programkegiatan.orderby','order'),
+                                                                                'daftar_program'=>$daftar_program,
+                                                                                'filter_prgid_selected'=>$this->getControllerStateSession('programkegiatan.filters','PrgID'), 
+                                                                                'filter_kode_program_selected'=>$filter_kode_program_selected,
                                                                                 'data'=>$data])->render();      
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
     }
@@ -89,6 +120,9 @@ class ProgramKegiatanController extends Controller {
     public function orderby (Request $request) 
     {
         $theme = \Auth::user()->theme;
+        $daftar_program=ProgramModel::getDaftarProgram(config('globalsettings.tahun_perencanaan'));
+        $daftar_program['none']='SELURUH PROGRAM';
+        $filter_kode_program_selected=ProgramModel::getKodeProgramByPrgID($this->getControllerStateSession('programkegiatan.filters','PrgID'));
 
         $orderby = $request->input('orderby') == 'asc'?'desc':'asc';
         $column=$request->input('column_name');
@@ -111,11 +145,14 @@ class ProgramKegiatanController extends Controller {
         $data=$this->populateData();
 
         $datatable = view("pages.$theme.dmaster.programkegiatan.datatable")->with(['page_active'=>'programkegiatan',
-                                                            'search'=>$this->getControllerStateSession('programkegiatan','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('programkegiatan.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('programkegiatan.orderby','order'),
-                                                            'data'=>$data])->render();     
+                                                                                    'search'=>$this->getControllerStateSession('programkegiatan','search'),
+                                                                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                    'column_order'=>$this->getControllerStateSession('programkegiatan.orderby','column_name'),
+                                                                                    'direction'=>$this->getControllerStateSession('programkegiatan.orderby','order'),
+                                                                                    'daftar_program'=>$daftar_program,
+                                                                                    'filter_prgid_selected'=>$this->getControllerStateSession('programkegiatan.filters','PrgID'), 
+                                                                                    'filter_kode_program_selected'=>$filter_kode_program_selected,
+                                                                                    'data'=>$data])->render();     
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
     }
@@ -128,6 +165,9 @@ class ProgramKegiatanController extends Controller {
     public function paginate ($id) 
     {
         $theme = \Auth::user()->theme;
+        $daftar_program=ProgramModel::getDaftarProgram(config('globalsettings.tahun_perencanaan'));
+        $daftar_program['none']='SELURUH PROGRAM';
+        $filter_kode_program_selected=ProgramModel::getKodeProgramByPrgID($this->getControllerStateSession('programkegiatan.filters','PrgID'));
 
         $this->setCurrentPageInsideSession('programkegiatan',$id);
         $data=$this->populateData($id);
@@ -136,6 +176,9 @@ class ProgramKegiatanController extends Controller {
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                             'column_order'=>$this->getControllerStateSession('programkegiatan.orderby','column_name'),
                                                                             'direction'=>$this->getControllerStateSession('programkegiatan.orderby','order'),
+                                                                            'daftar_program'=>$daftar_program,
+                                                                            'filter_prgid_selected'=>$this->getControllerStateSession('programkegiatan.filters','PrgID'), 
+                                                                            'filter_kode_program_selected'=>$filter_kode_program_selected,
                                                                             'data'=>$data])->render(); 
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
@@ -149,6 +192,9 @@ class ProgramKegiatanController extends Controller {
     public function search (Request $request) 
     {
         $theme = \Auth::user()->theme;
+        $daftar_program=ProgramModel::getDaftarProgram(config('globalsettings.tahun_perencanaan'));
+        $daftar_program['none']='SELURUH PROGRAM';
+        $filter_kode_program_selected=ProgramModel::getKodeProgramByPrgID($this->getControllerStateSession('programkegiatan.filters','PrgID'));
 
         $action = $request->input('action');
         if ($action == 'reset') 
@@ -165,11 +211,14 @@ class ProgramKegiatanController extends Controller {
         $data=$this->populateData();
 
         $datatable = view("pages.$theme.dmaster.programkegiatan.datatable")->with(['page_active'=>'programkegiatan',                                                            
-                                                            'search'=>$this->getControllerStateSession('programkegiatan','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('programkegiatan.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('programkegiatan.orderby','order'),
-                                                            'data'=>$data])->render();      
+                                                                                    'search'=>$this->getControllerStateSession('programkegiatan','search'),
+                                                                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                    'column_order'=>$this->getControllerStateSession('programkegiatan.orderby','column_name'),
+                                                                                    'direction'=>$this->getControllerStateSession('programkegiatan.orderby','order'),
+                                                                                    'daftar_program'=>$daftar_program,
+                                                                                    'filter_prgid_selected'=>$this->getControllerStateSession('programkegiatan.filters','PrgID'), 
+                                                                                    'filter_kode_program_selected'=>$filter_kode_program_selected,
+                                                                                    'data'=>$data])->render();      
         
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
     }
@@ -181,6 +230,8 @@ class ProgramKegiatanController extends Controller {
     public function index(Request $request)
     {                
         $theme = \Auth::user()->theme;
+        $daftar_program=ProgramModel::getDaftarProgram(config('globalsettings.tahun_perencanaan'));
+        $daftar_program['none']='SELURUH PROGRAM';
 
         $search=$this->getControllerStateSession('programkegiatan','search');
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('programkegiatan'); 
@@ -190,13 +241,17 @@ class ProgramKegiatanController extends Controller {
             $data = $this->populateData($data->lastPage());
         }
         $this->setCurrentPageInsideSession('programkegiatan',$data->currentPage());
-        
+        $filter_kode_program_selected=ProgramModel::getKodeProgramByPrgID($this->getControllerStateSession('programkegiatan.filters','PrgID'));
+
         return view("pages.$theme.dmaster.programkegiatan.index")->with(['page_active'=>'programkegiatan',
-                                                'search'=>$this->getControllerStateSession('programkegiatan','search'),
-                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                'column_order'=>$this->getControllerStateSession('programkegiatan.orderby','column_name'),
-                                                'direction'=>$this->getControllerStateSession('programkegiatan.orderby','order'),
-                                                'data'=>$data]);               
+                                                                        'search'=>$this->getControllerStateSession('programkegiatan','search'),
+                                                                        'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                        'column_order'=>$this->getControllerStateSession('programkegiatan.orderby','column_name'),
+                                                                        'direction'=>$this->getControllerStateSession('programkegiatan.orderby','order'),
+                                                                        'daftar_program'=>$daftar_program,
+                                                                        'filter_prgid_selected'=>$this->getControllerStateSession('programkegiatan.filters','PrgID'), 
+                                                                        'filter_kode_program_selected'=>$filter_kode_program_selected,
+                                                                        'data'=>$data]);               
     }
     /**
      * Show the form for creating a new resource.
@@ -206,10 +261,10 @@ class ProgramKegiatanController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-
+        $daftar_program=ProgramModel::getDaftarProgram(config('globalsettings.tahun_perencanaan'),false);
         return view("pages.$theme.dmaster.programkegiatan.create")->with(['page_active'=>'programkegiatan',
-                                                                    
-                                                                ]);  
+                                                                          'daftar_program'=>$daftar_program
+                                                                        ]);  
     }
     
     /**
@@ -220,12 +275,18 @@ class ProgramKegiatanController extends Controller {
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'replaceit'=>'required',
+        $this->validate($request, [            
+            'Kd_Keg'=>'required|min:1|max:4|regex:/^[0-9]+$/',
+            'KgtNm'=>'required|min:5',
         ]);
         
         $programkegiatan = ProgramKegiatanModel::create([
-            'replaceit' => $request->input('replaceit'),
+            'KgtID'=> uniqid ('uid'),
+            'PrgID' => $request->input('PrgID'),
+            'Kd_Keg' => $request->input('Kd_Keg'),
+            'KgtNm' => $request->input('KgtNm'),
+            'Descr' => $request->input('Descr'),
+            'TA'=>config('globalsettings.tahun_perencanaan'),
         ]);        
         
         if ($request->ajax()) 
@@ -253,6 +314,11 @@ class ProgramKegiatanController extends Controller {
         $theme = \Auth::user()->theme;
 
         $data = ProgramKegiatanModel::findOrFail($id);
+
+        $data = ProgramKegiatanModel::leftJoin('v_program_kegiatan','v_program_kegiatan.KgtID','tmKgt.KgtID')
+                            ->where('tmKgt.KgtID',$id)
+                            ->firstOrFail(['tmKgt.KgtID','tmKgt.KgtNm','v_program_kegiatan.kode_kegiatan','v_program_kegiatan.PrgNm','tmKgt.Descr','tmKgt.TA','tmKgt.created_at','tmKgt.updated_at']);
+        
         if (!is_null($data) )  
         {
             return view("pages.$theme.dmaster.programkegiatan.show")->with(['page_active'=>'programkegiatan',
@@ -274,9 +340,11 @@ class ProgramKegiatanController extends Controller {
         $data = ProgramKegiatanModel::findOrFail($id);
         if (!is_null($data) ) 
         {
+            $daftar_program=ProgramModel::getDaftarProgram(config('globalsettings.tahun_perencanaan'),false);
             return view("pages.$theme.dmaster.programkegiatan.edit")->with(['page_active'=>'programkegiatan',
-                                                    'data'=>$data
-                                                    ]);
+                                                                                'daftar_program'=>$daftar_program,
+                                                                                'data'=>$data
+                                                                            ]);
         }        
     }
 
@@ -289,12 +357,16 @@ class ProgramKegiatanController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'replaceit'=>'required',
+        $this->validate($request, [            
+            'Kd_Keg'=>'required|min:1|max:4|regex:/^[0-9]+$/',
+            'KgtNm'=>'required|min:5',
         ]);
         
         $programkegiatan = ProgramKegiatanModel::find($id);
-        $programkegiatan->replaceit = $request->input('replaceit');
+        $programkegiatan->PrgID = $request->input('PrgID');
+        $programkegiatan->Kd_Keg = $request->input('Kd_Keg');
+        $programkegiatan->KgtNm = $request->input('KgtNm');
+        $programkegiatan->Descr = $request->input('Descr');
         $programkegiatan->save();
 
         if ($request->ajax()) 
@@ -331,11 +403,11 @@ class ProgramKegiatanController extends Controller {
                 $data = $this->populateData($data->lastPage());
             }
             $datatable = view("pages.$theme.dmaster.programkegiatan.datatable")->with(['page_active'=>'programkegiatan',
-                                                            'search'=>$this->getControllerStateSession('programkegiatan','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                            'column_order'=>$this->getControllerStateSession('programkegiatan.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('programkegiatan.orderby','order'),
-                                                            'data'=>$data])->render();      
+                                                                                        'search'=>$this->getControllerStateSession('programkegiatan','search'),
+                                                                                        'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                                        'column_order'=>$this->getControllerStateSession('programkegiatan.orderby','column_name'),
+                                                                                        'direction'=>$this->getControllerStateSession('programkegiatan.orderby','order'),
+                                                                                        'data'=>$data])->render();      
             
             return response()->json(['success'=>true,'datatable'=>$datatable],200); 
         }

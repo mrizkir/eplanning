@@ -17,9 +17,19 @@
             <thead>
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
-                    <th width="100">
-                        <a class="column-sort text-white" id="col-replace_it" data-order="{{$direction}}" href="#">
-                            replace_it  
+                    <th>
+                        <a class="column-sort text-white" id="col-kode_kegiatan" data-order="{{$direction}}" href="#">
+                            KODE KEGIATAN  
+                        </a>                                             
+                    </th> 
+                    <th>
+                        <a class="column-sort text-white" id="col-KgtNm" data-order="{{$direction}}" href="#">
+                            NAMA KEGIATAN  
+                        </a>                                             
+                    </th> 
+                    <th>
+                        <a class="column-sort text-white" id="col-PrgNm" data-order="{{$direction}}" href="#">
+                            PROGRAM  
                         </a>                                             
                     </th> 
                     <th width="100">AKSI</th>
@@ -31,21 +41,37 @@
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>                  
-                    <td>{{$item->replace_it}}</td>
+                    <td>
+                        @php
+                            if ($item->Jns==false && $filter_prgid_selected=='none')
+                            {
+                                echo 'n.nn.'.$item->Kd_Prog.'.'.$item->Kd_Keg;
+                            } 
+                            elseif ($item->Jns==false && $filter_prgid_selected!='none') 
+                            {
+                                echo $filter_kode_program_selected.'.'.$item->Kd_Keg;
+                            }
+                            else {
+                                echo $item->kode_kegiatan;
+                            }   
+                        @endphp                        
+                    </td>
+                    <td>{{$item->KgtNm}}</td>
+                    <td>{{$item->PrgNm}}</td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('programkegiatan.show',['id'=>$item->programkegiatan_id])}}" title="Detail Data ProgramKegiatan">
+                                <a class="btnShow" href="{{route('programkegiatan.show',['id'=>$item->KgtID])}}" title="Detail Data ProgramKegiatan">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('programkegiatan.edit',['id'=>$item->programkegiatan_id])}}" title="Ubah Data ProgramKegiatan">
+                                <a class="btnEdit" href="{{route('programkegiatan.edit',['id'=>$item->KgtID])}}" title="Ubah Data ProgramKegiatan">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data ProgramKegiatan" data-id="{{$item->programkegiatan_id}}" data-url="{{route('programkegiatan.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data ProgramKegiatan" data-id="{{$item->KgtID}}" data-url="{{route('programkegiatan.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>

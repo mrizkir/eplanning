@@ -1,18 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    PROGRAMKEGIATAN
+    KEGIATAN
 @endsection
 @section('page_header')
     <i class="icon-code position-left"></i>
     <span class="text-semibold"> 
-        PROGRAMKEGIATAN TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        KEGIATAN TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
     </span>
 @endsection
 @section('page_info')
     @include('pages.limitless.dmaster.programkegiatan.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('programkegiatan.index')!!}">PROGRAMKEGIATAN</a></li>
+    <li><a href="#">MASTERS</a></li>
+    <li><a href="#">DATA</a></li>
+    <li><a href="{!!route('programkegiatan.index')!!}">KEGIATAN</a></li>
     <li class="active">TAMBAH DATA</li>
 @endsection
 @section('page_content')
@@ -34,9 +36,28 @@
         <div class="panel-body">
             {!! Form::open(['action'=>'DMaster\ProgramKegiatanController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
                 <div class="form-group">
-                    {{Form::label('replaceit','replaceit',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('PrgID','PROGRAM',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('replaceit','',['class'=>'form-control','placeholder'=>'replaceit'])}}
+                        {{Form::select('PrgID', $daftar_program, '',['class'=>'select','id'=>'PrgID'])}}
+                        {{Form::hidden('Kode_Program','none',['id'=>'Kode_Program'])}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('Kd_Keg','KODE KEGIATAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('Kd_Keg','',['class'=>'form-control','placeholder'=>'KODE KEGIATAN','maxlength'=>4])}}
+                    </div>
+                </div>  
+                <div class="form-group">
+                    {{Form::label('KgtNm','NAMA KEGIATAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('KgtNm','',['class'=>'form-control','placeholder'=>'NAMA KEGIATAN'])}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::textarea('Descr','',['class'=>'form-control','placeholder'=>'KETERANGAN','rows' => 2, 'cols' => 40])}}
                     </div>
                 </div>
                 <div class="form-group">            
@@ -52,24 +73,78 @@
 @section('page_asset_js')
 <script src="{!!asset('limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('limitless/assets/js/select2.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
+    //styling select
+    $('.select').select2({
+        placeholder: "PILIH PROGRAM",
+        allowClear:true
+    });
     $('#frmdata').validate({
+        ignore:[],
         rules: {
-            replaceit : {
+            PrgID : {
+                required : true,
+            },
+            Kd_Keg : {
+                required: true,  
+                number: true,
+                maxlength: 4              
+            },
+            KgtNm : {
                 required: true,
-                minlength: 2
+                minlength: 5      
             }
         },
         messages : {
-            replaceit : {
+            PrgID : {
+                required: "Mohon dipilih Program !"
+            },
+            Kd_Keg : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
-                minlength: "Mohon di isi minimal 2 karakter atau lebih."
+                number: "Mohon input dengan tipe data bilangan bulat",
+                maxlength: "Nilai untuk Kode Urusan maksimal 4 digit"
+            },
+            Kode_Program : {
+                required: true,  
+                valueNotEquals : 'none'           
+            },
+            KgtNm : {
+                required: "Mohon untuk di isi karena ini diperlukan.",
+                minlength: "Mohon di isi minimal 5 karakter atau lebih."
             }
-        }      
+        }        
     });   
+    $("#frmdata :input").not('[name=PrgID]').prop("disabled", true);
+    $(document).on('change','#PrgID',function(ev) {
+        ev.preventDefault();  
+        PrgID=$(this).val();
+        if (PrgID == null)
+        {
+            $("#frmdata :input").not('[name=PrgID]').prop("disabled", true);
+            $("#Kode_Program").val('none');  
+        }
+        else
+        {
+            $("#frmdata *").prop("disabled", false);
+            // $.ajax({
+            //     type:'get',
+            //     url: '{{route('kelompokurusan.index')}}/getkodekelompokurusan/'+KUrsID,
+            //     dataType: 'json',
+            //     success:function(result)
+            //     {          
+            //         $("#Kode_Bidang").val(result.kodekelompokurusan);  
+            //     },
+            //     error:function(xhr, status, error)
+            //     {   
+            //         console.log(parseMessageAjaxEror(xhr, status, error));                           
+            //     },
+            // });            
+        }
+    });
 });
 </script>
 @endsection

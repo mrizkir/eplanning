@@ -98,7 +98,7 @@ $(document).ready(function () {
     $(".styled").uniform();
     //styling select
     $('.select').select2({
-        placeholder: "Pilih Urusan",
+        placeholder: "PILIH URUSAN",
         allowClear:true
     });
 
@@ -107,11 +107,25 @@ $(document).ready(function () {
         if (jns == 1)
         {
             $("#UrsID").prop("disabled", false);
+            $('#Kd_Prog').rules("remove", "lessthanorequal");  
+            $('#Kd_Prog').rules("add",{               
+                greaterthanorequal:15,       
+                messages : {                   
+                    greaterthanorequal:"Nilai Kode program per urusan harus lebih besar dari 15"
+                }
+            });
         }
         else
         {
             $("#UrsID").prop("disabled", true);
             $("#UrsID").val('').trigger('change');
+            $('#Kd_Prog').rules("remove", "greaterthanorequal");         
+            $('#Kd_Prog').rules("add",{               
+                lessthanorequal:15,       
+                messages : {                   
+                    lessthanorequal:"Nilai Kode program semua urusan harus lebih kecil dari 15"
+                }
+            });
         }
     });
     $('#frmdata').validate({
@@ -123,12 +137,9 @@ $(document).ready(function () {
             Kd_Prog : {
                 required: true,  
                 number: true,
-                maxlength: 4              
-            },
-            Kode_Program : {
-                required: true,  
-                valueNotEquals : 'none'           
-            },
+                maxlength: 4,
+                lessthanorequal:14              
+            },            
             PrgNm : {
                 required: true,
                 minlength: 5
@@ -141,12 +152,9 @@ $(document).ready(function () {
             Kd_Prog : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 number: "Mohon input dengan tipe data bilangan bulat",
-                maxlength: "Nilai untuk Kode Program maksimal 4 digit"
-            },
-            Kode_Bidang : {
-                required: "Mohon dipilih Urusan !",
-                valueNotEquals: "Mohon dipilih Urusan !"
-            },
+                maxlength: "Nilai untuk Kode Program maksimal 4 digit",
+                lessthanorequal:"Nilai untuk Kode Program semua urusan harus dibawah 15 digit"  
+            },           
             PrgNm : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 5 karakter atau lebih."

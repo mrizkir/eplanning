@@ -1,3 +1,3 @@
 <small class="display-block">          
-    <code>info halaman</code>
+    Modul ini digunakan untuk melakukan pengolahan data terhadap kegiatan. Kegiatan dikelompokan berdasarkan program.    
 </small>

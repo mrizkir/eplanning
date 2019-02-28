@@ -17,10 +17,10 @@ class CreateProgramkegiatanTable extends Migration
             $table->string('KgtID',19);
             $table->string('PrgID',19);
             $table->string('Kd_Keg',4);
-            $table->string('KgtNm',19);
+            $table->string('KgtNm');
             $table->string('Descr')->nullable();
             $table->year('TA');
-            $table->string('KgtID_Src',19);
+            $table->string('KgtID_Src',19)->nullable();
             $table->boolean('Locked')->default(0);
 
             $table->timestamps();
