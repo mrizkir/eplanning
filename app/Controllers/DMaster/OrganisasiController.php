@@ -4,7 +4,9 @@ namespace App\Controllers\DMaster;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
+use App\Models\DMaster\UrusanModel;
 use App\Models\DMaster\OrganisasiModel;
+use App\Models\DMaster\SubOrganisasiModel;
 
 class OrganisasiController extends Controller {
      /**
@@ -25,12 +27,12 @@ class OrganisasiController extends Controller {
     public function populateData ($currentpage=1) 
     {        
         $columns=['*'];       
-        //if (!$this->checkStateIsExistSession('organisasi','orderby')) 
-        //{            
-        //    $this->putControllerStateSession('organisasi','orderby',['column_name'=>'replace_it','order'=>'asc']);
-        //}
-        //$column_order=$this->getControllerStateSession('organisasi.orderby','column_name'); 
-        //$direction=$this->getControllerStateSession('organisasi.orderby','order'); 
+        if (!$this->checkStateIsExistSession('organisasi','orderby')) 
+        {            
+           $this->putControllerStateSession('organisasi','orderby',['column_name'=>'kode_organisasi','order'=>'asc']);
+        }
+        $column_order=$this->getControllerStateSession('organisasi.orderby','column_name'); 
+        $direction=$this->getControllerStateSession('organisasi.orderby','order'); 
 
         if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
         {            
@@ -42,18 +44,27 @@ class OrganisasiController extends Controller {
             $search=$this->getControllerStateSession('organisasi','search');
             switch ($search['kriteria']) 
             {
-                case 'replaceit' :
-                    $data = OrganisasiModel::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                case 'kode_organisasi' :
+                    $data =\DB::table('v_urusan_organisasi') 
+                                ->where('TA',config('globalsettings.tahun_perencanaan'))
+                                ->where(['kode_organisasi'=>$search['isikriteria']])
+                                ->orderBy($column_order,$direction); 
                 break;
-                case 'replaceit' :
-                    $data = OrganisasiModel::where('replaceit', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                case 'OrgNm' :
+                    $data =\DB::table('v_urusan_organisasi') 
+                                ->where('TA',config('globalsettings.tahun_perencanaan'))
+                                ->where('OrgNm', 'like', '%' . $search['isikriteria'] . '%')
+                                ->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = OrganisasiModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data = \DB::table('v_urusan_organisasi') 
+                                ->where('TA',config('globalsettings.tahun_perencanaan'))
+                                ->orderBy($column_order,$direction)
+                                ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('organisasi.index'));
         return $data;
@@ -94,11 +105,11 @@ class OrganisasiController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'replace_it' :
-                $column_name = 'replace_it';
+            case 'kode_organisasi' :
+                $column_name = 'kode_organisasi';
             break;           
             default :
-                $column_name = 'replace_it';
+                $column_name = 'kode_organisasi';
         }
         $this->putControllerStateSession('organisasi','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
@@ -200,10 +211,10 @@ class OrganisasiController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-
+        $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'),false);
         return view("pages.$theme.dmaster.organisasi.create")->with(['page_active'=>'organisasi',
-                                                                    
-                                                ]);  
+                                                                    'daftar_urusan'=>$daftar_urusan
+                                                                    ]);  
     }
     
     /**
@@ -214,14 +225,36 @@ class OrganisasiController extends Controller {
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'replaceit'=>'required',
+        $this->validate($request, [            
+            'OrgCd'=>'required|min:1|max:4|regex:/^[0-9]+$/',
+            'OrgNm'=>'required|min:5',
+            'Alamat'=>'required|min:5',
         ]);
         
         $organisasi = OrganisasiModel::create([
-            'replaceit' => $request->input('replaceit'),
+            'OrgID' => uniqid ('uid'),
+            'UrsID' => $request->input('UrsID'),
+            'OrgCd' => $request->input('OrgCd'),
+            'OrgNm' => $request->input('OrgNm'),
+            'Alamat' => $request->input('Alamat'),
+            'NamaKepalaSKPD' => '-',
+            'NIPKepalaSKPD' => '-',
+            'Descr' => $request->input('Descr'),
+            'TA'=>config('globalsettings.tahun_perencanaan'),
         ]);        
         
+        SubOrganisasiModel::create([
+            'SOrgID' => uniqid ('uid'),
+            'OrgID' => $organisasi->OrgID,
+            'SOrgCd' => $organisasi->OrgCd,
+            'SOrgNm' => $organisasi->OrgNm,
+            'Alamat' => $organisasi->Alamat,
+            'NamaKepalaSKPD' => '-',
+            'NIPKepalaSKPD' => '-',
+            'Descr' => $organisasi->Descr,
+            'TA'=> $organisasi->TA,
+        ]);
+
         if ($request->ajax()) 
         {
             return response()->json([
@@ -246,7 +279,10 @@ class OrganisasiController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = OrganisasiModel::findOrFail($id);
+        $data = OrganisasiModel::leftJoin('v_urusan_organisasi','v_urusan_organisasi.OrgID','tmOrg.OrgID')
+                                ->where('tmOrg.OrgID',$id)
+                                ->firstOrFail(['tmOrg.OrgID','v_urusan_organisasi.kode_organisasi','tmOrg.OrgNm','v_urusan_organisasi.Nm_Urusan','tmOrg.TA']);
+ 
         if (!is_null($data) )  
         {
             return view("pages.$theme.dmaster.organisasi.show")->with(['page_active'=>'organisasi',
@@ -268,9 +304,11 @@ class OrganisasiController extends Controller {
         $data = OrganisasiModel::findOrFail($id);
         if (!is_null($data) ) 
         {
+            $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'),false);
             return view("pages.$theme.dmaster.organisasi.edit")->with(['page_active'=>'organisasi',
-                                                    'data'=>$data
-                                                    ]);
+                                                                    'daftar_urusan'=>$daftar_urusan,
+                                                                    'data'=>$data
+                                                                ]);
         }        
     }
 
@@ -283,12 +321,20 @@ class OrganisasiController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'replaceit'=>'required',
+        $this->validate($request, [            
+            'OrgCd'=>'required|min:1|max:4|regex:/^[0-9]+$/',
+            'OrgNm'=>'required|min:5',
+            'Alamat'=>'required|min:5',
         ]);
         
         $organisasi = OrganisasiModel::find($id);
-        $organisasi->replaceit = $request->input('replaceit');
+        $organisasi->UrsID = $request->input('UrsID');
+        $organisasi->OrgCd = $request->input('OrgCd');
+        $organisasi->OrgNm = $request->input('OrgNm');
+        $organisasi->Alamat = $request->input('Alamat');
+        $organisasi->NamaKepalaSKPD = '-';
+        $organisasi->NIPKepalaSKPD = '-';
+        $organisasi->Descr = $request->input('Descr');
         $organisasi->save();
 
         if ($request->ajax()) 

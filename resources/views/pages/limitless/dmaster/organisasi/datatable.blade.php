@@ -21,11 +21,21 @@
             <thead>
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
-                    <th width="100">
-                        <a class="column-sort text-white" id="col-replace_it" data-order="{{$direction}}" href="#">
-                            replace_it  
+                    <th>
+                        <a class="column-sort text-white" id="col-kode_organisasi" data-order="{{$direction}}" href="#">
+                            KODE SKPD / OPD
                         </a>                                             
                     </th> 
+                    <th>
+                        <a class="column-sort text-white" id="col-kode_organisasi" data-order="{{$direction}}" href="#">
+                            NAMA SKPD / OPD
+                        </a>                                             
+                    </th> 
+                    <th>
+                        <a class="column-sort text-white" id="col-kode_organisasi" data-order="{{$direction}}" href="#">
+                            URUSAN
+                        </a>                                             
+                    </th>
                     <th width="100">AKSI</th>
                 </tr>
             </thead>
@@ -35,21 +45,23 @@
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>                  
-                    <td>{{$item->replace_it}}</td>
+                    <td>{{$item->kode_organisasi}}</td>
+                    <td>{{$item->OrgNm}}</td>
+                    <td>{{$item->Nm_Urusan}}</td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('organisasi.show',['id'=>$item->organisasi_id])}}" title="Detail Data Organisasi">
+                                <a class="btnShow" href="{{route('organisasi.show',['id'=>$item->OrgID])}}" title="Detail Data Organisasi">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('organisasi.edit',['id'=>$item->organisasi_id])}}" title="Ubah Data Organisasi">
+                                <a class="btnEdit" href="{{route('organisasi.edit',['id'=>$item->OrgID])}}" title="Ubah Data Organisasi">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data Organisasi" data-id="{{$item->organisasi_id}}" data-url="{{route('organisasi.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data Organisasi" data-id="{{$item->OrgID}}" data-url="{{route('organisasi.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>

@@ -5,13 +5,15 @@
 @section('page_header')
     <i class="icon-office position-left"></i>
     <span class="text-semibold"> 
-        ORGANISASI TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        ORGANISASI TAHUN {{config('globalsettings.tahun_perencanaan')}}
     </span>     
 @endsection
 @section('page_info')
     @include('pages.limitless.dmaster.organisasi.info')
 @endsection
 @section('page_breadcrumb')
+    <li><a href="#">MASTERS</a></li>
+    <li><a href="#">DATA</a></li>
     <li><a href="{!!route('organisasi.index')!!}">ORGANISASI</a></li>
     <li class="active">DETAIL DATA</li>
 @endsection
@@ -24,10 +26,10 @@
                     <i class="icon-eye"></i>  DATA ORGANISASI
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('organisasi.edit',['id'=>$data->organisasi_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Organisasi">
+                    <a href="{{route('organisasi.edit',['id'=>$data->OrgID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Organisasi">
                         <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data Organisasi" data-id="{{$data->organisasi_id}}" data-url="{{route('organisasi.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
+                    <a href="javascript:;" title="Hapus Data Organisasi" data-id="{{$data->OrgID}}" data-url="{{route('organisasi.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
                     </a>
                     <a href="{!!route('organisasi.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
@@ -40,11 +42,17 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>organisasi id: </strong></label>
+                                <label class="col-md-4 control-label"><strong>KODE OPD/SKPD: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->organisasi_id}}</p>
+                                    <p class="form-control-static">{{$data->kode_organisasi}}</p>
                                 </div>                            
-                            </div>                            
+                            </div>                 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>NAMA OPD/SKPD: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->OrgNm}}</p>
+                                </div>                            
+                            </div>           
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
                                 <div class="col-md-8">
@@ -56,11 +64,17 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>replaceit: </strong></label>
+                                <label class="col-md-4 control-label"><strong>URUSAN: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">replaceit</p>
+                                    <p class="form-control-static">{{$data->Nm_Urusan}}</p>
                                 </div>                            
-                            </div>    
+                            </div> 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>TA: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->TA}}</p>
+                                </div>                            
+                            </div>   
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>TGL. UBAH: </strong></label>
                                 <div class="col-md-8">

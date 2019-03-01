@@ -72,13 +72,13 @@ class ProgramController extends Controller {
         {
             $data =$filter_ursid == 'none' ? 
                                             \DB::table('v_urusan_program')
-                                                        ->orderBy($column_order,$direction)
                                                         ->where('TA',config('globalsettings.tahun_perencanaan'))
+                                                        ->orderBy($column_order,$direction)                                                        
                                                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage)
                                             :
                                             \DB::table('v_urusan_program')
-                                                        ->orderBy($column_order,$direction)
                                                         ->where('TA',config('globalsettings.tahun_perencanaan'))
+                                                        ->orderBy($column_order,$direction)                                                        
                                                         ->where('UrsID',$filter_ursid)
                                                         ->orWhereNull('UrsID')
                                                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);

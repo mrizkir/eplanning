@@ -12,6 +12,8 @@
     @include('pages.limitless.dmaster.organisasi.info')
 @endsection
 @section('page_breadcrumb')
+    <li><a href="#">MASTERS</a></li>
+    <li><a href="#">DATA</a></li>
     <li><a href="{!!route('organisasi.index')!!}">ORGANISASI</a></li>
     <li class="active">ERROR</li>
 @endsection

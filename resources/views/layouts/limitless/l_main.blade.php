@@ -12,7 +12,7 @@
         <p class="navbar-text">
             <a href="#">
                 <span class="label bg-success-400">
-                    Saat ini Anda berada di T.A untuk Perencanaan {{config('globalsettings.tahun_perencanaan')}} dan Penyerapan T.A {{config('globalsettings.tahun_penyerapan')}}
+                    Saat ini Anda berada di Tahun Perencanaan {{config('globalsettings.tahun_perencanaan')}} dan Penyerapan Anggaran Tahun {{config('globalsettings.tahun_penyerapan')}}
                 </span>
             </a>
         </p>
@@ -47,7 +47,7 @@
     </ul>
     <div class="navbar-collapse collapse" id="navbar-second-toggle">
         <ul class="nav navbar-nav">            
-            <li>
+            <li{!!Helper::isMenuActive ($page_active,'dashboard',' class="active"')!!}>
                 <a href="{!!route('dashboard.index')!!}">
                     <i class="icon-display4 position-left"></i> 
                     <span>DASHBOARD</span>											

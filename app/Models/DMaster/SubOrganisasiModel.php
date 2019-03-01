@@ -4,33 +4,33 @@ namespace App\Models\DMaster;
 
 use Illuminate\Database\Eloquent\Model;
 
-class OrganisasiModel extends Model {
+class SubOrganisasiModel extends Model {
      /**
      * nama tabel model ini.
      *
      * @var string
      */
-    protected $table = 'tmOrg';
+    protected $table = 'tmSOrg';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'OrgID', 'UrsID', 'OrgCd', 'OrgNm', 'Alamat', 'NamaKepalaSKPD', 'NIPKepalaSKPD', 'Descr', 'TA'
+        'SOrgID', 'OrgID', 'SOrgCd', 'SOrgNm', 'Alamat', 'NamaKepalaSKPD', 'NIPKepalaSKPD', 'Descr', 'TA'
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'OrgID';
+    protected $primaryKey = 'SOrgID';
     /**
      * enable auto_increment.
      *
      * @var string
      */
-    public $incrementing = false;
+    public $incrementing = true;
     /**
      * activated timestamps.
      *
@@ -43,11 +43,11 @@ class OrganisasiModel extends Model {
      *
      * @var string
      */
-    protected static $logName = 'OrganisasiController';
+    protected static $logName = 'SubOrganisasiController';
     /**
      * log the changed attributes for all these events 
      */
-    protected static $logAttributes = ['OrgID', 'OrgCd', 'OrgNm'];
+    protected static $logAttributes = ['SOrgID', 'OrgID', 'SOrgNm'];
     /**
      * log changes to all the $fillable attributes of the model
      */

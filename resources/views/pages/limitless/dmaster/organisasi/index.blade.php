@@ -5,13 +5,15 @@
 @section('page_header')
     <i class="icon-office position-left"></i>
     <span class="text-semibold">
-        ORGANISASI TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
+        ORGANISASI TAHUN {{config('globalsettings.tahun_perencanaan')}}  
     </span>
 @endsection
 @section('page_info')
     @include('pages.limitless.dmaster.organisasi.info')
 @endsection
 @section('page_breadcrumb')
+    <li><a href="#">MASTERS</a></li>
+    <li><a href="#">DATA</a></li>
     <li class="active">ORGANISASI</li>
 @endsection
 @section('page_content')
@@ -29,7 +31,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">
-                            {{Form::select('cmbKriteria', ['replaceit'=>'replaceit','nama'=>'replaceit'], isset($search['kriteria'])?$search['kriteria']:'replaceit',['class'=>'form-control'])}}
+                            {{Form::select('cmbKriteria', ['kode_organisasi'=>'KODE ORGANISASI','OrgNm'=>'NAMA ORGANISASI'], isset($search['kriteria'])?$search['kriteria']:'replaceit',['class'=>'form-control'])}}
                         </div>
                     </div>
                     <div class="form-group" id="divKriteria">

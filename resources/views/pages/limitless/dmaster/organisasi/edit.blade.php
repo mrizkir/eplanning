@@ -5,13 +5,15 @@
 @section('page_header')
     <i class="icon-office position-left"></i>
     <span class="text-semibold"> 
-        ORGANISASI TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        ORGANISASI TAHUN {{config('globalsettings.tahun_perencanaan')}}
     </span>     
 @endsection
 @section('page_info')
     @include('pages.limitless.dmaster.organisasi.info')
 @endsection
 @section('page_breadcrumb')
+    <li><a href="#">MASTERS</a></li>
+    <li><a href="#">DATA</a></li>
     <li><a href="{!!route('organisasi.index')!!}">ORGANISASI</a></li>
     <li class="active">UBAH DATA</li>
 @endsection
@@ -32,13 +34,43 @@
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>['DMaster\OrganisasiController@update',$data->organisasi_id],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
+            {!! Form::open(['action'=>['DMaster\OrganisasiController@update',$data->OrgID],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
                 {{Form::hidden('_method','PUT')}}
                 <div class="form-group">
-                    {{Form::label('replaceit','replaceit',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('UrsID','URUSAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('replaceit',$data[''],['class'=>'form-control','placeholder'=>'replaceit'])}}
-                    </div>                
+                        <select name="UrsID" id="UrsID" class="select">
+                            <option></option>
+                            @foreach ($daftar_urusan as $k=>$item)
+                                <option value="{{$k}}" {{$data->UrsID == $k?' selected':''}}>{{$item}}</option>
+                            @endforeach
+                        </select>                        
+                    </div>
+                </div>         
+                <div class="form-group">
+                    {{Form::label('OrgCd','KODE SKPD / OPD',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('OrgCd',$data['OrgCd'],['class'=>'form-control','placeholder'=>'KODE SKPD / OPD','maxlength'=>4])}}
+                        {{Form::hidden('kode_organisasi','none',['id'=>'kode_organisasi'])}}
+                    </div>
+                </div>  
+                <div class="form-group">
+                    {{Form::label('OrgNm','NAMA SKPD / OPD',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('OrgNm',$data['OrgNm'],['class'=>'form-control','placeholder'=>'NAMA SKPD / OPD'])}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('Alamat','ALAMAT',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('Alamat',$data['Alamat'],['class'=>'form-control','placeholder'=>'ALAMAT SKPD / OPD'])}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::textarea('Descr',$data['Descr'],['class'=>'form-control','placeholder'=>'KETERANGAN','rows' => 2, 'cols' => 40])}}
+                    </div>
                 </div>
                 <div class="form-group">            
                     <div class="col-md-10 col-md-offset-2">                        
@@ -53,23 +85,68 @@
 @section('page_asset_js')
 <script src="{!!asset('default/assets/jquery-validation/dist/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('default/assets/jquery-validation/dist/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('limitless/assets/js/uniform.min.js')!!}"></script>
+<script src="{!!asset('limitless/assets/js/select2.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
+     //styling select
+     $('.select').select2({
+        placeholder: "PILIH URUSAN",
+        allowClear:true
+    });
     $('#frmdata').validate({
+        ignore:[],
         rules: {
-            replaceit : {
+            UrsID : {
+                required : true,
+            },
+            OrgCd : {
+                required: true,  
+                number: true,
+                maxlength: 4              
+            },
+            OrgNm : {
                 required: true,
-                minlength: 2
+                minlength: 5      
+            },
+            Alamat : {
+                required: true,
+                minlength: 5      
             }
         },
         messages : {
-            replaceit : {
+            UrsID : {
+                required: "Mohon dipilih Program !"
+            },
+            OrgCd : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
-                minlength: "Mohon di isi minimal 2 karakter atau lebih."
+                number: "Mohon input dengan tipe data bilangan bulat",
+                maxlength: "Nilai untuk Kode Urusan maksimal 4 digit"
+            },
+            OrgNm : {
+                required: "Mohon untuk di isi karena ini diperlukan.",  
+                minlength : "Mohon di isi minimal 5 karakter atau lebih."          
+            },
+            Alamat : {
+                required: "Mohon untuk di isi karena ini diperlukan.",
+                minlength: "Mohon di isi minimal 5 karakter atau lebih."
             }
-        }     
+        }           
+    });  
+    $(document).on('change','#UrsID',function(ev) {
+        ev.preventDefault();  
+        UrsID=$(this).val();
+        if (UrsID == 'none')
+        {
+            $("#frmdata :input").not('[name=UrsID]').prop("disabled", true);
+            $("#kode_organisasi").val('none');  
+        }
+        else
+        {
+            $("#frmdata *").prop("disabled", false);
+        }
     });   
 });
 </script>
