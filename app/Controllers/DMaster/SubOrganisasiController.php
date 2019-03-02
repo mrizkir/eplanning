@@ -4,11 +4,10 @@ namespace App\Controllers\DMaster;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
-use App\Models\DMaster\UrusanModel;
 use App\Models\DMaster\OrganisasiModel;
 use App\Models\DMaster\SubOrganisasiModel;
 
-class OrganisasiController extends Controller {
+class SubOrganisasiController extends Controller {
      /**
      * Membuat sebuah objek
      *
@@ -27,33 +26,33 @@ class OrganisasiController extends Controller {
     public function populateData ($currentpage=1) 
     {        
         $columns=['*'];       
-        if (!$this->checkStateIsExistSession('organisasi','orderby')) 
+        if (!$this->checkStateIsExistSession('suborganisasi','orderby')) 
         {            
-           $this->putControllerStateSession('organisasi','orderby',['column_name'=>'kode_organisasi','order'=>'asc']);
+           $this->putControllerStateSession('suborganisasi','orderby',['column_name'=>'kode_suborganisasi','order'=>'asc']);
         }
-        $column_order=$this->getControllerStateSession('organisasi.orderby','column_name'); 
-        $direction=$this->getControllerStateSession('organisasi.orderby','order'); 
+        $column_order=$this->getControllerStateSession('suborganisasi.orderby','column_name'); 
+        $direction=$this->getControllerStateSession('suborganisasi.orderby','order'); 
 
         if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
         {            
             $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
         }
         $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
-        if ($this->checkStateIsExistSession('organisasi','search')) 
+        if ($this->checkStateIsExistSession('suborganisasi','search')) 
         {
-            $search=$this->getControllerStateSession('organisasi','search');
+            $search=$this->getControllerStateSession('suborganisasi','search');
             switch ($search['kriteria']) 
             {
-                case 'kode_organisasi' :
-                    $data =\DB::table('v_urusan_organisasi') 
+                case 'kode_suborganisasi' :
+                    $data =\DB::table('v_suborganisasi') 
                                 ->where('TA',config('globalsettings.tahun_perencanaan'))
-                                ->where(['kode_organisasi'=>$search['isikriteria']])
+                                ->where(['kode_suborganisasi'=>$search['isikriteria']])
                                 ->orderBy($column_order,$direction); 
                 break;
-                case 'OrgNm' :
-                    $data =\DB::table('v_urusan_organisasi') 
+                case 'SOrgNm' :
+                    $data =\DB::table('v_suborganisasi') 
                                 ->where('TA',config('globalsettings.tahun_perencanaan'))
-                                ->where('OrgNm', 'like', '%' . $search['isikriteria'] . '%')
+                                ->where('SOrgNm', 'like', '%' . $search['isikriteria'] . '%')
                                 ->orderBy($column_order,$direction);                                        
                 break;
             }           
@@ -61,12 +60,12 @@ class OrganisasiController extends Controller {
         }
         else
         {
-            $data = \DB::table('v_urusan_organisasi') 
+            $data = \DB::table('v_suborganisasi') 
                                 ->where('TA',config('globalsettings.tahun_perencanaan'))
                                 ->orderBy($column_order,$direction)
                                 ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
-        $data->setPath(route('organisasi.index'));
+        $data->setPath(route('suborganisasi.index'));
         return $data;
     }
     /**
@@ -81,14 +80,14 @@ class OrganisasiController extends Controller {
         $numberRecordPerPage = $request->input('numberRecordPerPage');
         $this->putControllerStateSession('global_controller','numberRecordPerPage',$numberRecordPerPage);
         
-        $this->setCurrentPageInsideSession('organisasi',1);
+        $this->setCurrentPageInsideSession('suborganisasi',1);
         $data=$this->populateData();
 
-        $datatable = view("pages.$theme.dmaster.organisasi.datatable")->with(['page_active'=>'organisasi',
-                                                                                'search'=>$this->getControllerStateSession('organisasi','search'),
+        $datatable = view("pages.$theme.dmaster.suborganisasi.datatable")->with(['page_active'=>'suborganisasi',
+                                                                                'search'=>$this->getControllerStateSession('suborganisasi','search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                                'column_order'=>$this->getControllerStateSession('organisasi.orderby','column_name'),
-                                                                                'direction'=>$this->getControllerStateSession('organisasi.orderby','order'),
+                                                                                'column_order'=>$this->getControllerStateSession('suborganisasi.orderby','column_name'),
+                                                                                'direction'=>$this->getControllerStateSession('suborganisasi.orderby','order'),
                                                                                 'data'=>$data])->render();      
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
     }
@@ -105,27 +104,27 @@ class OrganisasiController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'kode_organisasi' :
-                $column_name = 'kode_organisasi';
+            case 'kode_suborganisasi' :
+                $column_name = 'kode_suborganisasi';
             break; 
-            case 'NmOrg' :
-                $column_name = 'NmOrg';
-            break;  
+            case 'SOrgNm' :
+                $column_name = 'SOrgNm';
+            break; 
             case 'Nm_Urusan' :
                 $column_name = 'Nm_Urusan';
-            break;         
+            break;           
             default :
-                $column_name = 'kode_organisasi';
+                $column_name = 'kode_suborganisasi';
         }
-        $this->putControllerStateSession('organisasi','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
+        $this->putControllerStateSession('suborganisasi','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
         $data=$this->populateData();
 
-        $datatable = view("pages.$theme.dmaster.organisasi.datatable")->with(['page_active'=>'organisasi',
-                                                            'search'=>$this->getControllerStateSession('organisasi','search'),
+        $datatable = view("pages.$theme.dmaster.suborganisasi.datatable")->with(['page_active'=>'suborganisasi',
+                                                            'search'=>$this->getControllerStateSession('suborganisasi','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('organisasi.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('organisasi.orderby','order'),
+                                                            'column_order'=>$this->getControllerStateSession('suborganisasi.orderby','column_name'),
+                                                            'direction'=>$this->getControllerStateSession('suborganisasi.orderby','order'),
                                                             'data'=>$data])->render();     
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
@@ -140,13 +139,13 @@ class OrganisasiController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $this->setCurrentPageInsideSession('organisasi',$id);
+        $this->setCurrentPageInsideSession('suborganisasi',$id);
         $data=$this->populateData($id);
-        $datatable = view("pages.$theme.dmaster.organisasi.datatable")->with(['page_active'=>'organisasi',
-                                                                            'search'=>$this->getControllerStateSession('organisasi','search'),
+        $datatable = view("pages.$theme.dmaster.suborganisasi.datatable")->with(['page_active'=>'suborganisasi',
+                                                                            'search'=>$this->getControllerStateSession('suborganisasi','search'),
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                            'column_order'=>$this->getControllerStateSession('organisasi.orderby','column_name'),
-                                                                            'direction'=>$this->getControllerStateSession('organisasi.orderby','order'),
+                                                                            'column_order'=>$this->getControllerStateSession('suborganisasi.orderby','column_name'),
+                                                                            'direction'=>$this->getControllerStateSession('suborganisasi.orderby','order'),
                                                                             'data'=>$data])->render(); 
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
@@ -164,22 +163,22 @@ class OrganisasiController extends Controller {
         $action = $request->input('action');
         if ($action == 'reset') 
         {
-            $this->destroyControllerStateSession('organisasi','search');
+            $this->destroyControllerStateSession('suborganisasi','search');
         }
         else
         {
             $kriteria = $request->input('cmbKriteria');
             $isikriteria = $request->input('txtKriteria');
-            $this->putControllerStateSession('organisasi','search',['kriteria'=>$kriteria,'isikriteria'=>$isikriteria]);
+            $this->putControllerStateSession('suborganisasi','search',['kriteria'=>$kriteria,'isikriteria'=>$isikriteria]);
         }      
-        $this->setCurrentPageInsideSession('organisasi',1);
+        $this->setCurrentPageInsideSession('suborganisasi',1);
         $data=$this->populateData();
 
-        $datatable = view("pages.$theme.dmaster.organisasi.datatable")->with(['page_active'=>'organisasi',                                                            
-                                                            'search'=>$this->getControllerStateSession('organisasi','search'),
+        $datatable = view("pages.$theme.dmaster.suborganisasi.datatable")->with(['page_active'=>'suborganisasi',                                                            
+                                                            'search'=>$this->getControllerStateSession('suborganisasi','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('organisasi.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('organisasi.orderby','order'),
+                                                            'column_order'=>$this->getControllerStateSession('suborganisasi.orderby','column_name'),
+                                                            'direction'=>$this->getControllerStateSession('suborganisasi.orderby','order'),
                                                             'data'=>$data])->render();      
         
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
@@ -193,20 +192,20 @@ class OrganisasiController extends Controller {
     {                
         $theme = \Auth::user()->theme;
 
-        $search=$this->getControllerStateSession('organisasi','search');
-        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('organisasi'); 
+        $search=$this->getControllerStateSession('suborganisasi','search');
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('suborganisasi'); 
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage())
         {            
             $data = $this->populateData($data->lastPage());
         }
-        $this->setCurrentPageInsideSession('organisasi',$data->currentPage());
+        $this->setCurrentPageInsideSession('suborganisasi',$data->currentPage());
         
-        return view("pages.$theme.dmaster.organisasi.index")->with(['page_active'=>'organisasi',
-                                                'search'=>$this->getControllerStateSession('organisasi','search'),
+        return view("pages.$theme.dmaster.suborganisasi.index")->with(['page_active'=>'suborganisasi',
+                                                'search'=>$this->getControllerStateSession('suborganisasi','search'),
                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                'column_order'=>$this->getControllerStateSession('organisasi.orderby','column_name'),
-                                                'direction'=>$this->getControllerStateSession('organisasi.orderby','order'),
+                                                'column_order'=>$this->getControllerStateSession('suborganisasi.orderby','column_name'),
+                                                'direction'=>$this->getControllerStateSession('suborganisasi.orderby','order'),
                                                 'data'=>$data]);               
     }
     /**
@@ -217,9 +216,9 @@ class OrganisasiController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'),false);
-        return view("pages.$theme.dmaster.organisasi.create")->with(['page_active'=>'organisasi',
-                                                                    'daftar_urusan'=>$daftar_urusan
+        $daftar_opd=OrganisasiModel::getDaftarOPD(config('globalsettings.tahun_perencanaan'),false);
+        return view("pages.$theme.dmaster.suborganisasi.create")->with(['page_active'=>'suborganisasi',
+                                                                    'daftar_opd'=>$daftar_opd
                                                                     ]);  
     }
     
@@ -232,34 +231,22 @@ class OrganisasiController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [            
-            'OrgCd'=>'required|min:1|max:4|regex:/^[0-9]+$/',
-            'OrgNm'=>'required|min:5',
+            'SOrgCd'=>'required|min:1|max:4|regex:/^[0-9]+$/',
+            'SOrgNm'=>'required|min:5',
             'Alamat'=>'required|min:5',
         ]);
         
-        $organisasi = OrganisasiModel::create([
-            'OrgID' => uniqid ('uid'),
-            'UrsID' => $request->input('UrsID'),
-            'OrgCd' => $request->input('OrgCd'),
-            'OrgNm' => $request->input('OrgNm'),
+        $suborganisasi = SubOrganisasiModel::create([
+            'SOrgID' => uniqid ('uid'),
+            'OrgID' => $request->input('OrgID'),
+            'SOrgCd' => $request->input('SOrgCd'),
+            'SOrgNm' => $request->input('SOrgNm'),
             'Alamat' => $request->input('Alamat'),
             'NamaKepalaSKPD' => '-',
             'NIPKepalaSKPD' => '-',
             'Descr' => $request->input('Descr'),
             'TA'=>config('globalsettings.tahun_perencanaan'),
         ]);        
-        
-        SubOrganisasiModel::create([
-            'SOrgID' => uniqid ('uid'),
-            'OrgID' => $organisasi->OrgID,
-            'SOrgCd' => $organisasi->OrgCd,
-            'SOrgNm' => $organisasi->OrgNm,
-            'Alamat' => $organisasi->Alamat,
-            'NamaKepalaSKPD' => '-',
-            'NIPKepalaSKPD' => '-',
-            'Descr' => $organisasi->Descr,
-            'TA'=> $organisasi->TA,
-        ]);
 
         if ($request->ajax()) 
         {
@@ -270,7 +257,7 @@ class OrganisasiController extends Controller {
         }
         else
         {
-            return redirect(route('organisasi.index'))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('suborganisasi.index'))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -285,13 +272,13 @@ class OrganisasiController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = OrganisasiModel::leftJoin('v_urusan_organisasi','v_urusan_organisasi.OrgID','tmOrg.OrgID')
-                                ->where('tmOrg.OrgID',$id)
-                                ->firstOrFail(['tmOrg.OrgID','v_urusan_organisasi.kode_organisasi','tmOrg.OrgNm','v_urusan_organisasi.Nm_Urusan','tmOrg.TA']);
+        $data = SubOrganisasiModel::leftJoin('v_suborganisasi','v_suborganisasi.SOrgID','tmSOrg.SOrgID')
+                                ->where('tmSOrg.SOrgID',$id)
+                                ->firstOrFail(['tmSOrg.SOrgID','v_suborganisasi.kode_suborganisasi','tmSOrg.SOrgNm','v_suborganisasi.Nm_Urusan','tmSOrg.TA']);
  
         if (!is_null($data) )  
         {
-            return view("pages.$theme.dmaster.organisasi.show")->with(['page_active'=>'organisasi',
+            return view("pages.$theme.dmaster.suborganisasi.show")->with(['page_active'=>'suborganisasi',
                                                     'data'=>$data
                                                     ]);
         }        
@@ -307,12 +294,12 @@ class OrganisasiController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $data = OrganisasiModel::findOrFail($id);
+        $data = SubOrganisasiModel::findOrFail($id);
         if (!is_null($data) ) 
-        {
-            $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'),false);
-            return view("pages.$theme.dmaster.organisasi.edit")->with(['page_active'=>'organisasi',
-                                                                    'daftar_urusan'=>$daftar_urusan,
+        {            
+            $daftar_opd=OrganisasiModel::getDaftarOPD(config('globalsettings.tahun_perencanaan'),false);
+            return view("pages.$theme.dmaster.suborganisasi.edit")->with(['page_active'=>'suborganisasi',
+                                                                    'daftar_opd'=>$daftar_opd,
                                                                     'data'=>$data
                                                                 ]);
         }        
@@ -328,20 +315,20 @@ class OrganisasiController extends Controller {
     public function update(Request $request, $id)
     {
         $this->validate($request, [            
-            'OrgCd'=>'required|min:1|max:4|regex:/^[0-9]+$/',
-            'OrgNm'=>'required|min:5',
+            'SOrgCd'=>'required|min:1|max:4|regex:/^[0-9]+$/',
+            'SOrgNm'=>'required|min:5',
             'Alamat'=>'required|min:5',
         ]);
         
-        $organisasi = OrganisasiModel::find($id);
-        $organisasi->UrsID = $request->input('UrsID');
-        $organisasi->OrgCd = $request->input('OrgCd');
-        $organisasi->OrgNm = $request->input('OrgNm');
-        $organisasi->Alamat = $request->input('Alamat');
-        $organisasi->NamaKepalaSKPD = '-';
-        $organisasi->NIPKepalaSKPD = '-';
-        $organisasi->Descr = $request->input('Descr');
-        $organisasi->save();
+        $suborganisasi = SubOrganisasiModel::find($id);
+        $suborganisasi->OrgID = $request->input('OrgID');
+        $suborganisasi->SOrgCd = $request->input('SOrgCd');
+        $suborganisasi->SOrgNm = $request->input('SOrgNm');
+        $suborganisasi->Alamat = $request->input('Alamat');
+        $suborganisasi->NamaKepalaSKPD = '-';
+        $suborganisasi->NIPKepalaSKPD = '-';
+        $suborganisasi->Descr = $request->input('Descr');
+        $suborganisasi->save();
 
         if ($request->ajax()) 
         {
@@ -352,7 +339,7 @@ class OrganisasiController extends Controller {
         }
         else
         {
-            return redirect(route('organisasi.index'))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('suborganisasi.index'))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 
@@ -366,28 +353,28 @@ class OrganisasiController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $organisasi = OrganisasiModel::find($id);
-        $result=$organisasi->delete();
+        $suborganisasi = SubOrganisasiModel::find($id);
+        $result=$suborganisasi->delete();
         if ($request->ajax()) 
         {
-            $currentpage=$this->getCurrentPageInsideSession('organisasi'); 
+            $currentpage=$this->getCurrentPageInsideSession('suborganisasi'); 
             $data=$this->populateData($currentpage);
             if ($currentpage > $data->lastPage())
             {            
                 $data = $this->populateData($data->lastPage());
             }
-            $datatable = view("pages.$theme.dmaster.organisasi.datatable")->with(['page_active'=>'organisasi',
-                                                            'search'=>$this->getControllerStateSession('organisasi','search'),
+            $datatable = view("pages.$theme.dmaster.suborganisasi.datatable")->with(['page_active'=>'suborganisasi',
+                                                            'search'=>$this->getControllerStateSession('suborganisasi','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                            'column_order'=>$this->getControllerStateSession('organisasi.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('organisasi.orderby','order'),
+                                                            'column_order'=>$this->getControllerStateSession('suborganisasi.orderby','column_name'),
+                                                            'direction'=>$this->getControllerStateSession('suborganisasi.orderby','order'),
                                                             'data'=>$data])->render();      
             
             return response()->json(['success'=>true,'datatable'=>$datatable],200); 
         }
         else
         {
-            return redirect(route('organisasi.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+            return redirect(route('suborganisasi.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
         }        
     }
 }

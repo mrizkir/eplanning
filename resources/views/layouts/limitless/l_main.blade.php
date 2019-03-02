@@ -77,6 +77,11 @@
                                         <a href="{{route('organisasi.index')}}" title="Data Organisasi">
                                             <i class="icon-office"></i> URUSAN -> ORGANISASI
                                         </a>
+                                    </li>  
+                                    <li{!!Helper::isMenuActive ($page_active,'suborganisasi',' class="active"')!!}>
+                                        <a href="{{route('suborganisasi.index')}}" title="Data Organisasi">
+                                            <i class="icon-office"></i> ORGANISASI -> UNIT KERJA
+                                        </a>
                                     </li>                                
                                     <li{!!Helper::isMenuActive ($page_active,'program',' class="active"')!!}>
                                         <a href="{{route('program.index')}}" title="Data Program">

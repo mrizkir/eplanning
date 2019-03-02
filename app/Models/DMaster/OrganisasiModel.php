@@ -55,4 +55,22 @@ class OrganisasiModel extends Model {
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
+
+    /**
+     * digunakan untuk mendapatkan kode urusan
+     */
+    public static function getDaftarOPD ($ta,$prepend=true) 
+    {
+        $r=\DB::table('v_urusan_organisasi')
+                ->where('TA',$ta)
+                ->orderBy('kode_organisasi')->get();
+        
+        $daftar_organisasi=($prepend==true)?['none'=>'DAFTAR URUSAN']:[];        
+        foreach ($r as $k=>$v)
+        {
+            $daftar_organisasi[$v->OrgID]=$v->kode_organisasi.'. '.$v->OrgNm;
+        } 
+        return $daftar_organisasi;
+    }
+
 }

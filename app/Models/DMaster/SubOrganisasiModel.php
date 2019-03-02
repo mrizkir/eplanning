@@ -30,7 +30,7 @@ class SubOrganisasiModel extends Model {
      *
      * @var string
      */
-    public $incrementing = true;
+    public $incrementing = false;
     /**
      * activated timestamps.
      *
@@ -55,4 +55,6 @@ class SubOrganisasiModel extends Model {
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
+
+    
 }
