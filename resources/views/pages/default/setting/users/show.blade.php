@@ -15,7 +15,7 @@
     <li class="active">DETAIL DATA</li>
 @endsection
 @section('page_asset_css')
-<link rel="stylesheet" href="{!!asset('default/assets/admin-lte/plugins/iCheck/minimal/blue.css')!!}">
+<link rel="stylesheet" href="{!!asset('themes/default/assets/admin-lte/plugins/iCheck/minimal/blue.css')!!}">
 @endsection
 @section('page_content')
 <div class="row">    
@@ -156,7 +156,7 @@
 </div>
 @endsection
 @section('page_asset_js')
-<script src="{!!asset('default/assets/admin-lte/plugins/iCheck/icheck.min.js')!!}"></script>
+<script src="{!!asset('themes/default/assets/admin-lte/plugins/iCheck/icheck.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">

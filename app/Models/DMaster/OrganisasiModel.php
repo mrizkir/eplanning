@@ -65,7 +65,7 @@ class OrganisasiModel extends Model {
                 ->where('TA',$ta)
                 ->orderBy('kode_organisasi')->get();
         
-        $daftar_organisasi=($prepend==true)?['none'=>'DAFTAR URUSAN']:[];        
+        $daftar_organisasi=($prepend==true)?['none'=>'DAFTAR OPD / SKPD']:[];        
         foreach ($r as $k=>$v)
         {
             $daftar_organisasi[$v->OrgID]=$v->kode_organisasi.'. '.$v->OrgNm;

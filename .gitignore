@@ -1,8 +1,8 @@
 /node_modules
-/public/limitless/assets
+/public/themes/default/assets
+/public/themes/limitless/assets
 /public/hot
 /public/storage
-/public/default/assets
 /storage/logs
 /storage/framework
 /vendor

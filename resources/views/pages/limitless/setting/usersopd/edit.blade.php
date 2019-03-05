@@ -1,18 +1,18 @@
-@extends('layouts.{{theme}}.l_main')
+@extends('layouts.limitless.l_main')
 @section('page_title')
-    {{modelNameUpper}}
+    USERSOPD
 @endsection
 @section('page_header')
-    <i class="{{icon}} position-left"></i>
+    <i class="icon-users position-left"></i>
     <span class="text-semibold"> 
-        {{modelNameUpper}} TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        USERSOPD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
     </span>     
 @endsection
 @section('page_info')
-    @include('{{viewName}}.info')
+    @include('pages.limitless.setting.usersopd.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('{{modelNameLower}}.index')!!}">{{modelNameUpper}}</a></li>
+    <li><a href="{!!route('usersopd.index')!!}">USERSOPD</a></li>
     <li class="active">UBAH DATA</li>
 @endsection
 @section('page_content')
@@ -26,13 +26,13 @@
             <div class="heading-elements">
                 <ul class="icons-list">                    
                     <li>
-                        <a href="{!!route('{{modelNameLower}}.index')!!}" data-action="closeredirect" title="keluar"></a>
+                        <a href="{!!route('usersopd.index')!!}" data-action="closeredirect" title="keluar"></a>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>['{{controllerName}}@update',$data->{{modelNameLower}}_id],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
+            {!! Form::open(['action'=>['Setting\UsersOPDController@update',$data->usersopd_id],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
                 {{Form::hidden('_method','PUT')}}
                 <div class="form-group">
                     {{Form::label('replaceit','replaceit',['class'=>'control-label col-md-2'])}}

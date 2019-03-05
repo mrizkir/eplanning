@@ -15,7 +15,7 @@
     <li class="active">TAMBAH DATA</li>
 @endsection
 @section('page_asset_css')
-<link rel="stylesheet" href="{!!asset('default/assets/select2/dist/css/select2.min.css')!!}">
+<link rel="stylesheet" href="{!!asset('themes/default/assets/select2/dist/css/select2.min.css')!!}">
 @endsection
 @section('page_content')
 <div class="row">
@@ -83,9 +83,9 @@
 </div>   
 @endsection
 @section('page_asset_js')
-<script src="{!!asset('default/assets/jquery-validation/dist/jquery.validate.min.js')!!}"></script>
-<script src="{!!asset('default/assets/jquery-validation/dist/additional-methods.min.js')!!}"></script>
-<script src="{!!asset('default/assets/select2/dist/js/select2.full.min.js')!!}"></script>
+<script src="{!!asset('themes/default/assets/jquery-validation/dist/jquery.validate.min.js')!!}"></script>
+<script src="{!!asset('themes/default/assets/jquery-validation/dist/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('themes/default/assets/select2/dist/js/select2.full.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">

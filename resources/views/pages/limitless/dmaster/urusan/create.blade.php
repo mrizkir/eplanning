@@ -71,8 +71,8 @@
 </div>   
 @endsection
 @section('page_asset_js')
-<script src="{!!asset('limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
-<script src="{!!asset('limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">

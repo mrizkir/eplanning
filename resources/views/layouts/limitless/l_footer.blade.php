@@ -1,8 +1,8 @@
-<script src="{!!asset('limitless/assets/js/jquery.min.js')!!}"></script>
-<script src="{!!asset('limitless/assets/js/bootstrap.min.js')!!}"></script>
-<script src="{!!asset('limitless/assets/js/nicescroll.min.js')!!}"></script>
-<script src="{!!asset('limitless/assets/js/drilldown.js')!!}"></script>
-<script src="{!!asset('limitless/assets/js/pace.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/jquery.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/bootstrap.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/nicescroll.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/drilldown.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/pace.min.js')!!}"></script>
 @yield('page_asset_js')
 <script type="text/javascript">
     let url_admin="{{route('dashboard.index')}}";
@@ -10,7 +10,7 @@
     let token = "{{ csrf_token() }}";
     let baseUserImageURL = "{{asset('storage/images/users')}}/";
 </script>
-<script src="{!!asset('limitless/app.js')!!}"></script>
+<script src="{!!asset('themes/limitless/app.js')!!}"></script>
 @yield('page_custom_js')
 </body>
 </html>

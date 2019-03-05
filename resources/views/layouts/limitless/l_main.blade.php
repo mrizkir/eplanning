@@ -126,7 +126,7 @@
                 </a>
                 <ul class="dropdown-menu width-200">
                     @hasrole('superadmin') 
-                    <li class="dropdown-header">USER</li>                    
+                    <li class="dropdown-header">ATRIBUT USER</li>                     
                     <li>
                         <a href="{!!route('permissions.index')!!}">
                             <i class="icon-user"></i> PERMISSIONS
@@ -137,13 +137,14 @@
                             <i class="icon-user"></i> ROLES
                         </a>
                     </li>
+                    <li class="dropdown-header">USERS</li>
                     <li>
                         <a href="{!!route('users.index')!!}">
                             <i class="icon-user"></i> BAPPEDA
                         </a>
                     </li>
                     <li>
-                        <a href="{!!route('users.index')!!}">
+                        <a href="{!!route('usersopd.index')!!}">
                             <i class="icon-user"></i> OPD
                         </a>
                     </li>

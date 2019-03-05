@@ -56,5 +56,35 @@ class SubOrganisasiModel extends Model {
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
 
-    
+    /**
+     * digunakan untuk mendapatkan kode urusan
+     */
+    public static function getDaftarOPD ($ta,$prepend=true) 
+    {
+        $r=\DB::table('v_suborganisasi')
+                ->where('TA',$ta)
+                ->orderBy('kode_suborganisasi')->get();
+        
+        $daftar_organisasi=($prepend==true)?['none'=>'DAFTAR OPD / SKPD']:[];        
+        foreach ($r as $k=>$v)
+        {
+            $daftar_organisasi[$v->SOrgID]=$v->kode_suborganisasi.'. '.$v->SOrgNm;
+        } 
+        return $daftar_organisasi;
+    }
+    /**
+     * digunakan untuk mendapatkan kode urusan
+     */
+    public static function getNamaOPDByID ($SOrgID) 
+    {
+        $r = \DB::table('v_suborganisasi')->where('SOrgID',$SOrgID)->pluck('SOrgNm')->toArray();
+        if (isset($r[0]))
+        {
+            return $r[0];
+        }
+        else
+        {
+            return null;
+        }
+    }
 }

@@ -280,6 +280,7 @@ class UsersController extends Controller {
     public function create()
     {        
         $daftar_roles=$this->getDaftarRoles();
+        $daftar_theme = \File::directories(public_path());    
         return view("pages.{$this->theme}.setting.users.create")->with(['page_active'=>'users',
                                                                 'daftar_roles'=>$daftar_roles
                                                                 ]);  

@@ -49,8 +49,8 @@
 </div>   
 @endsection
 @section('page_asset_js')
-<script src="{!!asset('default/assets/jquery-validation/dist/jquery.validate.min.js')!!}"></script>
-<script src="{!!asset('default/assets/jquery-validation/dist/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('themes/default/assets/jquery-validation/dist/jquery.validate.min.js')!!}"></script>
+<script src="{!!asset('themes/default/assets/jquery-validation/dist/additional-methods.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">

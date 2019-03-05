@@ -86,10 +86,10 @@
 </div>   
 @endsection
 @section('page_asset_js')
-<script src="{!!asset('limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
-<script src="{!!asset('limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
-<script src="{!!asset('limitless/assets/js/uniform.min.js')!!}"></script>
-<script src="{!!asset('limitless/assets/js/select2.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/uniform.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
