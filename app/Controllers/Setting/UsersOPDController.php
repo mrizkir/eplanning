@@ -7,6 +7,7 @@ use App\Controllers\Controller;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use App\Models\DMaster\SubOrganisasiModel;
+use App\Rules\IgnoreIfDataIsEqualValidation;
 
 class UsersOPDController extends Controller {
      /**
@@ -17,7 +18,7 @@ class UsersOPDController extends Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['auth']);
+        $this->middleware(['auth','role:superadmin']);  
     }
     /**
      * collect data from resources for index view
@@ -45,16 +46,16 @@ class UsersOPDController extends Controller {
             switch ($search['kriteria']) 
             {
                 case 'id' :
-                    $data = User::with('roles:name')->where(['users.id'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                    $data = User::role('opd')->where(['users.id'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
                 case 'username' :
-                    $data = User::with('roles:name')->where('username', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = User::role('opd')->where('username', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
                 case 'nama' :
-                    $data = User::with('roles:name')->where('name', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction); 
+                    $data = User::role('opd')->where('name', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction); 
                 break;
                 case 'email' :
-                    $data = User::with('roles:name')->where('email', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction); 
+                    $data = User::role('opd')->where('email', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction); 
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
@@ -218,7 +219,7 @@ class UsersOPDController extends Controller {
     {        
         $theme = \Auth::user()->theme;
         $daftar_opd=SubOrganisasiModel::getDaftarOPD(config('globalsettings.tahun_perencanaan'),false);
-        $daftar_theme = \File::directories(public_path().'/themes');           
+        $daftar_theme = $this->listOfthemes;             
         return view("pages.$theme.setting.usersopd.create")->with(['page_active'=>'usersopd',
                                                                     'daftar_opd'=>$daftar_opd,
                                                                     'daftar_theme'=>$daftar_theme
@@ -250,6 +251,7 @@ class UsersOPDController extends Controller {
             'SOrgID'=> $request->input('SOrgID'),
             'SOrgNm'=> SubOrganisasiModel::getNamaOPDByID($request->input('SOrgID')),
             'email_verified_at'=>\Carbon\Carbon::now(),
+            'theme'=> $request->input('theme'),
             'created_at'=>$now, 
             'updated_at'=>$now
         ]);                    
@@ -305,9 +307,13 @@ class UsersOPDController extends Controller {
         $data = User::findOrFail($id);
         if (!is_null($data) ) 
         {
+            $daftar_opd=SubOrganisasiModel::getDaftarOPD(config('globalsettings.tahun_perencanaan'),false);
+            $daftar_theme = $this->listOfthemes;   
             return view("pages.$theme.setting.usersopd.edit")->with(['page_active'=>'usersopd',
-                                                    'data'=>$data
-                                                    ]);
+                                                                    'daftar_opd'=>$daftar_opd,
+                                                                    'daftar_theme'=>$daftar_theme,
+                                                                    'data'=>$data
+                                                                ]);
         }        
     }
 
@@ -320,14 +326,32 @@ class UsersOPDController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'replaceit'=>'required',
-        ]);
-        
-        $usersopd = User::find($id);
-        $usersopd->replaceit = $request->input('replaceit');
-        $usersopd->save();
+        $user = User::find($id);
 
+        $this->validate($request, [
+            'username'=>['required',new IgnoreIfDataIsEqualValidation('users',$user->username)],           
+            'name'=>'required',            
+            'email'=>'required|string|email|unique:users,email,'.$id,              
+            'SOrgID'=>'required',
+        ]);        
+        
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->username = $request->input('username');
+        if (!empty(trim($request->input('password')))) {
+            $user->password = \Hash::make($request->input('password'));
+        }    
+        $user->SOrgID = $request->input('SOrgID');
+        $user->SOrgNm = SubOrganisasiModel::getNamaOPDByID($request->input('SOrgID'));
+        $user->theme = $request->input('theme');
+        $user->updated_at = \Carbon\Carbon::now()->toDateTimeString();        
+        $user->save();
+
+        $user->syncRoles('opd');
+        if ($request->input('do_sync')==1)
+        {
+            $user->syncPermissions($user->getPermissionsViaRoles()->pluck('name')->toArray());
+        }
         if ($request->ajax()) 
         {
             return response()->json([

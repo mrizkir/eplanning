@@ -61,13 +61,15 @@ class PermissionsController extends Controller {
      */
     public function changenumberrecordperpage (Request $request) 
     {
+        $theme = \Auth::user()->theme;
+
         $numberRecordPerPage = $request->input('numberRecordPerPage');
         $this->putControllerStateSession('global_controller','numberRecordPerPage',$numberRecordPerPage);
         
         $this->setCurrentPageInsideSession('permissions',1);
         $data=$this->populateData();
 
-        $datatable = view("pages.{$this->theme}.setting.permissions.datatable")->with(['page_active'=>'permissions',
+        $datatable = view("pages.$theme.setting.permissions.datatable")->with(['page_active'=>'permissions',
                                                                                 'search'=>$this->getControllerStateSession('permissions','search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                 'column_order'=>$this->getControllerStateSession('permissions.orderby','column_name'),
@@ -82,6 +84,8 @@ class PermissionsController extends Controller {
      */
     public function orderby (Request $request) 
     {
+        $theme = \Auth::user()->theme;
+
         $orderby = $request->input('orderby') == 'asc'?'desc':'asc';
         $column=$request->input('column_name');
         switch($column) 
@@ -102,7 +106,7 @@ class PermissionsController extends Controller {
 
         $data=$this->populateData();
 
-        $datatable = view("pages.{$this->theme}.setting.permissions.datatable")->with(['page_active'=>'permissions',
+        $datatable = view("pages.$theme.setting.permissions.datatable")->with(['page_active'=>'permissions',
                                                                                 'search'=>$this->getControllerStateSession('permissions','search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                 'column_order'=>$this->getControllerStateSession('permissions.orderby','column_name'),
@@ -118,9 +122,11 @@ class PermissionsController extends Controller {
      */
     public function paginate ($id) 
     {
+        $theme = \Auth::user()->theme;
+
         $this->setCurrentPageInsideSession('permissions',$id);
         $data=$this->populateData($id);
-        $datatable = view("pages.{$this->theme}.setting.permissions.datatable")->with(['page_active'=>'permissions',
+        $datatable = view("pages.$theme.setting.permissions.datatable")->with(['page_active'=>'permissions',
                                                                                 'search'=>$this->getControllerStateSession('permissions','search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                 'column_order'=>$this->getControllerStateSession('permissions.orderby','column_name'),
@@ -136,6 +142,8 @@ class PermissionsController extends Controller {
      */
     public function search (Request $request) 
     {
+        $theme = \Auth::user()->theme;
+
         $action = $request->input('action');
         if ($action == 'reset') 
         {
@@ -150,7 +158,7 @@ class PermissionsController extends Controller {
         $this->setCurrentPageInsideSession('permissions',1);
         $data=$this->populateData();
         
-        $datatable = view("pages.{$this->theme}.setting.permissions.datatable")->with(['page_active'=>'permissions',
+        $datatable = view("pages.$theme.setting.permissions.datatable")->with(['page_active'=>'permissions',
                                                                                 'search'=>$this->getControllerStateSession('permissions','search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                 'column_order'=>$this->getControllerStateSession('permissions.orderby','column_name'),
@@ -165,6 +173,8 @@ class PermissionsController extends Controller {
      */
     public function index(Request $request)
     { 
+        $theme = \Auth::user()->theme;
+
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('permissions'); 
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage())
@@ -172,7 +182,7 @@ class PermissionsController extends Controller {
             $data = $this->populateData($data->lastPage());
         }
         $this->setCurrentPageInsideSession('permissions',$data->currentPage());
-        return view("pages.{$this->theme}.setting.permissions.index")->with(['page_active'=>'permissions',
+        return view("pages.$theme.setting.permissions.index")->with(['page_active'=>'permissions',
                                                                     'search'=>$this->getControllerStateSession('permissions','search'),
                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                                                     'column_order'=>$this->getControllerStateSession('permissions.orderby','column_name'),
@@ -186,7 +196,9 @@ class PermissionsController extends Controller {
      */
     public function create()
     {        
-        return view("pages.{$this->theme}.setting.permissions.create")->with(['page_active'=>'permissions'                                                                    
+        $theme = \Auth::user()->theme;
+
+        return view("pages.$theme.setting.permissions.create")->with(['page_active'=>'permissions'                                                                    
                                                                     ]);  
     }
     
@@ -237,17 +249,19 @@ class PermissionsController extends Controller {
      */
     public function show($id)
     {
+        $theme = \Auth::user()->theme;
+
         $data = Permission::find($id);
         if (!is_null($data) )  
         {
-            return view("pages.{$this->theme}.setting.permissions.show")->with(['page_active'=>'permissions',
+            return view("pages.$theme.setting.permissions.show")->with(['page_active'=>'permissions',
                                                                         'data'=>$data
                                                                         ]);
         }
         else
         {            
             $errormessage="Data dengan ID ($id) tidak ditemukan.";            
-            return view("pages.{$this->theme}.setting.permissions.show")->with(['page_active'=>'permissions',
+            return view("pages.$theme.setting.permissions.show")->with(['page_active'=>'permissions',
                                                                     'errormessage'=>$errormessage
                                                                 ]);
         }
@@ -260,6 +274,8 @@ class PermissionsController extends Controller {
      */
     public function destroy(Request $request,$id)
     {
+        $theme = \Auth::user()->theme;
+        
         $permissions = Permission::find($id);
         $result=$permissions->delete();
         if ($request->ajax()) 
@@ -270,7 +286,7 @@ class PermissionsController extends Controller {
             {            
                 $data = $this->populateData($data->lastPage());
             }
-            $datatable = view("pages.{$this->theme}.setting.permissions.datatable")->with(['page_active'=>'permissions',
+            $datatable = view("pages.$theme.setting.permissions.datatable")->with(['page_active'=>'permissions',
                                                                                     'search'=>$this->getControllerStateSession('permissions','search'),
                                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                     'column_order'=>$this->getControllerStateSession('permissions.orderby','column_name'),

@@ -1,3 +1,3 @@
 <small class="display-block">          
-    <code>info halaman</code>
+    Modul untuk mengatur pengguna role OPD / SKPD.
 </small>

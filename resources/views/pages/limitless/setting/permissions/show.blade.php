@@ -1,19 +1,18 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    USERS OPD
+    PERMISSIONS
 @endsection
 @section('page_header')
     <i class="icon-users position-left"></i>
     <span class="text-semibold"> 
-        USERS OPD
+        PERMISSIONS TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
     </span>     
 @endsection
 @section('page_info')
-    @include('pages.limitless.setting.usersopd.info')
+    @include('pages.limitless.setting.permissions.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="#">SETTING</a></li>
-    <li><a href="{!!route('usersopd.index')!!}">USERS OPD</a></li>
+    <li><a href="{!!route('permissions.index')!!}">PERMISSIONS</a></li>
     <li class="active">DETAIL DATA</li>
 @endsection
 @section('page_content')
@@ -22,16 +21,16 @@
         <div class="panel panel-flat border-top-info border-bottom-info">
             <div class="panel-heading">
                 <h5 class="panel-title"> 
-                    <i class="icon-eye"></i>  DATA USERS OPD
+                    <i class="icon-eye"></i>  DATA PERMISSIONS
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('usersopd.edit',['id'=>$data->id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data User OPD">
+                    <a href="{{route('permissions.edit',['id'=>$data->permissions_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Permissions">
                         <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data User OPD" data-id="{{$data->id}}" data-url="{{route('usersopd.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
+                    <a href="javascript:;" title="Hapus Data Permissions" data-id="{{$data->permissions_id}}" data-url="{{route('permissions.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
                     </a>
-                    <a href="{!!route('usersopd.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
+                    <a href="{!!route('permissions.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
                         <i class="icon-close2"></i>
                     </a>            
                 </div>
@@ -41,45 +40,33 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>ID: </strong></label>
+                                <label class="col-md-4 control-label"><strong>permissions id: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->id}}</p>
+                                    <p class="form-control-static">{{$data->permissions_id}}</p>
                                 </div>                            
-                            </div>    
+                            </div>                            
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>USERNAME: </strong></label>
+                                <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->username}}</p>
+                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}}</p>
                                 </div>                            
-                            </div> 
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>NAMA: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->name}}</p>
-                                </div>                            
-                            </div>          
+                            </div>
                         </div>                        
                     </div>
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>EMAIL: </strong></label>
+                                <label class="col-md-4 control-label"><strong>replaceit: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->SOrgNm}}</p>
-                                </div>                            
-                            </div> 
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>UNIT KERJA: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->SOrgNm}}</p>
+                                    <p class="form-control-static">replaceit</p>
                                 </div>                            
                             </div>    
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>TGL. BUAT / TGL. UBAH: </strong></label>
+                                <label class="col-md-4 control-label"><strong>TGL. UBAH: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}} / {{Helper::tanggal('d/m/Y H:m',$data->updated_at)}}</p>
+                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->updated_at)}}</p>
                                 </div>                            
-                            </div>           
+                            </div>                         
                         </div>
                     </div>
                 </div>
@@ -92,7 +79,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
     $(".btnDelete").click(function(ev) {
-        if (confirm('Apakah Anda ingin menghapus Data User OPD ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data Permissions ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             let token = $('meta[name="csrf-token"]').attr('content');

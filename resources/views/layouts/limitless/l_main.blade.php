@@ -63,16 +63,20 @@
                             <div class="col-md-3">
                                 <span class="menu-heading underlined"><i class="icon-office"></i> DATA</span>
                                 <ul class="menu-list">
+                                    @can('browse_kelompokurusan')
                                     <li{!!Helper::isMenuActive ($page_active,'kelompokurusan',' class="active"')!!}>
                                         <a href="{{route('kelompokurusan.index')}}" title="Data Kelompok Urusan">
                                             <i class="icon-chess-queen"></i> KELOMPOK URUSAN
                                         </a>
-                                    </li>
+                                    </li>    
+                                    @endcan                      
+                                    @can('browse_urusan')              
                                     <li{!!Helper::isMenuActive ($page_active,'urusan',' class="active"')!!}>
                                         <a href="{{route('urusan.index')}}" title="Data Urusan">
                                             <i class="icon-chess-king"></i> URUSAN
                                         </a>
                                     </li>    
+                                    @endcan
                                     <li{!!Helper::isMenuActive ($page_active,'organisasi',' class="active"')!!}>
                                         <a href="{{route('organisasi.index')}}" title="Data Organisasi">
                                             <i class="icon-office"></i> URUSAN -> ORGANISASI
@@ -143,7 +147,7 @@
                             <i class="icon-user"></i> BAPPEDA
                         </a>
                     </li>
-                    <li>
+                    <li{!!Helper::isMenuActive ($page_active,'usersopd',' class="active"')!!}>
                         <a href="{!!route('usersopd.index')!!}">
                             <i class="icon-user"></i> OPD
                         </a>

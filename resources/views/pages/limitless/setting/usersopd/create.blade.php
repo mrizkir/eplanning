@@ -63,7 +63,13 @@
                     <div class="col-md-10">
                         {{Form::select('SOrgID', $daftar_opd,'',['class'=>'form-control select','id'=>'SOrgID'])}}                                
                     </div>
-                </div>   
+                </div> 
+                <div class="form-group">
+                    {{Form::label('theme','THEME',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::select('theme', $daftar_theme,'default',['class'=>'form-control','id'=>'theme'])}}                                
+                    </div>
+                </div>  
                 <div class="form-group">
                     {{Form::label('do_sync','SYNCING ROLE ?',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
