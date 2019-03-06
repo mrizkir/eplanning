@@ -1,17 +1,18 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    PERMISSIONS
+    USER PERMISSIONS
 @endsection
 @section('page_header')
-    <i class="icon-users position-left"></i>
+    <i class="icon-lock4 position-left"></i>
     <span class="text-semibold">
-        PERMISSIONS TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        USER PERMISSIONS
     </span>
 @endsection
 @section('page_info')
     @include('pages.limitless.setting.permissions.info')
 @endsection
 @section('page_breadcrumb')
+    <li><a href="#">SETTING</a></li>
     <li><a href="{!!route('permissions.index')!!}">PERMISSIONS</a></li>
     <li class="active">ERROR</li>
 @endsection

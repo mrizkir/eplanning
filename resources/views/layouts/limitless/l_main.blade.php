@@ -131,18 +131,18 @@
                 <ul class="dropdown-menu width-200">
                     @hasrole('superadmin') 
                     <li class="dropdown-header">ATRIBUT USER</li>                     
-                    <li>
+                    <li{!!Helper::isMenuActive ($page_active,'permissions',' class="active"')!!}>
                         <a href="{!!route('permissions.index')!!}">
                             <i class="icon-user"></i> PERMISSIONS
                         </a>
                     </li> 
-                    <li>
+                    <li{!!Helper::isMenuActive ($page_active,'roles',' class="active"')!!}>
                         <a href="{!!route('roles.index')!!}">
                             <i class="icon-user"></i> ROLES
                         </a>
                     </li>
                     <li class="dropdown-header">USERS</li>
-                    <li>
+                    <li{!!Helper::isMenuActive ($page_active,'users',' class="active"')!!}>
                         <a href="{!!route('users.index')!!}">
                             <i class="icon-user"></i> BAPPEDA
                         </a>
@@ -152,7 +152,7 @@
                             <i class="icon-user"></i> OPD
                         </a>
                     </li>
-                    <li>
+                    <li{!!Helper::isMenuActive ($page_active,'dewan',' class="active"')!!}>
                         <a href="{!!route('users.index')!!}">
                             <i class="icon-user"></i> DEWAN
                         </a>

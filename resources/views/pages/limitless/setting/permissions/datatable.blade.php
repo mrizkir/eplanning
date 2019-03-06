@@ -22,10 +22,19 @@
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
                     <th width="100">
-                        <a class="column-sort text-white" id="col-replace_it" data-order="{{$direction}}" href="#">
-                            replace_it  
+                        <a class="column-sort text-white" id="col-id" data-order="{{$direction}}" href="#">
+                            ID  
                         </a>                                             
                     </th> 
+                    <th>
+                        <a class="column-sort text-white" id="col-name" data-order="{{$direction}}" href="#">
+                            NAME
+                    </th>   
+                    <th width="150">
+                        <a class="column-sort text-white" id="col-guard" data-order="{{$direction}}" href="#">
+                            GUARD                            
+                        </a>                        
+                    </th>    
                     <th width="100">AKSI</th>
                 </tr>
             </thead>
@@ -35,21 +44,18 @@
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>                  
-                    <td>{{$item->replace_it}}</td>
+                    <td>{{$item->id}}</td>
+                    <td>{{$item->name}}</td>
+                    <td>{{$item->guard_name}}</td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('permissions.show',['id'=>$item->permissions_id])}}" title="Detail Data Permissions">
+                                <a class="btnShow" href="{{route('permissions.show',['id'=>$item->id])}}" title="Detail Data Permission">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
-                            <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('permissions.edit',['id'=>$item->permissions_id])}}" title="Ubah Data Permissions">
-                                    <i class='icon-pencil7'></i>
-                                </a>  
-                            </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data Permissions" data-id="{{$item->permissions_id}}" data-url="{{route('permissions.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data Permission" data-id="{{$item->id}}" data-url="{{route('permissions.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>

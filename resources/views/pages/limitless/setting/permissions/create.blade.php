@@ -1,17 +1,18 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    PERMISSIONS
+    USER PERMISSIONS
 @endsection
 @section('page_header')
-    <i class="icon-users position-left"></i>
+    <i class="icon-lock4 position-left"></i>
     <span class="text-semibold"> 
-        PERMISSIONS TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        USER PERMISSIONS
     </span>
 @endsection
 @section('page_info')
     @include('pages.limitless.setting.permissions.info')
 @endsection
 @section('page_breadcrumb')
+    <li><a href="#">SETTING</a></li>
     <li><a href="{!!route('permissions.index')!!}">PERMISSIONS</a></li>
     <li class="active">TAMBAH DATA</li>
 @endsection
@@ -34,11 +35,40 @@
         <div class="panel-body">
             {!! Form::open(['action'=>'Setting\PermissionsController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
                 <div class="form-group">
-                    {{Form::label('replaceit','replaceit',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('name','NAMA PERMISSION',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('replaceit','',['class'=>'form-control','placeholder'=>'replaceit'])}}
+                        {{Form::text('name','',['class'=>'form-control','placeholder'=>'NAMA PERMISSION'])}}
                     </div>
-                </div>
+                </div> 
+                <div class="form-group">
+                    {{Form::label('aksi','AKSI',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        <div class="checkbox checkbox-switch">
+                            {{ Form::checkbox('aksi[]', 'browse',true,['class'=>'switch']) }}    
+                            BROWSE
+                        </div>
+                        <div class="checkbox checkbox-switch">
+                            {{ Form::checkbox('aksi[]', 'read',true,['class'=>'switch']) }}         
+                            READ
+                        </div>
+                        <div class="checkbox checkbox-switch">
+                            {{ Form::checkbox('aksi[]', 'browse',true,['class'=>'switch']) }}    
+                            BROWSE
+                        </div>
+                        <div class="checkbox checkbox-switch">
+                            {{ Form::checkbox('aksi[]', 'add',true,['class'=>'switch']) }}
+                            ADD
+                        </div>
+                        <div class="checkbox checkbox-switch">
+                            {{ Form::checkbox('aksi[]', 'edit',true,['class'=>'switch']) }}
+                            EDIT
+                        </div>
+                        <div class="checkbox checkbox-switch">
+                            {{ Form::checkbox('aksi[]', 'delete',true,['class'=>'switch']) }}
+                            DELETE
+                        </div>
+                    </div>
+                </div>     
                 <div class="form-group">            
                     <div class="col-md-10 col-md-offset-2">                        
                         {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}
@@ -52,23 +82,25 @@
 @section('page_asset_js')
 <script src="{!!asset('limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/switch.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
+    $(".switch").bootstrapSwitch();
     $('#frmdata').validate({
         rules: {
-            replaceit : {
+            name : {
                 required: true,
                 minlength: 2
             }
         },
         messages : {
-            replaceit : {
+            name : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             }
-        }      
+        }     
     });   
 });
 </script>

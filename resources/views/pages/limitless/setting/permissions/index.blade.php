@@ -1,17 +1,18 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    PERMISSIONS
+    USER ERMISSIONS
 @endsection
 @section('page_header')
-    <i class="icon-users position-left"></i>
+    <i class="icon-lock4 position-left"></i>
     <span class="text-semibold">
-        PERMISSIONS TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
+        USER PERMISSIONS
     </span>
 @endsection
 @section('page_info')
     @include('pages.limitless.setting.permissions.info')
 @endsection
 @section('page_breadcrumb')
+    <li><a href="#">SETTING</a></li>
     <li class="active">PERMISSIONS</li>
 @endsection
 @section('page_content')
@@ -29,9 +30,9 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">
-                            {{Form::select('cmbKriteria', ['replaceit'=>'replaceit','nama'=>'replaceit'], isset($search['kriteria'])?$search['kriteria']:'replaceit',['class'=>'form-control'])}}
+                            {{Form::select('cmbKriteria', ['nama'=>'NAMA'], isset($search['kriteria'])?$search['kriteria']:'replaceit',['class'=>'form-control'])}}
                         </div>
-                    </div>
+                </div>
                     <div class="form-group" id="divKriteria">
                         <label class="col-md-2 control-label">Isi Kriteria :</label>                                                    
                         <div class="col-md-10">                            
@@ -75,7 +76,7 @@ $(document).ready(function () {
                     if (result.success==1){
                         $('#divdatatable').html(result.datatable);                        
                     }else{
-                        console.log("Gagal menghapus data Permissions dengan id "+id);
+                        console.log("Gagal menghapus data Permission dengan id "+id);
                     }                    
                 },
                 error:function(xhr, status, error){

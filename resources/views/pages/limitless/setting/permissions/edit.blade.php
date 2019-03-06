@@ -3,7 +3,7 @@
     PERMISSIONS
 @endsection
 @section('page_header')
-    <i class="icon-users position-left"></i>
+    <i class="icon-lock4 position-left"></i>
     <span class="text-semibold"> 
         PERMISSIONS TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
     </span>     

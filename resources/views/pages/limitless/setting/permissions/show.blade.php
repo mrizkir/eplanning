@@ -1,17 +1,18 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    PERMISSIONS
+    USER PERMISSIONS
 @endsection
 @section('page_header')
-    <i class="icon-users position-left"></i>
+    <i class="icon-lock4 position-left"></i>
     <span class="text-semibold"> 
-        PERMISSIONS TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        USER PERMISSIONS
     </span>     
 @endsection
 @section('page_info')
     @include('pages.limitless.setting.permissions.info')
 @endsection
 @section('page_breadcrumb')
+    <li><a href="#">SETTING</a></li>
     <li><a href="{!!route('permissions.index')!!}">PERMISSIONS</a></li>
     <li class="active">DETAIL DATA</li>
 @endsection
@@ -21,12 +22,9 @@
         <div class="panel panel-flat border-top-info border-bottom-info">
             <div class="panel-heading">
                 <h5 class="panel-title"> 
-                    <i class="icon-eye"></i>  DATA PERMISSIONS
+                    <i class="icon-eye"></i>  DATA PERMISSION
                 </h5>
-                <div class="heading-elements">   
-                    <a href="{{route('permissions.edit',['id'=>$data->permissions_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Permissions">
-                        <i class="icon-pencil7"></i>
-                    </a>
+                <div class="heading-elements"> 
                     <a href="javascript:;" title="Hapus Data Permissions" data-id="{{$data->permissions_id}}" data-url="{{route('permissions.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
                     </a>
@@ -40,33 +38,21 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>permissions id: </strong></label>
+                                <label class="col-md-4 control-label"><strong>ID: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->permissions_id}}</p>
+                                    <p class="form-control-static">{{$data->id}}</p>
                                 </div>                            
                             </div>                            
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}}</p>
-                                </div>                            
-                            </div>
-                        </div>                        
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>replaceit: </strong></label>
+                                <label class="col-md-4 control-label"><strong>NAME / GUARD: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">replaceit</p>
+                                    <p class="form-control-static">{{$data->name}} / {{$data->guard_name}}</p>
                                 </div>                            
-                            </div>    
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>TGL. UBAH: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->updated_at)}}</p>
-                                </div>                            
-                            </div>                         
+                            </div>                            
                         </div>
                     </div>
                 </div>
