@@ -48,12 +48,8 @@
                             BROWSE
                         </div>
                         <div class="checkbox checkbox-switch">
-                            {{ Form::checkbox('aksi[]', 'read',true,['class'=>'switch']) }}         
-                            READ
-                        </div>
-                        <div class="checkbox checkbox-switch">
-                            {{ Form::checkbox('aksi[]', 'browse',true,['class'=>'switch']) }}    
-                            BROWSE
+                            {{ Form::checkbox('aksi[]', 'show',true,['class'=>'switch']) }}    
+                            SHOW
                         </div>
                         <div class="checkbox checkbox-switch">
                             {{ Form::checkbox('aksi[]', 'add',true,['class'=>'switch']) }}
@@ -80,8 +76,8 @@
 </div>   
 @endsection
 @section('page_asset_js')
-<script src="{!!asset('limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
-<script src="{!!asset('limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/switch.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')

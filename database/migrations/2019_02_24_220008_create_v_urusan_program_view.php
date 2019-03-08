@@ -45,6 +45,6 @@ class CreateVUrusanProgramView extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('v_urusan_program');
+        \DB::statement('DROP VIEW v_urusan_program');
     }
 }

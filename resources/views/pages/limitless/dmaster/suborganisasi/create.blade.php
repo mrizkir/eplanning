@@ -116,7 +116,7 @@ $(document).ready(function () {
         },
         messages : {
             OrgID : {
-                required: "Mohon dipilih Program !"
+                required: "Mohon dipilih OPD / SKPD !"
             },
             SOrgCd : {
                 required: "Mohon untuk di isi karena ini diperlukan.",

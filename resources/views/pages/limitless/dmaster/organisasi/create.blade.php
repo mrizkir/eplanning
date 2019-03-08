@@ -116,7 +116,7 @@ $(document).ready(function () {
         },
         messages : {
             UrsID : {
-                required: "Mohon dipilih Program !"
+                required: "Mohon dipilih Urusan !"
             },
             OrgCd : {
                 required: "Mohon untuk di isi karena ini diperlukan.",

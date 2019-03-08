@@ -279,16 +279,15 @@ class RolesController extends Controller {
     public function update(Request $request, $id)
     {
         $theme = \Auth::user()->theme;
-        
-        $this->validate($request, [
-            'name'=>['required',new IgnoreIfDataIsEqualValidation('roles',$request->input('old_name'))],           
-        ]);
-        
+
         $roles = Role::find($id);
+
+        $this->validate($request, [
+            'name'=>['required',new IgnoreIfDataIsEqualValidation('roles',$roles->name)],           
+        ]);        
+       
         $roles->name = $request->input('name');
         $roles->save();
-
-        \DB::table('users')->where('role_id',$id)->update(['role_name'=>$request->input('name')]);
 
         if ($request->ajax()) 
         {
@@ -299,7 +298,7 @@ class RolesController extends Controller {
         }
         else
         {
-            return redirect(route("pages.$theme.setting.roles.index"))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route("roles.index"))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 

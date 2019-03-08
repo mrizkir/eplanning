@@ -1,18 +1,19 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    ROLES
+    USER ROLES
 @endsection
 @section('page_header')
-    <i class="icon-users position-left"></i>
+    <i class="icon-user-tie position-left"></i>
     <span class="text-semibold"> 
-        ROLES TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        USER ROLES
     </span>
 @endsection
 @section('page_info')
     @include('pages.limitless.setting.roles.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('roles.index')!!}">ROLES</a></li>
+    <li><a href="#">SETTING</a></li>
+    <li><a href="{!!route('roles.index')!!}">USER ROLES</a></li>
     <li class="active">TAMBAH DATA</li>
 @endsection
 @section('page_content')
@@ -34,11 +35,11 @@
         <div class="panel-body">
             {!! Form::open(['action'=>'Setting\RolesController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
                 <div class="form-group">
-                    {{Form::label('replaceit','replaceit',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('name','NAMA ROLE',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('replaceit','',['class'=>'form-control','placeholder'=>'replaceit'])}}
+                        {{Form::text('name','',['class'=>'form-control','placeholder'=>'NAMA ROLE'])}}
                     </div>
-                </div>
+                </div>  
                 <div class="form-group">            
                     <div class="col-md-10 col-md-offset-2">                        
                         {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}
@@ -50,25 +51,25 @@
 </div>   
 @endsection
 @section('page_asset_js')
-<script src="{!!asset('limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
-<script src="{!!asset('limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
     $('#frmdata').validate({
         rules: {
-            replaceit : {
+            name : {
                 required: true,
                 minlength: 2
             }
         },
         messages : {
-            replaceit : {
+            name : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             }
-        }      
+        } 
     });   
 });
 </script>

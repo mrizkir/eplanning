@@ -99,6 +99,16 @@
                                     </li>
                                 </ul>
                             </div>
+                            <div class="col-md-3">
+                                <span class="menu-heading underlined"><i class="icon-link2"></i> MAPPING</span>
+                                <ul class="menu-list">
+                                    <li{!!Helper::isMenuActive ($page_active,'mappingprogramtoopd',' class="active"')!!}>
+                                        <a href="{{route('mappingprogramtoopd.index')}}" title="Data Program Kegiatan">
+                                            <i class="icon-link"></i> PROGRAM -> OPD / SKPD
+                                        </a>    
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>

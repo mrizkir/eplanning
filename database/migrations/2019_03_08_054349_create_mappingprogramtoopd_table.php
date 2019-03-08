@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSubOrganisasiTable extends Migration
+class CreateMappingprogramtoopdTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,25 +13,27 @@ class CreateSubOrganisasiTable extends Migration
      */
     public function up()
     {
-        Schema::create('tmSOrg', function (Blueprint $table) {
-            $table->string('SOrgID',19);
+        Schema::create('trOrgProgram', function (Blueprint $table) {
+            $table->string('orgProgramID',19);
             $table->string('OrgID',19);
-            $table->string('SOrgCd',4);
-            $table->string('SOrgNm');
-            $table->string('Alamat');
-            $table->string('NamaKepalaSKPD');
-            $table->string('NIPKepalaSKPD');
+            $table->string('PrgID',19);
             $table->string('Descr')->nullable();
-            $table->year('TA');       
-            $table->string('SOrgID_Src',19)->nullable();     
+            $table->year('TA');         
             $table->timestamps();
 
-            $table->primary('SOrgID');
+            $table->primary('orgProgramID');
             $table->index('OrgID');
+            $table->index('PrgID');
 
             $table->foreign('OrgID')
                 ->references('OrgID')
                 ->on('tmOrg')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            $table->foreign('PrgID')
+                ->references('PrgID')
+                ->on('tmPrg')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
@@ -44,6 +46,6 @@ class CreateSubOrganisasiTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tmSOrg');
+        Schema::dropIfExists('trOrgProgram');
     }
 }

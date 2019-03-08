@@ -5,9 +5,11 @@
         </div>
         <div class="heading-elements">
             <div class="heading-btn">
+                @can('add_kelompokurusan')
                 <a href="{!!route('kelompokurusan.create')!!}" class="btn btn-info btn-xs" title="Tambah Kelompok Urusan">
                     <i class="icon-googleplus5"></i>
                 </a>
+                @endcan
             </div>
         </div>        
     </div>
@@ -44,21 +46,27 @@
                     <td>{{$item->Descr}}</td>
                     <td>
                         <ul class="icons-list">
+                            @can('show_kelompokurusan')
                             <li class="text-primary-600">
                                 <a class="btnShow" href="{{route('kelompokurusan.show',['id'=>$item->KUrsID])}}" title="Detail Data Kelompok Urusan">
                                     <i class='icon-eye'></i>
                                 </a>  
-                            </li>                            
+                            </li>
+                            @endcan              
+                            @can('edit_kelompokurusan')                                         
                             <li class="text-primary-600">
                                 <a class="btnEdit" href="{{route('kelompokurusan.edit',['id'=>$item->KUrsID])}}" title="Ubah Data Kelompok Urusan">
                                     <i class='icon-pencil7'></i>
                                 </a> 
                             </li>
+                            @endcan      
+                            @can('delete_kelompokurusan')                                         
                             <li class="text-danger-600">
                                 <a class="btnDelete" href="javascript:;" title="Hapus Data Kelompok Urusan" data-id="{{$item->KUrsID}}" data-url="{{route('kelompokurusan.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>
+                            @endcan              
                         </ul>
                     </td>
                 </tr>

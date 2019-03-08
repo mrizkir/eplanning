@@ -46,6 +46,6 @@ class CreateVSuborganisasiView extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('v_suborganisasi');
+        \DB::statement('DROP VIEW v_suborganisasi');
     }
 }

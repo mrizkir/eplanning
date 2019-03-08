@@ -83,8 +83,8 @@
 </div>  
 @endsection
 @section('page_asset_js')
-<script src="{!!asset('themes/limitless/assets/jquery-validation/dist/jquery.validate.min.js')!!}"></script>
-<script src="{!!asset('themes/limitless/assets/jquery-validation/dist/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/jquery-validation/jquery.validate.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/jquery-validation/additional-methods.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/uniform.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
 @endsection
@@ -118,7 +118,7 @@ $(document).ready(function () {
         },
         messages : {
             UrsID : {
-                required: "Mohon dipilih Program !"
+                required: "Mohon dipilih Urusan !"
             },
             OrgCd : {
                 required: "Mohon untuk di isi karena ini diperlukan.",

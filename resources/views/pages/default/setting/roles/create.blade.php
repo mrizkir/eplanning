@@ -1,6 +1,6 @@
 @extends('layouts.default.l_main')
 @section('page_title')
-    ROLES
+    USER ROLES
 @endsection
 @section('page_header')
     <i class="fa fa-users"></i> 

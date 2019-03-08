@@ -86,7 +86,7 @@
                 </div>
             </div>
             @if (count($data_permission) > 0)
-            {!! Form::open(['action'=>'Setting\RolesController@storerolepermission','method'=>'POST','class'=>'form-horizontal','name'=>'formdata','id'=>'formdata'])!!}
+            {!! Form::open(['action'=>'Setting\RolesController@storerolepermission','method'=>'POST','class'=>'form-horizontal','name'=>'frmpermission','id'=>'frmpermission'])!!}
             {{ Form::hidden('role_id', $data->id) }}
                 <div class="box-body table-responsive no-padding"> 
                     <table id="data" class="table table-striped table-hover">

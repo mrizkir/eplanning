@@ -47,6 +47,6 @@ class CreateVProgramKegiatanView extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('v_program_kegiatan');
+        \DB::statement('DROP VIEW v_program_kegiatan');
     }
 }

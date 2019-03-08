@@ -1,18 +1,19 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    ROLES
+    MAPPING PROGRAM KE OPD / SKPD
 @endsection
 @section('page_header')
-    <i class="icon-user-tie position-left"></i>
+    <i class="icon-link position-left"></i>
     <span class="text-semibold">
-        ROLES TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        MAPPING PROGRAM KE OPD / SKPD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.setting.roles.info')
+    @include('pages.limitless.dmaster.mappingprogramtoopd.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('roles.index')!!}">ROLES</a></li>
+    <li><a href="#">MASTERS</a></li>
+    <li><a href="{!!route('mappingprogramtoopd.index')!!}">MAPPING PROGRAM KE OPD / SKPD</a></li>
     <li class="active">ERROR</li>
 @endsection
 @section('page_content')

@@ -1,18 +1,19 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    PERMISSIONS
+    MAPPING PROGRAM KE OPD / SKPD
 @endsection
 @section('page_header')
-    <i class="icon-lock4 position-left"></i>
+    <i class="icon-link position-left"></i>
     <span class="text-semibold"> 
-        PERMISSIONS TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        MAPPING PROGRAM KE OPD / SKPD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
     </span>     
 @endsection
 @section('page_info')
-    @include('pages.limitless.setting.permissions.info')
+    @include('pages.limitless.dmaster.mappingprogramtoopd.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('permissions.index')!!}">PERMISSIONS</a></li>
+    <li><a href="#">MASTERS</a></li>
+    <li><a href="{!!route('mappingprogramtoopd.index')!!}">MAPPING PROGRAM KE OPD / SKPD</a></li>
     <li class="active">UBAH DATA</li>
 @endsection
 @section('page_content')
@@ -26,13 +27,13 @@
             <div class="heading-elements">
                 <ul class="icons-list">                    
                     <li>
-                        <a href="{!!route('permissions.index')!!}" data-action="closeredirect" title="keluar"></a>
+                        <a href="{!!route('mappingprogramtoopd.index')!!}" data-action="closeredirect" title="keluar"></a>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>['Setting\PermissionsController@update',$data->permissions_id],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
+            {!! Form::open(['action'=>['DMaster\MappingProgramToOPDController@update',$data->mappingprogramtoopd_id],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
                 {{Form::hidden('_method','PUT')}}
                 <div class="form-group">
                     {{Form::label('replaceit','replaceit',['class'=>'control-label col-md-2'])}}
@@ -51,8 +52,8 @@
 </div>  
 @endsection
 @section('page_asset_js')
-<script src="{!!asset('themes/limitless/assets/jquery-validation/dist/jquery.validate.min.js')!!}"></script>
-<script src="{!!asset('themes/limitless/assets/jquery-validation/dist/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">

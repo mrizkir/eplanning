@@ -49,8 +49,8 @@
                                         BROWSE 
                                     </label>
                                     <label>  
-                                        {{ Form::checkbox('aksi[]', 'read',true,['class'=>'minimal']) }}         
-                                        READ
+                                        {{ Form::checkbox('aksi[]', 'show',true,['class'=>'minimal']) }}         
+                                        SHOW
                                     </label>
                                     <label> 
                                         {{ Form::checkbox('aksi[]', 'add',true,['class'=>'minimal']) }}

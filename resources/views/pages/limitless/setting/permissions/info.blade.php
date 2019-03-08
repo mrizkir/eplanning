@@ -1,3 +1,3 @@
 <small class="display-block">          
-    <code>info halaman</code>
+    Pengaturan permission akses terhadap suatu halaman
 </small>

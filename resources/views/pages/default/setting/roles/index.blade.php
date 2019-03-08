@@ -40,7 +40,7 @@ $(document).ready(function () {
                     if (result.success==1){
                         $('#divdatatable').html(result.datatable);                        
                     }else{
-                        console.log("Gagal menghapus data Roles dengan id "+id);
+                        console.log("Gagal menghapus data Role dengan id "+id);
                     }                    
                 },
                 error:function(xhr, status, error){

@@ -283,11 +283,12 @@ class {{modelName}}Controller extends Controller {
      */
     public function update(Request $request, $id)
     {
+        ${{modelNameLower}} = {{modelName}}Model::find($id);
+        
         $this->validate($request, [
             'replaceit'=>'required',
         ]);
         
-        ${{modelNameLower}} = {{modelName}}Model::find($id);
         ${{modelNameLower}}->replaceit = $request->input('replaceit');
         ${{modelNameLower}}->save();
 
