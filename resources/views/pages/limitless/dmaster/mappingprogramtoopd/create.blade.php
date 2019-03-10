@@ -36,11 +36,16 @@
             <div class="panel-body">
                 <div class="form-horizontal">
                     <div class="form-group">
-                        {{Form::label('replaceit','replaceit',['class'=>'control-label col-md-2'])}}
+                        {{Form::label('OrgID','OPD / SKPD',['class'=>'control-label col-md-2'])}}
                         <div class="col-md-10">
-                            {{Form::text('replaceit','',['class'=>'form-control','placeholder'=>'replaceit'])}}
+                            <select name="OrgID" id="OrgID" class="select2">
+                                <option></option>
+                                @foreach ($daftar_opd as $k=>$item)
+                                    <option value="{{$k}}">{{$item}}</option>
+                                @endforeach
+                            </select>                        
                         </div>
-                    </div>
+                    </div>   
                     <div class="form-group">            
                         <div class="col-md-10 col-md-offset-2">                        
                             {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}
@@ -60,11 +65,20 @@
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/switch.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', function() {
     $(".switch").bootstrapSwitch();
+    //styling select
+    $('.select2').select2({
+        placeholder: "PILIH OPD / SKPD",
+        allowClear:true
+    });
+    $('.select').select2({
+        allowClear:true
+    });
     //change number record of page
     $(document).on('change','#numberRecordPerPageCreate', function (ev)
     {
@@ -127,18 +141,44 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
+    $(document).on('change','#filterurusan', function (ev)
+    {
+        ev.preventDefault();    
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/filtercreate',
+            dataType: 'json',
+            data: {                
+                "_token": token,
+                "UrsID": $('#filterurusan').val(),
+            },
+            success:function(result)
+            {          
+                $('#divdataprogram').html(result.datatable);                                   
+                //styling select
+                $('.select').select2({
+                    allowClear:true
+                });
+                $(".switch").bootstrapSwitch();
+            },
+            error:function(xhr, status, error)
+            {
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    });    
     $('#frmdata').validate({
         rules: {
-            replaceit : {
-                required: true,
-                minlength: 2
-            }
+            ignore:[],
+            OrgID : {
+                required : true,
+            },
         },
         messages : {
-            replaceit : {
-                required: "Mohon untuk di isi karena ini diperlukan.",
-                minlength: "Mohon di isi minimal 2 karakter atau lebih."
-            }
+            OrgID : {
+                required: "Mohon dipilih OPD / SKPD !"
+            },
         }      
     });       
 });

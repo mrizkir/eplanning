@@ -5,6 +5,14 @@
                 <div class="col-md-1">                    		
                     {!!Form::select('numberRecordPerPageCreate',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPageCreate','class'=>'form-control'])!!}                        
                 </div>
+                <div class="col-md-7">    
+                    <select id="filterurusan" class="select">
+                        <option></option>
+                        @foreach ($daftar_urusan as $k=>$item)
+                            <option value="{{$k}}"{{$k==$filter_ursid_selected?'selected':''}}>{{$item}}</option>
+                        @endforeach
+                    </select>                      
+                </div>
             </div>
         </div>
         <div class="heading-elements">
