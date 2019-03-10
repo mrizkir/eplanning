@@ -4,8 +4,6 @@ namespace App\Controllers\DMaster;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
-use App\Models\DMaster\UrusanModel;
-use App\Models\DMaster\OrganisasiModel;
 use App\Models\DMaster\MappingProgramToOPDModel;
 
 class MappingProgramToOPDController extends Controller {
@@ -38,25 +36,17 @@ class MappingProgramToOPDController extends Controller {
         {            
             $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
         }
-        $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');      
-        
-         //filter
-         if (!$this->checkStateIsExistSession('mappingprogramtoopd','filters')) 
-         {            
-             $this->putControllerStateSession('mappingprogramtoopd','filters',['UrsID'=>'none']);
-         }
-         $filter_ursid=$this->getControllerStateSession('program.filters','UrsID');
-
+        $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
         if ($this->checkStateIsExistSession('mappingprogramtoopd','search')) 
         {
             $search=$this->getControllerStateSession('mappingprogramtoopd','search');
             switch ($search['kriteria']) 
             {
-                case 'replaceit' :
-                    $data = MappingProgramToOPDModel::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                case 'OrgID' :
+                    $data = MappingProgramToOPDModel::where(['OrgID'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
-                case 'replaceit' :
-                    $data = MappingProgramToOPDModel::where('replaceit', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                case 'PrgNm' :
+                    $data = MappingProgramToOPDModel::where('PrgNm', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
@@ -104,11 +94,11 @@ class MappingProgramToOPDController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'replace_it' :
-                $column_name = 'replace_it';
+            case 'OrgID' :
+                $column_name = 'OrgID';
             break;           
             default :
-                $column_name = 'replace_it';
+                $column_name = 'OrgID';
         }
         $this->putControllerStateSession('mappingprogramtoopd','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
@@ -202,58 +192,78 @@ class MappingProgramToOPDController extends Controller {
                                                 'direction'=>$this->getControllerStateSession('mappingprogramtoopd.orderby','order'),
                                                 'data'=>$data]);               
     }
-
     /**
-     * collect data from resources for index view
-     *
-     * @return resources
+     * digunakan untuk mengganti jumlah record per halaman
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
-    public function populateDataProgram ($currentpage=1) 
-    {        
+    public function changenumberrecordperpagecreate (Request $request) 
+    {
+        $theme = \Auth::user()->theme;
+
+        $numberRecordPerPage = $request->input('numberRecordPerPage');
+        $this->putControllerStateSession('global_controller','numberRecordPerPage',$numberRecordPerPage);
+        
+        $this->setCurrentPageInsideSession('mappingprogramtoopd',1);
+        
+        $data=$this->populateDataProgram();
+
+        $datatable = view("pages.$theme.dmaster.mappingprogramtoopd.datatableprogram")->with(['page_active'=>'mappingprogramtoopd',
+                                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                            'column_order'=>$this->getControllerStateSession('mappingprogramtoopd.orderbycreate','column_name'),
+                                                                                            'direction'=>$this->getControllerStateSession('mappingprogramtoopd.orderbycreate','order'),
+                                                                                            'data'=>$data
+                                                                                            ])->render();  
+
+        return response()->json(['success'=>true,'datatable'=>$datatable],200);
+    }
+    /**
+     * paginate resource in storage called by ajax
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function paginatecreate ($id) 
+    {
+        $theme = \Auth::user()->theme;
+
+        $this->setCurrentPageInsideSession('mappingprogramtoopd',$id);
+        $data=$this->populateDataProgram($id);
+        $datatable = view("pages.$theme.dmaster.mappingprogramtoopd.datatableprogram")->with(['page_active'=>'mappingprogramtoopd',                                                                            
+                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                            'column_order'=>$this->getControllerStateSession('mappingprogramtoopd.orderbycreate','column_name'),
+                                                                            'direction'=>$this->getControllerStateSession('mappingprogramtoopd.orderbycreate','order'),
+                                                                            'data'=>$data])->render(); 
+
+        return response()->json(['success'=>true,'datatable'=>$datatable],200);        
+    }
+    /**
+     * digunakan untuk mendapatkan daftar program
+     */
+    public function populateDataProgram ($currentpage=1)
+    {
         $columns=['*'];       
-        if (!$this->checkStateIsExistSession('program','orderby')) 
+        if (!$this->checkStateIsExistSession('mappingprogramtoopd','orderbycreate')) 
         {            
-           $this->putControllerStateSession('program','orderby',['column_name'=>'kode_program','order'=>'asc']);
+           $this->putControllerStateSession('mappingprogramtoopd','orderbycreate',['column_name'=>'kode_program','order'=>'asc']);
         }
-        $column_order=$this->getControllerStateSession('program.orderby','column_name'); 
-        $direction=$this->getControllerStateSession('program.orderby','order'); 
+        $column_order=$this->getControllerStateSession('mappingprogramtoopd.orderbycreate','column_name'); 
+        $direction=$this->getControllerStateSession('mappingprogramtoopd.orderbycreate','order'); 
 
         if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
         {            
             $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
         }
-        $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');   
-        
-        //filter
-        if (!$this->checkStateIsExistSession('program','filters')) 
-        {            
-            $this->putControllerStateSession('program','filters',['UrsID'=>'none']);
-        }
-        $filter_ursid=$this->getControllerStateSession('program.filters','UrsID'); 
+        $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');
 
-        if ($this->checkStateIsExistSession('program','search')) 
-        {
-            $search=$this->getControllerStateSession('program','search');
-            switch ($search['kriteria']) 
-            {
-                case 'kode_program' :
-                    $data = \DB::table('v_urusan_program')
-                                ->where('TA',config('globalsettings.tahun_perencanaan'))
-                                ->where(['kode_program'=>$search['isikriteria']])
-                                ->orderBy($column_order,$direction); 
-                break;
-                case 'PrgNm' :
-                    $data = \DB::table('v_urusan_program')
-                            ->where('TA',config('globalsettings.tahun_perencanaan'))
-                            ->where('PrgNm', SQL::like(), '%' . $search['isikriteria'] . '%')
-                            ->orderBy($column_order,$direction);                                        
-                break;
-            }     
-            $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
+        //filter
+        if (!$this->checkStateIsExistSession('mappingprogramtoopd','filters')) 
+        {            
+            $this->putControllerStateSession('mappingprogramtoopd','filters',['UrsID'=>'none']);
         }
-        else
-        {
-            $data =$filter_ursid == 'none' ? 
+        $filter_ursid=$this->getControllerStateSession('mappingprogramtoopd.filters','UrsID');
+
+        $data =$filter_ursid == 'none' ? 
                                             \DB::table('v_urusan_program')
                                                         ->where('TA',config('globalsettings.tahun_perencanaan'))
                                                         ->orderBy($column_order,$direction)                                                        
@@ -265,8 +275,9 @@ class MappingProgramToOPDController extends Controller {
                                                         ->where('UrsID',$filter_ursid)
                                                         ->orWhereNull('UrsID')
                                                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
-        }           
-        $data->setPath(route('program.index'));
+        
+        $data->setPath(route('mappingprogramtoopd.create'));
+
         return $data;
     }
     /**
@@ -277,31 +288,21 @@ class MappingProgramToOPDController extends Controller {
     public function create(Request $request)
     {        
         $theme = \Auth::user()->theme;
+        
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('mappingprogramtoopd'); 
 
-        $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'));
-        $daftar_urusan['none']='SELURUH URUSAN';       
-
-        $search=$this->getControllerStateSession('program','search');
-        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('program'); 
         $data = $this->populateDataProgram($currentpage);
         if ($currentpage > $data->lastPage())
         {            
             $data = $this->populateDataProgram($data->lastPage());
         }
-        $this->setCurrentPageInsideSession('program',$data->currentPage());
-        $filter_kode_urusan_selected=UrusanModel::getKodeUrusanByUrsID($this->getControllerStateSession('program.filters','UrsID'));
 
-        return view("pages.$theme.dmaster.mappingprogramtoopd.create")->with(['page_active'=>'mappingprogramtoopd',     
-                                                                'daftar_opd'=>[],                                                           
-                                                                'search'=>$this->getControllerStateSession('program','search'),
-                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                                'column_order'=>$this->getControllerStateSession('program.orderby','column_name'),
-                                                                'direction'=>$this->getControllerStateSession('program.orderby','order'),
-                                                                'daftar_urusan'=>$daftar_urusan,
-                                                                'filter_ursid_selected'=>$this->getControllerStateSession('program.filters','UrsID'), 
-                                                                'filter_kode_urusan_selected'=>$filter_kode_urusan_selected,
-                                                                'data'=>$data]);               
-
+        return view("pages.$theme.dmaster.mappingprogramtoopd.create")->with(['page_active'=>'mappingprogramtoopd',
+                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                            'column_order'=>$this->getControllerStateSession('mappingprogramtoopd.orderbycreate','column_name'),
+                                                                            'direction'=>$this->getControllerStateSession('mappingprogramtoopd.orderbycreate','order'),
+                                                                            'data'=>$data
+                                                                            ]);  
     }
     
     /**

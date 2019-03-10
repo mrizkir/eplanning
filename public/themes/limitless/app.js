@@ -33,9 +33,100 @@ function parseMessageAjaxEror (xhr, status, error)
         return message;
     }
 }
+/**
+* data table function 
+*/
+//paginate table data
+function paginateTableData (selector,href)
+{
+    var a =  href.attr('href').split('?page=');        
+    var page = a[1];
+    var page_url = a[0]+'/paginate/'+page;
+    if (typeof page !== 'undefined')
+    {
+        $.ajax({
+            type:'get',
+            url: page_url,
+            dataType: 'json',
+            success:function(result)
+            {          
+                $(selector).html(result.datatable); 
+                if ($(selector + ' *').hasClass('select')) {
+                    //styling select
+                    $('.select').select2({
+                        allowClear:true
+                    });
+                }  
+            },
+            error:function(xhr, status, error)
+            {
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    }
+}
+ //change number record of page function
+ function changeNumberRecordOfPage (selector)
+ {
+     $.ajax({
+         type:'post',
+         url: url_current_page +'/changenumberrecordperpage',
+         dataType: 'json',
+         data: {                
+             "_token": token,
+             "numberRecordPerPage": $('#numberRecordPerPage').val(),
+         },
+         success:function(result)
+         {          
+             $(selector).html(result.datatable);    
+             if ($(selector + ' *').hasClass('select')) {
+                 //styling select
+                 $('.select').select2({
+                     allowClear:true
+                 });
+             }                              
+         },
+         error:function(xhr, status, error)
+         {
+             console.log('ERROR');
+             console.log(parseMessageAjaxEror(xhr, status, error));                           
+         },
+     });
+ }
+ //sorting table data
+ function sortingTableData (selector,a)
+ {
+     var column_name=a.attr('id');        
+     var orderby=a.data('order');
+     $.ajax({
+         type:'post',
+         url: url_current_page +'/orderby',
+         dataType: 'json',
+         data: {                
+             "_token": token,                
+             "column_name":column_name,
+             "orderby": orderby,
+         },
+         success:function(result)
+         {          
+             $(selector).html(result.datatable);  
+             if ($(selector + ' *').hasClass('select')) {
+                 //styling select                    
+                 $('.select').select2({
+                     allowClear:true
+                 });
+             }           
+         },
+         error:function(xhr, status, error)
+         {
+             console.log('ERROR');
+             console.log(parseMessageAjaxEror(xhr, status, error));                           
+         },
+     });
+ }    
 
 document.addEventListener('DOMContentLoaded', function() {
-
     /**
      *  customization limitless menu
      */
@@ -152,95 +243,6 @@ document.addEventListener('DOMContentLoaded', function() {
     * data table operations
     */
 
-    //change number record of page function
-    function changeNumberRecordOfPage (selector)
-    {
-        $.ajax({
-            type:'post',
-            url: url_current_page +'/changenumberrecordperpage',
-            dataType: 'json',
-            data: {                
-                "_token": token,
-                "numberRecordPerPage": $('#numberRecordPerPage').val(),
-            },
-            success:function(result)
-            {          
-                $(selector).html(result.datatable);    
-                if ($(selector + ' *').hasClass('select')) {
-                    //styling select
-                    $('.select').select2({
-                        allowClear:true
-                    });
-                }                              
-            },
-            error:function(xhr, status, error)
-            {
-                console.log('ERROR');
-                console.log(parseMessageAjaxEror(xhr, status, error));                           
-            },
-        });
-    }
-    //sorting table data
-    function sortingTableData (selector,a)
-    {
-        var column_name=a.attr('id');        
-        var orderby=a.data('order');
-        $.ajax({
-            type:'post',
-            url: url_current_page +'/orderby',
-            dataType: 'json',
-            data: {                
-                "_token": token,                
-                "column_name":column_name,
-                "orderby": orderby,
-            },
-            success:function(result)
-            {          
-                $(selector).html(result.datatable);  
-                if ($(selector + ' *').hasClass('select')) {
-                    //styling select                    
-                    $('.select').select2({
-                        allowClear:true
-                    });
-                }           
-            },
-            error:function(xhr, status, error)
-            {
-                console.log('ERROR');
-                console.log(parseMessageAjaxEror(xhr, status, error));                           
-            },
-        });
-    }
-    //paginate table data
-    function paginateTableData (selector,href)
-    {
-        var a =  href.attr('href').split('?page=');        
-        var page = a[1];
-        var page_url = a[0]+'/paginate/'+page;
-        if (typeof page !== 'undefined')
-        {
-            $.ajax({
-                type:'get',
-                url: page_url,
-                dataType: 'json',
-                success:function(result)
-                {          
-                    $(selector).html(result.datatable); 
-                    if ($(selector + ' *').hasClass('select')) {
-                        //styling select
-                        $('.select').select2({
-                            allowClear:true
-                        });
-                    }  
-                },
-                error:function(xhr, status, error)
-                {
-                    console.log('ERROR');
-                    console.log(parseMessageAjaxEror(xhr, status, error));                           
-                },
-            });
-        }
-    }
     //change number record of page
     $(document).on('change','#numberRecordPerPage', function (ev)
     {
@@ -262,7 +264,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Disable CSS transitions on page load
     $('body').addClass('no-transitions');
-
 
     // ========================================
     //

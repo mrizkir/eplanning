@@ -1,19 +1,18 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    MAPPING PROGRAM KE OPD / SKPD
+    MAPPING PROGRAM KE OPD
 @endsection
 @section('page_header')
     <i class="icon-link position-left"></i>
     <span class="text-semibold">
-        MAPPING PROGRAM KE OPD / SKPD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
+        MAPPING PROGRAM KE OPD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
     </span>
 @endsection
 @section('page_info')
     @include('pages.limitless.dmaster.mappingprogramtoopd.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="#">MASTERS</a></li>
-    <li class="active">MAPPING PROGRAM KE OPD / SKPD</li>
+    <li class="active">MAPPING PROGRAM KE OPD</li>
 @endsection
 @section('page_content')
 <div class="row">
@@ -60,7 +59,7 @@
 <script type="text/javascript">
 $(document).ready(function () {  
     $("#divdatatable").on("click",".btnDelete", function(){
-        if (confirm('Apakah Anda ingin menghapus Data MappingProgramToOPD ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data Mapping Program ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             $.ajax({            
@@ -76,7 +75,7 @@ $(document).ready(function () {
                     if (result.success==1){
                         $('#divdatatable').html(result.datatable);                        
                     }else{
-                        console.log("Gagal menghapus data MappingProgramToOPD dengan id "+id);
+                        console.log("Gagal menghapus data Mapping Program dengan id "+id);
                     }                    
                 },
                 error:function(xhr, status, error){

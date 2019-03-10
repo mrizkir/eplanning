@@ -1,19 +1,18 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    MAPPING PROGRAM KE OPD / SKPD
+    MAPPING PROGRAM KE OPD
 @endsection
 @section('page_header')
     <i class="icon-link position-left"></i>
     <span class="text-semibold"> 
-        MAPPING PROGRAM KE OPD / SKPD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        MAPPING PROGRAM KE OPD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
     </span>     
 @endsection
 @section('page_info')
     @include('pages.limitless.dmaster.mappingprogramtoopd.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="#">MASTERS</a></li>
-    <li><a href="{!!route('mappingprogramtoopd.index')!!}">MAPPING PROGRAM KE OPD / SKPD</a></li>
+    <li><a href="{!!route('mappingprogramtoopd.index')!!}">MAPPING PROGRAM KE OPD</a></li>
     <li class="active">DETAIL DATA</li>
 @endsection
 @section('page_content')
@@ -22,7 +21,7 @@
         <div class="panel panel-flat border-top-info border-bottom-info">
             <div class="panel-heading">
                 <h5 class="panel-title"> 
-                    <i class="icon-eye"></i>  DATA MAPPING PROGRAM KE OPD / SKPD
+                    <i class="icon-eye"></i>  DATA MAPPING PROGRAM KE OPD
                 </h5>
                 <div class="heading-elements">   
                     <a href="{{route('mappingprogramtoopd.edit',['id'=>$data->mappingprogramtoopd_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data MappingProgramToOPD">
