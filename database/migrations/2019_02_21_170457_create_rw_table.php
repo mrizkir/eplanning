@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateKotaTable extends Migration
+class CreateRwTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,24 +13,25 @@ class CreateKotaTable extends Migration
      */
     public function up()
     {
-        Schema::create('tmPmKota', function (Blueprint $table) {
-            $table->string('PmKotaID',19);
-            $table->string('PMProvID',19);
-            $table->tinyInteger('Kd_Kota');
-            $table->string('Nm_Kota',100);            
+        Schema::create('tmPmRW', function (Blueprint $table) {
+            $table->string('PmRWID',19);
+            $table->string('PmDesaID',19);
+            $table->tinyInteger('Kd_RW');
+            $table->string('Nm_RW');            
+            $table->string('Kepala_RW');            
             $table->string('Descr')->nullable();
             $table->year('TA');
-            $table->string('PmKotaID_Src',19)->nullable();
+            $table->string('PmRWID_Src',19)->nullable();
             $table->boolean('Locked')->default(0);
             
             $table->timestamps();
 
-            $table->primary('PmKotaID');
-            $table->index('PMProvID');
+            $table->primary('PmRWID');
+            $table->index('PmDesaID');
 
-            $table->foreign('PMProvID')
-                ->references('PMProvID')
-                ->on('tmPMProv')
+            $table->foreign('PmDesaID')
+                ->references('PmDesaID')
+                ->on('tmPmDesa')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
@@ -43,6 +44,6 @@ class CreateKotaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tmPmKota');
+        Schema::dropIfExists('rw');
     }
 }
