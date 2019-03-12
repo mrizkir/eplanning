@@ -44,18 +44,68 @@ class MappingProgramToOPDController extends Controller {
             $search=$this->getControllerStateSession('mappingprogramtoopd','search');
             switch ($search['kriteria']) 
             {
-                case 'OrgID' :
+                case 'kode_program' :
                     $data = MappingProgramToOPDModel::where(['OrgID'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                    $data = \DB::table('v_organisasi_program')
+                            ->select(\DB::raw('
+                                "v_organisasi_program"."orgProgramID",
+                                CONCAT("tmKUrs"."Kd_Urusan",\'.\',"tmUrs"."Kd_Bidang",\'.\',"tmOrg"."OrgCd") AS kode_organisasi_all_urusan,
+                                "v_organisasi_program"."OrgNm",
+                                CONCAT("tmKUrs"."Kd_Urusan",\'.\',"tmUrs"."Kd_Bidang",\'.\',"v_organisasi_program"."Kd_Prog") AS kode_program_all_urusan,
+                                "v_organisasi_program"."kode_program",
+                                "v_organisasi_program"."PrgNm",
+                                "v_organisasi_program"."Nm_Urusan",
+                                "v_organisasi_program"."Jns"
+                            '))
+                            ->join ('tmOrg','v_organisasi_program.OrgID','tmOrg.OrgID')
+                            ->join ('tmUrs','tmOrg.UrsID','tmUrs.UrsID')
+                            ->join ('tmKUrs','tmUrs.KUrsID','tmKUrs.KUrsID')
+                            ->where('v_organisasi_program.TA',config('globalsettings.tahun_perencanaan'))
+                            ->where(['OrgID'=>$search['isikriteria']])
+                            ->orderBy("v_organisasi_program.$column_order",$direction);
                 break;
                 case 'PrgNm' :
                     $data = MappingProgramToOPDModel::where('PrgNm', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = \DB::table('v_organisasi_program')
+                            ->select(\DB::raw('
+                                "v_organisasi_program"."orgProgramID",
+                                CONCAT("tmKUrs"."Kd_Urusan",\'.\',"tmUrs"."Kd_Bidang",\'.\',"tmOrg"."OrgCd") AS kode_organisasi_all_urusan,
+                                "v_organisasi_program"."OrgNm",
+                                CONCAT("tmKUrs"."Kd_Urusan",\'.\',"tmUrs"."Kd_Bidang",\'.\',"v_organisasi_program"."Kd_Prog") AS kode_program_all_urusan,
+                                "v_organisasi_program"."kode_program",
+                                "v_organisasi_program"."PrgNm",
+                                "v_organisasi_program"."Nm_Urusan",
+                                "v_organisasi_program"."Jns"
+                            '))
+                            ->join ('tmOrg','v_organisasi_program.OrgID','tmOrg.OrgID')
+                            ->join ('tmUrs','tmOrg.UrsID','tmUrs.UrsID')
+                            ->join ('tmKUrs','tmUrs.KUrsID','tmKUrs.KUrsID')
+                            ->where('v_organisasi_program.TA',config('globalsettings.tahun_perencanaan'))
+                            ->where('PrgNm', 'like', '%' . $search['isikriteria'] . '%')                                        
+                            ->orderBy("v_organisasi_program.$column_order",$direction);
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = MappingProgramToOPDModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data = \DB::table('v_organisasi_program')
+                    ->select(\DB::raw('
+                        "v_organisasi_program"."orgProgramID",
+                        CONCAT("tmKUrs"."Kd_Urusan",\'.\',"tmUrs"."Kd_Bidang",\'.\',"tmOrg"."OrgCd") AS kode_organisasi_all_urusan,
+                        "v_organisasi_program"."OrgNm",
+                        CONCAT("tmKUrs"."Kd_Urusan",\'.\',"tmUrs"."Kd_Bidang",\'.\',"v_organisasi_program"."Kd_Prog") AS kode_program_all_urusan,
+                        "v_organisasi_program"."kode_program",
+                        "v_organisasi_program"."PrgNm",
+                        "v_organisasi_program"."Nm_Urusan",
+                        "v_organisasi_program"."Jns"
+                    '))
+                    ->join ('tmOrg','v_organisasi_program.OrgID','tmOrg.OrgID')
+                    ->join ('tmUrs','tmOrg.UrsID','tmUrs.UrsID')
+                    ->join ('tmKUrs','tmUrs.KUrsID','tmKUrs.KUrsID')
+                    ->where('v_organisasi_program.TA',config('globalsettings.tahun_perencanaan'))
+                    ->orderBy("v_organisasi_program.$column_order",$direction)
+                    ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
         }        
         $data->setPath(route('mappingprogramtoopd.index'));
         return $data;
@@ -98,7 +148,19 @@ class MappingProgramToOPDController extends Controller {
         {
             case 'OrgID' :
                 $column_name = 'OrgID';
-            break;           
+            break; 
+            case 'NmOrg' :
+                $column_name = 'NmOrg';
+            break;  
+            case 'Kode_Program' :
+                $column_name = 'kode_program';
+            break; 
+            case 'PrgNm' :
+                $column_name = 'PrgNm';
+            break; 
+            case 'Nm_Urusan' :
+                $column_name = 'Nm_Urusan';
+            break;          
             default :
                 $column_name = 'OrgID';
         }
@@ -262,8 +324,25 @@ class MappingProgramToOPDController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $UrsID = $request->input('UrsID');
-        $this->putControllerStateSession('mappingprogramtoopd','filters',['UrsID'=>$UrsID]);
+        $filter_ursid=$this->getControllerStateSession('mappingprogramtoopd.filters','UrsID');
+        $filter_orgid=$this->getControllerStateSession('mappingprogramtoopd.filters','OrgID');
+
+        if ($request->exists('OrgID'))
+        {
+            $OrgID = $request->input('OrgID');
+            $ursid = UrusanModel::getKodeUrusanByOrgID($OrgID);
+            $this->putControllerStateSession('mappingprogramtoopd','filters',['OrgID'=>$OrgID,
+                                                                            'UrsID'=>$ursid]);     
+            
+            
+        }
+
+        if ($request->exists('UrsID'))
+        {
+            $UrsID = $request->input('UrsID');
+            $this->putControllerStateSession('mappingprogramtoopd','filters',['OrgID'=>$filter_orgid,
+                                                                            'UrsID'=>$UrsID]);         
+        }        
 
         $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'));
         $daftar_urusan['none']='SELURUH URUSAN';
@@ -290,10 +369,12 @@ class MappingProgramToOPDController extends Controller {
      */
     public function populateDataProgram ($currentpage=1)
     {
+        $data=[];
+              
         $columns=['*'];       
         if (!$this->checkStateIsExistSession('mappingprogramtoopd','orderbycreate')) 
         {            
-           $this->putControllerStateSession('mappingprogramtoopd','orderbycreate',['column_name'=>'kode_program','order'=>'asc']);
+        $this->putControllerStateSession('mappingprogramtoopd','orderbycreate',['column_name'=>'kode_program','order'=>'asc']);
         }
         $column_order=$this->getControllerStateSession('mappingprogramtoopd.orderbycreate','column_name'); 
         $direction=$this->getControllerStateSession('mappingprogramtoopd.orderbycreate','order'); 
@@ -303,30 +384,49 @@ class MappingProgramToOPDController extends Controller {
             $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
         }
         $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');
-
+        
         //filter
         if (!$this->checkStateIsExistSession('mappingprogramtoopd','filters')) 
         {            
-            $this->putControllerStateSession('mappingprogramtoopd','filters',['UrsID'=>'none']);
-        }
-        $filter_ursid=$this->getControllerStateSession('mappingprogramtoopd.filters','UrsID');
-
-        $data =$filter_ursid == 'none' ? 
-                                            \DB::table('v_urusan_program')
-                                                        ->where('TA',config('globalsettings.tahun_perencanaan'))
-                                                        ->orderBy($column_order,$direction)                                                        
-                                                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage)
-                                            :
-                                            \DB::table('v_urusan_program')
-                                                        ->where('TA',config('globalsettings.tahun_perencanaan'))
-                                                        ->orderBy($column_order,$direction)                                                        
-                                                        ->where('UrsID',$filter_ursid)
-                                                        ->orWhereNull('UrsID')
-                                                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
+            $this->putControllerStateSession('mappingprogramtoopd','filters',['UrsID'=>'none',
+                                                                            'OrgID'=>'']);
+        }        
+        $filter_orgid=$this->getControllerStateSession('mappingprogramtoopd.filters','OrgID');
         
-        $data->setPath(route('mappingprogramtoopd.create'));
-
+        if ($filter_orgid != 'none' && $filter_orgid !='' && !(is_array($filter_orgid)))
+        {
+            $filter_ursid=$this->getControllerStateSession('mappingprogramtoopd.filters','UrsID');               
+            $data =$filter_ursid == 'none' ? 
+                                                \DB::table('v_urusan_program')
+                                                            ->WhereNoIn('PrgID',function($query){
+                                                                $filter_orgid=$this->getControllerStateSession('mappingprogramtoopd.filters','OrgID');
+                                                                $query->select('PrgID')
+                                                                    ->from('trOrgProgram')
+                                                                    ->where('OrgID', $filter_orgid)
+                                                                    ->where('TA',config('globalsettings.tahun_perencanaan'));
+                                                            })
+                                                            ->where('TA',config('globalsettings.tahun_perencanaan'))
+                                                            ->orderBy($column_order,$direction)                                                        
+                                                            ->paginate($numberRecordPerPage, $columns, 'page', $currentpage)
+                                                :
+                                                \DB::table('v_urusan_program')
+                                                            ->WhereNotIn('PrgID',function($query){
+                                                                $filter_orgid=$this->getControllerStateSession('mappingprogramtoopd.filters','OrgID');
+                                                                $query->select('PrgID')
+                                                                    ->from('trOrgProgram')
+                                                                    ->where('OrgID', $filter_orgid)
+                                                                    ->where('TA',config('globalsettings.tahun_perencanaan'));
+                                                            })
+                                                            ->where('TA',config('globalsettings.tahun_perencanaan'))                                                            
+                                                            ->where('UrsID',$filter_ursid)
+                                                            ->orWhereNull('UrsID')
+                                                            ->orderBy($column_order,$direction)                                                        
+                                                            ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
+            
+            $data->setPath(route('mappingprogramtoopd.create'));            
+        }        
         return $data;
+
     }
     /**
      * Show the form for creating a new resource.
@@ -337,24 +437,27 @@ class MappingProgramToOPDController extends Controller {
     {        
         $theme = \Auth::user()->theme;
         $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'));
-        $daftar_urusan['none']='SELURUH URUSAN';    
-        
-        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('mappingprogramtoopd'); 
-
-        $data = $this->populateDataProgram($currentpage);
-        if ($currentpage > $data->lastPage())
-        {            
-            $data = $this->populateDataProgram($data->lastPage());
-        }
-        $this->setCurrentPageInsideSession('mappingprogramtoopd',$data->currentPage());
-        $filter_kode_urusan_selected=UrusanModel::getKodeUrusanByUrsID($this->getControllerStateSession('mappingprogramtoopd.filters','UrsID'));
+        $daftar_urusan['none']='SELURUH URUSAN';           
 
         $daftar_opd=OrganisasiModel::getDaftarOPD(config('globalsettings.tahun_perencanaan'),false);
 
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('mappingprogramtoopd'); 
+        $data = $this->populateDataProgram($currentpage);
+
+        if (method_exists($data,'lastPage'))
+        {
+            if ($currentpage > $data->lastPage())
+            {            
+                $data = $this->populateDataProgram($data->lastPage());
+            }
+            $this->setCurrentPageInsideSession('mappingprogramtoopd',$data->currentPage());
+        }
+        $filter_kode_urusan_selected=UrusanModel::getKodeUrusanByUrsID($this->getControllerStateSession('mappingprogramtoopd.filters','UrsID'));
         return view("pages.$theme.dmaster.mappingprogramtoopd.create")->with(['page_active'=>'mappingprogramtoopd',
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                             'column_order'=>$this->getControllerStateSession('mappingprogramtoopd.orderbycreate','column_name'),
                                                                             'direction'=>$this->getControllerStateSession('mappingprogramtoopd.orderbycreate','order'),
+                                                                            'filter_orgid_selected'=>$this->getControllerStateSession('mappingprogramtoopd.filters','OrgID'),
                                                                             'daftar_urusan'=>$daftar_urusan,
                                                                             'filter_ursid_selected'=>$this->getControllerStateSession('mappingprogramtoopd.filters','UrsID'), 
                                                                             'filter_kode_urusan_selected'=>$filter_kode_urusan_selected,
@@ -372,12 +475,20 @@ class MappingProgramToOPDController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'replaceit'=>'required',
+            'OrgID'=>'required',
         ]);
+        $orgid=$request->input('OrgID');
+        $prgid=$request->input('chkprgid');
         
-        $mappingprogramtoopd = MappingProgramToOPDModel::create([
-            'replaceit' => $request->input('replaceit'),
-        ]);        
+        if (count($prgid) > 0)
+        {
+            $now = \Carbon\Carbon::now('utc')->toDateTimeString();
+            foreach ($prgid as $v)
+            {
+                $data[] = ['orgProgramID'=>uniqid ('uid'),'OrgID'=>$orgid,'PrgID'=>$v,'Descr'=>'-','TA'=>config('globalsettings.tahun_perencanaan'),'created_at'=>$now,'updated_at'=>$now];
+            }
+            MappingProgramToOPDModel::insert($data);
+        }
         
         if ($request->ajax()) 
         {
@@ -403,7 +514,23 @@ class MappingProgramToOPDController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = MappingProgramToOPDModel::findOrFail($id);
+        $data = MappingProgramToOPDModel::join('v_organisasi_program','v_organisasi_program.OrgID','trOrgProgram.OrgID')
+                                        ->join ('tmOrg','v_organisasi_program.OrgID','tmOrg.OrgID')
+                                        ->join ('tmUrs','tmOrg.UrsID','tmUrs.UrsID')
+                                        ->join ('tmKUrs','tmUrs.KUrsID','tmKUrs.KUrsID')
+                                        ->select(\DB::raw('
+                                            "v_organisasi_program"."orgProgramID",
+                                            CONCAT("tmKUrs"."Kd_Urusan",\'.\',"tmUrs"."Kd_Bidang",\'.\',"tmOrg"."OrgCd") AS kode_organisasi_all_urusan,
+                                            "v_organisasi_program"."OrgNm",
+                                            CONCAT("tmKUrs"."Kd_Urusan",\'.\',"tmUrs"."Kd_Bidang",\'.\',"v_organisasi_program"."Kd_Prog") AS kode_program_all_urusan,
+                                            "v_organisasi_program"."kode_program",
+                                            "v_organisasi_program"."PrgNm",
+                                            "v_organisasi_program"."Nm_Urusan",
+                                            "v_organisasi_program"."Jns"
+                                        '))
+                                        ->where('v_organisasi_program.TA',config('globalsettings.tahun_perencanaan'))
+                                        ->where('v_organisasi_program.orgProgramID',$id)
+                                        ->firstOrFail();
         if (!is_null($data) )  
         {
             return view("pages.$theme.dmaster.mappingprogramtoopd.show")->with(['page_active'=>'mappingprogramtoopd',
@@ -411,57 +538,6 @@ class MappingProgramToOPDController extends Controller {
                                                     ]);
         }        
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $theme = \Auth::user()->theme;
-        
-        $data = MappingProgramToOPDModel::findOrFail($id);
-        if (!is_null($data) ) 
-        {
-            return view("pages.$theme.dmaster.mappingprogramtoopd.edit")->with(['page_active'=>'mappingprogramtoopd',
-                                                    'data'=>$data
-                                                    ]);
-        }        
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        $mappingprogramtoopd = MappingProgramToOPDModel::find($id);
-        
-        $this->validate($request, [
-            'replaceit'=>'required',
-        ]);
-        
-        $mappingprogramtoopd->replaceit = $request->input('replaceit');
-        $mappingprogramtoopd->save();
-
-        if ($request->ajax()) 
-        {
-            return response()->json([
-                'success'=>true,
-                'message'=>'Data ini telah berhasil diubah.'
-            ]);
-        }
-        else
-        {
-            return redirect(route('mappingprogramtoopd.index'))->with('success',"Data dengan id ($id) telah berhasil diubah.");
-        }
-    }
-
      /**
      * Remove the specified resource from storage.
      *

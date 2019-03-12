@@ -193,7 +193,7 @@ class KelompokUrusanController extends Controller {
 
         return view("pages.$theme.dmaster.kelompokurusan.create")->with(['page_active'=>'kelompokurusan',
                                                                     
-                                                ]);  
+                                                                    ]);  
     }
     
     /**

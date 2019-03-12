@@ -59,7 +59,10 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/dmaster/programkegiatan/orderby',['uses'=>'DMaster\ProgramKegiatanController@orderby','as'=>'kegiatan.orderby']);  
 
     //masters - mapping program ke OPD
-    Route::resource('/dmaster/mappingprogramtoopd','DMaster\MappingProgramToOPDController',['parameters'=>['mappingprogramtoopd'=>'uuid']]); 
+    Route::resource('/dmaster/mappingprogramtoopd','DMaster\MappingProgramToOPDController',[
+                                                                                            'parameters'=>['mappingprogramtoopd'=>'uuid'],
+                                                                                            'only'=>['index','show','create','store','destroy']
+                                                                                        ]); 
     Route::post('/dmaster/mappingprogramtoopd/search',['uses'=>'DMaster\MappingProgramToOPDController@search','as'=>'mappingprogramtoopd.search']);  
     Route::post('/dmaster/mappingprogramtoopd/filter',['uses'=>'DMaster\MappingProgramToOPDController@filter','as'=>'mappingprogramtoopd.filter']);           
     Route::post('/dmaster/mappingprogramtoopd/filtercreate',['uses'=>'DMaster\MappingProgramToOPDController@filtercreate','as'=>'mappingprogramtoopd.filtercreate']);           

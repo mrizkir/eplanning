@@ -9,7 +9,7 @@
         </div>
         <div class="heading-elements">
             <div class="heading-btn">
-                <a href="{!!route('mappingprogramtoopd.create')!!}" class="btn btn-info btn-xs" title="Tambah MAPPINGPROGRAMTOOPD">
+                <a href="{!!route('mappingprogramtoopd.create')!!}" class="btn btn-info btn-xs" title="Tambah Mapping Program">
                     <i class="icon-googleplus5"></i>
                 </a>
             </div>            
@@ -21,12 +21,32 @@
             <thead>
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
-                    <th width="100">
-                        <a class="column-sort text-white" id="col-replace_it" data-order="{{$direction}}" href="#">
-                            replace_it  
+                    <th width="150">
+                        <a class="column-sort text-white" id="col-OrgID" data-order="{{$direction}}" href="#">
+                            KODE SKPD / OPD
                         </a>                                             
                     </th> 
-                    <th width="100">AKSI</th>
+                    <th width="250">
+                        <a class="column-sort text-white" id="col-NmOrg" data-order="{{$direction}}" href="#">
+                            NAMA SKPD / OPD
+                        </a>                                             
+                    </th> 
+                    <th width="120">
+                        <a class="column-sort text-white" id="col-Kode_Program" data-order="{{$direction}}" href="#">
+                            KODE PROGRAM  
+                        </a>                                             
+                    </th>
+                    <th>
+                        <a class="column-sort text-white" id="col-PrgNm" data-order="{{$direction}}" href="#">
+                            NAMA PROGRAM  
+                        </a>                                             
+                    </th> 
+                    <th>
+                        <a class="column-sort text-white" id="col-Nm_Urusan" data-order="{{$direction}}" href="#">
+                            URUSAN  
+                        </a>                                             
+                    </th>
+                    <th width="80">AKSI</th>
                 </tr>
             </thead>
             <tbody>                    
@@ -35,21 +55,40 @@
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>                  
-                    <td>{{$item->replace_it}}</td>
+                    <td>{{$item->kode_organisasi_all_urusan}}</td>
+                    <td>{{$item->OrgNm}}</td>
+                    <td>
+                        @php
+                            if ($item->Jns==false)
+                            {
+                                echo $item->kode_program_all_urusan;
+                            }                            
+                            else {
+                                echo $item->kode_program;
+                            }   
+                        @endphp
+                    </td>
+                    <td>{{$item->PrgNm}}</td>
+                    <td>
+                        @php
+                            if (!$item->Jns)
+                            {
+                                echo "SELURUH URUSAN";
+                            } 
+                            else {
+                                echo $item->Nm_Urusan;
+                            }   
+                        @endphp
+                    </td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('mappingprogramtoopd.show',['id'=>$item->mappingprogramtoopd_id])}}" title="Detail Data MappingProgramToOPD">
+                                <a class="btnShow" href="{{route('mappingprogramtoopd.show',['id'=>$item->orgProgramID])}}" title="Detail Data Mapping Program">
                                     <i class='icon-eye'></i>
                                 </a>  
-                            </li>
-                            <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('mappingprogramtoopd.edit',['id'=>$item->mappingprogramtoopd_id])}}" title="Ubah Data MappingProgramToOPD">
-                                    <i class='icon-pencil7'></i>
-                                </a>  
-                            </li>
+                            </li>                            
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data MappingProgramToOPD" data-id="{{$item->mappingprogramtoopd_id}}" data-url="{{route('mappingprogramtoopd.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data Mapping Program" data-id="{{$item->orgProgramID}}" data-url="{{route('mappingprogramtoopd.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>

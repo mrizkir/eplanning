@@ -23,11 +23,8 @@
                 <h5 class="panel-title"> 
                     <i class="icon-eye"></i>  DATA MAPPING PROGRAM KE OPD
                 </h5>
-                <div class="heading-elements">   
-                    <a href="{{route('mappingprogramtoopd.edit',['id'=>$data->mappingprogramtoopd_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data MappingProgramToOPD">
-                        <i class="icon-pencil7"></i>
-                    </a>
-                    <a href="javascript:;" title="Hapus Data MappingProgramToOPD" data-id="{{$data->mappingprogramtoopd_id}}" data-url="{{route('mappingprogramtoopd.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
+                <div class="heading-elements"> 
+                    <a href="javascript:;" title="Hapus Data Mapping Program" data-id="{{$data->orgProgramID}}" data-url="{{route('mappingprogramtoopd.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
                     </a>
                     <a href="{!!route('mappingprogramtoopd.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
@@ -40,25 +37,63 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>mappingprogramtoopd id: </strong></label>
+                                <label class="col-md-4 control-label"><strong>ID: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->mappingprogramtoopd_id}}</p>
+                                    <p class="form-control-static">{{$data->orgProgramID}}</p>
                                 </div>                            
-                            </div>                            
+                            </div>   
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
+                                <label class="col-md-4 control-label"><strong>KODE PROGRAM: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}}</p>
+                                    <p class="form-control-static">                                        
+                                        @php
+                                        if ($data->Jns==false)
+                                        {
+                                            echo $data->kode_program_all_urusan;
+                                        }                            
+                                        else {
+                                            echo $data->kode_program;
+                                        }   
+                                        @endphp
+                                    </p>
                                 </div>                            
-                            </div>
+                            </div>                         
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>NAMA PROGRAM: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->PrgNm}}</p>
+                                </div>                            
+                            </div>  
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>URUSAN: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">                                        
+                                        @php
+                                            if (!$data->Jns)
+                                            {
+                                                echo "SELURUH URUSAN";
+                                            } 
+                                            else {
+                                                echo $data->Nm_Urusan;
+                                            }   
+                                        @endphp
+                                    </p>
+                                </div>                            
+                            </div> 
                         </div>                        
                     </div>
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>replaceit: </strong></label>
+                                <label class="col-md-4 control-label"><strong>KODE OPD / SKPD: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">replaceit</p>
+                                    <p class="form-control-static">{{$data->kode_organisasi_all_urusan}}</p>
+                                </div>                            
+                            </div> 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>OPD / SKPD: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->OrgNm}}</p>
                                 </div>                            
                             </div>    
                             <div class="form-group">
@@ -66,7 +101,13 @@
                                 <div class="col-md-8">
                                     <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->updated_at)}}</p>
                                 </div>                            
-                            </div>                         
+                            </div>         
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}}</p>
+                                </div>                            
+                            </div>                
                         </div>
                     </div>
                 </div>
@@ -79,7 +120,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
     $(".btnDelete").click(function(ev) {
-        if (confirm('Apakah Anda ingin menghapus Data MappingProgramToOPD ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data Mapping Program ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             let token = $('meta[name="csrf-token"]').attr('content');

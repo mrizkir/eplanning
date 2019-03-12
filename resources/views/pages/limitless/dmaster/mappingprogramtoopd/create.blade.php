@@ -41,7 +41,7 @@
                             <select name="OrgID" id="OrgID" class="select2">
                                 <option></option>
                                 @foreach ($daftar_opd as $k=>$item)
-                                    <option value="{{$k}}">{{$item}}</option>
+                                    <option value="{{$k}}"{{$k==$filter_orgid_selected?'selected':''}}>{{$item}}</option>
                                 @endforeach
                             </select>                        
                         </div>
@@ -167,7 +167,34 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log(parseMessageAjaxEror(xhr, status, error));                           
             },
         });
-    });    
+    });   
+    $(document).on('change','#OrgID', function (ev)
+    {
+        ev.preventDefault();        
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/filtercreate',
+            dataType:'json',
+            data: {
+                "_token": token,
+                "OrgID": $('#OrgID').val(),
+            },
+            success:function(result)
+            {
+                $('#divdataprogram').html(result.datatable);                                   
+                //styling select
+                $('.select').select2({
+                    allowClear:true
+                });
+                $(".switch").bootstrapSwitch();
+            },
+            error:function(xhr, status, error)
+            {
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    }); 
     $('#frmdata').validate({
         rules: {
             ignore:[],

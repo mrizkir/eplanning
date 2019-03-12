@@ -91,4 +91,19 @@ class UrusanModel extends Model {
         }
     }
 
+    /**
+     * digunakan untuk mendapatkan kode urusan
+     */
+    public static function getKodeUrusanByOrgID($OrgID) 
+    {
+        $r = \DB::table('tmOrg')->where('OrgID',$OrgID)->pluck('UrsID')->toArray();
+        if (isset($r[0]))
+        {
+            return $r[0];
+        }
+        else
+        {
+            return null;
+        }
+    }
 }

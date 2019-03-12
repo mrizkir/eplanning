@@ -1,3 +1,3 @@
 <small class="display-block">          
-    <code>info halaman</code>
+    Modul ini digunakan untuk melakukan pemetaan program ke OPD / SKPD.
 </small>
