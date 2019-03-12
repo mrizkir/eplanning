@@ -1,15 +1,15 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    DASHBOARD
+    RINGKASAN PERENCANAAN DAN REALISASI
 @endsection
 @section('page_header')
-    <i class="icon-display4 position-left"></i> 
+    <i class="icon-display position-left"></i> 
     <span class="text-semibold"> 
-        DASHBOARD 
+            RINGKASAN PERENCANAAN DAN REALISASI 
     </span>
 @endsection
 @section('page_breadcrumb')
-    <li class="active">DASHBOARD</li>
+    <li class="active">RINGKASAN PERENCANAAN DAN REALISASI</li>
 @endsection
 @section('page_content')
 

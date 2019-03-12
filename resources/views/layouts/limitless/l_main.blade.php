@@ -47,12 +47,33 @@
     </ul>
     <div class="navbar-collapse collapse" id="navbar-second-toggle">
         <ul class="nav navbar-nav">            
-            <li{!!Helper::isMenuActive ($page_active,'dashboard',' class="active"')!!}>
-                <a href="{!!route('dashboard.index')!!}">
-                    <i class="icon-display4 position-left"></i> 
-                    <span>DASHBOARD</span>											
-                </a>   
-            </li> 
+            <li class="dropdown mega-menu mega-menu-wide visible">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-display4 position-left"></i> DASHBOARD <span class="caret"></span>
+                </a>
+                <div class="dropdown-menu dropdown-content">
+                    <div class="dropdown-content-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <span class="menu-heading underlined"><i class="icon-map4"></i> RINGKASAN UMUM</span>
+                                <ul class="menu-list">
+                                    <li{!!Helper::isMenuActive ($page_active,'dashboard',' class="active"')!!}>
+                                        <a href="{!!route('dashboard.index')!!}">
+                                            <i class="icon-display"></i> PERENCANAAN DAN REALISASI 											
+                                        </a>   
+                                    </li> 
+                                </ul>
+                            </div>
+                            <div class="col-md-3">
+                                <span class="menu-heading underlined"><i class="icon-map4"></i> PERENCANAAN</span>
+                                <ul class="menu-list">
+                                    
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+            </li>            
             <li class="dropdown mega-menu mega-menu-wide visible">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-puzzle4 position-left"></i> MASTERS <span class="caret"></span>
@@ -112,28 +133,7 @@
                         </div>
                     </div>
                 </div>
-            </li>
-            <li class="dropdown mega-menu mega-menu-wide visible">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="icon-puzzle4 position-left"></i> PERENCANAAN <span class="caret"></span>
-                </a>
-                <div class="dropdown-menu dropdown-content">
-                    <div class="dropdown-content-body">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <span class="menu-heading underlined"><i class="icon-office"></i> ASPIRASI/USULAN</span>
-                                <ul class="menu-list">                                   
-                                    <li>
-                                        <a href="{{route('kelompokurusan.index')}}" title="Kelompok Urusan">
-                                            <i class="icon-home9"></i> FORUM SKPD
-                                        </a>
-                                    </li>                                    
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </li>
+            </li>            
             <li class="dropdown visible">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-cogs position-left"></i> SETTING <span class="caret"></span>

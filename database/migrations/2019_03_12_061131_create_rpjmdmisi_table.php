@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateKelompokurusanTable extends Migration
+class CreateRpjmdmisiTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,18 @@ class CreateKelompokurusanTable extends Migration
      */
     public function up()
     {
-        Schema::create('tmKUrs', function (Blueprint $table) {
-            $table->string('KUrsID',19);
-            $table->tinyInteger('Kd_Urusan');
-            $table->string('Nm_Urusan',100);            
+        Schema::create('tmPrioritasKab', function (Blueprint $table) {
+            $table->string('PrioritasKabID',19);
+            $table->string('Kd_PrioritasKab',4);
+            $table->string('Nm_PrioritasKab');           
             $table->string('Descr')->nullable();
             $table->year('TA');
-            $table->string('KUrsID_Src',19)->nullable();
+            $table->string('PrioritasKabID_Src',19)->nullable();
             $table->boolean('Locked')->default(0);
-            
-            $table->timestamps();
 
-            $table->primary('KUrsID');
-            $table->index('Kd_Urusan');
+            $table->primary('PrioritasKabID');
+
+            $table->timestamps();
         });
     }
 
@@ -36,6 +35,6 @@ class CreateKelompokurusanTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tmKUrs');
+        Schema::dropIfExists('tmPrioritasKab');
     }
 }
