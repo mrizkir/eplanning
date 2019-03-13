@@ -17,12 +17,14 @@ class CreateRpjmdstrategiTable extends Migration
             $table->string('PrioritasStrategiKabID',19);
             $table->string('PrioritasSasaranKabID',19);            
             $table->string('Kd_Strategi',4);
-            $table->string('Nm_Strategi');           
+            $table->text('Nm_Strategi');           
             $table->string('Descr')->nullable();
             $table->year('TA');
             $table->string('PrioritasStrategiKabID_Src',19)->nullable();
             $table->boolean('Locked')->default(0);
 
+            $table->timestamps();
+            
             $table->primary('PrioritasStrategiKabID');
 
             $table->index('PrioritasSasaranKabID');

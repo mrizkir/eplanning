@@ -63,6 +63,8 @@ class CreateRpjmdkebijakanTable extends Migration
             $table->year('TA');            
             $table->boolean('Locked')->default(0);
 
+            $table->timestamps();
+            
             $table->primary('IndikatorKinerjaID');
 
             $table->index('PrioritasKebijakanKabID');

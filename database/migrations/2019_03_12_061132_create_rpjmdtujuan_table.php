@@ -23,6 +23,8 @@ class CreateRpjmdtujuanTable extends Migration
             $table->string('PrioritasTujuanKabID_Src',19)->nullable();
             $table->boolean('Locked')->default(0);
 
+            $table->timestamps();
+            
             $table->primary('PrioritasTujuanKabID');
 
             $table->index('PrioritasKabID');
