@@ -142,10 +142,20 @@
                     <div class="dropdown-content-body">
                         <div class="row">
                             <div class="col-md-3">
-                                <span class="menu-heading underlined"><i class="icon-office"></i> ASPIRASI / USULAN</span>
+                                <span class="menu-heading underlined"><i class="icon-people"></i> ASPIRASI / USULAN</span>
                                 <ul class="menu-list">                                   
                                     <li{!!Helper::isMenuActive ($page_active,'aspirasimusrendesa',' class="active"')!!}>
                                         <a href="{{route('aspirasimusrendesa.index')}}" title="Aspirasi Musrenbang Desa">
+                                            <i class="icon-cube"></i> MUSRENBANG DESA / KELURAHAN
+                                        </a>                                        
+                                    </li>                                    
+                                </ul>
+                            </div>
+                            <div class="col-md-3">
+                                <span class="menu-heading underlined"><i class="icon-comment-discussion"></i> PEMBAHASAN</span>
+                                <ul class="menu-list">                                   
+                                    <li{!!Helper::isMenuActive ($page_active,'pembahasanmusrendesa',' class="active"')!!}>
+                                        <a href="{{route('pembahasanmusrendesa.index')}}" title="Aspirasi Musrenbang Desa">
                                             <i class="icon-cube"></i> MUSRENBANG DESA / KELURAHAN
                                         </a>
                                     </li>                                    

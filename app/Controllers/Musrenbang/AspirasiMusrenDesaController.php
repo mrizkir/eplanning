@@ -26,7 +26,7 @@ class AspirasiMusrenDesaController extends Controller {
      */
     public function populateData ($currentpage=1) 
     {        
-        $columns=['UsulanDesaID','No_usulan','Nm_Desa','Nm_Kecamatan','NamaKegiatan','NilaiUsulan','Target_Angka','Target_Uraian','Jeniskeg','Prioritas'];       
+        $columns=['UsulanDesaID','No_usulan','Nm_Desa','Nm_Kecamatan','NamaKegiatan','Output','NilaiUsulan','Target_Angka','Target_Uraian','Jeniskeg','Prioritas'];       
         if (!$this->checkStateIsExistSession('aspirasimusrendesa','orderby')) 
         {            
            $this->putControllerStateSession('aspirasimusrendesa','orderby',['column_name'=>'No_usulan','order'=>'asc']);
@@ -44,8 +44,8 @@ class AspirasiMusrenDesaController extends Controller {
             $search=$this->getControllerStateSession('aspirasimusrendesa','search');
             switch ($search['kriteria']) 
             {
-                case 'No_Usulan' :
-                    $data = AspirasiMusrenDesaModel::where(['No_Usulan'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                case 'No_usulan' :
+                    $data = AspirasiMusrenDesaModel::where(['No_usulan'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
                 case 'NamaKegiatan' :
                     $data = AspirasiMusrenDesaModel::join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanDesa.PmDesaID')
@@ -103,11 +103,23 @@ class AspirasiMusrenDesaController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'NamaKegiatan' :
+            case 'col-No_usulan' :
+                $column_name = 'No_usulan';
+            break;
+            case 'col-Nm_Desa' :
+                $column_name = 'Nm_Desa';
+            break;
+            case 'col-Nm_Kecamatan' :
+                $column_name = 'Nm_Kecamatan';
+            break;
+            case 'col-NamaKegiatan' :
                 $column_name = 'NamaKegiatan';
-            break;           
+            break;
+            case 'col-NilaiUsulan' :
+                $column_name = 'NilaiUsulan';
+            break;        
             default :
-                $column_name = 'No_Usulan';
+                $column_name = 'No_usulan';
         }
         $this->putControllerStateSession('aspirasimusrendesa','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
@@ -323,10 +335,27 @@ class AspirasiMusrenDesaController extends Controller {
         $aspirasimusrendesa = AspirasiMusrenDesaModel::find($id);
         
         $this->validate($request, [
-            'replaceit'=>'required',
+            'PmDesaID'=>'required',
+            'NamaKegiatan'=>'required',
+            'Output'=>'required',
+            'Lokasi'=>'required',
+            'NilaiUsulan'=>'required',
+            'Target_Angka'=>'required',
+            'Prioritas'=>'required',
+            'Prioritas'=>'required|not_in:none'            
         ]);
         
-        $aspirasimusrendesa->replaceit = $request->input('replaceit');
+        $aspirasimusrendesa->PmDesaID=$request->input('PmDesaID');
+        $aspirasimusrendesa->SumberDanaID=$request->input('SumberDanaID');        
+        $aspirasimusrendesa->NamaKegiatan=$request->input('NamaKegiatan');
+        $aspirasimusrendesa->Output=$request->input('Output');
+        $aspirasimusrendesa->Lokasi=$request->input('Lokasi');
+        $aspirasimusrendesa->NilaiUsulan=$request->input('NilaiUsulan');
+        $aspirasimusrendesa->Target_Angka=$request->input('Target_Angka');
+        $aspirasimusrendesa->Target_Uraian=$request->input('Target_Uraian');
+        $aspirasimusrendesa->Jeniskeg=$request->input('Jeniskeg');
+        $aspirasimusrendesa->Prioritas=$request->input('Prioritas');
+        $aspirasimusrendesa->Descr=$request->input('Descr');        
         $aspirasimusrendesa->save();
 
         if ($request->ajax()) 

@@ -30,13 +30,14 @@ class CreatePokokpikiranTable extends Migration
             $table->decimal('NilaiUsulan',15,2);
             $table->tinyInteger('Status');
             $table->string('Output');
-            $table->tinyInteger('Jeniskeg');
+            $table->tinyInteger('Jeniskeg')->default(0);
             $table->tinyInteger('Prioritas');
             
             $table->string('Descr')->nullable();            
             $table->year('TA');
-            $table->boolean('Locked')->default(0);
 
+            $table->boolean('Locked')->default(0);
+            $table->tinyInteger('Privilege')->default(0);        
             $table->primary('PokPirID');
             
             $table->index('PemilikPokokID');            

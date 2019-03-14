@@ -34,7 +34,7 @@
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>['Musrenbang\AspirasiMusrenDesaController@update',$data->musrendesa_id],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
+            {!! Form::open(['action'=>['Musrenbang\AspirasiMusrenDesaController@update',$data->UsulanDesaID],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
                 {{Form::hidden('_method','PUT')}}
                 <div class="form-group" id="divPmDesaID">
                     {{Form::label('PmDesaID','NAMA DESA / KELURAHAN',['class'=>'control-label col-md-2'])}}
@@ -42,33 +42,33 @@
                         <select name="PmDesaID" id="PmDesaID" class="select">
                             <option></option>
                             @foreach ($daftar_desa as $k=>$item)
-                                <option value="{{$k}}">{{$item}}</option>
+                                <option value="{{$k}}" {{$data['PmDesaID'] == $k?' selected':''}}>{{$item}}</option>
                             @endforeach
-                        </select>                        
+                        </select>                                                
                     </div>
                 </div>                 
                 <div class="form-group">
                     {{Form::label('NamaKegiatan','NAMA KEGIATAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('NamaKegiatan','',['class'=>'form-control','placeholder'=>'NAMA KEGIATAN'])}}
+                        {{Form::text('NamaKegiatan',$data['NamaKegiatan'],['class'=>'form-control','placeholder'=>'NAMA KEGIATAN'])}}
                     </div>
                 </div>
                 <div class="form-group">
                     {{Form::label('Output','OUTPUT / HASIL',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('Output','',['class'=>'form-control','placeholder'=>'OUTPUT / HASIL'])}}
+                        {{Form::text('Output',$data['Output'],['class'=>'form-control','placeholder'=>'OUTPUT / HASIL'])}}
                     </div>
                 </div>
                 <div class="form-group">
                     {{Form::label('Lokasi','LOKASI KEGIATAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">                        
-                        {{Form::text('Lokasi','',['class'=>'form-control','placeholder'=>'LOKASI KEGIATAN'])}}
+                        {{Form::text('Lokasi',$data['Lokasi'],['class'=>'form-control','placeholder'=>'LOKASI KEGIATAN'])}}
                     </div>
                 </div>                                      
                 <div class="form-group">
                     {{Form::label('NilaiUsulan','NILAI USULAN ANGGARAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('NilaiUsulan','',['class'=>'form-control','placeholder'=>'NILAI USULAN ANGGARAN'])}}
+                        {{Form::text('NilaiUsulan',Helper::formatUang($data['NilaiUsulan']),['class'=>'form-control','placeholder'=>'NILAI USULAN ANGGARAN'])}}
                     </div>
                 </div>
                 <div class="form-group">
@@ -76,10 +76,10 @@
                     <div class="col-md-10">
                         <div class="row">
                             <div class="col-md-6">
-                                {{Form::text('Target_Angka','',['class'=>'form-control','placeholder'=>'ANGKA TARGET'])}}
+                                {{Form::text('Target_Angka',$data['Target_Angka'],['class'=>'form-control','placeholder'=>'ANGKA TARGET'])}}
                             </div>
                             <div class="col-md-6">
-                                {{Form::text('Target_Uraian','',['class'=>'form-control','placeholder'=>'TARGET URAIAN'])}}                                
+                                {{Form::text('Target_Uraian',$data['Target_Uraian'],['class'=>'form-control','placeholder'=>'TARGET URAIAN'])}}                                
                             </div>
                         </div>                                               
                     </div>
@@ -87,32 +87,27 @@
                 <div class="form-group">
                     {{Form::label('Prioritas','PRIORITAS',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::select('Prioritas', [
-                            'none'=>'DAFTAR PRIORITAS',
-                            1=>'DARURAT',
-                            2=>'REHABILITASI/REVITALISASI',
-                            3=>'JANGKA PANJANG'
-                        ], '',['class'=>'form-control','id'=>'KUrsID'])}}
+                        {{Form::select('Prioritas', Helper::getDaftarPrioritas(),$data['Prioritas'],['class'=>'form-control','id'=>'Prioritas'])}}
                     </div>
                 </div>
                 <div class="form-group">
                     {{Form::label('Jeniskeg','JENIS KEGIATAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">                        
                         <div class="checkbox checkbox-switch">
-                            {{Form::checkbox('Jeniskeg','1',0,['class'=>'switch','data-on-text'=>'FISIK','data-off-text'=>'NON-FISIK'])}}                                     
+                            {{Form::checkbox('Jeniskeg','1',$data['Jeniskeg'],['class'=>'switch','data-on-text'=>'FISIK','data-off-text'=>'NON-FISIK'])}}                                     
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     {{Form::label('SumberDanaID','SUMBER DANA',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::select('SumberDanaID', $sumber_dana, '',['class'=>'form-control','id'=>'KUrsID'])}}
+                        {{Form::select('SumberDanaID', $sumber_dana,$data['SumberDanaID'],['class'=>'form-control','id'=>'KUrsID'])}}
                     </div>
                 </div>  
                 <div class="form-group">
                     {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('Descr','',['class'=>'form-control','placeholder'=>'KETERANGAN'])}}
+                        {{Form::text('Descr',$data['Descr'],['class'=>'form-control','placeholder'=>'KETERANGAN'])}}
                     </div>
                 </div>
                 <div class="form-group">            

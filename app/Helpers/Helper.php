@@ -3,7 +3,15 @@
 namespace App\Helpers;
 use Carbon\Carbon;
 use URL;
-class Helper { 
+class Helper {
+    /**
+     * Daftar Prioritas
+     */ 
+    private static $daftar_prioritas =['none'=>'DAFTAR PRIORITAS',
+                                1=>'DARURAT',
+                                2=>'REHABILITASI/REVITALISASI',
+                                3=>'JANGKA PANJANG'];
+
     /**
      * digunakan controller yang sedang diakses
      */
@@ -52,5 +60,17 @@ class Helper {
 	public static function formatUang ($uang=0) {
 		$formatted = number_format((float)$uang,0,'.','.');
         return $formatted;
+    }
+    /**
+	* digunakan untuk mendapatkan daftar prioritas
+	*/
+	public static function getDaftarPrioritas () {
+		return Helper::$daftar_prioritas;
+    }
+    /**
+	* digunakan untuk mendapatkan nama prioritas
+	*/
+	public static function getNamaPrioritas ($PrioritasID) {
+		return Helper::$daftar_prioritas[$PrioritasID];
 	}
 }

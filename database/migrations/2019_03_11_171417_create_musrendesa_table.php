@@ -19,7 +19,7 @@ class CreateMusrendesaTable extends Migration
             $table->string('SumberDanaID',19);
 
             $table->integer('No_usulan');
-            $table->string('NamaKegiatan');           
+            $table->text('NamaKegiatan');           
             $table->string('Output');           
             $table->string('Lokasi');     
             $table->decimal('NilaiUsulan',15,2);
@@ -29,6 +29,7 @@ class CreateMusrendesaTable extends Migration
             $table->tinyInteger('Prioritas');   
             $table->string('Descr')->nullable();            
             $table->year('TA');
+            $table->tinyInteger('Privilege')->default(0);
             $table->boolean('Locked')->default(0);
 
             $table->timestamps();

@@ -87,12 +87,7 @@
                 <div class="form-group">
                     {{Form::label('Prioritas','PRIORITAS',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::select('Prioritas', [
-                            'none'=>'DAFTAR PRIORITAS',
-                            1=>'DARURAT',
-                            2=>'REHABILITASI/REVITALISASI',
-                            3=>'JANGKA PANJANG'
-                        ], '',['class'=>'form-control','id'=>'KUrsID'])}}
+                        {{Form::select('Prioritas', Helper::getDaftarPrioritas(),'none',['class'=>'form-control','id'=>'Prioritas'])}}
                     </div>
                 </div>
                 <div class="form-group">

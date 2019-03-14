@@ -1,18 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    MUSRENDESA
+    USULAN DESA / KELURAHAN
 @endsection
 @section('page_header')
-    <i class="icon-price-tag position-left"></i>
-    <span class="text-semibold"> 
-        MUSRENDESA TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
-    </span>     
+    <i class="icon-cube position-left"></i>
+    <span class="text-semibold">
+        USULAN DESA / KELURAHAN (MUSREN DESA) TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
+    </span>
 @endsection
 @section('page_info')
     @include('pages.limitless.musrenbang.aspirasimusrendesa.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('aspirasimusrendesa.index')!!}">MUSRENDESA</a></li>
+    <li><a href="#">PERENCANAAN</a></li>
+    <li><a href="#">ASPIRASI / USULAN</a></li>
+    <li><a href="{!!route('aspirasimusrendesa.index')!!}">DESA / KELURAHAN (MUSREN DESA)</a></li>
     <li class="active">DETAIL DATA</li>
 @endsection
 @section('page_content')
@@ -21,13 +23,13 @@
         <div class="panel panel-flat border-top-info border-bottom-info">
             <div class="panel-heading">
                 <h5 class="panel-title"> 
-                    <i class="icon-eye"></i>  DATA MUSRENDESA
+                    <i class="icon-eye"></i>  DATA USULAN KEGIATAN
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('aspirasimusrendesa.edit',['id'=>$data->musrendesa_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data MusrenDesa">
+                    <a href="{{route('aspirasimusrendesa.edit',['id'=>$data->UsulanDesaID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Kegiatan">
                         <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data MusrenDesa" data-id="{{$data->musrendesa_id}}" data-url="{{route('aspirasimusrendesa.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
+                    <a href="javascript:;" title="Hapus Data Kegiatan" data-id="{{$data->UsulanDesaID}}" data-url="{{route('aspirasimusrendesa.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
                     </a>
                     <a href="{!!route('aspirasimusrendesa.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
@@ -40,11 +42,47 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>musrendesa id: </strong></label>
+                                <label class="col-md-4 control-label"><strong>KODE: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->musrendesa_id}}</p>
+                                    <p class="form-control-static">{{$data->No_usulan}}</p>
                                 </div>                            
-                            </div>                            
+                            </div>  
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>NAMA KEGIATAN: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->NamaKegiatan}}</p>
+                                </div>                            
+                            </div> 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>HASIL / OUTPUT: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->Output}}</p>
+                                </div>                            
+                            </div> 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>LOKASI: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->Lokasi}}</p>
+                                </div>                            
+                            </div> 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>NILAI USULAN: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->NilaiUsulan}}</p>
+                                </div>                            
+                            </div> 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>VOLUME: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->Target_Angka}} {{$data->Target_Uraian}}</p>
+                                </div>       getNamaPrioritas                     
+                            </div> 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>NILAI USULAN: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->NilaiUsulan}}</p>
+                                </div>                            
+                            </div> 
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
                                 <div class="col-md-8">
@@ -79,7 +117,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
     $(".btnDelete").click(function(ev) {
-        if (confirm('Apakah Anda ingin menghapus Data MusrenDesa ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data Kegiatan ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             let token = $('meta[name="csrf-token"]').attr('content');

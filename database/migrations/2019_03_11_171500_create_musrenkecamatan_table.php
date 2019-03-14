@@ -24,16 +24,17 @@ class CreateMusrenkecamatanTable extends Migration
                 $table->string('SumberDanaID',19);
 
                 $table->tinyInteger('No_usulan');
-                $table->string('NamaKegiatan');           
+                $table->text('NamaKegiatan');           
                 $table->string('Output');           
                 $table->string('Lokasi');        
                 $table->decimal('NilaiUsulan',15,2);
-                $table->decimal('Target_Angka',15,2);
-                $table->tinyInteger('Jeniskeg');            
+                $table->integer('Target_Angka');
+                $table->tinyInteger('Jeniskeg')->default(0);            
                 $table->string('Target_Uraian');    
                 $table->tinyInteger('Prioritas');   
                 $table->string('Descr')->nullable();            
                 $table->year('TA');
+                $table->tinyInteger('Privilege')->default(0);
                 $table->boolean('Locked')->default(0);
 
                 $table->timestamps();

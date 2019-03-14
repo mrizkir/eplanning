@@ -1,20 +1,18 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    USULAN DESA / KELURAHAN
+    PEMBAHASANMUSRENDESA
 @endsection
 @section('page_header')
-    <i class="icon-cube position-left"></i>
+    <i class="icon-price-tag position-left"></i>
     <span class="text-semibold">
-        USULAN DESA / KELURAHAN (MUSREN DESA) TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
+        PEMBAHASANMUSRENDESA TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.musrenbang.aspirasimusrendesa.info')
+    @include('pages.limitless.musrenbang.pembahasanmusrendesa.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="#">PERENCANAAN</a></li>
-    <li><a href="#">ASPIRASI / USULAN</a></li>
-    <li class="active">DESA / KELURAHAN (MUSREN DESA)</li>
+    <li class="active">PEMBAHASANMUSRENDESA</li>
 @endsection
 @section('page_content')
 <div class="row">
@@ -27,11 +25,11 @@
                 </h5>
             </div>
             <div class="panel-body">
-                {!! Form::open(['action'=>'Musrenbang\AspirasiMusrenDesaController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
+                {!! Form::open(['action'=>'Musrenbang\PembahasanMusrenDesaController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">
-                            {{Form::select('cmbKriteria', ['No_usulan'=>'KODE','NamaKegiatan'=>'NAMA KEGIATAN'], isset($search['kriteria'])?$search['kriteria']:'replaceit',['class'=>'form-control'])}}
+                            {{Form::select('cmbKriteria', ['replaceit'=>'replaceit','nama'=>'replaceit'], isset($search['kriteria'])?$search['kriteria']:'replaceit',['class'=>'form-control'])}}
                         </div>
                     </div>
                     <div class="form-group" id="divKriteria">
@@ -53,7 +51,7 @@
         </div>
     </div>       
     <div class="col-md-12" id="divdatatable">
-        @include('pages.limitless.musrenbang.aspirasimusrendesa.datatable')
+        @include('pages.limitless.musrenbang.pembahasanmusrendesa.datatable')
     </div>
 </div>
 @endsection
@@ -61,7 +59,7 @@
 <script type="text/javascript">
 $(document).ready(function () {  
     $("#divdatatable").on("click",".btnDelete", function(){
-        if (confirm('Apakah Anda ingin menghapus Data Kegiatan ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data PembahasanMusrenDesa ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             $.ajax({            
@@ -77,7 +75,7 @@ $(document).ready(function () {
                     if (result.success==1){
                         $('#divdatatable').html(result.datatable);                        
                     }else{
-                        console.log("Gagal menghapus data Kegiatan dengan id "+id);
+                        console.log("Gagal menghapus data PembahasanMusrenDesa dengan id "+id);
                     }                    
                 },
                 error:function(xhr, status, error){
