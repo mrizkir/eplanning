@@ -134,6 +134,27 @@
                     </div>
                 </div>
             </li>            
+            <li class="dropdown mega-menu mega-menu-wide visible">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-airplane3 position-left"></i> PERENCANAAN <span class="caret"></span>
+                </a>
+                <div class="dropdown-menu dropdown-content">
+                    <div class="dropdown-content-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <span class="menu-heading underlined"><i class="icon-office"></i> ASPIRASI / USULAN</span>
+                                <ul class="menu-list">                                   
+                                    <li{!!Helper::isMenuActive ($page_active,'aspirasimusrendesa',' class="active"')!!}>
+                                        <a href="{{route('aspirasimusrendesa.index')}}" title="Aspirasi Musrenbang Desa">
+                                            <i class="icon-cube"></i> MUSRENBANG DESA / KELURAHAN
+                                        </a>
+                                    </li>                                    
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
             <li class="dropdown visible">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-cogs position-left"></i> SETTING <span class="caret"></span>

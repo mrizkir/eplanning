@@ -10,33 +10,38 @@ class DesaModel extends Model {
      *
      * @var string
      */
-    protected $table = 'desa';
+    protected $table = 'tmPmDesa';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'replace_it', 'replace_it'
+        'PmDesaID', 
+        'PmKecamatanID',
+        'Kd_Desa',
+        'Nm_Desa',
+        'Descr',
+        'TA',
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'desa_id';
+    protected $primaryKey = 'PmDesaID';
     /**
      * enable auto_increment.
      *
      * @var string
      */
-    public $incrementing = true;
+    public $incrementing = false;
     /**
      * activated timestamps.
      *
      * @var string
      */
-    public $timestamps = true;
+    public $timestamps = false;
 
     /**
      * make the model use another name than the default
@@ -47,7 +52,14 @@ class DesaModel extends Model {
     /**
      * log the changed attributes for all these events 
      */
-    // protected static $logAttributes = ['replace_it', 'replace_it'];
+    protected static $logAttributes = [
+        'PmDesaID', 
+        'PmKecamatanID',
+        'Kd_Desa',
+        'Nm_Desa',
+        'Descr',
+        'TA'
+    ];
     /**
      * log changes to all the $fillable attributes of the model
      */
@@ -55,4 +67,15 @@ class DesaModel extends Model {
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
+
+    public static function getDaftarDesa ($ta,$prepend=true) 
+    {
+        $r=DesaModel::where('TA',$ta)->orderBy('Kd_Desa')->get();
+        $daftar_desa=($prepend==true)?['none'=>'DAFTAR KELOMPOK URUSAN']:[];        
+        foreach ($r as $k=>$v)
+        {
+            $daftar_desa[$v->PmDesaID]=$v->Nm_Desa;
+        } 
+        return $daftar_desa;
+    }
 }

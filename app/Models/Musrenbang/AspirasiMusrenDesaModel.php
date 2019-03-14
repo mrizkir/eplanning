@@ -4,33 +4,46 @@ namespace App\Models\Musrenbang;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MusrenDesaModel extends Model {
+class AspirasiMusrenDesaModel extends Model {
      /**
      * nama tabel model ini.
      *
      * @var string
      */
-    protected $table = 'musrendesa';
+    protected $table = 'trUsulanDesa';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'replace_it', 'replace_it'
+        'UsulanDesaID', 
+        'PmDesaID', 
+        'SumberDanaID', 
+        'No_usulan', 
+        'NamaKegiatan', 
+        'Output', 
+        'Lokasi', 
+        'NilaiUsulan', 
+        'Target_Angka',
+        'Target_Uraian',
+        'Jeniskeg',
+        'Prioritas',
+        'Descr',
+        'TA'
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'musrendesa_id';
+    protected $primaryKey = 'UsulanDesaID';
     /**
      * enable auto_increment.
      *
      * @var string
      */
-    public $incrementing = true;
+    public $incrementing = false;
     /**
      * activated timestamps.
      *
@@ -43,11 +56,26 @@ class MusrenDesaModel extends Model {
      *
      * @var string
      */
-    // protected static $logName = 'MusrenDesaController';
+    protected static $logName = 'MusrenDesaController';
     /**
      * log the changed attributes for all these events 
      */
-    // protected static $logAttributes = ['replace_it', 'replace_it'];
+    protected static $logAttributes =  [
+        'UsulanDesaID', 
+        'PmDesaID', 
+        'SumberDanaID', 
+        'No_usulan', 
+        'NamaKegiatan', 
+        'Output', 
+        'Lokasi', 
+        'NilaiUsulan', 
+        'Target_Angka',
+        'Target_Uraian',
+        'Jeniskeg',
+        'Prioritas',
+        'Descr',
+        'TA'
+    ];
     /**
      * log changes to all the $fillable attributes of the model
      */

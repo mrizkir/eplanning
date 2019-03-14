@@ -9,10 +9,10 @@
     </span>     
 @endsection
 @section('page_info')
-    @include('pages.limitless.musrenbang.musrendesa.info')
+    @include('pages.limitless.musrenbang.aspirasimusrendesa.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('musrendesa.index')!!}">MUSRENDESA</a></li>
+    <li><a href="{!!route('aspirasimusrendesa.index')!!}">MUSRENDESA</a></li>
     <li class="active">DETAIL DATA</li>
 @endsection
 @section('page_content')
@@ -24,13 +24,13 @@
                     <i class="icon-eye"></i>  DATA MUSRENDESA
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('musrendesa.edit',['id'=>$data->musrendesa_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data MusrenDesa">
+                    <a href="{{route('aspirasimusrendesa.edit',['id'=>$data->musrendesa_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data MusrenDesa">
                         <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data MusrenDesa" data-id="{{$data->musrendesa_id}}" data-url="{{route('musrendesa.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
+                    <a href="javascript:;" title="Hapus Data MusrenDesa" data-id="{{$data->musrendesa_id}}" data-url="{{route('aspirasimusrendesa.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
                     </a>
-                    <a href="{!!route('musrendesa.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
+                    <a href="{!!route('aspirasimusrendesa.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
                         <i class="icon-close2"></i>
                     </a>            
                 </div>

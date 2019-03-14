@@ -45,5 +45,12 @@ class Helper {
             $tanggal = Carbon::parse($date)->format($format);
         }        
         return $tanggal;
-	}   
+    }   
+    /**
+	* digunakan untuk mem-format uang
+	*/
+	public static function formatUang ($uang=0) {
+		$formatted = number_format((float)$uang,0,'.','.');
+        return $formatted;
+	}
 }

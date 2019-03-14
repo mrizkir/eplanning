@@ -9,10 +9,10 @@
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.musrenbang.musrendesa.info')
+    @include('pages.limitless.musrenbang.aspirasimusrendesa.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('musrendesa.index')!!}">MUSRENDESA</a></li>
+    <li><a href="{!!route('aspirasimusrendesa.index')!!}">MUSRENDESA</a></li>
     <li class="active">ERROR</li>
 @endsection
 @section('page_content')

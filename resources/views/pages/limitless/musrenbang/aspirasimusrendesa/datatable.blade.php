@@ -9,7 +9,7 @@
         </div>
         <div class="heading-elements">
             <div class="heading-btn">
-                <a href="{!!route('musrendesa.create')!!}" class="btn btn-info btn-xs" title="Tambah MUSRENDESA">
+                <a href="{!!route('aspirasimusrendesa.create')!!}" class="btn btn-info btn-xs" title="Tambah Kegiatan">
                     <i class="icon-googleplus5"></i>
                 </a>
             </div>            
@@ -21,10 +21,31 @@
             <thead>
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
-                    <th width="100">
+                    <th width="180">
                         <a class="column-sort text-white" id="col-replace_it" data-order="{{$direction}}" href="#">
-                            replace_it  
+                            DESA/KELURAHAN  
                         </a>                                             
+                    </th> 
+                    <th width="210">
+                        <a class="column-sort text-white" id="col-replace_it" data-order="{{$direction}}" href="#">
+                            KECAMATAN  
+                        </a>                                             
+                    </th> 
+                    <th>
+                        <a class="column-sort text-white" id="col-replace_it" data-order="{{$direction}}" href="#">
+                            NAMA KEGIATAN  
+                        </a>                                             
+                    </th> 
+                    <th width="120">
+                        <a class="column-sort text-white" id="col-replace_it" data-order="{{$direction}}" href="#">
+                            NILAI
+                        </a>                                             
+                    </th> 
+                    <th width="150">                        
+                        VOLUME                        
+                    </th> 
+                    <th width="55">                        
+                        STATUS                        
                     </th> 
                     <th width="100">AKSI</th>
                 </tr>
@@ -35,21 +56,29 @@
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>                  
-                    <td>{{$item->replace_it}}</td>
+                    <td>{{$item->Nm_Desa}}</td>
+                    <td>{{$item->Nm_Kecamatan}}</td>
+                    <td>
+                        {{$item->NamaKegiatan}}<br />
+                        <span class="label label-flat border-primary text-primary-600">{{$item->Jeniskeg == 1 ? 'FISIK' : 'NON-FISIK'}}</span>
+                    </td>
+                    <td>{{Helper::formatUang($item->NilaiUsulan)}}</td>
+                    <td>{{$item->Target_Angka}} {{$item->Target_Uraian}}</td>
+                    <td>-</td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('musrendesa.show',['id'=>$item->musrendesa_id])}}" title="Detail Data MusrenDesa">
+                                <a class="btnShow" href="{{route('aspirasimusrendesa.show',['id'=>$item->UsulanDesaID])}}" title="Detail Data Kegiatan">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('musrendesa.edit',['id'=>$item->musrendesa_id])}}" title="Ubah Data MusrenDesa">
+                                <a class="btnEdit" href="{{route('aspirasimusrendesa.edit',['id'=>$item->UsulanDesaID])}}" title="Ubah Data Kegiatan">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data MusrenDesa" data-id="{{$item->musrendesa_id}}" data-url="{{route('musrendesa.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data Kegiatan" data-id="{{$item->UsulanDesaID}}" data-url="{{route('aspirasimusrendesa.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>

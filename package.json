@@ -23,6 +23,8 @@
         "vue": "^2.5.17"
     },
     "dependencies": {
-        "admin-lte": "^2.4.8"
+        "admin-lte": "^2.4.8",
+        "autonumeric": "^4.5.4",
+        "select2": "^4.0.6-rc.1"
     }
 }

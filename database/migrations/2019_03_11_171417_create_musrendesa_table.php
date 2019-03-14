@@ -18,14 +18,14 @@ class CreateMusrendesaTable extends Migration
             $table->string('PmDesaID',19);
             $table->string('SumberDanaID',19);
 
-            $table->tinyInteger('No_usulan');
+            $table->integer('No_usulan');
             $table->string('NamaKegiatan');           
             $table->string('Output');           
             $table->string('Lokasi');     
             $table->decimal('NilaiUsulan',15,2);
-            $table->decimal('Target_Angka',15,2);                    
+            $table->integer('Target_Angka');                    
             $table->string('Target_Uraian');    
-            $table->tinyInteger('Jeniskeg');    
+            $table->tinyInteger('Jeniskeg')->default(0);    
             $table->tinyInteger('Prioritas');   
             $table->string('Descr')->nullable();            
             $table->year('TA');

@@ -1,18 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    MUSRENDESA
+    USULAN DESA / KELURAHAN
 @endsection
 @section('page_header')
-    <i class="icon-price-tag position-left"></i>
+    <i class="icon-cube position-left"></i>
     <span class="text-semibold">
-        MUSRENDESA TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
+        USULAN DESA / KELURAHAN (MUSREN DESA) TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.musrenbang.musrendesa.info')
+    @include('pages.limitless.musrenbang.aspirasimusrendesa.info')
 @endsection
 @section('page_breadcrumb')
-    <li class="active">MUSRENDESA</li>
+    <li><a href="#">PERENCANAAN</a></li>
+    <li><a href="#">ASPIRASI / USULAN</a></li>
+    <li class="active">DESA / KELURAHAN (MUSREN DESA)</li>
 @endsection
 @section('page_content')
 <div class="row">
@@ -25,7 +27,7 @@
                 </h5>
             </div>
             <div class="panel-body">
-                {!! Form::open(['action'=>'Musrenbang\MusrenDesaController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
+                {!! Form::open(['action'=>'Musrenbang\AspirasiMusrenDesaController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">
@@ -51,7 +53,7 @@
         </div>
     </div>       
     <div class="col-md-12" id="divdatatable">
-        @include('pages.limitless.musrenbang.musrendesa.datatable')
+        @include('pages.limitless.musrenbang.aspirasimusrendesa.datatable')
     </div>
 </div>
 @endsection
@@ -59,7 +61,7 @@
 <script type="text/javascript">
 $(document).ready(function () {  
     $("#divdatatable").on("click",".btnDelete", function(){
-        if (confirm('Apakah Anda ingin menghapus Data MusrenDesa ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data Kegiatan ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             $.ajax({            
@@ -75,7 +77,7 @@ $(document).ready(function () {
                     if (result.success==1){
                         $('#divdatatable').html(result.datatable);                        
                     }else{
-                        console.log("Gagal menghapus data MusrenDesa dengan id "+id);
+                        console.log("Gagal menghapus data Kegiatan dengan id "+id);
                     }                    
                 },
                 error:function(xhr, status, error){

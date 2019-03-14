@@ -10,27 +10,27 @@ class SumberDanaModel extends Model {
      *
      * @var string
      */
-    protected $table = 'sumberdana';
+    protected $table = 'tmSumberDana';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'replace_it', 'replace_it'
+        'SumberDanaID', 'Kd_SumberDana', 'Kd_SumberDana', 'Nm_SumberDana', 'Descr', 'TA'
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'sumberdana_id';
+    protected $primaryKey = 'SumberDanaID';
     /**
      * enable auto_increment.
      *
      * @var string
      */
-    public $incrementing = true;
+    public $incrementing = false;
     /**
      * activated timestamps.
      *
@@ -47,7 +47,9 @@ class SumberDanaModel extends Model {
     /**
      * log the changed attributes for all these events 
      */
-    // protected static $logAttributes = ['replace_it', 'replace_it'];
+    protected static $logAttributes = [
+        'SumberDanaID', 'Kd_SumberDana', 'Kd_SumberDana', 'Nm_SumberDana', 'Descr', 'TA'
+    ];
     /**
      * log changes to all the $fillable attributes of the model
      */
@@ -55,4 +57,15 @@ class SumberDanaModel extends Model {
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
+
+    /**
+     * digunakan untuk mendapatkan daftar sumber dana
+     */
+    public static function getDaftarSumberDana($prepend=true) 
+    {
+        $daftar_sumberdana = $prepend==true?SumberDanaModel::orderBy('Kd_SumberDana','asc')->get()->pluck('Nm_SumberDana', 'SumberDanaID')->prepend('DAFTAR SUMBER DANA','none')->toArray():
+                                            SumberDanaModel::orderBy('Kd_SumberDana','asc')->get()->pluck('Nm_SumberDana', 'SumberDanaID')->toArray();
+
+        return $daftar_sumberdana;
+    }
 }
