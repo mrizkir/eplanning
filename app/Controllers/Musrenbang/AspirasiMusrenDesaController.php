@@ -44,12 +44,17 @@ class AspirasiMusrenDesaController extends Controller {
             $search=$this->getControllerStateSession('aspirasimusrendesa','search');
             switch ($search['kriteria']) 
             {
-                case 'No_usulan' :
-                    $data = AspirasiMusrenDesaModel::where(['No_usulan'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                case 'No_usulan' :                    
+                    $data = AspirasiMusrenDesaModel::join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanDesa.PmDesaID')
+                                                    ->join('tmPmKecamatan','tmPmDesa.PmKecamatanID','tmPmKecamatan.PmKecamatanID')
+                                                    ->where('trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
+                                                    ->where(['No_usulan'=>$search['isikriteria']])->orderBy($column_order,$direction)
+                                                    ->orderBy($column_order,$direction);
                 break;
                 case 'NamaKegiatan' :
                     $data = AspirasiMusrenDesaModel::join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanDesa.PmDesaID')
-                                                    ->join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanDesa.PmDesaID')
+                                                    ->join('tmPmKecamatan','tmPmDesa.PmKecamatanID','tmPmKecamatan.PmKecamatanID')
+                                                    ->where('trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
                                                     ->where('NamaKegiatan', 'like', '%' . $search['isikriteria'] . '%')
                                                     ->orderBy($column_order,$direction);                                        
                 break;
@@ -289,10 +294,12 @@ class AspirasiMusrenDesaController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = AspirasiMusrenDesaModel::findOrFail($id);
+        $data = AspirasiMusrenDesaModel::join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanDesa.PmDesaID')
+                                        ->join('tmPmKecamatan','tmPmDesa.PmKecamatanID','tmPmKecamatan.PmKecamatanID')
+                                        ->where('trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
+                                        ->findOrFail($id);
         if (!is_null($data) )  
-        {
-            
+        {            
             return view("pages.$theme.musrenbang.aspirasimusrendesa.show")->with(['page_active'=>'aspirasimusrendesa',
                                                                                    
                                                                                     'data'=>$data

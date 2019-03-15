@@ -59,12 +59,7 @@
                                     <p class="form-control-static">{{$data->Output}}</p>
                                 </div>                            
                             </div> 
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>LOKASI: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->Lokasi}}</p>
-                                </div>                            
-                            </div> 
+                            
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>NILAI USULAN: </strong></label>
                                 <div class="col-md-8">
@@ -75,30 +70,49 @@
                                 <label class="col-md-4 control-label"><strong>VOLUME: </strong></label>
                                 <div class="col-md-8">
                                     <p class="form-control-static">{{$data->Target_Angka}} {{$data->Target_Uraian}}</p>
-                                </div>       getNamaPrioritas                     
-                            </div> 
+                                </div>                            
+                            </div>                             
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>NILAI USULAN: </strong></label>
+                                <label class="col-md-4 control-label"><strong>PRIORITAS: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->NilaiUsulan}}</p>
+                                    <p class="form-control-static">{{Helper::getNamaPrioritas($data->Prioritas)}}</p>
                                 </div>                            
                             </div> 
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}}</p>
-                                </div>                            
-                            </div>
                         </div>                        
                     </div>
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>replaceit: </strong></label>
+                                <label class="col-md-4 control-label"><strong>JENIS KEGIATAN: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">replaceit</p>
+                                    <p class="form-control-static">{{$data->Prioritas==1?'FISIK':'NON-FISIK'}}</p>
                                 </div>                            
-                            </div>    
+                            </div> 
+                            
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>DESA: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->Nm_Desa}}</p>
+                                </div>                            
+                            </div> 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>KECAMATAN: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->Nm_Kecamatan}}</p>
+                                </div>                            
+                            </div> 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>LOKASI: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->Lokasi}}</p>
+                                </div>                            
+                            </div> 
+                            <div class="form-group">
+                                    <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
+                                    <div class="col-md-8">
+                                        <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}}</p>
+                                    </div>                            
+                                </div>
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>TGL. UBAH: </strong></label>
                                 <div class="col-md-8">

@@ -10,27 +10,27 @@ class KecamatanModel extends Model {
      *
      * @var string
      */
-    protected $table = 'kecamatan';
+    protected $table = 'tmPmKecamatan';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'replace_it', 'replace_it'
+        'PmKecamatanID', 'PmKotaID', 'Kd_Kecamatan', 'Nm_Kecamatan', 'Descr', 'TA'
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'kecamatan_id';
+    protected $primaryKey = 'PmKecamatanID';
     /**
      * enable auto_increment.
      *
      * @var string
      */
-    public $incrementing = true;
+    public $incrementing = false;
     /**
      * activated timestamps.
      *
@@ -47,7 +47,7 @@ class KecamatanModel extends Model {
     /**
      * log the changed attributes for all these events 
      */
-    // protected static $logAttributes = ['replace_it', 'replace_it'];
+    protected static $logAttributes = ['PmKecamatanID', 'PmKotaID', 'Kd_Kecamatan', 'Nm_Kecamatan', 'Descr', 'TA'];
     /**
      * log changes to all the $fillable attributes of the model
      */
@@ -55,4 +55,14 @@ class KecamatanModel extends Model {
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
+    public static function getDaftarKecamatan ($ta,$prepend=true) 
+    {
+        $r=KecamatanModel::where('TA',$ta)->orderBy('Kd_Kecamatan')->get();
+        $daftar_kecamatan=($prepend==true)?['none'=>'DAFTAR KECAMATAN']:[];        
+        foreach ($r as $k=>$v)
+        {
+            $daftar_kecamatan[$v->PmKecamatanID]=$v->Nm_Kecamatan;
+        } 
+        return $daftar_kecamatan;
+    }
 }

@@ -32,7 +32,7 @@ class CreatePokokpikiranTable extends Migration
             $table->string('Output');
             $table->tinyInteger('Jeniskeg')->default(0);
             $table->tinyInteger('Prioritas');
-            
+            $table->double('Bobot',3,2)->default(0.00);
             $table->string('Descr')->nullable();            
             $table->year('TA');
 

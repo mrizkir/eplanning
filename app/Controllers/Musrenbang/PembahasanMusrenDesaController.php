@@ -4,7 +4,9 @@ namespace App\Controllers\Musrenbang;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
-use App\Models\Musrenbang\PembahasanMusrenDesaModel;
+use App\Models\DMaster\KecamatanModel;
+use App\Models\DMaster\DesaModel;
+use App\Models\Musrenbang\AspirasiMusrenDesaModel;
 
 class PembahasanMusrenDesaController extends Controller {
      /**
@@ -24,38 +26,62 @@ class PembahasanMusrenDesaController extends Controller {
      */
     public function populateData ($currentpage=1) 
     {        
-        $columns=['*'];       
-        //if (!$this->checkStateIsExistSession('pembahasanmusrendesa','orderby')) 
-        //{            
-        //    $this->putControllerStateSession('pembahasanmusrendesa','orderby',['column_name'=>'replace_it','order'=>'asc']);
-        //}
-        //$column_order=$this->getControllerStateSession('pembahasanmusrendesa.orderby','column_name'); 
-        //$direction=$this->getControllerStateSession('pembahasanmusrendesa.orderby','order'); 
+        $columns=['UsulanDesaID','No_usulan','Nm_Desa','Nm_Kecamatan','NamaKegiatan','Output','NilaiUsulan','Target_Angka','Target_Uraian','Jeniskeg','Prioritas'];       
+        if (!$this->checkStateIsExistSession('pembahasanmusrendesa','orderby')) 
+        {            
+           $this->putControllerStateSession('pembahasanmusrendesa','orderby',['column_name'=>'No_usulan','order'=>'asc']);
+        }
+        $column_order=$this->getControllerStateSession('pembahasanmusrendesa.orderby','column_name'); 
+        $direction=$this->getControllerStateSession('pembahasanmusrendesa.orderby','order'); 
 
         if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
         {            
             $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
         }
-        $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
-        if ($this->checkStateIsExistSession('pembahasanmusrendesa','search')) 
+        $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');  
+        
+        //filter
+        if (!$this->checkStateIsExistSession('pembahasanmusrendesa','filters')) 
+        {            
+            $this->putControllerStateSession('pembahasanmusrendesa','filters',['PmKecamatanID'=>'none',
+                                                                            'PmDesaID'=>'none']);
+        }        
+        $filter_desa = $this->getControllerStateSession('pembahasanmusrendesa.filters','PmDesaID');
+        if ($filter_desa == 'none' )
         {
-            $search=$this->getControllerStateSession('pembahasanmusrendesa','search');
-            switch ($search['kriteria']) 
-            {
-                case 'replaceit' :
-                    $data = PembahasanMusrenDesaModel::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
-                break;
-                case 'replaceit' :
-                    $data = PembahasanMusrenDesaModel::where('replaceit', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
-                break;
-            }           
-            $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
+            $data = [];    
         }
         else
         {
-            $data = PembahasanMusrenDesaModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
-        }        
-        $data->setPath(route('pembahasanmusrendesa.index'));
+            if ($this->checkStateIsExistSession('pembahasanmusrendesa','search')) 
+            {
+                $search=$this->getControllerStateSession('pembahasanmusrendesa','search');
+                switch ($search['kriteria']) 
+                {
+                    case 'No_usulan' :                    
+                        $data = AspirasiMusrenDesaModel::where('trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
+                                                        ->where('PmDesaID',$filter_desa)
+                                                        ->where(['No_usulan'=>$search['isikriteria']])
+                                                        ->orderBy($column_order,$direction);
+                    break;
+                    case 'NamaKegiatan' :
+                        $data = AspirasiMusrenDesaModel::where('trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
+                                                        ->where('PmDesaID',$filter_desa)
+                                                        ->where('NamaKegiatan', 'like', '%' . $search['isikriteria'] . '%')
+                                                        ->orderBy($column_order,$direction);                                        
+                break;
+                }           
+                $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
+            }
+            else
+            {
+                $data = AspirasiMusrenDesaModel::where('TA', config('globalsettings.tahun_perencanaan'))
+                                                ->where('PmDesaID',$filter_desa)
+                                                ->orderBy($column_order,$direction)
+                                                ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            }        
+            $data->setPath(route('pembahasanmusrendesa.index'));                             
+        }
         return $data;
     }
     /**
@@ -94,11 +120,23 @@ class PembahasanMusrenDesaController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'replace_it' :
-                $column_name = 'replace_it';
-            break;           
+            case 'col-No_usulan' :
+                $column_name = 'No_usulan';
+            break;
+            case 'col-Nm_Desa' :
+                $column_name = 'Nm_Desa';
+            break;
+            case 'col-Nm_Kecamatan' :
+                $column_name = 'Nm_Kecamatan';
+            break;
+            case 'col-NamaKegiatan' :
+                $column_name = 'NamaKegiatan';
+            break;
+            case 'col-NilaiUsulan' :
+                $column_name = 'NilaiUsulan';
+            break;        
             default :
-                $column_name = 'replace_it';
+                $column_name = 'No_usulan';
         }
         $this->putControllerStateSession('pembahasanmusrendesa','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
@@ -176,21 +214,26 @@ class PembahasanMusrenDesaController extends Controller {
     {                
         $theme = \Auth::user()->theme;
 
+
         $search=$this->getControllerStateSession('pembahasanmusrendesa','search');
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('pembahasanmusrendesa'); 
         $data = $this->populateData($currentpage);
-        if ($currentpage > $data->lastPage())
-        {            
-            $data = $this->populateData($data->lastPage());
+        if (method_exists($data,'lastPage'))
+        {
+            if ($currentpage > $data->lastPage())
+            {            
+                $data = $this->populateData($data->lastPage());
+            }
+            $this->setCurrentPageInsideSession('pembahasanmusrendesa',$data->currentPage());
         }
-        $this->setCurrentPageInsideSession('pembahasanmusrendesa',$data->currentPage());
-        
+        $daftar_kecamatan=KecamatanModel::getDaftarKecamatan(config('globalsettings.tahun_perencanaan'));
         return view("pages.$theme.musrenbang.pembahasanmusrendesa.index")->with(['page_active'=>'pembahasanmusrendesa',
-                                                'search'=>$this->getControllerStateSession('pembahasanmusrendesa','search'),
-                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                'column_order'=>$this->getControllerStateSession('pembahasanmusrendesa.orderby','column_name'),
-                                                'direction'=>$this->getControllerStateSession('pembahasanmusrendesa.orderby','order'),
-                                                'data'=>$data]);               
+                                                                                'daftar_kecamatan'=>$daftar_kecamatan,
+                                                                                'search'=>$this->getControllerStateSession('pembahasanmusrendesa','search'),
+                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                                'column_order'=>$this->getControllerStateSession('pembahasanmusrendesa.orderby','column_name'),
+                                                                                'direction'=>$this->getControllerStateSession('pembahasanmusrendesa.orderby','order'),
+                                                                                'data'=>$data]);               
     }
     /**
      * Show the form for creating a new resource.
@@ -218,7 +261,7 @@ class PembahasanMusrenDesaController extends Controller {
             'replaceit'=>'required',
         ]);
         
-        $pembahasanmusrendesa = PembahasanMusrenDesaModel::create([
+        $pembahasanmusrendesa = AspirasiMusrenDesaModel::create([
             'replaceit' => $request->input('replaceit'),
         ]);        
         
@@ -246,7 +289,7 @@ class PembahasanMusrenDesaController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = PembahasanMusrenDesaModel::findOrFail($id);
+        $data = AspirasiMusrenDesaModel::findOrFail($id);
         if (!is_null($data) )  
         {
             return view("pages.$theme.musrenbang.pembahasanmusrendesa.show")->with(['page_active'=>'pembahasanmusrendesa',
@@ -265,7 +308,7 @@ class PembahasanMusrenDesaController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $data = PembahasanMusrenDesaModel::findOrFail($id);
+        $data = AspirasiMusrenDesaModel::findOrFail($id);
         if (!is_null($data) ) 
         {
             return view("pages.$theme.musrenbang.pembahasanmusrendesa.edit")->with(['page_active'=>'pembahasanmusrendesa',
@@ -283,7 +326,7 @@ class PembahasanMusrenDesaController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $pembahasanmusrendesa = PembahasanMusrenDesaModel::find($id);
+        $pembahasanmusrendesa = AspirasiMusrenDesaModel::find($id);
         
         $this->validate($request, [
             'replaceit'=>'required',
@@ -315,7 +358,7 @@ class PembahasanMusrenDesaController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $pembahasanmusrendesa = PembahasanMusrenDesaModel::find($id);
+        $pembahasanmusrendesa = AspirasiMusrenDesaModel::find($id);
         $result=$pembahasanmusrendesa->delete();
         if ($request->ajax()) 
         {

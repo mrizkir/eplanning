@@ -17,7 +17,7 @@
     <li class="active">DESA / KELURAHAN (MUSREN DESA)</li>
 @endsection
 @section('page_content')
-<div class="row">
+<div class="row">    
     <div class="col-md-12">
         <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
             <div class="panel-heading">
