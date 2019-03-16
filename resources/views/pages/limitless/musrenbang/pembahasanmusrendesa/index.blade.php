@@ -36,7 +36,7 @@
                             <select name="PmKecamatanID" id="PmKecamatanID" class="select">
                                 <option></option>
                                 @foreach ($daftar_kecamatan as $k=>$item)
-                                    <option value="{{$k}}">{{$item}}</option>
+                                    <option value="{{$k}}"{{$k==$filters['PmKecamatanID']?' selected':''}}>{{$item}}</option>
                                 @endforeach
                             </select>                              
                         </div>
@@ -45,7 +45,10 @@
                         <label class="col-md-2 control-label">DESA :</label> 
                         <div class="col-md-10">
                             <select name="PmDesaID" id="PmDesaID" class="select">
-                                <option></option>                            
+                                <option></option>  
+                                @foreach ($daftar_desa as $k=>$item)
+                                    <option value="{{$k}}"{{$k==$filters['PmDesaID']?' selected':''}}>{{$item}}</option>
+                                @endforeach                          
                             </select>                            
                         </div>
                     </div>
@@ -121,9 +124,23 @@ $(document).ready(function () {
             },
             success:function(result)
             { 
-            }
+                console.log(result.daftar_desa);
+                var daftar_desa = result.daftar_desa;
+                var listitems='<option></option>';
+                $.each(daftar_desa,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
+                $('#PmDesaID').html(listitems);
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
         });
     });
+    $(document).on('change','#PmDesaID',function(ev) {
+        ev.preventDefault();        
+    });    
 });
 </script>
 @endsection

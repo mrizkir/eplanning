@@ -68,16 +68,18 @@ class DesaModel extends Model {
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
 
-    public static function getDaftarDesa ($ta,$pmKecamatanID=NULL,$prepend=true) 
+    public static function getDaftarDesa ($ta,$PmKecamatanID=NULL,$prepend=true) 
     {
-        $r=DesaModel::where('TA',$ta)->orderBy('Kd_Desa');
-        if ($pmKecamatanID !==NULL)
+        $q=DesaModel::where('TA',$ta);
+        if ($PmKecamatanID != NULL) 
         {
-            $r->where('pmKecamatanID',$pmKecamatanID);
+            $q->where('PmKecamatanID',$PmKecamatanID);
         }
-        $r->get();
+        $q->orderBy('Kd_Desa');
+        $q=$q->get();   
+
         $daftar_desa=($prepend==true)?['none'=>'DAFTAR DESA']:[];        
-        foreach ($r as $k=>$v)
+        foreach ($q as $k=>$v)
         {
             $daftar_desa[$v->PmDesaID]=$v->Nm_Desa;
         } 
