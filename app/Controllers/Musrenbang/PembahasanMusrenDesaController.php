@@ -26,7 +26,7 @@ class PembahasanMusrenDesaController extends Controller {
      */
     public function populateData ($currentpage=1) 
     {        
-        $columns=['UsulanDesaID','No_usulan','Nm_Desa','Nm_Kecamatan','NamaKegiatan','Output','NilaiUsulan','Target_Angka','Target_Uraian','Jeniskeg','Prioritas'];       
+        $columns=['UsulanDesaID','No_usulan','NamaKegiatan','Output','NilaiUsulan','Target_Angka','Target_Uraian','Jeniskeg','Prioritas','Bobot','Privilege'];       
         if (!$this->checkStateIsExistSession('pembahasanmusrendesa','orderby')) 
         {            
            $this->putControllerStateSession('pembahasanmusrendesa','orderby',['column_name'=>'No_usulan','order'=>'asc']);
@@ -55,7 +55,7 @@ class PembahasanMusrenDesaController extends Controller {
                 case 'No_usulan' :                    
                     $data = AspirasiMusrenDesaModel::where('trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
                                                     ->where('PmDesaID',$filter_desa)
-                                                    ->where(['No_usulan'=>$search['isikriteria']])
+                                                    ->where(['No_usulan'=>(int)$search['isikriteria']])
                                                     ->orderBy($column_order,$direction);
                 break;
                 case 'NamaKegiatan' :
@@ -218,6 +218,14 @@ class PembahasanMusrenDesaController extends Controller {
 
             $daftar_desa=DesaModel::getDaftarDesa(config('globalsettings.tahun_perencanaan'),$PmKecamatanID);
         }   
+        if ($request->exists('PmDesaID'))
+        {
+            $PmDesaID = $request->input('PmDesaID')==''?'none':$request->input('PmDesaID');
+            $filters['PmDesaID']=$PmDesaID;
+
+            $daftar_desa=DesaModel::getDaftarDesa(config('globalsettings.tahun_perencanaan'),$filters['PmKecamatanID']);
+        }
+
         $this->putControllerStateSession('pembahasanmusrendesa','filters',$filters);   
         $this->setCurrentPageInsideSession('mappingprogramtoopd',1);
 
@@ -264,49 +272,6 @@ class PembahasanMusrenDesaController extends Controller {
                                                                                 'filters'=>$filters,
                                                                                 'data'=>$data]);               
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {        
-        $theme = \Auth::user()->theme;
-
-        return view("pages.$theme.musrenbang.pembahasanmusrendesa.create")->with(['page_active'=>'pembahasanmusrendesa',
-                                                                    
-                                                ]);  
-    }
-    
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $this->validate($request, [
-            'replaceit'=>'required',
-        ]);
-        
-        $pembahasanmusrendesa = AspirasiMusrenDesaModel::create([
-            'replaceit' => $request->input('replaceit'),
-        ]);        
-        
-        if ($request->ajax()) 
-        {
-            return response()->json([
-                'success'=>true,
-                'message'=>'Data ini telah berhasil disimpan.'
-            ]);
-        }
-        else
-        {
-            return redirect(route('pembahasanmusrendesa.index'))->with('success','Data ini telah berhasil disimpan.');
-        }
-
-    }
     
     /**
      * Display the specified resource.
@@ -326,26 +291,6 @@ class PembahasanMusrenDesaController extends Controller {
                                                     ]);
         }        
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $theme = \Auth::user()->theme;
-        
-        $data = AspirasiMusrenDesaModel::findOrFail($id);
-        if (!is_null($data) ) 
-        {
-            return view("pages.$theme.musrenbang.pembahasanmusrendesa.edit")->with(['page_active'=>'pembahasanmusrendesa',
-                                                    'data'=>$data
-                                                    ]);
-        }        
-    }
-
     /**
      * Update the specified resource in storage.
      *
@@ -355,13 +300,8 @@ class PembahasanMusrenDesaController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $pembahasanmusrendesa = AspirasiMusrenDesaModel::find($id);
-        
-        $this->validate($request, [
-            'replaceit'=>'required',
-        ]);
-        
-        $pembahasanmusrendesa->replaceit = $request->input('replaceit');
+        $pembahasanmusrendesa = AspirasiMusrenDesaModel::find($id);        
+        $pembahasanmusrendesa->Privilege = $request->input('Privilege');
         $pembahasanmusrendesa->save();
 
         if ($request->ajax()) 
@@ -375,40 +315,5 @@ class PembahasanMusrenDesaController extends Controller {
         {
             return redirect(route('pembahasanmusrendesa.index'))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
-    }
-
-     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request,$id)
-    {
-        $theme = \Auth::user()->theme;
-        
-        $pembahasanmusrendesa = AspirasiMusrenDesaModel::find($id);
-        $result=$pembahasanmusrendesa->delete();
-        if ($request->ajax()) 
-        {
-            $currentpage=$this->getCurrentPageInsideSession('pembahasanmusrendesa'); 
-            $data=$this->populateData($currentpage);
-            if ($currentpage > $data->lastPage())
-            {            
-                $data = $this->populateData($data->lastPage());
-            }
-            $datatable = view("pages.$theme.musrenbang.pembahasanmusrendesa.datatable")->with(['page_active'=>'pembahasanmusrendesa',
-                                                            'search'=>$this->getControllerStateSession('pembahasanmusrendesa','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                            'column_order'=>$this->getControllerStateSession('pembahasanmusrendesa.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('pembahasanmusrendesa.orderby','order'),
-                                                            'data'=>$data])->render();      
-            
-            return response()->json(['success'=>true,'datatable'=>$datatable],200); 
-        }
-        else
-        {
-            return redirect(route('pembahasanmusrendesa.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
-        }        
     }
 }

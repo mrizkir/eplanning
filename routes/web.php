@@ -74,7 +74,8 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     
     
     //Musrenbang - Aspirasi Musrenbang Desa [aspirasi]
-    Route::resource('/aspirasi/aspirasimusrendesa','Musrenbang\AspirasiMusrenDesaController',['parameters'=>['aspirasimusrendesa'=>'uuid']]); 
+    Route::resource('/aspirasi/aspirasimusrendesa','Musrenbang\AspirasiMusrenDesaController',['parameters'=>['aspirasimusrendesa'=>'uuid'],
+                                                                                            'only'=>['index','show','update']]); 
     Route::post('/aspirasi/aspirasimusrendesa/search',['uses'=>'Musrenbang\AspirasiMusrenDesaController@search','as'=>'aspirasimusrendesa.search']);  
     Route::post('/aspirasi/aspirasimusrendesa/filter',['uses'=>'Musrenbang\AspirasiMusrenDesaController@filter','as'=>'aspirasimusrendesa.filter']);              
     Route::get('/aspirasi/aspirasimusrendesa/paginate/{id}',['uses'=>'Musrenbang\AspirasiMusrenDesaController@paginate','as'=>'aspirasimusrendesa.paginate']);              

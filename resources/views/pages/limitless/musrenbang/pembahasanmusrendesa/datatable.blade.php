@@ -20,17 +20,7 @@
                         <a class="column-sort text-white" id="col-No_usulan" data-order="{{$direction}}" href="#">
                             KODE  
                         </a>                                             
-                    </th> 
-                    <th width="180">
-                        <a class="column-sort text-white" id="col-Nm_Desa" data-order="{{$direction}}" href="#">
-                            DESA/KELURAHAN  
-                        </a>                                             
-                    </th> 
-                    <th width="210">
-                        <a class="column-sort text-white" id="col-Nm_Kecamatan" data-order="{{$direction}}" href="#">
-                            KECAMATAN  
-                        </a>                                             
-                    </th> 
+                    </th>                     
                     <th>
                         <a class="column-sort text-white" id="col-NamaKegiatan" data-order="{{$direction}}" href="#">
                             NAMA KEGIATAN  
@@ -47,6 +37,12 @@
                     <th width="150">                        
                         VOLUME                        
                     </th> 
+                    <th width="100">                        
+                        PRIORITAS                     
+                    </th>
+                    <th width="100">                        
+                        BOBOT                     
+                    </th>
                     <th width="55">                        
                         STATUS                        
                     </th> 
@@ -57,8 +53,6 @@
             @foreach ($data as $key=>$item)
                 <tr>                  
                     <td>{{$item->No_usulan}}</td>
-                    <td>{{$item->Nm_Desa}}</td>
-                    <td>{{$item->Nm_Kecamatan}}</td>
                     <td>
                         {{$item->NamaKegiatan}}<br />
                         <span class="label label-flat border-primary text-primary-600">{{$item->Jeniskeg == 1 ? 'FISIK' : 'NON-FISIK'}}</span>
@@ -66,10 +60,16 @@
                     <td>{{$item->Output}}</td>
                     <td>{{Helper::formatUang($item->NilaiUsulan)}}</td>
                     <td>{{$item->Target_Angka}} {{$item->Target_Uraian}}</td>
+                    <td>
+                        <span class="label label-flat border-success text-success-600">
+                            {{Helper::getNamaPrioritas($item->Prioritas)}}
+                        </span>                        
+                    </td>
+                    <td>{{$item->Bobot}}</td>
                     <td>-</td>
                     <td>
                         <div class="checkbox checkbox-switch">
-                            {{Form::checkbox('Privilege[]','1',0,['class'=>'switch','data-on-text'=>'YA','data-off-text'=>'TIDAK'])}}                                     
+                            {{Form::checkbox('Privilege[]',$item->UsulanDesaID,$item->Privilege==1?$item->Privilege:'',['class'=>'switch','data-on-text'=>'YA','data-off-text'=>'TIDAK'])}}                                     
                         </div>
                     </td>
                 </tr>

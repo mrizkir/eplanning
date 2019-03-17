@@ -124,7 +124,6 @@ $(document).ready(function () {
             },
             success:function(result)
             { 
-                console.log(result.daftar_desa);
                 var daftar_desa = result.daftar_desa;
                 var listitems='<option></option>';
                 $.each(daftar_desa,function(key,value){
@@ -139,8 +138,49 @@ $(document).ready(function () {
         });
     });
     $(document).on('change','#PmDesaID',function(ev) {
-        ev.preventDefault();        
+        ev.preventDefault();   
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/filter',
+            dataType: 'json',
+            data: {                
+                "_token": token,
+                "PmDesaID": $('#PmDesaID').val(),
+            },
+            success:function(result)
+            { 
+                $('#divdatatable').html(result.datatable);
+                $(".switch").bootstrapSwitch();
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });     
     });    
+    $(document).on('switchChange.bootstrapSwitch', '.switch',function (ev) {
+        ev.preventDefault();
+        var UsulanDesaID = $(this).val();        
+        var checked = $(this).prop('checked') == true ? 1 :0;
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/'+UsulanDesaID,
+            dataType: 'json',
+            data: {                
+                "_token": token,
+                "_method": 'PUT',
+                "Privilege":checked
+            },
+            success:function(result)
+            { 
+                $('#divdatatable').html(result.datatable);                
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    });
 });
 </script>
 @endsection
