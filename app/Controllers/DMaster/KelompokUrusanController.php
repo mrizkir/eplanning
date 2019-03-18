@@ -238,7 +238,7 @@ class KelompokUrusanController extends Controller {
         }
         else
         {
-            return redirect(route('kelompokurusan.index'))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('kelompokurusan.show',['id'=>$kelompokurusan->KUrsID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -326,7 +326,7 @@ class KelompokUrusanController extends Controller {
         }
         else
         {
-            return redirect(route('kelompokurusan.index'))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('kelompokurusan.show',['id'=>$kelompokurusan->KUrsID]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
 

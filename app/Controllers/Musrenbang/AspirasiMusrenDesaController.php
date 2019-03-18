@@ -29,7 +29,7 @@ class AspirasiMusrenDesaController extends Controller {
         $columns=['UsulanDesaID','No_usulan','Nm_Desa','Nm_Kecamatan','NamaKegiatan','Output','NilaiUsulan','Target_Angka','Target_Uraian','Jeniskeg','Prioritas'];       
         if (!$this->checkStateIsExistSession('aspirasimusrendesa','orderby')) 
         {            
-           $this->putControllerStateSession('aspirasimusrendesa','orderby',['column_name'=>'No_usulan','order'=>'asc']);
+           $this->putControllerStateSession('aspirasimusrendesa','orderby',['column_name'=>'tmPmDesa.PmDesaID','order'=>'asc']);
         }
         $column_order=$this->getControllerStateSession('aspirasimusrendesa.orderby','column_name'); 
         $direction=$this->getControllerStateSession('aspirasimusrendesa.orderby','order'); 

@@ -3,12 +3,12 @@
         <div class="panel-title">
             <div class="row">
                 <div class="col-md-1">                    		
-					{!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control'])!!}                        
+                    {!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control'])!!}                        
                 </div>
             </div>
         </div>
         <div class="heading-elements">
-                  
+                    
         </div>
     </div>
     @if (count($data) > 0)
@@ -26,7 +26,7 @@
                             NAMA KEGIATAN  
                         </a>                                             
                     </th> 
-                    <th width="250">                        
+                    <th width="200">                        
                         OUTPUT                        
                     </th> 
                     <th width="120">
@@ -39,8 +39,8 @@
                     </th> 
                     <th width="100">                        
                         PRIORITAS                     
-                    </th>
-                    <th width="100">DI ACC ?</th>
+                    </th>                   
+                    <th width="100">AKSI</th>
                 </tr>
             </thead>
             <tbody>                    

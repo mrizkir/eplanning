@@ -4,33 +4,52 @@ namespace App\Models\Musrenbang;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MusrenKecamatanModel extends Model {
+class AspirasiMusrenKecamatanModel extends Model {
      /**
      * nama tabel model ini.
      *
      * @var string
      */
-    protected $table = 'musrenkecamatan';
+    protected $table = 'trUsulanKec';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'replace_it', 'replace_it'
+        'UsulanKecID', 
+        'UsulanDesaID',
+        'PmKecamatanID',
+        'PmDesaID',
+        'PrioritasSasaranKabID',
+        'PrgID',
+        'OrgID',
+        'SumberDanaID',
+        'No_usulan',
+        'NamaKegiatan',
+        'Output',
+        'Lokasi',
+        'NilaiUsulan',
+        'Target_Angka',
+        'Jeniskeg',
+        'Target_Uraian',
+        'Prioritas',
+        'Bobot',
+        'Descr',
+        'TA'
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'musrenkecamatan_id';
+    protected $primaryKey = 'UsulanKecID';
     /**
      * enable auto_increment.
      *
      * @var string
      */
-    public $incrementing = true;
+    public $incrementing = false;
     /**
      * activated timestamps.
      *
@@ -43,11 +62,11 @@ class MusrenKecamatanModel extends Model {
      *
      * @var string
      */
-    // protected static $logName = 'MusrenKecamatanController';
+    protected static $logName = 'AspirasiMusrenKecamatanController';
     /**
      * log the changed attributes for all these events 
      */
-    // protected static $logAttributes = ['replace_it', 'replace_it'];
+    protected static $logAttributes = ['UsulanKecID', 'NamaKegiatan'];
     /**
      * log changes to all the $fillable attributes of the model
      */

@@ -119,30 +119,6 @@
         </div>
     </div>
 </div>  
-<div class="content">
-    <div class="panel panel-flat bg-purple-300">
-        <div class="panel-heading">
-            <h5 class="panel-title">
-                <i class="icon-help position-left"></i> 
-                PETUNJUK
-            </h5>
-        </div>
-        <div class="panel-body">
-            <h4>PRIORITAS</h4>
-            <p>
-                1. DARURAT - Kegiatan yang sangat mendesak untuk dilaksanakan (darurat) karena jika tidak segera dilaksanakan akan membawa dampak
-                yang bersifat multiplier (mengakibatkan kerugian langsung yang lebih besar pada warga desa) atau kegiatan tersebut mampu mengangkat
-                potensi-potensi masyarakat sehingga lebih meningkatkan kesejahteraan.  
-            </p>
-            <p>
-                2. REHABILITASI/REVITALISASI - Kegiatan penting yang tidak secara langsung membawa dampak pada warga desa.
-            </p>
-            <p>
-                3. JANGKA PANJANG - Kegiatan yang membawa dampak jangka panjang akan tetapi keberadaanya adalah suatu keniscayaan.
-            </p>
-        </div>
-    </div>
-</div>
 @endsection
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>

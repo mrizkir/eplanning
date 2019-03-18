@@ -1,18 +1,18 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    MUSRENKECAMATAN
+    USULUANRKPDABPD
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold">
-        MUSRENKECAMATAN TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        USULUANRKPDABPD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.musrenbang.musrenkecamatan.info')
+    @include('pages.limitless.rkpd.usuluanrkpdabpd.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('musrenkecamatan.index')!!}">MUSRENKECAMATAN</a></li>
+    <li><a href="{!!route('usuluanrkpdabpd.index')!!}">USULUANRKPDABPD</a></li>
     <li class="active">ERROR</li>
 @endsection
 @section('page_content')

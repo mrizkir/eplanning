@@ -9,7 +9,7 @@
         </div>
         <div class="heading-elements">
             <div class="heading-btn">
-                <a href="{!!route('musrenkecamatan.create')!!}" class="btn btn-info btn-xs" title="Tambah MUSRENKECAMATAN">
+                <a href="{!!route('aspirasimusrenkecamatan.pilihusulankegiatan')!!}" class="btn btn-info btn-xs" title="Tambah ASPIRASIMUSRENKECAMATAN">
                     <i class="icon-googleplus5"></i>
                 </a>
             </div>            
@@ -39,17 +39,17 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('musrenkecamatan.show',['id'=>$item->musrenkecamatan_id])}}" title="Detail Data MusrenKecamatan">
+                                <a class="btnShow" href="{{route('aspirasimusrenkecamatan.show',['id'=>$item->aspirasimusrenkecamatan_id])}}" title="Detail Data AspirasiMusrenKecamatan">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('musrenkecamatan.edit',['id'=>$item->musrenkecamatan_id])}}" title="Ubah Data MusrenKecamatan">
+                                <a class="btnEdit" href="{{route('aspirasimusrenkecamatan.edit',['id'=>$item->aspirasimusrenkecamatan_id])}}" title="Ubah Data AspirasiMusrenKecamatan">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data MusrenKecamatan" data-id="{{$item->musrenkecamatan_id}}" data-url="{{route('musrenkecamatan.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data AspirasiMusrenKecamatan" data-id="{{$item->aspirasimusrenkecamatan_id}}" data-url="{{route('aspirasimusrenkecamatan.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>

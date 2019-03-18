@@ -1,18 +1,18 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    MUSRENKECAMATAN
+    USULUANRKPDABPD
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold">
-        MUSRENKECAMATAN TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
+        USULUANRKPDABPD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.musrenbang.musrenkecamatan.info')
+    @include('pages.limitless.rkpd.usuluanrkpdabpd.info')
 @endsection
 @section('page_breadcrumb')
-    <li class="active">MUSRENKECAMATAN</li>
+    <li class="active">USULUANRKPDABPD</li>
 @endsection
 @section('page_content')
 <div class="row">
@@ -25,7 +25,7 @@
                 </h5>
             </div>
             <div class="panel-body">
-                {!! Form::open(['action'=>'Musrenbang\MusrenKecamatanController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
+                {!! Form::open(['action'=>'RKPD\UsuluanRKPDABPDController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">
@@ -51,7 +51,7 @@
         </div>
     </div>       
     <div class="col-md-12" id="divdatatable">
-        @include('pages.limitless.musrenbang.musrenkecamatan.datatable')
+        @include('pages.limitless.rkpd.usuluanrkpdabpd.datatable')
     </div>
 </div>
 @endsection
@@ -59,7 +59,7 @@
 <script type="text/javascript">
 $(document).ready(function () {  
     $("#divdatatable").on("click",".btnDelete", function(){
-        if (confirm('Apakah Anda ingin menghapus Data MusrenKecamatan ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data UsuluanRKPDABPD ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             $.ajax({            
@@ -75,7 +75,7 @@ $(document).ready(function () {
                     if (result.success==1){
                         $('#divdatatable').html(result.datatable);                        
                     }else{
-                        console.log("Gagal menghapus data MusrenKecamatan dengan id "+id);
+                        console.log("Gagal menghapus data UsuluanRKPDABPD dengan id "+id);
                     }                    
                 },
                 error:function(xhr, status, error){

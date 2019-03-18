@@ -52,7 +52,7 @@
                         VOLUME                        
                     </th> 
                     <th width="55">                        
-                        STATUS                        
+                        PRIORITAS                        
                     </th> 
                     <th width="100">AKSI</th>
                 </tr>
@@ -70,7 +70,11 @@
                     <td>{{$item->Output}}</td>
                     <td>{{Helper::formatUang($item->NilaiUsulan)}}</td>
                     <td>{{$item->Target_Angka}} {{$item->Target_Uraian}}</td>
-                    <td>-</td>
+                    <td>
+                        <span class="label label-flat border-success text-success-600">
+                            {{Helper::getNamaPrioritas($item->Prioritas)}}
+                        </span>                        
+                    </td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">

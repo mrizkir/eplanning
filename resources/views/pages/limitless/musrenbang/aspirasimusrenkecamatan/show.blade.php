@@ -1,18 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    MUSRENKECAMATAN
+    USULAN KECAMATAN
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        MUSRENKECAMATAN TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        USULAN KECAMATAN TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
     </span>     
 @endsection
 @section('page_info')
-    @include('pages.limitless.musrenbang.musrenkecamatan.info')
+    @include('pages.limitless.musrenbang.aspirasimusrenkecamatan.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('musrenkecamatan.index')!!}">MUSRENKECAMATAN</a></li>
+    <li><a href="#">PERENCANAAN</a></li>
+    <li><a href="#">ASPIRASI / USULAN</a></li>
+    <li><a href="{!!route('aspirasimusrenkecamatan.index')!!}">USULAN KECAMATAN</a></li>
     <li class="active">DETAIL DATA</li>
 @endsection
 @section('page_content')
@@ -21,16 +23,16 @@
         <div class="panel panel-flat border-top-info border-bottom-info">
             <div class="panel-heading">
                 <h5 class="panel-title"> 
-                    <i class="icon-eye"></i>  DATA MUSRENKECAMATAN
+                    <i class="icon-eye"></i>  DATA USULAN KECAMATAN
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('musrenkecamatan.edit',['id'=>$data->musrenkecamatan_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data MusrenKecamatan">
+                    <a href="{{route('aspirasimusrenkecamatan.edit',['id'=>$data->aspirasimusrenkecamatan_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data AspirasiMusrenKecamatan">
                         <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data MusrenKecamatan" data-id="{{$data->musrenkecamatan_id}}" data-url="{{route('musrenkecamatan.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
+                    <a href="javascript:;" title="Hapus Data AspirasiMusrenKecamatan" data-id="{{$data->aspirasimusrenkecamatan_id}}" data-url="{{route('aspirasimusrenkecamatan.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
                     </a>
-                    <a href="{!!route('musrenkecamatan.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
+                    <a href="{!!route('aspirasimusrenkecamatan.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
                         <i class="icon-close2"></i>
                     </a>            
                 </div>
@@ -40,9 +42,9 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>musrenkecamatan id: </strong></label>
+                                <label class="col-md-4 control-label"><strong>aspirasimusrenkecamatan id: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->musrenkecamatan_id}}</p>
+                                    <p class="form-control-static">{{$data->aspirasimusrenkecamatan_id}}</p>
                                 </div>                            
                             </div>                            
                             <div class="form-group">
@@ -79,7 +81,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
     $(".btnDelete").click(function(ev) {
-        if (confirm('Apakah Anda ingin menghapus Data MusrenKecamatan ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data AspirasiMusrenKecamatan ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             let token = $('meta[name="csrf-token"]').attr('content');

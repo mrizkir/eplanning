@@ -1,20 +1,21 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    PEMBAHASAN MUSRENBANG DESA
+    USULAN KECAMATAN
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
-    <span class="text-semibold">
-        PEMBAHASAN MUSRENBANG DESA TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
+    <span class="text-semibold"> 
+        USULAN KECAMATAN TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.musrenbang.pembahasanmusrendesa.info')
+    @include('pages.limitless.musrenbang.aspirasimusrenkecamatan.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">PERENCANAAN</a></li>
-    <li><a href="#">PEMBAHASAN</a></li>
-    <li class="active">MUSRENBANG DESA</li>
+    <li><a href="#">ASPIRASI / USULAN</a></li>
+    <li><a href="{!!route('aspirasimusrenkecamatan.index')!!}">USULAN KECAMATAN</a></li>
+    <li class="active">PILIHH USULAN KEGIATAN</li>
 @endsection
 @section('page_content')
 <div class="row">
@@ -65,7 +66,7 @@
                 </h5>
             </div>
             <div class="panel-body">
-                {!! Form::open(['action'=>'Musrenbang\PembahasanMusrenDesaController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
+                {!! Form::open(['action'=>'Musrenbang\AspirasiMusrenKecamatanController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">
@@ -89,10 +90,25 @@
                 {!! Form::close()!!}
             </div>
         </div>
-    </div>       
-    <div class="col-md-12" id="divdatatable">
-        @include('pages.limitless.musrenbang.pembahasanmusrendesa.datatable')
+    </div> 
+    {!! Form::open(['action'=>'Musrenbang\AspirasiMusrenKecamatanController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                
+    <div class="col-md-12">
+        <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
+            <div class="panel-heading">
+                <h5 class="panel-title">
+                    <i class="icon-pencil7 position-left"></i>
+                    OPD / SKPD PELAKSANA
+                </h5>
+            </div>
+            <div class="panel-body">
+
+            </div>
+        </div>
     </div>
+    <div class="col-md-12" id="divdatatable">
+        @include('pages.limitless.musrenbang.aspirasimusrenkecamatan.datatablepilihusulankegiatan')
+    </div>
+    {!! Form::close()!!}
 </div>
 @endsection
 @section('page_asset_js')
@@ -101,7 +117,7 @@
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
-$(document).ready(function () {  
+$(document).ready(function () { 
     $(".switch").bootstrapSwitch();
     //styling select
     $('#PmKecamatanID.select').select2({
@@ -111,7 +127,7 @@ $(document).ready(function () {
     $('#PmDesaID.select').select2({
         placeholder: "PILIH DESA / KELURAHAN",
         allowClear:true
-    }); 
+    });
     $(document).on('change','#PmKecamatanID',function(ev) {
         ev.preventDefault();
         $.ajax({
@@ -120,7 +136,7 @@ $(document).ready(function () {
             dataType: 'json',
             data: {                
                 "_token": token,
-                "PmKecamatanID": $('#PmKecamatanID').val(),
+                "PmKecamatanIDPilihUsulan": $('#PmKecamatanID').val(),
             },
             success:function(result)
             { 
@@ -145,10 +161,11 @@ $(document).ready(function () {
             dataType: 'json',
             data: {                
                 "_token": token,
-                "PmDesaID": $('#PmDesaID').val(),
+                "PmDesaIDPilihUsulan": $('#PmDesaID').val(),
             },
             success:function(result)
             { 
+                console.log(result);
                 $('#divdatatable').html(result.datatable);
                 $(".switch").bootstrapSwitch();
             },
@@ -157,30 +174,7 @@ $(document).ready(function () {
                 console.log(parseMessageAjaxEror(xhr, status, error));                           
             },
         });     
-    });    
-    $(document).on('switchChange.bootstrapSwitch', '.switch',function (ev) {
-        ev.preventDefault();
-        var UsulanDesaID = $(this).val();        
-        var checked = $(this).prop('checked') == true ? 1 :0;
-        $.ajax({
-            type:'post',
-            url: url_current_page +'/'+UsulanDesaID,
-            dataType: 'json',
-            data: {                
-                "_token": token,
-                "_method": 'PUT',
-                "Privilege":checked
-            },
-            success:function(result)
-            { 
-                $('#divdatatable').html(result.datatable);                
-            },
-            error:function(xhr, status, error){
-                console.log('ERROR');
-                console.log(parseMessageAjaxEror(xhr, status, error));                           
-            },
-        });
-    });
+    }); 
 });
 </script>
 @endsection

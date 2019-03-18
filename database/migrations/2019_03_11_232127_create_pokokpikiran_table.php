@@ -40,8 +40,11 @@ class CreatePokokpikiranTable extends Migration
             $table->tinyInteger('Privilege')->default(0);        
             $table->primary('PokPirID');
             
+            $table->timestamps();
+            
             $table->index('PemilikPokokID');            
             $table->index('OrgID');
+            
             $table->index('SOrgID');
             $table->index('PmKecamatanID');
             $table->index('PmDesaID');

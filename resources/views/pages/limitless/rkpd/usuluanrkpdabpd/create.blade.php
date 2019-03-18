@@ -1,19 +1,19 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    MUSRENKECAMATAN
+    USULUANRKPDABPD
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        MUSRENKECAMATAN TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
-    </span>     
+        USULUANRKPDABPD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+    </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.musrenbang.musrenkecamatan.info')
+    @include('pages.limitless.rkpd.usuluanrkpdabpd.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('musrenkecamatan.index')!!}">MUSRENKECAMATAN</a></li>
-    <li class="active">UBAH DATA</li>
+    <li><a href="{!!route('usuluanrkpdabpd.index')!!}">USULUANRKPDABPD</a></li>
+    <li class="active">TAMBAH DATA</li>
 @endsection
 @section('page_content')
 <div class="content">
@@ -21,34 +21,33 @@
         <div class="panel-heading">
             <h5 class="panel-title">
                 <i class="icon-pencil7 position-left"></i> 
-                UBAH DATA
+                TAMBAH DATA
             </h5>
             <div class="heading-elements">
                 <ul class="icons-list">                    
-                    <li>
-                        <a href="{!!route('musrenkecamatan.index')!!}" data-action="closeredirect" title="keluar"></a>
+                    <li>               
+                        <a href="{!!route('usuluanrkpdabpd.index')!!}" data-action="closeredirect" title="keluar"></a>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>['Musrenbang\MusrenKecamatanController@update',$data->musrenkecamatan_id],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
-                {{Form::hidden('_method','PUT')}}
+            {!! Form::open(['action'=>'RKPD\UsuluanRKPDABPDController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
                 <div class="form-group">
                     {{Form::label('replaceit','replaceit',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('replaceit',$data[''],['class'=>'form-control','placeholder'=>'replaceit'])}}
-                    </div>                
+                        {{Form::text('replaceit','',['class'=>'form-control','placeholder'=>'replaceit'])}}
+                    </div>
                 </div>
                 <div class="form-group">            
                     <div class="col-md-10 col-md-offset-2">                        
-                        {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] )  }}                        
+                        {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}
                     </div>
                 </div>
             {!! Form::close()!!}
         </div>
     </div>
-</div>  
+</div>   
 @endsection
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
@@ -69,7 +68,7 @@ $(document).ready(function () {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             }
-        }     
+        }      
     });   
 });
 </script>

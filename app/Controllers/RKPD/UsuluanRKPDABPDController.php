@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Controllers\Musrenbang;
+namespace App\Controllers\RKPD;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
-use App\Models\Musrenbang\MusrenKecamatanModel;
+use App\Models\RKPD\UsuluanRKPDABPDModel;
 
-class MusrenKecamatanController extends Controller {
+class UsuluanRKPDABPDController extends Controller {
      /**
      * Membuat sebuah objek
      *
@@ -25,37 +25,37 @@ class MusrenKecamatanController extends Controller {
     public function populateData ($currentpage=1) 
     {        
         $columns=['*'];       
-        //if (!$this->checkStateIsExistSession('musrenkecamatan','orderby')) 
+        //if (!$this->checkStateIsExistSession('usuluanrkpdabpd','orderby')) 
         //{            
-        //    $this->putControllerStateSession('musrenkecamatan','orderby',['column_name'=>'replace_it','order'=>'asc']);
+        //    $this->putControllerStateSession('usuluanrkpdabpd','orderby',['column_name'=>'replace_it','order'=>'asc']);
         //}
-        //$column_order=$this->getControllerStateSession('musrenkecamatan.orderby','column_name'); 
-        //$direction=$this->getControllerStateSession('musrenkecamatan.orderby','order'); 
+        //$column_order=$this->getControllerStateSession('usuluanrkpdabpd.orderby','column_name'); 
+        //$direction=$this->getControllerStateSession('usuluanrkpdabpd.orderby','order'); 
 
         if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
         {            
             $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
         }
         $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
-        if ($this->checkStateIsExistSession('musrenkecamatan','search')) 
+        if ($this->checkStateIsExistSession('usuluanrkpdabpd','search')) 
         {
-            $search=$this->getControllerStateSession('musrenkecamatan','search');
+            $search=$this->getControllerStateSession('usuluanrkpdabpd','search');
             switch ($search['kriteria']) 
             {
                 case 'replaceit' :
-                    $data = MusrenKecamatanModel::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                    $data = UsuluanRKPDABPDModel::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
                 case 'replaceit' :
-                    $data = MusrenKecamatanModel::where('replaceit', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = UsuluanRKPDABPDModel::where('replaceit', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = MusrenKecamatanModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data = UsuluanRKPDABPDModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
-        $data->setPath(route('musrenkecamatan.index'));
+        $data->setPath(route('usuluanrkpdabpd.index'));
         return $data;
     }
     /**
@@ -70,14 +70,14 @@ class MusrenKecamatanController extends Controller {
         $numberRecordPerPage = $request->input('numberRecordPerPage');
         $this->putControllerStateSession('global_controller','numberRecordPerPage',$numberRecordPerPage);
         
-        $this->setCurrentPageInsideSession('musrenkecamatan',1);
+        $this->setCurrentPageInsideSession('usuluanrkpdabpd',1);
         $data=$this->populateData();
 
-        $datatable = view("pages.$theme.musrenbang.musrenkecamatan.datatable")->with(['page_active'=>'musrenkecamatan',
-                                                                                'search'=>$this->getControllerStateSession('musrenkecamatan','search'),
+        $datatable = view("pages.$theme.rkpd.usuluanrkpdabpd.datatable")->with(['page_active'=>'usuluanrkpdabpd',
+                                                                                'search'=>$this->getControllerStateSession('usuluanrkpdabpd','search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                                'column_order'=>$this->getControllerStateSession('musrenkecamatan.orderby','column_name'),
-                                                                                'direction'=>$this->getControllerStateSession('musrenkecamatan.orderby','order'),
+                                                                                'column_order'=>$this->getControllerStateSession('usuluanrkpdabpd.orderby','column_name'),
+                                                                                'direction'=>$this->getControllerStateSession('usuluanrkpdabpd.orderby','order'),
                                                                                 'data'=>$data])->render();      
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
     }
@@ -100,15 +100,15 @@ class MusrenKecamatanController extends Controller {
             default :
                 $column_name = 'replace_it';
         }
-        $this->putControllerStateSession('musrenkecamatan','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
+        $this->putControllerStateSession('usuluanrkpdabpd','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
         $data=$this->populateData();
 
-        $datatable = view("pages.$theme.musrenbang.musrenkecamatan.datatable")->with(['page_active'=>'musrenkecamatan',
-                                                            'search'=>$this->getControllerStateSession('musrenkecamatan','search'),
+        $datatable = view("pages.$theme.rkpd.usuluanrkpdabpd.datatable")->with(['page_active'=>'usuluanrkpdabpd',
+                                                            'search'=>$this->getControllerStateSession('usuluanrkpdabpd','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('musrenkecamatan.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('musrenkecamatan.orderby','order'),
+                                                            'column_order'=>$this->getControllerStateSession('usuluanrkpdabpd.orderby','column_name'),
+                                                            'direction'=>$this->getControllerStateSession('usuluanrkpdabpd.orderby','order'),
                                                             'data'=>$data])->render();     
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
@@ -123,13 +123,13 @@ class MusrenKecamatanController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $this->setCurrentPageInsideSession('musrenkecamatan',$id);
+        $this->setCurrentPageInsideSession('usuluanrkpdabpd',$id);
         $data=$this->populateData($id);
-        $datatable = view("pages.$theme.musrenbang.musrenkecamatan.datatable")->with(['page_active'=>'musrenkecamatan',
-                                                                            'search'=>$this->getControllerStateSession('musrenkecamatan','search'),
+        $datatable = view("pages.$theme.rkpd.usuluanrkpdabpd.datatable")->with(['page_active'=>'usuluanrkpdabpd',
+                                                                            'search'=>$this->getControllerStateSession('usuluanrkpdabpd','search'),
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                            'column_order'=>$this->getControllerStateSession('musrenkecamatan.orderby','column_name'),
-                                                                            'direction'=>$this->getControllerStateSession('musrenkecamatan.orderby','order'),
+                                                                            'column_order'=>$this->getControllerStateSession('usuluanrkpdabpd.orderby','column_name'),
+                                                                            'direction'=>$this->getControllerStateSession('usuluanrkpdabpd.orderby','order'),
                                                                             'data'=>$data])->render(); 
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
@@ -147,22 +147,22 @@ class MusrenKecamatanController extends Controller {
         $action = $request->input('action');
         if ($action == 'reset') 
         {
-            $this->destroyControllerStateSession('musrenkecamatan','search');
+            $this->destroyControllerStateSession('usuluanrkpdabpd','search');
         }
         else
         {
             $kriteria = $request->input('cmbKriteria');
             $isikriteria = $request->input('txtKriteria');
-            $this->putControllerStateSession('musrenkecamatan','search',['kriteria'=>$kriteria,'isikriteria'=>$isikriteria]);
+            $this->putControllerStateSession('usuluanrkpdabpd','search',['kriteria'=>$kriteria,'isikriteria'=>$isikriteria]);
         }      
-        $this->setCurrentPageInsideSession('musrenkecamatan',1);
+        $this->setCurrentPageInsideSession('usuluanrkpdabpd',1);
         $data=$this->populateData();
 
-        $datatable = view("pages.$theme.musrenbang.musrenkecamatan.datatable")->with(['page_active'=>'musrenkecamatan',                                                            
-                                                            'search'=>$this->getControllerStateSession('musrenkecamatan','search'),
+        $datatable = view("pages.$theme.rkpd.usuluanrkpdabpd.datatable")->with(['page_active'=>'usuluanrkpdabpd',                                                            
+                                                            'search'=>$this->getControllerStateSession('usuluanrkpdabpd','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('musrenkecamatan.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('musrenkecamatan.orderby','order'),
+                                                            'column_order'=>$this->getControllerStateSession('usuluanrkpdabpd.orderby','column_name'),
+                                                            'direction'=>$this->getControllerStateSession('usuluanrkpdabpd.orderby','order'),
                                                             'data'=>$data])->render();      
         
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
@@ -176,20 +176,20 @@ class MusrenKecamatanController extends Controller {
     {                
         $theme = \Auth::user()->theme;
 
-        $search=$this->getControllerStateSession('musrenkecamatan','search');
-        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('musrenkecamatan'); 
+        $search=$this->getControllerStateSession('usuluanrkpdabpd','search');
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('usuluanrkpdabpd'); 
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage())
         {            
             $data = $this->populateData($data->lastPage());
         }
-        $this->setCurrentPageInsideSession('musrenkecamatan',$data->currentPage());
+        $this->setCurrentPageInsideSession('usuluanrkpdabpd',$data->currentPage());
         
-        return view("pages.$theme.musrenbang.musrenkecamatan.index")->with(['page_active'=>'musrenkecamatan',
-                                                'search'=>$this->getControllerStateSession('musrenkecamatan','search'),
+        return view("pages.$theme.rkpd.usuluanrkpdabpd.index")->with(['page_active'=>'usuluanrkpdabpd',
+                                                'search'=>$this->getControllerStateSession('usuluanrkpdabpd','search'),
                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                'column_order'=>$this->getControllerStateSession('musrenkecamatan.orderby','column_name'),
-                                                'direction'=>$this->getControllerStateSession('musrenkecamatan.orderby','order'),
+                                                'column_order'=>$this->getControllerStateSession('usuluanrkpdabpd.orderby','column_name'),
+                                                'direction'=>$this->getControllerStateSession('usuluanrkpdabpd.orderby','order'),
                                                 'data'=>$data]);               
     }
     /**
@@ -201,7 +201,7 @@ class MusrenKecamatanController extends Controller {
     {        
         $theme = \Auth::user()->theme;
 
-        return view("pages.$theme.musrenbang.musrenkecamatan.create")->with(['page_active'=>'musrenkecamatan',
+        return view("pages.$theme.rkpd.usuluanrkpdabpd.create")->with(['page_active'=>'usuluanrkpdabpd',
                                                                     
                                                 ]);  
     }
@@ -218,7 +218,7 @@ class MusrenKecamatanController extends Controller {
             'replaceit'=>'required',
         ]);
         
-        $musrenkecamatan = MusrenKecamatanModel::create([
+        $usuluanrkpdabpd = UsuluanRKPDABPDModel::create([
             'replaceit' => $request->input('replaceit'),
         ]);        
         
@@ -231,7 +231,7 @@ class MusrenKecamatanController extends Controller {
         }
         else
         {
-            return redirect(route('musrenkecamatan.index'))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('usuluanrkpdabpd.index'))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -246,10 +246,10 @@ class MusrenKecamatanController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = MusrenKecamatanModel::findOrFail($id);
+        $data = UsuluanRKPDABPDModel::findOrFail($id);
         if (!is_null($data) )  
         {
-            return view("pages.$theme.musrenbang.musrenkecamatan.show")->with(['page_active'=>'musrenkecamatan',
+            return view("pages.$theme.rkpd.usuluanrkpdabpd.show")->with(['page_active'=>'usuluanrkpdabpd',
                                                     'data'=>$data
                                                     ]);
         }        
@@ -265,10 +265,10 @@ class MusrenKecamatanController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $data = MusrenKecamatanModel::findOrFail($id);
+        $data = UsuluanRKPDABPDModel::findOrFail($id);
         if (!is_null($data) ) 
         {
-            return view("pages.$theme.musrenbang.musrenkecamatan.edit")->with(['page_active'=>'musrenkecamatan',
+            return view("pages.$theme.rkpd.usuluanrkpdabpd.edit")->with(['page_active'=>'usuluanrkpdabpd',
                                                     'data'=>$data
                                                     ]);
         }        
@@ -283,14 +283,14 @@ class MusrenKecamatanController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $musrenkecamatan = MusrenKecamatanModel::find($id);
+        $usuluanrkpdabpd = UsuluanRKPDABPDModel::find($id);
         
         $this->validate($request, [
             'replaceit'=>'required',
         ]);
         
-        $musrenkecamatan->replaceit = $request->input('replaceit');
-        $musrenkecamatan->save();
+        $usuluanrkpdabpd->replaceit = $request->input('replaceit');
+        $usuluanrkpdabpd->save();
 
         if ($request->ajax()) 
         {
@@ -301,7 +301,7 @@ class MusrenKecamatanController extends Controller {
         }
         else
         {
-            return redirect(route('musrenkecamatan.index'))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('usuluanrkpdabpd.index'))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 
@@ -315,28 +315,28 @@ class MusrenKecamatanController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $musrenkecamatan = MusrenKecamatanModel::find($id);
-        $result=$musrenkecamatan->delete();
+        $usuluanrkpdabpd = UsuluanRKPDABPDModel::find($id);
+        $result=$usuluanrkpdabpd->delete();
         if ($request->ajax()) 
         {
-            $currentpage=$this->getCurrentPageInsideSession('musrenkecamatan'); 
+            $currentpage=$this->getCurrentPageInsideSession('usuluanrkpdabpd'); 
             $data=$this->populateData($currentpage);
             if ($currentpage > $data->lastPage())
             {            
                 $data = $this->populateData($data->lastPage());
             }
-            $datatable = view("pages.$theme.musrenbang.musrenkecamatan.datatable")->with(['page_active'=>'musrenkecamatan',
-                                                            'search'=>$this->getControllerStateSession('musrenkecamatan','search'),
+            $datatable = view("pages.$theme.rkpd.usuluanrkpdabpd.datatable")->with(['page_active'=>'usuluanrkpdabpd',
+                                                            'search'=>$this->getControllerStateSession('usuluanrkpdabpd','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                            'column_order'=>$this->getControllerStateSession('musrenkecamatan.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('musrenkecamatan.orderby','order'),
+                                                            'column_order'=>$this->getControllerStateSession('usuluanrkpdabpd.orderby','column_name'),
+                                                            'direction'=>$this->getControllerStateSession('usuluanrkpdabpd.orderby','order'),
                                                             'data'=>$data])->render();      
             
             return response()->json(['success'=>true,'datatable'=>$datatable],200); 
         }
         else
         {
-            return redirect(route('musrenkecamatan.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+            return redirect(route('usuluanrkpdabpd.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
         }        
     }
 }

@@ -29,7 +29,7 @@ class PembahasanMusrenDesaController extends Controller {
         $columns=['UsulanDesaID','No_usulan','NamaKegiatan','Output','NilaiUsulan','Target_Angka','Target_Uraian','Jeniskeg','Prioritas','Bobot','Privilege'];       
         if (!$this->checkStateIsExistSession('pembahasanmusrendesa','orderby')) 
         {            
-           $this->putControllerStateSession('pembahasanmusrendesa','orderby',['column_name'=>'No_usulan','order'=>'asc']);
+           $this->putControllerStateSession('pembahasanmusrendesa','orderby',['column_name'=>'PmDesaID','order'=>'asc']);
         }
         $column_order=$this->getControllerStateSession('pembahasanmusrendesa.orderby','column_name'); 
         $direction=$this->getControllerStateSession('pembahasanmusrendesa.orderby','order'); 
@@ -227,7 +227,7 @@ class PembahasanMusrenDesaController extends Controller {
         }
 
         $this->putControllerStateSession('pembahasanmusrendesa','filters',$filters);   
-        $this->setCurrentPageInsideSession('mappingprogramtoopd',1);
+        $this->setCurrentPageInsideSession('pembahasanmusrendesa',1);
 
         $data=$this->populateData();        
         $datatable = view("pages.$theme.musrenbang.pembahasanmusrendesa.datatable")->with(['page_active'=>'pembahasanmusrendesa',                                                            
