@@ -20,42 +20,81 @@
         <table id="data" class="table table-striped table-hover">
             <thead>
                 <tr class="bg-teal-700">
-                    <th width="55">NO</th>
-                    <th width="100">
-                        <a class="column-sort text-white" id="col-replace_it" data-order="{{$direction}}" href="#">
-                            replace_it  
+                    <th width="55">
+                        <a class="column-sort text-white" id="col-No_usulan" data-order="{{$direction}}" href="#">
+                            KODE  
                         </a>                                             
+                    </th> 
+                    <th width="180">
+                        <a class="column-sort text-white" id="col-Nm_Desa" data-order="{{$direction}}" href="#">
+                            DESA/KELURAHAN  
+                        </a>                                             
+                    </th> 
+                    <th width="210">
+                        <a class="column-sort text-white" id="col-Nm_Kecamatan" data-order="{{$direction}}" href="#">
+                            KECAMATAN  
+                        </a>                                             
+                    </th> 
+                    <th>
+                        <a class="column-sort text-white" id="col-NamaKegiatan" data-order="{{$direction}}" href="#">
+                            NAMA KEGIATAN  
+                        </a>                                             
+                    </th> 
+                    <th width="200">                        
+                        OUTPUT                        
+                    </th> 
+                    <th width="120">
+                        <a class="column-sort text-white" id="col-NilaiUsulan" data-order="{{$direction}}" href="#">
+                            NILAI
+                        </a>                                             
+                    </th> 
+                    <th width="150">                        
+                        VOLUME                        
+                    </th> 
+                    <th width="55">                        
+                        PRIORITAS                        
                     </th> 
                     <th width="100">AKSI</th>
                 </tr>
             </thead>
             <tbody>                    
             @foreach ($data as $key=>$item)
-                <tr>
-                    <td>
-                        {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
-                    </td>                  
-                    <td>{{$item->replace_it}}</td>
-                    <td>
-                        <ul class="icons-list">
-                            <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('aspirasimusrenkecamatan.show',['id'=>$item->aspirasimusrenkecamatan_id])}}" title="Detail Data AspirasiMusrenKecamatan">
-                                    <i class='icon-eye'></i>
-                                </a>  
-                            </li>
-                            <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('aspirasimusrenkecamatan.edit',['id'=>$item->aspirasimusrenkecamatan_id])}}" title="Ubah Data AspirasiMusrenKecamatan">
-                                    <i class='icon-pencil7'></i>
-                                </a>  
-                            </li>
-                            <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data AspirasiMusrenKecamatan" data-id="{{$item->aspirasimusrenkecamatan_id}}" data-url="{{route('aspirasimusrenkecamatan.index')}}">
-                                    <i class='icon-trash'></i>
-                                </a> 
-                            </li>
-                        </ul>
-                    </td>
-                </tr>
+            <tr>                  
+                <td>{{$item->No_usulan}}</td>
+                <td>{{$item->Nm_Desa}}</td>
+                <td>{{$item->Nm_Kecamatan}}</td>
+                <td>
+                    {{$item->NamaKegiatan}}<br />
+                    <span class="label label-flat border-primary text-primary-600">{{$item->Jeniskeg == 1 ? 'FISIK' : 'NON-FISIK'}}</span>
+                </td>
+                <td>{{$item->Output}}</td>
+                <td>{{Helper::formatUang($item->NilaiUsulan)}}</td>
+                <td>{{$item->Target_Angka}} {{$item->Target_Uraian}}</td>
+                <td>
+                    <span class="label label-flat border-success text-success-600">
+                        {{Helper::getNamaPrioritas($item->Prioritas)}}
+                    </span>                        
+                </td>
+                <td>
+                    <ul class="icons-list">
+                        <li class="text-primary-600">
+                            <a class="btnShow" href="{{route('aspirasimusrenkecamatan.show',['id'=>$item->UsulanKecID])}}" title="Detail Data Kegiatan">
+                                <i class='icon-eye'></i>
+                            </a>  
+                        </li>
+                        <li class="text-primary-600">
+                            <a class="btnEdit" href="{{route('aspirasimusrenkecamatan.edit',['id'=>$item->UsulanKecID])}}" title="Ubah Data Kegiatan">
+                                <i class='icon-pencil7'></i>
+                            </a>  
+                        </li>
+                        <li class="text-danger-600">
+                            <a class="btnDelete" href="javascript:;" title="Hapus Data Kegiatan" data-id="{{$item->UsulanKecID}}" data-url="{{route('aspirasimusrenkecamatan.index')}}">
+                                <i class='icon-trash'></i>
+                            </a> 
+                        </li>
+                    </ul>
+                </td>
+            </tr>
             @endforeach                    
             </tbody>
         </table>               

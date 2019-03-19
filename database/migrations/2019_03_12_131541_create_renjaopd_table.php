@@ -130,10 +130,10 @@ class CreateRenjaopdTable extends Migration
         Schema::create('trRenjaRinc', function (Blueprint $table) {
                 $table->string('RenjaRincID',19);
                 $table->string('RenjaID',19);
-                $table->string('UsulanKecID',19);
-                $table->string('PmKecamatanID',19);
-                $table->string('PmDesaID',19);
-                $table->string('PokPirID',19);
+                $table->string('UsulanKecID',19)->nullable();
+                $table->string('PmKecamatanID',19)->nullable();
+                $table->string('PmDesaID',19)->nullable();
+                $table->string('PokPirID',19)->nullable();
             
                 $table->string('Uraian');
                 $table->tinyInteger('No');
