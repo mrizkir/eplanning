@@ -97,11 +97,39 @@
             <div class="panel-heading">
                 <h5 class="panel-title">
                     <i class="icon-pencil7 position-left"></i>
-                    OPD / SKPD PELAKSANA
+                    TENTUKAN OPD / SKPD PELAKSANA
                 </h5>
             </div>
             <div class="panel-body">
-
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        {{Form::label('UrsID','URUSAN',['class'=>'control-label col-md-2'])}}
+                        <div class="col-md-10">
+                            <select name="UrsID" id="UrsID" class="select">
+                                <option></option>
+                                @foreach ($daftar_urusan as $k=>$item)
+                                    <option value="{{$k}}">{{$item}}</option>
+                                @endforeach
+                            </select>                        
+                        </div>
+                    </div>  
+                    <div class="form-group">
+                        {{Form::label('OrgID','OPD / SKPD',['class'=>'control-label col-md-2'])}}
+                        <div class="col-md-10">
+                            <select name="OrgID" id="OrgID" class="select">
+                                <option></option>
+                                @foreach ($daftar_opd as $k=>$item)
+                                    <option value="{{$k}}">{{$item}}</option>
+                                @endforeach
+                            </select>                        
+                        </div>
+                    </div>
+                    <div class="form-group">            
+                        <div class="col-md-10 col-md-offset-2">                        
+                            {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -126,6 +154,14 @@ $(document).ready(function () {
     });   
     $('#PmDesaID.select').select2({
         placeholder: "PILIH DESA / KELURAHAN",
+        allowClear:true
+    });
+    $('#UrsID.select').select2({
+        placeholder: "PILIH URUSAN",
+        allowClear:true
+    });
+    $('#OrgID.select').select2({
+        placeholder: "PILIH OPD / SKPD",
         allowClear:true
     });
     $(document).on('change','#PmKecamatanID',function(ev) {

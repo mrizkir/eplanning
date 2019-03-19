@@ -279,7 +279,7 @@ class AspirasiMusrenDesaController extends Controller {
         }
         else
         {
-            return redirect(route('aspirasimusrendesa.index'))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('aspirasimusrendesa.show',['id'=>$aspirasimusrendesa->UsulanDesaID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -374,7 +374,7 @@ class AspirasiMusrenDesaController extends Controller {
         }
         else
         {
-            return redirect(route('aspirasimusrendesa.index'))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('aspirasimusrendesa.show',['id'=>$aspirasimusrendesa->UsulanDesaID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 

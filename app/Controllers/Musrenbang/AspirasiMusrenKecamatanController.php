@@ -271,7 +271,7 @@ class AspirasiMusrenKecamatanController extends Controller {
      */
     public function populateDataUsulanKegiatan ($currentpage=1) 
     {        
-        $columns=['UsulanDesaID','No_usulan','NamaKegiatan','Output','NilaiUsulan','Target_Angka','Target_Uraian','Jeniskeg','Prioritas','Bobot','Privilege'];       
+        $columns=['trUsulanDesa.UsulanDesaID','trUsulanDesa.No_usulan','trUsulanDesa.NamaKegiatan','trUsulanDesa.Output','trUsulanDesa.NilaiUsulan','trUsulanDesa.Target_Angka','trUsulanDesa.Target_Uraian','trUsulanDesa.Jeniskeg','trUsulanDesa.Prioritas','trUsulanDesa.Bobot'];       
         if (!$this->checkStateIsExistSession('aspirasimusrenkecamatan','orderby')) 
         {            
            $this->putControllerStateSession('aspirasimusrenkecamatan','orderby',['column_name'=>'No_usulan','order'=>'asc']);
@@ -299,28 +299,34 @@ class AspirasiMusrenKecamatanController extends Controller {
             switch ($search['kriteria']) 
             {
                 case 'No_usulan' :                    
-                    $data = AspirasiMusrenDesaModel::where('trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
-                                                    ->where('PmDesaID',$filter_desa)
-                                                    ->where(['No_usulan'=>(int)$search['isikriteria']])
-                                                    ->where('Privilege',1)
-                                                    ->orderBy($column_order,$direction);
+                    $data = AspirasiMusrenDesaModel::leftJoin('trUsulanKec','trUsulanKec.UsulanDesaID','trUsulanDesa.UsulanDesaID')
+                                                    ->where('trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
+                                                    ->where('trUsulanDesa.PmDesaID',$filter_desa)
+                                                    ->where(['trUsulanDesa.No_usulan'=>(int)$search['isikriteria']])
+                                                    ->where('trUsulanDesa.Privilege',1)
+                                                    ->whereNull('trUsulanKec.UsulanDesaID')
+                                                    ->orderBy("trUsulanDesa.$column_order",$direction);
                 break;
                 case 'NamaKegiatan' :
-                    $data = AspirasiMusrenDesaModel::where('trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
-                                                    ->where('PmDesaID',$filter_desa)
-                                                    ->where('NamaKegiatan', 'like', '%' . $search['isikriteria'] . '%')
-                                                    ->where('Privilege',1)
-                                                    ->orderBy($column_order,$direction);                                        
+                    $data = AspirasiMusrenDesaModel::leftJoin('trUsulanKec','trUsulanKec.UsulanDesaID','trUsulanDesa.UsulanDesaID')
+                                                    ->where('trUsulanDesa.trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
+                                                    ->where('trUsulanDesa.PmDesaID',$filter_desa)
+                                                    ->where('trUsulanDesa.NamaKegiatan', 'like', '%' . $search['isikriteria'] . '%')
+                                                    ->where('trUsulanDesa.Privilege',1)
+                                                    ->whereNull('trUsulanKec.UsulanDesaID')
+                                                    ->orderBy("trUsulanDesa.$column_order",$direction);
             break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = AspirasiMusrenDesaModel::where('TA', config('globalsettings.tahun_perencanaan'))
-                                            ->where('PmDesaID',$filter_desa)
-                                            ->where('Privilege',1)
-                                            ->orderBy($column_order,$direction)
+            $data = AspirasiMusrenDesaModel::leftJoin('trUsulanKec','trUsulanKec.UsulanDesaID','trUsulanDesa.UsulanDesaID')
+                                            ->where('trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
+                                            ->where('trUsulanDesa.PmDesaID',$filter_desa)
+                                            ->where('trUsulanDesa.Privilege',1)
+                                            ->whereNull('trUsulanKec.UsulanDesaID')
+                                            ->orderBy("trUsulanDesa.$column_order",$direction)
                                             ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('aspirasimusrenkecamatan.pilihusulankegiatan'));                             
@@ -342,13 +348,17 @@ class AspirasiMusrenKecamatanController extends Controller {
         
         $daftar_kecamatan=KecamatanModel::getDaftarKecamatan(config('globalsettings.tahun_perencanaan'),false);
         $daftar_desa=DesaModel::getDaftarDesa(config('globalsettings.tahun_perencanaan'),$filters['PmKecamatanID'],false);         
-                
+        
+        $daftar_urusan=[];
+        $daftar_opd=[];
         return view("pages.$theme.musrenbang.aspirasimusrenkecamatan.pilihusulankegiatan")->with(['page_active'=>'aspirasimusrenkecamatan',
                                                                                                 'search'=>$this->getControllerStateSession('aspirasimusrenkecamatan','search'),
                                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                                 'filters'=>$filters,
                                                                                                 'daftar_kecamatan'=>$daftar_kecamatan,
                                                                                                 'daftar_desa'=>$daftar_desa,
+                                                                                                'daftar_urusan'=>$daftar_urusan,
+                                                                                                'daftar_opd'=>$daftar_opd,
                                                                                                 'column_order'=>$this->getControllerStateSession('aspirasimusrenkecamatan.orderby','column_name'),
                                                                                                 'direction'=>$this->getControllerStateSession('aspirasimusrenkecamatan.orderby','order'),
                                                                                                 'data'=>$data
