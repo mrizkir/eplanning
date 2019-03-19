@@ -4,9 +4,12 @@ namespace App\Controllers\Musrenbang;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
-use App\Models\Musrenbang\AspirasiMusrenKecamatanModel;
+use App\Models\DMaster\SumberDanaModel;
+use App\Models\DMaster\UrusanModel;
+use App\Models\DMaster\OrganisasiModel;
 use App\Models\DMaster\KecamatanModel;
 use App\Models\DMaster\DesaModel;
+use App\Models\Musrenbang\AspirasiMusrenKecamatanModel;
 use App\Models\Musrenbang\AspirasiMusrenDesaModel;
 
 class AspirasiMusrenKecamatanController extends Controller {
@@ -238,7 +241,18 @@ class AspirasiMusrenKecamatanController extends Controller {
         return response()->json(['success'=>true,'filters'=>$filters,'view'=>$view,'daftar_desa'=>$daftar_desa,'datatable'=>$datatable],200);         
 
     }
-    
+    /**
+     * filter urusan resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function filterurusan (Request $request) 
+    {
+        $UrsID = $request->input('UrsID')==''?'none':$request->input('UrsID');
+        $daftar_organisasi=OrganisasiModel::getDaftarOPD(config('globalsettings.tahun_perencanaan'),false,$UrsID);
+        return response()->json(['success'=>true,'daftar_organisasi'=>$daftar_organisasi],200);         
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -349,8 +363,8 @@ class AspirasiMusrenKecamatanController extends Controller {
         $daftar_kecamatan=KecamatanModel::getDaftarKecamatan(config('globalsettings.tahun_perencanaan'),false);
         $daftar_desa=DesaModel::getDaftarDesa(config('globalsettings.tahun_perencanaan'),$filters['PmKecamatanID'],false);         
         
-        $daftar_urusan=[];
-        $daftar_opd=[];
+        $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'),false);
+        
         return view("pages.$theme.musrenbang.aspirasimusrenkecamatan.pilihusulankegiatan")->with(['page_active'=>'aspirasimusrenkecamatan',
                                                                                                 'search'=>$this->getControllerStateSession('aspirasimusrenkecamatan','search'),
                                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
@@ -358,7 +372,6 @@ class AspirasiMusrenKecamatanController extends Controller {
                                                                                                 'daftar_kecamatan'=>$daftar_kecamatan,
                                                                                                 'daftar_desa'=>$daftar_desa,
                                                                                                 'daftar_urusan'=>$daftar_urusan,
-                                                                                                'daftar_opd'=>$daftar_opd,
                                                                                                 'column_order'=>$this->getControllerStateSession('aspirasimusrenkecamatan.orderby','column_name'),
                                                                                                 'direction'=>$this->getControllerStateSession('aspirasimusrenkecamatan.orderby','order'),
                                                                                                 'data'=>$data
@@ -371,21 +384,69 @@ class AspirasiMusrenKecamatanController extends Controller {
      */
     public function create()
     {   
-        if ($this->checkStateIsExistSession('aspirasimusrenkecamatan','filters.UsulanDesaID'))
-        {
-            $theme = \Auth::user()->theme;
-            
-            return view("pages.$theme.musrenbang.aspirasimusrenkecamatan.create")->with(['page_active'=>'aspirasimusrenkecamatan',
-                                                                    
+       
+        $theme = \Auth::user()->theme;
+        $sumber_dana = SumberDanaModel::getDaftarSumberDana(config('globalsettings.tahun_perencanaan'),false);
+        $filters=$this->getControllerStateSession('aspirasimusrenkecamatan','filters');   
+        $daftar_kecamatan=KecamatanModel::getDaftarKecamatan(config('globalsettings.tahun_perencanaan'),false);
+        $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'),false);
+        return view("pages.$theme.musrenbang.aspirasimusrenkecamatan.create")->with(['page_active'=>'aspirasimusrenkecamatan',
+                                                                                    'filters'=>$filters,
+                                                                                    'daftar_kecamatan'=>$daftar_kecamatan,
+                                                                                    'daftar_urusan'=>$daftar_urusan,
+                                                                                    'sumber_dana'=>$sumber_dana
                                                                                     ]);     
-        }    
-        else
-        {
-            abort(404);
-        }
+       
         
     }
-    
+    /**
+     * Store a newly usulan kecamatan created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeusulankecamatan(Request $request)
+    {     
+        $this->validate($request, [
+            'OrgID'=>'required',
+            'PmKecamatanID'=>'required',
+            'NamaKegiatan'=>'required',
+            'Output'=>'required',
+            'Lokasi'=>'required',
+            'NilaiUsulan'=>'required',
+            'Target_Angka'=>'required',
+            'Prioritas'=>'required',
+            'Prioritas'=>'required|not_in:none'            
+        ]);
+
+        $aspirasimusrenkecamatan = AspirasiMusrenKecamatanModel::create([
+            'UsulanKecID' =>uniqid ('uid'),
+            'PmKecamatanID'=>$request->input('PmKecamatanID'),
+            'OrgID'=>$request->input('OrgID'),
+            'No_usulan' => AspirasiMusrenDesaModel::max('No_usulan')+1,
+            'NamaKegiatan' => $request->input('NamaKegiatan'),
+            'Output' => $request->input('Output'),
+            'Lokasi' => $request->input('Lokasi'),
+            'NilaiUsulan' => $request->input('NilaiUsulan'),
+            'Target_Angka' => $request->input('Target_Angka'),
+            'Target_Uraian' => $request->input('Target_Uraian'),
+            'Jeniskeg' => $request->input('Jeniskeg'),
+            'Prioritas' => $request->input('Prioritas'),
+            'TA' => config('globalsettings.tahun_perencanaan')
+        ]);
+
+        if ($request->ajax()) 
+        {
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data ini telah berhasil disimpan.'
+            ]);
+        }
+        else
+        {
+            return redirect(route('aspirasimusrenkecamatan.index'))->with('success','Data ini usulan kegiatan Musrenbang Desa telah berhasil disimpan.');
+        }
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -393,14 +454,39 @@ class AspirasiMusrenKecamatanController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {     
         $this->validate($request, [
-            'replaceit'=>'required',
+            'OrgID'=>'required',
+            'UsulanDesaID.*'=>'required',
         ]);
         
-        $aspirasimusrenkecamatan = AspirasiMusrenKecamatanModel::create([
-            'replaceit' => $request->input('replaceit'),
-        ]);        
+        $OrgID=$request->input('OrgID');
+        $ListUsulanDesaID = $request->input('UsulanDesaID');
+        
+        $filters=$this->getControllerStateSession('aspirasimusrenkecamatan','filters'); 
+        $PmKecamatanID = $filters['PmKecamatanID'];
+        $PmDesaID = $filters['PmDesaID'];
+        foreach ($ListUsulanDesaID as $UsulanDesaID)
+        {
+            $aspirasimusrendesa = AspirasiMusrenDesaModel::find($UsulanDesaID);
+            $aspirasimusrenkecamatan = AspirasiMusrenKecamatanModel::create([
+                'UsulanKecID' =>uniqid ('uid'),
+                'UsulanDesaID'=>$UsulanDesaID,
+                'PmKecamatanID'=>$PmKecamatanID,
+                'PmDesaID'=>$PmDesaID,
+                'No_usulan'=>$aspirasimusrendesa->No_usulan,
+                'NamaKegiatan'=>$aspirasimusrendesa->NamaKegiatan,
+                'Output'=>$aspirasimusrendesa->Output,
+                'Lokasi'=>$aspirasimusrendesa->Lokasi,
+                'NilaiUsulan'=>$aspirasimusrendesa->NilaiUsulan,
+                'Jeniskeg'=>$aspirasimusrendesa->Jeniskeg,
+                'Target_Uraian'=>$aspirasimusrendesa->Target_Uraian,
+                'Target_Angka'=>$aspirasimusrendesa->Target_Angka,
+                'Prioritas'=>$aspirasimusrendesa->Prioritas,
+                'Descr'=>$aspirasimusrendesa->Descr,
+                'TA'=>$aspirasimusrendesa->TA
+            ]);
+        }                
         
         if ($request->ajax()) 
         {
@@ -411,7 +497,7 @@ class AspirasiMusrenKecamatanController extends Controller {
         }
         else
         {
-            return redirect(route('aspirasimusrenkecamatan.index'))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('aspirasimusrenkecamatan.index'))->with('success','Data ini usulan kegiatan Musrenbang Desa telah berhasil disimpan.');
         }
 
     }

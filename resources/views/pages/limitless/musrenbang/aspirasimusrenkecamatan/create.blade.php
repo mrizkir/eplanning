@@ -34,99 +34,100 @@
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>'Musrenbang\AspirasiMusrenKecamatanController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
+            {!! Form::open(['action'=>'Musrenbang\AspirasiMusrenKecamatanController@storeusulankecamatan','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
                 <div class="form-group">
-                    {{Form::label('replaceit','NAMA KECAMATAN',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('UrsID','URUSAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('replaceit','',['class'=>'form-control','placeholder'=>'replaceit'])}}
+                        <select name="UrsID" id="UrsID" class="select">
+                            <option></option>
+                            @foreach ($daftar_urusan as $k=>$item)
+                                <option value="{{$k}}">{{$item}}</option>
+                            @endforeach
+                        </select>                        
+                    </div>
+                </div>  
+                <div class="form-group">
+                    {{Form::label('OrgID','OPD / SKPD PELAKSANA',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        <select name="OrgID" id="OrgID" class="select">
+                            <option></option>                                
+                        </select>                        
+                    </div>
+                </div>   
+                <div class="form-group">
+                    <label class="col-md-2 control-label">KECAMATAN :</label> 
+                    <div class="col-md-10">
+                        <select name="PmKecamatanID" id="PmKecamatanID" class="select">
+                            <option></option>
+                            @foreach ($daftar_kecamatan as $k=>$item)
+                                <option value="{{$k}}"{{$k==$filters['PmKecamatanID']?' selected':''}}>{{$item}}</option>
+                            @endforeach
+                        </select>                              
                     </div>
                 </div>
                 <div class="form-group">
-                    {{Form::label('replaceit','NAMA DESA',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('NamaKegiatan','NAMA KEGIATAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('replaceit','',['class'=>'form-control','placeholder'=>'replaceit'])}}
+                        {{Form::text('NamaKegiatan','',['class'=>'form-control','placeholder'=>'NAMA KEGIATAN'])}}
                     </div>
                 </div>
                 <div class="form-group">
-                    {{Form::label('replaceit','USULAN DESA / KELURAHAN',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('Output','OUTPUT / HASIL',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('replaceit','',['class'=>'form-control','placeholder'=>'replaceit'])}}
+                        {{Form::text('Output','',['class'=>'form-control','placeholder'=>'OUTPUT / HASIL'])}}
                     </div>
                 </div>
                 <div class="form-group">
-                    {{Form::label('replaceit','KODE KEGIATAN',['class'=>'control-label col-md-2'])}}
-                    <div class="col-md-10">
-                        {{Form::text('replaceit','',['class'=>'form-control','placeholder'=>'replaceit'])}}
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    {{Form::label('replaceit','NAMA KEGIATAN',['class'=>'control-label col-md-2'])}}
-                    <div class="col-md-10">
-                        {{Form::text('replaceit','',['class'=>'form-control','placeholder'=>'replaceit'])}}
+                    {{Form::label('Lokasi','LOKASI KEGIATAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">                        
+                        {{Form::text('Lokasi','',['class'=>'form-control','placeholder'=>'LOKASI KEGIATAN'])}}
                     </div>
                 </div>
                 <div class="form-group">
-                    {{Form::label('replaceit','OUTPUT / HASIL',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('NilaiUsulan','NILAI USULAN ANGGARAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('replaceit','',['class'=>'form-control','placeholder'=>'replaceit'])}}
+                        {{Form::text('NilaiUsulan','',['class'=>'form-control','placeholder'=>'NILAI USULAN ANGGARAN'])}}
                     </div>
                 </div>
                 <div class="form-group">
-                    {{Form::label('replaceit','NILAI USULAN ANGGARAN',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('Target_Angka','TARGET (VOLUME)',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('replaceit','',['class'=>'form-control','placeholder'=>'replaceit'])}}
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{Form::text('Target_Angka','',['class'=>'form-control','placeholder'=>'ANGKA TARGET'])}}
+                            </div>
+                            <div class="col-md-6">
+                                {{Form::text('Target_Uraian','',['class'=>'form-control','placeholder'=>'TARGET URAIAN'])}}                                
+                            </div>
+                        </div>                                               
                     </div>
-                </div>
-
+                </div>  
                 <div class="form-group">
-                    {{Form::label('replaceit','TARGET (VOLUME)',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('Prioritas','PRIORITAS',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('replaceit','',['class'=>'form-control','placeholder'=>'replaceit'])}}
-                    </div>
-                </div>
-                <div class="form-group">
-                    {{Form::label('replaceit','PRIORITAS',['class'=>'control-label col-md-2'])}}
-                    <div class="col-md-10">
-                        {{Form::text('replaceit','',['class'=>'form-control','placeholder'=>'replaceit'])}}
-                    </div>
-                </div>
-                <div class="form-group">
-                    {{Form::label('replaceit','KEGIATAN FISIK',['class'=>'control-label col-md-2'])}}
-                    <div class="col-md-10">
-                        {{Form::text('replaceit','',['class'=>'form-control','placeholder'=>'replaceit'])}}
+                        {{Form::select('Prioritas', Helper::getDaftarPrioritas(),'none',['class'=>'form-control','id'=>'Prioritas'])}}
                     </div>
                 </div>
                 <div class="form-group">
-                    {{Form::label('replaceit','LOKASI',['class'=>'control-label col-md-2'])}}
-                    <div class="col-md-10">
-                        {{Form::text('replaceit','',['class'=>'form-control','placeholder'=>'replaceit'])}}
+                    {{Form::label('Jeniskeg','JENIS KEGIATAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">                        
+                        <div class="checkbox checkbox-switch">
+                            {{Form::checkbox('Jeniskeg','1',0,['class'=>'switch','data-on-text'=>'FISIK','data-off-text'=>'NON-FISIK'])}}                                     
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    {{Form::label('replaceit','SUMBER DANA',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('SumberDanaID','SUMBER DANA',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('replaceit','',['class'=>'form-control','placeholder'=>'replaceit'])}}
+                        {{Form::select('SumberDanaID', $sumber_dana, '',['class'=>'form-control','id'=>'KUrsID'])}}
                     </div>
-                </div>
+                </div>           
                 <div class="form-group">
-                    {{Form::label('replaceit','OPD / SKPD PELAKSANA',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('replaceit','',['class'=>'form-control','placeholder'=>'replaceit'])}}
+                        {{Form::text('Descr','',['class'=>'form-control','placeholder'=>'KETERANGAN'])}}
                     </div>
-                </div>
-                <div class="form-group">
-                    {{Form::label('replaceit','NAMA PROGRAM',['class'=>'control-label col-md-2'])}}
-                    <div class="col-md-10">
-                        {{Form::text('replaceit','',['class'=>'form-control','placeholder'=>'replaceit'])}}
-                    </div>
-                </div>
-                <div class="form-group">
-                    {{Form::label('replaceit','SASARAN RPJMD',['class'=>'control-label col-md-2'])}}
-                    <div class="col-md-10">
-                        {{Form::text('replaceit','',['class'=>'form-control','placeholder'=>'replaceit'])}}
-                    </div>
-                </div>                
+                </div>               
                 <div class="form-group">            
                     <div class="col-md-10 col-md-offset-2">                        
                         {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}
@@ -140,23 +141,133 @@
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/switch.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/autoNumeric.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
+    $(".switch").bootstrapSwitch();
+    //styling select
+    $('#UrsID.select').select2({
+        placeholder: "PILIH URUSAN",
+        allowClear:true
+    });
+    $('#OrgID.select').select2({
+        placeholder: "PILIH OPD / SKPD",
+        allowClear:true
+    });
+    $('#PmKecamatanID.select').select2({
+        placeholder: "PILIH KECAMATAN",
+        allowClear:true
+    }); 
+    AutoNumeric.multiple(['#NilaiUsulan'],[{
+                                            allowDecimalPadding: false,
+                                            decimalCharacter: ",",
+                                            digitGroupSeparator: ".",
+                                            unformatOnSubmit: true,
+                                            showWarnings:false,
+                                            modifyValueOnWheel:false
+                                        }]);
+    AutoNumeric.multiple(['#Target_Angka'], {
+                                            allowDecimalPadding: false,
+                                            minimumValue:0,
+                                            maximumValue:99999999999,
+                                            numericPos:true,
+                                            decimalPlaces : 0,
+                                            digitGroupSeparator : '',
+                                            showWarnings:false,
+                                            unformatOnSubmit: true,
+                                            modifyValueOnWheel:false
+                                        });
+    $(document).on('change','#UrsID',function(ev) {
+        ev.preventDefault();   
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/filterurusan',
+            dataType: 'json',
+            data: {                
+                "_token": token,
+                "UrsID": $('#UrsID').val(),
+            },
+            success:function(result)
+            { 
+                console.log(result);
+                var daftar_organisasi = result.daftar_organisasi;
+                var listitems='<option></option>';
+                $.each(daftar_organisasi,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
+                $('#OrgID').html(listitems);
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });     
+    }); 
     $('#frmdata').validate({
+        ignore:[],
         rules: {
-            replaceit : {
+            PmDesaID : {
+                required: true
+            },           
+            NamaKegiatan : {
                 required: true,
-                minlength: 2
-            }
+                minlength: 5
+            },
+            Output : {
+                required: true
+            },
+            Lokasi : {
+                required: true
+            },
+            NilaiUsulan : {
+                required: true,                
+            },
+            Target_Uraian : {
+                required: true
+            },
+            Target_Angka : {
+                required: true
+            },
+            Prioritas : {
+                valueNotEquals : 'none'   
+            },    
+            SumberDanaID : {
+                valueNotEquals : 'none'           
+            },         
         },
         messages : {
-            replaceit : {
-                required: "Mohon untuk di isi karena ini diperlukan.",
-                minlength: "Mohon di isi minimal 2 karakter atau lebih."
+            PmDesaID : {
+                required: "Mohon untuk di pilih desa apa untuk kegiatan ini.",                
+            },            
+            NamaKegiatan : {
+                required: "Mohon untuk di isi nama kegiatan.",                
+            },
+            Output : {
+                required: "Mohon untuk di isi output kegiatan.",                
+            },
+            Lokasi : {
+                required: "Mohon untuk di isi lokasi kegiatan.",                
+            },
+            NilaiUsulan : {
+                required: "Mohon untuk di isi nilai usulan (Rp).",                
+            },
+            Target_Uraian : {
+                required: "Mohon untuk di isi deskripsi target.",                
+            },
+            Target_Angka : {
+                required: "Mohon untuk di isi target angka.",                
+            },
+            Prioritas : {
+                valueNotEquals: "Mohon untuk di pilih prioritas kegiatan.",                
+            },
+            SumberDanaID : {
+                valueNotEquals: "Mohon untuk di pilih sumber dana untuk kegiatan ini."                
             }
-        }      
+        }          
     });   
 });
 </script>

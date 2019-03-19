@@ -114,13 +114,10 @@
                         </div>
                     </div>  
                     <div class="form-group">
-                        {{Form::label('OrgID','OPD / SKPD',['class'=>'control-label col-md-2'])}}
+                        {{Form::label('OrgID','OPD / SKPD PELAKSANA',['class'=>'control-label col-md-2'])}}
                         <div class="col-md-10">
                             <select name="OrgID" id="OrgID" class="select">
-                                <option></option>
-                                @foreach ($daftar_opd as $k=>$item)
-                                    <option value="{{$k}}">{{$item}}</option>
-                                @endforeach
+                                <option></option>                                
                             </select>                        
                         </div>
                     </div>
@@ -140,6 +137,8 @@
 </div>
 @endsection
 @section('page_asset_js')
+<script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/switch.min.js')!!}"></script>
 @endsection
@@ -201,7 +200,6 @@ $(document).ready(function () {
             },
             success:function(result)
             { 
-                console.log(result);
                 $('#divdatatable').html(result.datatable);
                 $(".switch").bootstrapSwitch();
             },
@@ -211,6 +209,51 @@ $(document).ready(function () {
             },
         });     
     }); 
+    $(document).on('change','#UrsID',function(ev) {
+        ev.preventDefault();   
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/filterurusan',
+            dataType: 'json',
+            data: {                
+                "_token": token,
+                "UrsID": $('#UrsID').val(),
+            },
+            success:function(result)
+            { 
+                console.log(result);
+                var daftar_organisasi = result.daftar_organisasi;
+                var listitems='<option></option>';
+                $.each(daftar_organisasi,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
+                $('#OrgID').html(listitems);
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });     
+    }); 
+    $('#frmdata').validate({
+        ignore: [], 
+        rules: {
+            OrgID : {
+                required: true
+            },
+            'UsulanDesaID[]' : {
+                required: true
+            }
+        },
+        messages : {
+            OrgID : {
+                required: "Mohon untuk di pilih OPD/SKPD pelaksana karena ini diperlukan.",                
+            },
+            'UsulanDesaID[]' : {
+                required: "",                
+            }
+        }      
+    });   
 });
 </script>
 @endsection

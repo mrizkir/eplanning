@@ -9,7 +9,7 @@
         </div>
         <div class="heading-elements">
             <div class="heading-btn">
-                <a href="{!!route('aspirasimusrenkecamatan.pilihusulankegiatan')!!}" class="btn btn-info btn-xs" title="Tambah ASPIRASIMUSRENKECAMATAN">
+                <a href="{!!route('aspirasimusrenkecamatan.pilihusulankegiatan')!!}" class="btn btn-info btn-xs" title="Tambah Usulan Kegiatan">
                     <i class="icon-googleplus5"></i>
                 </a>
             </div>            

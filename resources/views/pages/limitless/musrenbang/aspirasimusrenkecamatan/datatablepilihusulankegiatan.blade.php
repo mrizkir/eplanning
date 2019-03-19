@@ -8,7 +8,11 @@
             </div>
         </div>
         <div class="heading-elements">
-                    
+            <div class="heading-btn">
+                <a href="{!!route('aspirasimusrenkecamatan.create')!!}" class="btn btn-info btn-xs" title="Tambah Usulan Kegiatan">
+                    <i class="icon-googleplus5"></i>
+                </a>
+            </div>            
         </div>
     </div>
     @if (count($data) > 0)
@@ -61,7 +65,7 @@
                     </td>
                     <td>
                         <div class="checkbox checkbox-switch">
-                            {{Form::checkbox('Privilege[]',$item->UsulanDesaID,'',['class'=>'switch','data-on-text'=>'YA','data-off-text'=>'TIDAK'])}}                                     
+                            {{Form::checkbox('UsulanDesaID[]',$item->UsulanDesaID,'',['class'=>'switch','data-on-text'=>'YA','data-off-text'=>'TIDAK'])}}                                     
                         </div>
                     </td>
                 </tr>

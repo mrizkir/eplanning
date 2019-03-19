@@ -59,14 +59,20 @@ class OrganisasiModel extends Model {
     /**
      * digunakan untuk mendapatkan kode urusan
      */
-    public static function getDaftarOPD ($ta,$prepend=true) 
+    public static function getDaftarOPD ($ta,$prepend=true,$ursid=NULL) 
     {
-        $r=\DB::table('v_urusan_organisasi')
-                ->where('TA',$ta)
-                ->orderBy('kode_organisasi')->get();
+        $q=\DB::table('v_urusan_organisasi')
+                ->where('TA',$ta);
+        
+        if ($ursid !==NULL)
+        {
+            $q->where('UrsID',$ursid);    
+        }
+        $q->orderBy('kode_organisasi');
+        $q = $q->get();
         
         $daftar_organisasi=($prepend==true)?['none'=>'DAFTAR OPD / SKPD']:[];        
-        foreach ($r as $k=>$v)
+        foreach ($q as $k=>$v)
         {
             $daftar_organisasi[$v->OrgID]=$v->kode_organisasi.'. '.$v->OrgNm;
         } 

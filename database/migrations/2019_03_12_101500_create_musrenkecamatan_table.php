@@ -15,22 +15,22 @@ class CreateMusrenkecamatanTable extends Migration
     {
         Schema::create('trUsulanKec', function (Blueprint $table) {
                 $table->string('UsulanKecID',19);
-                $table->string('UsulanDesaID',19);
+                $table->string('UsulanDesaID',19)->nullable();
                 $table->string('PmKecamatanID',19);
-                $table->string('PmDesaID',19);
-                $table->string('PrioritasSasaranKabID',19);
-                $table->string('PrgID',19);
-                $table->string('OrgID',19);
-                $table->string('SumberDanaID',19);
+                $table->string('PmDesaID',19)->nullable();
+                $table->string('PrioritasSasaranKabID',19)->nullable();
+                $table->string('PrgID',19)->nullable();
+                $table->string('OrgID',19)->nullable();
+                $table->string('SumberDanaID',19)->nullable();
 
                 $table->tinyInteger('No_usulan');
                 $table->text('NamaKegiatan');           
                 $table->string('Output');           
                 $table->string('Lokasi');        
                 $table->decimal('NilaiUsulan',15,2);
-                $table->integer('Target_Angka');
-                $table->tinyInteger('Jeniskeg')->default(0);            
-                $table->string('Target_Uraian');    
+                $table->integer('Target_Angka');                
+                $table->string('Target_Uraian'); 
+                $table->tinyInteger('Jeniskeg')->default(0);               
                 $table->tinyInteger('Prioritas');   
                 $table->double('Bobot',3,2)->default(0.00);
                 $table->string('Descr')->nullable();            
