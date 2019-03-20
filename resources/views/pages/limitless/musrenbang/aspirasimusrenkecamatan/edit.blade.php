@@ -34,14 +34,141 @@
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>['Musrenbang\AspirasiMusrenKecamatanController@update',$data->aspirasimusrenkecamatan_id],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
+            {!! Form::open(['action'=>['Musrenbang\AspirasiMusrenKecamatanController@update',$data->UsulanKecID],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
                 {{Form::hidden('_method','PUT')}}
                 <div class="form-group">
-                    {{Form::label('replaceit','replaceit',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('UrsID','URUSAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('replaceit',$data[''],['class'=>'form-control','placeholder'=>'replaceit'])}}
-                    </div>                
+                        <select name="UrsID" id="UrsID" class="select">
+                            <option></option>
+                            @foreach ($daftar_urusan as $k=>$item)
+                                <option value="{{$k}}"{{$k==$data->UrsID?' selected':''}}>{{$item}}</option>
+                            @endforeach
+                        </select>                        
+                    </div>
+                </div>  
+                <div class="form-group">
+                    {{Form::label('OrgID','OPD / SKPD PELAKSANA',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        <select name="OrgID" id="OrgID" class="select">
+                            <option></option>      
+                            @foreach ($daftar_opd as $k=>$item)
+                                <option value="{{$k}}"{{$k==$data->OrgID?' selected':''}}>{{$item}}</option>
+                            @endforeach                          
+                        </select>                        
+                    </div>
+                </div>   
+                @if ($data->UsulanDesaID=='')
+                <div class="form-group">
+                    <label class="col-md-2 control-label">KECAMATAN :</label> 
+                    <div class="col-md-10">
+                        <select name="PmKecamatanID" id="PmKecamatanID" class="select">
+                            <option></option>
+                            @foreach ($daftar_kecamatan as $k=>$item)
+                                <option value="{{$k}}"{{$k==$data->PmKecamatanID?' selected':''}}>{{$item}}</option>
+                            @endforeach
+                        </select>                              
+                    </div>
                 </div>
+                <div class="form-group">
+                    {{Form::label('NamaKegiatan','NAMA KEGIATAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('NamaKegiatan',$data->NamaKegiatan,['class'=>'form-control','placeholder'=>'NAMA KEGIATAN'])}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('Output','OUTPUT / HASIL',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('Output',$data->Output,['class'=>'form-control','placeholder'=>'OUTPUT / HASIL'])}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('Lokasi','LOKASI KEGIATAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">                        
+                        {{Form::text('Lokasi',$data->Lokasi,['class'=>'form-control','placeholder'=>'LOKASI KEGIATAN'])}}
+                    </div>
+                </div>
+                @else
+                <div class="form-group">
+                    <label class="col-md-2 control-label">DESA :</label> 
+                    <div class="col-md-10">
+                        <p class="form-control-static">{{$data->Nm_Desa}}</p>                         
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">KECAMATAN :</label> 
+                    <div class="col-md-10">
+                        <p class="form-control-static">{{$data->Nm_Kecamatan}}</p>
+                        {{Form::hidden('PmKecamatanID',$data->PmKecamatanID)}}                         
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('NamaKegiatan','NAMA KEGIATAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        <p class="form-control-static">{{$data->NamaKegiatan}}</p>
+                        {{Form::hidden('NamaKegiatan',$data->NamaKegiatan)}}                         
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('Output','OUTPUT / HASIL',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        <p class="form-control-static">{{$data->Output}}</p>
+                        {{Form::hidden('Output',$data->Output)}}                         
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('Lokasi','LOKASI KEGIATAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">                        
+                        <p class="form-control-static">{{$data->Lokasi}}</p>
+                        {{Form::hidden('Lokasi',$data->Lokasi)}}  
+                    </div>
+                </div>
+                @endif              
+                <div class="form-group">
+                    {{Form::label('NilaiUsulan','NILAI USULAN ANGGARAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('NilaiUsulan',Helper::formatUang($data->NilaiUsulan),['class'=>'form-control','placeholder'=>'NILAI USULAN ANGGARAN'])}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('Target_Angka','TARGET (VOLUME)',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{Form::text('Target_Angka',$data->Target_Angka,['class'=>'form-control','placeholder'=>'ANGKA TARGET'])}}
+                            </div>
+                            <div class="col-md-6">
+                                {{Form::text('Target_Uraian',$data->Target_Uraian,['class'=>'form-control','placeholder'=>'TARGET URAIAN'])}}                                
+                            </div>
+                        </div>                                               
+                    </div>
+                </div>  
+                <div class="form-group">
+                    {{Form::label('Prioritas','PRIORITAS',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::select('Prioritas', Helper::getDaftarPrioritas(),$data->Prioritas,['class'=>'form-control','id'=>'Prioritas'])}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('Jeniskeg','JENIS KEGIATAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">                        
+                        <div class="checkbox checkbox-switch">
+                            {{Form::checkbox('Jeniskeg','1',$data->Jeniskeg,['class'=>'switch','data-on-text'=>'FISIK','data-off-text'=>'NON-FISIK'])}}                                     
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('SumberDanaID','SUMBER DANA',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::select('SumberDanaID', $sumber_dana, $data->SumberDanaID,['class'=>'form-control','id'=>'KUrsID'])}}
+                    </div>
+                </div>           
+                <div class="form-group">
+                    {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('Descr',$data->Descr,['class'=>'form-control','placeholder'=>'KETERANGAN'])}}
+                    </div>
+                </div>       
                 <div class="form-group">            
                     <div class="col-md-10 col-md-offset-2">                        
                         {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] )  }}                        
@@ -55,23 +182,133 @@
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/autoNumeric.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/switch.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
+    $('.switch').bootstrapSwitch();
+    //styling select
+    $('#UrsID.select').select2({
+        placeholder: "PILIH URUSAN",
+        allowClear:true
+    });
+    $('#OrgID.select').select2({
+        placeholder: "PILIH OPD / SKPD",
+        allowClear:true
+    });
+    $('#PmKecamatanID.select').select2({
+        placeholder: "PILIH KECAMATAN",
+        allowClear:true
+    }); 
+    AutoNumeric.multiple(['#NilaiUsulan'],[{
+                                            allowDecimalPadding: false,
+                                            decimalCharacter: ",",
+                                            digitGroupSeparator: ".",
+                                            unformatOnSubmit: true,
+                                            showWarnings:false,
+                                            modifyValueOnWheel:false
+                                        }]);
+    AutoNumeric.multiple(['#Target_Angka'], {
+                                            allowDecimalPadding: false,
+                                            minimumValue:0,
+                                            maximumValue:99999999999,
+                                            numericPos:true,
+                                            decimalPlaces : 0,
+                                            digitGroupSeparator : '',
+                                            showWarnings:false,
+                                            unformatOnSubmit: true,
+                                            modifyValueOnWheel:false
+                                        });
+    $(document).on('change','#UrsID',function(ev) {
+        ev.preventDefault();   
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/filterurusan',
+            dataType: 'json',
+            data: {                
+                "_token": token,
+                "UrsID": $('#UrsID').val(),
+            },
+            success:function(result)
+            { 
+                console.log(result);
+                var daftar_organisasi = result.daftar_organisasi;
+                var listitems='<option></option>';
+                $.each(daftar_organisasi,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
+                $('#OrgID').html(listitems);
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });     
+    }); 
     $('#frmdata').validate({
+        ignore:[],
         rules: {
-            replaceit : {
+            PmDesaID : {
+                required: true
+            },           
+            NamaKegiatan : {
                 required: true,
-                minlength: 2
-            }
+                minlength: 5
+            },
+            Output : {
+                required: true
+            },
+            Lokasi : {
+                required: true
+            },
+            NilaiUsulan : {
+                required: true,                
+            },
+            Target_Uraian : {
+                required: true
+            },
+            Target_Angka : {
+                required: true
+            },
+            Prioritas : {
+                valueNotEquals : 'none'   
+            },    
+            SumberDanaID : {
+                valueNotEquals : 'none'           
+            },         
         },
         messages : {
-            replaceit : {
-                required: "Mohon untuk di isi karena ini diperlukan.",
-                minlength: "Mohon di isi minimal 2 karakter atau lebih."
+            PmDesaID : {
+                required: "Mohon untuk di pilih desa apa untuk kegiatan ini.",                
+            },            
+            NamaKegiatan : {
+                required: "Mohon untuk di isi nama kegiatan.",                
+            },
+            Output : {
+                required: "Mohon untuk di isi output kegiatan.",                
+            },
+            Lokasi : {
+                required: "Mohon untuk di isi lokasi kegiatan.",                
+            },
+            NilaiUsulan : {
+                required: "Mohon untuk di isi nilai usulan (Rp).",                
+            },
+            Target_Uraian : {
+                required: "Mohon untuk di isi deskripsi target.",                
+            },
+            Target_Angka : {
+                required: "Mohon untuk di isi target angka.",                
+            },
+            Prioritas : {
+                valueNotEquals: "Mohon untuk di pilih prioritas kegiatan.",                
+            },
+            SumberDanaID : {
+                valueNotEquals: "Mohon untuk di pilih sumber dana untuk kegiatan ini."                
             }
-        }     
+        }          
     });   
 });
 </script>

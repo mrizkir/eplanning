@@ -63,7 +63,7 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>NILAI USULAN: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->NilaiUsulan}}</p>
+                                    <p class="form-control-static">{{Helper::formatUang($data->NilaiUsulan)}}</p>
                                 </div>                            
                             </div> 
                             <div class="form-group">
@@ -108,11 +108,11 @@
                                 </div>                            
                             </div> 
                             <div class="form-group">
-                                    <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
-                                    <div class="col-md-8">
-                                        <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}}</p>
-                                    </div>                            
-                                </div>
+                                <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}}</p>
+                                </div>                            
+                            </div>
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>TGL. UBAH: </strong></label>
                                 <div class="col-md-8">

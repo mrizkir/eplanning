@@ -248,8 +248,8 @@ class AspirasiMusrenDesaController extends Controller {
             'Output'=>'required',
             'Lokasi'=>'required',
             'NilaiUsulan'=>'required',
+            'Target_Uraian'=>'required',
             'Target_Angka'=>'required',
-            'Prioritas'=>'required',
             'Prioritas'=>'required|not_in:none'            
         ]);
         
@@ -347,8 +347,8 @@ class AspirasiMusrenDesaController extends Controller {
             'Output'=>'required',
             'Lokasi'=>'required',
             'NilaiUsulan'=>'required',
+            'Target_Uraian'=>'required',
             'Target_Angka'=>'required',
-            'Prioritas'=>'required',
             'Prioritas'=>'required|not_in:none'            
         ]);
         
