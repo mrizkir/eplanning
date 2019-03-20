@@ -1,20 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    PEMBAHASAN MUSRENBANG DESA
+    PEMBAHASAN MUSRENBANG KECAMATAN
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold">
-        PEMBAHASAN MUSRENBANG DESA TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
+        PEMBAHASAN MUSRENBANG KECAMATAN TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.musrenbang.pembahasanmusrendesa.info')
+    @include('pages.limitless.musrenbang.pembahasanmusrenkecamatan.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">PERENCANAAN</a></li>
-    <li><a href="#">PEMBAHASAN</a></li>
-    <li class="active">MUSRENBANG DESA</li>
+    <li><a href="#">PEMBAHASAN</a></li>    
+    <li class="active">MUSRENBANG KECAMATAN</li>
 @endsection
 @section('page_content')
 <div class="row">
@@ -41,17 +41,6 @@
                             </select>                              
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">DESA :</label> 
-                        <div class="col-md-10">
-                            <select name="PmDesaID" id="PmDesaID" class="select">
-                                <option></option>  
-                                @foreach ($daftar_desa as $k=>$item)
-                                    <option value="{{$k}}"{{$k==$filters['PmDesaID']?' selected':''}}>{{$item}}</option>
-                                @endforeach                          
-                            </select>                            
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -65,7 +54,7 @@
                 </h5>
             </div>
             <div class="panel-body">
-                {!! Form::open(['action'=>'Musrenbang\PembahasanMusrenDesaController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
+                {!! Form::open(['action'=>'Musrenbang\PembahasanMusrenKecamatanController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">
@@ -91,7 +80,7 @@
         </div>
     </div>       
     <div class="col-md-12" id="divdatatable">
-        @include('pages.limitless.musrenbang.pembahasanmusrendesa.datatable')
+        @include('pages.limitless.musrenbang.pembahasanmusrenkecamatan.datatable')
     </div>
 </div>
 @endsection
@@ -108,36 +97,7 @@ $(document).ready(function () {
         placeholder: "PILIH KECAMATAN",
         allowClear:true
     });   
-    $('#PmDesaID.select').select2({
-        placeholder: "PILIH DESA / KELURAHAN",
-        allowClear:true
-    }); 
     $(document).on('change','#PmKecamatanID',function(ev) {
-        ev.preventDefault();
-        $.ajax({
-            type:'post',
-            url: url_current_page +'/filter',
-            dataType: 'json',
-            data: {                
-                "_token": token,
-                "PmKecamatanID": $('#PmKecamatanID').val(),
-            },
-            success:function(result)
-            { 
-                var daftar_desa = result.daftar_desa;
-                var listitems='<option></option>';
-                $.each(daftar_desa,function(key,value){
-                    listitems+='<option value="' + key + '">'+value+'</option>';                    
-                });
-                $('#PmDesaID').html(listitems);
-            },
-            error:function(xhr, status, error){
-                console.log('ERROR');
-                console.log(parseMessageAjaxEror(xhr, status, error));                           
-            },
-        });
-    });
-    $(document).on('change','#PmDesaID',function(ev) {
         ev.preventDefault();   
         $.ajax({
             type:'post',
@@ -145,7 +105,7 @@ $(document).ready(function () {
             dataType: 'json',
             data: {                
                 "_token": token,
-                "PmDesaID": $('#PmDesaID').val(),
+                "PmKecamatanID": $('#PmKecamatanID').val(),
             },
             success:function(result)
             { 
@@ -160,11 +120,11 @@ $(document).ready(function () {
     });    
     $(document).on('switchChange.bootstrapSwitch', '.switch',function (ev) {
         ev.preventDefault();
-        var UsulanDesaID = $(this).val();        
+        var UsulanKecamatanID = $(this).val();        
         var checked = $(this).prop('checked') == true ? 1 :0;
         $.ajax({
             type:'post',
-            url: url_current_page +'/'+UsulanDesaID,
+            url: url_current_page +'/'+UsulanKecamatanID,
             dataType: 'json',
             data: {                
                 "_token": token,

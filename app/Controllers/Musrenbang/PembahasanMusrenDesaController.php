@@ -210,7 +210,7 @@ class PembahasanMusrenDesaController extends Controller {
         $theme = \Auth::user()->theme;
 
         $filters=$this->getControllerStateSession('pembahasanmusrendesa','filters');
-
+        $daftar_desa=[];
         if ($request->exists('PmKecamatanID'))
         {
             $PmKecamatanID = $request->input('PmKecamatanID')==''?'none':$request->input('PmKecamatanID');
@@ -238,8 +238,8 @@ class PembahasanMusrenDesaController extends Controller {
                                                                                         'filters'=>$filters,
                                                                                         'data'=>$data])->render();      
         
-        $daftar_desa=DesaModel::getDaftarDesa(config('globalsettings.tahun_perencanaan'),$filters['PmKecamatanID'],false);
-        return response()->json(['success'=>true,'filters'=>$filters,'daftar_desa'=>$daftar_desa,'datatable'=>$datatable],200);         
+        
+        return response()->json(['success'=>true,'daftar_desa'=>$daftar_desa,'datatable'=>$datatable],200);         
 
     }
     /**

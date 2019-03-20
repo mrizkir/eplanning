@@ -1,20 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    PEMBAHASAN MUSRENBANG DESA
+    PEMBAHASAN MUSRENBANG KECAMATAN
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold">
-        PEMBAHASAN MUSRENBANG DESA TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        PEMBAHASAN MUSRENBANG KECAMATAN TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.musrenbang.pembahasanmusrendesa.info')
+    @include('pages.limitless.musrenbang.pembahasanmusrenkecamatan.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">PERENCANAAN</a></li>
-    <li><a href="#">PEMBAHASAN</a></li>    
-    <li><a href="{!!route('pembahasanmusrendesa.index')!!}">MUSRENBANG DESA</a></li>
+    <li><a href="#">PEMBAHASAN</a></li>  
+    <li><a href="{!!route('pembahasanmusrenkecamatan.index')!!}">MUSRENBANG KECAMATAN</a></li>
     <li class="active">ERROR</li>
 @endsection
 @section('page_content')
