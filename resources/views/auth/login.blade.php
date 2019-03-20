@@ -8,7 +8,7 @@
         <a href="#"><b>{{config('app.name')}}</b></a>
     </div>
     <div class="login-box-body">
-        <p class="login-box-msg">Masukan username dan password untuk masuk ke dalam Portal EKampus</p>          
+        <p class="login-box-msg">Masukan username dan password untuk masuk ke dalam E-Planning</p>          
         <form action="{{route('login')}}" method="post" name="frmdlogin" id="frmlogin">
             @csrf
             <div class="form-group has-feedback">
