@@ -6,12 +6,13 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class User extends Authenticatable
 {
-    use Notifiable, HasRoles,LogsActivity;
+    use Notifiable, HasRoles, HasApiTokens, LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -54,4 +55,13 @@ class User extends Authenticatable
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];      
+
+    /**
+     * override password username
+     */
+    public static function findForPassport($username) 
+    {
+        $data=User::where('username', $username)->first();         
+        return $data;
+    }
 }
