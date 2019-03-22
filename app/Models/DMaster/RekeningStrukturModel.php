@@ -10,27 +10,27 @@ class RekeningStrukturModel extends Model {
      *
      * @var string
      */
-    protected $table = 'rekeningstruktur';
+    protected $table = 'tmStr';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'replace_it', 'replace_it'
+        'StrID', 'Kd_Rek_1','StrNm','DH','Descr','TA'
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'rekeningstruktur_id';
+    protected $primaryKey = 'StrID';
     /**
      * enable auto_increment.
      *
      * @var string
      */
-    public $incrementing = true;
+    public $incrementing = false;
     /**
      * activated timestamps.
      *
@@ -43,11 +43,11 @@ class RekeningStrukturModel extends Model {
      *
      * @var string
      */
-    // protected static $logName = 'RekeningStrukturController';
+    protected static $logName = 'RekeningStrukturController';
     /**
      * log the changed attributes for all these events 
      */
-    // protected static $logAttributes = ['replace_it', 'replace_it'];
+    protected static $logAttributes = ['StrID', 'Kd_Rek_1','StrNm'];
     /**
      * log changes to all the $fillable attributes of the model
      */

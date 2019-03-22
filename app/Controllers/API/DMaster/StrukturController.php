@@ -15,67 +15,70 @@ class StrukturController extends Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['auth']);
+        $this->middleware(['auth:api']);
     }
-    /**
-     * collect data from resources for index view
-     *
-     * @return resources
-     */
-    public function populateData ($currentpage=1) 
-    {        
-       
-    }
-    /**
-     * digunakan untuk mengganti jumlah record per halaman
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function changenumberrecordperpage (Request $request) 
-    {
-          
-        
-    }
-    /**
-     * digunakan untuk mengurutkan record 
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function orderby (Request $request) 
-    {
-        
-    }    
-    
+   
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {                
-        return response()->json(['success'=>true],200); 
-    }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {        
-      
-    }
-    
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
+    {               
+        $columns=['StrID','Kd_Rek_1','StrNm','TA'];   
+        $currentpage=1;
+        if ($request->exists('page'))
+        {
+            $currentpage = $request->input('page');
+        }
+        $numberRecordPerPage=10;
+        if ($request->exists('numberrecordperpage'))
+        {
+            $numberRecordPerPage = $request->input('numberrecordperpage');
+        }
+        $ta=config('globalsettings.tahun_perencanaan');
+        if ($request->exists('ta'))
+        {
+            $ta = $request->input('ta');
+        }
+        if ($currentpage == 'all')
+        {
+            $data=RekeningStrukturModel::all();
+            $daftar_rek1 = []; 
+            foreach ($data as $v)
+            {
+                $daftar_rek1[]=['StrID'=>$v->StrID,
+                                'Kd_Rek_1'=>$v->Kd_Rek_1,
+                                'StrNm'=>$v->StrNm,
+                                'TA'=>$v->TA
+                            ];
+            }
+            return response()->json(['status'=>1,
+                                    'data'=>$daftar_rek1],200); 
+        }
+        else
+        {
+            $data = RekeningStrukturModel::where('TA',$ta)->orderBy('Kd_Rek_1','ASC')->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
+            $daftar_rek1 = []; 
+            foreach ($data as $v)
+            {
+                $daftar_rek1[]=['StrID'=>$v->StrID,
+                                'Kd_Rek_1'=>$v->Kd_Rek_1,
+                                'StrNm'=>$v->StrNm,
+                                'TA'=>$v->TA
+                            ];
+            }
+            return response()->json(['status'=>1,
+                                    'per_page'=> $data->perPage(),
+                                    'current_page'=>$data->currentPage(),
+                                    'last_page'=>$data->lastPage(),
+                                    'total'=>$data->total(),
+                                    'data'=>$daftar_rek1],200); 
+        }
         
-    }
-    
+       
+    }     
+       
     /**
      * Display the specified resource.
      *
@@ -84,40 +87,18 @@ class StrukturController extends Controller {
      */
     public function show($id)
     {
-         
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-   
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
- 
-    }
-
-     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request,$id)
-    {       
-          
-    }
+        $data = RekeningStrukturModel::where('StrID',$id)
+                                    ->first();
+        $daftar_rek1=[];
+        if (!is_null($data) )  
+        {
+            $daftar_rek1=['StrID'=>$data->StrID,
+                            'Kd_Rek_1'=>$data->Kd_Rek_1,
+                            'StrNm'=>$data->StrNm,
+                            'TA'=>$data->TA
+                        ];
+        }
+        return response()->json(['status'=>1,                                    
+                                'data'=>$daftar_rek1],200); 
+    }   
 }

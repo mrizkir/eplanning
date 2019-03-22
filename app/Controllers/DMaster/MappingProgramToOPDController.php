@@ -428,6 +428,7 @@ class MappingProgramToOPDController extends Controller {
         return $data;
 
     }
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -478,7 +479,7 @@ class MappingProgramToOPDController extends Controller {
             'OrgID'=>'required',
         ]);
         $orgid=$request->input('OrgID');
-        $prgid=$request->input('chkprgid');
+        $prgid=$request->exists('chkprgid')?$request->input('chkprgid'):[];
         
         if (count($prgid) > 0)
         {
@@ -487,19 +488,26 @@ class MappingProgramToOPDController extends Controller {
             {
                 $data[] = ['orgProgramID'=>uniqid ('uid'),'OrgID'=>$orgid,'PrgID'=>$v,'Descr'=>'-','TA'=>config('globalsettings.tahun_perencanaan'),'created_at'=>$now,'updated_at'=>$now];
             }
-            MappingProgramToOPDModel::insert($data);
-        }
+            MappingProgramToOPDModel::insert($data);        
         
-        if ($request->ajax()) 
-        {
-            return response()->json([
-                'success'=>true,
-                'message'=>'Data ini telah berhasil disimpan.'
-            ]);
+            if ($request->ajax()) 
+            {
+                return response()->json([
+                    'success'=>true,
+                    'message'=>'Data ini telah berhasil disimpan.'
+                ]);
+            }
+            else
+            {
+                return redirect(route('mappingprogramtoopd.index'))->with('success','Data ini telah berhasil disimpan.');
+            }
         }
         else
-        {
-            return redirect(route('mappingprogramtoopd.index'))->with('success','Data ini telah berhasil disimpan.');
+        {            
+            $theme = \Auth::user()->theme;
+            return view("pages.$theme.dmaster.mappingprogramtoopd.error")->with(['page_active'=>'mappingprogramtoopd',
+                                                                                'errormessage'=>'Gagal melakukan mapping program ke OPD karena program tidak dipilih.'
+                                                                            ]);  
         }
 
     }
