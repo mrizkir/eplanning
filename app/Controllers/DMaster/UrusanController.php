@@ -117,7 +117,12 @@ class UrusanController extends Controller {
         }
         $this->putControllerStateSession('urusan','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
-        $data=$this->populateData();
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('urusan'); 
+        $data = $this->populateData($currentpage);
+        if ($currentpage > $data->lastPage())
+        {            
+            $data = $this->populateData($data->lastPage());
+        }
 
         $datatable = view("pages.$theme.dmaster.urusan.datatable")->with(['page_active'=>'urusan',
                                                             'search'=>$this->getControllerStateSession('urusan','search'),

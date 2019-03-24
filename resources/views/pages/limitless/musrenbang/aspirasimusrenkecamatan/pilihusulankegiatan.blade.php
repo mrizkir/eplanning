@@ -188,6 +188,31 @@ $(document).ready(function () {
             },
         });
     });
+    $(document).on('click','.column-sort2',function(ev) {
+        ev.preventDefault();
+        var column_name=$(this).attr('id');        
+        var orderby=$(this).data('order');
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/orderbypilihusulankegiatan',
+            dataType: 'json',
+            data: {                
+                "_token": token,                
+                "column_name":column_name,
+                "orderby": orderby,
+            },
+            success:function(result)
+            {          
+                $('#divdatatable').html(result.datatable);   
+                $(".switch").bootstrapSwitch();                          
+            },
+            error:function(xhr, status, error)
+            {
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    });
     $(document).on('change','#PmDesaID',function(ev) {
         ev.preventDefault();   
         $.ajax({

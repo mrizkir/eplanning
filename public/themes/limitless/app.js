@@ -100,29 +100,29 @@ function paginateTableData (selector,href)
      var column_name=a.attr('id');        
      var orderby=a.data('order');
      $.ajax({
-         type:'post',
-         url: url_current_page +'/orderby',
-         dataType: 'json',
-         data: {                
-             "_token": token,                
-             "column_name":column_name,
-             "orderby": orderby,
-         },
-         success:function(result)
-         {          
-             $(selector).html(result.datatable);  
-             if ($(selector + ' *').hasClass('select')) {
-                 //styling select                    
-                 $('.select').select2({
-                     allowClear:true
-                 });
-             }           
-         },
-         error:function(xhr, status, error)
-         {
-             console.log('ERROR');
-             console.log(parseMessageAjaxEror(xhr, status, error));                           
-         },
+        type:'post',
+        url: url_current_page +'/orderby',
+        dataType: 'json',
+        data: {                
+            "_token": token,                
+            "column_name":column_name,
+            "orderby": orderby,
+        },
+        success:function(result)
+        {          
+            $(selector).html(result.datatable);  
+            if ($(selector + ' *').hasClass('select')) {
+                //styling select                    
+                $('.select').select2({
+                    allowClear:true
+                });
+            }           
+        },
+        error:function(xhr, status, error)
+        {
+            console.log('ERROR');
+            console.log(parseMessageAjaxEror(xhr, status, error));                           
+        },
      });
  }    
 

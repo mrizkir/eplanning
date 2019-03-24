@@ -31,9 +31,10 @@ class AspirasiMusrenKecamatanController extends Controller {
     public function populateData ($currentpage=1) 
     {        
         $columns=['trUsulanKec.UsulanKecID','trUsulanKec.No_usulan','tmPmDesa.Nm_Desa','tmPmKecamatan.Nm_Kecamatan','trUsulanKec.NamaKegiatan','trUsulanKec.Output','trUsulanKec.NilaiUsulan','trUsulanKec.Target_Angka','trUsulanKec.Target_Uraian','trUsulanKec.Jeniskeg','trUsulanKec.Prioritas'];              
+        
         if (!$this->checkStateIsExistSession('aspirasimusrenkecamatan','orderby')) 
         {            
-           $this->putControllerStateSession('aspirasimusrenkecamatan','orderby',['column_name'=>'PmKecamatanID','order'=>'asc']);
+           $this->putControllerStateSession('aspirasimusrenkecamatan','orderby',['column_name'=>'trUsulanKec.No_usulan','order'=>'asc']);
         }
         $column_order=$this->getControllerStateSession('aspirasimusrenkecamatan.orderby','column_name'); 
         $direction=$this->getControllerStateSession('aspirasimusrenkecamatan.orderby','order'); 
@@ -124,34 +125,82 @@ class AspirasiMusrenKecamatanController extends Controller {
         switch($column) 
         {
             case 'col-No_usulan' :
-                $column_name = 'No_usulan';
+                $column_name = 'trUsulanKec.No_usulan';
             break;
             case 'col-Nm_Desa' :
-                $column_name = 'Nm_Desa';
+                $column_name = 'tmPmDesa.Nm_Desa';
             break;
             case 'col-Nm_Kecamatan' :
-                $column_name = 'Nm_Kecamatan';
+                $column_name = 'tmPmKecamatan.Nm_Kecamatan';
             break;
             case 'col-NamaKegiatan' :
-                $column_name = 'NamaKegiatan';
+                $column_name = 'trUsulanKec.NamaKegiatan';
             break;
             case 'col-NilaiUsulan' :
-                $column_name = 'NilaiUsulan';
+                $column_name = 'trUsulanKec.NilaiUsulan';
             break;        
             default :
-                $column_name = 'No_usulan';
+                $column_name = 'trUsulanKec.No_usulan';
         }
-        $this->putControllerStateSession('aspirasimusrenkecamatan','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
+        $this->putControllerStateSession('aspirasimusrenkecamatan','orderby',['column_name'=>$column_name,'order'=>$orderby]);     
 
-        $data=$this->populateData();
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('aspirasimusrenkecamatan'); 
+        $data = $this->populateData($currentpage);
+        if ($currentpage > $data->lastPage())
+        {            
+            $data = $this->populateData($data->lastPage());
+        }
 
         $datatable = view("pages.$theme.musrenbang.aspirasimusrenkecamatan.datatable")->with(['page_active'=>'aspirasimusrenkecamatan',
-                                                            'search'=>$this->getControllerStateSession('aspirasimusrenkecamatan','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('aspirasimusrenkecamatan.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('aspirasimusrenkecamatan.orderby','order'),
-                                                            'data'=>$data])->render();     
+                                                                                                'search'=>$this->getControllerStateSession('aspirasimusrenkecamatan','search'),
+                                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                                'column_order'=>$this->getControllerStateSession('aspirasimusrenkecamatan.orderby','column_name'),
+                                                                                                'direction'=>$this->getControllerStateSession('aspirasimusrenkecamatan.orderby','order'),
+                                                                                                'data'=>$data])->render();     
+             
+        return response()->json(['success'=>true,'datatable'=>$datatable],200);
+    }
+    /**
+     * digunakan untuk mengurutkan record 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function orderbypilihusulankegiatan (Request $request) 
+    {
+        $theme = \Auth::user()->theme;
 
+        $orderby = $request->input('orderbypilihusulankegiatan') == 'asc'?'desc':'asc';
+        $column=$request->input('column_name');
+        switch($column) 
+        {       
+            case 'col-NamaKegiatan' :
+                $column_name = 'trUsulanDesa.NamaKegiatan';
+            break;
+            case 'col-NilaiUsulan' :
+                $column_name = 'trUsulanDesa.NilaiUsulan';
+            break;   
+            case 'col-Prioritas' :
+                $column_name = 'trUsulanDesa.Prioritas';
+            break;       
+            default :
+                $column_name = 'trUsulanDesa.No_usulan';
+        }
+        $this->putControllerStateSession('aspirasimusrenkecamatan','orderbypilihusulankegiatan',['column_name'=>$column_name,'order'=>$orderby]);     
+
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('aspirasimusrenkecamatan'); 
+        $data = $this->populateDataUsulanKegiatan($currentpage);
+        if ($currentpage > $data->lastPage())
+        {            
+            $data = $this->populateDataUsulanKegiatan($data->lastPage());
+        }
+
+        $datatable = view("pages.$theme.musrenbang.aspirasimusrenkecamatan.datatablepilihusulankegiatan")->with(['page_active'=>'aspirasimusrenkecamatan',
+                                                                                                        'search'=>$this->getControllerStateSession('aspirasimusrenkecamatan','search'),
+                                                                                                        'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                                        'column_order'=>$this->getControllerStateSession('aspirasimusrenkecamatan.orderbypilihusulankegiatan','column_name'),
+                                                                                                        'direction'=>$this->getControllerStateSession('aspirasimusrenkecamatan.orderbypilihusulankegiatan','order'),
+                                                                                                        'data'=>$data])->render();     
+             
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
     }
     /**
@@ -167,11 +216,11 @@ class AspirasiMusrenKecamatanController extends Controller {
         $this->setCurrentPageInsideSession('aspirasimusrenkecamatan',$id);
         $data=$this->populateData($id);
         $datatable = view("pages.$theme.musrenbang.aspirasimusrenkecamatan.datatable")->with(['page_active'=>'aspirasimusrenkecamatan',
-                                                                            'search'=>$this->getControllerStateSession('aspirasimusrenkecamatan','search'),
-                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                            'column_order'=>$this->getControllerStateSession('aspirasimusrenkecamatan.orderby','column_name'),
-                                                                            'direction'=>$this->getControllerStateSession('aspirasimusrenkecamatan.orderby','order'),
-                                                                            'data'=>$data])->render(); 
+                                                                                            'search'=>$this->getControllerStateSession('aspirasimusrenkecamatan','search'),
+                                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                            'column_order'=>$this->getControllerStateSession('aspirasimusrenkecamatan.orderby','column_name'),
+                                                                                            'direction'=>$this->getControllerStateSession('aspirasimusrenkecamatan.orderby','order'),
+                                                                                            'data'=>$data])->render(); 
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
     }
@@ -311,12 +360,12 @@ class AspirasiMusrenKecamatanController extends Controller {
     public function populateDataUsulanKegiatan ($currentpage=1) 
     {        
         $columns=['trUsulanDesa.UsulanDesaID','trUsulanDesa.No_usulan','trUsulanDesa.NamaKegiatan','trUsulanDesa.Output','trUsulanDesa.NilaiUsulan','trUsulanDesa.Target_Angka','trUsulanDesa.Target_Uraian','trUsulanDesa.Jeniskeg','trUsulanDesa.Prioritas','trUsulanDesa.Bobot'];       
-        if (!$this->checkStateIsExistSession('aspirasimusrenkecamatan','orderby')) 
+        if (!$this->checkStateIsExistSession('aspirasimusrenkecamatan','orderbypilihusulankegiatan')) 
         {            
-           $this->putControllerStateSession('aspirasimusrenkecamatan','orderby',['column_name'=>'No_usulan','order'=>'asc']);
+           $this->putControllerStateSession('aspirasimusrenkecamatan','orderbypilihusulankegiatan',['column_name'=>'No_usulan','order'=>'asc']);
         }
-        $column_order=$this->getControllerStateSession('aspirasimusrenkecamatan.orderby','column_name'); 
-        $direction=$this->getControllerStateSession('aspirasimusrenkecamatan.orderby','order'); 
+        $column_order=$this->getControllerStateSession('aspirasimusrenkecamatan.orderbypilihusulankegiatan','column_name'); 
+        $direction=$this->getControllerStateSession('aspirasimusrenkecamatan.orderbypilihusulankegiatan','order'); 
         
         if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
         {            
@@ -377,11 +426,17 @@ class AspirasiMusrenKecamatanController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function pilihusulankegiatan()
+    public function pilihusulankegiatan(Request $request)
     {        
-        $theme = \Auth::user()->theme;
-                
-        $data = $this->populateDataUsulanKegiatan();
+        $theme = \Auth::user()->theme;       
+        
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('aspirasimusrenkecamatan'); 
+        $data = $this->populateDataUsulanKegiatan($currentpage);
+        if ($currentpage > $data->lastPage())
+        {            
+            $data = $this->populateDataUsulanKegiatan($data->lastPage());
+        }
+        $this->setCurrentPageInsideSession('aspirasimusrenkecamatan',$data->currentPage());
 
         $filters=$this->getControllerStateSession('aspirasimusrenkecamatan','filters');   
         
@@ -397,8 +452,8 @@ class AspirasiMusrenKecamatanController extends Controller {
                                                                                                 'daftar_kecamatan'=>$daftar_kecamatan,
                                                                                                 'daftar_desa'=>$daftar_desa,
                                                                                                 'daftar_urusan'=>$daftar_urusan,
-                                                                                                'column_order'=>$this->getControllerStateSession('aspirasimusrenkecamatan.orderby','column_name'),
-                                                                                                'direction'=>$this->getControllerStateSession('aspirasimusrenkecamatan.orderby','order'),
+                                                                                                'column_order'=>$this->getControllerStateSession('aspirasimusrenkecamatan.orderbypilihusulankegiatan','column_name'),
+                                                                                                'direction'=>$this->getControllerStateSession('aspirasimusrenkecamatan.orderbypilihusulankegiatan','order'),
                                                                                                 'data'=>$data
                                                                                                 ]);  
     }    
@@ -408,9 +463,9 @@ class AspirasiMusrenKecamatanController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {   
-       
+    {          
         $theme = \Auth::user()->theme;
+
         $sumber_dana = SumberDanaModel::getDaftarSumberDana(config('globalsettings.tahun_perencanaan'),false);
         $filters=$this->getControllerStateSession('aspirasimusrenkecamatan','filters');   
         $daftar_kecamatan=KecamatanModel::getDaftarKecamatan(config('globalsettings.tahun_perencanaan'),false);

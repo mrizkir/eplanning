@@ -9,7 +9,7 @@
         </div>
         <div class="heading-elements">
             <div class="heading-btn">
-                <a href="{!!route('renjaopd.create')!!}" class="btn btn-info btn-xs" title="Tambah RENJAOPD">
+                <a href="{!!route('usulanprarenjaopd.create')!!}" class="btn btn-info btn-xs" title="Tambah USULANPRARENJAOPD">
                     <i class="icon-googleplus5"></i>
                 </a>
             </div>            
@@ -39,17 +39,17 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('renjaopd.show',['id'=>$item->renjaopd_id])}}" title="Detail Data RenjaOPD">
+                                <a class="btnShow" href="{{route('usulanprarenjaopd.show',['id'=>$item->usulanprarenjaopd_id])}}" title="Detail Data UsulanPraRenjaOPD">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('renjaopd.edit',['id'=>$item->renjaopd_id])}}" title="Ubah Data RenjaOPD">
+                                <a class="btnEdit" href="{{route('usulanprarenjaopd.edit',['id'=>$item->usulanprarenjaopd_id])}}" title="Ubah Data UsulanPraRenjaOPD">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data RenjaOPD" data-id="{{$item->renjaopd_id}}" data-url="{{route('renjaopd.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data UsulanPraRenjaOPD" data-id="{{$item->usulanprarenjaopd_id}}" data-url="{{route('usulanprarenjaopd.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>

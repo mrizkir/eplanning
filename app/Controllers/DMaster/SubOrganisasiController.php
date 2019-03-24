@@ -117,8 +117,12 @@ class SubOrganisasiController extends Controller {
                 $column_name = 'kode_suborganisasi';
         }
         $this->putControllerStateSession('suborganisasi','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
-
-        $data=$this->populateData();
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('suborganisasi'); 
+        $data = $this->populateData($currentpage);
+        if ($currentpage > $data->lastPage())
+        {            
+            $data = $this->populateData($data->lastPage());
+        }
 
         $datatable = view("pages.$theme.dmaster.suborganisasi.datatable")->with(['page_active'=>'suborganisasi',
                                                             'search'=>$this->getControllerStateSession('suborganisasi','search'),

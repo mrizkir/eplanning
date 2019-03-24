@@ -102,17 +102,24 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::get('/aspirasi/aspirasimusrenkecamatan/paginate/{id}',['uses'=>'Musrenbang\AspirasiMusrenKecamatanController@paginate','as'=>'aspirasimusrenkecamatan.paginate']);                  
     Route::post('/aspirasi/aspirasimusrenkecamatan/changenumberrecordperpage',['uses'=>'Musrenbang\AspirasiMusrenKecamatanController@changenumberrecordperpage','as'=>'aspirasimusrenkecamatan.changenumberrecordperpage']);  
     Route::post('/aspirasi/aspirasimusrenkecamatan/orderby',['uses'=>'Musrenbang\AspirasiMusrenKecamatanController@orderby','as'=>'aspirasimusrenkecamatan.orderby']);  
-
-
+    Route::post('/aspirasi/aspirasimusrenkecamatan/orderbypilihusulankegiatan',['uses'=>'Musrenbang\AspirasiMusrenKecamatanController@orderbypilihusulankegiatan','as'=>'aspirasimusrenkecamatan.orderbypilihusulankegiatan']);  
+    
     //Musrenbang - Pembahasan Musrenbang Kecamatan [pembahasan]
     Route::resource('/pembahasan/pembahasanmusrenkecamatan','Musrenbang\PembahasanMusrenKecamatanController',['parameters'=>['pembahasanmusrenkecamatan'=>'uuid'],
-                                                                                                    'only'=>['index','show','update']]); 
+                                                                                                              'only'=>['index','show','update']]); 
     Route::post('/pembahasan/pembahasanmusrenkecamatan/search',['uses'=>'Musrenbang\PembahasanMusrenKecamatanController@search','as'=>'pembahasanmusrenkecamatan.search']);  
     Route::post('/pembahasan/pembahasanmusrenkecamatan/filter',['uses'=>'Musrenbang\PembahasanMusrenKecamatanController@filter','as'=>'pembahasanmusrenkecamatan.filter']);              
     Route::get('/pembahasan/pembahasanmusrenkecamatan/paginate/{id}',['uses'=>'Musrenbang\PembahasanMusrenKecamatanController@paginate','as'=>'pembahasanmusrenkecamatan.paginate']);              
     Route::post('/pembahasan/pembahasanmusrenkecamatan/changenumberrecordperpage',['uses'=>'Musrenbang\PembahasanMusrenKecamatanController@changenumberrecordperpage','as'=>'pembahasanmusrenkecamatan.changenumberrecordperpage']);  
     Route::post('/pembahasan/pembahasanmusrenkecamatan/orderby',['uses'=>'Musrenbang\PembahasanMusrenKecamatanController@orderby','as'=>'pembahasanmusrenkecamatan.orderby']);  
 
+    //Rencana Kerja - Usulan Pra Renja OPD/SKPD [aspirasi]
+    Route::resource('/aspirasi/usulanprarenjaopd','RencanaKerja\UsulanPraRenjaOPDController',['parameters'=>['usulanprarenjaopd'=>'uuid']]);        
+    Route::post('/aspirasi/usulanprarenjaopd/search',['uses'=>'RencanaKerja\UsulanPraRenjaOPDController@search','as'=>'usulanprarenjaopd.search']);  
+    Route::post('/aspirasi/usulanprarenjaopd/filter',['uses'=>'RencanaKerja\UsulanPraRenjaOPDController@filter','as'=>'usulanprarenjaopd.filter']);                  
+    Route::get('/aspirasi/usulanprarenjaopd/paginate/{id}',['uses'=>'RencanaKerja\UsulanPraRenjaOPDController@paginate','as'=>'usulanprarenjaopd.paginate']);              
+    Route::post('/aspirasi/usulanprarenjaopd/changenumberrecordperpage',['uses'=>'AspirasiRencanaKerja\UsulanPraRenjaOPDController@changenumberrecordperpage','as'=>'usulanprarenjaopd.changenumberrecordperpage']);  
+    Route::post('/aspirasi/usulanprarenjaopd/orderby',['uses'=>'RencanaKerja\UsulanPraRenjaOPDController@orderby','as'=>'usulanprarenjaopd.orderby']);
 
     //setting - permissions    
     Route::resource('/setting/permissions','Setting\PermissionsController',[

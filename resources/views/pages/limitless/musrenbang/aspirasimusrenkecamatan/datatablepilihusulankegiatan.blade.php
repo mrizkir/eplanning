@@ -12,6 +12,9 @@
                 <a href="{!!route('aspirasimusrenkecamatan.create')!!}" class="btn btn-info btn-xs" title="Tambah Usulan Kegiatan">
                     <i class="icon-googleplus5"></i>
                 </a>
+                <a href="{!!route('aspirasimusrenkecamatan.index')!!}" class="btn btn-default btn-xs" title="keluar">
+                    <i class="icon-close2"></i>
+                </a>  
             </div>            
         </div>
     </div>
@@ -21,12 +24,12 @@
             <thead>
                 <tr class="bg-teal-700">
                     <th width="55">
-                        <a class="column-sort text-white" id="col-No_usulan" data-order="{{$direction}}" href="#">
+                        <a class="column-sort2 text-white" id="col-No_usulan" data-order="{{$direction}}" href="#">
                             KODE  
                         </a>                                             
                     </th>                     
                     <th>
-                        <a class="column-sort text-white" id="col-NamaKegiatan" data-order="{{$direction}}" href="#">
+                        <a class="column-sort2 text-white" id="col-NamaKegiatan" data-order="{{$direction}}" href="#">
                             NAMA KEGIATAN  
                         </a>                                             
                     </th> 
@@ -34,15 +37,17 @@
                         OUTPUT                        
                     </th> 
                     <th width="120">
-                        <a class="column-sort text-white" id="col-NilaiUsulan" data-order="{{$direction}}" href="#">
+                        <a class="column-sort2 text-white" id="col-NilaiUsulan" data-order="{{$direction}}" href="#">
                             NILAI
                         </a>                                             
                     </th> 
                     <th width="150">                        
                         VOLUME                        
                     </th> 
-                    <th width="100">                        
-                        PRIORITAS                     
+                    <th width="100">                 
+                        <a class="column-sort2 text-white" id="col-Prioritas" data-order="{{$direction}}" href="#">
+                            PRIORITAS                     
+                        </a>
                     </th>                   
                     <th width="100">AKSI</th>
                 </tr>

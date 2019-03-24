@@ -26,10 +26,10 @@ class PembahasanMusrenDesaController extends Controller {
      */
     public function populateData ($currentpage=1) 
     {        
-        $columns=['UsulanDesaID','No_usulan','NamaKegiatan','Output','NilaiUsulan','Target_Angka','Target_Uraian','Jeniskeg','Prioritas','Bobot','Privilege'];       
+        $columns=['trUsulanDesa.UsulanDesaID','trUsulanDesa.No_usulan','trUsulanDesa.NamaKegiatan','trUsulanDesa.Output','trUsulanDesa.NilaiUsulan','trUsulanDesa.Target_Angka','trUsulanDesa.Target_Uraian','trUsulanDesa.Jeniskeg','trUsulanDesa.Prioritas','trUsulanDesa.Bobot','trUsulanDesa.Privilege'];       
         if (!$this->checkStateIsExistSession('pembahasanmusrendesa','orderby')) 
         {            
-           $this->putControllerStateSession('pembahasanmusrendesa','orderby',['column_name'=>'PmDesaID','order'=>'asc']);
+           $this->putControllerStateSession('pembahasanmusrendesa','orderby',['column_name'=>'tmPmDesa.Nm_Desa','order'=>'asc']);
         }
         $column_order=$this->getControllerStateSession('pembahasanmusrendesa.orderby','column_name'); 
         $direction=$this->getControllerStateSession('pembahasanmusrendesa.orderby','order'); 
@@ -53,15 +53,19 @@ class PembahasanMusrenDesaController extends Controller {
             switch ($search['kriteria']) 
             {
                 case 'No_usulan' :                    
-                    $data = AspirasiMusrenDesaModel::where('trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
-                                                    ->where('PmDesaID',$filter_desa)
-                                                    ->where(['No_usulan'=>(int)$search['isikriteria']])
+                    $data = AspirasiMusrenDesaModel::join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanDesa.PmDesaID')
+                                                    ->join('tmPmKecamatan','tmPmDesa.PmKecamatanID','tmPmKecamatan.PmKecamatanID')
+                                                    ->where('trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
+                                                    ->where('trUsulanDesa.PmDesaID',$filter_desa)
+                                                    ->where(['trUsulanDesa.No_usulan'=>(int)$search['isikriteria']])
                                                     ->orderBy($column_order,$direction);
                 break;
                 case 'NamaKegiatan' :
-                    $data = AspirasiMusrenDesaModel::where('trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
-                                                    ->where('PmDesaID',$filter_desa)
-                                                    ->where('NamaKegiatan', 'like', '%' . $search['isikriteria'] . '%')
+                    $data = AspirasiMusrenDesaModel::join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanDesa.PmDesaID')
+                                                    ->join('tmPmKecamatan','tmPmDesa.PmKecamatanID','tmPmKecamatan.PmKecamatanID')
+                                                    ->where('trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
+                                                    ->where('trUsulanDesa.PmDesaID',$filter_desa)
+                                                    ->where('trUsulanDesa.NamaKegiatan', 'like', '%' . $search['isikriteria'] . '%')
                                                     ->orderBy($column_order,$direction);                                        
             break;
             }           
@@ -69,8 +73,10 @@ class PembahasanMusrenDesaController extends Controller {
         }
         else
         {
-            $data = AspirasiMusrenDesaModel::where('TA', config('globalsettings.tahun_perencanaan'))
-                                            ->where('PmDesaID',$filter_desa)
+            $data = AspirasiMusrenDesaModel::join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanDesa.PmDesaID')
+                                            ->join('tmPmKecamatan','tmPmDesa.PmKecamatanID','tmPmKecamatan.PmKecamatanID')
+                                            ->where('trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
+                                            ->where('trUsulanDesa.PmDesaID',$filter_desa)
                                             ->orderBy($column_order,$direction)
                                             ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
@@ -115,26 +121,31 @@ class PembahasanMusrenDesaController extends Controller {
         switch($column) 
         {
             case 'col-No_usulan' :
-                $column_name = 'No_usulan';
+                $column_name = 'trUsulanDesa.No_usulan';
             break;
             case 'col-Nm_Desa' :
-                $column_name = 'Nm_Desa';
+                $column_name = 'tmPmDesa.Nm_Desa';
             break;
             case 'col-Nm_Kecamatan' :
-                $column_name = 'Nm_Kecamatan';
+                $column_name = 'tmPmKecamatan.Nm_Kecamatan';
             break;
             case 'col-NamaKegiatan' :
-                $column_name = 'NamaKegiatan';
+                $column_name = 'trUsulanDesa.NamaKegiatan';
             break;
             case 'col-NilaiUsulan' :
-                $column_name = 'NilaiUsulan';
+                $column_name = 'trUsulanDesa.NilaiUsulan';
             break;        
             default :
-                $column_name = 'No_usulan';
+                $column_name = 'trUsulanDesa.No_usulan';
         }
         $this->putControllerStateSession('pembahasanmusrendesa','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
-        $data=$this->populateData();
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('pembahasanmusrendesa'); 
+        $data = $this->populateData($currentpage);     
+        if ($currentpage > $data->lastPage())
+        {            
+            $data = $this->populateData($data->lastPage());
+        }
 
         $datatable = view("pages.$theme.musrenbang.pembahasanmusrendesa.datatable")->with(['page_active'=>'pembahasanmusrendesa',
                                                             'search'=>$this->getControllerStateSession('pembahasanmusrendesa','search'),

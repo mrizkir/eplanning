@@ -153,7 +153,12 @@
                                         <a href="{{route('aspirasimusrenkecamatan.index')}}" title="Aspirasi Musrenbang Kecamatan">
                                             <i class="icon-cube"></i>A. MUSRENBANG KECAMATAN
                                         </a>                                        
-                                    </li>                                    
+                                    </li>      
+                                    <li{!!Helper::isMenuActive ($page_active,'usulanprarenjaopd',' class="active"')!!}>
+                                        <a href="{{route('usulanprarenjaopd.index')}}" title="Usulan Pra Renja OPD/SKPD">
+                                            <i class="icon-cube"></i>U. PRA RENJA OPD/SKPD
+                                        </a>                                        
+                                    </li>                               
                                 </ul>
                             </div>
                             <div class="col-md-3">

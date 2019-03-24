@@ -119,7 +119,12 @@ class OrganisasiController extends Controller {
         }
         $this->putControllerStateSession('organisasi','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
-        $data=$this->populateData();
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('organisasi'); 
+        $data = $this->populateData($currentpage);
+        if ($currentpage > $data->lastPage())
+        {            
+            $data = $this->populateData($data->lastPage());
+        }
 
         $datatable = view("pages.$theme.dmaster.organisasi.datatable")->with(['page_active'=>'organisasi',
                                                             'search'=>$this->getControllerStateSession('organisasi','search'),

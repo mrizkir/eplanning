@@ -29,7 +29,7 @@ class AspirasiMusrenDesaController extends Controller {
         $columns=['UsulanDesaID','No_usulan','Nm_Desa','Nm_Kecamatan','NamaKegiatan','Output','NilaiUsulan','Target_Angka','Target_Uraian','Jeniskeg','Prioritas'];       
         if (!$this->checkStateIsExistSession('aspirasimusrendesa','orderby')) 
         {            
-           $this->putControllerStateSession('aspirasimusrendesa','orderby',['column_name'=>'tmPmDesa.PmDesaID','order'=>'asc']);
+           $this->putControllerStateSession('aspirasimusrendesa','orderby',['column_name'=>'tmPmDesa.Nm_Desa','order'=>'asc']);
         }
         $column_order=$this->getControllerStateSession('aspirasimusrendesa.orderby','column_name'); 
         $direction=$this->getControllerStateSession('aspirasimusrendesa.orderby','order'); 
@@ -109,26 +109,31 @@ class AspirasiMusrenDesaController extends Controller {
         switch($column) 
         {
             case 'col-No_usulan' :
-                $column_name = 'No_usulan';
+                $column_name = 'trUsulanDesa.No_usulan';
             break;
             case 'col-Nm_Desa' :
-                $column_name = 'Nm_Desa';
+                $column_name = 'tmPmDesa.Nm_Desa';
             break;
             case 'col-Nm_Kecamatan' :
-                $column_name = 'Nm_Kecamatan';
+                $column_name = 'tmPmKecamatan.Nm_Kecamatan';
             break;
             case 'col-NamaKegiatan' :
-                $column_name = 'NamaKegiatan';
+                $column_name = 'trUsulanDesa.NamaKegiatan';
             break;
             case 'col-NilaiUsulan' :
-                $column_name = 'NilaiUsulan';
+                $column_name = 'trUsulanDesa.NilaiUsulan';
             break;        
             default :
-                $column_name = 'No_usulan';
+                $column_name = 'trUsulanDesa.No_usulan';
         }
         $this->putControllerStateSession('aspirasimusrendesa','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
-        $data=$this->populateData();
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('aspirasimusrendesa'); 
+        $data = $this->populateData($currentpage);
+        if ($currentpage > $data->lastPage())
+        {            
+            $data = $this->populateData($data->lastPage());
+        }
 
         $datatable = view("pages.$theme.musrenbang.aspirasimusrendesa.datatable")->with(['page_active'=>'aspirasimusrendesa',
                                                             'search'=>$this->getControllerStateSession('aspirasimusrendesa','search'),
