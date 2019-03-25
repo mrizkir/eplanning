@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRekeningrincianobyekbelanjamodalTable extends Migration
+class CreateRekeningsubrincianobyekTable extends Migration
 {
     /**
      * Run the migrations.
@@ -16,8 +16,8 @@ class CreateRekeningrincianobyekbelanjamodalTable extends Migration
         Schema::create('tmSubROby', function (Blueprint $table) {
             $table->string('SubRObyID',19);   
             $table->string('RObyID',19);                     
-            $table->tinyInteger('Kd_Sub_Modal');
-            $table->string('Nm_Sub_Modal');
+            $table->tinyInteger('Kd_Sub');
+            $table->string('Nm_Sub');
             $table->string('DH');
             $table->string('Descr')->nullable();
             $table->year('TA');

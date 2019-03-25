@@ -4,33 +4,33 @@ namespace App\Models\DMaster;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RekeningRincianObyekBelanjaModalModel extends Model {
+class RekeningSubRincianObyekModel extends Model {
      /**
      * nama tabel model ini.
      *
      * @var string
      */
-    protected $table = 'rekeningrincianobyekbelanjamodal';
+    protected $table = 'tmSubROby';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'replace_it', 'replace_it'
+        'SubRObyID','RObyID', 'Kd_Sub', 'Nm_Sub', 'DH', 'Descr', 'TA'
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'rekeningrincianobyekbelanjamodal_id';
+    protected $primaryKey = 'SubRObyID';
     /**
      * enable auto_increment.
      *
      * @var string
      */
-    public $incrementing = true;
+    public $incrementing = false;
     /**
      * activated timestamps.
      *
@@ -43,11 +43,11 @@ class RekeningRincianObyekBelanjaModalModel extends Model {
      *
      * @var string
      */
-    // protected static $logName = 'RekeningRincianObyekBelanjaModalController';
+    protected static $logName = 'RekeningSubRincianObyekController';
     /**
      * log the changed attributes for all these events 
      */
-    // protected static $logAttributes = ['replace_it', 'replace_it'];
+    protected static $logAttributes = ['SubRObyID', 'Nm_Sub'];
     /**
      * log changes to all the $fillable attributes of the model
      */

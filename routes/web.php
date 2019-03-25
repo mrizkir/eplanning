@@ -118,7 +118,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/aspirasi/usulanprarenjaopd/search',['uses'=>'RencanaKerja\UsulanPraRenjaOPDController@search','as'=>'usulanprarenjaopd.search']);  
     Route::post('/aspirasi/usulanprarenjaopd/filter',['uses'=>'RencanaKerja\UsulanPraRenjaOPDController@filter','as'=>'usulanprarenjaopd.filter']);                  
     Route::get('/aspirasi/usulanprarenjaopd/paginate/{id}',['uses'=>'RencanaKerja\UsulanPraRenjaOPDController@paginate','as'=>'usulanprarenjaopd.paginate']);              
-    Route::post('/aspirasi/usulanprarenjaopd/changenumberrecordperpage',['uses'=>'AspirasiRencanaKerja\UsulanPraRenjaOPDController@changenumberrecordperpage','as'=>'usulanprarenjaopd.changenumberrecordperpage']);  
+    Route::post('/aspirasi/usulanprarenjaopd/changenumberrecordperpage',['uses'=>'RencanaKerja\UsulanPraRenjaOPDController@changenumberrecordperpage','as'=>'usulanprarenjaopd.changenumberrecordperpage']);  
     Route::post('/aspirasi/usulanprarenjaopd/orderby',['uses'=>'RencanaKerja\UsulanPraRenjaOPDController@orderby','as'=>'usulanprarenjaopd.orderby']);
 
     //setting - permissions    

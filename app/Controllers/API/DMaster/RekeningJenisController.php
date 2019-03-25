@@ -4,9 +4,9 @@ namespace App\Controllers\API\DMaster;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
-use App\Models\DMaster\RekeningStrukturModel;
+use App\Models\DMaster\RekeningJenisModel;
 
-class StrukturController extends Controller {
+class RekeningJenisController extends Controller {
      /**
      * Membuat sebuah objek
      *
@@ -25,7 +25,7 @@ class StrukturController extends Controller {
      */
     public function index(Request $request)
     {               
-        $columns=['StrID','Kd_Rek_1','StrNm','TA'];   
+        $columns=['JnsID','Kd_Rek_1','StrNm','Kd_Rek_2','KlpNm','Kd_Rek_3','JnsNm','tmJns.TA'];   
         $currentpage=1;
         if ($request->exists('page'))
         {
@@ -43,13 +43,21 @@ class StrukturController extends Controller {
         }
         if ($currentpage == 'all')
         {
-            $data=RekeningStrukturModel::all();
+            $data=RekeningJenisModel::join('tmKlp','tmKlp.KlpID','tmJns.KlpID')
+                                    ->join('tmStr','tmStr.StrID','tmKlp.StrID')
+                                    ->where('tmJns.TA',$ta)
+                                    ->orderBy('Kd_Rek_2','ASC')
+                                    ->get();
             $daftar_rek1 = []; 
             foreach ($data as $v)
             {
-                $daftar_rek1[]=['StrID'=>$v->StrID,
+                $daftar_rek1[]=['JnsID'=>$v->JnsID,
                                 'Kd_Rek_1'=>$v->Kd_Rek_1,
                                 'StrNm'=>$v->StrNm,
+                                'Kd_Rek_2'=>$v->Kd_Rek_2,
+                                'KlpNm'=>$v->KlpNm,
+                                'Kd_Rek_3'=>$v->Kd_Rek_2,
+                                'JnsNm'=>$v->JnsNm,
                                 'TA'=>$v->TA
                             ];
             }
@@ -58,13 +66,21 @@ class StrukturController extends Controller {
         }
         else
         {
-            $data = RekeningStrukturModel::where('TA',$ta)->orderBy('Kd_Rek_1','ASC')->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
+            $data = RekeningJenisModel::join('tmKlp','tmKlp.KlpID','tmJns.KlpID')
+                                        ->join('tmStr','tmStr.StrID','tmKlp.StrID')
+                                        ->where('tmJns.TA',$ta)
+                                        ->orderBy('Kd_Rek_2','ASC')
+                                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
             $daftar_rek1 = []; 
             foreach ($data as $v)
             {
-                $daftar_rek1[]=['StrID'=>$v->StrID,
+                $daftar_rek1[]=['JnsID'=>$v->JnsID,
                                 'Kd_Rek_1'=>$v->Kd_Rek_1,
                                 'StrNm'=>$v->StrNm,
+                                'Kd_Rek_2'=>$v->Kd_Rek_2,
+                                'KlpNm'=>$v->JnsNm,
+                                'Kd_Rek_3'=>$v->Kd_Rek_2,
+                                'JnsNm'=>$v->KlpNm,
                                 'TA'=>$v->TA
                             ];
             }
@@ -87,14 +103,20 @@ class StrukturController extends Controller {
      */
     public function show($id)
     {
-        $data = RekeningStrukturModel::where('StrID',$id)
+        $data = RekeningJenisModel::join('tmKlp','tmKlp.KlpID','tmJns.KlpID')
+                                    ->join('tmStr','tmStr.StrID','tmKlp.StrID')
+                                    ->where('KlpID',$id)
                                     ->first();
         $daftar_rek1=[];
         if (!is_null($data) )  
         {
-            $daftar_rek1=['StrID'=>$data->StrID,
-                            'Kd_Rek_1'=>$data->Kd_Rek_1,
-                            'StrNm'=>$data->StrNm,
+            $daftar_rek1=['JnsID'=>$data->JnsID,
+                            'Kd_Rek_1'=>$v->Kd_Rek_1,
+                            'StrNm'=>$v->StrNm,
+                            'Kd_Rek_2'=>$data->Kd_Rek_2,
+                            'KlpNm'=>$data->KlpNm,
+                            'Kd_Rek_3'=>$v->Kd_Rek_2,
+                            'JnsNm'=>$v->JnsNm,
                             'TA'=>$data->TA
                         ];
         }

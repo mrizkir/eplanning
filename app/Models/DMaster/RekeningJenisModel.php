@@ -10,27 +10,27 @@ class RekeningJenisModel extends Model {
      *
      * @var string
      */
-    protected $table = 'rekeningjenis';
+    protected $table = 'tmJns';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'replace_it', 'replace_it'
+        'JnsID', 'KlpID', 'Kd_Rek_3', 'JnsNm', 'DH', 'Descr', 'TA'
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'rekeningjenis_id';
+    protected $primaryKey = 'JnsID';
     /**
      * enable auto_increment.
      *
      * @var string
      */
-    public $incrementing = true;
+    public $incrementing = false;
     /**
      * activated timestamps.
      *
@@ -43,11 +43,11 @@ class RekeningJenisModel extends Model {
      *
      * @var string
      */
-    // protected static $logName = 'RekeningJenisController';
+    protected static $logName = 'RekeningJenisController';
     /**
      * log the changed attributes for all these events 
      */
-    // protected static $logAttributes = ['replace_it', 'replace_it'];
+    protected static $logAttributes = ['JnsID', 'JnsNm'];
     /**
      * log changes to all the $fillable attributes of the model
      */

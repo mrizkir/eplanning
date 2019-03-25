@@ -10,27 +10,27 @@ class RekeningRincianObyekModel extends Model {
      *
      * @var string
      */
-    protected $table = 'rekeningrincianobyek';
+    protected $table = 'tmROby';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'replace_it', 'replace_it'
+        'RObyID', 'ObyID', 'Kd_Rek_5', 'RObyNm', 'DH', 'Descr', 'TA'
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'rekeningrincianobyek_id';
+    protected $primaryKey = 'RObyID';
     /**
      * enable auto_increment.
      *
      * @var string
      */
-    public $incrementing = true;
+    public $incrementing = false;
     /**
      * activated timestamps.
      *
@@ -43,11 +43,11 @@ class RekeningRincianObyekModel extends Model {
      *
      * @var string
      */
-    // protected static $logName = 'RekeningRincianObyekController';
+    protected static $logName = 'RekeningRincianObyekController';
     /**
      * log the changed attributes for all these events 
      */
-    // protected static $logAttributes = ['replace_it', 'replace_it'];
+    protected static $logAttributes = ['RObyID', 'RObyNm'];
     /**
      * log changes to all the $fillable attributes of the model
      */

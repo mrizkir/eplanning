@@ -10,27 +10,27 @@ class RekeningKelompokModel extends Model {
      *
      * @var string
      */
-    protected $table = 'rekeningkelompok';
+    protected $table = 'tmKlp';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'replace_it', 'replace_it'
+        'KlpID', 'StrID','Kd_Rek_2','KlpNm','DH','Descr','TA'
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'rekeningkelompok_id';
+    protected $primaryKey = 'KlpID';
     /**
      * enable auto_increment.
      *
      * @var string
      */
-    public $incrementing = true;
+    public $incrementing = false;
     /**
      * activated timestamps.
      *
@@ -43,11 +43,11 @@ class RekeningKelompokModel extends Model {
      *
      * @var string
      */
-    // protected static $logName = 'RekeningKelompokController';
+    protected static $logName = 'RekeningKelompokController';
     /**
      * log the changed attributes for all these events 
      */
-    // protected static $logAttributes = ['replace_it', 'replace_it'];
+    protected static $logAttributes = ['KlpID', 'KlpNm'];
     /**
      * log changes to all the $fillable attributes of the model
      */
