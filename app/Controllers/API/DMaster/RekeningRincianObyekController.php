@@ -119,22 +119,22 @@ class RekeningRincianObyekController extends Controller {
                                     ->join('tmJns','tmJns.JnsID','tmOby.JnsID')
                                     ->join('tmKlp','tmKlp.KlpID','tmJns.KlpID')
                                     ->join('tmStr','tmStr.StrID','tmKlp.StrID')
-                                    ->where('KlpID',$id)
+                                    ->where('RObyID',$id)
                                     ->first();
         $daftar_rek1=[];
         if (!is_null($data) )  
         {
             $daftar_rek1=['RObyID'=>$data->RObyID,
-                            'Kd_Rek_1'=>$v->Kd_Rek_1,
-                            'StrNm'=>$v->StrNm,
+                            'Kd_Rek_1'=>$data->Kd_Rek_1,
+                            'StrNm'=>$data->StrNm,
                             'Kd_Rek_2'=>$data->Kd_Rek_2,
                             'KlpNm'=>$data->KlpNm,
-                            'Kd_Rek_3'=>$v->Kd_Rek_2,
-                            'JnsNm'=>$v->JnsNm,
-                            'Kd_Rek_4'=>$v->Kd_Rek_4,
-                            'ObyNm'=>$v->ObyNm,
-                            'Kd_Rek_5'=>$v->Kd_Rek_4,
-                            'RObyNm'=>$v->RObyNm,
+                            'Kd_Rek_3'=>$data->Kd_Rek_2,
+                            'JnsNm'=>$data->JnsNm,
+                            'Kd_Rek_4'=>$data->Kd_Rek_4,
+                            'ObyNm'=>$data->ObyNm,
+                            'Kd_Rek_5'=>$data->Kd_Rek_4,
+                            'RObyNm'=>$data->RObyNm,
                             'TA'=>$data->TA
                         ];
         }

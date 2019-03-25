@@ -112,20 +112,20 @@ class RekeningObyekController extends Controller {
         $data = RekeningObyekModel::join('tmJns','tmJns.JnsID','tmOby.JnsID')
                                     ->join('tmKlp','tmKlp.KlpID','tmJns.KlpID')
                                     ->join('tmStr','tmStr.StrID','tmKlp.StrID')
-                                    ->where('KlpID',$id)
+                                    ->where('ObyID',$id)
                                     ->first();
         $daftar_rek1=[];
         if (!is_null($data) )  
         {
             $daftar_rek1=['ObyID'=>$data->ObyID,
-                            'Kd_Rek_1'=>$v->Kd_Rek_1,
-                            'StrNm'=>$v->StrNm,
+                            'Kd_Rek_1'=>$data->Kd_Rek_1,
+                            'StrNm'=>$data->StrNm,
                             'Kd_Rek_2'=>$data->Kd_Rek_2,
                             'KlpNm'=>$data->KlpNm,
-                            'Kd_Rek_3'=>$v->Kd_Rek_2,
-                            'JnsNm'=>$v->JnsNm,
-                            'Kd_Rek_4'=>$v->Kd_Rek_4,
-                            'ObyNm'=>$v->ObyNm,
+                            'Kd_Rek_3'=>$data->Kd_Rek_2,
+                            'JnsNm'=>$data->JnsNm,
+                            'Kd_Rek_4'=>$data->Kd_Rek_4,
+                            'ObyNm'=>$data->ObyNm,
                             'TA'=>$data->TA
                         ];
         }

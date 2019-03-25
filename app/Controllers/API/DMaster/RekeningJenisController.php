@@ -105,18 +105,18 @@ class RekeningJenisController extends Controller {
     {
         $data = RekeningJenisModel::join('tmKlp','tmKlp.KlpID','tmJns.KlpID')
                                     ->join('tmStr','tmStr.StrID','tmKlp.StrID')
-                                    ->where('KlpID',$id)
+                                    ->where('tmJns.JnsID',$id)
                                     ->first();
         $daftar_rek1=[];
         if (!is_null($data) )  
         {
             $daftar_rek1=['JnsID'=>$data->JnsID,
-                            'Kd_Rek_1'=>$v->Kd_Rek_1,
-                            'StrNm'=>$v->StrNm,
+                            'Kd_Rek_1'=>$data->Kd_Rek_1,
+                            'StrNm'=>$data->StrNm,
                             'Kd_Rek_2'=>$data->Kd_Rek_2,
                             'KlpNm'=>$data->KlpNm,
-                            'Kd_Rek_3'=>$v->Kd_Rek_2,
-                            'JnsNm'=>$v->JnsNm,
+                            'Kd_Rek_3'=>$data->Kd_Rek_2,
+                            'JnsNm'=>$data->JnsNm,
                             'TA'=>$data->TA
                         ];
         }
