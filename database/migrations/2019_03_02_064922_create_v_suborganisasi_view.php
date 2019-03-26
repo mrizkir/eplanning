@@ -28,6 +28,7 @@ class CreateVSuborganisasiView extends Migration
                             END AS Kode_SubOrganisasi,
                             kelompok_urusan."Nm_Urusan",
                             urusan."Nm_Bidang",
+                            organisasi."OrgNm",
                             sub."SOrgNm",
                             sub."Alamat",
                             sub."NamaKepalaSKPD",

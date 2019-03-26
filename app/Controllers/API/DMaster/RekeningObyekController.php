@@ -49,10 +49,10 @@ class RekeningObyekController extends Controller {
                                     ->where('tmOby.TA',$ta)
                                     ->orderBy('Kd_Rek_2','ASC')
                                     ->get();
-            $daftar_rek1 = []; 
+            $daftar_rek4 = []; 
             foreach ($data as $v)
             {
-                $daftar_rek1[]=['ObyID'=>$v->ObyID,
+                $daftar_rek4[]=['ObyID'=>$v->ObyID,
                                 'Kd_Rek_1'=>$v->Kd_Rek_1,
                                 'StrNm'=>$v->StrNm,
                                 'Kd_Rek_2'=>$v->Kd_Rek_2,
@@ -65,7 +65,7 @@ class RekeningObyekController extends Controller {
                             ];
             }
             return response()->json(['status'=>1,
-                                    'data'=>$daftar_rek1],200); 
+                                    'data'=>$daftar_rek4],200); 
         }
         else
         {
@@ -75,10 +75,10 @@ class RekeningObyekController extends Controller {
                                         ->where('tmOby.TA',$ta)
                                         ->orderBy('Kd_Rek_2','ASC')
                                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
-            $daftar_rek1 = []; 
+            $daftar_rek4 = []; 
             foreach ($data as $v)
             {
-                $daftar_rek1[]=['ObyID'=>$v->ObyID,
+                $daftar_rek4[]=['ObyID'=>$v->ObyID,
                                 'Kd_Rek_1'=>$v->Kd_Rek_1,
                                 'StrNm'=>$v->StrNm,
                                 'Kd_Rek_2'=>$v->Kd_Rek_2,
@@ -95,7 +95,7 @@ class RekeningObyekController extends Controller {
                                     'current_page'=>$data->currentPage(),
                                     'last_page'=>$data->lastPage(),
                                     'total'=>$data->total(),
-                                    'data'=>$daftar_rek1],200); 
+                                    'data'=>$daftar_rek4],200); 
         }
         
        
@@ -114,10 +114,10 @@ class RekeningObyekController extends Controller {
                                     ->join('tmStr','tmStr.StrID','tmKlp.StrID')
                                     ->where('ObyID',$id)
                                     ->first();
-        $daftar_rek1=[];
+        $daftar_rek4=[];
         if (!is_null($data) )  
         {
-            $daftar_rek1=['ObyID'=>$data->ObyID,
+            $daftar_rek4=['ObyID'=>$data->ObyID,
                             'Kd_Rek_1'=>$data->Kd_Rek_1,
                             'StrNm'=>$data->StrNm,
                             'Kd_Rek_2'=>$data->Kd_Rek_2,
@@ -130,6 +130,6 @@ class RekeningObyekController extends Controller {
                         ];
         }
         return response()->json(['status'=>1,                                    
-                                'data'=>$daftar_rek1],200); 
+                                'data'=>$daftar_rek4],200); 
     }   
 }

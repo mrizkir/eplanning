@@ -51,10 +51,10 @@ class RekeningSubRincianObyekController extends Controller {
                                                 ->where('tmSubROby.TA',$ta)
                                                 ->orderBy('Kd_Rek_2','ASC')
                                                 ->get();
-            $daftar_rek1 = []; 
+            $daftar_rek6 = []; 
             foreach ($data as $v)
             {
-                $daftar_rek1[]=['SubRObyID'=>$v->SubRObyID,
+                $daftar_rek6[]=['SubRObyID'=>$v->SubRObyID,
                                 'Kd_Rek_1'=>$v->Kd_Rek_1,
                                 'StrNm'=>$v->StrNm,
                                 'Kd_Rek_2'=>$v->Kd_Rek_2,
@@ -71,7 +71,7 @@ class RekeningSubRincianObyekController extends Controller {
                             ];
             }
             return response()->json(['status'=>1,
-                                    'data'=>$daftar_rek1],200); 
+                                    'data'=>$daftar_rek6],200); 
         }
         else
         {
@@ -83,10 +83,10 @@ class RekeningSubRincianObyekController extends Controller {
                                         ->where('tmSubROby.TA',$ta)
                                         ->orderBy('Kd_Rek_2','ASC')
                                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
-            $daftar_rek1 = []; 
+            $daftar_rek6 = []; 
             foreach ($data as $v)
             {
-                $daftar_rek1[]=['SubRObyID'=>$v->SubRObyID,
+                $daftar_rek6[]=['SubRObyID'=>$v->SubRObyID,
                                 'Kd_Rek_1'=>$v->Kd_Rek_1,
                                 'StrNm'=>$v->StrNm,
                                 'Kd_Rek_2'=>$v->Kd_Rek_2,
@@ -107,7 +107,7 @@ class RekeningSubRincianObyekController extends Controller {
                                     'current_page'=>$data->currentPage(),
                                     'last_page'=>$data->lastPage(),
                                     'total'=>$data->total(),
-                                    'data'=>$daftar_rek1],200); 
+                                    'data'=>$daftar_rek6],200); 
         }
         
        
@@ -128,10 +128,10 @@ class RekeningSubRincianObyekController extends Controller {
                                     ->join('tmStr','tmStr.StrID','tmKlp.StrID')
                                     ->where('SubRObyID',$id)
                                     ->first();
-        $daftar_rek1=[];
+        $daftar_rek6=[];
         if (!is_null($data) )  
         {
-            $daftar_rek1=['SubRObyID'=>$data->SubRObyID,
+            $daftar_rek6=['SubRObyID'=>$data->SubRObyID,
                             'Kd_Rek_1'=>$data->Kd_Rek_1,
                             'StrNm'=>$data->StrNm,
                             'Kd_Rek_2'=>$data->Kd_Rek_2,
@@ -148,6 +148,6 @@ class RekeningSubRincianObyekController extends Controller {
                         ];
         }
         return response()->json(['status'=>1,                                    
-                                'data'=>$daftar_rek1],200); 
+                                'data'=>$daftar_rek6],200); 
     }   
 }

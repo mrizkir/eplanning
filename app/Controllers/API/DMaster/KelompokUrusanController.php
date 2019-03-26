@@ -4,9 +4,9 @@ namespace App\Controllers\API\DMaster;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
-use App\Models\DMaster\RekeningKelompokModel;
+use App\Models\DMaster\KelompokUrusanModel;
 
-class RekeningKelompokController extends Controller {
+class KelompokUrusanController extends Controller {
      /**
      * Membuat sebuah objek
      *
@@ -25,7 +25,7 @@ class RekeningKelompokController extends Controller {
      */
     public function index(Request $request)
     {               
-        $columns=['KlpID','Kd_Rek_1','StrNm','Kd_Rek_2','KlpNm','tmKlp.TA'];   
+        $columns=['KUrsID','Kd_Urusan','Nm_Urusan','TA'];   
         $currentpage=1;
         if ($request->exists('page'))
         {
@@ -43,47 +43,41 @@ class RekeningKelompokController extends Controller {
         }
         if ($currentpage == 'all')
         {
-            $data=RekeningKelompokModel::join('tmStr','tmStr.StrID','tmKlp.StrID')
-                                        ->where('tmKlp.TA',$ta)
-                                        ->orderBy('Kd_Rek_2','ASC')
+            $data=KelompokUrusanModel::where('TA',$ta)
+                                        ->orderBy('Kd_Urusan','ASC')
                                         ->get();
-            $daftar_rek2 = []; 
+            $daftar_urusan = []; 
             foreach ($data as $v)
             {
-                $daftar_rek2[]=['KlpID'=>$v->KlpID,
-                                'Kd_Rek_1'=>$v->Kd_Rek_1,
-                                'StrNm'=>$v->StrNm,
-                                'Kd_Rek_2'=>$v->Kd_Rek_2,
-                                'KlpNm'=>$v->KlpNm,
+                $daftar_urusan[]=['KUrsID'=>$v->KUrsID,
+                                'Kd_Urusan'=>$v->Kd_Urusan,
+                                'Nm_Urusan'=>$v->Nm_Urusan,                                
                                 'TA'=>$v->TA
                             ];
             }
             return response()->json(['status'=>1,
-                                    'data'=>$daftar_rek2],200); 
+                                    'data'=>$daftar_urusan],200); 
         }
         else
         {
-            $data = RekeningKelompokModel::join('tmStr','tmStr.StrID','tmKlp.StrID')
-                                        ->where('tmKlp.TA',$ta)
-                                        ->orderBy('Kd_Rek_2','ASC')
+            $data=KelompokUrusanModel::where('TA',$ta)
+                                        ->orderBy('Kd_Urusan','ASC')
                                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
-            $daftar_rek2 = []; 
+            $daftar_urusan = []; 
             foreach ($data as $v)
             {
-                $daftar_rek2[]=['KlpID'=>$v->KlpID,
-                                'Kd_Rek_1'=>$v->Kd_Rek_1,
-                                'StrNm'=>$v->StrNm,
-                                'Kd_Rek_2'=>$v->Kd_Rek_2,
-                                'KlpNm'=>$v->KlpNm,
+                $daftar_urusan[]=['KUrsID'=>$v->KUrsID,
+                                'Kd_Urusan'=>$v->Kd_Urusan,
+                                'Nm_Urusan'=>$v->Nm_Urusan,                                
                                 'TA'=>$v->TA
-                            ];
+                                ];
             }
             return response()->json(['status'=>1,
                                     'per_page'=> $data->perPage(),
                                     'current_page'=>$data->currentPage(),
                                     'last_page'=>$data->lastPage(),
                                     'total'=>$data->total(),
-                                    'data'=>$daftar_rek2],200); 
+                                    'data'=>$daftar_urusan],200); 
         }
         
        
@@ -97,21 +91,18 @@ class RekeningKelompokController extends Controller {
      */
     public function show($id)
     {
-        $data = RekeningKelompokModel::join('tmStr','tmStr.StrID','tmKlp.StrID')
-                                    ->where('KlpID',$id)
+        $data = KelompokUrusanModel::where('KUrsID',$id)
                                     ->first();
-        $daftar_rek2=[];
+        $daftar_urusan=[];
         if (!is_null($data) )  
         {
-            $daftar_rek2=['KlpID'=>$data->KlpID,
-                            'Kd_Rek_1'=>$data->Kd_Rek_1,
-                            'StrNm'=>$data->StrNm,
-                            'Kd_Rek_2'=>$data->Kd_Rek_2,
-                            'KlpNm'=>$data->KlpNm,
+            $daftar_urusan=['KUrsID'=>$data->KUrsID,
+                            'Kd_Urusan'=>$data->Kd_Urusan,
+                            'Nm_Urusan'=>$data->Nm_Urusan,                            
                             'TA'=>$data->TA
                         ];
         }
         return response()->json(['status'=>1,                                    
-                                'data'=>$daftar_rek2],200); 
+                                'data'=>$daftar_urusan],200); 
     }   
 }

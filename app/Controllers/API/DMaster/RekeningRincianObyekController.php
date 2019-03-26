@@ -50,10 +50,10 @@ class RekeningRincianObyekController extends Controller {
                                     ->where('tmROby.TA',$ta)
                                     ->orderBy('Kd_Rek_2','ASC')
                                     ->get();
-            $daftar_rek1 = []; 
+            $daftar_rek5 = []; 
             foreach ($data as $v)
             {
-                $daftar_rek1[]=['RObyID'=>$v->RObyID,
+                $daftar_rek5[]=['RObyID'=>$v->RObyID,
                                 'Kd_Rek_1'=>$v->Kd_Rek_1,
                                 'StrNm'=>$v->StrNm,
                                 'Kd_Rek_2'=>$v->Kd_Rek_2,
@@ -68,7 +68,7 @@ class RekeningRincianObyekController extends Controller {
                             ];
             }
             return response()->json(['status'=>1,
-                                    'data'=>$daftar_rek1],200); 
+                                    'data'=>$daftar_rek5],200); 
         }
         else
         {
@@ -79,10 +79,10 @@ class RekeningRincianObyekController extends Controller {
                                         ->where('tmROby.TA',$ta)
                                         ->orderBy('Kd_Rek_2','ASC')
                                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
-            $daftar_rek1 = []; 
+            $daftar_rek5 = []; 
             foreach ($data as $v)
             {
-                $daftar_rek1[]=['RObyID'=>$v->RObyID,
+                $daftar_rek5[]=['RObyID'=>$v->RObyID,
                                 'Kd_Rek_1'=>$v->Kd_Rek_1,
                                 'StrNm'=>$v->StrNm,
                                 'Kd_Rek_2'=>$v->Kd_Rek_2,
@@ -101,7 +101,7 @@ class RekeningRincianObyekController extends Controller {
                                     'current_page'=>$data->currentPage(),
                                     'last_page'=>$data->lastPage(),
                                     'total'=>$data->total(),
-                                    'data'=>$daftar_rek1],200); 
+                                    'data'=>$daftar_rek5],200); 
         }
         
        
@@ -121,10 +121,10 @@ class RekeningRincianObyekController extends Controller {
                                     ->join('tmStr','tmStr.StrID','tmKlp.StrID')
                                     ->where('RObyID',$id)
                                     ->first();
-        $daftar_rek1=[];
+        $daftar_rek5=[];
         if (!is_null($data) )  
         {
-            $daftar_rek1=['RObyID'=>$data->RObyID,
+            $daftar_rek5=['RObyID'=>$data->RObyID,
                             'Kd_Rek_1'=>$data->Kd_Rek_1,
                             'StrNm'=>$data->StrNm,
                             'Kd_Rek_2'=>$data->Kd_Rek_2,
@@ -139,6 +139,6 @@ class RekeningRincianObyekController extends Controller {
                         ];
         }
         return response()->json(['status'=>1,                                    
-                                'data'=>$daftar_rek1],200); 
+                                'data'=>$daftar_rek5],200); 
     }   
 }

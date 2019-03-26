@@ -48,10 +48,10 @@ class RekeningJenisController extends Controller {
                                     ->where('tmJns.TA',$ta)
                                     ->orderBy('Kd_Rek_2','ASC')
                                     ->get();
-            $daftar_rek1 = []; 
+            $daftar_rek3 = []; 
             foreach ($data as $v)
             {
-                $daftar_rek1[]=['JnsID'=>$v->JnsID,
+                $daftar_rek3[]=['JnsID'=>$v->JnsID,
                                 'Kd_Rek_1'=>$v->Kd_Rek_1,
                                 'StrNm'=>$v->StrNm,
                                 'Kd_Rek_2'=>$v->Kd_Rek_2,
@@ -62,7 +62,7 @@ class RekeningJenisController extends Controller {
                             ];
             }
             return response()->json(['status'=>1,
-                                    'data'=>$daftar_rek1],200); 
+                                    'data'=>$daftar_rek3],200); 
         }
         else
         {
@@ -71,10 +71,10 @@ class RekeningJenisController extends Controller {
                                         ->where('tmJns.TA',$ta)
                                         ->orderBy('Kd_Rek_2','ASC')
                                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
-            $daftar_rek1 = []; 
+            $daftar_rek3 = []; 
             foreach ($data as $v)
             {
-                $daftar_rek1[]=['JnsID'=>$v->JnsID,
+                $daftar_rek3[]=['JnsID'=>$v->JnsID,
                                 'Kd_Rek_1'=>$v->Kd_Rek_1,
                                 'StrNm'=>$v->StrNm,
                                 'Kd_Rek_2'=>$v->Kd_Rek_2,
@@ -89,7 +89,7 @@ class RekeningJenisController extends Controller {
                                     'current_page'=>$data->currentPage(),
                                     'last_page'=>$data->lastPage(),
                                     'total'=>$data->total(),
-                                    'data'=>$daftar_rek1],200); 
+                                    'data'=>$daftar_rek3],200); 
         }
         
        
@@ -107,10 +107,10 @@ class RekeningJenisController extends Controller {
                                     ->join('tmStr','tmStr.StrID','tmKlp.StrID')
                                     ->where('tmJns.JnsID',$id)
                                     ->first();
-        $daftar_rek1=[];
+        $daftar_rek3=[];
         if (!is_null($data) )  
         {
-            $daftar_rek1=['JnsID'=>$data->JnsID,
+            $daftar_rek3=['JnsID'=>$data->JnsID,
                             'Kd_Rek_1'=>$data->Kd_Rek_1,
                             'StrNm'=>$data->StrNm,
                             'Kd_Rek_2'=>$data->Kd_Rek_2,
@@ -121,6 +121,6 @@ class RekeningJenisController extends Controller {
                         ];
         }
         return response()->json(['status'=>1,                                    
-                                'data'=>$daftar_rek1],200); 
+                                'data'=>$daftar_rek3],200); 
     }   
 }
