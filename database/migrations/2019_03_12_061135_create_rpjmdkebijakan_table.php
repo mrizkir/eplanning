@@ -38,6 +38,7 @@ class CreateRpjmdkebijakanTable extends Migration
             $table->string('IndikatorKinerjaID',19);
             $table->string('PrioritasKebijakanKabID',19);            
             $table->string('UrsID',19); 
+            $table->string('PrgID',19);
             $table->string('OrgID',19); 
             $table->string('OrgID2',19); 
             $table->string('OrgID3',19); 

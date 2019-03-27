@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Controllers\RencanaKerja;
+namespace App\Controllers\RKPD;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
-use App\Models\RencanaKerja\UsulanPraRenjaOPDModel;
+use App\Models\RKPD\UsulanPraRenjaOPDModel;
 
 class UsulanPraRenjaOPDController extends Controller {
      /**

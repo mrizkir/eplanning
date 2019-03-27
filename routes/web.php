@@ -114,12 +114,12 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/pembahasan/pembahasanmusrenkecamatan/orderby',['uses'=>'Musrenbang\PembahasanMusrenKecamatanController@orderby','as'=>'pembahasanmusrenkecamatan.orderby']);  
 
     //Rencana Kerja - Usulan Pra Renja OPD/SKPD [aspirasi]
-    Route::resource('/aspirasi/usulanprarenjaopd','RencanaKerja\UsulanPraRenjaOPDController',['parameters'=>['usulanprarenjaopd'=>'uuid']]);        
-    Route::post('/aspirasi/usulanprarenjaopd/search',['uses'=>'RencanaKerja\UsulanPraRenjaOPDController@search','as'=>'usulanprarenjaopd.search']);  
-    Route::post('/aspirasi/usulanprarenjaopd/filter',['uses'=>'RencanaKerja\UsulanPraRenjaOPDController@filter','as'=>'usulanprarenjaopd.filter']);                  
-    Route::get('/aspirasi/usulanprarenjaopd/paginate/{id}',['uses'=>'RencanaKerja\UsulanPraRenjaOPDController@paginate','as'=>'usulanprarenjaopd.paginate']);              
-    Route::post('/aspirasi/usulanprarenjaopd/changenumberrecordperpage',['uses'=>'RencanaKerja\UsulanPraRenjaOPDController@changenumberrecordperpage','as'=>'usulanprarenjaopd.changenumberrecordperpage']);  
-    Route::post('/aspirasi/usulanprarenjaopd/orderby',['uses'=>'RencanaKerja\UsulanPraRenjaOPDController@orderby','as'=>'usulanprarenjaopd.orderby']);
+    Route::resource('/aspirasi/usulanprarenjaopd','RKPD\UsulanPraRenjaOPDController',['parameters'=>['usulanprarenjaopd'=>'uuid']]);        
+    Route::post('/aspirasi/usulanprarenjaopd/search',['uses'=>'RKPD\UsulanPraRenjaOPDController@search','as'=>'usulanprarenjaopd.search']);  
+    Route::post('/aspirasi/usulanprarenjaopd/filter',['uses'=>'RKPD\UsulanPraRenjaOPDController@filter','as'=>'usulanprarenjaopd.filter']);                  
+    Route::get('/aspirasi/usulanprarenjaopd/paginate/{id}',['uses'=>'RKPD\UsulanPraRenjaOPDController@paginate','as'=>'usulanprarenjaopd.paginate']);              
+    Route::post('/aspirasi/usulanprarenjaopd/changenumberrecordperpage',['uses'=>'RKPD\UsulanPraRenjaOPDController@changenumberrecordperpage','as'=>'usulanprarenjaopd.changenumberrecordperpage']);  
+    Route::post('/aspirasi/usulanprarenjaopd/orderby',['uses'=>'RKPD\UsulanPraRenjaOPDController@orderby','as'=>'usulanprarenjaopd.orderby']);
 
     //setting - permissions    
     Route::resource('/setting/permissions','Setting\PermissionsController',[

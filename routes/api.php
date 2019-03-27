@@ -54,4 +54,9 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
     Route::resource('/master/kegiatan','API\DMaster\KegiatanController',['names'=>'api-master-kegiatan',
                                                                     'parameters'=>['kegiatan'=>'uuid'],
                                                                     'only'=>['index','show']]);
+
+    // Indikator Kinerja [RPJMD]
+    Route::resource('/rpjmd/indikatorkinerja','API\RPJMD\IndikatorKinerjaController',['names'=>'api-master-indikatorkinerja',
+                                                                    'parameters'=>['indikatorkinerja'=>'uuid'],
+                                                                    'only'=>['index','show']]);
 });

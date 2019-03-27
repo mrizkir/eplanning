@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\RencanaKerja;
+namespace App\Models\RKPD;
 
 use Illuminate\Database\Eloquent\Model;
 
