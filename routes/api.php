@@ -43,4 +43,15 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
                                                                     'parameters'=>['unitkerja'=>'uuid'],
                                                                     'only'=>['index','show']]);
     
+    Route::resource('/master/fungsi','API\DMaster\FungsiController',['names'=>'api-master-fungsi',
+                                                                    'parameters'=>['fungsi'=>'uuid'],
+                                                                    'only'=>['index','show']]);
+
+    Route::resource('/master/program','API\DMaster\ProgramController',['names'=>'api-master-program',
+                                                                    'parameters'=>['program'=>'uuid'],
+                                                                    'only'=>['index','show']]);
+
+    Route::resource('/master/kegiatan','API\DMaster\KegiatanController',['names'=>'api-master-kegiatan',
+                                                                    'parameters'=>['kegiatan'=>'uuid'],
+                                                                    'only'=>['index','show']]);
 });

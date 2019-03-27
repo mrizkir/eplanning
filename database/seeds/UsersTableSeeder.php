@@ -24,6 +24,7 @@ class UsersTableSeeder extends Seeder
             'email'=>'support@yacanet.com',                
             'theme'=>'default',
             'email_verified_at'=>Carbon::now(),
+            'isdeleted'=>'false',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
         ]);  
