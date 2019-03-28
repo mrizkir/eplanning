@@ -47,10 +47,10 @@ class OrganisasiController extends Controller {
                         ->where('TA',$ta)
                         ->orderBy('kode_organisasi','ASC')
                         ->get();
-            $daftar_urusan = []; 
+            $data_opd = []; 
             foreach ($data as $v)
             {
-                $daftar_urusan[]=['OrgID'=>$v->OrgID,
+                $data_opd[]=['OrgID'=>$v->OrgID,
                                     'Kd_Urusan'=>$v->Kd_Urusan,
                                     'Nm_Urusan'=>$v->Nm_Urusan,
                                     'Kd_Bidang'=>$v->Kd_Bidang, 
@@ -62,7 +62,7 @@ class OrganisasiController extends Controller {
                                 ];
             }
             return response()->json(['status'=>1,
-                                    'data'=>$daftar_urusan],200); 
+                                    'data'=>$data_opd],200); 
         }
         else
         {
@@ -70,10 +70,10 @@ class OrganisasiController extends Controller {
                         ->where('TA',$ta)
                         ->orderBy('kode_organisasi','ASC')
                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
-            $daftar_urusan = []; 
+            $data_opd = []; 
             foreach ($data as $v)
             {
-                $daftar_urusan[]=['OrgID'=>$v->OrgID,
+                $data_opd[]=['OrgID'=>$v->OrgID,
                                 'Kd_Urusan'=>$v->Kd_Urusan,
                                 'Nm_Urusan'=>$v->Nm_Urusan,
                                 'Kd_Bidang'=>$v->Kd_Bidang, 
@@ -89,7 +89,7 @@ class OrganisasiController extends Controller {
                                     'current_page'=>$data->currentPage(),
                                     'last_page'=>$data->lastPage(),
                                     'total'=>$data->total(),
-                                    'data'=>$daftar_urusan],200); 
+                                    'data'=>$data_opd],200); 
         }
         
        
@@ -106,10 +106,10 @@ class OrganisasiController extends Controller {
         $data = \DB::table('v_urusan_organisasi')
                             ->where('OrgID',$id)
                             ->first();
-        $daftar_urusan=[];
+        $data_opd=[];
         if (!is_null($data) )  
         {
-            $daftar_urusan=['OrgID'=>$data->OrgID,
+            $data_opd=['OrgID'=>$data->OrgID,
                             'Kd_Urusan'=>$data->Kd_Urusan,
                             'Nm_Urusan'=>$data->Nm_Urusan,
                             'Kd_Bidang'=>$data->Kd_Bidang, 
@@ -121,6 +121,6 @@ class OrganisasiController extends Controller {
                         ];
         }
         return response()->json(['status'=>1,                                    
-                                'data'=>$daftar_urusan],200); 
+                                'data'=>$data_opd],200); 
     }   
 }

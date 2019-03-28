@@ -59,4 +59,19 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
     Route::resource('/rpjmd/indikatorkinerja','API\RPJMD\IndikatorKinerjaController',['names'=>'api-master-indikatorkinerja',
                                                                     'parameters'=>['indikatorkinerja'=>'uuid'],
                                                                     'only'=>['index','show']]);
+
+    // Plafon [RKPD]
+    Route::resource('/rkpd/plafon1','API\RKPD\Plafon1Controller',['names'=>'api-master-plafon1',
+                                                                    'parameters'=>['plafon1'=>'uuid'],
+                                                                    'only'=>['index','show']]);
+    Route::resource('/rkpd/plafon2','API\RKPD\Plafon2Controller',['names'=>'api-master-plafon2',
+                                                                    'parameters'=>['plafon2'=>'uuid'],
+                                                                    'only'=>['index','show']]);
+    Route::resource('/rkpd/plafon3','API\RKPD\Plafon3Controller',['names'=>'api-master-plafon3',
+                                                                    'parameters'=>['plafon3'=>'uuid'],
+                                                                    'only'=>['index','show']]);
+    Route::resource('/rkpd/plafon4','API\RKPD\Plafon4Controller',['names'=>'api-master-plafon4',
+                                                                    'parameters'=>['plafon4'=>'uuid'],
+                                                                    'only'=>['index','show']]);
+
 });

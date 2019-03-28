@@ -68,10 +68,10 @@ class FungsiController extends Controller {
                         ->where('a.TA',$ta)
                         ->orderBy('a.Kd_Fungsi','ASC')
                         ->get();
-            $daftar_urusan = []; 
+            $data_fungsi = []; 
             foreach ($data as $v)
             {
-                $daftar_urusan[]=['FungsiID'=>$v->FungsiID,
+                $data_fungsi[]=['FungsiID'=>$v->FungsiID,
                                     'Kd_Urusan'=>$v->Kd_Urusan,
                                     'Nm_Urusan'=>$v->Nm_Urusan,
                                     'Kd_Bidang'=>$v->Kd_Bidang, 
@@ -82,7 +82,7 @@ class FungsiController extends Controller {
                                 ];
             }
             return response()->json(['status'=>1,
-                                    'data'=>$daftar_urusan],200); 
+                                    'data'=>$data_fungsi],200); 
         }
         else
         {
@@ -111,10 +111,10 @@ class FungsiController extends Controller {
                         ->where('a.TA',$ta)
                         ->orderBy('a.Kd_Fungsi','ASC')
                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
-            $daftar_urusan = []; 
+            $data_fungsi = []; 
             foreach ($data as $v)
             {
-                $daftar_urusan[]=['FungsiID'=>$v->FungsiID,
+                $data_fungsi[]=['FungsiID'=>$v->FungsiID,
                                     'Kd_Urusan'=>$v->Kd_Urusan,
                                     'Nm_Urusan'=>$v->Nm_Urusan,
                                     'Kd_Bidang'=>$v->Kd_Bidang, 
@@ -129,7 +129,7 @@ class FungsiController extends Controller {
                                     'current_page'=>$data->currentPage(),
                                     'last_page'=>$data->lastPage(),
                                     'total'=>$data->total(),
-                                    'data'=>$daftar_urusan],200); 
+                                    'data'=>$data_fungsi],200); 
         }
         
        
@@ -167,10 +167,10 @@ class FungsiController extends Controller {
                     ->leftJoin('tmKUrs AS d',\DB::raw('d."KUrsID"'),'=',\DB::raw('c."KUrsID"'))
                     ->where('a."FungsiID"',$id)
                     ->first();
-        $daftar_urusan=[];
+        $data_fungsi=[];
         if (!is_null($data) )  
         {
-            $daftar_urusan=['FungsiID'=>$data->FungsiID,
+            $data_fungsi=['FungsiID'=>$data->FungsiID,
                             'Kd_Urusan'=>$data->Kd_Urusan,
                             'Nm_Urusan'=>$data->Nm_Urusan,
                             'Kd_Bidang'=>$data->Kd_Bidang, 
@@ -181,6 +181,6 @@ class FungsiController extends Controller {
                         ];
         }
         return response()->json(['status'=>1,                                    
-                                'data'=>$daftar_urusan],200); 
+                                'data'=>$data_fungsi],200); 
     }   
 }

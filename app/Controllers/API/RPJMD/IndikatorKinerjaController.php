@@ -4,7 +4,6 @@ namespace App\Controllers\API\RPJMD;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
-use App\Models\DMaster\KegiatanModel;
 
 class IndikatorKinerjaController extends Controller {
      /**
@@ -73,10 +72,10 @@ class IndikatorKinerjaController extends Controller {
                         ->where('k.TA',$ta)
                         ->orderBy('k.Kd_Keg','ASC')
                         ->get();
-            $daftar_urusan = []; 
+            $data_indikator = []; 
             foreach ($data as $v)
             {
-                $daftar_urusan[]=['KgtID'=>$v->KgtID,
+                $data_indikator[]=['KgtID'=>$v->KgtID,
                                     'Kd_Urusan'=>$v->Kd_Urusan,
                                     'Nm_Urusan'=>$v->Nm_Urusan,
                                     'Kd_Bidang'=>$v->Kd_Bidang, 
@@ -90,7 +89,7 @@ class IndikatorKinerjaController extends Controller {
                                 ];
             }
             return response()->json(['status'=>1,
-                                    'data'=>$daftar_urusan],200); 
+                                    'data'=>$data_indikator],200); 
         }
         else
         {
@@ -123,10 +122,10 @@ class IndikatorKinerjaController extends Controller {
                         ->where('k.TA',$ta)
                         ->orderBy('k.Kd_Keg','ASC')
                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
-            $daftar_urusan = []; 
+            $data_indikator = []; 
             foreach ($data as $v)
             {
-                $daftar_urusan[]=['KgtID'=>$v->KgtID,
+                $data_indikator[]=['KgtID'=>$v->KgtID,
                                     'Kd_Urusan'=>$v->Kd_Urusan,
                                     'Nm_Urusan'=>$v->Nm_Urusan,
                                     'Kd_Bidang'=>$v->Kd_Bidang, 
@@ -144,7 +143,7 @@ class IndikatorKinerjaController extends Controller {
                                     'current_page'=>$data->currentPage(),
                                     'last_page'=>$data->lastPage(),
                                     'total'=>$data->total(),
-                                    'data'=>$daftar_urusan],200); 
+                                    'data'=>$data_indikator],200); 
         }
         
        
@@ -186,10 +185,10 @@ class IndikatorKinerjaController extends Controller {
                     ->leftJoin('tmKUrs AS d',\DB::raw('d."KUrsID"'),'=',\DB::raw('c."KUrsID"'))
                     ->where('k.KgtID',$id)
                     ->first();
-        $daftar_urusan=[];
+        $data_indikator=[];
         if (!is_null($data) )  
         {
-            $daftar_urusan=['KgtID'=>$data->KgtID,
+            $data_indikator=['KgtID'=>$data->KgtID,
                             'Kd_Urusan'=>$data->Kd_Urusan,
                             'Nm_Urusan'=>$data->Nm_Urusan,
                             'Kd_Bidang'=>$data->Kd_Bidang, 
@@ -203,6 +202,6 @@ class IndikatorKinerjaController extends Controller {
                         ];
         }
         return response()->json(['status'=>1,                                    
-                                'data'=>$daftar_urusan],200); 
+                                'data'=>$data_indikator],200); 
     }   
 }

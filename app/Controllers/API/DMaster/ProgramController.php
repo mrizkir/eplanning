@@ -69,10 +69,10 @@ class ProgramController extends Controller {
                         ->where('a.TA',$ta)
                         ->orderBy('a.Kd_Prog','ASC')
                         ->get();
-            $daftar_urusan = []; 
+            $data_program = []; 
             foreach ($data as $v)
             {
-                $daftar_urusan[]=['PrgID'=>$v->PrgID,
+                $data_program[]=['PrgID'=>$v->PrgID,
                                     'Kd_Urusan'=>$v->Kd_Urusan,
                                     'Nm_Urusan'=>$v->Nm_Urusan,
                                     'Kd_Bidang'=>$v->Kd_Bidang, 
@@ -84,7 +84,7 @@ class ProgramController extends Controller {
                                 ];
             }
             return response()->json(['status'=>1,
-                                    'data'=>$daftar_urusan],200); 
+                                    'data'=>$data_program],200); 
         }
         else
         {
@@ -114,10 +114,10 @@ class ProgramController extends Controller {
                         ->where('a.TA',$ta)
                         ->orderBy('a.Kd_Prog','ASC')
                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
-            $daftar_urusan = []; 
+            $data_program = []; 
             foreach ($data as $v)
             {
-                $daftar_urusan[]=['PrgID'=>$v->PrgID,
+                $data_program[]=['PrgID'=>$v->PrgID,
                                     'Kd_Urusan'=>$v->Kd_Urusan,
                                     'Nm_Urusan'=>$v->Nm_Urusan,
                                     'Kd_Bidang'=>$v->Kd_Bidang, 
@@ -133,7 +133,7 @@ class ProgramController extends Controller {
                                     'current_page'=>$data->currentPage(),
                                     'last_page'=>$data->lastPage(),
                                     'total'=>$data->total(),
-                                    'data'=>$daftar_urusan],200); 
+                                    'data'=>$data_program],200); 
         }
         
        
@@ -172,10 +172,10 @@ class ProgramController extends Controller {
                     ->leftJoin('tmKUrs AS d',\DB::raw('d."KUrsID"'),'=',\DB::raw('c."KUrsID"'))
                     ->where('a."PrgID"',$id)
                     ->first();
-        $daftar_urusan=[];
+        $data_program=[];
         if (!is_null($data) )  
         {
-            $daftar_urusan=['PrgID'=>$data->PrgID,
+            $data_program=['PrgID'=>$data->PrgID,
                             'Kd_Urusan'=>$data->Kd_Urusan,
                             'Nm_Urusan'=>$data->Nm_Urusan,
                             'Kd_Bidang'=>$data->Kd_Bidang, 
@@ -187,6 +187,6 @@ class ProgramController extends Controller {
                         ];
         }
         return response()->json(['status'=>1,                                    
-                                'data'=>$daftar_urusan],200); 
+                                'data'=>$data_program],200); 
     }   
 }

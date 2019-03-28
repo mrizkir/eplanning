@@ -58,7 +58,8 @@ class CreateRenjaopdTable extends Migration
             $table->string('Descr')->nullable();
             $table->year('TA');            
             $table->boolean('status')->default(0);
-            $table->tinyInteger('Privilege')->default(0);
+            $table->tinyInteger('EntryLvl')->default(0);
+            $table->tinyInteger('Privilege')->default(0);                        
             $table->boolean('Locked')->default(0);
            
             $table->timestamps();
@@ -170,6 +171,7 @@ class CreateRenjaopdTable extends Migration
                 $table->string('isReses_Uraian');
                 $table->boolean('isSKPD')->default(0);
                 $table->tinyInteger('Status');
+                $table->tinyInteger('EntryLvl')->default(0);
                 $table->tinyInteger('Prioritas');            
                 $table->string('Descr')->nullable();
                 $table->tinyInteger('Privilege')->default(0);

@@ -72,10 +72,10 @@ class KegiatanController extends Controller {
                         ->where('k.TA',$ta)
                         ->orderBy('k.Kd_Keg','ASC')
                         ->get();
-            $daftar_urusan = []; 
+            $data_kegiatan = []; 
             foreach ($data as $v)
             {
-                $daftar_urusan[]=['KgtID'=>$v->KgtID,
+                $data_kegiatan[]=['KgtID'=>$v->KgtID,
                                     'Kd_Urusan'=>$v->Kd_Urusan,
                                     'Nm_Urusan'=>$v->Nm_Urusan,
                                     'Kd_Bidang'=>$v->Kd_Bidang, 
@@ -89,7 +89,7 @@ class KegiatanController extends Controller {
                                 ];
             }
             return response()->json(['status'=>1,
-                                    'data'=>$daftar_urusan],200); 
+                                    'data'=>$data_kegiatan],200); 
         }
         else
         {
@@ -122,10 +122,10 @@ class KegiatanController extends Controller {
                         ->where('k.TA',$ta)
                         ->orderBy('k.Kd_Keg','ASC')
                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
-            $daftar_urusan = []; 
+            $data_kegiatan = []; 
             foreach ($data as $v)
             {
-                $daftar_urusan[]=['KgtID'=>$v->KgtID,
+                $data_kegiatan[]=['KgtID'=>$v->KgtID,
                                     'Kd_Urusan'=>$v->Kd_Urusan,
                                     'Nm_Urusan'=>$v->Nm_Urusan,
                                     'Kd_Bidang'=>$v->Kd_Bidang, 
@@ -143,7 +143,7 @@ class KegiatanController extends Controller {
                                     'current_page'=>$data->currentPage(),
                                     'last_page'=>$data->lastPage(),
                                     'total'=>$data->total(),
-                                    'data'=>$daftar_urusan],200); 
+                                    'data'=>$data_kegiatan],200); 
         }
         
        
@@ -185,10 +185,10 @@ class KegiatanController extends Controller {
                     ->leftJoin('tmKUrs AS d',\DB::raw('d."KUrsID"'),'=',\DB::raw('c."KUrsID"'))
                     ->where('k.KgtID',$id)
                     ->first();
-        $daftar_urusan=[];
+        $data_kegiatan=[];
         if (!is_null($data) )  
         {
-            $daftar_urusan=['KgtID'=>$data->KgtID,
+            $data_kegiatan=['KgtID'=>$data->KgtID,
                             'Kd_Urusan'=>$data->Kd_Urusan,
                             'Nm_Urusan'=>$data->Nm_Urusan,
                             'Kd_Bidang'=>$data->Kd_Bidang, 
@@ -202,6 +202,6 @@ class KegiatanController extends Controller {
                         ];
         }
         return response()->json(['status'=>1,                                    
-                                'data'=>$daftar_urusan],200); 
+                                'data'=>$data_kegiatan],200); 
     }   
 }

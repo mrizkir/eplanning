@@ -47,10 +47,10 @@ class SubOrganisasiController extends Controller {
                         ->where('TA',$ta)
                         ->orderBy('kode_suborganisasi','ASC')
                         ->get();
-            $daftar_urusan = []; 
+            $data_unitkerja = []; 
             foreach ($data as $v)
             {
-                $daftar_urusan[]=['SOrgID'=>$v->SOrgID,
+                $data_unitkerja[]=['SOrgID'=>$v->SOrgID,
                                     'Kd_Urusan'=>$v->Kd_Urusan,
                                     'Nm_Urusan'=>$v->Nm_Urusan,
                                     'Kd_Bidang'=>$v->Kd_Bidang, 
@@ -64,7 +64,7 @@ class SubOrganisasiController extends Controller {
                                 ];
             }
             return response()->json(['status'=>1,
-                                    'data'=>$daftar_urusan],200); 
+                                    'data'=>$data_unitkerja],200); 
         }
         else
         {
@@ -72,10 +72,10 @@ class SubOrganisasiController extends Controller {
                         ->where('TA',$ta)
                         ->orderBy('kode_suborganisasi','ASC')
                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
-            $daftar_urusan = []; 
+            $data_unitkerja = []; 
             foreach ($data as $v)
             {
-                $daftar_urusan[]=['SOrgID'=>$v->SOrgID,
+                $data_unitkerja[]=['SOrgID'=>$v->SOrgID,
                                 'Kd_Urusan'=>$v->Kd_Urusan,
                                 'Nm_Urusan'=>$v->Nm_Urusan,
                                 'Kd_Bidang'=>$v->Kd_Bidang, 
@@ -93,7 +93,7 @@ class SubOrganisasiController extends Controller {
                                     'current_page'=>$data->currentPage(),
                                     'last_page'=>$data->lastPage(),
                                     'total'=>$data->total(),
-                                    'data'=>$daftar_urusan],200); 
+                                    'data'=>$data_unitkerja],200); 
         }
         
        
@@ -110,10 +110,10 @@ class SubOrganisasiController extends Controller {
         $data = \DB::table('v_suborganisasi')
                             ->where('SOrgID',$id)
                             ->first();
-        $daftar_urusan=[];
+        $data_unitkerja=[];
         if (!is_null($data) )  
         {
-            $daftar_urusan=['SOrgID'=>$data->SOrgID,
+            $data_unitkerja=['SOrgID'=>$data->SOrgID,
                             'Kd_Urusan'=>$data->Kd_Urusan,
                             'Nm_Urusan'=>$data->Nm_Urusan,
                             'Kd_Bidang'=>$data->Kd_Bidang, 
@@ -127,6 +127,6 @@ class SubOrganisasiController extends Controller {
                         ];
         }
         return response()->json(['status'=>1,                                    
-                                'data'=>$daftar_urusan],200); 
+                                'data'=>$data_unitkerja],200); 
     }   
 }
