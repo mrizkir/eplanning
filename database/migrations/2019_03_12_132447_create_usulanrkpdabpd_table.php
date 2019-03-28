@@ -14,6 +14,7 @@ class CreateUsulanrkpdabpdTable extends Migration
     public function up()
     {
         Schema::create('trRKPD', function (Blueprint $table) {
+        
             $table->string('RKPDID',19);
             $table->string('OrgID',19);
             $table->string('SOrgID',19);
@@ -39,7 +40,8 @@ class CreateUsulanrkpdabpdTable extends Migration
 
             $table->string('Descr')->nullable();
             $table->year('TA'); 
-            $table->boolean('status')->default(0);
+            $table->tinyInteger('status')->default(0);
+            $table->tinyInteger('EntryLvl')->default(0);
             $table->tinyInteger('Privilege')->default(0);
 
             $table->timestamps();
@@ -107,6 +109,77 @@ class CreateUsulanrkpdabpdTable extends Migration
 
         });
 
+        Schema::create('trRKPDRinc', function (Blueprint $table) {
+                $table->string('RKPDRincID',19);
+                $table->string('RKPDID',19);
+                $table->string('RenjaRincID',19);
+                $table->string('PmKecamatanID',19);
+                $table->string('PmDesaID',19);
+                $table->string('PokPirID',19);
+
+                $table->text('Uraian');
+                $table->string('No',4);
+                $table->string('Sasaran_Uraian1');
+                $table->string('Sasaran_Uraian2');
+                $table->decimal('Sasaran_Angka1',15,2);
+                $table->decimal('Sasaran_Angka2',15,2);
+
+                $table->decimal('NilaiUsulan1',15,2);
+                $table->decimal('NilaiUsulan2',15,2);
+
+                $table->decimal('Target1',15,2);
+                $table->decimal('Target2',15,2);
+
+                $table->date('Tgl_Posting');
+                $table->boolean('isReses')->default(0);
+                $table->string('isReses_Uraian',255);
+                $table->boolean('isSKPD')->default(0);
+                $table->string('Descr')->nullable();
+                $table->year('TA'); 
+                $table->tinyInteger('status')->default(0);
+                $table->tinyInteger('EntryLvl')->default(0);
+                $table->tinyInteger('Privilege')->default(0);
+
+                $table->timestamps();
+
+                $table->primary('RKPDRincID');
+                $table->index('RKPDID');
+                $table->index('RenjaRincID');
+                $table->index('PmKecamatanID');
+                $table->index('PmDesaID');
+                $table->index('PokPirID');
+
+                $table->foreign('RKPDID')
+                        ->references('RKPDID')
+                        ->on('trRKPD')
+                        ->onDelete('cascade')
+                        ->onUpdate('cascade');
+
+                $table->foreign('RenjaRincID')
+                        ->references('RenjaRincID')
+                        ->on('trRenjaRinc')
+                        ->onDelete('cascade')
+                        ->onUpdate('cascade');
+
+                $table->foreign('PmKecamatanID')
+                        ->references('PmKecamatanID')
+                        ->on('tmPmKecamatan')
+                        ->onDelete('cascade')
+                        ->onUpdate('cascade');
+
+                $table->foreign('PmDesaID')
+                        ->references('PmDesaID')
+                        ->on('tmPmDesa')
+                        ->onDelete('cascade')
+                        ->onUpdate('cascade');
+
+                $table->foreign('PokPirID')
+                        ->references('PokPirID')
+                        ->on('trPokPir')
+                        ->onDelete('cascade')
+                        ->onUpdate('cascade');
+
+        });
     }
 
     /**
@@ -116,6 +189,7 @@ class CreateUsulanrkpdabpdTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('trRKPDRinc');
         Schema::dropIfExists('trRKPDIndikator');
         Schema::dropIfExists('trRKPD');
     }
