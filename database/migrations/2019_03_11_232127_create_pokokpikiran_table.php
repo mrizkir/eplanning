@@ -16,10 +16,10 @@ class CreatePokokpikiranTable extends Migration
         Schema::create('trPokPir', function (Blueprint $table) {
             $table->string('PokPirID',19);
             $table->string('PemilikPokokID',19);
-            $table->string('OrgID',19);
-            $table->string('SOrgID',19);
-            $table->string('PmKecamatanID',19);
-            $table->string('PmDesaID',19);
+            $table->string('OrgID',19)->nullable();
+            $table->string('SOrgID',19)->nullable();
+            $table->string('PmKecamatanID',19)->nullable();
+            $table->string('PmDesaID',19)->nullable();
             $table->string('SumberDanaID',19);
 
             $table->string('NamaUsulanKegiatan');
