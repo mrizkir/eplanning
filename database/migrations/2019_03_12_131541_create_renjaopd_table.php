@@ -19,45 +19,45 @@ class CreateRenjaopdTable extends Migration
             $table->string('SOrgID',19);
             $table->string('KgtID',19);
             $table->string('SumberDanaID',19);
-            $table->string('NamaIndikator');
+            $table->text('NamaIndikator');
 
-            $table->string('Sasaran_Uraian1');
-            $table->string('Sasaran_Uraian2');
-            $table->string('Sasaran_Uraian3');
-            $table->string('Sasaran_Uraian4');
-            $table->string('Sasaran_Uraian5');
-            $table->string('Sasaran_Uraian6');
+            $table->text('Sasaran_Uraian1')->nullable();
+            $table->text('Sasaran_Uraian2')->nullable();
+            $table->text('Sasaran_Uraian3')->nullable();
+            $table->text('Sasaran_Uraian4')->nullable();
+            $table->text('Sasaran_Uraian5')->nullable();
+            $table->text('Sasaran_Uraian6')->nullable();
 
-            $table->decimal('Sasaran_Angka1',15,2);
-            $table->decimal('Sasaran_Angka2',15,2);
-            $table->decimal('Sasaran_Angka3',15,2);
-            $table->decimal('Sasaran_Angka4',15,2);
-            $table->decimal('Sasaran_Angka5',15,2);            
-            $table->decimal('Sasaran_Angka6',15,2);            
+            $table->decimal('Sasaran_Angka1',15,2)->nullable();
+            $table->decimal('Sasaran_Angka2',15,2)->nullable();
+            $table->decimal('Sasaran_Angka3',15,2)->nullable();
+            $table->decimal('Sasaran_Angka4',15,2)->nullable();
+            $table->decimal('Sasaran_Angka5',15,2)->nullable();            
+            $table->decimal('Sasaran_Angka6',15,2)->nullable();            
             
-            $table->decimal('Target1',15,2);
-            $table->decimal('Target2',15,2);
-            $table->decimal('Target3',15,2);
-            $table->decimal('Target4',15,2);
-            $table->decimal('Target5',15,2);
-            $table->decimal('Target6',15,2);
+            $table->decimal('Target1',15,2)->nullable();
+            $table->decimal('Target2',15,2)->nullable();
+            $table->decimal('Target3',15,2)->nullable();
+            $table->decimal('Target4',15,2)->nullable();
+            $table->decimal('Target5',15,2)->nullable();
+            $table->decimal('Target6',15,2)->nullable();
 
-            $table->decimal('NilaiUsulan1',15,2);
-            $table->decimal('NilaiUsulan2',15,2);
-            $table->decimal('NilaiUsulan3',15,2);   
-            $table->decimal('NilaiUsulan4',15,2);  
-            $table->decimal('NilaiUsulan5',15,2);  
-            $table->decimal('NilaiUsulan6',15,2);  
+            $table->decimal('NilaiUsulan1',15,2)->nullable();
+            $table->decimal('NilaiUsulan2',15,2)->nullable();
+            $table->decimal('NilaiUsulan3',15,2)->nullable();   
+            $table->decimal('NilaiUsulan4',15,2)->nullable();  
+            $table->decimal('NilaiUsulan5',15,2)->nullable();  
+            $table->decimal('NilaiUsulan6',15,2)->nullable();  
 
-            $table->decimal('Sasaran_AngkaSetelah',15,2);
-            $table->string('Sasaran_UraianSetelah');
+            $table->decimal('Sasaran_AngkaSetelah',15,2)->nullable();
+            $table->text('Sasaran_UraianSetelah')->nullable();
 
-            $table->decimal('NilaiSebelum',15,2);
-            $table->decimal('NilaiSetelah',15,2);
+            $table->decimal('NilaiSebelum',15,2)->nullable();
+            $table->decimal('NilaiSetelah',15,2)->nullable();
 
-            $table->string('Descr')->nullable();
+            $table->text('Descr')->nullable();
             $table->year('TA');            
-            $table->tinyInteger('status')->default(0);
+            $table->tinyInteger('Status')->default(0);
             $table->tinyInteger('EntryLvl')->default(0);
             $table->tinyInteger('Privilege')->default(0);                        
             $table->boolean('Locked')->default(0);
@@ -136,44 +136,44 @@ class CreateRenjaopdTable extends Migration
                 $table->string('PmDesaID',19)->nullable();
                 $table->string('PokPirID',19)->nullable();
             
-                $table->string('Uraian');
+                $table->text('Uraian');
                 $table->tinyInteger('No');
                
-                $table->string('Sasaran_Uraian1');
-                $table->string('Sasaran_Uraian2');
-                $table->string('Sasaran_Uraian3');
-                $table->string('Sasaran_Uraian4');
-                $table->string('Sasaran_Uraian5');
-                $table->string('Sasaran_Uraian6');
+                $table->text('Sasaran_Uraian1')->nullable();
+                $table->text('Sasaran_Uraian2')->nullable();
+                $table->text('Sasaran_Uraian3')->nullable();
+                $table->text('Sasaran_Uraian4')->nullable();
+                $table->text('Sasaran_Uraian5')->nullable();
+                $table->text('Sasaran_Uraian6')->nullable();
     
-                $table->decimal('Sasaran_Angka1',15,2);
-                $table->decimal('Sasaran_Angka2',15,2);
-                $table->decimal('Sasaran_Angka3',15,2);
-                $table->decimal('Sasaran_Angka4',15,2);
-                $table->decimal('Sasaran_Angka5',15,2);            
-                $table->decimal('Sasaran_Angka6',15,2);            
+                $table->decimal('Sasaran_Angka1',15,2)->nullable();
+                $table->decimal('Sasaran_Angka2',15,2)->nullable();
+                $table->decimal('Sasaran_Angka3',15,2)->nullable();
+                $table->decimal('Sasaran_Angka4',15,2)->nullable();
+                $table->decimal('Sasaran_Angka5',15,2)->nullable();            
+                $table->decimal('Sasaran_Angka6',15,2)->nullable();            
                 
-                $table->decimal('Target1',15,2);
-                $table->decimal('Target2',15,2);
-                $table->decimal('Target3',15,2);
-                $table->decimal('Target4',15,2);
-                $table->decimal('Target5',15,2);
-                $table->decimal('Target6',15,2);
+                $table->decimal('Target1',15,2)->nullable();
+                $table->decimal('Target2',15,2)->nullable();
+                $table->decimal('Target3',15,2)->nullable();
+                $table->decimal('Target4',15,2)->nullable();
+                $table->decimal('Target5',15,2)->nullable();
+                $table->decimal('Target6',15,2)->nullable();
 
-                $table->decimal('Jumlah1',15,2);
-                $table->decimal('Jumlah2',15,2);
-                $table->decimal('Jumlah3',15,2);
-                $table->decimal('Jumlah4',15,2);
-                $table->decimal('Jumlah5',15,2);
-                $table->decimal('Jumlah6',15,2);
+                $table->decimal('Jumlah1',15,2)->nullable();
+                $table->decimal('Jumlah2',15,2)->nullable();
+                $table->decimal('Jumlah3',15,2)->nullable();
+                $table->decimal('Jumlah4',15,2)->nullable();
+                $table->decimal('Jumlah5',15,2)->nullable();
+                $table->decimal('Jumlah6',15,2)->nullable();
 
-                $table->boolean('isReses')->default(0);
-                $table->string('isReses_Uraian');
-                $table->boolean('isSKPD')->default(0);
+                $table->boolean('isReses')->nullable();
+                $table->text('isReses_Uraian')->nullable();
+                $table->boolean('isSKPD')->nullable();
                 $table->tinyInteger('Status');
                 $table->tinyInteger('EntryLvl')->default(0);
                 $table->tinyInteger('Prioritas');            
-                $table->string('Descr')->nullable();
+                $table->text('Descr')->nullable();
                 $table->tinyInteger('Privilege')->default(0);
                 $table->year('TA');
 
@@ -196,25 +196,25 @@ class CreateRenjaopdTable extends Migration
                 $table->foreign('UsulanKecID')
                     ->references('UsulanKecID')
                     ->on('trUsulanKec')
-                    ->onDelete('cascade')
+                    ->onDelete('set null')
                     ->onUpdate('cascade');                
 
                 $table->foreign('PmDesaID')
                     ->references('PmDesaID')
                     ->on('tmPmDesa')
-                    ->onDelete('cascade')
+                    ->onDelete('set null')
                     ->onUpdate('cascade');
 
                 $table->foreign('PmKecamatanID')
                     ->references('PmKecamatanID')
                     ->on('tmPmKecamatan')
-                    ->onDelete('cascade')
+                    ->onDelete('set null')
                     ->onUpdate('cascade');
 
                 $table->foreign('PokPirID')
                     ->references('PokPirID')
                     ->on('trPokPir')
-                    ->onDelete('cascade')
+                    ->onDelete('set null')
                     ->onUpdate('cascade');
         });
     }

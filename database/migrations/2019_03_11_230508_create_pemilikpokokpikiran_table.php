@@ -18,7 +18,8 @@ class CreatePemilikpokokpikiranTable extends Migration
             $table->string('Kd_PK',16);
             $table->string('NmPk');     
             $table->decimal('Jumlah1',15,2);
-            $table->decimal('Jumlah2',15,2);           
+            $table->decimal('Jumlah2',15,2);        
+            $table->string('Descr')->nullable();   
             $table->year('TA');
             $table->boolean('Locked')->default(0);
 

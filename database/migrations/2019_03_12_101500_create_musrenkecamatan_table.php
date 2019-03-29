@@ -53,13 +53,13 @@ class CreateMusrenkecamatanTable extends Migration
                 $table->foreign('UsulanDesaID')
                     ->references('UsulanDesaID')
                     ->on('trUsulanDesa')
-                    ->onDelete('cascade')
+                    ->onDelete('set null')
                     ->onUpdate('cascade');
 
                 $table->foreign('PmDesaID')
                     ->references('PmDesaID')
                     ->on('tmPmDesa')
-                    ->onDelete('cascade')
+                    ->onDelete('set null')
                     ->onUpdate('cascade');
 
                 $table->foreign('PmKecamatanID')
@@ -72,25 +72,25 @@ class CreateMusrenkecamatanTable extends Migration
                 $table->foreign('PrioritasSasaranKabID')
                         ->references('PrioritasSasaranKabID')
                         ->on('tmPrioritasSasaranKab')
-                        ->onDelete('cascade')
+                        ->onDelete('set null')
                         ->onUpdate('cascade');
 
                 $table->foreign('PrgID')
                         ->references('PrgID')
                         ->on('tmPrg')
-                        ->onDelete('cascade')
+                        ->onDelete('set null')
                         ->onUpdate('cascade');
 
                 $table->foreign('OrgID')
                         ->references('OrgID')
                         ->on('tmOrg')
-                        ->onDelete('cascade')
+                        ->onDelete('set null')
                         ->onUpdate('cascade');
 
                 $table->foreign('SumberDanaID')
                         ->references('SumberDanaID')
                         ->on('tmSumberDana')
-                        ->onDelete('cascade')
+                        ->onDelete('set null')
                         ->onUpdate('cascade');
         });
     }

@@ -20,17 +20,18 @@ class CreatePokokpikiranTable extends Migration
             $table->string('SOrgID',19)->nullable();
             $table->string('PmKecamatanID',19)->nullable();
             $table->string('PmDesaID',19)->nullable();
-            $table->string('SumberDanaID',19);
+            $table->string('SumberDanaID',19)->nullable();
 
             $table->string('NamaUsulanKegiatan');
-            $table->string('Lokasi');
-            $table->decimal('Sasaran_Angka',15,2);
-            $table->string('Sasaran_Uraian');
+            $table->string('Lokasi')->nullable();
+            $table->decimal('Sasaran_Angka',15,2)->nullable();
+            $table->string('Sasaran_Uraian')->nullable();
 
-            $table->decimal('NilaiUsulan',15,2);
+            $table->decimal('NilaiUsulan',15,2)->nullable();
             $table->tinyInteger('Status');
-            $table->string('Output');
-            $table->tinyInteger('Jeniskeg')->default(0);
+            $table->tinyInteger('EntryLvl')->nullable();
+            $table->string('Output')->nullable();
+            $table->tinyInteger('Jeniskeg')->nullable();
             $table->tinyInteger('Prioritas');
             $table->double('Bobot',3,2)->default(0.00);
             $table->string('Descr')->nullable();            
@@ -59,31 +60,31 @@ class CreatePokokpikiranTable extends Migration
             $table->foreign('OrgID')
                     ->references('OrgID')
                     ->on('tmOrg')
-                    ->onDelete('cascade')
+                    ->onDelete('set null')
                     ->onUpdate('cascade');
 
             $table->foreign('SOrgID')
                     ->references('SOrgID')
                     ->on('tmSOrg')
-                    ->onDelete('cascade')
+                    ->onDelete('set null')
                     ->onUpdate('cascade');
 
             $table->foreign('PmDesaID')
                     ->references('PmDesaID')
                     ->on('tmPmDesa')
-                    ->onDelete('cascade')
+                    ->onDelete('set null')
                     ->onUpdate('cascade');
 
             $table->foreign('PmKecamatanID')
                     ->references('PmKecamatanID')
                     ->on('tmPmKecamatan')
-                    ->onDelete('cascade')
+                    ->onDelete('set null')
                     ->onUpdate('cascade');
 
             $table->foreign('SumberDanaID')
                     ->references('SumberDanaID')
                     ->on('tmSumberDana')
-                    ->onDelete('cascade')
+                    ->onDelete('set null')
                     ->onUpdate('cascade');
         });
     }

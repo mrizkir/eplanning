@@ -180,41 +180,51 @@
                     </div>
                 </div>
             </li>
-            <li class="dropdown visible">
+            <li class="dropdown mega-menu mega-menu-wide visible">                
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-cogs position-left"></i> SETTING <span class="caret"></span>
                 </a>
-                <ul class="dropdown-menu width-200">
-                    @hasrole('superadmin') 
-                    <li class="dropdown-header">ATRIBUT USER</li>                     
-                    <li{!!Helper::isMenuActive ($page_active,'permissions',' class="active"')!!}>
-                        <a href="{!!route('permissions.index')!!}">
-                            <i class="icon-user"></i> PERMISSIONS
-                        </a>
-                    </li> 
-                    <li{!!Helper::isMenuActive ($page_active,'roles',' class="active"')!!}>
-                        <a href="{!!route('roles.index')!!}">
-                            <i class="icon-user"></i> ROLES
-                        </a>
-                    </li>
-                    <li class="dropdown-header">USERS</li>
-                    <li{!!Helper::isMenuActive ($page_active,'users',' class="active"')!!}>
-                        <a href="{!!route('users.index')!!}">
-                            <i class="icon-user"></i> BAPPEDA
-                        </a>
-                    </li>
-                    <li{!!Helper::isMenuActive ($page_active,'usersopd',' class="active"')!!}>
-                        <a href="{!!route('usersopd.index')!!}">
-                            <i class="icon-user"></i> OPD
-                        </a>
-                    </li>
-                    <li{!!Helper::isMenuActive ($page_active,'dewan',' class="active"')!!}>
-                        <a href="{!!route('users.index')!!}">
-                            <i class="icon-user"></i> DEWAN
-                        </a>
-                    </li>
-                    @endhasrole	
-                </ul>
+                <div class="dropdown-menu dropdown-content">
+                        <div class="dropdown-content-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <span class="menu-heading underlined"><i class="icon-users"></i> PENGGUNA</span>
+                                    <ul class="menu-list">
+                                        @hasrole('superadmin') 
+                                        <li class="dropdown-header">ATRIBUT USER</li>                     
+                                        <li{!!Helper::isMenuActive ($page_active,'permissions',' class="active"')!!}>
+                                            <a href="{!!route('permissions.index')!!}">
+                                                <i class="icon-user"></i> PERMISSIONS
+                                            </a>
+                                        </li> 
+                                        <li{!!Helper::isMenuActive ($page_active,'roles',' class="active"')!!}>
+                                            <a href="{!!route('roles.index')!!}">
+                                                <i class="icon-user"></i> ROLES
+                                            </a>
+                                        </li>
+                                        <li class="dropdown-header">USERS</li>
+                                        <li{!!Helper::isMenuActive ($page_active,'users',' class="active"')!!}>
+                                            <a href="{!!route('users.index')!!}">
+                                                <i class="icon-user"></i> BAPPEDA
+                                            </a>
+                                        </li>
+                                        <li{!!Helper::isMenuActive ($page_active,'usersopd',' class="active"')!!}>
+                                            <a href="{!!route('usersopd.index')!!}">
+                                                <i class="icon-user"></i> OPD
+                                            </a>
+                                        </li>
+                                        <li{!!Helper::isMenuActive ($page_active,'dewan',' class="active"')!!}>
+                                            <a href="{!!route('users.index')!!}">
+                                                <i class="icon-user"></i> DEWAN
+                                            </a>
+                                        </li>
+                                        @endhasrole	
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </li>
         </ul>
     </div>
