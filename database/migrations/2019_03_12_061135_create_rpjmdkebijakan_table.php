@@ -95,14 +95,14 @@ class CreateRpjmdkebijakanTable extends Migration
                     ->onUpdate('cascade');
 
             $table->foreign('OrgID2')
-                    ->references('OrgID2')
+                    ->references('OrgID')
                     ->on('tmOrg')
                     ->onDelete('set null')
                     ->onUpdate('cascade');
 
 
             $table->foreign('OrgID3')
-                    ->references('OrgID3')
+                    ->references('OrgID')
                     ->on('tmOrg')
                     ->onDelete('set null')
                     ->onUpdate('cascade');
