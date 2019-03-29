@@ -87,35 +87,35 @@
                                     @can('browse_kelompokurusan')
                                     <li{!!Helper::isMenuActive ($page_active,'kelompokurusan',' class="active"')!!}>
                                         <a href="{{route('kelompokurusan.index')}}" title="Data Kelompok Urusan">
-                                            <i class="icon-chess-queen"></i> KELOMPOK URUSAN
+                                            <i class="icon-chess-queen"></i> KELOMPOK URUSAN <span class="text-violet"><strong>[1]</strong></span>
                                         </a>
                                     </li>    
                                     @endcan                      
                                     @can('browse_urusan')              
                                     <li{!!Helper::isMenuActive ($page_active,'urusan',' class="active"')!!}>
                                         <a href="{{route('urusan.index')}}" title="Data Urusan">
-                                            <i class="icon-chess-king"></i> URUSAN
+                                            <i class="icon-chess-king"></i> URUSAN <span class="text-violet"><strong>[2]</strong></span>
                                         </a>
                                     </li>    
                                     @endcan
                                     <li{!!Helper::isMenuActive ($page_active,'organisasi',' class="active"')!!}>
                                         <a href="{{route('organisasi.index')}}" title="Data Organisasi">
-                                            <i class="icon-office"></i> URUSAN -> ORGANISASI
+                                            <i class="icon-office"></i> ORGANISASI <span class="text-violet"><strong>[2.1]</strong></span>
                                         </a>
                                     </li>  
                                     <li{!!Helper::isMenuActive ($page_active,'suborganisasi',' class="active"')!!}>
                                         <a href="{{route('suborganisasi.index')}}" title="Data Organisasi">
-                                            <i class="icon-office"></i> ORGANISASI -> UNIT KERJA
+                                            <i class="icon-office"></i> UNIT KERJA <span class="text-violet"><strong>[2.1.1]</strong></span>
                                         </a>
                                     </li>                                
                                     <li{!!Helper::isMenuActive ($page_active,'program',' class="active"')!!}>
                                         <a href="{{route('program.index')}}" title="Data Program">
-                                            <i class="icon-codepen"></i> URUSAN -> PROGAM
+                                            <i class="icon-codepen"></i> PROGAM <span class="text-violet"><strong>[2.2]</strong></span>
                                         </a>
                                     </li>
                                     <li{!!Helper::isMenuActive ($page_active,'programkegiatan',' class="active"')!!}>
                                         <a href="{{route('programkegiatan.index')}}" title="Data Program Kegiatan">
-                                            <i class="icon-code"></i> KEGIATAN
+                                            <i class="icon-code"></i> KEGIATAN <span class="text-violet"><strong>[2.2.1]</strong></span>
                                         </a>    
                                     </li>
                                 </ul>
@@ -125,7 +125,7 @@
                                 <ul class="menu-list">
                                     <li{!!Helper::isMenuActive ($page_active,'mappingprogramtoopd',' class="active"')!!}>
                                         <a href="{{route('mappingprogramtoopd.index')}}" title="Data Program Kegiatan">
-                                            <i class="icon-link"></i> PROGRAM -> OPD / SKPD
+                                            <i class="icon-link"></i> PROGRAM -> OPD / SKPD <span class="text-violet"><strong>[3]</strong></span>
                                         </a>    
                                     </li>
                                 </ul>
@@ -146,17 +146,17 @@
                                 <ul class="menu-list">                                   
                                     <li{!!Helper::isMenuActive ($page_active,'aspirasimusrendesa',' class="active"')!!}>
                                         <a href="{{route('aspirasimusrendesa.index')}}" title="Aspirasi Musrenbang Desa">
-                                            <i class="icon-cube"></i>A. MUSRENBANG DESA / KELURAHAN
+                                            <i class="icon-cube"></i>A. MUSRENBANG DESA / KELURAHAN <span class="text-violet"><strong>[1]</strong></span>
                                         </a>                                        
                                     </li>                                    
                                     <li{!!Helper::isMenuActive ($page_active,'aspirasimusrenkecamatan',' class="active"')!!}>
                                         <a href="{{route('aspirasimusrenkecamatan.index')}}" title="Aspirasi Musrenbang Kecamatan">
-                                            <i class="icon-cube"></i>A. MUSRENBANG KECAMATAN
+                                            <i class="icon-cube"></i>A. MUSRENBANG KECAMATAN <span class="text-violet"><strong>[3]</strong></span>
                                         </a>                                        
                                     </li>      
                                     <li{!!Helper::isMenuActive ($page_active,'usulanprarenjaopd',' class="active"')!!}>
                                         <a href="{{route('usulanprarenjaopd.index')}}" title="Usulan Pra Renja OPD/SKPD">
-                                            <i class="icon-cube"></i>U. PRA RENJA OPD/SKPD
+                                            <i class="icon-cube"></i>U. PRA RENJA OPD/SKPD <span class="text-violet"><strong>[5]</strong></span>
                                         </a>                                        
                                     </li>                               
                                 </ul>
@@ -166,12 +166,12 @@
                                 <ul class="menu-list">                                   
                                     <li{!!Helper::isMenuActive ($page_active,'pembahasanmusrendesa',' class="active"')!!}>
                                         <a href="{{route('pembahasanmusrendesa.index')}}" title="Aspirasi Musrenbang Desa">
-                                            <i class="icon-cube"></i>P. MUSRENBANG DESA / KELURAHAN
+                                            <i class="icon-cube"></i>P. MUSRENBANG DESA / KELURAHAN <span class="text-violet"><strong>[2]</strong></span>
                                         </a>
                                     </li>        
                                     <li{!!Helper::isMenuActive ($page_active,'pembahasanmusrenkecamatan',' class="active"')!!}>
                                         <a href="{{route('pembahasanmusrenkecamatan.index')}}" title="Aspirasi Musrenbang Kecamatan">
-                                            <i class="icon-cube"></i>P. MUSRENBANG KECAMATAN
+                                            <i class="icon-cube"></i>P. MUSRENBANG KECAMATAN <span class="text-violet"><strong>[4]</strong></span>
                                         </a>
                                     </li>                               
                                 </ul>
