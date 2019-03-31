@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();  
-            $table->string('SOrgID',16)->nullable();  
+            $table->string('SOrgID',19)->nullable();  
             $table->string('SOrgNm')->nullable();  
             $table->year('TA')->nullable();       
             $table->string('theme')->default('default');
@@ -32,6 +32,13 @@ class CreateUsersTable extends Migration
             $table->timestamps();
 
             $table->index('SOrgID');
+
+            $table->foreign('SOrgID')
+                    ->references('SOrgID')
+                    ->on('tmSOrg')
+                    ->onDelete('set null')
+                    ->onUpdate('cascade');
+                    
             $table->index('TA');
             
         });

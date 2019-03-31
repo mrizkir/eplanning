@@ -60,7 +60,7 @@
                     </div>
                 </div>     
                 <div class="form-group">
-                    {{Form::label('SOrgID','OPD / SKPD',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('SOrgID','UNIT KERJA',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
                         {{Form::select('SOrgID', $daftar_opd,$data['SOrgID'],['class'=>'form-control select','id'=>'SOrgID'])}}                                
                     </div>
@@ -123,7 +123,7 @@ $(document).ready(function () {
                 required: true,
                 minlength: 5,
             },            
-            OrgID : {
+            SOrgID : {
                 required: true,
             }
         },
@@ -144,7 +144,7 @@ $(document).ready(function () {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 5 karakter atau lebih."
             },            
-            OrgID : {                
+            SOrgID : {                
                 required: "Mohon di pilih Unit Kerja / OPD / SKPD untuk user ini",
             }
         },           
