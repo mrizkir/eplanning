@@ -46,8 +46,7 @@ class ProgramController extends Controller {
         {            
             $this->putControllerStateSession('program','filters',['UrsID'=>'none']);
         }
-        $filter_ursid=$this->getControllerStateSession('program.filters','UrsID'); 
-
+        $filter_ursid=$this->getControllerStateSession('program.filters','UrsID');                 
         if ($this->checkStateIsExistSession('program','search')) 
         {
             $search=$this->getControllerStateSession('program','search');
@@ -70,7 +69,7 @@ class ProgramController extends Controller {
         }
         else
         {
-            $data =$filter_ursid == 'none' ? 
+            $data =$filter_ursid == 'none' || $filter_ursid == null ? 
                                             \DB::table('v_urusan_program')
                                                         ->where('TA',config('globalsettings.tahun_perencanaan'))
                                                         ->orderBy($column_order,$direction)                                                        

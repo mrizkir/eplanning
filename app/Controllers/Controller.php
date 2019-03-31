@@ -46,7 +46,7 @@ class Controller extends BaseController
         }
         else
         {
-            return array();
+            return null;
         }
         
     }

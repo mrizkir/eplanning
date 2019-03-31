@@ -63,7 +63,8 @@
 $(document).ready(function () {  
     //styling select
     $('.select').select2({
-        allowClear:true
+        allowClear:true,
+        placeholder:'PILIH URUSAN'
     });
     $("#divdatatable").on("click",".btnDelete", function(){
         if (confirm('Apakah Anda ingin menghapus Data Program ini ?')) {
