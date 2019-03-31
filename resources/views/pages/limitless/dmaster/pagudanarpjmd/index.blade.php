@@ -1,20 +1,18 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    USULAN PRA RENJA OPD/SKPD
+    PAGUDANARPJMD
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold">
-        USULAN PRA RENJA OPD/SKPD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
+        PAGUDANARPJMD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.rkpd.usulanprarenjaopd.info')
+    @include('pages.limitless.dmaster.pagudanarpjmd.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="#">PERENCANAAN</a></li>
-    <li><a href="#">ASPIRASI / USULAN</a></li>
-    <li class="active">USULAN PRA RENJA OPD/SKPD</li>
+    <li class="active">PAGUDANARPJMD</li>
 @endsection
 @section('page_content')
 <div class="row">
@@ -27,7 +25,7 @@
                 </h5>
             </div>
             <div class="panel-body">
-                {!! Form::open(['action'=>'RKPD\UsulanPraRenjaOPDController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
+                {!! Form::open(['action'=>'DMaster\PaguDanaRPJMDController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">
@@ -53,7 +51,7 @@
         </div>
     </div>       
     <div class="col-md-12" id="divdatatable">
-        @include('pages.limitless.rkpd.usulanprarenjaopd.datatable')
+        @include('pages.limitless.dmaster.pagudanarpjmd.datatable')
     </div>
 </div>
 @endsection
@@ -61,7 +59,7 @@
 <script type="text/javascript">
 $(document).ready(function () {  
     $("#divdatatable").on("click",".btnDelete", function(){
-        if (confirm('Apakah Anda ingin menghapus Data UsulanPraRenjaOPD ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data PaguDanaRPJMD ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             $.ajax({            
@@ -77,7 +75,7 @@ $(document).ready(function () {
                     if (result.success==1){
                         $('#divdatatable').html(result.datatable);                        
                     }else{
-                        console.log("Gagal menghapus data UsulanPraRenjaOPD dengan id "+id);
+                        console.log("Gagal menghapus data PaguDanaRPJMD dengan id "+id);
                     }                    
                 },
                 error:function(xhr, status, error){

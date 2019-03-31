@@ -9,7 +9,7 @@
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.rencanakerja.usulanprarenjaopd.info')
+    @include('pages.limitless.rkpd.usulanprarenjaopd.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">PERENCANAAN</a></li>
@@ -34,7 +34,7 @@
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>'RencanaKerja\UsulanPraRenjaOPDController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
+            {!! Form::open(['action'=>'RKPD\UsulanPraRenjaOPDController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
                 <div class="form-group">
                     {{Form::label('replaceit','replaceit',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">

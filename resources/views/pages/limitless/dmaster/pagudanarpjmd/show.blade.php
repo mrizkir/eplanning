@@ -1,20 +1,18 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    USULAN PRA RENJA OPD/SKPD
+    PAGUDANARPJMD
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        USULAN PRA RENJA OPD/SKPD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        PAGUDANARPJMD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
     </span>     
 @endsection
 @section('page_info')
-    @include('pages.limitless.rkpd.usulanprarenjaopd.info')
+    @include('pages.limitless.dmaster.pagudanarpjmd.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="#">PERENCANAAN</a></li>
-    <li><a href="#">ASPIRASI / USULAN</a></li>
-    <li><a href="{!!route('usulanprarenjaopd.index')!!}">USULAN PRA RENJA OPD/SKPD</a></li>
+    <li><a href="{!!route('pagudanarpjmd.index')!!}">PAGUDANARPJMD</a></li>
     <li class="active">DETAIL DATA</li>
 @endsection
 @section('page_content')
@@ -23,16 +21,16 @@
         <div class="panel panel-flat border-top-info border-bottom-info">
             <div class="panel-heading">
                 <h5 class="panel-title"> 
-                    <i class="icon-eye"></i>  DATA USULAN PRA RENJA OPD/SKPD
+                    <i class="icon-eye"></i>  DATA PAGUDANARPJMD
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('usulanprarenjaopd.edit',['id'=>$data->usulanprarenjaopd_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data UsulanPraRenjaOPD">
+                    <a href="{{route('pagudanarpjmd.edit',['id'=>$data->pagudanarpjmd_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data PaguDanaRPJMD">
                         <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data UsulanPraRenjaOPD" data-id="{{$data->usulanprarenjaopd_id}}" data-url="{{route('usulanprarenjaopd.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
+                    <a href="javascript:;" title="Hapus Data PaguDanaRPJMD" data-id="{{$data->pagudanarpjmd_id}}" data-url="{{route('pagudanarpjmd.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
                     </a>
-                    <a href="{!!route('usulanprarenjaopd.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
+                    <a href="{!!route('pagudanarpjmd.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
                         <i class="icon-close2"></i>
                     </a>            
                 </div>
@@ -42,9 +40,9 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>usulanprarenjaopd id: </strong></label>
+                                <label class="col-md-4 control-label"><strong>pagudanarpjmd id: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->usulanprarenjaopd_id}}</p>
+                                    <p class="form-control-static">{{$data->pagudanarpjmd_id}}</p>
                                 </div>                            
                             </div>                            
                             <div class="form-group">
@@ -81,7 +79,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
     $(".btnDelete").click(function(ev) {
-        if (confirm('Apakah Anda ingin menghapus Data UsulanPraRenjaOPD ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data PaguDanaRPJMD ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             let token = $('meta[name="csrf-token"]').attr('content');

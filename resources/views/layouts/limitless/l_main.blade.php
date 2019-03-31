@@ -80,7 +80,7 @@
                 </a>
                 <div class="dropdown-menu dropdown-content">
                     <div class="dropdown-content-body">
-                        <div class="row">
+                        <div class="row">                            
                             <div class="col-md-3">
                                 <span class="menu-heading underlined"><i class="icon-office"></i> DATA</span>
                                 <ul class="menu-list">
@@ -130,6 +130,16 @@
                                     </li>
                                 </ul>
                             </div>
+                            <div class="col-md-3">
+                                <span class="menu-heading underlined"><i class="icon-link2"></i> ANEKA DATA</span>
+                                <ul class="menu-list">
+                                    <li{!!Helper::isMenuActive ($page_active,'paguanggaranopd',' class="active"')!!}>
+                                        <a href="{{route('paguanggaranopd.index')}}" title="Pagu Anggaran OPD/SKPD">
+                                            <i class="icon-link"></i> PAGU ANGGARAN OPD/SKPD
+                                        </a>    
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -175,6 +185,24 @@
                                         </a>
                                     </li>                               
                                 </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="dropdown mega-menu mega-menu-wide visible">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-airplane3 position-left"></i> MONEV <span class="caret"></span>
+                </a>
+                <div class="dropdown-menu dropdown-content">
+                    <div class="dropdown-content-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <span class="menu-heading underlined"><i class="icon-cart"></i> BELANJA MURNI</span>
+                                
+                            </div>
+                            <div class="col-md-3">
+                                <span class="menu-heading underlined"><i class="icon-cart"></i> BELANJA PERUBAHAN</span>                                
                             </div>
                         </div>
                     </div>

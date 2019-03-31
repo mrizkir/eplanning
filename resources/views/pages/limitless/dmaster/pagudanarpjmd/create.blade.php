@@ -1,21 +1,19 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    USULAN PRA RENJA OPD/SKPD
+    PAGUDANARPJMD
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        USULAN PRA RENJA OPD/SKPD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
-    </span>     
+        PAGUDANARPJMD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+    </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.rkpd.usulanprarenjaopd.info')
+    @include('pages.limitless.dmaster.pagudanarpjmd.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="#">PERENCANAAN</a></li>
-    <li><a href="#">ASPIRASI / USULAN</a></li>
-    <li><a href="{!!route('usulanprarenjaopd.index')!!}">USULAN PRA RENJA OPD/SKPD</a></li>
-    <li class="active">UBAH DATA</li>
+    <li><a href="{!!route('pagudanarpjmd.index')!!}">PAGUDANARPJMD</a></li>
+    <li class="active">TAMBAH DATA</li>
 @endsection
 @section('page_content')
 <div class="content">
@@ -23,34 +21,33 @@
         <div class="panel-heading">
             <h5 class="panel-title">
                 <i class="icon-pencil7 position-left"></i> 
-                UBAH DATA
+                TAMBAH DATA
             </h5>
             <div class="heading-elements">
                 <ul class="icons-list">                    
-                    <li>
-                        <a href="{!!route('usulanprarenjaopd.index')!!}" data-action="closeredirect" title="keluar"></a>
+                    <li>               
+                        <a href="{!!route('pagudanarpjmd.index')!!}" data-action="closeredirect" title="keluar"></a>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>['RKPD\UsulanPraRenjaOPDController@update',$data->usulanprarenjaopd_id],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
-                {{Form::hidden('_method','PUT')}}
+            {!! Form::open(['action'=>'DMaster\PaguDanaRPJMDController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
                 <div class="form-group">
                     {{Form::label('replaceit','replaceit',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('replaceit',$data[''],['class'=>'form-control','placeholder'=>'replaceit'])}}
-                    </div>                
+                        {{Form::text('replaceit','',['class'=>'form-control','placeholder'=>'replaceit'])}}
+                    </div>
                 </div>
                 <div class="form-group">            
                     <div class="col-md-10 col-md-offset-2">                        
-                        {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] )  }}                        
+                        {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}
                     </div>
                 </div>
             {!! Form::close()!!}
         </div>
     </div>
-</div>  
+</div>   
 @endsection
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
@@ -71,7 +68,7 @@ $(document).ready(function () {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             }
-        }     
+        }      
     });   
 });
 </script>
