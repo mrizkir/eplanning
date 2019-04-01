@@ -60,7 +60,8 @@ class CreateVIndikatorKinerjaView extends Migration
                 JOIN "tmOrg" d ON d."OrgID" = a."OrgID"
                 LEFT JOIN "tmUrs" d2 ON d2."UrsID" = d."UrsID" 
                 LEFT JOIN "tmKUrs" d3 ON d3."KUrsID" = d2."KUrsID" 
-                LEFT JOIN "tmSOrg" e ON e."SOrgID" = a."OrgID2"');			 
+                LEFT JOIN "tmSOrg" e ON e."SOrgID" = a."OrgID2"
+        ');			 
 				
     }
 
