@@ -65,6 +65,35 @@ class Helper {
         return $formatted;
     }
     /**
+	* digunakan untuk mem-format angka
+	*/
+	public static function formatAngka ($angka=0) {
+        $bil = intval($angka);
+        $formatted = ($bil < $angka) ? $angka : $bil;
+        return $formatted;
+    }
+    /**
+	* digunakan untuk mem-format persentase
+	*/
+	public function formatPersen ($pembilang,$penyebut=0,$dec_sep=2) {
+        $result=0.00;
+		if ($pembilang > 0) {
+            $temp=number_format((float)($pembilang/$penyebut)*100,$dec_sep);
+            $result = $temp > 100 ? 100.00 : $temp;
+        }
+        return $result;
+	}
+    /**
+	* digunakan untuk mem-format pecahan
+	*/
+	public function formatPecahan ($pembilang,$penyebut=0,$dec_sep=2) {
+        $result=0;
+		if ($pembilang > 0) {
+            $result=number_format((float)($pembilang/$penyebut),$dec_sep);
+        }
+        return $result;
+	}
+    /**
 	* digunakan untuk mendapatkan daftar prioritas
 	*/
 	public static function getDaftarPrioritas () {

@@ -5,6 +5,8 @@ namespace App\Controllers\RKPD;
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Models\RKPD\UsulanPraRenjaOPDModel;
+use App\Models\DMaster\OrganisasiModel;
+use App\Models\DMaster\SubOrganisasiModel;
 
 class UsulanPraRenjaOPDController extends Controller {
      /**
@@ -27,7 +29,7 @@ class UsulanPraRenjaOPDController extends Controller {
         $columns=['*'];       
         if (!$this->checkStateIsExistSession('usulanprarenjaopd','orderby')) 
         {            
-           $this->putControllerStateSession('usulanprarenjaopd','orderby',['column_name'=>'RenjaID','order'=>'asc']);
+           $this->putControllerStateSession('usulanprarenjaopd','orderby',['column_name'=>'SOrgNm','order'=>'asc']);
         }
         $column_order=$this->getControllerStateSession('usulanprarenjaopd.orderby','column_name'); 
         $direction=$this->getControllerStateSession('usulanprarenjaopd.orderby','order'); 
@@ -36,7 +38,18 @@ class UsulanPraRenjaOPDController extends Controller {
         {            
             $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
         }
-        $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
+        $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');
+        
+        //filter
+        if (!$this->checkStateIsExistSession('usulanprarenjaopd','filters')) 
+        {            
+            $this->putControllerStateSession('usulanprarenjaopd','filters',[
+                                                                            'OrgID'=>'none',
+                                                                            'SOrgID'=>'none',
+                                                                            ]);
+        }        
+        $SOrgID= $this->getControllerStateSession('usulanprarenjaopd.filters','SOrgID');        
+
         if ($this->checkStateIsExistSession('usulanprarenjaopd','search')) 
         {
             $search=$this->getControllerStateSession('usulanprarenjaopd','search');
@@ -53,7 +66,12 @@ class UsulanPraRenjaOPDController extends Controller {
         }
         else
         {
-            $data = UsulanPraRenjaOPDModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data = UsulanPraRenjaOPDModel::orderBy($column_order,$direction)
+                                            ->where('SOrgID',$SOrgID)
+                                            ->where('TA', config('globalsettings.tahun_perencanaan'))
+                                            ->orderBy('KgtNm','ASC')
+                                            ->orderBy('Uraian','ASC')                                            
+                                            ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('usulanprarenjaopd.index'));
         return $data;
@@ -94,11 +112,11 @@ class UsulanPraRenjaOPDController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'replace_it' :
-                $column_name = 'replace_it';
+            case 'col-SOrgNm' :
+                $column_name = 'SOrgNm';
             break;           
             default :
-                $column_name = 'replace_it';
+                $column_name = 'SOrgNm';
         }
         $this->putControllerStateSession('usulanprarenjaopd','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
@@ -159,13 +177,53 @@ class UsulanPraRenjaOPDController extends Controller {
         $data=$this->populateData();
 
         $datatable = view("pages.$theme.rkpd.usulanprarenjaopd.datatable")->with(['page_active'=>'usulanprarenjaopd',                                                            
-                                                            'search'=>$this->getControllerStateSession('usulanprarenjaopd','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('usulanprarenjaopd.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('usulanprarenjaopd.orderby','order'),
-                                                            'data'=>$data])->render();      
+                                                                                'search'=>$this->getControllerStateSession('usulanprarenjaopd','search'),
+                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                'column_order'=>$this->getControllerStateSession('usulanprarenjaopd.orderby','column_name'),
+                                                                                'direction'=>$this->getControllerStateSession('usulanprarenjaopd.orderby','order'),
+                                                                                'data'=>$data])->render();      
         
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
+    }
+    /**
+     * filter resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function filter (Request $request) 
+    {
+        $theme = \Auth::user()->theme;
+
+        $filters=$this->getControllerStateSession('usulanprarenjaopd','filters');
+        $daftar_unitkerja=[];
+        if ($request->exists('OrgID'))
+        {
+            $OrgID = $request->input('OrgID')==''?'none':$request->input('OrgID');
+            $filters['OrgID']=$OrgID;
+            $daftar_unitkerja=SubOrganisasiModel::getDaftarUnitKerja(config('globalsettings.tahun_perencanaan'),false,$OrgID);  
+            
+            $this->putControllerStateSession('usulanprarenjaopd','filters',$filters);
+
+            return response()->json(['success'=>true,'daftar_unitkerja'=>$daftar_unitkerja],200);   
+        } 
+        
+        if ($request->exists('SOrgID'))
+        {
+            $SOrgID = $request->input('SOrgID')==''?'none':$request->input('SOrgID');
+            $filters['SOrgID']=$SOrgID;
+            $this->putControllerStateSession('usulanprarenjaopd','filters',$filters);
+            $this->setCurrentPageInsideSession('usulanprarenjaopd',1);
+
+            $datatable = view("pages.$theme.rkpd.usulanprarenjaopd.datatable")->with(['page_active'=>'usulanprarenjaopd',                                                            
+                                                                                    'search'=>$this->getControllerStateSession('usulanprarenjaopd','search'),
+                                                                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                    'column_order'=>$this->getControllerStateSession('usulanprarenjaopd.orderby','column_name'),
+                                                                                    'direction'=>$this->getControllerStateSession('usulanprarenjaopd.orderby','order'),
+                                                                                    'data'=>$data])->render();      
+        
+            return response()->json(['success'=>true,'datatable'=>$datatable],200);  
+        } 
     }
     /**
      * Show the form for creating a new resource.
@@ -185,12 +243,23 @@ class UsulanPraRenjaOPDController extends Controller {
         }
         $this->setCurrentPageInsideSession('usulanprarenjaopd',$data->currentPage());
         
+        $filters=$this->getControllerStateSession('usulanprarenjaopd','filters'); 
+         
+        $daftar_opd=OrganisasiModel::getDaftarOPD(config('globalsettings.tahun_perencanaan'),false);      
+        $daftar_unitkerja=array();           
+        if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
+        {
+            $daftar_unitkerja=SubOrganisasiModel::getDaftarUnitKerja(config('globalsettings.tahun_perencanaan'),false,$filters['OrgID']);        
+        }        
         return view("pages.$theme.rkpd.usulanprarenjaopd.index")->with(['page_active'=>'usulanprarenjaopd',
-                                                'search'=>$this->getControllerStateSession('usulanprarenjaopd','search'),
-                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                'column_order'=>$this->getControllerStateSession('usulanprarenjaopd.orderby','column_name'),
-                                                'direction'=>$this->getControllerStateSession('usulanprarenjaopd.orderby','order'),
-                                                'data'=>$data]);               
+                                                                        'daftar_opd'=>$daftar_opd,
+                                                                        'daftar_unitkerja'=>$daftar_unitkerja,
+                                                                        'filters'=>$filters,
+                                                                        'search'=>$this->getControllerStateSession('usulanprarenjaopd','search'),
+                                                                        'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                        'column_order'=>$this->getControllerStateSession('usulanprarenjaopd.orderby','column_name'),
+                                                                        'direction'=>$this->getControllerStateSession('usulanprarenjaopd.orderby','order'),
+                                                                        'data'=>$data]);               
     }
     /**
      * Show the form for creating a new resource.

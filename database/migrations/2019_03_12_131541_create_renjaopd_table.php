@@ -35,12 +35,12 @@ class CreateRenjaopdTable extends Migration
             $table->decimal('Sasaran_Angka5',15,2)->nullable();            
             $table->decimal('Sasaran_Angka6',15,2)->nullable();            
             
-            $table->decimal('Target1',15,2)->nullable();
-            $table->decimal('Target2',15,2)->nullable();
-            $table->decimal('Target3',15,2)->nullable();
-            $table->decimal('Target4',15,2)->nullable();
-            $table->decimal('Target5',15,2)->nullable();
-            $table->decimal('Target6',15,2)->nullable();
+            $table->decimal('Target1',3,2)->nullable();
+            $table->decimal('Target2',3,2)->nullable();
+            $table->decimal('Target3',3,2)->nullable();
+            $table->decimal('Target4',3,2)->nullable();
+            $table->decimal('Target5',3,2)->nullable();
+            $table->decimal('Target6',3,2)->nullable();
 
             $table->decimal('NilaiUsulan1',15,2)->nullable();
             $table->decimal('NilaiUsulan2',15,2)->nullable();
@@ -100,7 +100,7 @@ class CreateRenjaopdTable extends Migration
             $table->string('RenjaIndikatorID',19);
             $table->string('IndikatorKinerjaID',19);
             $table->string('RenjaID',19);
-            $table->decimal('Target_Angka',15,2);
+            $table->decimal('Target_Angka',3,2);
             $table->string('Target_Uraian');
             $table->year('Tahun');
 
@@ -153,12 +153,12 @@ class CreateRenjaopdTable extends Migration
                 $table->decimal('Sasaran_Angka5',15,2)->nullable();            
                 $table->decimal('Sasaran_Angka6',15,2)->nullable();            
                 
-                $table->decimal('Target1',15,2)->nullable();
-                $table->decimal('Target2',15,2)->nullable();
-                $table->decimal('Target3',15,2)->nullable();
-                $table->decimal('Target4',15,2)->nullable();
-                $table->decimal('Target5',15,2)->nullable();
-                $table->decimal('Target6',15,2)->nullable();
+                $table->decimal('Target1',3,2)->nullable();
+                $table->decimal('Target2',3,2)->nullable();
+                $table->decimal('Target3',3,2)->nullable();
+                $table->decimal('Target4',3,2)->nullable();
+                $table->decimal('Target5',3,2)->nullable();
+                $table->decimal('Target6',3,2)->nullable();
 
                 $table->decimal('Jumlah1',15,2)->nullable();
                 $table->decimal('Jumlah2',15,2)->nullable();

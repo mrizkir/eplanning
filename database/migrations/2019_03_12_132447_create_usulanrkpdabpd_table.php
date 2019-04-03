@@ -30,8 +30,8 @@ class CreateUsulanrkpdabpdTable extends Migration
             $table->decimal('NilaiUsulan1',15,2);
             $table->decimal('NilaiUsulan2',15,2);
 
-            $table->decimal('Target1',15,2);
-            $table->decimal('Target2',15,2);
+            $table->decimal('Target1',3,2);
+            $table->decimal('Target2',3,2);
 
             $table->decimal('Sasaran_AngkaSetelah',15,2);
             $table->string('Sasaran_UraianSetelah');
@@ -83,7 +83,7 @@ class CreateUsulanrkpdabpdTable extends Migration
             $table->string('RKPDID',19);
             $table->string('IndikatorKinerjaID',19);
             
-            $table->decimal('Target_Angka',15,2);
+            $table->decimal('Target_Angka',3,2);
             $table->string('Target_Uraian');
             $table->year('Tahun');
             $table->string('Descr')->nullable();
@@ -127,8 +127,8 @@ class CreateUsulanrkpdabpdTable extends Migration
                 $table->decimal('NilaiUsulan1',15,2);
                 $table->decimal('NilaiUsulan2',15,2);
 
-                $table->decimal('Target1',15,2);
-                $table->decimal('Target2',15,2);
+                $table->decimal('Target1',3,2);
+                $table->decimal('Target2',3,2);
 
                 $table->date('Tgl_Posting');
                 $table->boolean('isReses')->default(0);

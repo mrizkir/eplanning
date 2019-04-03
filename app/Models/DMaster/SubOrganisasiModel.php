@@ -57,25 +57,30 @@ class SubOrganisasiModel extends Model {
     // protected static $recordEvents = ['deleted'];
 
     /**
-     * digunakan untuk mendapatkan kode urusan
+     * digunakan untuk mendapatkan daftar unit kerja
      */
-    public static function getDaftarOPD ($ta,$prepend=true) 
+    public static function getDaftarUnitKerja ($ta,$prepend=true,$OrgID=null) 
     {
         $r=\DB::table('v_suborganisasi')
-                ->where('TA',$ta)
-                ->orderBy('kode_suborganisasi')->get();
+                ->where('TA',$ta);
+        if($OrgID!=null)
+        {
+            $r->where('OrgID',$OrgID);
+        }
+        $q=$r->orderBy('kode_suborganisasi')
+             ->get();
         
-        $daftar_organisasi=($prepend==true)?['none'=>'DAFTAR OPD / SKPD']:[];        
-        foreach ($r as $k=>$v)
+        $daftar_organisasi=($prepend==true)?['none'=>'DAFTAR UNIT KERJA']:[];        
+        foreach ($q as $k=>$v)
         {
             $daftar_organisasi[$v->SOrgID]=$v->kode_suborganisasi.'. '.$v->SOrgNm;
         } 
         return $daftar_organisasi;
     }
     /**
-     * digunakan untuk mendapatkan kode urusan
+     * digunakan untuk nama unit kerja berdasarkan SOrgID
      */
-    public static function getNamaOPDByID ($SOrgID) 
+    public static function getNamaUnitKerjaByID ($SOrgID) 
     {
         $r = \DB::table('v_suborganisasi')->where('SOrgID',$SOrgID)->pluck('SOrgNm')->toArray();
         if (isset($r[0]))
