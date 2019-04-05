@@ -20,40 +20,50 @@
         <table id="data" class="table table-striped table-hover">
             <thead>
                 <tr class="bg-teal-700">
-                    <th width="55">NO</th>                    
+                    <th width="55">NO</th>     
+                    <th width="150">
+                        <a class="column-sort text-white" id="col-kode_kegiatan" data-order="{{$direction}}" href="#">
+                            KODE KEGIATAN                                                                       
+                        </a>
+                    </th>                
                     <th width="400">
-                        NAMA KEGIATAN                                                                       
+                        <a class="column-sort text-white" id="col-KgtNm" data-order="{{$direction}}" href="#">
+                            NAMA KEGIATAN                                                                       
+                        </a>
                     </th> 
                     <th width="300">
-                        NAMA URAIAN                                                                       
+                        <a class="column-sort text-white" id="col-Uraian" data-order="{{$direction}}" href="#">
+                            NAMA URAIAN                                                                       
+                        </a>
                     </th>
                     <th width="200">
-                        <a class="column-sort text-white" id="col-PrgNm" data-order="{{$direction}}" href="#">
+                        <a class="column-sort text-white" id="col-Sasaran_Angka1" data-order="{{$direction}}" href="#">
                             SASARAN  
                         </a>                                             
                     </th> 
-                    <th width="120">
-                        <a class="column-sort text-white" id="col-PrgNm" data-order="{{$direction}}" href="#">
-                            TARGET (%)
-                        </a>                                             
+                    <th width="120">                        
+                        TARGET (%)                        
                     </th> 
                     <th width="150" class="text-right">
-                        <a class="column-sort text-white" id="col-PrgNm" data-order="{{$direction}}" href="#">
+                        <a class="column-sort text-white" id="col-Jumlah1" data-order="{{$direction}}" href="#">
                             NILAI  
                         </a>                                             
                     </th> 
                     <th width="80">
-                        <a class="column-sort text-white" id="col-PrgNm" data-order="{{$direction}}" href="#">
+                        <a class="column-sort text-white" id="col-Status" data-order="{{$direction}}" href="#">
                             STATUS  
                         </a>                                             
                     </th> 
-                    <th width="100">AKSI</th>
+                    <th width="120">AKSI</th>
                 </tr>
             </thead>
             <tbody>                    
             @foreach ($data as $key=>$item)
                 <tr>
-                    <td>{{$item->No}}</td>    
+                    <td>
+                        {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
+                    </td>
+                    <td>{{$item->kode_kegiatan}}</td>
                     <td>{{$item->KgtNm}}</td>
                     <td>{{$item->Uraian}}</td>
                     <td>{{Helper::formatAngka($item->Sasaran_Angka1)}} {{$item->Sasaran_Uraian1}}</td>

@@ -56,13 +56,14 @@ class ProgramModel extends Model {
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];    
 
-    public static function getDaftarProgram ($ta,$prepend=true) 
+    public static function getDaftarProgram ($ta,$prepend=true,$UrsID=null) 
     {
         $r=\DB::table('v_urusan_program')
                 ->where('TA',$ta)
                 ->orderBy('Kd_Prog')
-                ->orderBy('kode_program')
-                ->get();
+                ->orderBy('kode_program');
+
+        $r = $UrsID == null ? $r->get():  $r->where('UrsID',$UrsID)->get();                 
         
         $daftar_program=($prepend==true)?['none'=>'DAFTAR PROGRAM']:[];        
         foreach ($r as $k=>$v)

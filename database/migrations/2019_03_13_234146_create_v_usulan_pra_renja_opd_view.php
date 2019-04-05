@@ -21,6 +21,7 @@ class CreateVUsulanPraRenjaOPDView extends Migration
 	            A."SOrgID",
                 C."OrgNm",
                 D."SOrgNm",
+                CONCAT(H."Kd_Urusan", \'.\', G."Kd_Bidang", \'.\', F."Kd_Prog", \'.\', E."Kd_Keg") AS kode_kegiatan,
                 F."PrgNm",
                 E."KgtNm",
                 B."No",
@@ -43,6 +44,8 @@ class CreateVUsulanPraRenjaOPDView extends Migration
                 INNER JOIN "tmSOrg" D ON A."SOrgID"=D."SOrgID" AND A."TA"=D."TA"
                 INNER JOIN "tmKgt" E ON A."KgtID"=E."KgtID" AND A."TA"=E."TA"
                 INNER JOIN "tmPrg" F ON E."PrgID"=F."PrgID" AND E."TA"=F."TA"
+                INNER JOIN "tmUrs" G ON C."UrsID"=G."UrsID" AND A."TA"=G."TA"
+	            INNER JOIN "tmKUrs" H ON G."KUrsID"=H."KUrsID" AND G."TA"=H."TA"
             WHERE
                 A."EntryLvl"=\'0\'
         ');				

@@ -9,7 +9,7 @@
         </div>
         <div class="heading-elements">
             <div class="heading-btn">
-                <a href="{!!route('usuluanrkpdabpd.create')!!}" class="btn btn-info btn-xs" title="Tambah USULUANRKPDABPD">
+                <a href="{!!route('pembahasanrenjaopd.create')!!}" class="btn btn-info btn-xs" title="Tambah PEMBAHASANRENJAOPD">
                     <i class="icon-googleplus5"></i>
                 </a>
             </div>            
@@ -39,17 +39,17 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('usuluanrkpdabpd.show',['id'=>$item->usuluanrkpdabpd_id])}}" title="Detail Data UsuluanRKPDABPD">
+                                <a class="btnShow" href="{{route('pembahasanrenjaopd.show',['id'=>$item->pembahasanrenjaopd_id])}}" title="Detail Data PembahasanRenjaOPD">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('usuluanrkpdabpd.edit',['id'=>$item->usuluanrkpdabpd_id])}}" title="Ubah Data UsuluanRKPDABPD">
+                                <a class="btnEdit" href="{{route('pembahasanrenjaopd.edit',['id'=>$item->pembahasanrenjaopd_id])}}" title="Ubah Data PembahasanRenjaOPD">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data UsuluanRKPDABPD" data-id="{{$item->usuluanrkpdabpd_id}}" data-url="{{route('usuluanrkpdabpd.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data PembahasanRenjaOPD" data-id="{{$item->pembahasanrenjaopd_id}}" data-url="{{route('pembahasanrenjaopd.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>

@@ -69,7 +69,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">
-                            {{Form::select('cmbKriteria', ['replaceit'=>'replaceit','nama'=>'replaceit'], isset($search['kriteria'])?$search['kriteria']:'replaceit',['class'=>'form-control'])}}
+                            {{Form::select('cmbKriteria', ['kode_kegiatan'=>'KODE KEGIATAN','KgtNm'=>'NAMA KEGIATAN'], isset($search['kriteria'])?$search['kriteria']:'kode_kegiatan',['class'=>'form-control'])}}
                         </div>
                     </div>
                     <div class="form-group" id="divKriteria">
@@ -127,7 +127,9 @@ $(document).ready(function () {
                 $.each(daftar_unitkerja,function(key,value){
                     listitems+='<option value="' + key + '">'+value+'</option>';                    
                 });
+                
                 $('#SOrgID').html(listitems);
+                $('#divdatatable').html(result.datatable);
             },
             error:function(xhr, status, error){
                 console.log('ERROR');
@@ -156,7 +158,7 @@ $(document).ready(function () {
         });     
     });
     $("#divdatatable").on("click",".btnDelete", function(){
-        if (confirm('Apakah Anda ingin menghapus Data UsulanPraRenjaOPD ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data Usulan Pra Renja OPD / SKPD ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             $.ajax({            
@@ -172,7 +174,7 @@ $(document).ready(function () {
                     if (result.success==1){
                         $('#divdatatable').html(result.datatable);                        
                     }else{
-                        console.log("Gagal menghapus data UsulanPraRenjaOPD dengan id "+id);
+                        console.log("Gagal menghapus data Usulan Pra Renja OPD / SKPD dengan id "+id);
                     }                    
                 },
                 error:function(xhr, status, error){

@@ -87,7 +87,7 @@
                 <div class="form-group">
                     {{Form::label('Prioritas','PRIORITAS',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::select('Prioritas', Helper::getDaftarPrioritas(),$data['Prioritas'],['class'=>'form-control','id'=>'Prioritas'])}}
+                        {{Form::select('Prioritas', HelperKegiatan::getDaftarPrioritas(),$data['Prioritas'],['class'=>'form-control','id'=>'Prioritas'])}}
                     </div>
                 </div>
                 <div class="form-group">
@@ -101,7 +101,7 @@
                 <div class="form-group">
                     {{Form::label('SumberDanaID','SUMBER DANA',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::select('SumberDanaID', $sumber_dana,$data['SumberDanaID'],['class'=>'form-control','id'=>'KUrsID'])}}
+                        {{Form::select('SumberDanaID', $sumber_dana,$data['SumberDanaID'],['class'=>'form-control','id'=>'SumberDanaID'])}}
                     </div>
                 </div>  
                 <div class="form-group">

@@ -75,7 +75,7 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>PRIORITAS: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::getNamaPrioritas($data->Prioritas)}}</p>
+                                    <p class="form-control-static">{{HelperKegiatan::getNamaPrioritas($data->Prioritas)}}</p>
                                 </div>                            
                             </div>                
                         </div>

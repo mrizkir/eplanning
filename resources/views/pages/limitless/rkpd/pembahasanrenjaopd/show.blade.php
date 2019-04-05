@@ -1,18 +1,18 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    USULUANRKPDABPD
+    PEMBAHASANRENJAOPD
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        USULUANRKPDABPD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        PEMBAHASANRENJAOPD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
     </span>     
 @endsection
 @section('page_info')
-    @include('pages.limitless.rkpd.usuluanrkpdabpd.info')
+    @include('pages.limitless.rkpd.pembahasanrenjaopd.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('usuluanrkpdabpd.index')!!}">USULUANRKPDABPD</a></li>
+    <li><a href="{!!route('pembahasanrenjaopd.index')!!}">PEMBAHASANRENJAOPD</a></li>
     <li class="active">DETAIL DATA</li>
 @endsection
 @section('page_content')
@@ -21,16 +21,19 @@
         <div class="panel panel-flat border-top-info border-bottom-info">
             <div class="panel-heading">
                 <h5 class="panel-title"> 
-                    <i class="icon-eye"></i>  DATA USULUANRKPDABPD
+                    <i class="icon-eye"></i>  DATA PEMBAHASANRENJAOPD
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('usuluanrkpdabpd.edit',['id'=>$data->usuluanrkpdabpd_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data UsuluanRKPDABPD">
+                    <a href="{!!route('pembahasanrenjaopd.create')!!}" class="btn btn-info btn-icon heading-btn btnAdd" title="Tambah PEMBAHASANRENJAOPD">
+                        <i class="icon-googleplus5"></i>
+                    </a>
+                    <a href="{{route('pembahasanrenjaopd.edit',['id'=>$data->pembahasanrenjaopd_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data PembahasanRenjaOPD">
                         <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data UsuluanRKPDABPD" data-id="{{$data->usuluanrkpdabpd_id}}" data-url="{{route('usuluanrkpdabpd.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
+                    <a href="javascript:;" title="Hapus Data PembahasanRenjaOPD" data-id="{{$data->pembahasanrenjaopd_id}}" data-url="{{route('pembahasanrenjaopd.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
                     </a>
-                    <a href="{!!route('usuluanrkpdabpd.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
+                    <a href="{!!route('pembahasanrenjaopd.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
                         <i class="icon-close2"></i>
                     </a>            
                 </div>
@@ -40,9 +43,9 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>usuluanrkpdabpd id: </strong></label>
+                                <label class="col-md-4 control-label"><strong>pembahasanrenjaopd id: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->usuluanrkpdabpd_id}}</p>
+                                    <p class="form-control-static">{{$data->pembahasanrenjaopd_id}}</p>
                                 </div>                            
                             </div>                            
                             <div class="form-group">
@@ -79,7 +82,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
     $(".btnDelete").click(function(ev) {
-        if (confirm('Apakah Anda ingin menghapus Data UsuluanRKPDABPD ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data PembahasanRenjaOPD ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             let token = $('meta[name="csrf-token"]').attr('content');
