@@ -144,6 +144,18 @@
                     </div>
                 </div>
             </li>            
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-strategy position-left"></i> RPJMD <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu width-350">                    
+                    <li{!!Helper::isMenuActive ($page_active,'rpjmdkebijakan',' class="active"')!!}>
+                        <a href="{{route('rpjmdkebijakan.index')}}">
+                            <i class="icon-align-center-horizontal"></i> PRIORITAS KEBIJAKAN
+                        </a>
+                    </li>                    
+                </ul>
+            </li>
             <li class="dropdown mega-menu mega-menu-wide visible">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-airplane3 position-left"></i> PERENCANAAN <span class="caret"></span>

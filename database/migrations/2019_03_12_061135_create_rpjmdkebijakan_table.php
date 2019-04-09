@@ -17,12 +17,14 @@ class CreateRpjmdkebijakanTable extends Migration
             $table->string('PrioritasKebijakanKabID',19);
             $table->string('PrioritasStrategiKabID',19);            
             $table->string('Kd_Kebijakan',4);
-            $table->string('Nm_Kebijakan');           
+            $table->text('Nm_Kebijakan');           
             $table->string('Descr')->nullable();
             $table->year('TA');
             $table->string('PrioritasKebijakanKabID_Src',19)->nullable();
             $table->boolean('Locked')->default(0);
 
+            $table->timestamps();
+                
             $table->primary('PrioritasKebijakanKabID');
 
             $table->index('PrioritasStrategiKabID');
@@ -43,7 +45,7 @@ class CreateRpjmdkebijakanTable extends Migration
             $table->string('OrgID2',19)->nullabble(); 
             $table->string('OrgID3',19)->nullabble(); 
                         
-            $table->string('Nm_Indikator'); 
+            $table->string('NamaIndikator',255); 
             
             $table->year('TA_N');
 
@@ -54,6 +56,7 @@ class CreateRpjmdkebijakanTable extends Migration
             $table->string('TargetN4')->nullable();
             $table->string('TargetN5')->nullable();
 
+            $table->decimal('PaguDanaN',15,2)->default(0);
             $table->decimal('PaguDanaN1',15,2)->default(0);
             $table->decimal('PaguDanaN2',15,2)->default(0);
             $table->decimal('PaguDanaN3',15,2)->default(0);

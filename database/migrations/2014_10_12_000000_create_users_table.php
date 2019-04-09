@@ -31,14 +31,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
 
-            $table->index('SOrgID');
-
-            $table->foreign('SOrgID')
-                    ->references('SOrgID')
-                    ->on('tmSOrg')
-                    ->onDelete('set null')
-                    ->onUpdate('cascade');
-                    
+            $table->index('SOrgID');                    
             $table->index('TA');
             
         });

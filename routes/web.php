@@ -80,6 +80,13 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/dmaster/paguanggaranopd/orderby',['uses'=>'DMaster\PaguAnggaranOPDController@orderby','as'=>'paguanggaranopd.orderby']); 
     Route::get('/dmaster/paguanggaranopd/getkodekelompokurusan/{uuid}',['uses'=>'DMaster\PaguAnggaranOPDController@getkodekelompokurusan','as'=>'paguanggaranopd.getkodekelompokurusan']); 
     
+    //RPJMD - Prioritas Kebijakan
+    Route::resource('/rpjmd/rpjmdkebijakan','RPJMD\RpjmdKebijakanController',['parameters'=>['rpjmdkebijakan'=>'uuid']]); 
+    Route::post('/rpjmd/rpjmdkebijakan/search',['uses'=>'RPJMD\RpjmdKebijakanController@search','as'=>'rpjmdkebijakan.search']); 
+    Route::get('/rpjmd/rpjmdkebijakan/paginate/{id}',['uses'=>'RPJMD\RpjmdKebijakanController@paginate','as'=>'rpjmdkebijakan.paginate']);              
+    Route::post('/rpjmd/rpjmdkebijakan/changenumberrecordperpage',['uses'=>'RPJMD\RpjmdKebijakanController@changenumberrecordperpage','as'=>'PaguAnggaranOPDController.changenumberrecordperpage']);  
+    Route::post('/rpjmd/rpjmdkebijakan/orderby',['uses'=>'RPJMD\RpjmdKebijakanController@orderby','as'=>'rpjmdkebijakan.orderby']);  
+
     //Musrenbang - Aspirasi Musrenbang Desa [aspirasi]
     Route::resource('/aspirasi/aspirasimusrendesa','Musrenbang\AspirasiMusrenDesaController',['parameters'=>['aspirasimusrendesa'=>'uuid']]);        
     Route::post('/aspirasi/aspirasimusrendesa/search',['uses'=>'Musrenbang\AspirasiMusrenDesaController@search','as'=>'aspirasimusrendesa.search']);  
@@ -122,6 +129,10 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
 
     //Rencana Kerja - Usulan Pra Renja OPD/SKPD [aspirasi]
     Route::resource('/aspirasi/usulanprarenjaopd','RKPD\UsulanPraRenjaOPDController',['parameters'=>['usulanprarenjaopd'=>'uuid']]);        
+    Route::get('/aspirasi/usulanprarenjaopd/create1/{id}',['uses'=>'RKPD\UsulanPraRenjaOPDController@create1','as'=>'usulanprarenjaopd.create1']);              
+    Route::get('/aspirasi/usulanprarenjaopd/create2/{id}',['uses'=>'RKPD\UsulanPraRenjaOPDController@create2','as'=>'usulanprarenjaopd.create2']);              
+    Route::post('/aspirasi/usulanprarenjaopd/store1',['uses'=>'RKPD\UsulanPraRenjaOPDController@store1','as'=>'usulanprarenjaopd.store1']);  
+    Route::post('/aspirasi/usulanprarenjaopd/store2',['uses'=>'RKPD\UsulanPraRenjaOPDController@store2','as'=>'usulanprarenjaopd.store2']);  
     Route::post('/aspirasi/usulanprarenjaopd/search',['uses'=>'RKPD\UsulanPraRenjaOPDController@search','as'=>'usulanprarenjaopd.search']);  
     Route::post('/aspirasi/usulanprarenjaopd/filter',['uses'=>'RKPD\UsulanPraRenjaOPDController@filter','as'=>'usulanprarenjaopd.filter']);                  
     Route::get('/aspirasi/usulanprarenjaopd/paginate/{id}',['uses'=>'RKPD\UsulanPraRenjaOPDController@paginate','as'=>'usulanprarenjaopd.paginate']);              

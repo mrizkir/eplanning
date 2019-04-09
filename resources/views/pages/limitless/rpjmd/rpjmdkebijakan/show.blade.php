@@ -1,18 +1,19 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RPJMDKEBIJAKAN
+    KEBIJAKAN
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        RPJMDKEBIJAKAN TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        KEBIJAKAN [RPJMD {{config('globalsettings.rpjmd_tahun_mulai')}}-{{config('globalsettings.rpjmd_tahun_akhir')}}]
     </span>     
 @endsection
 @section('page_info')
     @include('pages.limitless.rpjmd.rpjmdkebijakan.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('rpjmdkebijakan.index')!!}">RPJMDKEBIJAKAN</a></li>
+    <li><a href="#">RPJMD</a></li>
+    <li><a href="{!!route('rpjmdkebijakan.index')!!}">KEBIJAKAN</a></li>
     <li class="active">DETAIL DATA</li>
 @endsection
 @section('page_content')
@@ -21,7 +22,7 @@
         <div class="panel panel-flat border-top-info border-bottom-info">
             <div class="panel-heading">
                 <h5 class="panel-title"> 
-                    <i class="icon-eye"></i>  DATA RPJMDKEBIJAKAN
+                    <i class="icon-eye"></i>  DATA KEBIJAKAN
                 </h5>
                 <div class="heading-elements">   
                     <a href="{{route('rpjmdkebijakan.edit',['id'=>$data->rpjmdkebijakan_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RpjmdKebijakan">

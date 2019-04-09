@@ -333,7 +333,22 @@ class UsulanPraRenjaOPDController extends Controller {
         }
         
     }
-    
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create1($renjaid)
+    {        
+        $theme = \Auth::user()->theme;
+        $daftar_indikatorkinerja=[];
+        
+        $data = [];
+        return view("pages.$theme.rkpd.usulanprarenjaopd.create1")->with(['page_active'=>'usulanprarenjaopd',
+                                                                        'daftar_indikatorkinerja'=>$daftar_indikatorkinerja,
+                                                                        'data'=>$data
+                                                                        ]);  
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -342,28 +357,37 @@ class UsulanPraRenjaOPDController extends Controller {
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'replaceit'=>'required',
-        ]);
+        // $this->validate($request, [
+        //     'replaceit'=>'required',
+        // ]);
         
-        $usulanprarenjaopd = UsulanPraRenjaOPDModel::create([
-            'replaceit' => $request->input('replaceit'),
-        ]);        
+        // $usulanprarenjaopd = UsulanPraRenjaOPDModel::create([
+        //     'replaceit' => $request->input('replaceit'),
+        // ]);        
         
-        if ($request->ajax()) 
-        {
-            return response()->json([
-                'success'=>true,
-                'message'=>'Data ini telah berhasil disimpan.'
-            ]);
-        }
-        else
-        {
-            return redirect(route('usulanprarenjaopd.show',['id'=>$usulanprarenjaopd->replaceit]))->with('success','Data ini telah berhasil disimpan.');
-        }
+        // if ($request->ajax()) 
+        // {
+        //     return response()->json([
+        //         'success'=>true,
+        //         'message'=>'Data ini telah berhasil disimpan.'
+        //     ]);
+        // }
+        // else
+        // {
+            return redirect(route('usulanprarenjaopd.create1',['id'=>1]))->with('success','Data kegiatan telah berhasil disimpan. Selanjutnya isi Indikator Kinerja Kegiatan dari RPMJD');
+        // }
 
     }
-    
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store1(Request $request)
+    {
+        
+    }
     /**
      * Display the specified resource.
      *

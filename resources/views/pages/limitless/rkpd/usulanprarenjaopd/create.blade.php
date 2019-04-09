@@ -15,7 +15,7 @@
     <li><a href="#">PERENCANAAN</a></li>
     <li><a href="#">ASPIRASI / USULAN</a></li>
     <li><a href="{!!route('usulanprarenjaopd.index')!!}">USULAN PRA RENJA OPD/SKPD</a></li>
-    <li class="active">TAMBAH DATA</li>
+    <li class="active">TAMBAH DATA KEGIATAN</li>
 @endsection
 @section('page_content')
 <div class="content">
@@ -133,7 +133,8 @@
                 </div> 
                 <div class="form-group">            
                     <div class="col-md-10 col-md-offset-2">                        
-                        {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}
+                        {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN & KELUAR', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}
+                        {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN & LANJUT', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}
                     </div>
                 </div>
             {!! Form::close()!!}

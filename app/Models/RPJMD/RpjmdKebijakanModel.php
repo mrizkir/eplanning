@@ -3,34 +3,36 @@
 namespace App\Models\RPJMD;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class RpjmdKebijakanModel extends Model {
+    use LogsActivity;
      /**
      * nama tabel model ini.
      *
      * @var string
      */
-    protected $table = 'rpjmdkebijakan';
+    protected $table = 'tmPrioritasKebijakanKab';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'replace_it', 'replace_it'
+        'PrioritasKebijakanKabID', 'PrioritasStrategiKabID', 'Kd_Kebijakan', 'Nm_Kebijakan', 'Descr', 'TA'
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'rpjmdkebijakan_id';
+    protected $primaryKey = 'PrioritasKebijakanKabID';
     /**
      * enable auto_increment.
      *
      * @var string
      */
-    public $incrementing = true;
+    public $incrementing = false;
     /**
      * activated timestamps.
      *
@@ -47,7 +49,7 @@ class RpjmdKebijakanModel extends Model {
     /**
      * log the changed attributes for all these events 
      */
-    // protected static $logAttributes = ['replace_it', 'replace_it'];
+    protected static $logAttributes = ['PrioritasKebijakanKabID', 'Kd_Kebijakan', 'Nm_Kebijakan'];
     /**
      * log changes to all the $fillable attributes of the model
      */

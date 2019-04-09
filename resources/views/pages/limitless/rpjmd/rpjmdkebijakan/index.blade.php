@@ -1,18 +1,19 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RPJMDKEBIJAKAN
+    KEBIJAKAN
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold">
-        RPJMDKEBIJAKAN TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
+        KEBIJAKAN [RPJMD {{config('globalsettings.rpjmd_tahun_mulai')}}-{{config('globalsettings.rpjmd_tahun_akhir')}}]  
     </span>
 @endsection
 @section('page_info')
     @include('pages.limitless.rpjmd.rpjmdkebijakan.info')
 @endsection
 @section('page_breadcrumb')
-    <li class="active">RPJMDKEBIJAKAN</li>
+    <li><a href="#">RPJMD</a></li>
+    <li class="active">KEBIJAKAN</li>
 @endsection
 @section('page_content')
 <div class="row">

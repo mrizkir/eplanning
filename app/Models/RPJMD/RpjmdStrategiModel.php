@@ -3,34 +3,36 @@
 namespace App\Models\RPJMD;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class RpjmdStrategiModel extends Model {
+    use LogsActivity;
      /**
      * nama tabel model ini.
      *
      * @var string
      */
-    protected $table = 'rpjmdstrategi';
+    protected $table = 'tmPrioritasStrategiKab';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'replace_it', 'replace_it'
+        'PrioritasStrategiKabID', 'PrioritasSasaranKabID', 'Kd_Strategi', 'Nm_Strategi', 'Descr', 'TA','PrioritasStrategiKabID_Src'
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'rpjmdstrategi_id';
+    protected $primaryKey = 'PrioritasStrategiKabID';
     /**
      * enable auto_increment.
      *
      * @var string
      */
-    public $incrementing = true;
+    public $incrementing = false;
     /**
      * activated timestamps.
      *
@@ -43,11 +45,11 @@ class RpjmdStrategiModel extends Model {
      *
      * @var string
      */
-    // protected static $logName = 'RpjmdStrategiController';
+    protected static $logName = 'RpjmdStrategiController';
     /**
      * log the changed attributes for all these events 
      */
-    // protected static $logAttributes = ['replace_it', 'replace_it'];
+    protected static $logAttributes = ['PrioritasStrategiKabID', 'PrioritasSasaranKabID', 'Kd_Strategi', 'Nm_Strategi'];
     /**
      * log changes to all the $fillable attributes of the model
      */
@@ -55,4 +57,25 @@ class RpjmdStrategiModel extends Model {
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
+    public static function getRPJDMStrategi ($ta,$prepend=true) 
+    {
+        $r=RpjmdStrategiModel::join('tmPrioritasSasaranKab','tmPrioritasSasaranKab.PrioritasSasaranKabID','tmPrioritasStrategiKab.PrioritasSasaranKabID')
+                            ->join('tmPrioritasTujuanKab','tmPrioritasTujuanKab.PrioritasTujuanKabID','tmPrioritasSasaranKab.PrioritasTujuanKabID')
+                            ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmPrioritasTujuanKab.PrioritasKabID')
+                            ->where('tmPrioritasStrategiKab.TA',$ta)
+                            ->orderBy('Kd_PrioritasKab')
+                            ->orderBy('Kd_Tujuan')
+                            ->orderBy('Kd_Sasaran')
+                            ->orderBy('Kd_Strategi')->get();
+        $strategi_rpjmd=($prepend==true)?['none'=>'DAFTAR RPJMD STRATEGI']:[];        
+        foreach ($r as $k=>$v)
+        {
+            $strategi_rpjmd[$v->PrioritasStrategiKabID]=$v->Kd_PrioritasKab.'.'.
+                                                        $v->Kd_Tujuan.'.'.
+                                                        $v->Kd_Sasaran.'.'.
+                                                        $v->Kd_Strategi.'.'.
+                                                        $v->Nm_Strategi;
+        } 
+        return $strategi_rpjmd;
+    }
 }

@@ -22,8 +22,13 @@
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
                     <th width="100">
-                        <a class="column-sort text-white" id="col-replace_it" data-order="{{$direction}}" href="#">
-                            replace_it  
+                        <a class="column-sort text-white" id="col-Kode_Kebijakan" data-order="{{$direction}}" href="#">
+                            KODE KEBIJAKAN  
+                        </a>                                             
+                    </th> 
+                    <th width="100">
+                        <a class="column-sort text-white" id="col-Nm_Kebijakan" data-order="{{$direction}}" href="#">
+                            NAMA KEBIJAKAN  
                         </a>                                             
                     </th> 
                     <th width="100">AKSI</th>
@@ -35,21 +40,22 @@
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>                  
-                    <td>{{$item->replace_it}}</td>
+                    <td>{{$item->Kd_Kebijakan}}</td>
+                    <td>{{$item->Nm_Kebijakan}}</td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('rpjmdkebijakan.show',['id'=>$item->rpjmdkebijakan_id])}}" title="Detail Data RpjmdKebijakan">
+                                <a class="btnShow" href="{{route('rpjmdkebijakan.show',['id'=>$item->PrioritasKebijakanKabID])}}" title="Detail Data RPJMD Kebijakan">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('rpjmdkebijakan.edit',['id'=>$item->rpjmdkebijakan_id])}}" title="Ubah Data RpjmdKebijakan">
+                                <a class="btnEdit" href="{{route('rpjmdkebijakan.edit',['id'=>$item->PrioritasKebijakanKabID])}}" title="Ubah Data RPJMD Kebijakan">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data RpjmdKebijakan" data-id="{{$item->rpjmdkebijakan_id}}" data-url="{{route('rpjmdkebijakan.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data RPJMD Kebijakan" data-id="{{$item->PrioritasKebijakanKabID}}" data-url="{{route('rpjmdkebijakan.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>
