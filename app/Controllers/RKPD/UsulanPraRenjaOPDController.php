@@ -9,6 +9,7 @@ use App\Models\DMaster\OrganisasiModel;
 use App\Models\DMaster\SubOrganisasiModel;
 use App\Models\DMaster\UrusanModel;
 use App\Models\DMaster\ProgramModel;
+use App\Models\DMaster\ProgramKegiatanModel;
 use App\Models\DMaster\UrusanProgramModel;
 use App\Models\DMaster\SumberDanaModel;
 
@@ -79,9 +80,9 @@ class UsulanPraRenjaOPDController extends Controller {
             $data = UsulanPraRenjaOPDModel::where('SOrgID',$SOrgID)
                                             ->where('TA', config('globalsettings.tahun_perencanaan'))                                            
                                             ->orderBy($column_order,$direction)
-                                            ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+                                            ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);             
         }        
-        $data->setPath(route('usulanprarenjaopd.index'));
+        $data->setPath(route('usulanprarenjaopd.index'));        
         return $data;
     }
     /**
@@ -293,7 +294,7 @@ class UsulanPraRenjaOPDController extends Controller {
         if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
         {
             $daftar_unitkerja=SubOrganisasiModel::getDaftarUnitKerja(config('globalsettings.tahun_perencanaan'),false,$filters['OrgID']);        
-        }        
+        }                
         return view("pages.$theme.rkpd.usulanprarenjaopd.index")->with(['page_active'=>'usulanprarenjaopd',
                                                                         'daftar_opd'=>$daftar_opd,
                                                                         'daftar_unitkerja'=>$daftar_unitkerja,
@@ -303,6 +304,26 @@ class UsulanPraRenjaOPDController extends Controller {
                                                                         'column_order'=>$this->getControllerStateSession('usulanprarenjaopd.orderby','column_name'),
                                                                         'direction'=>$this->getControllerStateSession('usulanprarenjaopd.orderby','order'),
                                                                         'data'=>$data]);               
+    }
+    public function pilihusulankegiatan(Request $request)
+    {
+        $json_data=[];
+        if ($request->exists('UrsID'))
+        {
+            $UrsID = $request->input('UrsID')==''?'none':$request->input('UrsID');
+            $daftar_program = ProgramModel::getDaftarProgram(config('globalsettings.tahun_perencanaan'),false,$UrsID);
+            $json_data['success']=true;
+            $json_data['daftar_program']=$daftar_program;
+        }
+
+        if ($request->exists('PrgID'))
+        {
+            $PrgID = $request->input('PrgID')==''?'none':$request->input('PrgID');
+            $daftar_kegiatan = ProgramKegiatanModel::getDaftarKegiatan(config('globalsettings.tahun_perencanaan'),false,$PrgID);
+            $json_data['success']=true;
+            $json_data['daftar_kegiatan']=$daftar_kegiatan;
+        }
+        return response()->json($json_data,200);  
     }
     /**
      * Show the form for creating a new resource.
@@ -318,10 +339,19 @@ class UsulanPraRenjaOPDController extends Controller {
         if ($filters['SOrgID'] != 'none'&&$filters['SOrgID'] != ''&&$filters['SOrgID'] != null)
         {
             $SOrgID=$filters['SOrgID'];            
-            $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'),false);       
+            $OrgID=$filters['OrgID'];
+
+            $organisasi=OrganisasiModel::find($OrgID);            
+            $UrsID=$organisasi->UrsID;
+
+            $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'),false);   
+            $daftar_program = ProgramModel::getDaftarProgram(config('globalsettings.tahun_perencanaan'),false,$UrsID);
             $sumber_dana = SumberDanaModel::getDaftarSumberDana(config('globalsettings.tahun_perencanaan'),false);     
+            
             return view("pages.$theme.rkpd.usulanprarenjaopd.create")->with(['page_active'=>'usulanprarenjaopd',
                                                                             'daftar_urusan'=>$daftar_urusan,
+                                                                            'daftar_program'=>$daftar_program,
+                                                                            'UrsID_selected'=>$UrsID,
                                                                             'sumber_dana'=>$sumber_dana
                                                                         ]);  
         }
@@ -341,13 +371,57 @@ class UsulanPraRenjaOPDController extends Controller {
     public function create1($renjaid)
     {        
         $theme = \Auth::user()->theme;
-        $daftar_indikatorkinerja=[];
-        
-        $data = [];
-        return view("pages.$theme.rkpd.usulanprarenjaopd.create1")->with(['page_active'=>'usulanprarenjaopd',
-                                                                        'daftar_indikatorkinerja'=>$daftar_indikatorkinerja,
-                                                                        'data'=>$data
-                                                                        ]);  
+
+        $filters=$this->getControllerStateSession('usulanprarenjaopd','filters'); 
+        if ($filters['SOrgID'] != 'none'&&$filters['SOrgID'] != ''&&$filters['SOrgID'] != null)
+        {
+            $renja=UsulanPraRenjaOPDModel::findOrFailRenja($renjaid);
+            $OrgID=$renja->OrgID;
+            $SOrgID=$renja->SOrgID;
+            $PrgID=ProgramKegiatanModel::find($renja->KgtID)->PrgID;
+            
+            $daftar_indikatorkinerja=[];
+            
+            $data = [];
+            return view("pages.$theme.rkpd.usulanprarenjaopd.create1")->with(['page_active'=>'usulanprarenjaopd',
+                                                                            'daftar_indikatorkinerja'=>$daftar_indikatorkinerja,
+                                                                            'renja'=>$renja,
+                                                                            'data'=>$data
+                                                                            ]);  
+        }
+        else
+        {
+            return view("pages.$theme.rkpd.usulanprarenjaopd.error")->with(['page_active'=>'usulanprarenjaopd',
+                                                                            'errormessage'=>'Mohon unit kerja untuk di pilih terlebih dahulu.'
+                                                                            ]);  
+        }
+    }
+     /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create2($renjaid)
+    {        
+        $theme = \Auth::user()->theme;
+
+        $filters=$this->getControllerStateSession('usulanprarenjaopd','filters'); 
+        if ($filters['SOrgID'] != 'none'&&$filters['SOrgID'] != ''&&$filters['SOrgID'] != null)
+        {
+            $renja=UsulanPraRenjaOPDModel::findOrFailRenja($renjaid);
+
+            $data = [];
+            return view("pages.$theme.rkpd.usulanprarenjaopd.create2")->with(['page_active'=>'usulanprarenjaopd',
+                                                                            'renja'=>$renja,
+                                                                            'data'=>$data
+                                                                            ]);  
+        }
+        else
+        {
+            return view("pages.$theme.rkpd.usulanprarenjaopd.error")->with(['page_active'=>'usulanprarenjaopd',
+                                                                            'errormessage'=>'Mohon unit kerja untuk di pilih terlebih dahulu.'
+                                                                            ]);  
+        }
     }
     /**
      * Store a newly created resource in storage.
@@ -357,25 +431,58 @@ class UsulanPraRenjaOPDController extends Controller {
      */
     public function store(Request $request)
     {
-        // $this->validate($request, [
-        //     'replaceit'=>'required',
-        // ]);
+        $this->validate($request, [
+            'UrsID'=>'required',
+            'PrgID'=>'required',
+            'KgtID'=>'required',
+            'SumberDanaID'=>'required',
+            'Sasaran_Angka1'=>'required',
+            'Sasaran_Uraian1' => 'required',
+            'Sasaran_AngkaSetelah'=>'required',
+            'Sasaran_UraianSetelah'=>'required',
+            'Target1'=>'required',
+            'NilaiSebelum'=>'required',
+            'NilaiUsulan1'=>'required',
+            'NilaiSetelah'=>'required',
+            'NamaIndikator'=>'required'
+        ]);
+        $filters=$this->getControllerStateSession('usulanprarenjaopd','filters'); 
+        $RenjaID=uniqid ('uid');
+        $renja=[            
+            'RenjaID' => $RenjaID,            
+            'OrgID' => $filters['OrgID'],
+            'SOrgID' => $filters['SOrgID'],
+            'UrsID' => $request->input('UrsID'),
+            'PrgID' => $request->input('PrgID'),
+            'KgtID' => $request->input('KgtID'),
+            'SumberDanaID' => $request->input('SumberDanaID'),
+            'Sasaran_Angka1' => $request->input('Sasaran_Angka1'),
+            'Sasaran_Uraian1' => $request->input('Sasaran_Uraian1'),
+            'Sasaran_AngkaSetelah' => $request->input('Sasaran_AngkaSetelah'),
+            'Sasaran_UraianSetelah' => $request->input('Sasaran_UraianSetelah'),
+            'Target1' => $request->input('Target1'),
+            'NilaiSebelum' => $request->input('NilaiSebelum'),
+            'NilaiUsulan1' => $request->input('NilaiUsulan1'),
+            'NilaiSetelah' => $request->input('NilaiSetelah'),
+            'NamaIndikator' => $request->input('NamaIndikator'),            
+            'Descr' => $request->input('Descr'),
+            'TA' => config('globalsettings.tahun_perencanaan'),
+            'EntryLvl'=>0
+        ];
+        $data['renja']=$renja;
+        $usulanprarenjaopd = UsulanPraRenjaOPDModel::create($data);        
         
-        // $usulanprarenjaopd = UsulanPraRenjaOPDModel::create([
-        //     'replaceit' => $request->input('replaceit'),
-        // ]);        
-        
-        // if ($request->ajax()) 
-        // {
-        //     return response()->json([
-        //         'success'=>true,
-        //         'message'=>'Data ini telah berhasil disimpan.'
-        //     ]);
-        // }
-        // else
-        // {
-            return redirect(route('usulanprarenjaopd.create1',['id'=>1]))->with('success','Data kegiatan telah berhasil disimpan. Selanjutnya isi Indikator Kinerja Kegiatan dari RPMJD');
-        // }
+        if ($request->ajax()) 
+        {
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data ini telah berhasil disimpan.'
+            ]);
+        }
+        else
+        {
+            return redirect(route('usulanprarenjaopd.create1',['id'=>$RenjaID]))->with('success','Data kegiatan telah berhasil disimpan. Selanjutnya isi Indikator Kinerja Kegiatan dari RPMJD');
+        }
 
     }
      /**

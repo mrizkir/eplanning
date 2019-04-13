@@ -31,7 +31,7 @@ class CreateVUsulanPraRenjaOPDView extends Migration
                 B."Target1",
                 B."Jumlah1",
                 B."Prioritas",
-                CASE WHEN B."Status"=\'0\' THEN
+                CASE WHEN B."Status"=0 OR B."Status" IS NULL THEN
                     \'DUM\'
                 ELSE
                     \'ACC\'

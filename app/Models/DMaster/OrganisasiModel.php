@@ -78,5 +78,11 @@ class OrganisasiModel extends Model {
         } 
         return $daftar_organisasi;
     }
-
+    /**
+     * Dapatkan urusan dari Organisasi ini
+     */
+    public function urusan ()
+    {
+        return $this->belongsTo('App\Models\DMaster\UrusanModel');
+    }
 }

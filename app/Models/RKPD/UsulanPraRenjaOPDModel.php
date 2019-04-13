@@ -12,18 +12,47 @@ class UsulanPraRenjaOPDModel extends Model {
      */
     protected $table = 'v_usulan_pra_renja_opd';   
 
-    /**
-    * primary key tabel ini.
+        /**
+        * primary key tabel ini.
+        *
+        * @var string
+        */
+    protected $primaryKey = 'RenjaID';
+     /**
+    * enable auto_increment.
     *
     * @var string
     */
-   protected $primaryKey = 'RenjaID';
-
+   public $incrementing = false;
+   /**
+    * activated timestamps.
+    *
+    * @var string
+    */
+   public $timestamps = false;
+    
+    /**
+     * digunakan untuk mendapatkan rencana kerja berdasarkan ID
+     */
+    public static function findRenja($RenjaID)
+    {
+        return Renja::find($RenjaID);
+    }
+    /**
+     * digunakan untuk mendapatkan rencana kerja berdasarkan ID
+     */
+    public static function findOrFailRenja($RenjaID)
+    {
+        return Renja::findOrFail($RenjaID);
+    }
     public static function create (array $attributes=[]) 
     {
         $model=Renja::create($attributes['renja']);
+        return $model;
+    }
+    public static function createrenjarinc (array $attributes=[]) 
+    {
         RenjaRincian::create($attributes['renjarinc']);
-
         return $model;
     }
     public static function destroy ($uuid) 

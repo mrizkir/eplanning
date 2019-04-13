@@ -65,6 +65,16 @@
                     </td>
                     <td>{{$item->kode_kegiatan}}</td>
                     <td>{{$item->KgtNm}}</td>
+                    @if ($item->RenjaRincID=='')
+                    <td colspan="6">
+                        <span class="label label-flat label-block border-info text-info-600">
+                            PROSES INPUT PRA RENJA OPD / SKPD BELUM SELESAI
+                        </span>
+                        <a href="{{route('usulanprarenjaopd.create1',['uuid'=>$item->RenjaID])}}">
+                            Lanjutkan Input 
+                        </a>
+                    </td>
+                    @else
                     <td>{{$item->Uraian}}</td>
                     <td>{{Helper::formatAngka($item->Sasaran_Angka1)}} {{$item->Sasaran_Uraian1}}</td>
                     <td>{{$item->Target1}}</td>
@@ -73,22 +83,23 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('usulanprarenjaopd.show',['id'=>$item->usulanprarenjaopd_id])}}" title="Detail Data UsulanPraRenjaOPD">
+                                <a class="btnShow" href="{{route('usulanprarenjaopd.show',['id'=>$item->RenjaID])}}" title="Detail Data Usulan Pra Renja">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('usulanprarenjaopd.edit',['id'=>$item->usulanprarenjaopd_id])}}" title="Ubah Data UsulanPraRenjaOPD">
+                                <a class="btnEdit" href="{{route('usulanprarenjaopd.edit',['id'=>$item->RenjaID])}}" title="Ubah Data Usulan Pra Renja">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data UsulanPraRenjaOPD" data-id="{{$item->usulanprarenjaopd_id}}" data-url="{{route('usulanprarenjaopd.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data UsulanPraRenjaOPD" data-id="{{$item->RenjaID}}" data-url="{{route('usulanprarenjaopd.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>
                         </ul>
                     </td>
+                    @endif                    
                 </tr>
             @endforeach                    
             </tbody>

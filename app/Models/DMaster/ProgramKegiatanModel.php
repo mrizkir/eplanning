@@ -55,5 +55,33 @@ class ProgramKegiatanModel extends Model {
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
-  
+    public static function getDaftarKegiatan ($ta,$prepend=true,$PrgID=null)
+    {
+        $r=\DB::table('v_program_kegiatan')
+                ->where('TA',$ta)
+                ->orderBy('Kd_Keg')
+                ->orderBy('kode_kegiatan');
+
+        $r = $PrgID == null ? $r->get():  $r->where('PrgID',$PrgID)->get();                 
+        
+        $daftar_kegiatan=($prepend==true)?['none'=>'DAFTAR KEGIATAN']:[];        
+        foreach ($r as $k=>$v)
+        {
+            if ($v->Jns)
+            {
+                $daftar_kegiatan[$v->KgtID]=$v->kode_kegiatan.'. '.$v->KgtNm;
+            }
+            else
+            {
+                $daftar_kegiatan[$v->KgtID]=$v->kode_kegiatan.'. '.$v->KgtNm;
+            }
+            
+        }
+        return $daftar_kegiatan;
+    }
+
+    public function program () 
+    {
+        $this->belongsTo('App\Models\DMaster\ProgramModel');
+    }
 }

@@ -17,6 +17,9 @@
     <li><a href="{!!route('usulanprarenjaopd.index')!!}">USULAN PRA RENJA OPD/SKPD</a></li>
     <li class="active">TAMBAH DATA INDIKATOR KEGIATAN</li>
 @endsection
+@section('page_sidebar')
+    @include('layouts.limitless.l_sidebar_prarenja')
+@endsection
 @section('page_content')
 <div class="content">
     <div class="panel panel-flat">
@@ -79,6 +82,9 @@
                     </div>  
                     <div class="col-md-10 col-md-offset-2">                        
                         {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}
+                        <a href="{{route('usulanprarenjaopd.create2',['id'=>$renja->RenjaID])}}">
+                            <b><i class="icon-forward3" class="btn btn-info btn-labeled btn-xs"></i></b> SKIP
+                        </a>                        
                     </div>
                 </div>
             {!! Form::close()!!}
@@ -87,7 +93,7 @@
     <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
         <div class="panel-heading">
             <div class="panel-title">
-                <h5>DAFTAR RINCIAN KEGIATAN</h5>
+                <h5>DAFTAR INDIKATOR KEGIATAN</h5>
             </div>
             <div class="heading-elements">
                 
