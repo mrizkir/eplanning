@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\API\RPJMD;
+namespace App\Controllers\API\v1\RPJMD;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;

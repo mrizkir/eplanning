@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\API\RKPD;
+namespace App\Controllers\API\v1\RKPD;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
