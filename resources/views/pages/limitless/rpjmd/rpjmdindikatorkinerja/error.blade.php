@@ -1,18 +1,19 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RPJMDINDIKATORKINERJA
+    INDIKASI RENCANA PROGRAM
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold">
-        RPJMDINDIKATORKINERJA TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        INDIKASI RENCANA PROGRAM TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
     </span>
 @endsection
 @section('page_info')
     @include('pages.limitless.rpjmd.rpjmdindikatorkinerja.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('rpjmdindikatorkinerja.index')!!}">RPJMDINDIKATORKINERJA</a></li>
+    <li><a href="#">RPJMD</a></li>
+    <li><a href="{!!route('rpjmdindikatorkinerja.index')!!}">INDIKASI RENCANA PROGRAM</a></li>
     <li class="active">ERROR</li>
 @endsection
 @section('page_content')

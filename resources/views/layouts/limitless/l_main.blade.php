@@ -153,7 +153,12 @@
                         <a href="{{route('rpjmdkebijakan.index')}}">
                             <i class="icon-align-center-horizontal"></i> PRIORITAS KEBIJAKAN
                         </a>
-                    </li>                    
+                    </li>  
+                    <li{!!Helper::isMenuActive ($page_active,'rpjmdkebijakan',' class="active"')!!}>
+                        <a href="{{route('rpjmdindikatorkinerja.index')}}">
+                            <i class="icon-align-center-horizontal"></i> INDIKASI RENCANA PROGRAM
+                        </a>
+                    </li>                  
                 </ul>
             </li>
             <li class="dropdown mega-menu mega-menu-wide visible">

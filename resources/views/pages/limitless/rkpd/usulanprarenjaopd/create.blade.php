@@ -234,7 +234,7 @@ $(document).ready(function () {
         PrgID=$(this).val();        
         $.ajax({
             type:'post',
-            url: '{{route('usulanprarenjaopd.index')}}/pilihusulankegiatan',
+            url: '{{route('usulanprarenjaopd.pilihusulankegiatan')}}',
             dataType: 'json',
             data: {
                 "_token": token,

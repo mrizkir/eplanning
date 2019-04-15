@@ -1,18 +1,19 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RPJMDINDIKATORKINERJA
+    INDIKASI RENCANA PROGRAM
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold">
-        RPJMDINDIKATORKINERJA TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
+        INDIKASI RENCANA PROGRAM TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
     </span>
 @endsection
 @section('page_info')
     @include('pages.limitless.rpjmd.rpjmdindikatorkinerja.info')
 @endsection
 @section('page_breadcrumb')
-    <li class="active">RPJMDINDIKATORKINERJA</li>
+    <li><a href="#">RPJMD</a></li>
+    <li class="active">INDIKASI RENCANA PROGRAM</li>
 @endsection
 @section('page_content')
 <div class="row">
@@ -29,7 +30,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">
-                            {{Form::select('cmbKriteria', ['replaceit'=>'replaceit','nama'=>'replaceit'], isset($search['kriteria'])?$search['kriteria']:'replaceit',['class'=>'form-control'])}}
+                            {{Form::select('cmbKriteria', ['NamaIndikator'=>'NAMA INDIKATOR'], isset($search['kriteria'])?$search['kriteria']:'NamaIndikator',['class'=>'form-control'])}}
                         </div>
                     </div>
                     <div class="form-group" id="divKriteria">
@@ -59,7 +60,7 @@
 <script type="text/javascript">
 $(document).ready(function () {  
     $("#divdatatable").on("click",".btnDelete", function(){
-        if (confirm('Apakah Anda ingin menghapus Data RpjmdIndikatorKinerja ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data Indikasi Rencana Program ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             $.ajax({            
@@ -75,7 +76,7 @@ $(document).ready(function () {
                     if (result.success==1){
                         $('#divdatatable').html(result.datatable);                        
                     }else{
-                        console.log("Gagal menghapus data RpjmdIndikatorKinerja dengan id "+id);
+                        console.log("Gagal menghapus data Indikasi Rencana Program dengan id "+id);
                     }                    
                 },
                 error:function(xhr, status, error){

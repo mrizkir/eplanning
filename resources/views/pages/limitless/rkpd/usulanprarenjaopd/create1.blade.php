@@ -38,6 +38,7 @@
         </div>
         <div class="panel-body">
             {!! Form::open(['action'=>'RKPD\UsulanPraRenjaOPDController@store1','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
+            {{Form::hidden('RenjaID',$renja->RenjaID)}}
                 <div class="form-group">    
                     <div class="form-group">
                         <label class="col-md-2 control-label">POSISI ENTRI: </label>
@@ -46,9 +47,9 @@
                         </div>                            
                     </div>    
                     <div class="form-group">
-                        {{Form::label('UrsID','INDIKATOR KINERJA',['class'=>'control-label col-md-2'])}}
+                        {{Form::label('IndikatorKinerjaID','INDIKATOR KINERJA',['class'=>'control-label col-md-2'])}}
                         <div class="col-md-10">
-                            <select name="UrsID" id="UrsID" class="select">
+                            <select name="IndikatorKinerjaID" id="IndikatorKinerjaID" class="select">
                                 <option></option>
                                 @foreach ($daftar_indikatorkinerja as $k=>$item)
                                     <option value="{{$k}}">{{$item}}</option>
@@ -57,29 +58,35 @@
                         </div>
                     </div>   
                     <div class="form-group">
-                        <label class="col-md-2 control-label">NAMA INDIKATOR: </label>
+                        <label class="col-md-2 control-label">NAMA INDIKATOR (RPJMD): </label>
                         <div class="col-md-10">
                             <p class="form-control-static" id="pNamaIndikator">-</p>
                         </div>                            
                     </div>  
                     <div class="form-group">
-                        <label class="col-md-2 control-label">TARGET ANGKA: </label>
+                        <label class="col-md-2 control-label">TARGET TA {{config('globalsettings.tahun_perencanaan')}} (RPJMD): </label>
                         <div class="col-md-10">
                             <p class="form-control-static" id="pTargetAngka">-</p>
                         </div>                            
+                    </div>  
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">PAGU DANA TA {{config('globalsettings.tahun_perencanaan')}} (RPJMD): </label>
+                        <div class="col-md-10">
+                            <p class="form-control-static" id="pPaguDana">-</p>
+                        </div>                            
                     </div>    
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">TARGET ANGKA: </label>
+                        <div class="col-md-10">
+                            {{Form::text('Target_Angka','',['class'=>'form-control','placeholder'=>'TARGET ANGKA KEGIATAN','id'=>'Target_Angka'])}}
+                        </div>                            
+                    </div> 
                     <div class="form-group">
                         <label class="col-md-2 control-label">TARGET URAIAN: </label>
                         <div class="col-md-10">
-                            <p class="form-control-static" id="pTargetUraian">-</p>
+                            {{Form::text('Target_Uraian','',['class'=>'form-control','placeholder'=>'TARGET URAIAN KEGIATAN','id'=>'Target_Uraian'])}}
                         </div>                            
-                    </div>  
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">TAHUN (RPJMD): </label>
-                        <div class="col-md-10">
-                            <p class="form-control-static">{{config('globalsettings.tahun_perencanaan')}}</p>
-                        </div>                            
-                    </div>  
+                    </div> 
                     <div class="col-md-10 col-md-offset-2">                        
                         {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}
                         <a href="{{route('usulanprarenjaopd.create2',['id'=>$renja->RenjaID])}}">
@@ -90,105 +97,8 @@
             {!! Form::close()!!}
         </div>
     </div>
-    <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
-        <div class="panel-heading">
-            <div class="panel-title">
-                <h5>DAFTAR INDIKATOR KEGIATAN</h5>
-            </div>
-            <div class="heading-elements">
-                
-            </div>
-        </div>
-        @if (count($data) > 0)
-        <div class="table-responsive"> 
-            <table id="data" class="table table-striped table-hover">
-                <thead>
-                    <tr class="bg-teal-700">
-                        <th width="55">NO</th>     
-                        <th width="150">
-                            <a class="column-sort text-white" id="col-kode_kegiatan" data-order="{{$direction}}" href="#">
-                                KODE KEGIATAN                                                                       
-                            </a>
-                        </th>                
-                        <th width="400">
-                            <a class="column-sort text-white" id="col-KgtNm" data-order="{{$direction}}" href="#">
-                                NAMA KEGIATAN                                                                       
-                            </a>
-                        </th> 
-                        <th width="300">
-                            <a class="column-sort text-white" id="col-Uraian" data-order="{{$direction}}" href="#">
-                                NAMA URAIAN                                                                       
-                            </a>
-                        </th>
-                        <th width="200">
-                            <a class="column-sort text-white" id="col-Sasaran_Angka1" data-order="{{$direction}}" href="#">
-                                SASARAN  
-                            </a>                                             
-                        </th> 
-                        <th width="120">                        
-                            TARGET (%)                        
-                        </th> 
-                        <th width="150" class="text-right">
-                            <a class="column-sort text-white" id="col-Jumlah1" data-order="{{$direction}}" href="#">
-                                NILAI  
-                            </a>                                             
-                        </th> 
-                        <th width="80">
-                            <a class="column-sort text-white" id="col-Status" data-order="{{$direction}}" href="#">
-                                STATUS  
-                            </a>                                             
-                        </th> 
-                        <th width="120">AKSI</th>
-                    </tr>
-                </thead>
-                <tbody>                    
-                @foreach ($data as $key=>$item)
-                    <tr>
-                        <td>
-                            {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
-                        </td>
-                        <td>{{$item->kode_kegiatan}}</td>
-                        <td>{{$item->KgtNm}}</td>
-                        <td>{{$item->Uraian}}</td>
-                        <td>{{Helper::formatAngka($item->Sasaran_Angka1)}} {{$item->Sasaran_Uraian1}}</td>
-                        <td>{{$item->Target1}}</td>
-                        <td class="text-right">{{Helper::formatuang($item->Jumlah1)}}</td>
-                        <td>{{$item->Status}}</td>
-                        <td>
-                            <ul class="icons-list">
-                                <li class="text-primary-600">
-                                    <a class="btnShow" href="{{route('usulanprarenjaopd.show',['id'=>$item->usulanprarenjaopd_id])}}" title="Detail Data UsulanPraRenjaOPD">
-                                        <i class='icon-eye'></i>
-                                    </a>  
-                                </li>
-                                <li class="text-primary-600">
-                                    <a class="btnEdit" href="{{route('usulanprarenjaopd.edit',['id'=>$item->usulanprarenjaopd_id])}}" title="Ubah Data UsulanPraRenjaOPD">
-                                        <i class='icon-pencil7'></i>
-                                    </a>  
-                                </li>
-                                <li class="text-danger-600">
-                                    <a class="btnDelete" href="javascript:;" title="Hapus Data UsulanPraRenjaOPD" data-id="{{$item->usulanprarenjaopd_id}}" data-url="{{route('usulanprarenjaopd.index')}}">
-                                        <i class='icon-trash'></i>
-                                    </a> 
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                @endforeach                    
-                </tbody>
-            </table>               
-        </div>
-        <div class="panel-body border-top-info text-center" id="paginations">
-            {{$data->links('layouts.limitless.l_pagination')}}               
-        </div>
-        @else
-        <div class="panel-body">
-            <div class="alert alert-info alert-styled-left alert-bordered">
-                <span class="text-semibold">Info!</span>
-                Belum ada data yang bisa ditampilkan. Mohon pilih terlebih dahulu OPD dan Unit Kerja
-            </div>
-        </div>   
-        @endif            
+    <div class="panel panel-flat border-top-lg border-top-info border-bottom-info" id="divdatatableindikatorkinerja">
+        @include('pages.limitless.rkpd.usulanprarenjaopd.datatableindikatorkinerja')         
     </div>
 </div>   
 @endsection
@@ -196,37 +106,104 @@
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/autoNumeric.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
     //styling select
-    $('#UrsID.select').select2({
+    $('#IndikatorKinerjaID.select').select2({
         placeholder: "PILIH INDIKATOR KINERJA (RPMJD)",
         allowClear:true
-    });
-    $('#PrgID.select').select2({
-        placeholder: "PILIH NAMA PROGRAM",
-        allowClear:true
-    });
-    $('#KgtID.select').select2({
-        placeholder: "PILIH NAMA KEGIATAN",
-        allowClear:true
-    });
+    });  
+    AutoNumeric.multiple(['#Target_Angka'], {
+        allowDecimalPadding: false,
+                                            minimumValue:0.00,
+                                            maximumValue:99999999999.00,
+                                            numericPos:true,
+                                            decimalPlaces : 2,
+                                            digitGroupSeparator : '',
+                                            showWarnings:false,
+                                            unformatOnSubmit: true,
+                                            modifyValueOnWheel:false
+                                        });
+    $(document).on('change','#IndikatorKinerjaID',function(ev) {
+        ev.preventDefault();
+        IndikatorKinerjaID=$(this).val();        
+        $.ajax({
+            type:'post',
+            url: '{{route('usulanprarenjaopd.pilihindikatorkinerja')}}',
+            dataType: 'json',
+            data: {
+                "_token": token,
+                "IndikatorKinerjaID": IndikatorKinerjaID,
+            },
+            success:function(result)
+            {   
+                console.log(result);                
+                $('#pNamaIndikator').html(result.NamaIndikator);
+                $('#pTargetAngka').html(result.TargetAngka);
+                $('#pPaguDana').html(result.PaguDana);
+            },
+            error:function(xhr, status, error)
+            {   
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    });     
     $('#frmdata').validate({
+        ignore: [], 
         rules: {
-            replaceit : {
-                required: true,
-                minlength: 2
-            }
+            IndikatorKinerjaID : {
+                required: true
+            },
+            Target_Angka : {
+                required: true
+            },
+            Target_Uraian : {
+                required: true
+            },
         },
         messages : {
-            replaceit : {
-                required: "Mohon untuk di isi karena ini diperlukan.",
-                minlength: "Mohon di isi minimal 2 karakter atau lebih."
+            IndikatorKinerjaID : {
+                required: "Mohon dipilih indikator kinerja RPJMD."
+            },
+            Target_Angka : {
+                required: "Mohon untuk di isi target angka."
+            },
+            Target_Uraian : {
+                required: "Mohon untuk di isi target uraian."
             }
         }      
     });   
+    $("#divdatatableindikatorkinerja").on("click",".btnDelete", function(){
+        if (confirm('Apakah Anda ingin menghapus Data Indikator Kegiatan Pra Renja OPD / SKPD ini ?')) {
+            let url_ = $(this).attr("data-url");
+            let id = $(this).attr("data-id");
+            $.ajax({            
+                type:'post',
+                url:url_+'/'+id,
+                dataType: 'json',
+                data: {
+                    "_method": 'DELETE',
+                    "_token": token,
+                    "id": id,
+                    'indikatorkinerja':true
+                },
+                success:function(result){ 
+                    if (result.success==1){
+                        $('#divdatatableindikatorkinerja').html(result.datatable);                        
+                    }else{
+                        console.log("Gagal menghapus data indikator kinerja Pra Renja OPD / SKPD dengan id "+id);
+                    }                    
+                },
+                error:function(xhr, status, error){
+                    console.log('ERROR');
+                    console.log(parseMessageAjaxEror(xhr, status, error));                           
+                },
+            });
+        }        
+    });
 });
 </script>
 @endsection

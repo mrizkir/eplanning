@@ -5,6 +5,9 @@ namespace App\Controllers\RKPD;
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Models\RKPD\UsulanPraRenjaOPDModel;
+use App\Models\RKPD\RenjaIndikatorModel;
+use App\Models\RKPD\RenjaModel;
+use App\Models\RKPD\RenjaRincianModel;
 use App\Models\DMaster\OrganisasiModel;
 use App\Models\DMaster\SubOrganisasiModel;
 use App\Models\DMaster\UrusanModel;
@@ -12,6 +15,7 @@ use App\Models\DMaster\ProgramModel;
 use App\Models\DMaster\ProgramKegiatanModel;
 use App\Models\DMaster\UrusanProgramModel;
 use App\Models\DMaster\SumberDanaModel;
+use App\Models\RPJMD\RpjmdIndikatorKinerjaModel;
 
 class UsulanPraRenjaOPDController extends Controller {
      /**
@@ -325,6 +329,20 @@ class UsulanPraRenjaOPDController extends Controller {
         }
         return response()->json($json_data,200);  
     }
+    public function pilihindikatorkinerja(Request $request)
+    {
+        $IndikatorKinerjaID = $request->input('IndikatorKinerjaID');
+        $json_data=RpjmdIndikatorKinerjaModel::getIndikatorKinerjaByID($IndikatorKinerjaID,config('globalsettings.tahun_perencanaan'));
+        if (is_null($json_data))
+        {
+            $json_data=[
+                'NamaIndikator'=>'-',
+                'TargetAngka'=>'-',
+                'PaguDana'=>'-'
+            ];
+        }
+        return response()->json($json_data,200);  
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -375,14 +393,33 @@ class UsulanPraRenjaOPDController extends Controller {
         $filters=$this->getControllerStateSession('usulanprarenjaopd','filters'); 
         if ($filters['SOrgID'] != 'none'&&$filters['SOrgID'] != ''&&$filters['SOrgID'] != null)
         {
-            $renja=UsulanPraRenjaOPDModel::findOrFailRenja($renjaid);
+            $renja=UsulanPraRenjaOPDModel::findOrFailRenja($renjaid);  
             $OrgID=$renja->OrgID;
             $SOrgID=$renja->SOrgID;
-            $PrgID=ProgramKegiatanModel::find($renja->KgtID)->PrgID;
+            $kegiatan=ProgramKegiatanModel::join('trUrsPrg','trUrsPrg.PrgID','tmKgt.PrgID')
+                                            ->find($renja->KgtID);
+            $UrsID=$kegiatan->UrsID;    
+            $PrgID=$kegiatan->PrgID;          
+            $daftar_indikatorkinerja = \DB::table('trIndikatorKinerja')
+                                        ->where('UrsID',$UrsID)
+                                        ->where('PrgID',$PrgID)
+                                        ->where('OrgID',$OrgID)
+                                        ->where('TA_N',config('globalsettings.rpjmd_tahun_mulai'))
+                                        ->WhereNotIn('IndikatorKinerjaID',function($query) use ($renjaid){
+                                            $query->select('IndikatorKinerjaID')
+                                                    ->from('trRenjaIndikator')
+                                                    ->where('RenjaID', $renjaid);
+                                        })
+                                        ->get()
+                                        ->pluck('NamaIndikator','IndikatorKinerjaID')
+                                        ->toArray();     
             
-            $daftar_indikatorkinerja=[];
-            
-            $data = [];
+            $data = RenjaIndikatorModel::join('trIndikatorKinerja','trIndikatorKinerja.IndikatorKinerjaID','trRenjaIndikator.IndikatorKinerjaID')
+                                        ->where('RenjaID',$renjaid)
+                                        ->get();
+
+                        ;
+
             return view("pages.$theme.rkpd.usulanprarenjaopd.create1")->with(['page_active'=>'usulanprarenjaopd',
                                                                             'daftar_indikatorkinerja'=>$daftar_indikatorkinerja,
                                                                             'renja'=>$renja,
@@ -448,7 +485,7 @@ class UsulanPraRenjaOPDController extends Controller {
         ]);
         $filters=$this->getControllerStateSession('usulanprarenjaopd','filters'); 
         $RenjaID=uniqid ('uid');
-        $renja=[            
+        $data=[            
             'RenjaID' => $RenjaID,            
             'OrgID' => $filters['OrgID'],
             'SOrgID' => $filters['SOrgID'],
@@ -469,7 +506,6 @@ class UsulanPraRenjaOPDController extends Controller {
             'TA' => config('globalsettings.tahun_perencanaan'),
             'EntryLvl'=>0
         ];
-        $data['renja']=$renja;
         $usulanprarenjaopd = UsulanPraRenjaOPDModel::create($data);        
         
         if ($request->ajax()) 
@@ -493,7 +529,35 @@ class UsulanPraRenjaOPDController extends Controller {
      */
     public function store1(Request $request)
     {
+        $this->validate($request, [
+            'IndikatorKinerjaID'=>'required',
+            'Target_Angka'=>'required',
+            'Target_Uraian'=>'required',           
+        ]);
         
+        $data=[  
+            'RenjaIndikatorID' => uniqid ('uid'),           
+            'RenjaID' => $request->input('RenjaID'),            
+            'IndikatorKinerjaID' => $request->input('IndikatorKinerjaID'),           
+            'Target_Angka' => $request->input('Target_Angka'),
+            'Target_Uraian' => $request->input('Target_Uraian'),                       
+            'Tahun' => (config('globalsettings.tahun_perencanaan')-config('globalsettings.rpjmd_tahun_mulai'))+1,                       
+            'Descr' => '-',
+            'TA' => config('globalsettings.tahun_perencanaan')
+        ];
+
+        $indikatorkinjera = UsulanPraRenjaOPDModel::createrenjaindikator($data);
+        if ($request->ajax()) 
+        {
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data ini telah berhasil disimpan.'
+            ]);
+        }
+        else
+        {
+            return redirect(route('usulanprarenjaopd.create1',['id'=>$request->input('RenjaID')]))->with('success','Data Indikator kegiatan telah berhasil disimpan. Selanjutnya isi Rincian Kegiatan');
+        }
     }
     /**
      * Display the specified resource.
@@ -574,28 +638,48 @@ class UsulanPraRenjaOPDController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $usulanprarenjaopd = UsulanPraRenjaOPDModel::find($id);
-        $result=$usulanprarenjaopd->delete();
-        if ($request->ajax()) 
+        if ($request->exists('indikatorkinerja'))
         {
-            $currentpage=$this->getCurrentPageInsideSession('usulanprarenjaopd'); 
-            $data=$this->populateData($currentpage);
-            if ($currentpage > $data->lastPage())
-            {            
-                $data = $this->populateData($data->lastPage());
+            $indikatorkinerja = RenjaIndikatorModel::find($id);
+            $renjaid=$indikatorkinerja->RenjaID;
+            $result=$indikatorkinerja->delete();
+            if ($request->ajax()) 
+            {
+                $data = RenjaIndikatorModel::join('trIndikatorKinerja','trIndikatorKinerja.IndikatorKinerjaID','trRenjaIndikator.IndikatorKinerjaID')
+                                            ->where('RenjaID',$renjaid)
+                                            ->get();
+
+                $datatable = view("pages.$theme.rkpd.usulanprarenjaopd.datatableindikatorkinerja")->with(['data'=>$data])->render();     
+                
+                return response()->json(['success'=>true,'datatable'=>$datatable],200); 
             }
-            $datatable = view("pages.$theme.rkpd.usulanprarenjaopd.datatable")->with(['page_active'=>'usulanprarenjaopd',
-                                                            'search'=>$this->getControllerStateSession('usulanprarenjaopd','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                            'column_order'=>$this->getControllerStateSession('usulanprarenjaopd.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('usulanprarenjaopd.orderby','order'),
-                                                            'data'=>$data])->render();      
-            
-            return response()->json(['success'=>true,'datatable'=>$datatable],200); 
+            else
+            {
+                return redirect(route('usulanprarenjaopd.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+            }
         }
         else
         {
-            return redirect(route('usulanprarenjaopd.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
-        }        
+            $usulanprarenjaopd = RenjaModel::find($id);
+            $result=$usulanprarenjaopd->delete();
+            if ($request->ajax()) 
+            {
+                $currentpage=$this->getCurrentPageInsideSession('usulanprarenjaopd'); 
+                $data=$this->populateData($currentpage);
+               
+                $datatable = view("pages.$theme.rkpd.usulanprarenjaopd.datatable")->with(['page_active'=>'usulanprarenjaopd',
+                                                                'search'=>$this->getControllerStateSession('usulanprarenjaopd','search'),
+                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                'column_order'=>$this->getControllerStateSession('usulanprarenjaopd.orderby','column_name'),
+                                                                'direction'=>$this->getControllerStateSession('usulanprarenjaopd.orderby','order'),
+                                                                'data'=>$data])->render();      
+                
+                return response()->json(['success'=>true,'datatable'=>$datatable],200); 
+            }
+            else
+            {
+                return redirect(route('usulanprarenjaopd.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+            }      
+        }  
     }
 }

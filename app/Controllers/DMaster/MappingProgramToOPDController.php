@@ -403,7 +403,7 @@ class MappingProgramToOPDController extends Controller {
             $filter_ursid=$this->getControllerStateSession('mappingprogramtoopd.filters','UrsID');               
             $data =$filter_ursid == 'none' ? 
                                                 \DB::table('v_urusan_program')
-                                                            ->WhereNoIn('PrgID',function($query){
+                                                            ->WhereNotIn('PrgID',function($query){
                                                                 $filter_orgid=$this->getControllerStateSession('mappingprogramtoopd.filters','OrgID');
                                                                 $query->select('PrgID')
                                                                     ->from('trOrgProgram')

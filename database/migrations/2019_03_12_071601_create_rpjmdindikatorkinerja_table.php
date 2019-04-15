@@ -26,7 +26,7 @@ class CreateRpjmdindikatorkinerjaTable extends Migration
             
             $table->year('TA_N');
 
-            $table->string('TargetN')->nullable();
+            $table->string('TargetAwal')->nullable();
             $table->string('TargetN1')->nullable();
             $table->string('TargetN2')->nullable();
             $table->string('TargetN3')->nullable();

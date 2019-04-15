@@ -81,8 +81,46 @@ class RpjmdIndikatorKinerjaModel extends Model {
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
 
-    public function getDaftarIndikatorKinerja($ta_saat_ini)
-    {
+    public static function getDaftarIndikatorKinerja($UrsID,$PrgID=null,$OrgID=null,$prepend=true)
+    {   
+        $data = RpjmdIndikatorKinerjaModel::where('UrsID',$UrsID)
+                                            ->where('TA_N',config('globalsettings.rpjmd_tahun_mulai'));
+
+        if ($PrgID != null)
+        {
+            $data = $data->where('PrgID',$PrgID);
+        }
+        if ($OrgID != null)
+        {
+            $data = $data->where('OrgID',$OrgID);
+        }
         
+        $daftar_indikator = $prepend==true ? $data->get()
+                ->pluck('NamaIndikator','IndikatorKinerjaID')
+                ->prepend('DAFTAR INDIKATOR KINERJA','none')
+                ->toArray()
+                :
+                $data->get()
+                ->pluck('NamaIndikator','IndikatorKinerjaID')
+                ->toArray();
+        
+        return $daftar_indikator;
+    }
+    public static function getIndikatorKinerjaByID($IndikatorKinerjaID,$ta)
+    {
+        $data = RpjmdIndikatorKinerjaModel::find($IndikatorKinerjaID);
+        $data_indikator=null;
+        if (!is_null($data) )  
+        {   
+            $tahun_n=($ta-config('globalsettings.rpjmd_tahun_mulai'))+1;
+            $target_n="TargetN$tahun_n";
+            $pagudana_n="PaguDanaN$tahun_n";
+            $data_indikator=[
+                'NamaIndikator'=>$data->NamaIndikator,
+                'TargetAngka'=>$data[$target_n],
+                'PaguDana'=>$data[$pagudana_n]
+            ];
+        }
+        return $data_indikator;
     }
 }

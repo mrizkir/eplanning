@@ -25,12 +25,12 @@ class RpjmdIndikatorKinerjaController extends Controller {
     public function populateData ($currentpage=1) 
     {        
         $columns=['*'];       
-        //if (!$this->checkStateIsExistSession('rpjmdindikatorkinerja','orderby')) 
-        //{            
-        //    $this->putControllerStateSession('rpjmdindikatorkinerja','orderby',['column_name'=>'replace_it','order'=>'asc']);
-        //}
-        //$column_order=$this->getControllerStateSession('rpjmdindikatorkinerja.orderby','column_name'); 
-        //$direction=$this->getControllerStateSession('rpjmdindikatorkinerja.orderby','order'); 
+        if (!$this->checkStateIsExistSession('rpjmdindikatorkinerja','orderby')) 
+        {            
+           $this->putControllerStateSession('rpjmdindikatorkinerja','orderby',['column_name'=>'NamaIndikator','order'=>'asc']);
+        }
+        $column_order=$this->getControllerStateSession('rpjmdindikatorkinerja.orderby','column_name'); 
+        $direction=$this->getControllerStateSession('rpjmdindikatorkinerja.orderby','order'); 
 
         if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
         {            
@@ -41,19 +41,17 @@ class RpjmdIndikatorKinerjaController extends Controller {
         {
             $search=$this->getControllerStateSession('rpjmdindikatorkinerja','search');
             switch ($search['kriteria']) 
-            {
-                case 'replaceit' :
-                    $data = RpjmdIndikatorKinerjaModel::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
-                break;
-                case 'replaceit' :
-                    $data = RpjmdIndikatorKinerjaModel::where('replaceit', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+            {                
+                case 'NamaIndikator' :
+                    $data = RpjmdIndikatorKinerjaModel::where('NamaIndikator', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = RpjmdIndikatorKinerjaModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data = RpjmdIndikatorKinerjaModel::where('TA_N',config('globalsettings.rpjmd_tahun_mulai'))
+                                                ->orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('rpjmdindikatorkinerja.index'));
         return $data;

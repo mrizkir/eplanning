@@ -1,18 +1,19 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RPJMDINDIKATORKINERJA
+    INDIKASI RENCANA PROGRAM
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        RPJMDINDIKATORKINERJA TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        INDIKASI RENCANA PROGRAM TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
     </span>     
 @endsection
 @section('page_info')
     @include('pages.limitless.rpjmd.rpjmdindikatorkinerja.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('rpjmdindikatorkinerja.index')!!}">RPJMDINDIKATORKINERJA</a></li>
+    <li><a href="#">RPJMD</a></li>
+    <li><a href="{!!route('rpjmdindikatorkinerja.index')!!}">INDIKASI RENCANA PROGRAM</a></li>
     <li class="active">DETAIL DATA</li>
 @endsection
 @section('page_content')
@@ -21,10 +22,10 @@
         <div class="panel panel-flat border-top-info border-bottom-info">
             <div class="panel-heading">
                 <h5 class="panel-title"> 
-                    <i class="icon-eye"></i>  DATA RPJMDINDIKATORKINERJA
+                    <i class="icon-eye"></i>  DATA INDIKASI RENCANA PROGRAM
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{!!route('rpjmdindikatorkinerja.create')!!}" class="btn btn-info btn-icon heading-btn btnAdd" title="Tambah RPJMDINDIKATORKINERJA">
+                    <a href="{!!route('rpjmdindikatorkinerja.create')!!}" class="btn btn-info btn-icon heading-btn btnAdd" title="Tambah Indikasi">
                         <i class="icon-googleplus5"></i>
                     </a>
                     <a href="{{route('rpjmdindikatorkinerja.edit',['id'=>$data->rpjmdindikatorkinerja_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RpjmdIndikatorKinerja">

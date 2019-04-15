@@ -9,7 +9,7 @@
         </div>
         <div class="heading-elements">
             <div class="heading-btn">
-                <a href="{!!route('rpjmdindikatorkinerja.create')!!}" class="btn btn-info btn-xs" title="Tambah RPJMDINDIKATORKINERJA">
+                <a href="{!!route('rpjmdindikatorkinerja.create')!!}" class="btn btn-info btn-xs" title="Tambah Indikasi">
                     <i class="icon-googleplus5"></i>
                 </a>
             </div>            
@@ -21,11 +21,17 @@
             <thead>
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
-                    <th width="100">
-                        <a class="column-sort text-white" id="col-replace_it" data-order="{{$direction}}" href="#">
-                            replace_it  
+                    <th width="400">
+                        <a class="column-sort text-white" id="col-NamaIndikator" data-order="{{$direction}}" href="#">
+                            NAMA INDIKATOR  
                         </a>                                             
                     </th> 
+                    <th width="150">                        
+                        AWAL ({{config('globalsettings.rpjmd_tahun_mulai')-1}})                
+                    </th>
+                    <th>
+                        DATA INDIKATOR
+                    </th>
                     <th width="100">AKSI</th>
                 </tr>
             </thead>
@@ -35,21 +41,87 @@
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>                  
-                    <td>{{$item->replace_it}}</td>
+                    <td>{{$item->NamaIndikator}}</td>
+                    <td>{{$item->TargetAwal}}</td>
+                    <td>
+                        <table width="100%">
+                            <tr>
+                                <td width="100">
+                                    TARGET {{$item->TA_N}}
+                                </td>
+                                <td width="120">: {{$item->TargetN1}}</td>
+                                <td width="120">
+                                    PAGU DANA {{$item->TA_N}}
+                                </td>
+                                <td width="120">: {{Helper::formatUang($item->PaguDanaN1)}}</td>
+                            </tr>                            
+                            <tr>
+                                <td width="100">
+                                    TARGET {{$item->TA_N+1}}
+                                </td>
+                                <td width="120">: {{$item->TargetN2}}</td>
+                                <td width="120">
+                                    PAGU DANA {{$item->TA_N+1}}
+                                </td>
+                                <td width="120">: {{Helper::formatUang($item->PaguDanaN1)}}</td>
+                            </tr>
+                            <tr>
+                                <td width="100">
+                                    TARGET {{$item->TA_N+2}}
+                                </td>
+                                <td width="120">: {{$item->TargetN2}}</td>
+                                <td width="120">
+                                    PAGU DANA {{$item->TA_N+2}}
+                                </td>
+                                <td width="120">: {{Helper::formatUang($item->PaguDanaN2)}}</td>
+                            </tr>
+                            <tr>
+                                <td width="100">
+                                    TARGET {{$item->TA_N+3}}
+                                </td>
+                                <td width="120">: {{$item->TargetN3}}</td>
+                                <td width="120">
+                                    PAGU DANA {{$item->TA_N+3}}
+                                </td>
+                                <td width="120">: {{Helper::formatUang($item->PaguDanaN3)}}</td>
+                            </tr>
+                            <tr>
+                                <td width="100">
+                                    TARGET {{$item->TA_N+4}}
+                                </td>
+                                <td width="120">: {{$item->TargetN4}}</td>
+                                <td width="120">
+                                    PAGU DANA {{$item->TA_N+4}}
+                                </td>
+                                <td width="120">: {{Helper::formatUang($item->PaguDanaN4)}}</td>
+                            </tr>
+                            <tr>
+                                <td width="100">
+                                    TARGET {{$item->TA_N+5}}
+                                </td>
+                                <td width="120">: {{$item->TargetN5}}</td>
+                                <td width="120">
+                                    PAGU DANA {{$item->TA_N+5}}
+                                </td>
+                                <td width="120">: {{Helper::formatUang($item->PaguDanaN5)}}</td>
+                            </tr>
+                        </table>
+                    </td>
+                    
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('rpjmdindikatorkinerja.show',['id'=>$item->rpjmdindikatorkinerja_id])}}" title="Detail Data RpjmdIndikatorKinerja">
+                                <a class="btnShow" href="{{route('rpjmdindikatorkinerja.show',['id'=>$item->IndikatorKinerjaID])}}" title="Detail Data Indikasi Rencana Program">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('rpjmdindikatorkinerja.edit',['id'=>$item->rpjmdindikatorkinerja_id])}}" title="Ubah Data RpjmdIndikatorKinerja">
+                                <a class="btnEdit" href="{{route('rpjmdindikatorkinerja.edit',['id'=>$item->IndikatorKinerjaID])}}" title="Ubah Data Indikasi Rencana Program">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data RpjmdIndikatorKinerja" data-id="{{$item->rpjmdindikatorkinerja_id}}" data-url="{{route('rpjmdindikatorkinerja.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data Indikasi Rencana Program" data-id="{{$item->IndikatorKinerjaID}}" data-url="{{route('rpjmdindikatorkinerja.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>

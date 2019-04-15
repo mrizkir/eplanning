@@ -82,6 +82,6 @@ class ProgramKegiatanModel extends Model {
 
     public function program () 
     {
-        $this->belongsTo('App\Models\DMaster\ProgramModel');
+        return $this->belongsTo('App\Models\DMaster\ProgramModel','PrgID');
     }
 }
