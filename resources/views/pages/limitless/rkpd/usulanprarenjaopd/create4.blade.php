@@ -58,13 +58,13 @@
                             {{Form::text('Sasaran_Angka1','',['class'=>'form-control','placeholder'=>'ANGKA SASARAN'])}}
                         </div>
                         <div class="col-md-6">
-                            {{Form::text('Sasaran_Uraian1','',['class'=>'form-control','placeholder'=>'URAIAN SASARAN'])}}
+                            {{Form::textarea('Sasaran_Uraian1','',['class'=>'form-control','placeholder'=>'URAIAN SASARAN','rows'=>3])}}
                         </div>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                {{Form::label('Target1','TARGET',['class'=>'control-label col-md-2'])}}
+                {{Form::label('Target1','TARGET (%)',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
                     {{Form::text('Target1','',['class'=>'form-control','placeholder'=>'TARGET'])}}
                 </div>
@@ -84,7 +84,7 @@
             <div class="form-group">
                 {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
-                    {{Form::text('Sasaran_Angka1','',['class'=>'form-control','placeholder'=>'ANGKA SASARAN'])}}
+                    {{Form::text('Descr','',['class'=>'form-control','placeholder'=>'KETERANGAN / CATATAN PENTING'])}}
                 </div>
             </div>            
         </div>
@@ -128,15 +128,8 @@
         </div>
         {!! Form::close()!!}
     </div>
-    <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
-        <div class="panel-heading">
-            <div class="panel-title">
-                <h5>DAFTAR RINCIAN KEGIATAN</h5>
-            </div>
-            <div class="heading-elements">
-                
-            </div>
-        </div>
+    <div class="panel panel-flat border-top-lg border-top-info border-bottom-info" id="divdatatablerinciankegiatan">
+        @include('pages.limitless.rkpd.usulanprarenjaopd.datatablerinciankegiatan')         
     </div>
 </div>   
 @endsection
@@ -144,10 +137,42 @@
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/autoNumeric.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
+    AutoNumeric.multiple(['#No','#Sasaran_Angka1'], {
+                                            allowDecimalPadding: false,
+                                            minimumValue:0,
+                                            maximumValue:99999999999,
+                                            numericPos:true,
+                                            decimalPlaces : 0,
+                                            digitGroupSeparator : '',
+                                            showWarnings:false,
+                                            unformatOnSubmit: true,
+                                            modifyValueOnWheel:false
+                                        });
+    AutoNumeric.multiple(['#Target1'], {
+                                            allowDecimalPadding: false,
+                                            minimumValue:0.00,
+                                            maximumValue:100.00,
+                                            numericPos:true,
+                                            decimalPlaces : 2,
+                                            digitGroupSeparator : '',
+                                            showWarnings:false,
+                                            unformatOnSubmit: true,
+                                            modifyValueOnWheel:false
+                                        });
+
+    AutoNumeric.multiple(['#Jumlah1'],{
+                                            allowDecimalPadding: false,
+                                            decimalCharacter: ",",
+                                            digitGroupSeparator: ".",
+                                            unformatOnSubmit: true,
+                                            showWarnings:false,
+                                            modifyValueOnWheel:false
+                                        });
     //styling select
     $('#PMProvID.select').select2({
         placeholder: "PILIH PROVINSI",
@@ -164,6 +189,32 @@ $(document).ready(function () {
     $('#PmDesaID.select').select2({
         placeholder: "PILIH DESA",
         allowClear:true
+    });
+    $(document).on('change','#PmKecamatanID',function(ev) {
+        ev.preventDefault();
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/filter',
+            dataType: 'json',
+            data: {                
+                "_token": token,
+                "PmKecamatanID": $('#PmKecamatanID').val(),
+                "create4":true
+            },
+            success:function(result)
+            { 
+                var daftar_desa = result.daftar_desa;
+                var listitems='<option></option>';
+                $.each(daftar_desa,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
+                $('#PmDesaID').html(listitems);
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
     }); 
 });
 </script>

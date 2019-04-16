@@ -281,6 +281,14 @@ class UsulanPraRenjaOPDController extends Controller {
             $json_data = ['success'=>true,'datatable'=>$datatable];            
         } 
         
+        if ($request->exists('PmKecamatanID') && $request->exists('create4') )
+        {
+            $PmKecamatanID = $request->input('PmKecamatanID')==''?'none':$request->input('PmKecamatanID');
+            $daftar_desa=DesaModel::getDaftarDesa(config('globalsettings.tahun_perencanaan'),$PmKecamatanID,false);
+                                                                                    
+            $json_data = ['success'=>true,'daftar_desa'=>$daftar_desa];            
+        } 
+
         return response()->json($json_data,200);  
     }
     /**
@@ -629,6 +637,26 @@ class UsulanPraRenjaOPDController extends Controller {
         {
             return redirect(route('usulanprarenjaopd.create1',['id'=>$request->input('RenjaID')]))->with('success','Data Indikator kegiatan telah berhasil disimpan. Selanjutnya isi Rincian Kegiatan');
         }
+    }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store3(Request $request)
+    {
+
+    }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store4(Request $request)
+    {
+
     }
     /**
      * Display the specified resource.
