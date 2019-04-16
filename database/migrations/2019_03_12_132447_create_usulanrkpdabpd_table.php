@@ -113,6 +113,8 @@ class CreateUsulanrkpdabpdTable extends Migration
                 $table->string('RKPDRincID',19);
                 $table->string('RKPDID',19);
                 $table->string('RenjaRincID',19);
+                $table->string('PMProvID',19)->nullable();
+                $table->string('PmKotaID',19)->nullable();
                 $table->string('PmKecamatanID',19);
                 $table->string('PmDesaID',19);
                 $table->string('PokPirID',19);

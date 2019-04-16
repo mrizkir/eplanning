@@ -55,14 +55,20 @@ class KecamatanModel extends Model {
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
-    public static function getDaftarKecamatan ($ta,$prepend=true) 
+    public static function getDaftarKecamatan ($ta,$PmKotaID=NULL,$prepend=true) 
     {
-        $r=KecamatanModel::where('TA',$ta)->orderBy('Kd_Kecamatan')->get();
+        $r=KecamatanModel::where('TA',$ta)->orderBy('Kd_Kecamatan');
+        if ($PmKotaID != NULL) 
+        {
+            $r=$r->where('PmKotaID',$PmKotaID);
+        }
+        $r=$r->get();
+        
         $daftar_kecamatan=($prepend==true)?['none'=>'DAFTAR KECAMATAN']:[];        
         foreach ($r as $k=>$v)
         {
             $daftar_kecamatan[$v->PmKecamatanID]=$v->Nm_Kecamatan;
-        } 
+        }         
         return $daftar_kecamatan;
     }
 }

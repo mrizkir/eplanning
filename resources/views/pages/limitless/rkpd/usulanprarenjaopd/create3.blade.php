@@ -37,7 +37,7 @@
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>'RKPD\UsulanPraRenjaOPDController@store2','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
+            {!! Form::open(['action'=>'RKPD\UsulanPraRenjaOPDController@store3','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
                 
             {!! Form::close()!!}
         </div>

@@ -10,27 +10,27 @@ class ProvinsiModel extends Model {
      *
      * @var string
      */
-    protected $table = 'provinsi';
+    protected $table = 'tmPMProv';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'replace_it', 'replace_it'
+        'PMProvID', 'Kd_Prov', 'Nm_Prov', 'Descr', 'TA'
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'provinsi_id';
+    protected $primaryKey = 'PMProvID';
     /**
      * enable auto_increment.
      *
      * @var string
      */
-    public $incrementing = true;
+    public $incrementing = false;
     /**
      * activated timestamps.
      *
@@ -43,11 +43,11 @@ class ProvinsiModel extends Model {
      *
      * @var string
      */
-    // protected static $logName = 'ProvinsiController';
+    protected static $logName = 'ProvinsiController';
     /**
      * log the changed attributes for all these events 
      */
-    // protected static $logAttributes = ['replace_it', 'replace_it'];
+    protected static $logAttributes = ['PMProvID', 'Kd_Prov', 'Nm_Prov'];
     /**
      * log changes to all the $fillable attributes of the model
      */

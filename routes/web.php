@@ -140,8 +140,12 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/aspirasi/usulanprarenjaopd/pilihindikatorkinerja',['uses'=>'RKPD\UsulanPraRenjaOPDController@pilihindikatorkinerja','as'=>'usulanprarenjaopd.pilihindikatorkinerja']);                  
     Route::get('/aspirasi/usulanprarenjaopd/create1/{uuid}',['uses'=>'RKPD\UsulanPraRenjaOPDController@create1','as'=>'usulanprarenjaopd.create1']);              
     Route::get('/aspirasi/usulanprarenjaopd/create2/{uuid}',['uses'=>'RKPD\UsulanPraRenjaOPDController@create2','as'=>'usulanprarenjaopd.create2']);              
+    Route::get('/aspirasi/usulanprarenjaopd/create3/{uuid}',['uses'=>'RKPD\UsulanPraRenjaOPDController@create3','as'=>'usulanprarenjaopd.create3']);              
+    Route::get('/aspirasi/usulanprarenjaopd/create4/{uuid}',['uses'=>'RKPD\UsulanPraRenjaOPDController@create4','as'=>'usulanprarenjaopd.create4']);              
     Route::post('/aspirasi/usulanprarenjaopd/store1',['uses'=>'RKPD\UsulanPraRenjaOPDController@store1','as'=>'usulanprarenjaopd.store1']);  
     Route::post('/aspirasi/usulanprarenjaopd/store2',['uses'=>'RKPD\UsulanPraRenjaOPDController@store2','as'=>'usulanprarenjaopd.store2']);  
+    Route::post('/aspirasi/usulanprarenjaopd/store3',['uses'=>'RKPD\UsulanPraRenjaOPDController@store3','as'=>'usulanprarenjaopd.store3']); 
+    Route::post('/aspirasi/usulanprarenjaopd/store4',['uses'=>'RKPD\UsulanPraRenjaOPDController@store4','as'=>'usulanprarenjaopd.store4']); 
     Route::post('/aspirasi/usulanprarenjaopd/search',['uses'=>'RKPD\UsulanPraRenjaOPDController@search','as'=>'usulanprarenjaopd.search']);  
     Route::post('/aspirasi/usulanprarenjaopd/filter',['uses'=>'RKPD\UsulanPraRenjaOPDController@filter','as'=>'usulanprarenjaopd.filter']);                  
     Route::get('/aspirasi/usulanprarenjaopd/paginate/{id}',['uses'=>'RKPD\UsulanPraRenjaOPDController@paginate','as'=>'usulanprarenjaopd.paginate']);              

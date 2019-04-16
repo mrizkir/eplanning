@@ -42,8 +42,8 @@
                         </a>                                             
                     </th>
                     <th>
-                        <a class="column-sort text-white" id="col-OrgNm" data-order="{{$direction}}" href="#">
-                            OPD / SKPD
+                        <a class="column-sort text-white" id="col-SOrgNm" data-order="{{$direction}}" href="#">
+                            UNIT KERJA
                         </a>
                     </th>
                     <th width="100">AKSI</th>

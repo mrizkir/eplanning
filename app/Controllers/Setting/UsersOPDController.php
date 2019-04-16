@@ -218,7 +218,7 @@ class UsersOPDController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $daftar_opd=SubOrganisasiModel::getDaftarOPD(config('globalsettings.tahun_perencanaan'),false);
+        $daftar_opd=SubOrganisasiModel::getDaftarUnitKerja(config('globalsettings.tahun_perencanaan'),false);
         $daftar_theme = $this->listOfthemes;             
         return view("pages.$theme.setting.usersopd.create")->with(['page_active'=>'usersopd',
                                                                     'daftar_opd'=>$daftar_opd,
@@ -249,7 +249,7 @@ class UsersOPDController extends Controller {
             'username'=> $request->input('username'),
             'password'=>\Hash::make($request->input('password')),
             'SOrgID'=> $request->input('SOrgID'),
-            'SOrgNm'=> SubOrganisasiModel::getNamaOPDByID($request->input('SOrgID')),
+            'SOrgNm'=> SubOrganisasiModel::getNamaUnitKerjaByID($request->input('SOrgID')),
             'email_verified_at'=>\Carbon\Carbon::now(),
             'theme'=> $request->input('theme'),
             'created_at'=>$now, 
@@ -270,7 +270,7 @@ class UsersOPDController extends Controller {
         }
         else
         {
-            return redirect(route('usersopd.index'))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('usersopd.show',['id'=>$user->id]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -307,7 +307,7 @@ class UsersOPDController extends Controller {
         $data = User::findOrFail($id);
         if (!is_null($data) ) 
         {
-            $daftar_opd=SubOrganisasiModel::getDaftarOPD(config('globalsettings.tahun_perencanaan'),false);
+            $daftar_opd=SubOrganisasiModel::getDaftarUnitKerja(config('globalsettings.tahun_perencanaan'),false);
             $daftar_theme = $this->listOfthemes;   
             return view("pages.$theme.setting.usersopd.edit")->with(['page_active'=>'usersopd',
                                                                     'daftar_opd'=>$daftar_opd,
@@ -342,7 +342,7 @@ class UsersOPDController extends Controller {
             $user->password = \Hash::make($request->input('password'));
         }    
         $user->SOrgID = $request->input('SOrgID');
-        $user->SOrgNm = SubOrganisasiModel::getNamaOPDByID($request->input('SOrgID'));
+        $user->SOrgNm = SubOrganisasiModel::getNamaUnitKerjaByID($request->input('SOrgID'));
         $user->theme = $request->input('theme');
         $user->updated_at = \Carbon\Carbon::now()->toDateTimeString();        
         $user->save();
@@ -361,7 +361,7 @@ class UsersOPDController extends Controller {
         }
         else
         {
-            return redirect(route('usersopd.index'))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('usersopd.show',['id'=>$user->id]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 

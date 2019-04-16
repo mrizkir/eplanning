@@ -10,27 +10,27 @@ class KotaModel extends Model {
      *
      * @var string
      */
-    protected $table = 'kota';
+    protected $table = 'tmPmKota';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'replace_it', 'replace_it'
+        'PmKotaID', 'PMProvID', 'Kd_Kota', 'Nm_Kota', 'Descr', 'TA'
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'kota_id';
+    protected $primaryKey = 'PmKotaID';
     /**
      * enable auto_increment.
      *
      * @var string
      */
-    public $incrementing = true;
+    public $incrementing = false;
     /**
      * activated timestamps.
      *
@@ -43,11 +43,11 @@ class KotaModel extends Model {
      *
      * @var string
      */
-    // protected static $logName = 'KotaController';
+    protected static $logName = 'KotaController';
     /**
      * log the changed attributes for all these events 
      */
-    // protected static $logAttributes = ['replace_it', 'replace_it'];
+    protected static $logAttributes = ['PmKotaID', 'PMProvID', 'Kd_Kota', 'Nm_Kota'];
     /**
      * log changes to all the $fillable attributes of the model
      */

@@ -41,7 +41,7 @@ class HelperKegiatan {
 	* digunakan untuk mendapatkan daftar prioritas
 	*/
 	public static function getDaftarPrioritas () {
-		return HelperKegiatan::$LevelEntri;
+		return HelperKegiatan::$DaftarPrioritas;
     }
     /**
 	* digunakan untuk mendapatkan nama prioritas

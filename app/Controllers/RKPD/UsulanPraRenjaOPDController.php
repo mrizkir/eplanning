@@ -4,10 +4,7 @@ namespace App\Controllers\RKPD;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
-use App\Models\RKPD\UsulanPraRenjaOPDModel;
-use App\Models\RKPD\RenjaIndikatorModel;
-use App\Models\RKPD\RenjaModel;
-use App\Models\RKPD\RenjaRincianModel;
+
 use App\Models\DMaster\OrganisasiModel;
 use App\Models\DMaster\SubOrganisasiModel;
 use App\Models\DMaster\UrusanModel;
@@ -15,7 +12,20 @@ use App\Models\DMaster\ProgramModel;
 use App\Models\DMaster\ProgramKegiatanModel;
 use App\Models\DMaster\UrusanProgramModel;
 use App\Models\DMaster\SumberDanaModel;
+
+use App\Models\DMaster\ProvinsiModel;
+use App\Models\DMaster\KotaModel;
+use App\Models\DMaster\KecamatanModel;
+use App\Models\DMaster\DesaModel;
+
 use App\Models\RPJMD\RpjmdIndikatorKinerjaModel;
+
+use App\Models\RKPD\UsulanPraRenjaOPDModel;
+use App\Models\RKPD\RenjaIndikatorModel;
+use App\Models\RKPD\RenjaModel;
+use App\Models\RKPD\RenjaRincianModel;
+
+
 
 class UsulanPraRenjaOPDController extends Controller {
      /**
@@ -451,6 +461,67 @@ class UsulanPraRenjaOPDController extends Controller {
             return view("pages.$theme.rkpd.usulanprarenjaopd.create2")->with(['page_active'=>'usulanprarenjaopd',
                                                                             'renja'=>$renja,
                                                                             'data'=>$data
+                                                                            ]);  
+        }
+        else
+        {
+            return view("pages.$theme.rkpd.usulanprarenjaopd.error")->with(['page_active'=>'usulanprarenjaopd',
+                                                                            'errormessage'=>'Mohon unit kerja untuk di pilih terlebih dahulu.'
+                                                                            ]);  
+        }
+    }
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create3($renjaid)
+    {        
+        $theme = \Auth::user()->theme;
+
+        $filters=$this->getControllerStateSession('usulanprarenjaopd','filters'); 
+        if ($filters['SOrgID'] != 'none'&&$filters['SOrgID'] != ''&&$filters['SOrgID'] != null)
+        {
+            $renja=UsulanPraRenjaOPDModel::findOrFailRenja($renjaid);
+
+            $data = [];
+            return view("pages.$theme.rkpd.usulanprarenjaopd.create3")->with(['page_active'=>'usulanprarenjaopd',
+                                                                            'renja'=>$renja,
+                                                                            'data'=>$data
+                                                                            ]);  
+        }
+        else
+        {
+            return view("pages.$theme.rkpd.usulanprarenjaopd.error")->with(['page_active'=>'usulanprarenjaopd',
+                                                                            'errormessage'=>'Mohon unit kerja untuk di pilih terlebih dahulu.'
+                                                                            ]);  
+        }
+    }
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create4($renjaid)
+    {        
+        $theme = \Auth::user()->theme;
+
+        $filters=$this->getControllerStateSession('usulanprarenjaopd','filters'); 
+        if ($filters['SOrgID'] != 'none'&&$filters['SOrgID'] != ''&&$filters['SOrgID'] != null)
+        {
+            $renja=UsulanPraRenjaOPDModel::findOrFailRenja($renjaid);
+            $data = [];
+
+            //lokasi
+            $daftar_provinsi = ['uidF1847004D8F547BF'=>'KEPULAUAN RIAU'];
+            $daftar_kota_kab = ['uidE4829D1F21F44ECA'=>'BINTAN'];
+            $daftar_kecamatan=KecamatanModel::getDaftarKecamatan(config('globalsettings.tahun_perencanaan'),config('globalsettings.defaul_kota_atau_kab'),false);
+            return view("pages.$theme.rkpd.usulanprarenjaopd.create4")->with(['page_active'=>'usulanprarenjaopd',
+                                                                            'renja'=>$renja,
+                                                                            'data'=>$data,
+                                                                            'daftar_provinsi'=> $daftar_provinsi,
+                                                                            'daftar_kota_kab'=> $daftar_kota_kab,
+                                                                            'daftar_kecamatan'=>$daftar_kecamatan
                                                                             ]);  
         }
         else
