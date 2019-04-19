@@ -16,7 +16,7 @@ class CreateRekeningrincianobyekTable extends Migration
         Schema::create('tmROby', function (Blueprint $table) {
             $table->string('RObyID',19);
             $table->string('ObyID',19);            
-            $table->tinyInteger('Kd_Rek_5');
+            $table->varchar('Kd_Rek_5',4);
             $table->string('RObyNm');
             $table->string('DH');
             $table->string('Descr')->nullable();

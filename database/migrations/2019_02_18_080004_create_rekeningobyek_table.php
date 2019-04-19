@@ -16,7 +16,7 @@ class CreateRekeningobyekTable extends Migration
         Schema::create('tmOby', function (Blueprint $table) {
             $table->string('ObyID',19);
             $table->string('JnsID',19);            
-            $table->tinyInteger('Kd_Rek_4');
+            $table->varchar('Kd_Rek_4',4);
             $table->string('ObyNm');
             $table->string('DH');
             $table->string('Descr')->nullable();

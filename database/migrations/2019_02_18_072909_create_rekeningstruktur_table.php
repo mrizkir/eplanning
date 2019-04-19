@@ -15,7 +15,7 @@ class CreateRekeningstrukturTable extends Migration
     {
         Schema::create('tmStr', function (Blueprint $table) {
             $table->string('StrID',19);
-            $table->tinyInteger('Kd_Rek_1');
+            $table->varchar('Kd_Rek_1',4);
             $table->string('StrNm');
             $table->string('DH');
             $table->string('Descr')->nullable();
