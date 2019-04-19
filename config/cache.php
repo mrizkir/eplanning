@@ -64,6 +64,6 @@ return [
     */
     'prefix' => env(
         'CACHE_PREFIX',
-        str_slug(env('APP_NAME', 'portalekampus'), '_').'_cache'
+        str_slug(env('APP_NAME', 'eplanning'), '_').'_cache'
     ),
 ];

@@ -73,7 +73,9 @@ class CreateVPlafon3View extends Migration
                     f."PrgNm", 
                     e."Kd_Keg", 
                     e."KgtNm",  
-                    a."TA"');			 
+                    a."TA",
+                    a."Descr",
+                    a."EntryLvl"');			 
 				
     }
 
