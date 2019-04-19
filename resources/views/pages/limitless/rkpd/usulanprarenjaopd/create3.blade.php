@@ -18,7 +18,7 @@
     <li class="active">TAMBAH DATA RINCIAN KEGIATAN (RESES)</li>
 @endsection
 @section('page_sidebar')
-    @include('layouts.limitless.l_sidebar_prarenja')
+    @include('pages.limitless.rkpd.usulanprarenjaopd.l_sidebar_prarenja_create')
 @endsection
 @section('page_content')
 <div class="content">

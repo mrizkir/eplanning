@@ -13,11 +13,10 @@
             <tr class="bg-teal-700">
                 <th width="55">NO</th>     
                 <th>NAMA URAIAN</th>                
-                <th>SASARAN KEGIATAN</th>                        
+                <th>SASARAN KEGIATAN</th>  
+                <th>TARGET</th> 
                 <th>NILAI USULAN</th>                
-                <th>PRIORITAS</th> 
-                <th>RESES ?</th>   
-                <th>MUSREN. KEC. ?</th>                                           
+                <th>PRIORITAS</th>                                         
                 <th width="120">AKSI</th>
             </tr>
         </thead>
@@ -25,19 +24,17 @@
         @foreach ($data as $key=>$item)
             <tr>
                 <td>
-                    <td>{{$item->No}}</td>
+                    {{$item->No}}
                 </td>
                 <td>{{$item->Uraian}}</td>                
-                <td>{{$item->Sasaran_Angka1}} {{$item->Sasaran_Uraian1}}</td>
+                <td>{{Helper::formatAngka($item->Sasaran_Angka1)}} {{$item->Sasaran_Uraian1}}</td>
                 <td>{{$item->Target1}}</td>               
-                <td>{{$item->Jumlah1}}</td>       
+                <td>{{Helper::formatUang($item->Jumlah1)}}</td>       
                 <td>{{$item->Prioritas}}</td>
-                <td>{{$item->isReses}}</td>
-                <td>{{$item->isMusren}}</td>
                 <td>
                     <ul class="icons-list">
                         <li class="text-danger-600">
-                            <a class="btnDelete" href="javascript:;" title="Hapus Data Idikator" data-id="{{$item->RenjaIndikatorID}}" data-url="{{route('usulanprarenjaopd.index')}}">
+                            <a class="btnDelete" href="javascript:;" title="Hapus Data Idikator" data-id="{{$item->RenjaRincID}}" data-url="{{route('usulanprarenjaopd.index')}}">
                                 <i class='icon-trash'></i>
                             </a> 
                         </li>

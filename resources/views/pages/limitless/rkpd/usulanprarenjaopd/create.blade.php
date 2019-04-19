@@ -17,9 +17,6 @@
     <li><a href="{!!route('usulanprarenjaopd.index')!!}">USULAN PRA RENJA OPD/SKPD</a></li>
     <li class="active">TAMBAH DATA KEGIATAN</li>
 @endsection
-@section('page_sidebar')
-    @include('layouts.limitless.l_sidebar_prarenja')
-@endsection
 @section('page_content')
 <div class="content">
     <div class="panel panel-flat">
@@ -41,7 +38,9 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label">POSISI ENTRI: </label>
                     <div class="col-md-10">
-                        <p class="form-control-static">USULAN PRA RENJA OPD / SKPD</p>
+                        <p class="form-control-static">
+                            <span class="label border-left-primary label-striped">USULAN PRA RENJA OPD / SKPD</span>
+                        </p>
                     </div>                            
                 </div>
                 <div class="form-group">
@@ -141,8 +140,7 @@
                 </div> 
                 <div class="form-group">            
                     <div class="col-md-10 col-md-offset-2">                        
-                        {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN & KELUAR', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}
-                        {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN & LANJUT', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}
+                        {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}                        
                     </div>
                 </div>
             {!! Form::close()!!}

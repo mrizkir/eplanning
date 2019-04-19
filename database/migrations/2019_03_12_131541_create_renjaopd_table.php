@@ -132,14 +132,14 @@ class CreateRenjaopdTable extends Migration
                 $table->string('RenjaRincID',19);
                 $table->string('RenjaID',19);
                 $table->string('UsulanKecID',19)->nullable();
-                $table->string('PMProvID',19)->nullable();
+                $table->string('PMProvID',19);
                 $table->string('PmKotaID',19)->nullable();
                 $table->string('PmKecamatanID',19)->nullable();
                 $table->string('PmDesaID',19)->nullable();
                 $table->string('PokPirID',19)->nullable();
             
                 $table->text('Uraian');
-                $table->tinyInteger('No');
+                $table->string('No',4);
                
                 $table->text('Sasaran_Uraian1')->nullable();
                 $table->text('Sasaran_Uraian2')->nullable();
@@ -210,6 +210,30 @@ class CreateRenjaopdTable extends Migration
                 $table->foreign('PmKecamatanID')
                     ->references('PmKecamatanID')
                     ->on('tmPmKecamatan')
+                    ->onDelete('set null')
+                    ->onUpdate('cascade');
+
+                $table->foreign('PMProvID')
+                    ->references('PMProvID')
+                    ->on('tmPMProv')
+                    ->onDelete('set null')
+                    ->onUpdate('cascade');
+
+                $table->foreign('PmKotaID')
+                    ->references('PmKotaID')
+                    ->on('tmPmKota')
+                    ->onDelete('set null')
+                    ->onUpdate('cascade');
+
+                $table->foreign('PmKecamatanID')
+                    ->references('PmKecamatanID')
+                    ->on('tmPmKecamatan')
+                    ->onDelete('set null')
+                    ->onUpdate('cascade');
+
+                $table->foreign('PmDesaID')
+                    ->references('PmDesaID')
+                    ->on('tmPmDesa')
                     ->onDelete('set null')
                     ->onUpdate('cascade');
 

@@ -163,6 +163,18 @@ class CreateUsulanrkpdabpdTable extends Migration
                         ->onDelete('cascade')
                         ->onUpdate('cascade');
 
+                $table->foreign('PMProvID')
+                        ->references('PMProvID')
+                        ->on('tmPMProv')
+                        ->onDelete('set null')
+                        ->onUpdate('cascade');
+
+                $table->foreign('PmKotaID')
+                        ->references('PmKotaID')
+                        ->on('tmPmKota')
+                        ->onDelete('set null')
+                        ->onUpdate('cascade');
+
                 $table->foreign('PmKecamatanID')
                         ->references('PmKecamatanID')
                         ->on('tmPmKecamatan')

@@ -517,15 +517,18 @@ class UsulanPraRenjaOPDController extends Controller {
         $filters=$this->getControllerStateSession('usulanprarenjaopd','filters'); 
         if ($filters['SOrgID'] != 'none'&&$filters['SOrgID'] != ''&&$filters['SOrgID'] != null)
         {
-            $renja=UsulanPraRenjaOPDModel::findOrFailRenja($renjaid);
-            $data = [];
+            $renja=UsulanPraRenjaOPDModel::findOrFailRenja($renjaid);            
+            $data = RenjaRincianModel::where('RenjaID',$renjaid)
+                                            ->get();
 
             //lokasi
             $daftar_provinsi = ['uidF1847004D8F547BF'=>'KEPULAUAN RIAU'];
-            $daftar_kota_kab = ['uidE4829D1F21F44ECA'=>'BINTAN'];
+            $daftar_kota_kab = ['uidE4829D1F21F44ECA'=>'BINTAN'];        
             $daftar_kecamatan=KecamatanModel::getDaftarKecamatan(config('globalsettings.tahun_perencanaan'),config('globalsettings.defaul_kota_atau_kab'),false);
+            $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->max('No')+1;
             return view("pages.$theme.rkpd.usulanprarenjaopd.create4")->with(['page_active'=>'usulanprarenjaopd',
                                                                             'renja'=>$renja,
+                                                                            'nomor_rincian'=>$nomor_rincian,
                                                                             'data'=>$data,
                                                                             'daftar_provinsi'=> $daftar_provinsi,
                                                                             'daftar_kota_kab'=> $daftar_kota_kab,
@@ -646,7 +649,7 @@ class UsulanPraRenjaOPDController extends Controller {
      */
     public function store3(Request $request)
     {
-
+        
     }
     /**
      * Store a newly created resource in storage.
@@ -656,7 +659,46 @@ class UsulanPraRenjaOPDController extends Controller {
      */
     public function store4(Request $request)
     {
-
+        $this->validate($request, [
+            'No'=>'required',
+            'Uraian'=>'required',
+            'Sasaran_Angka1'=>'required',
+            'Sasaran_Uraian1'=>'required',
+            'Target1'=>'required',
+            'Jumlah1'=>'required',
+            'Prioritas' => 'required'            
+        ]);
+        $rinciankegiatan= RenjaRincianModel::create([
+            'RenjaRincID' => uniqid ('uid'),           
+            'RenjaID' => $request->input('RenjaID'),            
+            'PMProvID' => $request->input('PMProvID'),           
+            'PmKotaID' => $request->input('PmKotaID'),           
+            'PmKecamatanID' => $request->input('PmKecamatanID'),           
+            'PmDesaID' => $request->input('PmDesaID'),    
+            'No' => $request->input('No'),           
+            'Uraian' => $request->input('Uraian'),
+            'Sasaran_Angka1' => $request->input('Sasaran_Angka1'),                       
+            'Sasaran_Uraian1' => $request->input('Sasaran_Uraian1'),                       
+            'Target1' => $request->input('Target1'),                       
+            'Jumlah1' => $request->input('Jumlah1'),                       
+            'Prioritas' => $request->input('Prioritas'),  
+            'isSKPD' => true,     
+            'Status' => 0,                                         
+            'Descr' => '-',
+            'TA' => config('globalsettings.tahun_perencanaan')
+        ]);
+        if ($request->ajax()) 
+        {
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data ini telah berhasil disimpan.'
+            ]);
+        }
+        else
+        {
+            return redirect(route('usulanprarenjaopd.create4',['id'=>$request->input('RenjaID')]))->with('success','Data Indikator kegiatan telah berhasil disimpan.');
+        }
+        
     }
     /**
      * Display the specified resource.
@@ -687,11 +729,13 @@ class UsulanPraRenjaOPDController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $data = UsulanPraRenjaOPDModel::findOrFail($id);
+        $data = UsulanPraRenjaOPDModel::findOrFail($id);        
         if (!is_null($data) ) 
         {
+            $sumber_dana = SumberDanaModel::getDaftarSumberDana(config('globalsettings.tahun_perencanaan'),false);     
             return view("pages.$theme.rkpd.usulanprarenjaopd.edit")->with(['page_active'=>'usulanprarenjaopd',
-                                                    'data'=>$data
+                                                    'data'=>$data,
+                                                    'sumber_dana'=>$sumber_dana
                                                     ]);
         }        
     }
@@ -754,7 +798,26 @@ class UsulanPraRenjaOPDController extends Controller {
             }
             else
             {
-                return redirect(route('usulanprarenjaopd.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+                return redirect(route('usulanprarenjaopd.create1',['id'=>$renjaid]))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+            }
+        }
+        else  if ($request->exists('rinciankegiatan'))
+        {
+            $rinciankegiatan = RenjaRincianModel::find($id);
+            $renjaid=$rinciankegiatan->RenjaID;
+            $result=$rinciankegiatan->delete();
+            if ($request->ajax()) 
+            {
+                $data = RenjaRincianModel::where('RenjaID',$renjaid)
+                                        ->get();
+
+                $datatable = view("pages.$theme.rkpd.usulanprarenjaopd.datatablerinciankegiatan")->with(['data'=>$data])->render();     
+                
+                return response()->json(['success'=>true,'datatable'=>$datatable],200); 
+            }
+            else
+            {
+                return redirect(route('usulanprarenjaopd.create4',['id'=>$renjaid]))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
             }
         }
         else

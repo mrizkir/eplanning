@@ -17,6 +17,10 @@ class CreateVUsulanPraRenjaOPDView extends Migration
             SELECT 
                 A."RenjaID",
                 B."RenjaRincID",
+                H."Kd_Urusan",
+                H."Nm_Urusan",
+                G."Kd_Bidang",
+                G."Nm_Bidang",
                 A."OrgID",
 	            A."SOrgID",
                 C."OrgNm",

@@ -18,7 +18,7 @@
     <li class="active">TAMBAH DATA RINCIAN KEGIATAN DARI OPD / SKPD</li>
 @endsection
 @section('page_sidebar')
-    @include('layouts.limitless.l_sidebar_prarenja')
+@include('pages.limitless.rkpd.usulanprarenjaopd.l_sidebar_prarenja_create')
 @endsection
 @section('page_content')
 <div class="content">
@@ -37,11 +37,20 @@
             </div>
         </div>
         {!! Form::open(['action'=>'RKPD\UsulanPraRenjaOPDController@store4','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
-        <div class="panel-body">            
+        {{Form::hidden('RenjaID',$renja->RenjaID)}}
+        <div class="panel-body">     
+            <div class="form-group">
+                <label class="col-md-2 control-label">POSISI ENTRI: </label>
+                <div class="col-md-10">
+                    <p class="form-control-static">
+                        <span class="label border-left-primary label-striped">USULAN PRA RENJA OPD / SKPD</span>
+                    </p>
+                </div>                            
+            </div>           
             <div class="form-group">
                 {{Form::label('No','NOMOR',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
-                    {{Form::text('No','',['class'=>'form-control','placeholder'=>'NOMOR URUT KEGIATAN'])}}
+                    {{Form::text('No',$nomor_rincian,['class'=>'form-control','placeholder'=>'NOMOR URUT KEGIATAN','readonly'=>true])}}
                 </div>
             </div>
             <div class="form-group">
@@ -92,13 +101,13 @@
             <div class="form-group">
                 {{Form::label('PMProvID','PROVINSI',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
-                    {{Form::select('PMProvID', $daftar_provinsi,config('globalsettings.default_provinsi'),['class'=>'form-control','id'=>'PMProvID','disabled'=>true])}}
+                    {{Form::select('PMProvID', $daftar_provinsi,config('globalsettings.default_provinsi'),['class'=>'form-control','id'=>'PMProvID'])}}
                 </div>
             </div>       
             <div class="form-group">
                 {{Form::label('PmKotaID','KAB. / KOTA',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
-                    {{Form::select('PmKotaID', $daftar_kota_kab,config('globalsettings.defaul_kota_atau_kab'),['class'=>'form-control','id'=>'PMProvID','disabled'=>true])}}
+                    {{Form::select('PmKotaID', $daftar_kota_kab,config('globalsettings.defaul_kota_atau_kab'),['class'=>'form-control','id'=>'PMProvID'])}}
                 </div>
             </div>  
             <div class="form-group">
@@ -216,6 +225,34 @@ $(document).ready(function () {
             },
         });
     }); 
+    $("#divdatatablerinciankegiatan").on("click",".btnDelete", function(){
+        if (confirm('Apakah Anda ingin menghapus Data Rincian Kegiatan Pra Renja OPD / SKPD ini ?')) {
+            let url_ = $(this).attr("data-url");
+            let id = $(this).attr("data-id");
+            $.ajax({            
+                type:'post',
+                url:url_+'/'+id,
+                dataType: 'json',
+                data: {
+                    "_method": 'DELETE',
+                    "_token": token,
+                    "id": id,
+                    'rinciankegiatan':true
+                },
+                success:function(result){ 
+                    if (result.success==1){
+                        $('#divdatatablerinciankegiatan').html(result.datatable);                        
+                    }else{
+                        console.log("Gagal menghapus data rincian kegiatan Pra Renja OPD / SKPD dengan id "+id);
+                    }                    
+                },
+                error:function(xhr, status, error){
+                    console.log('ERROR');
+                    console.log(parseMessageAjaxEror(xhr, status, error));                           
+                },
+            });
+        }        
+    });
 });
 </script>
 @endsection

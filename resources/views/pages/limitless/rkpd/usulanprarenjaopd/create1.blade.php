@@ -18,7 +18,7 @@
     <li class="active">TAMBAH DATA INDIKATOR KEGIATAN</li>
 @endsection
 @section('page_sidebar')
-    @include('layouts.limitless.l_sidebar_prarenja')
+    @include('pages.limitless.rkpd.usulanprarenjaopd.l_sidebar_prarenja_create')
 @endsection
 @section('page_content')
 <div class="content">
@@ -43,7 +43,9 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">POSISI ENTRI: </label>
                         <div class="col-md-10">
-                            <p class="form-control-static">USULAN PRA RENJA OPD / SKPD</p>
+                            <p class="form-control-static">
+                                <span class="label border-left-primary label-striped">USULAN PRA RENJA OPD / SKPD</span>
+                            </p>
                         </div>                            
                     </div>    
                     <div class="form-group">
