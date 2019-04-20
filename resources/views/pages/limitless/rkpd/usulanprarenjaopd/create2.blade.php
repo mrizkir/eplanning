@@ -37,6 +37,7 @@
             </div>
         </div>
         {!! Form::open(['action'=>'RKPD\UsulanPraRenjaOPDController@store2','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
+        {{Form::hidden('RenjaID',$renja->RenjaID)}}
         <div class="panel-body">
             <div class="form-group">
                 <label class="col-md-2 control-label">POSISI ENTRI: </label>
@@ -70,9 +71,9 @@
                 </div>
             </div>  
             <div class="form-group">
-                <label class="col-md-2 control-label">NAMA/URAIAN KEGIATAN</label> 
+                <label class="col-md-2 control-label">USULAN KEGIATAN</label> 
                 <div class="col-md-10">
-                    <select name="Uraian" id="Uraian" class="select">
+                    <select name="UsulanKecID" id="UsulanKecID" class="select">
                         <option></option>                                                
                     </select>                            
                 </div>
@@ -84,7 +85,13 @@
                 <div class="col-md-10">
                     {{Form::text('No',$nomor_rincian,['class'=>'form-control','placeholder'=>'NOMOR URUT KEGIATAN','readonly'=>true])}}
                 </div>
-            </div>            
+            </div>    
+            <div class="form-group">
+                {{Form::label('Uraian','NAMA/URAIAN KEGIATAN',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    {{Form::text('Uraian','',['class'=>'form-control','placeholder'=>'NAMA ATAU URAIAN KEGIATAN'])}}
+                </div>
+            </div>        
             <div class="form-group">
                 {{Form::label('Sasaran_Angka1','SASARAN KEGIATAN',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
@@ -93,7 +100,7 @@
                             {{Form::text('Sasaran_Angka1','',['class'=>'form-control','placeholder'=>'ANGKA SASARAN'])}}
                         </div>
                         <div class="col-md-6">
-                            {{Form::textarea('Sasaran_Uraian1','',['class'=>'form-control','placeholder'=>'URAIAN SASARAN','rows'=>3])}}
+                            {{Form::textarea('Sasaran_Uraian1','',['class'=>'form-control','placeholder'=>'URAIAN SASARAN','rows'=>3,'id'=>'Sasaran_Uraian1'])}}
                         </div>
                     </div>
                 </div>
@@ -195,21 +202,20 @@ $(document).ready(function () {
         placeholder: "PILIH KECAMATAN",
         allowClear:true
     }); 
-    $('#Uraian.select').select2({
+    $('#UsulanKecID.select').select2({
         placeholder: "PILIH USULAN KEGIATAN DARI MUSRENBANG KECAMATAN",
         allowClear:true
     });
-    $("#frmdata :input").not('[name=PmKecamatanID],[name=Uraian]').prop("disabled", true);
+    $("#frmdata :input").not('[name=PmKecamatanID],[name=UsulanKecID]').prop("disabled", true);
     $(document).on('change','#PmKecamatanID',function(ev) {
         ev.preventDefault();
         var PmKecamatanID=$('#PmKecamatanID').val();
         if (PmKecamatanID == '')
         {
-            $("#frmdata :input").not('[name=PmKecamatanID],[name=Uraian]').prop("disabled", true);
+            $("#frmdata :input").not('[name=PmKecamatanID],[name=UsulanKecID]').prop("disabled", true);
         }
         else
-        {
-            $("#frmdata *").prop("disabled", false);
+        {            
             $.ajax({
                 type:'post',
                 url: url_current_page +'/filter',
@@ -226,7 +232,7 @@ $(document).ready(function () {
                     $.each(daftar_uraian,function(key,value){
                         listitems+='<option value="' + key + '">'+value+'</option>';                    
                     });
-                    $('#Uraian').html(listitems);
+                    $('#UsulanKecID').html(listitems);
                 },
                 error:function(xhr, status, error){
                     console.log('ERROR');
@@ -235,26 +241,50 @@ $(document).ready(function () {
             });
         }
     }); 
-    $(document).on('change','#Uraian',function(ev) {
+    $(document).on('change','#UsulanKecID',function(ev) {
         ev.preventDefault();
-        $.ajax({
-            type:'post',
-            url: url_current_page +'/filter',
-            dataType: 'json',
-            data: {                
-                "_token": token,
-                "Uraian": $('#Uraian').val(),
-                "create2":true
-            },
-            success:function(result)
-            {                 
-                console.log(result);                
-            },
-            error:function(xhr, status, error){
-                console.log('ERROR');
-                console.log(parseMessageAjaxEror(xhr, status, error));                           
-            },
-        });
+        var UsulanKecID=$('#UsulanKecID').val();
+        if (UsulanKecID == '')
+        {
+            $("#frmdata :input").not('[name=PmKecamatanID],[name=UsulanKecID]').prop("disabled", true);
+            $('#Uraian').val('');
+            $('#Sasaran_Angka1').val('');
+            $('#Sasaran_Uraian1').val('');
+            $('#Target1').val('');
+            $('#Jumlah1').val('');
+            $('#Prioritas').val('none');
+            $('#Descr').val('');
+        }
+        else
+        {
+            $("#frmdata *").prop("disabled", false);
+            $.ajax({
+                type:'post',
+                url: url_current_page +'/filter',
+                dataType: 'json',
+                data: {                
+                    "_token": token,
+                    "UsulanKecID": UsulanKecID,
+                    "create2":true
+                },
+                success:function(result)
+                {                          
+                    $('#Uraian').val(result.data_kegiatan.Uraian);   
+                    AutoNumeric.getAutoNumericElement('#Sasaran_Angka1').set(result.data_kegiatan.Sasaran_Angka1);               
+                    $('#Sasaran_Uraian1').val(result.data_kegiatan.Sasaran_Uraian1);                    
+                    AutoNumeric.getAutoNumericElement('#Target1').set(100);               
+                    AutoNumeric.getAutoNumericElement('#Jumlah1').set(result.data_kegiatan.NilaiUsulan);  
+
+                    $("#Prioritas option").filter(function () {
+                        return ($(this).val() == result.data_kegiatan.Prioritas);
+                    }).attr('selected', 'selected');                        
+                },
+                error:function(xhr, status, error){
+                    console.log('ERROR');
+                    console.log(parseMessageAjaxEror(xhr, status, error));                           
+                },
+            });
+        }        
     });
     $("#divdatatablerinciankegiatan").on("click",".btnDelete", function(){
         if (confirm('Apakah Anda ingin menghapus Data Rincian Kegiatan Pra Renja OPD / SKPD ini ?')) {

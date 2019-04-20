@@ -66,13 +66,22 @@
                     <td>{{$item->kode_kegiatan}}</td>
                     <td>{{$item->KgtNm}}</td>
                     @if ($item->RenjaRincID=='')
-                    <td colspan="6">
+                    <td colspan="5">
                         <span class="label label-flat label-block border-info text-info-600">
                             PROSES INPUT PRA RENJA OPD / SKPD BELUM SELESAI
                         </span>
                         <a href="{{route('usulanprarenjaopd.create1',['uuid'=>$item->RenjaID])}}">
                             Lanjutkan Input 
                         </a>
+                    </td>
+                    <td>
+                        <ul class="icons-list">                            
+                            <li class="text-danger-600">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data UsulanPraRenjaOPD" data-id="{{$item->RenjaID}}" data-url="{{route('usulanprarenjaopd.index')}}">
+                                    <i class='icon-trash'></i>
+                                </a> 
+                            </li>
+                        </ul>
                     </td>
                     @else
                     <td>{{$item->Uraian}}</td>

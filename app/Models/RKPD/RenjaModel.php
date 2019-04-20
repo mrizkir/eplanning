@@ -77,4 +77,14 @@ class RenjaModel extends Model {
     * @var string
     */
    public $timestamps = true;
+   /**
+     * make the model use another name than the default
+     *
+     * @var string
+     */
+    protected static $logName = 'UsulanPraRenjaOPDController';
+    /**
+     * log the changed attributes for all these events 
+     */
+    protected static $logAttributes = ['RenjaID', 'NamaIndikator', 'NilaiUsulan1'];
 }

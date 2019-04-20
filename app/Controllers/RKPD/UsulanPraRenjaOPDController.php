@@ -282,6 +282,35 @@ class UsulanPraRenjaOPDController extends Controller {
             $json_data = ['success'=>true,'datatable'=>$datatable];            
         } 
         
+        if ($request->exists('PmKecamatanID') && $request->exists('create2') )
+        {
+            $PmKecamatanID = $request->input('PmKecamatanID')==''?'none':$request->input('PmKecamatanID');           
+            $data=\App\Models\Musrenbang\AspirasiMusrenKecamatanModel::where('trUsulanKec.TA', config('globalsettings.tahun_perencanaan'))
+                                                                        ->where('trUsulanKec.PmKecamatanID',$PmKecamatanID)                                                
+                                                                        ->where('trUsulanKec.Privilege',1)                                                
+                                                                        ->orderBY('NamaKegiatan','ASC')
+                                                                        ->get(); 
+            $daftar_uraian = [];
+            foreach ($data as $v)
+            {
+                $daftar_uraian[$v->UsulanKecID]=$v->NamaKegiatan . ' [Rp.'.\App\Helpers\Helper::formatUang($v->NilaiUsulan).']';
+            }
+            $json_data = ['success'=>true,'daftar_uraian'=>$daftar_uraian];            
+        } 
+
+        if ($request->exists('UsulanKecID') && $request->exists('create2') )
+        {
+            $UsulanKecID = $request->input('UsulanKecID')==''?'none':$request->input('UsulanKecID');   
+            $data=\App\Models\Musrenbang\AspirasiMusrenKecamatanModel::find($UsulanKecID);
+
+            $data_kegiatan['Uraian']=$data->NamaKegiatan;
+            $data_kegiatan['NilaiUsulan']=\App\Helpers\Helper::formatUang($data->NilaiUsulan);
+            $data_kegiatan['Sasaran_Angka1']=\App\Helpers\Helper::formatAngka($data->Target_Angka);
+            $data_kegiatan['Sasaran_Uraian1']=$data->Target_Uraian;
+            $data_kegiatan['Prioritas']=$data->Prioritas;
+            $json_data = ['success'=>true,'data_kegiatan'=>$data_kegiatan];
+        }
+
         if ($request->exists('PmKecamatanID') && $request->exists('create4') )
         {
             $PmKecamatanID = $request->input('PmKecamatanID')==''?'none':$request->input('PmKecamatanID');
@@ -290,25 +319,6 @@ class UsulanPraRenjaOPDController extends Controller {
             $json_data = ['success'=>true,'daftar_uraian'=>$daftar_uraian];            
         } 
 
-        if ($request->exists('PmKecamatanID') && $request->exists('create2') )
-        {
-            $PmKecamatanID = $request->input('PmKecamatanID')==''?'none':$request->input('PmKecamatanID');           
-            $data=\App\Models\Musrenbang\AspirasiMusrenKecamatanModel::where('trUsulanKec.TA', config('globalsettings.tahun_perencanaan'))
-                                                        ->where('trUsulanKec.PmKecamatanID',$PmKecamatanID)                                                
-                                                        ->where('trUsulanKec.Privilege',1)                                                
-                                                        ->orderBY('NamaKegiatan','ASC')
-                                                        ->get(); 
-            $daftar_uraian = [];
-            foreach ($data as $v)
-            {
-                $daftar_uraian[$v->UsulanKecID]=$v->NamaKegiatan . ' [Rp.'.\App\Helpers\Helper::formatUang($v->NilaiUsulan).']';
-            }
-            $json_data = ['success'=>true,'daftar_uraian'=>$daftar_uraian];            
-        } 
-        if ($request->exists('Uraian') && $request->exists('create2') )
-        {
-            $PmKecamatanID = $request->input('PmKecamatanID')==''?'none':$request->input('PmKecamatanID');   
-        }
         return response()->json($json_data,200);  
     }
     /**
@@ -678,6 +688,55 @@ class UsulanPraRenjaOPDController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function store2(Request $request)
+    {
+        $this->validate($request, [
+            'No'=>'required',
+            'Uraian'=>'required',
+            'Sasaran_Angka1'=>'required',
+            'Sasaran_Uraian1'=>'required',
+            'Target1'=>'required',
+            'Jumlah1'=>'required',
+            'Prioritas' => 'required'            
+        ]);
+        $renjaid=$request->input('RenjaID');
+        $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->max('No')+1;
+        $rinciankegiatan= RenjaRincianModel::create([
+            'RenjaRincID' => uniqid ('uid'),           
+            'RenjaID' => $renjaid,            
+            'PMProvID' => $request->input('PMProvID'),           
+            'PmKotaID' => $request->input('PmKotaID'),           
+            'PmKecamatanID' => $request->input('PmKecamatanID'),           
+            'UsulanKecID' => $request->input('UsulanKecID'),    
+            'No' => $nomor_rincian,           
+            'Uraian' => $request->input('Uraian'),
+            'Sasaran_Angka1' => $request->input('Sasaran_Angka1'),                       
+            'Sasaran_Uraian1' => $request->input('Sasaran_Uraian1'),                       
+            'Target1' => $request->input('Target1'),                       
+            'Jumlah1' => $request->input('Jumlah1'),                       
+            'Prioritas' => $request->input('Prioritas'),              
+            'Status' => 0,                                         
+            'Descr' => '-',
+            'TA' => config('globalsettings.tahun_perencanaan')
+        ]);
+        if ($request->ajax()) 
+        {
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data ini telah berhasil disimpan.'
+            ]);
+        }
+        else
+        {
+            return redirect(route('usulanprarenjaopd.create2',['id'=>$request->input('RenjaID')]))->with('success','Data Rincian kegiatan telah berhasil disimpan.');
+        }
+    }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store3(Request $request)
     {
         
@@ -729,7 +788,7 @@ class UsulanPraRenjaOPDController extends Controller {
         }
         else
         {
-            return redirect(route('usulanprarenjaopd.create4',['id'=>$request->input('RenjaID')]))->with('success','Data Indikator kegiatan telah berhasil disimpan.');
+            return redirect(route('usulanprarenjaopd.create4',['id'=>$request->input('RenjaID')]))->with('success','Data Rincian kegiatan telah berhasil disimpan.');
         }
         
     }
