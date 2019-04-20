@@ -3,8 +3,10 @@
 namespace App\Models\RKPD;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class RenjaModel extends Model {
+    use LogsActivity;
     /**
     * nama tabel model ini.
     *

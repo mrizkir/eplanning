@@ -3,8 +3,10 @@
 namespace App\Models\Musrenbang;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class MusrenbangPemdaTingkat2Model extends Model {
+    use LogsActivity;
      /**
      * nama tabel model ini.
      *

@@ -3,8 +3,10 @@
 namespace App\Models\DMaster;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class RWModel extends Model {
+    use LogsActivity;
      /**
      * nama tabel model ini.
      *

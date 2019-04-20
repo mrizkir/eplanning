@@ -3,8 +3,10 @@
 namespace App\Models\RPJMD;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class RpjmdTujuanModel extends Model {
+    use LogsActivity;
      /**
      * nama tabel model ini.
      *

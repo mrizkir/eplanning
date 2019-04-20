@@ -3,8 +3,10 @@
 namespace App\Models\Renstra;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class RenstraStrategiModel extends Model {
+    use LogsActivity;
      /**
      * nama tabel model ini.
      *

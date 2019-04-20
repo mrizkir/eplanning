@@ -114,8 +114,7 @@ $(document).ready(function () {
                 minlength: "Mohon di isi minimal 5 karakter atau lebih."
             }
         }        
-    });   
-    
+    }); 
     $("#frmdata :input").not('[name=KUrsID]').prop("disabled", true);
     $(document).on('change','#KUrsID',function(ev) {
         ev.preventDefault();  

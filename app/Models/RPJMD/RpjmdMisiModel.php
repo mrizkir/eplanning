@@ -3,8 +3,10 @@
 namespace App\Models\RPJMD;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class RpjmdMisiModel extends Model {
+    use LogsActivity;
      /**
      * nama tabel model ini.
      *

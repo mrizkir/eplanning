@@ -36,11 +36,99 @@
                 </ul>
             </div>
         </div>
+        {!! Form::open(['action'=>'RKPD\UsulanPraRenjaOPDController@store2','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
         <div class="panel-body">
-            {!! Form::open(['action'=>'RKPD\UsulanPraRenjaOPDController@store2','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
-                
-            {!! Form::close()!!}
+            <div class="form-group">
+                <label class="col-md-2 control-label">POSISI ENTRI: </label>
+                <div class="col-md-10">
+                    <p class="form-control-static">
+                        <span class="label border-left-primary label-striped">USULAN PRA RENJA OPD / SKPD</span>
+                    </p>
+                </div>                            
+            </div>   
+            <div class="form-group">
+                {{Form::label('PMProvID','PROVINSI',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    {{Form::select('PMProvID', $daftar_provinsi,config('globalsettings.default_provinsi'),['class'=>'form-control','id'=>'PMProvID'])}}
+                </div>
+            </div>       
+            <div class="form-group">
+                {{Form::label('PmKotaID','KAB. / KOTA',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    {{Form::select('PmKotaID', $daftar_kota_kab,config('globalsettings.defaul_kota_atau_kab'),['class'=>'form-control','id'=>'PMProvID'])}}
+                </div>
+            </div>  
+            <div class="form-group">
+                <label class="col-md-2 control-label">KECAMATAN</label> 
+                <div class="col-md-10">
+                    <select name="PmKecamatanID" id="PmKecamatanID" class="select">
+                        <option></option>          
+                        @foreach ($daftar_kecamatan as $k=>$item)
+                            <option value="{{$k}}">{{$item}}</option>
+                        @endforeach              
+                    </select>                         
+                </div>
+            </div>  
+            <div class="form-group">
+                <label class="col-md-2 control-label">NAMA/URAIAN KEGIATAN</label> 
+                <div class="col-md-10">
+                    <select name="Uraian" id="Uraian" class="select">
+                        <option></option>                                                
+                    </select>                            
+                </div>
+            </div>                          
+        </div>        
+        <div class="panel-body">                    
+            <div class="form-group">
+                {{Form::label('No','NOMOR',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    {{Form::text('No',$nomor_rincian,['class'=>'form-control','placeholder'=>'NOMOR URUT KEGIATAN','readonly'=>true])}}
+                </div>
+            </div>            
+            <div class="form-group">
+                {{Form::label('Sasaran_Angka1','SASARAN KEGIATAN',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{Form::text('Sasaran_Angka1','',['class'=>'form-control','placeholder'=>'ANGKA SASARAN'])}}
+                        </div>
+                        <div class="col-md-6">
+                            {{Form::textarea('Sasaran_Uraian1','',['class'=>'form-control','placeholder'=>'URAIAN SASARAN','rows'=>3])}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                {{Form::label('Target1','TARGET (%)',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    {{Form::text('Target1','',['class'=>'form-control','placeholder'=>'TARGET'])}}
+                </div>
+            </div>
+            <div class="form-group">
+                {{Form::label('Jumlah1','NILAI USULAN',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    {{Form::text('Jumlah1','',['class'=>'form-control','placeholder'=>'NILAI USULAN'])}}
+                </div>
+            </div>
+            <div class="form-group">
+                {{Form::label('Prioritas','PRIORITAS',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    {{Form::select('Prioritas', HelperKegiatan::getDaftarPrioritas(),'none',['class'=>'form-control','id'=>'Prioritas'])}}
+                </div>
+            </div>
+            <div class="form-group">
+                {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    {{Form::text('Descr','',['class'=>'form-control','placeholder'=>'KETERANGAN / CATATAN PENTING'])}}
+                </div>
+            </div>
+        </div>        
+        <div class="panel-footer">
+            <div class="col-md-10 col-md-offset-2">                        
+                {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}                                       
+            </div>
         </div>
+        {!! Form::close()!!}
     </div>
     <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
         <div class="panel-heading">
@@ -58,9 +146,144 @@
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/autoNumeric.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
+$(document).ready(function () {
+    AutoNumeric.multiple(['#No','#Sasaran_Angka1'], {
+                                            allowDecimalPadding: false,
+                                            minimumValue:0,
+                                            maximumValue:99999999999,
+                                            numericPos:true,
+                                            decimalPlaces : 0,
+                                            digitGroupSeparator : '',
+                                            showWarnings:false,
+                                            unformatOnSubmit: true,
+                                            modifyValueOnWheel:false
+                                        });
+    AutoNumeric.multiple(['#Target1'], {
+                                            allowDecimalPadding: false,
+                                            minimumValue:0.00,
+                                            maximumValue:100.00,
+                                            numericPos:true,
+                                            decimalPlaces : 2,
+                                            digitGroupSeparator : '',
+                                            showWarnings:false,
+                                            unformatOnSubmit: true,
+                                            modifyValueOnWheel:false
+                                        });
 
+    AutoNumeric.multiple(['#Jumlah1'],{
+                                            allowDecimalPadding: false,
+                                            decimalCharacter: ",",
+                                            digitGroupSeparator: ".",
+                                            unformatOnSubmit: true,
+                                            showWarnings:false,
+                                            modifyValueOnWheel:false
+                                        });
+    //styling select
+    $('#PMProvID.select').select2({
+        placeholder: "PILIH PROVINSI",
+        allowClear:true
+    }); 
+    $('#PmKotaID.select').select2({
+        placeholder: "PILIH KABUPATEN / KOTA",
+        allowClear:true
+    }); 
+    $('#PmKecamatanID.select').select2({
+        placeholder: "PILIH KECAMATAN",
+        allowClear:true
+    }); 
+    $('#Uraian.select').select2({
+        placeholder: "PILIH USULAN KEGIATAN DARI MUSRENBANG KECAMATAN",
+        allowClear:true
+    });
+    $("#frmdata :input").not('[name=PmKecamatanID],[name=Uraian]').prop("disabled", true);
+    $(document).on('change','#PmKecamatanID',function(ev) {
+        ev.preventDefault();
+        var PmKecamatanID=$('#PmKecamatanID').val();
+        if (PmKecamatanID == '')
+        {
+            $("#frmdata :input").not('[name=PmKecamatanID],[name=Uraian]').prop("disabled", true);
+        }
+        else
+        {
+            $("#frmdata *").prop("disabled", false);
+            $.ajax({
+                type:'post',
+                url: url_current_page +'/filter',
+                dataType: 'json',
+                data: {                
+                    "_token": token,
+                    "PmKecamatanID": PmKecamatanID,
+                    "create2":true
+                },
+                success:function(result)
+                {                 
+                    var daftar_uraian = result.daftar_uraian;
+                    var listitems='<option></option>';
+                    $.each(daftar_uraian,function(key,value){
+                        listitems+='<option value="' + key + '">'+value+'</option>';                    
+                    });
+                    $('#Uraian').html(listitems);
+                },
+                error:function(xhr, status, error){
+                    console.log('ERROR');
+                    console.log(parseMessageAjaxEror(xhr, status, error));                           
+                },
+            });
+        }
+    }); 
+    $(document).on('change','#Uraian',function(ev) {
+        ev.preventDefault();
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/filter',
+            dataType: 'json',
+            data: {                
+                "_token": token,
+                "Uraian": $('#Uraian').val(),
+                "create2":true
+            },
+            success:function(result)
+            {                 
+                console.log(result);                
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    });
+    $("#divdatatablerinciankegiatan").on("click",".btnDelete", function(){
+        if (confirm('Apakah Anda ingin menghapus Data Rincian Kegiatan Pra Renja OPD / SKPD ini ?')) {
+            let url_ = $(this).attr("data-url");
+            let id = $(this).attr("data-id");
+            $.ajax({            
+                type:'post',
+                url:url_+'/'+id,
+                dataType: 'json',
+                data: {
+                    "_method": 'DELETE',
+                    "_token": token,
+                    "id": id,
+                    'rinciankegiatan':true
+                },
+                success:function(result){ 
+                    if (result.success==1){
+                        $('#divdatatablerinciankegiatan').html(result.datatable);                        
+                    }else{
+                        console.log("Gagal menghapus data rincian kegiatan Pra Renja OPD / SKPD dengan id "+id);
+                    }                    
+                },
+                error:function(xhr, status, error){
+                    console.log('ERROR');
+                    console.log(parseMessageAjaxEror(xhr, status, error));                           
+                },
+            });
+        }        
+    });
+});
 </script>
 @endsection
