@@ -9,7 +9,7 @@
         </div>
         <div class="heading-elements">
             <div class="heading-btn">
-                <a href="{!!route('usulanprarenjaopd.create')!!}" class="btn btn-info btn-xs" title="Tambah USULANPRARENJAOPD">
+                <a href="{!!route('usulanprarenjaopd.create')!!}" class="btn btn-info btn-xs" title="Tambah Usulan Pra Renja">
                     <i class="icon-googleplus5"></i>
                 </a>
             </div>            
@@ -77,7 +77,7 @@
                     <td>
                         <ul class="icons-list">                            
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data UsulanPraRenjaOPD" data-id="{{$item->RenjaID}}" data-url="{{route('usulanprarenjaopd.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data Usulan Pra Renja" data-id="{{$item->RenjaID}}" data-url="{{route('usulanprarenjaopd.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>
@@ -97,12 +97,12 @@
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('usulanprarenjaopd.edit',['id'=>$item->RenjaID])}}" title="Ubah Data Usulan Pra Renja">
+                                <a class="btnEdit" href="{{route('usulanprarenjaopd.edit',['id'=>$item->RenjaRinciID])}}" title="Ubah Data Usulan Pra Renja">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data UsulanPraRenjaOPD" data-id="{{$item->RenjaID}}" data-url="{{route('usulanprarenjaopd.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data Usulan Pra Renja" data-id="{{$item->RenjaRinciID}}" data-url="{{route('usulanprarenjaopd.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>

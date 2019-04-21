@@ -37,7 +37,7 @@
             </div>
         </div>
         {!! Form::open(['action'=>'RKPD\UsulanPraRenjaOPDController@store2','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
-        {{Form::hidden('RenjaID',$renja->RenjaID)}}
+        {{Form::hidden('RenjaID',$renja->RenjaID,['id'=>'RenjaID'])}}
         <div class="panel-body">
             <div class="form-group">
                 <label class="col-md-2 control-label">POSISI ENTRI: </label>
@@ -137,15 +137,8 @@
         </div>
         {!! Form::close()!!}
     </div>
-    <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
-        <div class="panel-heading">
-            <div class="panel-title">
-                <h5>DAFTAR RINCIAN KEGIATAN</h5>
-            </div>
-            <div class="heading-elements">
-                
-            </div>
-        </div>
+    <div class="panel panel-flat border-top-lg border-top-info border-bottom-info" id="divdatatablerinciankegiatan">
+        @include('pages.limitless.rkpd.usulanprarenjaopd.datatablerinciankegiatan')         
     </div>
 </div>   
 @endsection
@@ -213,6 +206,13 @@ $(document).ready(function () {
         if (PmKecamatanID == '')
         {
             $("#frmdata :input").not('[name=PmKecamatanID],[name=UsulanKecID]').prop("disabled", true);
+            $('#Uraian').val('');
+            $('#Sasaran_Angka1').val('');
+            $('#Sasaran_Uraian1').val('');
+            $('#Target1').val('');
+            $('#Jumlah1').val('');
+            $('#Prioritas').val('none');
+            $('#Descr').val('');
         }
         else
         {            
@@ -223,10 +223,12 @@ $(document).ready(function () {
                 data: {                
                     "_token": token,
                     "PmKecamatanID": PmKecamatanID,
+                    "RenjaID": $('#RenjaID').val(),
                     "create2":true
                 },
                 success:function(result)
                 {                 
+                    console.log(result);
                     var daftar_uraian = result.daftar_uraian;
                     var listitems='<option></option>';
                     $.each(daftar_uraian,function(key,value){

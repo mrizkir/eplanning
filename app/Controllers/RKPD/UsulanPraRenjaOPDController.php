@@ -13,20 +13,10 @@ use App\Models\DMaster\ProgramKegiatanModel;
 use App\Models\DMaster\UrusanProgramModel;
 use App\Models\DMaster\SumberDanaModel;
 
-use App\Models\DMaster\ProvinsiModel;
-use App\Models\DMaster\KotaModel;
-use App\Models\DMaster\KecamatanModel;
-use App\Models\DMaster\DesaModel;
-
-use App\Models\RPJMD\RpjmdIndikatorKinerjaModel;
-
 use App\Models\RKPD\UsulanPraRenjaOPDModel;
 use App\Models\RKPD\RenjaIndikatorModel;
 use App\Models\RKPD\RenjaModel;
 use App\Models\RKPD\RenjaRincianModel;
-
-
-
 
 class UsulanPraRenjaOPDController extends Controller {
      /**
@@ -285,9 +275,15 @@ class UsulanPraRenjaOPDController extends Controller {
         if ($request->exists('PmKecamatanID') && $request->exists('create2') )
         {
             $PmKecamatanID = $request->input('PmKecamatanID')==''?'none':$request->input('PmKecamatanID');           
+            $RenjaID = $request->input('RenjaID');
             $data=\App\Models\Musrenbang\AspirasiMusrenKecamatanModel::where('trUsulanKec.TA', config('globalsettings.tahun_perencanaan'))
                                                                         ->where('trUsulanKec.PmKecamatanID',$PmKecamatanID)                                                
-                                                                        ->where('trUsulanKec.Privilege',1)                                                
+                                                                        ->where('trUsulanKec.Privilege',1)         
+                                                                        ->WhereNotIn('UsulanKecID',function($query) use ($RenjaID){
+                                                                            $query->select('UsulanKecID')
+                                                                                    ->from('trRenjaRinc')
+                                                                                    ->where('RenjaID', $RenjaID);
+                                                                        })                                          
                                                                         ->orderBY('NamaKegiatan','ASC')
                                                                         ->get(); 
             $daftar_uraian = [];
@@ -297,7 +293,11 @@ class UsulanPraRenjaOPDController extends Controller {
             }
             $json_data = ['success'=>true,'daftar_uraian'=>$daftar_uraian];            
         } 
-
+        if ($request->exists('PemilikPokokID') && $request->exists('create3') )
+        {
+            $daftar_pokir = [];
+            $json_data = ['success'=>true,'daftar_pokir'=>$daftar_pokir];            
+        }
         if ($request->exists('UsulanKecID') && $request->exists('create2') )
         {
             $UsulanKecID = $request->input('UsulanKecID')==''?'none':$request->input('UsulanKecID');   
@@ -314,9 +314,9 @@ class UsulanPraRenjaOPDController extends Controller {
         if ($request->exists('PmKecamatanID') && $request->exists('create4') )
         {
             $PmKecamatanID = $request->input('PmKecamatanID')==''?'none':$request->input('PmKecamatanID');
-            $daftar_uraian=DesaModel::getDaftarDesa(config('globalsettings.tahun_perencanaan'),$PmKecamatanID,false);
+            $daftar_desa=\App\Models\DMaster\DesaModel::getDaftarDesa(config('globalsettings.tahun_perencanaan'),$PmKecamatanID,false);
                                                                                     
-            $json_data = ['success'=>true,'daftar_uraian'=>$daftar_uraian];            
+            $json_data = ['success'=>true,'daftar_desa'=>$daftar_desa];            
         } 
 
         return response()->json($json_data,200);  
@@ -380,7 +380,7 @@ class UsulanPraRenjaOPDController extends Controller {
     public function pilihindikatorkinerja(Request $request)
     {
         $IndikatorKinerjaID = $request->input('IndikatorKinerjaID');
-        $json_data=RpjmdIndikatorKinerjaModel::getIndikatorKinerjaByID($IndikatorKinerjaID,config('globalsettings.tahun_perencanaan'));
+        $json_data=\App\Models\RPJMD\RpjmdIndikatorKinerjaModel::getIndikatorKinerjaByID($IndikatorKinerjaID,config('globalsettings.tahun_perencanaan'));
         if (is_null($json_data))
         {
             $json_data=[
@@ -495,13 +495,16 @@ class UsulanPraRenjaOPDController extends Controller {
         {
             $renja=UsulanPraRenjaOPDModel::findOrFailRenja($renjaid);
 
-            $data = RenjaRincianModel::where('RenjaID',$renjaid)
-                                    ->get();
-
+            $data = RenjaRincianModel::leftJoin('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')
+                                    ->leftJoin('trPokPir','trPokPir.PokPirID','trRenjaRinc.PokPirID')
+                                    ->leftJoin('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')
+                                    ->where('RenjaID',$renjaid)
+                                    ->get(['trRenjaRinc.RenjaRincID','trRenjaRinc.RenjaID','trRenjaRinc.RenjaID','trRenjaRinc.UsulanKecID','trRenjaRinc.Uraian','trRenjaRinc.No','trRenjaRinc.Sasaran_Uraian1','trRenjaRinc.Sasaran_Uraian1','trRenjaRinc.Target1','trRenjaRinc.Jumlah1','trRenjaRinc.Prioritas']);
+            
             //lokasi
             $daftar_provinsi = ['uidF1847004D8F547BF'=>'KEPULAUAN RIAU'];
             $daftar_kota_kab = ['uidE4829D1F21F44ECA'=>'BINTAN'];        
-            $daftar_kecamatan=KecamatanModel::getDaftarKecamatan(config('globalsettings.tahun_perencanaan'),config('globalsettings.defaul_kota_atau_kab'),false);
+            $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(config('globalsettings.tahun_perencanaan'),config('globalsettings.defaul_kota_atau_kab'),false);
             $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->max('No')+1;
             return view("pages.$theme.rkpd.usulanprarenjaopd.create2")->with(['page_active'=>'usulanprarenjaopd',
                                                                             'renja'=>$renja,
@@ -533,10 +536,22 @@ class UsulanPraRenjaOPDController extends Controller {
         {
             $renja=UsulanPraRenjaOPDModel::findOrFailRenja($renjaid);
 
-            $data = [];
+            $data = RenjaRincianModel::leftJoin('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')
+                                    ->leftJoin('trPokPir','trPokPir.PokPirID','trRenjaRinc.PokPirID')
+                                    ->leftJoin('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')
+                                    ->where('RenjaID',$renjaid)
+                                    ->get(['trRenjaRinc.RenjaRincID','trRenjaRinc.RenjaID','trRenjaRinc.RenjaID','trRenjaRinc.UsulanKecID','trRenjaRinc.Uraian','trRenjaRinc.No','trRenjaRinc.Sasaran_Uraian1','trRenjaRinc.Sasaran_Uraian1','trRenjaRinc.Target1','trRenjaRinc.Jumlah1','trRenjaRinc.Prioritas']);
+
+            $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->max('No')+1;
+            $daftar_pemilik= \App\Models\Pokir\PemilikPokokPikiranModel::where('TA',config('globalsettings.tahun_perencanaan'))                                                                        
+                                                                        ->get()
+                                                                        ->pluck('NmPk','PemilikPokokID')                                                                        
+                                                                        ->toArray();
             return view("pages.$theme.rkpd.usulanprarenjaopd.create3")->with(['page_active'=>'usulanprarenjaopd',
                                                                             'renja'=>$renja,
-                                                                            'data'=>$data
+                                                                            'data'=>$data,
+                                                                            'daftar_pemilik'=>$daftar_pemilik, 
+                                                                            'nomor_rincian'=>$nomor_rincian
                                                                             ]);  
         }
         else
@@ -565,7 +580,7 @@ class UsulanPraRenjaOPDController extends Controller {
             //lokasi
             $daftar_provinsi = ['uidF1847004D8F547BF'=>'KEPULAUAN RIAU'];
             $daftar_kota_kab = ['uidE4829D1F21F44ECA'=>'BINTAN'];        
-            $daftar_kecamatan=KecamatanModel::getDaftarKecamatan(config('globalsettings.tahun_perencanaan'),config('globalsettings.defaul_kota_atau_kab'),false);
+            $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(config('globalsettings.tahun_perencanaan'),config('globalsettings.defaul_kota_atau_kab'),false);
             $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->max('No')+1;
             return view("pages.$theme.rkpd.usulanprarenjaopd.create4")->with(['page_active'=>'usulanprarenjaopd',
                                                                             'renja'=>$renja,
@@ -805,6 +820,7 @@ class UsulanPraRenjaOPDController extends Controller {
         $data = UsulanPraRenjaOPDModel::findOrFail($id);
         if (!is_null($data) )  
         {
+            
             return view("pages.$theme.rkpd.usulanprarenjaopd.show")->with(['page_active'=>'usulanprarenjaopd',
                                                     'data'=>$data
                                                     ]);

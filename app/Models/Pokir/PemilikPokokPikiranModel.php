@@ -12,27 +12,27 @@ class PemilikPokokPikiranModel extends Model {
      *
      * @var string
      */
-    protected $table = 'pemilikpokokpikiran';
+    protected $table = 'tmPemilikPokok';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'replace_it', 'replace_it'
+        'PemilikPokokID', 'Kd_PK', 'NmPk', 'Jumlah1', 'Jumlah2', 'Descr', 'TA'
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'pemilikpokokpikiran_id';
+    protected $primaryKey = 'PemilikPokokID';
     /**
      * enable auto_increment.
      *
      * @var string
      */
-    public $incrementing = true;
+    public $incrementing = false;
     /**
      * activated timestamps.
      *
@@ -45,11 +45,11 @@ class PemilikPokokPikiranModel extends Model {
      *
      * @var string
      */
-    // protected static $logName = 'PemilikPokokPikiranController';
+    protected static $logName = 'PemilikPokokPikiranController';
     /**
      * log the changed attributes for all these events 
      */
-    // protected static $logAttributes = ['replace_it', 'replace_it'];
+    protected static $logAttributes = [ 'PemilikPokokID', 'Kd_PK', 'NmPk', 'Jumlah1', 'Jumlah2'];
     /**
      * log changes to all the $fillable attributes of the model
      */
@@ -57,4 +57,8 @@ class PemilikPokokPikiranModel extends Model {
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
+    public function PokokPikiran()
+    {
+        return $this->hasMany('\App\Models\Pokir\PokokPikiranModel','PemilikPokokID');
+    }
 }

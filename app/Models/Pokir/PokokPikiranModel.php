@@ -4,7 +4,6 @@ namespace App\Models\Pokir;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\Activitylog\Traits\LogsActivity;
 
 class PokokPikiranModel extends Model {
     use LogsActivity;
@@ -13,27 +12,46 @@ class PokokPikiranModel extends Model {
      *
      * @var string
      */
-    protected $table = 'pokokpikiran';
+    protected $table = 'trPokPir';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'replace_it', 'replace_it'
+        'PokPirID', 
+        'PemilikPokokID', 
+        'OrgID', 
+        'SOrgID', 
+        'PmKecamatanID', 
+        'PmDesaID', 
+        'SumberDanaID',
+        'NamaUsulanKegiatan',
+        'Lokasi', 
+        'Sasaran_Angka', 
+        'Sasaran_Uraian',
+        'NilaiUsulan',
+        'Status',
+        'EntryLvl',
+        'Output',
+        'Jeniskeg',
+        'Prioritas',
+        'Bobot',
+        'Descr',
+        'TA'
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'pokokpikiran_id';
+    protected $primaryKey = 'PokPirID';
     /**
      * enable auto_increment.
      *
      * @var string
      */
-    public $incrementing = true;
+    public $incrementing = false;
     /**
      * activated timestamps.
      *
@@ -46,11 +64,29 @@ class PokokPikiranModel extends Model {
      *
      * @var string
      */
-    // protected static $logName = 'PokokPikiranController';
+    protected static $logName = 'PokokPikiranController';
     /**
      * log the changed attributes for all these events 
      */
-    // protected static $logAttributes = ['replace_it', 'replace_it'];
+    protected static $logAttributes = ['PokPirID', 
+                                        'PemilikPokokID', 
+                                        'OrgID', 
+                                        'SOrgID', 
+                                        'PmKecamatanID', 
+                                        'PmDesaID', 
+                                        'SumberDanaID', 
+                                        'Lokasi', 
+                                        'Sasaran_Angka', 
+                                        'Sasaran_Uraian',
+                                        'NilaiUsulan',
+                                        'Status',
+                                        'EntryLvl',
+                                        'Output',
+                                        'Jeniskeg',
+                                        'Prioritas',
+                                        'Bobot',
+                                        'Descr',
+                                        'TA'];
     /**
      * log changes to all the $fillable attributes of the model
      */

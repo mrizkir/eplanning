@@ -26,11 +26,24 @@
                 <td>
                     {{$item->No}}
                 </td>
-                <td>{{$item->Uraian}}</td>                
-                <td>{{Helper::formatAngka($item->Sasaran_Angka1)}} {{$item->Sasaran_Uraian1}}</td>
+                <td>
+                    {{ucwords($item->Uraian)}}<br />
+                    <span class="label label-flat border-grey text-grey-600">
+                        <a href="#"><strong>Usulan dari: </strong>
+                            @if ($item->isSKPD)
+                                OPD / SKPD
+                            @elseif($item->isReses_Uraian)
+                                POKIR 
+                            @else
+                                MUSREN. KEC. {{$item->Nm_Kecamatan}}
+                            @endif                            
+                        </a> 
+                    </span>
+                </td>                
+                <td>{{Helper::formatAngka($item->Sasaran_Angka1)}} {{ucwords($item->Sasaran_Uraian1)}}</td>
                 <td>{{$item->Target1}}</td>               
                 <td>{{Helper::formatUang($item->Jumlah1)}}</td>       
-                <td>{{$item->Prioritas}}</td>
+                <td>{{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}</td>
                 <td>
                     <ul class="icons-list">
                         <li class="text-danger-600">

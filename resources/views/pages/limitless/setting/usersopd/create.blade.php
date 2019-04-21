@@ -57,13 +57,26 @@
                     <div class="col-md-10">
                         {{Form::password('password',['class'=>'form-control','placeholder'=>'PASSWORD'])}}
                     </div>
-                </div>     
+                </div>   
                 <div class="form-group">
-                    {{Form::label('SOrgID','UNIT KERJA',['class'=>'control-label col-md-2'])}}
+                    <label class="col-md-2 control-label">OPD / SKPD :</label> 
                     <div class="col-md-10">
-                        {{Form::select('SOrgID', $daftar_opd,'',['class'=>'form-control select','id'=>'SOrgID'])}}                                
+                        <select name="OrgID" id="OrgID" class="select">
+                            <option></option>
+                            @foreach ($daftar_opd as $k=>$item)
+                                <option value="{{$k}}">{{$item}}</option>
+                            @endforeach
+                        </select>                              
                     </div>
-                </div> 
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">UNIT KERJA :</label> 
+                    <div class="col-md-10">
+                        <select name="SOrgID" id="SOrgID" class="select">
+                            <option></option>                            
+                        </select>                              
+                    </div>
+                </div>
                 <div class="form-group">
                     {{Form::label('theme','THEME',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
@@ -99,9 +112,39 @@
 $(document).ready(function () {
     $(".switch").bootstrapSwitch();
     //styling select
-    $('.select').select2({
-        placeholder: "PILIH UNIT KERJA / OPD / SKPD",
+    $('#OrgID.select').select2({
+        placeholder: "PILIH OPD / SKPD",
         allowClear:true
+    }); 
+    $('#SOrgID.select').select2({
+        placeholder: "PILIH UNIT KERJA",
+        allowClear:true
+    });  
+    $(document).on('change','#OrgID',function(ev) {
+        ev.preventDefault();   
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/filter',
+            dataType: 'json',
+            data: {                
+                "_token": token,
+                "OrgID": $('#OrgID').val(),
+            },
+            success:function(result)
+            { 
+                var daftar_unitkerja = result.daftar_unitkerja;
+                var listitems='<option></option>';
+                $.each(daftar_unitkerja,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
+                
+                $('#SOrgID').html(listitems);
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });     
     });
     $('#frmdata').validate({
         ignore:[],
@@ -122,7 +165,7 @@ $(document).ready(function () {
                 required: true,
                 minlength: 5,
             },            
-            SOrgID : {
+            OrgID : {
                 required: true,
             }
         },
@@ -143,7 +186,7 @@ $(document).ready(function () {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 5 karakter atau lebih."
             },            
-            SOrgID : {                
+            OrgID : {                
                 required: "Mohon di pilih Unit Kerja / OPD / SKPD untuk user ini",
             }
         },        

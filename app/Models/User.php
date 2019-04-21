@@ -20,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'username','password','SOrgID','SOrgNm','theme'
+        'name', 'email', 'username','password','OrgID','OrgNm','SOrgID','SOrgNm','theme'
     ];
 
     /**
@@ -47,7 +47,7 @@ class User extends Authenticatable
     /**
      * log the changed attributes for all these events 
      */
-    protected static $logAttributes = ['name', 'email', 'username','SOrgID','SOrgNm'];
+    protected static $logAttributes = ['name', 'email', 'username','OrgID','OrgNm','SOrgID','SOrgNm'];
     /**
      * log changes to all the $fillable attributes of the model
      */

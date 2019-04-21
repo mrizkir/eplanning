@@ -169,6 +169,7 @@ $(document).ready(function () {
                     "_method": 'DELETE',
                     "_token": token,
                     "id": id,
+                    "rinciankegiatan": true,
                 },
                 success:function(result){ 
                     if (result.success==1){

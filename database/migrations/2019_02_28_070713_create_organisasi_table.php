@@ -34,6 +34,15 @@ class CreateOrganisasiTable extends Migration
                 ->on('tmUrs')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
+
+            
+        });
+        Schema::create('users', function (Blueprint $table) {
+            $table->foreign('OrgID')
+                ->references('OrgID')
+                ->on('tmOrg')
+                ->onDelete('set null')
+                ->onUpdate('cascade');
         });
     }
 

@@ -26,10 +26,13 @@
                     <i class="icon-eye"></i>  DATA USULAN PRA RENJA OPD/SKPD
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('usulanprarenjaopd.edit',['id'=>$data->usulanprarenjaopd_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data UsulanPraRenjaOPD">
+                    <a href="{{route('usulanprarenjaopd.create4',['id'=>$data->RenjaID])}}" class="btn btn-primary btn-icon heading-btn btnTambah" title="Tambah Data Usulan Pra Renja">
+                        <i class="icon-googleplus5"></i>
+                    </a>
+                    <a href="{{route('usulanprarenjaopd.edit',['id'=>$data->RenjaID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Usulan Pra Renja">
                         <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data UsulanPraRenjaOPD" data-id="{{$data->usulanprarenjaopd_id}}" data-url="{{route('usulanprarenjaopd.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
+                    <a href="javascript:;" title="Hapus Data Usulan Pra Renja" data-id="{{$data->RenjaID}}" data-url="{{route('usulanprarenjaopd.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
                     </a>
                     <a href="{!!route('usulanprarenjaopd.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
@@ -42,9 +45,9 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>usulanprarenjaopd id: </strong></label>
+                                <label class="col-md-4 control-label"><strong>ID: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->usulanprarenjaopd_id}}</p>
+                                    <p class="form-control-static">{{$data->RenjaID}}</p>
                                 </div>                            
                             </div>                            
                             <div class="form-group">
@@ -81,7 +84,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
     $(".btnDelete").click(function(ev) {
-        if (confirm('Apakah Anda ingin menghapus Data UsulanPraRenjaOPD ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data Usulan Pra Renja ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             let token = $('meta[name="csrf-token"]').attr('content');

@@ -20,6 +20,8 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();  
+            $table->string('OrgID',19)->nullable();  
+            $table->string('OrgNm')->nullable();
             $table->string('SOrgID',19)->nullable();  
             $table->string('SOrgNm')->nullable();  
             $table->year('TA')->nullable();       
@@ -31,7 +33,8 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
 
-            $table->index('SOrgID');                    
+            $table->index('OrgID');  
+            $table->index('SOrgID');                  
             $table->index('TA');
             
         });

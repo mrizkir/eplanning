@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
-use App\Models\DMaster\SubOrganisasiModel;
 use App\Rules\IgnoreIfDataIsEqualValidation;
 
 class UsersOPDController extends Controller {
@@ -186,6 +185,27 @@ class UsersOPDController extends Controller {
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
     }
     /**
+     * filter resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function filter (Request $request) 
+    {
+        $theme = \Auth::user()->theme;
+
+        $json_data = [];
+        if ($request->exists('OrgID'))
+        {
+            $OrgID = $request->input('OrgID')==''?'none':$request->input('OrgID');            
+            $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('globalsettings.tahun_perencanaan'),false,$OrgID);  
+            
+            $json_data = ['success'=>true,'daftar_unitkerja'=>$daftar_unitkerja];
+        } 
+
+        return response()->json($json_data,200);  
+    }
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -218,7 +238,8 @@ class UsersOPDController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $daftar_opd=SubOrganisasiModel::getDaftarUnitKerja(config('globalsettings.tahun_perencanaan'),false);
+        $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('globalsettings.tahun_perencanaan'),false);
+
         $daftar_theme = $this->listOfthemes;             
         return view("pages.$theme.setting.usersopd.create")->with(['page_active'=>'usersopd',
                                                                     'daftar_opd'=>$daftar_opd,
@@ -239,17 +260,20 @@ class UsersOPDController extends Controller {
             'email'=>'required|string|email|unique:users',
             'username'=>'required|string|unique:users',
             'password'=>'required',            
-            'SOrgID'=>'required',
+            'OrgID'=>'required',
         ]);
-
+        $OrgID=$request->input('OrgID');
+        $SOrgID=$request->input('SOrgID');
         $now = \Carbon\Carbon::now()->toDateTimeString();        
         $user=User::create([
             'name'=>$request->input('name'),
             'email'=>$request->input('email'),
             'username'=> $request->input('username'),
             'password'=>\Hash::make($request->input('password')),
-            'SOrgID'=> $request->input('SOrgID'),
-            'SOrgNm'=> SubOrganisasiModel::getNamaUnitKerjaByID($request->input('SOrgID')),
+            'OrgID'=> $OrgID,
+            'OrgNm'=> \App\Models\DMaster\OrganisasiModel::find($OrgID)->OrgNm,
+            'SOrgID'=> $SOrgID,
+            'SOrgNm'=> \App\Models\DMaster\SubOrganisasiModel::find($SOrgID)->SOrgNm,
             'email_verified_at'=>\Carbon\Carbon::now(),
             'theme'=> $request->input('theme'),
             'created_at'=>$now, 
@@ -307,7 +331,7 @@ class UsersOPDController extends Controller {
         $data = User::findOrFail($id);
         if (!is_null($data) ) 
         {
-            $daftar_opd=SubOrganisasiModel::getDaftarUnitKerja(config('globalsettings.tahun_perencanaan'),false);
+            $daftar_opd=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('globalsettings.tahun_perencanaan'),false);
             $daftar_theme = $this->listOfthemes;   
             return view("pages.$theme.setting.usersopd.edit")->with(['page_active'=>'usersopd',
                                                                     'daftar_opd'=>$daftar_opd,
