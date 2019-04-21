@@ -58,16 +58,22 @@
                                     <p class="form-control-static">{{$data->name}}</p>
                                 </div>                            
                             </div>          
-                        </div>                        
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-horizontal">
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>EMAIL: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->SOrgNm}}</p>
+                                    <p class="form-control-static">{{$data->email}}</p>
                                 </div>                            
                             </div> 
+                        </div>                        
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-horizontal">     
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>OPD / SKPD: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->OrgNm}}</p>
+                                </div>                            
+                            </div>                        
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>UNIT KERJA: </strong></label>
                                 <div class="col-md-8">
@@ -75,11 +81,17 @@
                                 </div>                            
                             </div>    
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>TGL. BUAT / TGL. UBAH: </strong></label>
+                                <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}} / {{Helper::tanggal('d/m/Y H:m',$data->updated_at)}}</p>
+                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}}</p>
                                 </div>                            
-                            </div>           
+                            </div> 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>TGL. UBAH: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->updated_at)}}</p>
+                                </div>                            
+                            </div>          
                         </div>
                     </div>
                 </div>

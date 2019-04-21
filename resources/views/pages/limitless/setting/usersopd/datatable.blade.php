@@ -42,6 +42,11 @@
                         </a>                                             
                     </th>
                     <th>
+                        <a class="column-sort text-white" id="col-OrgNm" data-order="{{$direction}}" href="#">
+                            OPD / SKPD
+                        </a>
+                    </th>
+                    <th>
                         <a class="column-sort text-white" id="col-SOrgNm" data-order="{{$direction}}" href="#">
                             UNIT KERJA
                         </a>
@@ -59,6 +64,7 @@
                     <td>{{$item->username}}</td> 
                     <td>{{$item->name}}</td> 
                     <td>{{$item->email}}</td> 
+                    <td>{{$item->OrgNm}}</td> 
                     <td>{{$item->SOrgNm}}</td> 
                     <td>
                         <ul class="icons-list">

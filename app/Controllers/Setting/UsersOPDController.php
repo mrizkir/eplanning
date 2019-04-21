@@ -113,7 +113,13 @@ class UsersOPDController extends Controller {
             break; 
             case 'col-email' :
                 $column_name = 'email';
-            break;    
+            break;  
+            case 'col-OrgNm' :
+                $column_name = 'OrgNm';
+            break;
+            case 'col-SOrgNm' :
+                $column_name = 'SOrgNm';
+            break;  
             default :
                 $column_name = 'id';
         }
@@ -273,7 +279,7 @@ class UsersOPDController extends Controller {
             'OrgID'=> $OrgID,
             'OrgNm'=> \App\Models\DMaster\OrganisasiModel::find($OrgID)->OrgNm,
             'SOrgID'=> $SOrgID,
-            'SOrgNm'=> \App\Models\DMaster\SubOrganisasiModel::find($SOrgID)->SOrgNm,
+            'SOrgNm'=> \App\Models\DMaster\SubOrganisasiModel::getNamaUnitKerjaByID($request->input('SOrgID')),
             'email_verified_at'=>\Carbon\Carbon::now(),
             'theme'=> $request->input('theme'),
             'created_at'=>$now, 
@@ -331,10 +337,12 @@ class UsersOPDController extends Controller {
         $data = User::findOrFail($id);
         if (!is_null($data) ) 
         {
-            $daftar_opd=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('globalsettings.tahun_perencanaan'),false);
+            $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('globalsettings.tahun_perencanaan'),false);
+            $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('globalsettings.tahun_perencanaan'),false,$data->OrgID);
             $daftar_theme = $this->listOfthemes;   
             return view("pages.$theme.setting.usersopd.edit")->with(['page_active'=>'usersopd',
                                                                     'daftar_opd'=>$daftar_opd,
+                                                                    'daftar_unitkerja'=>$daftar_unitkerja,
                                                                     'daftar_theme'=>$daftar_theme,
                                                                     'data'=>$data
                                                                 ]);
@@ -356,7 +364,7 @@ class UsersOPDController extends Controller {
             'username'=>['required',new IgnoreIfDataIsEqualValidation('users',$user->username)],           
             'name'=>'required',            
             'email'=>'required|string|email|unique:users,email,'.$id,              
-            'SOrgID'=>'required',
+            'OrgID'=>'required',
         ]);        
         
         $user->name = $request->input('name');
@@ -365,8 +373,10 @@ class UsersOPDController extends Controller {
         if (!empty(trim($request->input('password')))) {
             $user->password = \Hash::make($request->input('password'));
         }    
+        $user->OrgID = $request->input('OrgID');
+        $user->OrgNm =\App\Models\DMaster\OrganisasiModel::find($request->input('OrgID'))->OrgNm;
         $user->SOrgID = $request->input('SOrgID');
-        $user->SOrgNm = SubOrganisasiModel::getNamaUnitKerjaByID($request->input('SOrgID'));
+        $user->SOrgNm = \App\Models\DMaster\SubOrganisasiModel::getNamaUnitKerjaByID($request->input('SOrgID'));
         $user->theme = $request->input('theme');
         $user->updated_at = \Carbon\Carbon::now()->toDateTimeString();        
         $user->save();

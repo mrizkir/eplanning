@@ -1,11 +1,11 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    USERSOPD
+    USERS OPD
 @endsection
 @section('page_header')
     <i class="icon-users position-left"></i>
     <span class="text-semibold">
-        USERSOPD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        USERS OPD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
     </span>
 @endsection
 @section('page_info')
@@ -17,7 +17,7 @@
 @endsection
 @section('page_content')
 <div class="alert alert-danger alert-styled-left alert-bordered">
-    <button type="button" class="close" onclick="location.href='{{route('kelompokurusan.index')}}'">×</button>
+    <button type="button" class="close" onclick="location.href='{{route('usersopd.index')}}'">×</button>
     {{$errormessage}}
 </div>
 @endsection
