@@ -36,7 +36,7 @@ class CreateSubOrganisasiTable extends Migration
                 ->onUpdate('cascade');
         });
         
-        Schema::create('users', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             $table->foreign('SOrgID')
                 ->references('SOrgID')
                 ->on('tmSOrg')

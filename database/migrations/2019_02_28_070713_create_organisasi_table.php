@@ -37,7 +37,7 @@ class CreateOrganisasiTable extends Migration
 
             
         });
-        Schema::create('users', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             $table->foreign('OrgID')
                 ->references('OrgID')
                 ->on('tmOrg')
