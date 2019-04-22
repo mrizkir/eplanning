@@ -61,7 +61,7 @@ class OrganisasiModel extends Model {
     /**
      * digunakan untuk mendapatkan kode urusan
      */
-    public static function getDaftarOPD ($ta,$prepend=true,$ursid=NULL) 
+    public static function getDaftarOPD ($ta,$prepend=true,$ursid=NULL,$OrgID=NUll) 
     {
         $q=\DB::table('v_urusan_organisasi')
                 ->where('TA',$ta);
@@ -69,6 +69,10 @@ class OrganisasiModel extends Model {
         if ($ursid !==NULL)
         {
             $q->where('UrsID',$ursid);    
+        }
+        if ($OrgID !==NULL)
+        {
+            $q->where('OrgID',$OrgID);    
         }
         $q->orderBy('kode_organisasi');
         $q = $q->get();

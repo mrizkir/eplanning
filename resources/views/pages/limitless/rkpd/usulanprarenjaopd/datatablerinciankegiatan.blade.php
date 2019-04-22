@@ -32,8 +32,8 @@
                         <a href="#"><strong>Usulan dari: </strong>
                             @if ($item->isSKPD)
                                 OPD / SKPD
-                            @elseif($item->isReses_Uraian)
-                                POKIR 
+                            @elseif($item->isReses)
+                                POKIR [{{$item->isReses_Uraian}}]
                             @else
                                 MUSREN. KEC. {{$item->Nm_Kecamatan}}
                             @endif                            

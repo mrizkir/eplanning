@@ -16,7 +16,7 @@ class CreateRekeningkelompokTable extends Migration
         Schema::create('tmKlp', function (Blueprint $table) {
             $table->string('KlpID',19);
             $table->string('StrID',19);
-            $table->varchar('Kd_Rek_2',4);
+            $table->string('Kd_Rek_2',4);
             $table->string('KlpNm');
             $table->string('DH');
             $table->string('Descr')->nullable();

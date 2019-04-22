@@ -37,7 +37,9 @@
             </div>
         </div>
         {!! Form::open(['action'=>'RKPD\UsulanPraRenjaOPDController@store3','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}
-        {{Form::hidden('RenjaID',$renja->RenjaID)}}
+        {{Form::hidden('RenjaID',$renja->RenjaID,['id'=>'RenjaID'])}}
+        {{Form::hidden('PMProvID',$PMProvID)}}
+        {{Form::hidden('PmKotaID',$PmKotaID)}}
         <div class="panel-body">
             <div class="form-group">
                 <label class="col-md-2 control-label">POSISI ENTRI: </label>
@@ -68,61 +70,61 @@
             </div>    
         </div>
         <div class="panel-body">                    
-                <div class="form-group">
-                    {{Form::label('No','NOMOR',['class'=>'control-label col-md-2'])}}
-                    <div class="col-md-10">
-                        {{Form::text('No',$nomor_rincian,['class'=>'form-control','placeholder'=>'NOMOR URUT KEGIATAN','readonly'=>true])}}
-                    </div>
-                </div>    
-                <div class="form-group">
-                    {{Form::label('Uraian','NAMA/URAIAN KEGIATAN',['class'=>'control-label col-md-2'])}}
-                    <div class="col-md-10">
-                        {{Form::text('Uraian','',['class'=>'form-control','placeholder'=>'NAMA ATAU URAIAN KEGIATAN'])}}
-                    </div>
-                </div>        
-                <div class="form-group">
-                    {{Form::label('Sasaran_Angka1','SASARAN KEGIATAN',['class'=>'control-label col-md-2'])}}
-                    <div class="col-md-10">
-                        <div class="row">
-                            <div class="col-md-6">
-                                {{Form::text('Sasaran_Angka1','',['class'=>'form-control','placeholder'=>'ANGKA SASARAN'])}}
-                            </div>
-                            <div class="col-md-6">
-                                {{Form::textarea('Sasaran_Uraian1','',['class'=>'form-control','placeholder'=>'URAIAN SASARAN','rows'=>3,'id'=>'Sasaran_Uraian1'])}}
-                            </div>
+            <div class="form-group">
+                {{Form::label('No','NOMOR',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    {{Form::text('No',$nomor_rincian,['class'=>'form-control','placeholder'=>'NOMOR URUT KEGIATAN','readonly'=>true])}}
+                </div>
+            </div>    
+            <div class="form-group">
+                {{Form::label('Uraian','NAMA/URAIAN KEGIATAN',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    {{Form::text('Uraian','',['class'=>'form-control','placeholder'=>'NAMA ATAU URAIAN KEGIATAN'])}}
+                </div>
+            </div>        
+            <div class="form-group">
+                {{Form::label('Sasaran_Angka1','SASARAN KEGIATAN',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{Form::text('Sasaran_Angka1','',['class'=>'form-control','placeholder'=>'ANGKA SASARAN'])}}
+                        </div>
+                        <div class="col-md-6">
+                            {{Form::textarea('Sasaran_Uraian1','',['class'=>'form-control','placeholder'=>'URAIAN SASARAN','rows'=>3,'id'=>'Sasaran_Uraian1'])}}
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    {{Form::label('Target1','TARGET (%)',['class'=>'control-label col-md-2'])}}
-                    <div class="col-md-10">
-                        {{Form::text('Target1','',['class'=>'form-control','placeholder'=>'TARGET'])}}
-                    </div>
-                </div>
-                <div class="form-group">
-                    {{Form::label('Jumlah1','NILAI USULAN',['class'=>'control-label col-md-2'])}}
-                    <div class="col-md-10">
-                        {{Form::text('Jumlah1','',['class'=>'form-control','placeholder'=>'NILAI USULAN'])}}
-                    </div>
-                </div>
-                <div class="form-group">
-                    {{Form::label('Prioritas','PRIORITAS',['class'=>'control-label col-md-2'])}}
-                    <div class="col-md-10">
-                        {{Form::select('Prioritas', HelperKegiatan::getDaftarPrioritas(),'none',['class'=>'form-control','id'=>'Prioritas'])}}
-                    </div>
-                </div>
-                <div class="form-group">
-                    {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
-                    <div class="col-md-10">
-                        {{Form::text('Descr','',['class'=>'form-control','placeholder'=>'KETERANGAN / CATATAN PENTING'])}}
-                    </div>
-                </div>
-            </div>        
-            <div class="panel-footer">
-                <div class="col-md-10 col-md-offset-2">                        
-                    {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}                                       
+            </div>
+            <div class="form-group">
+                {{Form::label('Target1','TARGET (%)',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    {{Form::text('Target1','',['class'=>'form-control','placeholder'=>'TARGET'])}}
                 </div>
             </div>
+            <div class="form-group">
+                {{Form::label('Jumlah1','NILAI USULAN',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    {{Form::text('Jumlah1','',['class'=>'form-control','placeholder'=>'NILAI USULAN'])}}
+                </div>
+            </div>
+            <div class="form-group">
+                {{Form::label('Prioritas','PRIORITAS',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    {{Form::select('Prioritas', HelperKegiatan::getDaftarPrioritas(),'none',['class'=>'form-control','id'=>'Prioritas'])}}
+                </div>
+            </div>
+            <div class="form-group">
+                {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    {{Form::text('Descr','',['class'=>'form-control','placeholder'=>'KETERANGAN / CATATAN PENTING'])}}
+                </div>
+            </div>
+        </div>        
+        <div class="panel-footer">
+            <div class="col-md-10 col-md-offset-2">                        
+                {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}                                       
+            </div>
+        </div>
         {!! Form::close()!!}
     </div>
     <div class="panel panel-flat border-top-lg border-top-info border-bottom-info" id="divdatatablerinciankegiatan">
@@ -208,7 +210,6 @@ $(document).ready(function () {
                 },
                 success:function(result)
                 {                 
-                    console.log(result);
                     var daftar_pokir = result.daftar_pokir;
                     var listitems='<option></option>';
                     $.each(daftar_pokir,function(key,value){
@@ -222,6 +223,80 @@ $(document).ready(function () {
                 },
             });
         }
+    });
+    $(document).on('change','#PokPirID',function(ev) {
+        ev.preventDefault();
+        var PokPirID=$('#PokPirID').val();
+        if (PokPirID == '')
+        {
+            $("#frmdata :input").not('[name=PemilikPokokID],[name=PokPirID]').prop("disabled", true);
+            $('#Uraian').val('');
+            $('#Sasaran_Angka1').val('');
+            $('#Sasaran_Uraian1').val('');
+            $('#Target1').val('');
+            $('#Jumlah1').val('');
+            $('#Prioritas').val('none');
+            $('#Descr').val('');
+        }
+        else
+        {
+            $("#frmdata *").prop("disabled", false);
+            $.ajax({
+                type:'post',
+                url: url_current_page +'/filter',
+                dataType: 'json',
+                data: {                
+                    "_token": token,
+                    "PokPirID": PokPirID,
+                    "create3":true
+                },
+                success:function(result)
+                {                    
+                    console.log(result.data_kegiatan)  ;    
+                    $('#Uraian').val(result.data_kegiatan.Uraian);   
+                    AutoNumeric.getAutoNumericElement('#Sasaran_Angka1').set(result.data_kegiatan.Sasaran_Angka1);               
+                    $('#Sasaran_Uraian1').val(result.data_kegiatan.Sasaran_Uraian1);                    
+                    AutoNumeric.getAutoNumericElement('#Target1').set(100);               
+                    AutoNumeric.getAutoNumericElement('#Jumlah1').set(result.data_kegiatan.NilaiUsulan);  
+
+                    $("#Prioritas option").filter(function () {
+                        return ($(this).val() == result.data_kegiatan.Prioritas);
+                    }).attr('selected', 'selected');                        
+                },
+                error:function(xhr, status, error){
+                    console.log('ERROR');
+                    console.log(parseMessageAjaxEror(xhr, status, error));                           
+                },
+            });
+        }        
+    });
+    $("#divdatatablerinciankegiatan").on("click",".btnDelete", function(){
+        if (confirm('Apakah Anda ingin menghapus Data Rincian Kegiatan Pra Renja OPD / SKPD ini ?')) {
+            let url_ = $(this).attr("data-url");
+            let id = $(this).attr("data-id");
+            $.ajax({            
+                type:'post',
+                url:url_+'/'+id,
+                dataType: 'json',
+                data: {
+                    "_method": 'DELETE',
+                    "_token": token,
+                    "id": id,
+                    'rinciankegiatan':true
+                },
+                success:function(result){ 
+                    if (result.success==1){
+                        $('#divdatatablerinciankegiatan').html(result.datatable);                        
+                    }else{
+                        console.log("Gagal menghapus data rincian kegiatan Pra Renja OPD / SKPD dengan id "+id);
+                    }                    
+                },
+                error:function(xhr, status, error){
+                    console.log('ERROR');
+                    console.log(parseMessageAjaxEror(xhr, status, error));                           
+                },
+            });
+        }        
     });
 });  
 </script>

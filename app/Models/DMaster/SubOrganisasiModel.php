@@ -61,13 +61,17 @@ class SubOrganisasiModel extends Model {
     /**
      * digunakan untuk mendapatkan daftar unit kerja
      */
-    public static function getDaftarUnitKerja ($ta,$prepend=true,$OrgID=null) 
+    public static function getDaftarUnitKerja ($ta,$prepend=true,$OrgID=null,$SOrgID=null) 
     {
         $r=\DB::table('v_suborganisasi')
                 ->where('TA',$ta);
         if($OrgID!=null)
         {
             $r->where('OrgID',$OrgID);
+        }
+        if($SOrgID!=null)
+        {
+            $r->where('SOrgID',$SOrgID);
         }
         $q=$r->orderBy('kode_suborganisasi')
              ->get();

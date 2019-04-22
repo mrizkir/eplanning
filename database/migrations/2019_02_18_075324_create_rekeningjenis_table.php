@@ -16,7 +16,7 @@ class CreateRekeningjenisTable extends Migration
         Schema::create('tmJns', function (Blueprint $table) {
             $table->string('JnsID',19);
             $table->string('KlpID',19);
-            $table->varchar('Kd_Rek_3',4);
+            $table->string('Kd_Rek_3',4);
             $table->string('JnsNm');
             $table->string('DH');
             $table->string('Descr')->nullable();

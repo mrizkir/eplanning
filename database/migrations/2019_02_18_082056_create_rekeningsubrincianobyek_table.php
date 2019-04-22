@@ -16,7 +16,7 @@ class CreateRekeningsubrincianobyekTable extends Migration
         Schema::create('tmSubROby', function (Blueprint $table) {
             $table->string('SubRObyID',19);   
             $table->string('RObyID',19);                     
-            $table->varchar('Kd_Sub',4);
+            $table->string('Kd_Sub',4);
             $table->string('Nm_Sub');
             $table->string('DH');
             $table->string('Descr')->nullable();
