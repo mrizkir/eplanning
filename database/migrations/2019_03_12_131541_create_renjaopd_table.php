@@ -199,19 +199,7 @@ class CreateRenjaopdTable extends Migration
                     ->references('UsulanKecID')
                     ->on('trUsulanKec')
                     ->onDelete('set null')
-                    ->onUpdate('cascade');                
-
-                $table->foreign('PmDesaID')
-                    ->references('PmDesaID')
-                    ->on('tmPmDesa')
-                    ->onDelete('set null')
-                    ->onUpdate('cascade');
-
-                $table->foreign('PmKecamatanID')
-                    ->references('PmKecamatanID')
-                    ->on('tmPmKecamatan')
-                    ->onDelete('set null')
-                    ->onUpdate('cascade');
+                    ->onUpdate('cascade');  
 
                 $table->foreign('PMProvID')
                     ->references('PMProvID')
@@ -230,7 +218,7 @@ class CreateRenjaopdTable extends Migration
                     ->on('tmPmKecamatan')
                     ->onDelete('set null')
                     ->onUpdate('cascade');
-
+                    
                 $table->foreign('PmDesaID')
                     ->references('PmDesaID')
                     ->on('tmPmDesa')
