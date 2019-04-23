@@ -148,13 +148,33 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-strategy position-left"></i> RPJMD <span class="caret"></span>
                 </a>
-                <ul class="dropdown-menu width-350">                    
+                <ul class="dropdown-menu width-350">   
+                    <li{!!Helper::isMenuActive ($page_active,'rpjmdmisi',' class="active"')!!}>
+                        <a href="{{route('rpjmdmisi.index')}}">
+                            <i class="icon-align-center-horizontal"></i> MISI
+                        </a>
+                    </li>     
+                    <li{!!Helper::isMenuActive ($page_active,'rpjmdtujuan',' class="active"')!!}>
+                        <a href="{{route('rpjmdtujuan.index')}}">
+                            <i class="icon-align-center-horizontal"></i> TUJUAN
+                        </a>
+                    </li>  
+                    <li{!!Helper::isMenuActive ($page_active,'rpjmdsasaran',' class="active"')!!}>
+                        <a href="{{route('rpjmdsasaran.index')}}">
+                            <i class="icon-align-center-horizontal"></i> SASARAN
+                        </a>
+                    </li>   
+                    <li{!!Helper::isMenuActive ($page_active,'rpjmdstrategi',' class="active"')!!}>
+                        <a href="{{route('rpjmdstrategi.index')}}">
+                            <i class="icon-align-center-horizontal"></i> STRATEGI
+                        </a>
+                    </li>           
                     <li{!!Helper::isMenuActive ($page_active,'rpjmdkebijakan',' class="active"')!!}>
                         <a href="{{route('rpjmdkebijakan.index')}}">
                             <i class="icon-align-center-horizontal"></i> PRIORITAS KEBIJAKAN
                         </a>
                     </li>  
-                    <li{!!Helper::isMenuActive ($page_active,'rpjmdkebijakan',' class="active"')!!}>
+                    <li{!!Helper::isMenuActive ($page_active,'rpjmdindikatorkinerja',' class="active"')!!}>
                         <a href="{{route('rpjmdindikatorkinerja.index')}}">
                             <i class="icon-align-center-horizontal"></i> INDIKASI RENCANA PROGRAM
                         </a>

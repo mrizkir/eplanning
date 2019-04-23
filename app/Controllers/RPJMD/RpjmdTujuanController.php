@@ -4,9 +4,9 @@ namespace App\Controllers\RPJMD;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
-use App\Models\RPJMD\RpjmdTujuanModel;
+use App\Models\RPJMD\RPJMDTujuanModel;
 
-class RpjmdTujuanController extends Controller {
+class RPJMDTujuanController extends Controller {
      /**
      * Membuat sebuah objek
      *
@@ -25,12 +25,12 @@ class RpjmdTujuanController extends Controller {
     public function populateData ($currentpage=1) 
     {        
         $columns=['*'];       
-        //if (!$this->checkStateIsExistSession('rpjmdtujuan','orderby')) 
-        //{            
-        //    $this->putControllerStateSession('rpjmdtujuan','orderby',['column_name'=>'replace_it','order'=>'asc']);
-        //}
-        //$column_order=$this->getControllerStateSession('rpjmdtujuan.orderby','column_name'); 
-        //$direction=$this->getControllerStateSession('rpjmdtujuan.orderby','order'); 
+        if (!$this->checkStateIsExistSession('rpjmdtujuan','orderby')) 
+        {            
+           $this->putControllerStateSession('rpjmdtujuan','orderby',['column_name'=>'Nm_Tujuan','order'=>'asc']);
+        }
+        $column_order=$this->getControllerStateSession('rpjmdtujuan.orderby','column_name'); 
+        $direction=$this->getControllerStateSession('rpjmdtujuan.orderby','order'); 
 
         if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
         {            
@@ -42,18 +42,18 @@ class RpjmdTujuanController extends Controller {
             $search=$this->getControllerStateSession('rpjmdtujuan','search');
             switch ($search['kriteria']) 
             {
-                case 'replaceit' :
-                    $data = RpjmdTujuanModel::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                case 'Kd_Tujuan' :
+                    $data = RPJMDTujuanModel::where(['Kd_Tujuan'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
-                case 'replaceit' :
-                    $data = RpjmdTujuanModel::where('replaceit', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                case 'Nm_Tujuan' :
+                    $data = RPJMDTujuanModel::where('Nm_Tujuan', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = RpjmdTujuanModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data = RPJMDTujuanModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('rpjmdtujuan.index'));
         return $data;
@@ -94,11 +94,11 @@ class RpjmdTujuanController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'replace_it' :
-                $column_name = 'replace_it';
+            case 'col-Nm_Tujuan' :
+                $column_name = 'Nm_Tujuan';
             break;           
             default :
-                $column_name = 'replace_it';
+                $column_name = 'Nm_Tujuan';
         }
         $this->putControllerStateSession('rpjmdtujuan','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
@@ -218,7 +218,7 @@ class RpjmdTujuanController extends Controller {
             'replaceit'=>'required',
         ]);
         
-        $rpjmdtujuan = RpjmdTujuanModel::create([
+        $rpjmdtujuan = RPJMDTujuanModel::create([
             'replaceit' => $request->input('replaceit'),
         ]);        
         
@@ -246,7 +246,7 @@ class RpjmdTujuanController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = RpjmdTujuanModel::findOrFail($id);
+        $data = RPJMDTujuanModel::findOrFail($id);
         if (!is_null($data) )  
         {
             return view("pages.$theme.rpjmd.rpjmdtujuan.show")->with(['page_active'=>'rpjmdtujuan',
@@ -265,7 +265,7 @@ class RpjmdTujuanController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $data = RpjmdTujuanModel::findOrFail($id);
+        $data = RPJMDTujuanModel::findOrFail($id);
         if (!is_null($data) ) 
         {
             return view("pages.$theme.rpjmd.rpjmdtujuan.edit")->with(['page_active'=>'rpjmdtujuan',
@@ -283,7 +283,7 @@ class RpjmdTujuanController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $rpjmdtujuan = RpjmdTujuanModel::find($id);
+        $rpjmdtujuan = RPJMDTujuanModel::find($id);
         
         $this->validate($request, [
             'replaceit'=>'required',
@@ -315,7 +315,7 @@ class RpjmdTujuanController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $rpjmdtujuan = RpjmdTujuanModel::find($id);
+        $rpjmdtujuan = RPJMDTujuanModel::find($id);
         $result=$rpjmdtujuan->delete();
         if ($request->ajax()) 
         {

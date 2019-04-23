@@ -5,7 +5,7 @@ namespace App\Models\RPJMD;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class RpjmdStrategiModel extends Model {
+class RPJMDStrategiModel extends Model {
     use LogsActivity;
      /**
      * nama tabel model ini.
@@ -45,7 +45,7 @@ class RpjmdStrategiModel extends Model {
      *
      * @var string
      */
-    protected static $logName = 'RpjmdStrategiController';
+    protected static $logName = 'RPJMDStrategiController';
     /**
      * log the changed attributes for all these events 
      */
@@ -59,7 +59,7 @@ class RpjmdStrategiModel extends Model {
     // protected static $recordEvents = ['deleted'];
     public static function getRPJDMStrategi ($ta,$prepend=true) 
     {
-        $r=RpjmdStrategiModel::join('tmPrioritasSasaranKab','tmPrioritasSasaranKab.PrioritasSasaranKabID','tmPrioritasStrategiKab.PrioritasSasaranKabID')
+        $r=RPJMDStrategiModel::join('tmPrioritasSasaranKab','tmPrioritasSasaranKab.PrioritasSasaranKabID','tmPrioritasStrategiKab.PrioritasSasaranKabID')
                             ->join('tmPrioritasTujuanKab','tmPrioritasTujuanKab.PrioritasTujuanKabID','tmPrioritasSasaranKab.PrioritasTujuanKabID')
                             ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmPrioritasTujuanKab.PrioritasKabID')
                             ->where('tmPrioritasStrategiKab.TA',$ta)

@@ -22,8 +22,13 @@
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
                     <th width="100">
-                        <a class="column-sort text-white" id="col-replace_it" data-order="{{$direction}}" href="#">
-                            replace_it  
+                        <a class="column-sort text-white" id="col-Kd_Strategi" data-order="{{$direction}}" href="#">
+                            KODE STRATEGI 
+                        </a>                                             
+                    </th> 
+                    <th width="100">
+                        <a class="column-sort text-white" id="col-Nm_Strategi" data-order="{{$direction}}" href="#">
+                            NAMA STRATEGI  
                         </a>                                             
                     </th> 
                     <th width="100">AKSI</th>
@@ -35,7 +40,8 @@
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>                  
-                    <td>{{$item->replace_it}}</td>
+                    <td>{{$item->Kd_Strategi}}</td>
+                    <td>{{$item->Nm_Strategi}}</td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">

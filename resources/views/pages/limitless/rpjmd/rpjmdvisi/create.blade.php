@@ -1,18 +1,18 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RPJMD TUJUAN  {{config('globalsettings.rpjmd_tahun_mulai')}} - {{config('globalsettings.rpjmd_tahun_akhir')}}
+    RPJMDVISI
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        RPJMD TUJUAN TAHUN {{config('globalsettings.rpjmd_tahun_mulai')}} - {{config('globalsettings.rpjmd_tahun_akhir')}}
+        RPJMDVISI TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.rpjmd.rpjmdtujuan.info')
+    @include('pages.limitless.rpjmd.rpjmdvisi.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('rpjmdtujuan.index')!!}">RPJMD TUJUAN TAHUN {{config('globalsettings.rpjmd_tahun_mulai')}} - {{config('globalsettings.rpjmd_tahun_akhir')}}</a></li>
+    <li><a href="{!!route('rpjmdvisi.index')!!}">RPJMDVISI</a></li>
     <li class="active">TAMBAH DATA</li>
 @endsection
 @section('page_content')
@@ -26,13 +26,13 @@
             <div class="heading-elements">
                 <ul class="icons-list">                    
                     <li>               
-                        <a href="{!!route('rpjmdtujuan.index')!!}" data-action="closeredirect" title="keluar"></a>
+                        <a href="{!!route('rpjmdvisi.index')!!}" data-action="closeredirect" title="keluar"></a>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>'RPJMD\RPJMDTujuanController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
+            {!! Form::open(['action'=>'RPJMD\RpjmdVisiController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
                 <div class="form-group">
                     {{Form::label('replaceit','replaceit',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">

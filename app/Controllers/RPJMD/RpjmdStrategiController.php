@@ -4,9 +4,9 @@ namespace App\Controllers\RPJMD;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
-use App\Models\RPJMD\RpjmdStrategiModel;
+use App\Models\RPJMD\RPJMDStrategiModel;
 
-class RpjmdStrategiController extends Controller {
+class RPJMDStrategiController extends Controller {
      /**
      * Membuat sebuah objek
      *
@@ -25,12 +25,12 @@ class RpjmdStrategiController extends Controller {
     public function populateData ($currentpage=1) 
     {        
         $columns=['*'];       
-        //if (!$this->checkStateIsExistSession('rpjmdstrategi','orderby')) 
-        //{            
-        //    $this->putControllerStateSession('rpjmdstrategi','orderby',['column_name'=>'replace_it','order'=>'asc']);
-        //}
-        //$column_order=$this->getControllerStateSession('rpjmdstrategi.orderby','column_name'); 
-        //$direction=$this->getControllerStateSession('rpjmdstrategi.orderby','order'); 
+        if (!$this->checkStateIsExistSession('rpjmdstrategi','orderby')) 
+        {            
+           $this->putControllerStateSession('rpjmdstrategi','orderby',['column_name'=>'Nm_Strategi','order'=>'asc']);
+        }
+        $column_order=$this->getControllerStateSession('rpjmdstrategi.orderby','column_name'); 
+        $direction=$this->getControllerStateSession('rpjmdstrategi.orderby','order'); 
 
         if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
         {            
@@ -42,18 +42,18 @@ class RpjmdStrategiController extends Controller {
             $search=$this->getControllerStateSession('rpjmdstrategi','search');
             switch ($search['kriteria']) 
             {
-                case 'replaceit' :
-                    $data = RpjmdStrategiModel::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                case 'Kd_Strategi' :
+                    $data = RPJMDStrategiModel::where(['Kd_Strategi'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
-                case 'replaceit' :
-                    $data = RpjmdStrategiModel::where('replaceit', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                case 'Nm_Strategi' :
+                    $data = RPJMDStrategiModel::where('Nm_Strategi', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = RpjmdStrategiModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data = RPJMDStrategiModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('rpjmdstrategi.index'));
         return $data;
@@ -94,11 +94,11 @@ class RpjmdStrategiController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'replace_it' :
-                $column_name = 'replace_it';
+            case 'Nm_Strategi' :
+                $column_name = 'Nm_Strategi';
             break;           
             default :
-                $column_name = 'replace_it';
+                $column_name = 'Nm_Strategi';
         }
         $this->putControllerStateSession('rpjmdstrategi','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
@@ -203,7 +203,7 @@ class RpjmdStrategiController extends Controller {
 
         return view("pages.$theme.rpjmd.rpjmdstrategi.create")->with(['page_active'=>'rpjmdstrategi',
                                                                     
-                                                ]);  
+                                                            ]);  
     }
     
     /**
@@ -218,7 +218,7 @@ class RpjmdStrategiController extends Controller {
             'replaceit'=>'required',
         ]);
         
-        $rpjmdstrategi = RpjmdStrategiModel::create([
+        $rpjmdstrategi = RPJMDStrategiModel::create([
             'replaceit' => $request->input('replaceit'),
         ]);        
         
@@ -246,7 +246,7 @@ class RpjmdStrategiController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = RpjmdStrategiModel::findOrFail($id);
+        $data = RPJMDStrategiModel::findOrFail($id);
         if (!is_null($data) )  
         {
             return view("pages.$theme.rpjmd.rpjmdstrategi.show")->with(['page_active'=>'rpjmdstrategi',
@@ -265,7 +265,7 @@ class RpjmdStrategiController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $data = RpjmdStrategiModel::findOrFail($id);
+        $data = RPJMDStrategiModel::findOrFail($id);
         if (!is_null($data) ) 
         {
             return view("pages.$theme.rpjmd.rpjmdstrategi.edit")->with(['page_active'=>'rpjmdstrategi',
@@ -283,7 +283,7 @@ class RpjmdStrategiController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $rpjmdstrategi = RpjmdStrategiModel::find($id);
+        $rpjmdstrategi = RPJMDStrategiModel::find($id);
         
         $this->validate($request, [
             'replaceit'=>'required',
@@ -315,7 +315,7 @@ class RpjmdStrategiController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $rpjmdstrategi = RpjmdStrategiModel::find($id);
+        $rpjmdstrategi = RPJMDStrategiModel::find($id);
         $result=$rpjmdstrategi->delete();
         if ($request->ajax()) 
         {

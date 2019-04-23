@@ -1,18 +1,18 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RPJMDTUJUAN
+    RPJMD TUJUAN
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        RPJMDTUJUAN TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        RPJMD TUJUAN  TAHUN {{config('globalsettings.rpjmd_tahun_mulai')}} - {{config('globalsettings.rpjmd_tahun_akhir')}}
     </span>     
 @endsection
 @section('page_info')
     @include('pages.limitless.rpjmd.rpjmdtujuan.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('rpjmdtujuan.index')!!}">RPJMDTUJUAN</a></li>
+    <li><a href="{!!route('rpjmdtujuan.index')!!}">RPJMD TUJUAN</a></li>
     <li class="active">UBAH DATA</li>
 @endsection
 @section('page_content')
@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>['RPJMD\RpjmdTujuanController@update',$data->rpjmdtujuan_id],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
+            {!! Form::open(['action'=>['RPJMD\RPJMDTujuanController@update',$data->rpjmdtujuan_id],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
                 {{Form::hidden('_method','PUT')}}
                 <div class="form-group">
                     {{Form::label('replaceit','replaceit',['class'=>'control-label col-md-2'])}}

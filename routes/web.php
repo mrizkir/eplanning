@@ -73,7 +73,42 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/dmaster/paguanggaranopd/orderby',['uses'=>'DMaster\PaguAnggaranOPDController@orderby','as'=>'paguanggaranopd.orderby']); 
     Route::get('/dmaster/paguanggaranopd/getkodekelompokurusan/{uuid}',['uses'=>'DMaster\PaguAnggaranOPDController@getkodekelompokurusan','as'=>'paguanggaranopd.getkodekelompokurusan']); 
     
-    //RPJMD - Prioritas Kebijakan
+    //RPJMD - Visi
+    Route::resource('/rpjmd/rpjmdvisi','RPJMD\RpjmdVisiController',['parameters'=>['rpjmdvisi'=>'uuid']]); 
+    Route::post('/rpjmd/rpjmdvisi/search',['uses'=>'RPJMD\RpjmdVisiController@search','as'=>'rpjmdvisi.search']); 
+    Route::get('/rpjmd/rpjmdvisi/paginate/{id}',['uses'=>'RPJMD\RpjmdVisiController@paginate','as'=>'rpjmdvisi.paginate']);              
+    Route::post('/rpjmd/rpjmdvisi/changenumberrecordperpage',['uses'=>'RPJMD\RpjmdVisiController@changenumberrecordperpage','as'=>'rpjmdvisi.changenumberrecordperpage']);  
+    Route::post('/rpjmd/rpjmdvisi/orderby',['uses'=>'RPJMD\RpjmdVisiController@orderby','as'=>'rpjmdvisi.orderby']); 
+
+     //RPJMD - Misi
+     Route::resource('/rpjmd/rpjmdmisi','RPJMD\RPJMDMisiController',['parameters'=>['rpjmdmisi'=>'uuid']]); 
+     Route::post('/rpjmd/rpjmdmisi/search',['uses'=>'RPJMD\RPJMDMisiController@search','as'=>'rpjmdmisi.search']); 
+     Route::get('/rpjmd/rpjmdmisi/paginate/{id}',['uses'=>'RPJMD\RPJMDMisiController@paginate','as'=>'rpjmdmisi.paginate']);              
+     Route::post('/rpjmd/rpjmdmisi/changenumberrecordperpage',['uses'=>'RPJMD\RPJMDMisiController@changenumberrecordperpage','as'=>'rpjmdmisi.changenumberrecordperpage']);  
+     Route::post('/rpjmd/rpjmdmisi/orderby',['uses'=>'RPJMD\RPJMDMisiController@orderby','as'=>'rpjmdmisi.orderby']); 
+
+     //RPJMD - Tujuan
+     Route::resource('/rpjmd/rpjmdtujuan','RPJMD\RPJMDTujuanController',['parameters'=>['rpjmdtujuan'=>'uuid']]); 
+     Route::post('/rpjmd/rpjmdtujuan/search',['uses'=>'RPJMD\RPJMDTujuanController@search','as'=>'rpjmdtujuan.search']); 
+     Route::get('/rpjmd/rpjmdtujuan/paginate/{id}',['uses'=>'RPJMD\RPJMDTujuanController@paginate','as'=>'rpjmdtujuan.paginate']);              
+     Route::post('/rpjmd/rpjmdtujuan/changenumberrecordperpage',['uses'=>'RPJMD\RPJMDTujuanController@changenumberrecordperpage','as'=>'rpjmdtujuan.changenumberrecordperpage']);  
+     Route::post('/rpjmd/rpjmdtujuan/orderby',['uses'=>'RPJMD\RPJMDTujuanController@orderby','as'=>'rpjmdtujuan.orderby']); 
+
+     //RPJMD - Sasaran
+     Route::resource('/rpjmd/rpjmdsasaran','RPJMD\RPJMDSasaranController',['parameters'=>['rpjmdsasaran'=>'uuid']]); 
+     Route::post('/rpjmd/rpjmdsasaran/search',['uses'=>'RPJMD\RPJMDSasaranController@search','as'=>'rpjmdsasaran.search']); 
+     Route::get('/rpjmd/rpjmdsasaran/paginate/{id}',['uses'=>'RPJMD\RPJMDSasaranController@paginate','as'=>'rpjmdsasaran.paginate']);              
+     Route::post('/rpjmd/rpjmdsasaran/changenumberrecordperpage',['uses'=>'RPJMD\RPJMDSasaranController@changenumberrecordperpage','as'=>'rpjmdsasaran.changenumberrecordperpage']);  
+     Route::post('/rpjmd/rpjmdsasaran/orderby',['uses'=>'RPJMD\RPJMDSasaranController@orderby','as'=>'rpjmdsasaran.orderby']); 
+
+     //RPJMD - Strategi
+     Route::resource('/rpjmd/rpjmdstrategi','RPJMD\RPJMDStrategiController',['parameters'=>['rpjmdstrategi'=>'uuid']]); 
+     Route::post('/rpjmd/rpjmdstrategi/search',['uses'=>'RPJMD\RPJMDStrategiController@search','as'=>'rpjmdstrategi.search']); 
+     Route::get('/rpjmd/rpjmdstrategi/paginate/{id}',['uses'=>'RPJMD\RPJMDStrategiController@paginate','as'=>'rpjmdstrategi.paginate']);              
+     Route::post('/rpjmd/rpjmdstrategi/changenumberrecordperpage',['uses'=>'RPJMD\RPJMDStrategiController@changenumberrecordperpage','as'=>'rpjmdstrategi.changenumberrecordperpage']);  
+     Route::post('/rpjmd/rpjmdstrategi/orderby',['uses'=>'RPJMD\RPJMDStrategiController@orderby','as'=>'rpjmdstrategi.orderby']); 
+
+    //RPJMD - Kebijakan
     Route::resource('/rpjmd/rpjmdkebijakan','RPJMD\RpjmdKebijakanController',['parameters'=>['rpjmdkebijakan'=>'uuid']]); 
     Route::post('/rpjmd/rpjmdkebijakan/search',['uses'=>'RPJMD\RpjmdKebijakanController@search','as'=>'rpjmdkebijakan.search']); 
     Route::get('/rpjmd/rpjmdkebijakan/paginate/{id}',['uses'=>'RPJMD\RpjmdKebijakanController@paginate','as'=>'rpjmdkebijakan.paginate']);              
@@ -86,6 +121,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::get('/rpjmd/rpjmdindikatorkinerja/paginate/{id}',['uses'=>'RPJMD\RpjmdIndikatorKinerjaController@paginate','as'=>'rpjmdindikatorkinerja.paginate']);              
     Route::post('/rpjmd/rpjmdindikatorkinerja/changenumberrecordperpage',['uses'=>'RPJMD\RpjmdIndikatorKinerjaController@changenumberrecordperpage','as'=>'rpjmdindikatorkinerja.changenumberrecordperpage']);  
     Route::post('/rpjmd/rpjmdindikatorkinerja/orderby',['uses'=>'RPJMD\RpjmdIndikatorKinerjaController@orderby','as'=>'rpjmdindikatorkinerja.orderby']);
+
     //Musrenbang - Aspirasi Musrenbang Desa [aspirasi]
     Route::resource('/aspirasi/aspirasimusrendesa','Musrenbang\AspirasiMusrenDesaController',['parameters'=>['aspirasimusrendesa'=>'uuid']]);        
     Route::post('/aspirasi/aspirasimusrendesa/search',['uses'=>'Musrenbang\AspirasiMusrenDesaController@search','as'=>'aspirasimusrendesa.search']);  

@@ -5,34 +5,35 @@ namespace App\Models\RPJMD;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class RPJMDSasaranModel extends Model {
+class RpjmdVisiModel extends Model {
     use LogsActivity;
+
      /**
      * nama tabel model ini.
      *
      * @var string
      */
-    protected $table = 'tmPrioritasSasaranKab';
+    protected $table = 'rpjmdvisi';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'PrioritasSasaranKabID', 'PrioritasTujuanKabID', 'Kd_Sasaran', 'Nm_Sasaran', 'Descr', 'TA'
+        'replace_it', 'replace_it'
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'PrioritasSasaranKabID';
+    protected $primaryKey = 'rpjmdvisi_id';
     /**
      * enable auto_increment.
      *
      * @var string
      */
-    public $incrementing = false;
+    public $incrementing = true;
     /**
      * activated timestamps.
      *
@@ -45,11 +46,11 @@ class RPJMDSasaranModel extends Model {
      *
      * @var string
      */
-    protected static $logName = 'RPJMDSasaranController';
+    // protected static $logName = 'RpjmdVisiController';
     /**
      * log the changed attributes for all these events 
      */
-    protected static $logAttributes = ['PrioritasSasaranKabID', 'Nm_Sasaran'];
+    // protected static $logAttributes = ['replace_it', 'replace_it'];
     /**
      * log changes to all the $fillable attributes of the model
      */

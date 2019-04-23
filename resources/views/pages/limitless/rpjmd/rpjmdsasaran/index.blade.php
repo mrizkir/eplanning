@@ -1,18 +1,18 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RPJMDSASARAN
+    RPJMD SASARAN TAHUN {{config('globalsettings.rpjmd_tahun_mulai')}} - {{config('globalsettings.rpjmd_tahun_akhir')}}
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold">
-        RPJMDSASARAN TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
+        RPJMD SASARAN TAHUN {{config('globalsettings.rpjmd_tahun_mulai')}} - {{config('globalsettings.rpjmd_tahun_akhir')}}  
     </span>
 @endsection
 @section('page_info')
     @include('pages.limitless.rpjmd.rpjmdsasaran.info')
 @endsection
 @section('page_breadcrumb')
-    <li class="active">RPJMDSASARAN</li>
+    <li class="active">RPJMD SASARAN TAHUN {{config('globalsettings.rpjmd_tahun_mulai')}} - {{config('globalsettings.rpjmd_tahun_akhir')}}</li>
 @endsection
 @section('page_content')
 <div class="row">
@@ -25,11 +25,11 @@
                 </h5>
             </div>
             <div class="panel-body">
-                {!! Form::open(['action'=>'RPJMD\RpjmdSasaranController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
+                {!! Form::open(['action'=>'RPJMD\RPJMDSasaranController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">
-                            {{Form::select('cmbKriteria', ['replaceit'=>'replaceit','nama'=>'replaceit'], isset($search['kriteria'])?$search['kriteria']:'replaceit',['class'=>'form-control'])}}
+                            {{Form::select('cmbKriteria', ['Kd_Sasaran'=>'KODE','Nm_Sasaran'=>'NAMA'], isset($search['kriteria'])?$search['kriteria']:'Kd_Sasaran',['class'=>'form-control'])}}
                         </div>
                     </div>
                     <div class="form-group" id="divKriteria">
@@ -59,7 +59,7 @@
 <script type="text/javascript">
 $(document).ready(function () {  
     $("#divdatatable").on("click",".btnDelete", function(){
-        if (confirm('Apakah Anda ingin menghapus Data RpjmdSasaran ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data RPJMD Sasaran ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             $.ajax({            
@@ -75,7 +75,7 @@ $(document).ready(function () {
                     if (result.success==1){
                         $('#divdatatable').html(result.datatable);                        
                     }else{
-                        console.log("Gagal menghapus data RpjmdSasaran dengan id "+id);
+                        console.log("Gagal menghapus data RPJMD Sasaran dengan id "+id);
                     }                    
                 },
                 error:function(xhr, status, error){

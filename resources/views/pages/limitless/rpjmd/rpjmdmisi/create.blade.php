@@ -1,18 +1,18 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RPJMDVISI
+    RPJMD MISI TAHUN {{config('globalsettings.rpjmd_tahun_mulai')}} - {{config('globalsettings.rpjmd_tahun_akhir')}}
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        RPJMDVISI TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        RPJMD MISI TAHUN {{config('globalsettings.rpjmd_tahun_mulai')}} - {{config('globalsettings.rpjmd_tahun_akhir')}}
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.rpjmd.rpjmdvisi.info')
+    @include('pages.limitless.rpjmd.rpjmdmisi.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('rpjmdvisi.index')!!}">RPJMDVISI</a></li>
+    <li><a href="{!!route('rpjmdmisi.index')!!}">RPJMD MISI TAHUN {{config('globalsettings.rpjmd_tahun_mulai')}} - {{config('globalsettings.rpjmd_tahun_akhir')}}</a></li>
     <li class="active">TAMBAH DATA</li>
 @endsection
 @section('page_content')
@@ -26,13 +26,13 @@
             <div class="heading-elements">
                 <ul class="icons-list">                    
                     <li>               
-                        <a href="{!!route('rpjmdvisi.index')!!}" data-action="closeredirect" title="keluar"></a>
+                        <a href="{!!route('rpjmdmisi.index')!!}" data-action="closeredirect" title="keluar"></a>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>'RPJMD\RpjmdVisiController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
+            {!! Form::open(['action'=>'RPJMD\RPJMDMisiController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
                 <div class="form-group">
                     {{Form::label('replaceit','replaceit',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">

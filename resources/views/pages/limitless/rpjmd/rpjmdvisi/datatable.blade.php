@@ -9,7 +9,7 @@
         </div>
         <div class="heading-elements">
             <div class="heading-btn">
-                <a href="{!!route('rpjmdtujuan.create')!!}" class="btn btn-info btn-xs" title="Tambah RPJMD TUJUAN">
+                <a href="{!!route('rpjmdvisi.create')!!}" class="btn btn-info btn-xs" title="Tambah RPJMDVISI">
                     <i class="icon-googleplus5"></i>
                 </a>
             </div>            
@@ -22,13 +22,8 @@
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
                     <th width="100">
-                        <a class="column-sort text-white" id="col-Kd_Tujuan" data-order="{{$direction}}" href="#">
-                            KODE TUJUAN 
-                        </a>                                             
-                    </th> 
-                    <th width="100">
-                        <a class="column-sort text-white" id="col-Nm_Tujuan" data-order="{{$direction}}" href="#">
-                            NAMA TUJUAN  
+                        <a class="column-sort text-white" id="col-replace_it" data-order="{{$direction}}" href="#">
+                            replace_it  
                         </a>                                             
                     </th> 
                     <th width="100">AKSI</th>
@@ -40,22 +35,21 @@
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>                  
-                    <td>{{$item->Kd_Tujuan}}</td>
-                    <td>{{$item->Nm_Tujuan}}</td>
+                    <td>{{$item->replace_it}}</td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('rpjmdtujuan.show',['id'=>$item->PrioritasTujuanKabID])}}" title="Detail Data RpjmdTujuan">
+                                <a class="btnShow" href="{{route('rpjmdvisi.show',['id'=>$item->rpjmdvisi_id])}}" title="Detail Data RpjmdVisi">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('rpjmdtujuan.edit',['id'=>$item->PrioritasTujuanKabID])}}" title="Ubah Data RpjmdTujuan">
+                                <a class="btnEdit" href="{{route('rpjmdvisi.edit',['id'=>$item->rpjmdvisi_id])}}" title="Ubah Data RpjmdVisi">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data RpjmdTujuan" data-id="{{$item->PrioritasTujuanKabID}}" data-url="{{route('rpjmdtujuan.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data RpjmdVisi" data-id="{{$item->rpjmdvisi_id}}" data-url="{{route('rpjmdvisi.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>

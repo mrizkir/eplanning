@@ -22,8 +22,13 @@
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
                     <th width="100">
-                        <a class="column-sort text-white" id="col-replace_it" data-order="{{$direction}}" href="#">
-                            replace_it  
+                        <a class="column-sort text-white" id="col-Kd_Sasaran" data-order="{{$direction}}" href="#">
+                            KODE SASARAN 
+                        </a>                                             
+                    </th> 
+                    <th width="100">
+                        <a class="column-sort text-white" id="col-Nm_Sasaran" data-order="{{$direction}}" href="#">
+                            NAMA SASARAN  
                         </a>                                             
                     </th> 
                     <th width="100">AKSI</th>
@@ -35,21 +40,22 @@
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>                  
-                    <td>{{$item->replace_it}}</td>
+                    <td>{{$item->Kd_Sasaran}}</td>
+                    <td>{{$item->Nm_Sasaran}}</td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('rpjmdsasaran.show',['id'=>$item->rpjmdsasaran_id])}}" title="Detail Data RpjmdSasaran">
+                                <a class="btnShow" href="{{route('rpjmdsasaran.show',['id'=>$item->PrioritasSasaranKabID])}}" title="Detail Data RPJMD Sasaran">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('rpjmdsasaran.edit',['id'=>$item->rpjmdsasaran_id])}}" title="Ubah Data RpjmdSasaran">
+                                <a class="btnEdit" href="{{route('rpjmdsasaran.edit',['id'=>$item->PrioritasSasaranKabID])}}" title="Ubah Data RPJMD Sasaran">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data RpjmdSasaran" data-id="{{$item->rpjmdsasaran_id}}" data-url="{{route('rpjmdsasaran.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data RPJMD Sasaran" data-id="{{$item->PrioritasSasaranKabID}}" data-url="{{route('rpjmdsasaran.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>
