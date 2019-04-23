@@ -41,6 +41,7 @@ class CreateVUsulanPraRenjaOPDView extends Migration
                     \'ACC\'
                 END AS Status,
                 B."Privilege",
+                A."EntryLvl",
                 A."TA"
             FROM "trRenja" A
                 INNER JOIN "trRenjaRinc" B ON A."RenjaID"=B."RenjaID" AND A."TA"=B."TA"

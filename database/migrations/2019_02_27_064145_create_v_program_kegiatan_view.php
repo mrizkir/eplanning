@@ -18,15 +18,17 @@ class CreateVProgramKegiatanView extends Migration
             kegiatan."KgtID",
             program."PrgID",
             urusan."UrsID",
-            kelompok_urusan."KUrsID",
+            kelompok_urusan."KUrsID",            
             kelompok_urusan."Kd_Urusan",
-            urusan."Kd_Bidang",			 
+            urusan."Kd_Bidang",			              
             program."Kd_Prog",
             kegiatan."Kd_Keg",
 		    CASE 
                 WHEN urusan."UrsID" IS NOT NULL OR  kelompok_urusan."KUrsID" IS NOT NULL THEN
                     CONCAT(kelompok_urusan."Kd_Urusan",\'.\',urusan."Kd_Bidang",\'.\',program."Kd_Prog",\'.\',kegiatan."Kd_Keg")
             END AS kode_kegiatan,
+            kelompok_urusan."Nm_Urusan",
+            urusan."Nm_Bidang",			            
             program."PrgNm",
             kegiatan."KgtNm",
             program."Jns",

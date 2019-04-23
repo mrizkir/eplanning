@@ -3,10 +3,16 @@
         <h5>DAFTAR INDIKATOR KEGIATAN</h5>
     </div>
     <div class="heading-elements">
-        
+        @if (Request::route()->getName()=='usulanprarenjaopd.show')
+        <div class="heading-btn">
+            <a href="{!!route('usulanprarenjaopd.create1',['id'=>$renja->RenjaID])!!}" class="btn btn-info btn-xs" title="Tambah Indikator Kegiatan">
+                <i class="icon-googleplus5"></i>           
+            </a>           
+        </div>  
+        @endif  
     </div>
 </div>
-@if (count($data) > 0)
+@if (count($dataindikatorkinerja) > 0)
 <div class="table-responsive"> 
     <table id="data" class="table table-striped table-hover">
         <thead>
@@ -20,7 +26,7 @@
             </tr>
         </thead>
         <tbody>                    
-        @foreach ($data as $key=>$item)
+        @foreach ($dataindikatorkinerja as $key=>$item)
             <tr>
                 <td>
                     {{ $key + 1 }}    

@@ -38,6 +38,7 @@
         </div>
         {!! Form::open(['action'=>'RKPD\UsulanPraRenjaOPDController@store2','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
         {{Form::hidden('RenjaID',$renja->RenjaID,['id'=>'RenjaID'])}}
+        {{Form::hidden('PmDesaID',$renja->RenjaID,['id'=>'PmDesaID'])}}
         <div class="panel-body">
             <div class="form-group">
                 <label class="col-md-2 control-label">POSISI ENTRI: </label>
@@ -206,6 +207,7 @@ $(document).ready(function () {
         if (PmKecamatanID == '')
         {
             $("#frmdata :input").not('[name=PmKecamatanID],[name=UsulanKecID]').prop("disabled", true);
+            $('#PmDesaID').val('');
             $('#Uraian').val('');
             $('#Sasaran_Angka1').val('');
             $('#Sasaran_Uraian1').val('');
@@ -227,7 +229,7 @@ $(document).ready(function () {
                     "create2":true
                 },
                 success:function(result)
-                {                 
+                {   
                     console.log(result);
                     var daftar_uraian = result.daftar_uraian;
                     var listitems='<option></option>';
@@ -249,6 +251,7 @@ $(document).ready(function () {
         if (UsulanKecID == '')
         {
             $("#frmdata :input").not('[name=PmKecamatanID],[name=UsulanKecID]').prop("disabled", true);
+            $('#PmDesaID').val('');
             $('#Uraian').val('');
             $('#Sasaran_Angka1').val('');
             $('#Sasaran_Uraian1').val('');
@@ -271,6 +274,7 @@ $(document).ready(function () {
                 },
                 success:function(result)
                 {                          
+                    $('#PmDesaID').val(result.data_kegiatan.PmDesaID);
                     $('#Uraian').val(result.data_kegiatan.Uraian);   
                     AutoNumeric.getAutoNumericElement('#Sasaran_Angka1').set(result.data_kegiatan.Sasaran_Angka1);               
                     $('#Sasaran_Uraian1').val(result.data_kegiatan.Sasaran_Uraian1);                    

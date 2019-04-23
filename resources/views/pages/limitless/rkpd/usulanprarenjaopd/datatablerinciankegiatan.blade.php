@@ -2,11 +2,23 @@
     <div class="panel-title">
         <h5>DAFTAR RINCIAN KEGIATAN</h5>
     </div>
-    <div class="heading-elements">
-        
+    <div class="heading-elements">        
+        @if (Request::route()->getName()=='usulanprarenjaopd.show')
+        <div class="heading-btn">
+            <a href="{!!route('usulanprarenjaopd.create2',['id'=>$renja->RenjaID])!!}" class="btn btn-info btn-xs" title="Tambah Rincian Kegiatan">
+                <i class="icon-googleplus5"></i>
+            </a>
+            <a href="{!!route('usulanprarenjaopd.create3',['id'=>$renja->RenjaID])!!}" class="btn btn-success btn-xs" title="Tambah Rincian Kegiatan">
+                <i class="icon-googleplus5"></i>
+            </a>
+            <a href="{!!route('usulanprarenjaopd.create4',['id'=>$renja->RenjaID])!!}" class="btn btn-primary btn-xs" title="Tambah Rincian Kegiatan">
+                <i class="icon-googleplus5"></i>
+            </a>
+        </div>  
+        @endif  
     </div>
 </div>
-@if (count($data) > 0)
+@if (count($datarinciankegiatan) > 0)
 <div class="table-responsive"> 
     <table id="data" class="table table-striped table-hover">
         <thead>
@@ -21,23 +33,27 @@
             </tr>
         </thead>
         <tbody>                    
-        @foreach ($data as $key=>$item)
+        @foreach ($datarinciankegiatan as $key=>$item)
             <tr>
                 <td>
                     {{$item->No}}
                 </td>
                 <td>
                     {{ucwords($item->Uraian)}}<br />
-                    <span class="label label-flat border-grey text-grey-600">
-                        <a href="#"><strong>Usulan dari: </strong>
-                            @if ($item->isSKPD)
-                                OPD / SKPD
-                            @elseif($item->isReses)
-                                POKIR [{{$item->isReses_Uraian}}]
-                            @else
-                                MUSREN. KEC. {{$item->Nm_Kecamatan}}
-                            @endif                            
-                        </a> 
+                    <span class="label label-flat border-grey text-grey-600">                        
+                        @if ($item->isSKPD)
+                            <a href="#">
+                                <strong>Usulan dari: </strong>OPD / SKPD
+                            </a> 
+                        @elseif($item->isReses)
+                            <a href="#">
+                                <strong>Usulan dari: </strong>POKIR [{{$item->isReses_Uraian}}]
+                            </a>
+                        @else
+                            <a href="{{route('aspirasimusrenkecamatan.show',['id'=>$item->UsulanKecID])}}">
+                                <strong>Usulan dari: MUSREN. KEC. {{$item->Nm_Kecamatan}}
+                            </a>
+                        @endif
                     </span>
                 </td>                
                 <td>{{Helper::formatAngka($item->Sasaran_Angka1)}} {{ucwords($item->Sasaran_Uraian1)}}</td>
