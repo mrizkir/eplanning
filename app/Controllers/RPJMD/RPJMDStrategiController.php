@@ -4,9 +4,9 @@ namespace App\Controllers\RPJMD;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
-use App\Models\RPJMD\RPJMDSasaranModel;
+use App\Models\RPJMD\RPJMDStrategiModel;
 
-class RPJMDSasaranController extends Controller {
+class RPJMDStrategiController extends Controller {
      /**
      * Membuat sebuah objek
      *
@@ -25,37 +25,37 @@ class RPJMDSasaranController extends Controller {
     public function populateData ($currentpage=1) 
     {        
         $columns=['*'];       
-        if (!$this->checkStateIsExistSession('rpjmdsasaran','orderby')) 
+        if (!$this->checkStateIsExistSession('rpjmdstrategi','orderby')) 
         {            
-           $this->putControllerStateSession('rpjmdsasaran','orderby',['column_name'=>'Nm_Sasaran','order'=>'asc']);
+           $this->putControllerStateSession('rpjmdstrategi','orderby',['column_name'=>'Nm_Strategi','order'=>'asc']);
         }
-        $column_order=$this->getControllerStateSession('rpjmdsasaran.orderby','column_name'); 
-        $direction=$this->getControllerStateSession('rpjmdsasaran.orderby','order'); 
+        $column_order=$this->getControllerStateSession('rpjmdstrategi.orderby','column_name'); 
+        $direction=$this->getControllerStateSession('rpjmdstrategi.orderby','order'); 
 
         if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
         {            
             $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
         }
         $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
-        if ($this->checkStateIsExistSession('rpjmdsasaran','search')) 
+        if ($this->checkStateIsExistSession('rpjmdstrategi','search')) 
         {
-            $search=$this->getControllerStateSession('rpjmdsasaran','search');
+            $search=$this->getControllerStateSession('rpjmdstrategi','search');
             switch ($search['kriteria']) 
             {
-                case 'Kd_Sasaran' :
-                    $data = RPJMDSasaranModel::where(['Kd_Sasaran'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                case 'Kd_Strategi' :
+                    $data = RPJMDStrategiModel::where(['Kd_Strategi'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
-                case 'Nm_Sasaran' :
-                    $data = RPJMDSasaranModel::where('Nm_Sasaran', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                case 'Nm_Strategi' :
+                    $data = RPJMDStrategiModel::where('Nm_Strategi', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = RPJMDSasaranModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data = RPJMDStrategiModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
-        $data->setPath(route('rpjmdsasaran.index'));
+        $data->setPath(route('rpjmdstrategi.index'));
         return $data;
     }
     /**
@@ -70,14 +70,14 @@ class RPJMDSasaranController extends Controller {
         $numberRecordPerPage = $request->input('numberRecordPerPage');
         $this->putControllerStateSession('global_controller','numberRecordPerPage',$numberRecordPerPage);
         
-        $this->setCurrentPageInsideSession('rpjmdsasaran',1);
+        $this->setCurrentPageInsideSession('rpjmdstrategi',1);
         $data=$this->populateData();
 
-        $datatable = view("pages.$theme.rpjmd.rpjmdsasaran.datatable")->with(['page_active'=>'rpjmdsasaran',
-                                                                                'search'=>$this->getControllerStateSession('rpjmdsasaran','search'),
+        $datatable = view("pages.$theme.rpjmd.rpjmdstrategi.datatable")->with(['page_active'=>'rpjmdstrategi',
+                                                                                'search'=>$this->getControllerStateSession('rpjmdstrategi','search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                                'column_order'=>$this->getControllerStateSession('rpjmdsasaran.orderby','column_name'),
-                                                                                'direction'=>$this->getControllerStateSession('rpjmdsasaran.orderby','order'),
+                                                                                'column_order'=>$this->getControllerStateSession('rpjmdstrategi.orderby','column_name'),
+                                                                                'direction'=>$this->getControllerStateSession('rpjmdstrategi.orderby','order'),
                                                                                 'data'=>$data])->render();      
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
     }
@@ -94,21 +94,21 @@ class RPJMDSasaranController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'Nm_Sasaran' :
-                $column_name = 'Nm_Sasaran';
+            case 'Nm_Strategi' :
+                $column_name = 'Nm_Strategi';
             break;           
             default :
-                $column_name = 'Nm_Sasaran';
+                $column_name = 'Nm_Strategi';
         }
-        $this->putControllerStateSession('rpjmdsasaran','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
+        $this->putControllerStateSession('rpjmdstrategi','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
         $data=$this->populateData();
 
-        $datatable = view("pages.$theme.rpjmd.rpjmdsasaran.datatable")->with(['page_active'=>'rpjmdsasaran',
-                                                            'search'=>$this->getControllerStateSession('rpjmdsasaran','search'),
+        $datatable = view("pages.$theme.rpjmd.rpjmdstrategi.datatable")->with(['page_active'=>'rpjmdstrategi',
+                                                            'search'=>$this->getControllerStateSession('rpjmdstrategi','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('rpjmdsasaran.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('rpjmdsasaran.orderby','order'),
+                                                            'column_order'=>$this->getControllerStateSession('rpjmdstrategi.orderby','column_name'),
+                                                            'direction'=>$this->getControllerStateSession('rpjmdstrategi.orderby','order'),
                                                             'data'=>$data])->render();     
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
@@ -123,13 +123,13 @@ class RPJMDSasaranController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $this->setCurrentPageInsideSession('rpjmdsasaran',$id);
+        $this->setCurrentPageInsideSession('rpjmdstrategi',$id);
         $data=$this->populateData($id);
-        $datatable = view("pages.$theme.rpjmd.rpjmdsasaran.datatable")->with(['page_active'=>'rpjmdsasaran',
-                                                                            'search'=>$this->getControllerStateSession('rpjmdsasaran','search'),
+        $datatable = view("pages.$theme.rpjmd.rpjmdstrategi.datatable")->with(['page_active'=>'rpjmdstrategi',
+                                                                            'search'=>$this->getControllerStateSession('rpjmdstrategi','search'),
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                            'column_order'=>$this->getControllerStateSession('rpjmdsasaran.orderby','column_name'),
-                                                                            'direction'=>$this->getControllerStateSession('rpjmdsasaran.orderby','order'),
+                                                                            'column_order'=>$this->getControllerStateSession('rpjmdstrategi.orderby','column_name'),
+                                                                            'direction'=>$this->getControllerStateSession('rpjmdstrategi.orderby','order'),
                                                                             'data'=>$data])->render(); 
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
@@ -147,22 +147,22 @@ class RPJMDSasaranController extends Controller {
         $action = $request->input('action');
         if ($action == 'reset') 
         {
-            $this->destroyControllerStateSession('rpjmdsasaran','search');
+            $this->destroyControllerStateSession('rpjmdstrategi','search');
         }
         else
         {
             $kriteria = $request->input('cmbKriteria');
             $isikriteria = $request->input('txtKriteria');
-            $this->putControllerStateSession('rpjmdsasaran','search',['kriteria'=>$kriteria,'isikriteria'=>$isikriteria]);
+            $this->putControllerStateSession('rpjmdstrategi','search',['kriteria'=>$kriteria,'isikriteria'=>$isikriteria]);
         }      
-        $this->setCurrentPageInsideSession('rpjmdsasaran',1);
+        $this->setCurrentPageInsideSession('rpjmdstrategi',1);
         $data=$this->populateData();
 
-        $datatable = view("pages.$theme.rpjmd.rpjmdsasaran.datatable")->with(['page_active'=>'rpjmdsasaran',                                                            
-                                                            'search'=>$this->getControllerStateSession('rpjmdsasaran','search'),
+        $datatable = view("pages.$theme.rpjmd.rpjmdstrategi.datatable")->with(['page_active'=>'rpjmdstrategi',                                                            
+                                                            'search'=>$this->getControllerStateSession('rpjmdstrategi','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('rpjmdsasaran.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('rpjmdsasaran.orderby','order'),
+                                                            'column_order'=>$this->getControllerStateSession('rpjmdstrategi.orderby','column_name'),
+                                                            'direction'=>$this->getControllerStateSession('rpjmdstrategi.orderby','order'),
                                                             'data'=>$data])->render();      
         
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
@@ -176,20 +176,20 @@ class RPJMDSasaranController extends Controller {
     {                
         $theme = \Auth::user()->theme;
 
-        $search=$this->getControllerStateSession('rpjmdsasaran','search');
-        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('rpjmdsasaran'); 
+        $search=$this->getControllerStateSession('rpjmdstrategi','search');
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('rpjmdstrategi'); 
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage())
         {            
             $data = $this->populateData($data->lastPage());
         }
-        $this->setCurrentPageInsideSession('rpjmdsasaran',$data->currentPage());
+        $this->setCurrentPageInsideSession('rpjmdstrategi',$data->currentPage());
         
-        return view("pages.$theme.rpjmd.rpjmdsasaran.index")->with(['page_active'=>'rpjmdsasaran',
-                                                'search'=>$this->getControllerStateSession('rpjmdsasaran','search'),
+        return view("pages.$theme.rpjmd.rpjmdstrategi.index")->with(['page_active'=>'rpjmdstrategi',
+                                                'search'=>$this->getControllerStateSession('rpjmdstrategi','search'),
                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                'column_order'=>$this->getControllerStateSession('rpjmdsasaran.orderby','column_name'),
-                                                'direction'=>$this->getControllerStateSession('rpjmdsasaran.orderby','order'),
+                                                'column_order'=>$this->getControllerStateSession('rpjmdstrategi.orderby','column_name'),
+                                                'direction'=>$this->getControllerStateSession('rpjmdstrategi.orderby','order'),
                                                 'data'=>$data]);               
     }
     /**
@@ -201,9 +201,9 @@ class RPJMDSasaranController extends Controller {
     {        
         $theme = \Auth::user()->theme;
 
-        return view("pages.$theme.rpjmd.rpjmdsasaran.create")->with(['page_active'=>'rpjmdsasaran',
+        return view("pages.$theme.rpjmd.rpjmdstrategi.create")->with(['page_active'=>'rpjmdstrategi',
                                                                     
-                                                ]);  
+                                                            ]);  
     }
     
     /**
@@ -218,7 +218,7 @@ class RPJMDSasaranController extends Controller {
             'replaceit'=>'required',
         ]);
         
-        $rpjmdsasaran = RPJMDSasaranModel::create([
+        $rpjmdstrategi = RPJMDStrategiModel::create([
             'replaceit' => $request->input('replaceit'),
         ]);        
         
@@ -231,7 +231,7 @@ class RPJMDSasaranController extends Controller {
         }
         else
         {
-            return redirect(route('rpjmdsasaran.index'))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rpjmdstrategi.index'))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -246,10 +246,10 @@ class RPJMDSasaranController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = RPJMDSasaranModel::findOrFail($id);
+        $data = RPJMDStrategiModel::findOrFail($id);
         if (!is_null($data) )  
         {
-            return view("pages.$theme.rpjmd.rpjmdsasaran.show")->with(['page_active'=>'rpjmdsasaran',
+            return view("pages.$theme.rpjmd.rpjmdstrategi.show")->with(['page_active'=>'rpjmdstrategi',
                                                     'data'=>$data
                                                     ]);
         }        
@@ -265,10 +265,10 @@ class RPJMDSasaranController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $data = RPJMDSasaranModel::findOrFail($id);
+        $data = RPJMDStrategiModel::findOrFail($id);
         if (!is_null($data) ) 
         {
-            return view("pages.$theme.rpjmd.rpjmdsasaran.edit")->with(['page_active'=>'rpjmdsasaran',
+            return view("pages.$theme.rpjmd.rpjmdstrategi.edit")->with(['page_active'=>'rpjmdstrategi',
                                                     'data'=>$data
                                                     ]);
         }        
@@ -283,14 +283,14 @@ class RPJMDSasaranController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $rpjmdsasaran = RPJMDSasaranModel::find($id);
+        $rpjmdstrategi = RPJMDStrategiModel::find($id);
         
         $this->validate($request, [
             'replaceit'=>'required',
         ]);
         
-        $rpjmdsasaran->replaceit = $request->input('replaceit');
-        $rpjmdsasaran->save();
+        $rpjmdstrategi->replaceit = $request->input('replaceit');
+        $rpjmdstrategi->save();
 
         if ($request->ajax()) 
         {
@@ -301,7 +301,7 @@ class RPJMDSasaranController extends Controller {
         }
         else
         {
-            return redirect(route('rpjmdsasaran.index'))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('rpjmdstrategi.index'))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 
@@ -315,28 +315,28 @@ class RPJMDSasaranController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $rpjmdsasaran = RPJMDSasaranModel::find($id);
-        $result=$rpjmdsasaran->delete();
+        $rpjmdstrategi = RPJMDStrategiModel::find($id);
+        $result=$rpjmdstrategi->delete();
         if ($request->ajax()) 
         {
-            $currentpage=$this->getCurrentPageInsideSession('rpjmdsasaran'); 
+            $currentpage=$this->getCurrentPageInsideSession('rpjmdstrategi'); 
             $data=$this->populateData($currentpage);
             if ($currentpage > $data->lastPage())
             {            
                 $data = $this->populateData($data->lastPage());
             }
-            $datatable = view("pages.$theme.rpjmd.rpjmdsasaran.datatable")->with(['page_active'=>'rpjmdsasaran',
-                                                            'search'=>$this->getControllerStateSession('rpjmdsasaran','search'),
+            $datatable = view("pages.$theme.rpjmd.rpjmdstrategi.datatable")->with(['page_active'=>'rpjmdstrategi',
+                                                            'search'=>$this->getControllerStateSession('rpjmdstrategi','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                            'column_order'=>$this->getControllerStateSession('rpjmdsasaran.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('rpjmdsasaran.orderby','order'),
+                                                            'column_order'=>$this->getControllerStateSession('rpjmdstrategi.orderby','column_name'),
+                                                            'direction'=>$this->getControllerStateSession('rpjmdstrategi.orderby','order'),
                                                             'data'=>$data])->render();      
             
             return response()->json(['success'=>true,'datatable'=>$datatable],200); 
         }
         else
         {
-            return redirect(route('rpjmdsasaran.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+            return redirect(route('rpjmdstrategi.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
         }        
     }
 }

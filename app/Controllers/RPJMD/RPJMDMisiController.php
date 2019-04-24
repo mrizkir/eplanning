@@ -4,9 +4,9 @@ namespace App\Controllers\RPJMD;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
-use App\Models\RPJMD\RPJMDIndikatorKinerjaModel;
+use App\Models\RPJMD\RPJMDMisiModel;
 
-class RPJMDIndikatorKinerjaController extends Controller {
+class RPJMDMisiController extends Controller {
      /**
      * Membuat sebuah objek
      *
@@ -25,35 +25,37 @@ class RPJMDIndikatorKinerjaController extends Controller {
     public function populateData ($currentpage=1) 
     {        
         $columns=['*'];       
-        if (!$this->checkStateIsExistSession('rpjmdindikatorkinerja','orderby')) 
+        if (!$this->checkStateIsExistSession('rpjmdmisi','Nm_PrioritasKab')) 
         {            
-           $this->putControllerStateSession('rpjmdindikatorkinerja','orderby',['column_name'=>'NamaIndikator','order'=>'asc']);
+           $this->putControllerStateSession('rpjmdmisi','orderby',['column_name'=>'Nm_PrioritasKab','order'=>'asc']);
         }
-        $column_order=$this->getControllerStateSession('rpjmdindikatorkinerja.orderby','column_name'); 
-        $direction=$this->getControllerStateSession('rpjmdindikatorkinerja.orderby','order'); 
+        $column_order=$this->getControllerStateSession('rpjmdmisi.orderby','column_name'); 
+        $direction=$this->getControllerStateSession('rpjmdmisi.orderby','order'); 
 
         if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
         {            
             $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
         }
         $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
-        if ($this->checkStateIsExistSession('rpjmdindikatorkinerja','search')) 
+        if ($this->checkStateIsExistSession('rpjmdmisi','search')) 
         {
-            $search=$this->getControllerStateSession('rpjmdindikatorkinerja','search');
+            $search=$this->getControllerStateSession('rpjmdmisi','search');
             switch ($search['kriteria']) 
-            {                
-                case 'NamaIndikator' :
-                    $data = RPJMDIndikatorKinerjaModel::where('NamaIndikator', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+            {
+                case 'Kd_PrioritasKab' :
+                    $data = RPJMDMisiModel::where(['Kd_PrioritasKab'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                break;
+                case 'Nm_PrioritasKab' :
+                    $data = RPJMDMisiModel::where('Nm_PrioritasKab', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = RPJMDIndikatorKinerjaModel::where('TA_N',config('globalsettings.rpjmd_tahun_mulai'))
-                                                ->orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data = RPJMDMisiModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
-        $data->setPath(route('rpjmdindikatorkinerja.index'));
+        $data->setPath(route('rpjmdmisi.index'));
         return $data;
     }
     /**
@@ -68,14 +70,14 @@ class RPJMDIndikatorKinerjaController extends Controller {
         $numberRecordPerPage = $request->input('numberRecordPerPage');
         $this->putControllerStateSession('global_controller','numberRecordPerPage',$numberRecordPerPage);
         
-        $this->setCurrentPageInsideSession('rpjmdindikatorkinerja',1);
+        $this->setCurrentPageInsideSession('rpjmdmisi',1);
         $data=$this->populateData();
 
-        $datatable = view("pages.$theme.rpjmd.rpjmdindikatorkinerja.datatable")->with(['page_active'=>'rpjmdindikatorkinerja',
-                                                                                'search'=>$this->getControllerStateSession('rpjmdindikatorkinerja','search'),
+        $datatable = view("pages.$theme.rpjmd.rpjmdmisi.datatable")->with(['page_active'=>'rpjmdmisi',
+                                                                                'search'=>$this->getControllerStateSession('rpjmdmisi','search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                                'column_order'=>$this->getControllerStateSession('rpjmdindikatorkinerja.orderby','column_name'),
-                                                                                'direction'=>$this->getControllerStateSession('rpjmdindikatorkinerja.orderby','order'),
+                                                                                'column_order'=>$this->getControllerStateSession('rpjmdmisi.orderby','column_name'),
+                                                                                'direction'=>$this->getControllerStateSession('rpjmdmisi.orderby','order'),
                                                                                 'data'=>$data])->render();      
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
     }
@@ -92,26 +94,21 @@ class RPJMDIndikatorKinerjaController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'replace_it' :
-                $column_name = 'replace_it';
+            case 'col-Nm_PrioritasKab' :
+                $column_name = 'Nm_PrioritasKab';
             break;           
             default :
-                $column_name = 'replace_it';
+                $column_name = 'Nm_PrioritasKab';
         }
-        $this->putControllerStateSession('rpjmdindikatorkinerja','orderby',['column_name'=>$column_name,'order'=>$orderby]);      
+        $this->putControllerStateSession('rpjmdmisi','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
-        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('rpjmdindikatorkinerja');         
-        $data=$this->populateData($currentpage);
-        if ($currentpage > $data->lastPage())
-        {            
-            $data = $this->populateData($data->lastPage());
-        }
-        
-        $datatable = view("pages.$theme.rpjmd.rpjmdindikatorkinerja.datatable")->with(['page_active'=>'rpjmdindikatorkinerja',
-                                                            'search'=>$this->getControllerStateSession('rpjmdindikatorkinerja','search'),
+        $data=$this->populateData();
+
+        $datatable = view("pages.$theme.rpjmd.rpjmdmisi.datatable")->with(['page_active'=>'rpjmdmisi',
+                                                            'search'=>$this->getControllerStateSession('rpjmdmisi','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('rpjmdindikatorkinerja.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('rpjmdindikatorkinerja.orderby','order'),
+                                                            'column_order'=>$this->getControllerStateSession('rpjmdmisi.orderby','column_name'),
+                                                            'direction'=>$this->getControllerStateSession('rpjmdmisi.orderby','order'),
                                                             'data'=>$data])->render();     
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
@@ -126,13 +123,13 @@ class RPJMDIndikatorKinerjaController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $this->setCurrentPageInsideSession('rpjmdindikatorkinerja',$id);
+        $this->setCurrentPageInsideSession('rpjmdmisi',$id);
         $data=$this->populateData($id);
-        $datatable = view("pages.$theme.rpjmd.rpjmdindikatorkinerja.datatable")->with(['page_active'=>'rpjmdindikatorkinerja',
-                                                                            'search'=>$this->getControllerStateSession('rpjmdindikatorkinerja','search'),
+        $datatable = view("pages.$theme.rpjmd.rpjmdmisi.datatable")->with(['page_active'=>'rpjmdmisi',
+                                                                            'search'=>$this->getControllerStateSession('rpjmdmisi','search'),
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                            'column_order'=>$this->getControllerStateSession('rpjmdindikatorkinerja.orderby','column_name'),
-                                                                            'direction'=>$this->getControllerStateSession('rpjmdindikatorkinerja.orderby','order'),
+                                                                            'column_order'=>$this->getControllerStateSession('rpjmdmisi.orderby','column_name'),
+                                                                            'direction'=>$this->getControllerStateSession('rpjmdmisi.orderby','order'),
                                                                             'data'=>$data])->render(); 
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
@@ -150,22 +147,22 @@ class RPJMDIndikatorKinerjaController extends Controller {
         $action = $request->input('action');
         if ($action == 'reset') 
         {
-            $this->destroyControllerStateSession('rpjmdindikatorkinerja','search');
+            $this->destroyControllerStateSession('rpjmdmisi','search');
         }
         else
         {
             $kriteria = $request->input('cmbKriteria');
             $isikriteria = $request->input('txtKriteria');
-            $this->putControllerStateSession('rpjmdindikatorkinerja','search',['kriteria'=>$kriteria,'isikriteria'=>$isikriteria]);
+            $this->putControllerStateSession('rpjmdmisi','search',['kriteria'=>$kriteria,'isikriteria'=>$isikriteria]);
         }      
-        $this->setCurrentPageInsideSession('rpjmdindikatorkinerja',1);
+        $this->setCurrentPageInsideSession('rpjmdmisi',1);
         $data=$this->populateData();
 
-        $datatable = view("pages.$theme.rpjmd.rpjmdindikatorkinerja.datatable")->with(['page_active'=>'rpjmdindikatorkinerja',                                                            
-                                                            'search'=>$this->getControllerStateSession('rpjmdindikatorkinerja','search'),
+        $datatable = view("pages.$theme.rpjmd.rpjmdmisi.datatable")->with(['page_active'=>'rpjmdmisi',                                                            
+                                                            'search'=>$this->getControllerStateSession('rpjmdmisi','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('rpjmdindikatorkinerja.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('rpjmdindikatorkinerja.orderby','order'),
+                                                            'column_order'=>$this->getControllerStateSession('rpjmdmisi.orderby','column_name'),
+                                                            'direction'=>$this->getControllerStateSession('rpjmdmisi.orderby','order'),
                                                             'data'=>$data])->render();      
         
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
@@ -179,20 +176,20 @@ class RPJMDIndikatorKinerjaController extends Controller {
     {                
         $theme = \Auth::user()->theme;
 
-        $search=$this->getControllerStateSession('rpjmdindikatorkinerja','search');
-        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('rpjmdindikatorkinerja'); 
+        $search=$this->getControllerStateSession('rpjmdmisi','search');
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('rpjmdmisi'); 
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage())
         {            
             $data = $this->populateData($data->lastPage());
         }
-        $this->setCurrentPageInsideSession('rpjmdindikatorkinerja',$data->currentPage());
+        $this->setCurrentPageInsideSession('rpjmdmisi',$data->currentPage());
         
-        return view("pages.$theme.rpjmd.rpjmdindikatorkinerja.index")->with(['page_active'=>'rpjmdindikatorkinerja',
-                                                'search'=>$this->getControllerStateSession('rpjmdindikatorkinerja','search'),
+        return view("pages.$theme.rpjmd.rpjmdmisi.index")->with(['page_active'=>'rpjmdmisi',
+                                                'search'=>$this->getControllerStateSession('rpjmdmisi','search'),
                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                'column_order'=>$this->getControllerStateSession('rpjmdindikatorkinerja.orderby','column_name'),
-                                                'direction'=>$this->getControllerStateSession('rpjmdindikatorkinerja.orderby','order'),
+                                                'column_order'=>$this->getControllerStateSession('rpjmdmisi.orderby','column_name'),
+                                                'direction'=>$this->getControllerStateSession('rpjmdmisi.orderby','order'),
                                                 'data'=>$data]);               
     }
     /**
@@ -204,7 +201,7 @@ class RPJMDIndikatorKinerjaController extends Controller {
     {        
         $theme = \Auth::user()->theme;
 
-        return view("pages.$theme.rpjmd.rpjmdindikatorkinerja.create")->with(['page_active'=>'rpjmdindikatorkinerja',
+        return view("pages.$theme.rpjmd.rpjmdmisi.create")->with(['page_active'=>'rpjmdmisi',
                                                                     
                                                 ]);  
     }
@@ -221,7 +218,7 @@ class RPJMDIndikatorKinerjaController extends Controller {
             'replaceit'=>'required',
         ]);
         
-        $rpjmdindikatorkinerja = RPJMDIndikatorKinerjaModel::create([
+        $rpjmdmisi = RPJMDMisiModel::create([
             'replaceit' => $request->input('replaceit'),
         ]);        
         
@@ -234,7 +231,7 @@ class RPJMDIndikatorKinerjaController extends Controller {
         }
         else
         {
-            return redirect(route('rpjmdindikatorkinerja.show',['id'=>$rpjmdindikatorkinerja->replaceit]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rpjmdmisi.index'))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -249,10 +246,10 @@ class RPJMDIndikatorKinerjaController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = RPJMDIndikatorKinerjaModel::findOrFail($id);
+        $data = RPJMDMisiModel::findOrFail($id);
         if (!is_null($data) )  
         {
-            return view("pages.$theme.rpjmd.rpjmdindikatorkinerja.show")->with(['page_active'=>'rpjmdindikatorkinerja',
+            return view("pages.$theme.rpjmd.rpjmdmisi.show")->with(['page_active'=>'rpjmdmisi',
                                                     'data'=>$data
                                                     ]);
         }        
@@ -268,10 +265,10 @@ class RPJMDIndikatorKinerjaController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $data = RPJMDIndikatorKinerjaModel::findOrFail($id);
+        $data = RPJMDMisiModel::findOrFail($id);
         if (!is_null($data) ) 
         {
-            return view("pages.$theme.rpjmd.rpjmdindikatorkinerja.edit")->with(['page_active'=>'rpjmdindikatorkinerja',
+            return view("pages.$theme.rpjmd.rpjmdmisi.edit")->with(['page_active'=>'rpjmdmisi',
                                                     'data'=>$data
                                                     ]);
         }        
@@ -286,14 +283,14 @@ class RPJMDIndikatorKinerjaController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $rpjmdindikatorkinerja = RPJMDIndikatorKinerjaModel::find($id);
+        $rpjmdmisi = RPJMDMisiModel::find($id);
         
         $this->validate($request, [
             'replaceit'=>'required',
         ]);
         
-        $rpjmdindikatorkinerja->replaceit = $request->input('replaceit');
-        $rpjmdindikatorkinerja->save();
+        $rpjmdmisi->replaceit = $request->input('replaceit');
+        $rpjmdmisi->save();
 
         if ($request->ajax()) 
         {
@@ -304,7 +301,7 @@ class RPJMDIndikatorKinerjaController extends Controller {
         }
         else
         {
-            return redirect(route('rpjmdindikatorkinerja.show',['id'=>$rpjmdindikatorkinerja->replaceit]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rpjmdmisi.index'))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 
@@ -318,28 +315,28 @@ class RPJMDIndikatorKinerjaController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $rpjmdindikatorkinerja = RPJMDIndikatorKinerjaModel::find($id);
-        $result=$rpjmdindikatorkinerja->delete();
+        $rpjmdmisi = RPJMDMisiModel::find($id);
+        $result=$rpjmdmisi->delete();
         if ($request->ajax()) 
         {
-            $currentpage=$this->getCurrentPageInsideSession('rpjmdindikatorkinerja'); 
+            $currentpage=$this->getCurrentPageInsideSession('rpjmdmisi'); 
             $data=$this->populateData($currentpage);
             if ($currentpage > $data->lastPage())
             {            
                 $data = $this->populateData($data->lastPage());
             }
-            $datatable = view("pages.$theme.rpjmd.rpjmdindikatorkinerja.datatable")->with(['page_active'=>'rpjmdindikatorkinerja',
-                                                            'search'=>$this->getControllerStateSession('rpjmdindikatorkinerja','search'),
+            $datatable = view("pages.$theme.rpjmd.rpjmdmisi.datatable")->with(['page_active'=>'rpjmdmisi',
+                                                            'search'=>$this->getControllerStateSession('rpjmdmisi','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                            'column_order'=>$this->getControllerStateSession('rpjmdindikatorkinerja.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('rpjmdindikatorkinerja.orderby','order'),
+                                                            'column_order'=>$this->getControllerStateSession('rpjmdmisi.orderby','column_name'),
+                                                            'direction'=>$this->getControllerStateSession('rpjmdmisi.orderby','order'),
                                                             'data'=>$data])->render();      
             
             return response()->json(['success'=>true,'datatable'=>$datatable],200); 
         }
         else
         {
-            return redirect(route('rpjmdindikatorkinerja.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+            return redirect(route('rpjmdmisi.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
         }        
     }
 }
