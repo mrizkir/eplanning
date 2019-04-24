@@ -5,10 +5,10 @@
     <div class="heading-elements">        
         @if (Request::route()->getName()=='usulanprarenjaopd.show')
         <div class="heading-btn">
-            <a href="{!!route('usulanprarenjaopd.create2',['id'=>$renja->RenjaID])!!}" class="btn btn-info btn-xs" title="Tambah Rincian Kegiatan">
+            <a href="{!!route('usulanprarenjaopd.create2',['id'=>$renja->RenjaID])!!}" class="btn btn-info btn-xs" title="Tambah Rincian Kegiatan dari Musren">
                 <i class="icon-googleplus5"></i>
             </a>
-            <a href="{!!route('usulanprarenjaopd.create3',['id'=>$renja->RenjaID])!!}" class="btn btn-success btn-xs" title="Tambah Rincian Kegiatan">
+            <a href="{!!route('usulanprarenjaopd.create3',['id'=>$renja->RenjaID])!!}" class="btn btn-success btn-xs" title="Tambah Rincian Kegiatan dari POKIR">
                 <i class="icon-googleplus5"></i>
             </a>
             <a href="{!!route('usulanprarenjaopd.create4',['id'=>$renja->RenjaID])!!}" class="btn btn-primary btn-xs" title="Tambah Rincian Kegiatan">

@@ -33,7 +33,7 @@
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>'RPJMD\RpjmdIndikatorKinerjaController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
+            {!! Form::open(['action'=>'RPJMD\RPJMDIndikatorKinerjaController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
                 <div class="form-group">
                     {{Form::label('replaceit','replaceit',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">

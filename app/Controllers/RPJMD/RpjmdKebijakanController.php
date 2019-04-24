@@ -5,9 +5,9 @@ namespace App\Controllers\RPJMD;
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Models\RPJMD\RpjmdStrategiModel;
-use App\Models\RPJMD\RpjmdKebijakanModel;
+use App\Models\RPJMD\RPJMDKebijakanModel;
 
-class RpjmdKebijakanController extends Controller {
+class RPJMDKebijakanController extends Controller {
      /**
      * Membuat sebuah objek
      *
@@ -44,17 +44,17 @@ class RpjmdKebijakanController extends Controller {
             switch ($search['kriteria']) 
             {
                 case 'replaceit' :
-                    $data = RpjmdKebijakanModel::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                    $data = RPJMDKebijakanModel::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
                 case 'replaceit' :
-                    $data = RpjmdKebijakanModel::where('replaceit', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = RPJMDKebijakanModel::where('replaceit', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = RpjmdKebijakanModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data = RPJMDKebijakanModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('rpjmdkebijakan.index'));
         return $data;
@@ -219,7 +219,7 @@ class RpjmdKebijakanController extends Controller {
         //     'replaceit'=>'required',
         // ]);
         
-        // $rpjmdkebijakan = RpjmdKebijakanModel::create([
+        // $rpjmdkebijakan = RPJMDKebijakanModel::create([
         //     'replaceit' => $request->input('replaceit'),
         // ]);        
         
@@ -247,7 +247,7 @@ class RpjmdKebijakanController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = RpjmdKebijakanModel::findOrFail($id);
+        $data = RPJMDKebijakanModel::findOrFail($id);
         if (!is_null($data) )  
         {
             return view("pages.$theme.rpjmd.rpjmdkebijakan.show")->with(['page_active'=>'rpjmdkebijakan',
@@ -266,7 +266,7 @@ class RpjmdKebijakanController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $data = RpjmdKebijakanModel::findOrFail($id);
+        $data = RPJMDKebijakanModel::findOrFail($id);
         if (!is_null($data) ) 
         {
             return view("pages.$theme.rpjmd.rpjmdkebijakan.edit")->with(['page_active'=>'rpjmdkebijakan',
@@ -284,7 +284,7 @@ class RpjmdKebijakanController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $rpjmdkebijakan = RpjmdKebijakanModel::find($id);
+        $rpjmdkebijakan = RPJMDKebijakanModel::find($id);
         
         // $this->validate($request, [
         //     'replaceit'=>'required',
@@ -316,7 +316,7 @@ class RpjmdKebijakanController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $rpjmdkebijakan = RpjmdKebijakanModel::find($id);
+        $rpjmdkebijakan = RPJMDKebijakanModel::find($id);
         $result=$rpjmdkebijakan->delete();
         if ($request->ajax()) 
         {

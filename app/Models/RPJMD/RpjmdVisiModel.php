@@ -5,7 +5,7 @@ namespace App\Models\RPJMD;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class RpjmdVisiModel extends Model {
+class RPJMDVisiModel extends Model {
     use LogsActivity;
 
      /**
@@ -46,7 +46,7 @@ class RpjmdVisiModel extends Model {
      *
      * @var string
      */
-    // protected static $logName = 'RpjmdVisiController';
+    // protected static $logName = 'RPJMDVisiController';
     /**
      * log the changed attributes for all these events 
      */

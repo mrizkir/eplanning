@@ -33,7 +33,7 @@
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>['RPJMD\RpjmdIndikatorKinerjaController@update',$data->rpjmdindikatorkinerja_id],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
+            {!! Form::open(['action'=>['RPJMD\RPJMDIndikatorKinerjaController@update',$data->rpjmdindikatorkinerja_id],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
                 {{Form::hidden('_method','PUT')}}
                 <div class="form-group">
                     {{Form::label('replaceit','replaceit',['class'=>'control-label col-md-2'])}}

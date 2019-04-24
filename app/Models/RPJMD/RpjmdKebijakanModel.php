@@ -5,7 +5,7 @@ namespace App\Models\RPJMD;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class RpjmdKebijakanModel extends Model {
+class RPJMDKebijakanModel extends Model {
     use LogsActivity;
     /**
      * nama tabel model ini.
@@ -45,7 +45,7 @@ class RpjmdKebijakanModel extends Model {
      *
      * @var string
      */
-    // protected static $logName = 'RpjmdKebijakanController';
+    // protected static $logName = 'RPJMDKebijakanController';
     /**
      * log the changed attributes for all these events 
      */

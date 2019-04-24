@@ -5,7 +5,7 @@ namespace App\Models\RPJMD;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class RpjmdIndikatorKinerjaModel extends Model {
+class RPJMDIndikatorKinerjaModel extends Model {
     use LogsActivity;
 
      /**
@@ -68,7 +68,7 @@ class RpjmdIndikatorKinerjaModel extends Model {
      *
      * @var string
      */
-    protected static $logName = 'RpjmdIndikatorKinerjaController';
+    protected static $logName = 'RPJMDIndikatorKinerjaController';
     /**
      * log the changed attributes for all these events 
      */
@@ -83,7 +83,7 @@ class RpjmdIndikatorKinerjaModel extends Model {
 
     public static function getDaftarIndikatorKinerja($UrsID,$PrgID=null,$OrgID=null,$prepend=true)
     {   
-        $data = RpjmdIndikatorKinerjaModel::where('UrsID',$UrsID)
+        $data = RPJMDIndikatorKinerjaModel::where('UrsID',$UrsID)
                                             ->where('TA_N',config('globalsettings.rpjmd_tahun_mulai'));
 
         if ($PrgID != null)
@@ -108,7 +108,7 @@ class RpjmdIndikatorKinerjaModel extends Model {
     }
     public static function getIndikatorKinerjaByID($IndikatorKinerjaID,$ta)
     {
-        $data = RpjmdIndikatorKinerjaModel::find($IndikatorKinerjaID);
+        $data = RPJMDIndikatorKinerjaModel::find($IndikatorKinerjaID);
         $data_indikator=null;
         if (!is_null($data) )  
         {   

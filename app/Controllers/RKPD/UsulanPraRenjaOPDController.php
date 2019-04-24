@@ -336,6 +336,7 @@ class UsulanPraRenjaOPDController extends Controller {
             $UsulanKecID = $request->input('UsulanKecID')==''?'none':$request->input('UsulanKecID');   
             $data=\App\Models\Musrenbang\AspirasiMusrenKecamatanModel::find($UsulanKecID);
 
+            $data_kegiatan['PmDesaID']=$data->PmDesaID;
             $data_kegiatan['Uraian']=$data->NamaKegiatan;
             $data_kegiatan['NilaiUsulan']=\App\Helpers\Helper::formatUang($data->NilaiUsulan);
             $data_kegiatan['Sasaran_Angka1']=\App\Helpers\Helper::formatAngka($data->Target_Angka);
@@ -374,7 +375,7 @@ class UsulanPraRenjaOPDController extends Controller {
         {
             $PokPirID = $request->input('PokPirID')==''?'none':$request->input('PokPirID');   
             $data=\App\Models\Pokir\PokokPikiranModel::find($PokPirID);
-
+            
             $data_kegiatan['Uraian']=$data->NamaUsulanKegiatan;
             $data_kegiatan['NilaiUsulan']=\App\Helpers\Helper::formatUang($data->NilaiUsulan);
             $data_kegiatan['Sasaran_Angka1']=\App\Helpers\Helper::formatAngka($data->Sasaran_Uraian);

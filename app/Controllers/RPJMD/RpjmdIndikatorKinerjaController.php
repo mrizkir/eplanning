@@ -4,9 +4,9 @@ namespace App\Controllers\RPJMD;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
-use App\Models\RPJMD\RpjmdIndikatorKinerjaModel;
+use App\Models\RPJMD\RPJMDIndikatorKinerjaModel;
 
-class RpjmdIndikatorKinerjaController extends Controller {
+class RPJMDIndikatorKinerjaController extends Controller {
      /**
      * Membuat sebuah objek
      *
@@ -43,14 +43,14 @@ class RpjmdIndikatorKinerjaController extends Controller {
             switch ($search['kriteria']) 
             {                
                 case 'NamaIndikator' :
-                    $data = RpjmdIndikatorKinerjaModel::where('NamaIndikator', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = RPJMDIndikatorKinerjaModel::where('NamaIndikator', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = RpjmdIndikatorKinerjaModel::where('TA_N',config('globalsettings.rpjmd_tahun_mulai'))
+            $data = RPJMDIndikatorKinerjaModel::where('TA_N',config('globalsettings.rpjmd_tahun_mulai'))
                                                 ->orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('rpjmdindikatorkinerja.index'));
@@ -221,7 +221,7 @@ class RpjmdIndikatorKinerjaController extends Controller {
             'replaceit'=>'required',
         ]);
         
-        $rpjmdindikatorkinerja = RpjmdIndikatorKinerjaModel::create([
+        $rpjmdindikatorkinerja = RPJMDIndikatorKinerjaModel::create([
             'replaceit' => $request->input('replaceit'),
         ]);        
         
@@ -249,7 +249,7 @@ class RpjmdIndikatorKinerjaController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = RpjmdIndikatorKinerjaModel::findOrFail($id);
+        $data = RPJMDIndikatorKinerjaModel::findOrFail($id);
         if (!is_null($data) )  
         {
             return view("pages.$theme.rpjmd.rpjmdindikatorkinerja.show")->with(['page_active'=>'rpjmdindikatorkinerja',
@@ -268,7 +268,7 @@ class RpjmdIndikatorKinerjaController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $data = RpjmdIndikatorKinerjaModel::findOrFail($id);
+        $data = RPJMDIndikatorKinerjaModel::findOrFail($id);
         if (!is_null($data) ) 
         {
             return view("pages.$theme.rpjmd.rpjmdindikatorkinerja.edit")->with(['page_active'=>'rpjmdindikatorkinerja',
@@ -286,7 +286,7 @@ class RpjmdIndikatorKinerjaController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $rpjmdindikatorkinerja = RpjmdIndikatorKinerjaModel::find($id);
+        $rpjmdindikatorkinerja = RPJMDIndikatorKinerjaModel::find($id);
         
         $this->validate($request, [
             'replaceit'=>'required',
@@ -318,7 +318,7 @@ class RpjmdIndikatorKinerjaController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $rpjmdindikatorkinerja = RpjmdIndikatorKinerjaModel::find($id);
+        $rpjmdindikatorkinerja = RPJMDIndikatorKinerjaModel::find($id);
         $result=$rpjmdindikatorkinerja->delete();
         if ($request->ajax()) 
         {

@@ -4,9 +4,9 @@ namespace App\Controllers\RPJMD;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
-use App\Models\RPJMD\RpjmdVisiModel;
+use App\Models\RPJMD\RPJMDVisiModel;
 
-class RpjmdVisiController extends Controller {
+class RPJMDVisiController extends Controller {
      /**
      * Membuat sebuah objek
      *
@@ -43,17 +43,17 @@ class RpjmdVisiController extends Controller {
             switch ($search['kriteria']) 
             {
                 case 'replaceit' :
-                    $data = RpjmdVisiModel::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                    $data = RPJMDVisiModel::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
                 case 'replaceit' :
-                    $data = RpjmdVisiModel::where('replaceit', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = RPJMDVisiModel::where('replaceit', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = RpjmdVisiModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data = RPJMDVisiModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('rpjmdvisi.index'));
         return $data;
@@ -223,7 +223,7 @@ class RpjmdVisiController extends Controller {
             'replaceit'=>'required',
         ]);
         
-        $rpjmdvisi = RpjmdVisiModel::create([
+        $rpjmdvisi = RPJMDVisiModel::create([
             'replaceit' => $request->input('replaceit'),
         ]);        
         
@@ -251,7 +251,7 @@ class RpjmdVisiController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = RpjmdVisiModel::findOrFail($id);
+        $data = RPJMDVisiModel::findOrFail($id);
         if (!is_null($data) )  
         {
             return view("pages.$theme.rpjmd.rpjmdvisi.show")->with(['page_active'=>'rpjmdvisi',
@@ -270,7 +270,7 @@ class RpjmdVisiController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $data = RpjmdVisiModel::findOrFail($id);
+        $data = RPJMDVisiModel::findOrFail($id);
         if (!is_null($data) ) 
         {
             return view("pages.$theme.rpjmd.rpjmdvisi.edit")->with(['page_active'=>'rpjmdvisi',
@@ -288,7 +288,7 @@ class RpjmdVisiController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $rpjmdvisi = RpjmdVisiModel::find($id);
+        $rpjmdvisi = RPJMDVisiModel::find($id);
         
         $this->validate($request, [
             'replaceit'=>'required',
@@ -320,7 +320,7 @@ class RpjmdVisiController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $rpjmdvisi = RpjmdVisiModel::find($id);
+        $rpjmdvisi = RPJMDVisiModel::find($id);
         $result=$rpjmdvisi->delete();
         if ($request->ajax()) 
         {

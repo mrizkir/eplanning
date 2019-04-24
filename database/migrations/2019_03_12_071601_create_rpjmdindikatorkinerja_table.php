@@ -15,7 +15,7 @@ class CreateRpjmdindikatorkinerjaTable extends Migration
     {
         Schema::create('trIndikatorKinerja', function (Blueprint $table) {
             $table->string('IndikatorKinerjaID',19);
-            $table->string('PrioritasKebijakanKabID',19)->nullabble();            
+            $table->string('PrioritasKebijakanKabID',19);            
             $table->string('UrsID',19); 
             $table->string('PrgID',19);
             $table->string('OrgID',19)->nullabble(); 
