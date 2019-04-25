@@ -169,6 +169,14 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/aspirasi/usulanprarenjaopd/store2',['uses'=>'RKPD\UsulanPraRenjaOPDController@store2','as'=>'usulanprarenjaopd.store2']);  
     Route::post('/aspirasi/usulanprarenjaopd/store3',['uses'=>'RKPD\UsulanPraRenjaOPDController@store3','as'=>'usulanprarenjaopd.store3']); 
     Route::post('/aspirasi/usulanprarenjaopd/store4',['uses'=>'RKPD\UsulanPraRenjaOPDController@store4','as'=>'usulanprarenjaopd.store4']); 
+    Route::get('/aspirasi/usulanprarenjaopd/{uuid}/edit1',['uses'=>'RKPD\UsulanPraRenjaOPDController@edit1','as'=>'usulanprarenjaopd.edit1']);              
+    Route::get('/aspirasi/usulanprarenjaopd/{uuid}/edit2',['uses'=>'RKPD\UsulanPraRenjaOPDController@edit2','as'=>'usulanprarenjaopd.edit2']);              
+    Route::get('/aspirasi/usulanprarenjaopd/{uuid}/edit3',['uses'=>'RKPD\UsulanPraRenjaOPDController@edit3','as'=>'usulanprarenjaopd.edit3']);              
+    Route::get('/aspirasi/usulanprarenjaopd/{uuid}/edit4',['uses'=>'RKPD\UsulanPraRenjaOPDController@edit4','as'=>'usulanprarenjaopd.edit4']);              
+    Route::put('/aspirasi/usulanprarenjaopd/update1/{uuid}',['uses'=>'RKPD\UsulanPraRenjaOPDController@update1','as'=>'usulanprarenjaopd.update1']);  
+    Route::put('/aspirasi/usulanprarenjaopd/update2/{uuid}',['uses'=>'RKPD\UsulanPraRenjaOPDController@update2','as'=>'usulanprarenjaopd.update2']);  
+    Route::put('/aspirasi/usulanprarenjaopd/update3/{uuid}',['uses'=>'RKPD\UsulanPraRenjaOPDController@update3','as'=>'usulanprarenjaopd.update3']); 
+    Route::put('/aspirasi/usulanprarenjaopd/update4/{uuid}',['uses'=>'RKPD\UsulanPraRenjaOPDController@update4','as'=>'usulanprarenjaopd.update4']); 
     Route::post('/aspirasi/usulanprarenjaopd/search',['uses'=>'RKPD\UsulanPraRenjaOPDController@search','as'=>'usulanprarenjaopd.search']);  
     Route::post('/aspirasi/usulanprarenjaopd/filter',['uses'=>'RKPD\UsulanPraRenjaOPDController@filter','as'=>'usulanprarenjaopd.filter']);                  
     Route::get('/aspirasi/usulanprarenjaopd/paginate/{id}',['uses'=>'RKPD\UsulanPraRenjaOPDController@paginate','as'=>'usulanprarenjaopd.paginate']);              

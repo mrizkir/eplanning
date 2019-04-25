@@ -84,7 +84,24 @@
                         </ul>
                     </td>
                     @else
-                    <td>{{$item->Uraian}}</td>
+                    <td>
+                        {{ucwords($item->Uraian)}}<br />
+                        <span class="label label-flat border-grey text-grey-600">                        
+                            @if ($item->isSKPD)
+                                <a href="#">
+                                    <strong>Usulan dari: </strong>OPD / SKPD
+                                </a> 
+                            @elseif($item->isReses)
+                                <a href="#">
+                                    <strong>Usulan dari: </strong>POKIR [{{$item->isReses_Uraian}}]
+                                </a>
+                            @else
+                                <a href="{{route('aspirasimusrenkecamatan.show',['id'=>$item->UsulanKecID])}}">
+                                    <strong>Usulan dari: MUSREN. KEC. {{$item->Nm_Kecamatan}}
+                                </a>
+                            @endif
+                        </span>
+                    </td>
                     <td>{{Helper::formatAngka($item->Sasaran_Angka1)}} {{$item->Sasaran_Uraian1}}</td>
                     <td>{{$item->Target1}}</td>
                     <td class="text-right">{{Helper::formatuang($item->Jumlah1)}}</td>
@@ -97,12 +114,22 @@
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('usulanprarenjaopd.edit',['id'=>$item->RenjaRinciID])}}" title="Ubah Data Usulan Pra Renja">
-                                    <i class='icon-pencil7'></i>
-                                </a>  
+                                @if ($item->isSKPD)
+                                    <a class="btnEdit" href="{{route('usulanprarenjaopd.edit4',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Pra Renja">
+                                        <i class='icon-pencil7'></i>
+                                    </a> 
+                                @elseif($item->isReses)
+                                    <a class="btnEdit" href="{{route('usulanprarenjaopd.edit3',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Pra Renja">
+                                        <i class='icon-pencil7'></i>
+                                    </a>
+                                @else
+                                    <a class="btnEdit" href="{{route('usulanprarenjaopd.edit2',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Pra Renja">
+                                        <i class='icon-pencil7'></i>
+                                    </a>
+                                @endif
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data Usulan Pra Renja" data-id="{{$item->RenjaRinciID}}" data-url="{{route('usulanprarenjaopd.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data Usulan Pra Renja" data-id="{{$item->RenjaRincID}}" data-url="{{route('usulanprarenjaopd.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>

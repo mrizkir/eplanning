@@ -62,6 +62,21 @@
                 <td>{{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}</td>
                 <td>
                     <ul class="icons-list">
+                        <li class="text-primary-600">
+                            @if ($item->isSKPD)
+                                <a class="btnEdit" href="{{route('usulanprarenjaopd.edit4',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Pra Renja">
+                                    <i class='icon-pencil7'></i>
+                                </a> 
+                            @elseif($item->isReses)
+                                <a class="btnEdit" href="{{route('usulanprarenjaopd.edit3',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Pra Renja">
+                                    <i class='icon-pencil7'></i>
+                                </a>
+                            @else
+                                <a class="btnEdit" href="{{route('usulanprarenjaopd.edit2',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Pra Renja">
+                                    <i class='icon-pencil7'></i>
+                                </a>
+                            @endif
+                        </li>
                         <li class="text-danger-600">
                             <a class="btnDelete" href="javascript:;" title="Hapus Data Idikator" data-id="{{$item->RenjaRincID}}" data-url="{{route('usulanprarenjaopd.index')}}">
                                 <i class='icon-trash'></i>

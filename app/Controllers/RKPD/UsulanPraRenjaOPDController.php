@@ -36,6 +36,7 @@ class UsulanPraRenjaOPDController extends Controller {
                                     ->leftJoin('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')
                                     ->where('trRenjaRinc.EntryLvl',0)
                                     ->where('RenjaID',$RenjaID)
+                                    ->orderBy('Prioritas','ASC')
                                     ->get(['trRenjaRinc.RenjaRincID','trRenjaRinc.RenjaID','trRenjaRinc.RenjaID','trRenjaRinc.UsulanKecID','Nm_Kecamatan','trRenjaRinc.Uraian','trRenjaRinc.No','trRenjaRinc.Sasaran_Angka1','trRenjaRinc.Sasaran_Uraian1','trRenjaRinc.Target1','trRenjaRinc.Jumlah1','trRenjaRinc.Prioritas','isSKPD','isReses','isReses_Uraian']);
         
         return $data;
@@ -86,22 +87,19 @@ class UsulanPraRenjaOPDController extends Controller {
             switch ($search['kriteria']) 
             {
                 case 'kode_kegiatan' :
-                    $data = UsulanPraRenjaOPDModel::where(['kode_kegiatan'=>$search['isikriteria']])
-                                                    ->where('EntryLvl',0)
+                    $data = UsulanPraRenjaOPDModel::where(['kode_kegiatan'=>$search['isikriteria']])                                                    
                                                     ->where('SOrgID',$SOrgID)
                                                     ->where('TA', config('globalsettings.tahun_perencanaan'))
                                                     ->orderBy($column_order,$direction); 
                 break;
                 case 'KgtNm' :
-                    $data = UsulanPraRenjaOPDModel::where('KgtNm', 'like', '%' . $search['isikriteria'] . '%')
-                                                    ->where('EntryLvl',0)
+                    $data = UsulanPraRenjaOPDModel::where('KgtNm', 'like', '%' . $search['isikriteria'] . '%')                                                    
                                                     ->where('SOrgID',$SOrgID)
                                                     ->where('TA', config('globalsettings.tahun_perencanaan'))
                                                     ->orderBy($column_order,$direction);                                        
                 break;
                 case 'Uraian' :
-                    $data = UsulanPraRenjaOPDModel::where('Uraian', 'like', '%' . $search['isikriteria'] . '%')
-                                                    ->where('EntryLvl',0)
+                    $data = UsulanPraRenjaOPDModel::where('Uraian', 'like', '%' . $search['isikriteria'] . '%')                                                    
                                                     ->where('SOrgID',$SOrgID)
                                                     ->where('TA', config('globalsettings.tahun_perencanaan'))
                                                     ->orderBy($column_order,$direction);                                        
@@ -111,8 +109,7 @@ class UsulanPraRenjaOPDController extends Controller {
         }
         else
         {
-            $data = UsulanPraRenjaOPDModel::where('SOrgID',$SOrgID)
-                                            ->where('EntryLvl',0)
+            $data = UsulanPraRenjaOPDModel::where('SOrgID',$SOrgID)                                            
                                             ->where('TA', config('globalsettings.tahun_perencanaan'))                                            
                                             ->orderBy($column_order,$direction)
                                             ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);             
@@ -403,12 +400,12 @@ class UsulanPraRenjaOPDController extends Controller {
     {            
         $auth = \Auth::user();    
         $theme = $auth->theme;
-       
-        $filters=$this->getControllerStateSession('usulanprarenjaopd','filters'); 
+
+        $filters=$this->getControllerStateSession('usulanprarenjaopd','filters');
         $roles=$auth->getRoleNames();        
         switch ($roles[0])
         {
-            case 'superadmin' :
+            case 'superadmin' :                 
                 $daftar_opd=OrganisasiModel::getDaftarOPD(config('globalsettings.tahun_perencanaan'),false);  
                 $daftar_unitkerja=array();           
                 if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
@@ -422,12 +419,13 @@ class UsulanPraRenjaOPDController extends Controller {
                 if (empty($auth->SOrgID)) 
                 {
                     $daftar_unitkerja=SubOrganisasiModel::getDaftarUnitKerja(config('globalsettings.tahun_perencanaan'),false,$auth->OrgID);  
+                    $filters['SOrgID']=empty($filters['SOrgID'])?'':$filters['SOrgID'];                    
                 }   
                 else
                 {
                     $daftar_unitkerja=SubOrganisasiModel::getDaftarUnitKerja(config('globalsettings.tahun_perencanaan'),false,$auth->OrgID,$auth->SOrgID);
                     $filters['SOrgID']=$auth->SOrgID;
-                }
+                }                
                 $this->putControllerStateSession('usulanprarenjaopd','filters',$filters);
             break;
         }
@@ -766,7 +764,7 @@ class UsulanPraRenjaOPDController extends Controller {
             'Target_Angka' => $request->input('Target_Angka'),
             'Target_Uraian' => $request->input('Target_Uraian'),                       
             'Tahun' => (config('globalsettings.tahun_perencanaan')-config('globalsettings.rpjmd_tahun_mulai'))+1,                       
-            'Descr' => '-',
+            'Descr' => $request->input('Descr'),
             'TA' => config('globalsettings.tahun_perencanaan')
         ];
 
@@ -818,7 +816,7 @@ class UsulanPraRenjaOPDController extends Controller {
             'Jumlah1' => $request->input('Jumlah1'),                       
             'Prioritas' => $request->input('Prioritas'),              
             'Status' => 0,                                         
-            'Descr' => '-',
+            'Descr' => $request->input('Descr'),
             'TA' => config('globalsettings.tahun_perencanaan')
         ]);
         if ($request->ajax()) 
@@ -877,7 +875,7 @@ class UsulanPraRenjaOPDController extends Controller {
             'isReses' => true,     
             'isReses_Uraian' => $pokok_pikiran->Kd_PK,
             'Status' => 0,                                         
-            'Descr' => '-',
+            'Descr' => $request->input('Descr'),
             'TA' => config('globalsettings.tahun_perencanaan')
         ]);
 
@@ -928,7 +926,7 @@ class UsulanPraRenjaOPDController extends Controller {
             'Prioritas' => $request->input('Prioritas'),  
             'isSKPD' => true,     
             'Status' => 0,                                         
-            'Descr' => '-',
+            'Descr' => $request->input('Descr'),
             'TA' => config('globalsettings.tahun_perencanaan')
         ]);
         if ($request->ajax()) 
@@ -979,17 +977,118 @@ class UsulanPraRenjaOPDController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $data = UsulanPraRenjaOPDModel::findOrFail($id);        
+        $data = RenjaModel::findOrFail($id);        
         if (!is_null($data) ) 
         {
             $sumber_dana = SumberDanaModel::getDaftarSumberDana(config('globalsettings.tahun_perencanaan'),false);     
             return view("pages.$theme.rkpd.usulanprarenjaopd.edit")->with(['page_active'=>'usulanprarenjaopd',
-                                                    'data'=>$data,
-                                                    'sumber_dana'=>$sumber_dana
-                                                    ]);
+                                                                            'data'=>$data,
+                                                                            'sumber_dana'=>$sumber_dana
+                                                                            ]);
         }        
     }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit2($id)
+    {
+        $theme = \Auth::user()->theme;
 
+        $auth=\Auth::user();
+        $theme = $auth->theme;
+        $roles = $auth->getRoleNames();        
+        switch ($roles[0])
+        {
+            case 'superadmin' :
+                $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID","trRenjaRinc"."RenjaID","trRenjaRinc"."No","trRenjaRinc"."No","trRenjaRinc"."Uraian","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Uraian1","trRenjaRinc"."Target1","trRenjaRinc"."Jumlah1","trRenjaRinc"."Prioritas","trRenjaRinc"."Descr","trRenjaRinc"."isSKPD","trRenjaRinc"."isReses"'))                                            
+                                            ->findOrFail($id);        
+            break;
+        //     case 'opd' :
+        //         $OrgID = $auth->OrgID;
+        //         $SOrgID = empty($auth->SOrgID)? $SOrgID= $this->getControllerStateSession('usulanprarenjaopd.filters','SOrgID'):$auth->SOrgID;
+        //         $renja = empty($SOrgID)?RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID","trRenjaRinc"."RenjaID","trRenjaRinc"."No","tmPemilikPokok"."Kd_PK","tmPemilikPokok"."NmPk","trPokPir"."NamaUsulanKegiatan","trRenjaRinc"."No","trRenjaRinc"."Uraian","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Uraian1","trRenjaRinc"."Target1","trRenjaRinc"."Jumlah1","trRenjaRinc"."Prioritas","trRenjaRinc"."Descr","trRenjaRinc"."isSKPD","trRenjaRinc"."isReses"'))                                            
+        //                                                 ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')
+        //                                                 ->join('trPokPir','trPokPir.PokPirID','trRenjaRinc.PokPirID')
+        //                                                 ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')                                                        
+        //                                                 ->where('trRenja.SOrgID',$SOrgID)->findOrFail($id)
+        //                              :RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",trRenjaRinc"."RenjaID","trRenjaRinc"."No","tmPemilikPokok"."Kd_PK","tmPemilikPokok"."NmPk","trPokPir"."NamaUsulanKegiatan","trRenjaRinc"."No","trRenjaRinc"."Uraian","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Uraian1","trRenjaRinc"."Target1","trRenjaRinc"."Jumlah1","trRenjaRinc"."Prioritas","trRenjaRinc"."Descr","trRenjaRinc"."isSKPD","trRenjaRinc"."isReses"'))                                            
+        //                                                 ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')
+        //                                                 ->join('trPokPir','trPokPir.PokPirID','trRenjaRinc.PokPirID')
+        //                                                 ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')                                                        
+        //                                                 ->where('trRenja.OrgID',$OrgID)
+        //                                                 ->findOrFail($id);        
+        //     break;
+        }
+        if (!is_null($renja) ) 
+        {   
+            // dd($renja);
+            $datarinciankegiatan = $this->populateRincianKegiatan($renja->RenjaID);
+
+            return view("pages.$theme.rkpd.usulanprarenjaopd.edit2")->with(['page_active'=>'usulanprarenjaopd',
+                                                                            'renja'=>$renja,
+                                                                            'datarinciankegiatan'=>$datarinciankegiatan
+                                                                            ]);
+        }     
+        
+    }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit3($id)
+    {   
+        $auth=\Auth::user();
+        $theme = $auth->theme;
+        $roles = $auth->getRoleNames();        
+        switch ($roles[0])
+        {
+            case 'superadmin' :
+                $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID","trRenjaRinc"."RenjaID","trRenjaRinc"."No","tmPemilikPokok"."Kd_PK","tmPemilikPokok"."NmPk","trPokPir"."NamaUsulanKegiatan","trRenjaRinc"."No","trRenjaRinc"."Uraian","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Uraian1","trRenjaRinc"."Target1","trRenjaRinc"."Jumlah1","trRenjaRinc"."Prioritas","trRenjaRinc"."Descr","trRenjaRinc"."isSKPD","trRenjaRinc"."isReses"'))                                            
+                                            ->join('trPokPir','trPokPir.PokPirID','trRenjaRinc.PokPirID')
+                                            ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')                                                        
+                                            ->findOrFail($id);        
+            break;
+            case 'opd' :
+                $OrgID = $auth->OrgID;
+                $SOrgID = empty($auth->SOrgID)? $SOrgID= $this->getControllerStateSession('usulanprarenjaopd.filters','SOrgID'):$auth->SOrgID;
+                $renja = empty($SOrgID)?RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID","trRenjaRinc"."RenjaID","trRenjaRinc"."No","tmPemilikPokok"."Kd_PK","tmPemilikPokok"."NmPk","trPokPir"."NamaUsulanKegiatan","trRenjaRinc"."No","trRenjaRinc"."Uraian","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Uraian1","trRenjaRinc"."Target1","trRenjaRinc"."Jumlah1","trRenjaRinc"."Prioritas","trRenjaRinc"."Descr","trRenjaRinc"."isSKPD","trRenjaRinc"."isReses"'))                                            
+                                                        ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')
+                                                        ->join('trPokPir','trPokPir.PokPirID','trRenjaRinc.PokPirID')
+                                                        ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')                                                        
+                                                        ->where('trRenja.SOrgID',$SOrgID)->findOrFail($id)
+                                     :RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",trRenjaRinc"."RenjaID","trRenjaRinc"."No","tmPemilikPokok"."Kd_PK","tmPemilikPokok"."NmPk","trPokPir"."NamaUsulanKegiatan","trRenjaRinc"."No","trRenjaRinc"."Uraian","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Uraian1","trRenjaRinc"."Target1","trRenjaRinc"."Jumlah1","trRenjaRinc"."Prioritas","trRenjaRinc"."Descr","trRenjaRinc"."isSKPD","trRenjaRinc"."isReses"'))                                            
+                                                        ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')
+                                                        ->join('trPokPir','trPokPir.PokPirID','trRenjaRinc.PokPirID')
+                                                        ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')                                                        
+                                                        ->where('trRenja.OrgID',$OrgID)
+                                                        ->findOrFail($id);        
+            break;
+        }        
+        if (!is_null($renja) ) 
+        {               
+            $datarinciankegiatan = $this->populateRincianKegiatan($renja->RenjaID);
+
+            return view("pages.$theme.rkpd.usulanprarenjaopd.edit3")->with(['page_active'=>'usulanprarenjaopd',
+                                                                            'renja'=>$renja,
+                                                                            'datarinciankegiatan'=>$datarinciankegiatan
+                                                                            ]);
+        }        
+    }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit4($id)
+    {   
+
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -1020,8 +1119,46 @@ class UsulanPraRenjaOPDController extends Controller {
             return redirect(route('usulanprarenjaopd.show',['id'=>$usulanprarenjaopd->replaceit]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
-
-     /**
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update3(Request $request, $id)
+    {
+        $rinciankegiatan = RenjaRincianModel::find($id);        
+        $this->validate($request, [
+            'No'=>'required',
+            'Uraian'=>'required',
+            'Sasaran_Angka1'=>'required',
+            'Sasaran_Uraian1'=>'required',
+            'Target1'=>'required',
+            'Jumlah1'=>'required',
+            'Prioritas' => 'required'            
+        ]);
+        
+        $rinciankegiatan->Uraian = $request->input('Uraian');
+        $rinciankegiatan->Sasaran_Angka1 = $request->input('Sasaran_Angka1'); 
+        $rinciankegiatan->Sasaran_Uraian1 = $request->input('Sasaran_Uraian1');
+        $rinciankegiatan->Target1 = $request->input('Target1');
+        $rinciankegiatan->Jumlah1 = $request->input('Jumlah1');  
+        $rinciankegiatan->Prioritas = $request->input('Prioritas');  
+        $rinciankegiatan->Descr = $request->input('Descr');
+        $rinciankegiatan->save();
+        if ($request->ajax()) 
+        {
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data ini telah berhasil disimpan.'
+            ]);
+        }
+        else
+        {
+            return redirect(route('usulanprarenjaopd.show',['id'=>$rinciankegiatan->RenjaID]))->with('success','Data Rincian kegiatan telah berhasil disimpan.');
+        } 
+    }
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id

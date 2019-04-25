@@ -17,6 +17,16 @@ class CreateVUsulanPraRenjaOPDView extends Migration
             SELECT 
                 A."RenjaID",
                 B."RenjaRincID",
+                B."UsulanKecID",
+                B."PMProvID",
+                I."Nm_Prov",
+                B."PmKotaID",
+                J."Nm_Kota",
+                B."PmKecamatanID",
+                K."Nm_Kecamatan",
+                B."PmDesaID",
+                L."Nm_Desa",
+                B."PokPirID",
                 H."Kd_Urusan",
                 H."Nm_Urusan",
                 G."Kd_Bidang",
@@ -41,7 +51,9 @@ class CreateVUsulanPraRenjaOPDView extends Migration
                     \'ACC\'
                 END AS Status,
                 B."Privilege",
-                A."EntryLvl",
+                B."isReses",
+                B."isReses_Uraian",
+                B."isSKPD",
                 A."TA"
             FROM "trRenja" A
                 INNER JOIN "trRenjaRinc" B ON A."RenjaID"=B."RenjaID" AND A."TA"=B."TA"
@@ -51,6 +63,10 @@ class CreateVUsulanPraRenjaOPDView extends Migration
                 INNER JOIN "tmPrg" F ON E."PrgID"=F."PrgID" AND E."TA"=F."TA"
                 INNER JOIN "tmUrs" G ON C."UrsID"=G."UrsID" AND A."TA"=G."TA"
 	            INNER JOIN "tmKUrs" H ON G."KUrsID"=H."KUrsID" AND G."TA"=H."TA"
+                LEFT JOIN "tmPMProv" I ON B."PMProvID"=I."PMProvID" AND B."TA"=I."TA"
+                LEFT JOIN "tmPmKota" J ON B."PmKotaID"=J."PmKotaID" AND B."TA"=J."TA"                
+                LEFT JOIN "tmPmKecamatan" K ON B."PmKecamatanID"=K."PmKecamatanID" AND B."TA"=K."TA"
+                LEFT JOIN "tmPmDesa" L ON B."PmDesaID"=L."PmDesaID" AND B."TA"=L."TA"
             WHERE
                 A."EntryLvl"=\'0\'
         ');				
