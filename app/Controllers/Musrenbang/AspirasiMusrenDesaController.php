@@ -48,7 +48,8 @@ class AspirasiMusrenDesaController extends Controller {
                     $data = AspirasiMusrenDesaModel::join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanDesa.PmDesaID')
                                                     ->join('tmPmKecamatan','tmPmDesa.PmKecamatanID','tmPmKecamatan.PmKecamatanID')
                                                     ->where('trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
-                                                    ->where(['No_usulan'=>(int)$search['isikriteria']])->orderBy($column_order,$direction)
+                                                    ->where(['No_usulan'=>(int)$search['isikriteria']])
+                                                    ->orderBy('Prioritas','ASC')
                                                     ->orderBy($column_order,$direction);
                 break;
                 case 'NamaKegiatan' :
@@ -56,6 +57,7 @@ class AspirasiMusrenDesaController extends Controller {
                                                     ->join('tmPmKecamatan','tmPmDesa.PmKecamatanID','tmPmKecamatan.PmKecamatanID')
                                                     ->where('trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
                                                     ->where('NamaKegiatan', 'like', '%' . $search['isikriteria'] . '%')
+                                                    ->orderBy('Prioritas','ASC')                                        
                                                     ->orderBy($column_order,$direction);                                        
                 break;
             }           
@@ -66,7 +68,8 @@ class AspirasiMusrenDesaController extends Controller {
             $data = AspirasiMusrenDesaModel::join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanDesa.PmDesaID')
                                             ->join('tmPmKecamatan','tmPmDesa.PmKecamatanID','tmPmKecamatan.PmKecamatanID')
                                             ->where('trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
-                                            ->orderBy($column_order,$direction)
+                                            ->orderBy('Prioritas','ASC')
+                                            ->orderBy($column_order,$direction)                                            
                                             ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('aspirasimusrendesa.index'));

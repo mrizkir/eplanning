@@ -56,7 +56,10 @@ function paginateTableData (selector,href)
                     $('.select').select2({
                         allowClear:true
                     });
-                }  
+                };
+                if ($(selector + ' *').hasClass('switch')) {
+                    $(".switch").bootstrapSwitch();
+                } 
             },
             error:function(xhr, status, error)
             {
@@ -79,13 +82,16 @@ function paginateTableData (selector,href)
          },
          success:function(result)
          {          
-             $(selector).html(result.datatable);    
-             if ($(selector + ' *').hasClass('select')) {
-                 //styling select
-                 $('.select').select2({
-                     allowClear:true
-                 });
-             }                              
+            $(selector).html(result.datatable);    
+            if ($(selector + ' *').hasClass('select')) {
+                //styling select
+                $('.select').select2({
+                    allowClear:true
+                });
+            }        
+            if ($(selector + ' *').hasClass('switch')) {
+                $(".switch").bootstrapSwitch();                
+            }                       
          },
          error:function(xhr, status, error)
          {
@@ -117,6 +123,9 @@ function paginateTableData (selector,href)
                     allowClear:true
                 });
             }           
+            if ($(selector + ' *').hasClass('switch')) {
+                $(".switch").bootstrapSwitch();                
+            } 
         },
         error:function(xhr, status, error)
         {

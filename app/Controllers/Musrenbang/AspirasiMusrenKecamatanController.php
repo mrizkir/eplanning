@@ -63,6 +63,7 @@ class AspirasiMusrenKecamatanController extends Controller {
                                                         ->leftJoin('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trUsulanKec.PmKecamatanID')
                                                         ->where('trUsulanKec.TA', config('globalsettings.tahun_perencanaan'))
                                                         ->where(['No_usulan'=>(int)$search['isikriteria']])
+                                                        ->orderBy('Prioritas','ASC')
                                                         ->orderBy($column_order,$direction); 
                 break;
                 case 'NamaKegiatan' :
@@ -70,6 +71,7 @@ class AspirasiMusrenKecamatanController extends Controller {
                                                         ->leftJoin('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trUsulanKec.PmKecamatanID')
                                                         ->where('trUsulanKec.TA', config('globalsettings.tahun_perencanaan'))
                                                         ->where('NamaKegiatan', 'like', '%' . $search['isikriteria'] . '%')
+                                                        ->orderBy('Prioritas','ASC')
                                                         ->orderBy($column_order,$direction);                                        
                 break;
             }           
@@ -80,6 +82,7 @@ class AspirasiMusrenKecamatanController extends Controller {
             $data = AspirasiMusrenKecamatanModel::leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trUsulanKec.PmDesaID')
                                                 ->leftJoin('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trUsulanKec.PmKecamatanID')
                                                 ->where('trUsulanKec.TA', config('globalsettings.tahun_perencanaan'))
+                                                ->orderBy('Prioritas','ASC')
                                                 ->orderBy("$column_order",$direction)
                                                 ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
                                                 
@@ -393,6 +396,7 @@ class AspirasiMusrenKecamatanController extends Controller {
                                                     ->where(['trUsulanDesa.No_usulan'=>(int)$search['isikriteria']])
                                                     ->where('trUsulanDesa.Privilege',1)
                                                     ->whereNull('trUsulanKec.UsulanDesaID')
+                                                    ->orderBy('Prioritas','ASC')
                                                     ->orderBy("trUsulanDesa.NamaKegiatan",$direction);
                 break;
                 case 'NamaKegiatan' :
@@ -402,6 +406,7 @@ class AspirasiMusrenKecamatanController extends Controller {
                                                     ->where('trUsulanDesa.NamaKegiatan', 'like', '%' . $search['isikriteria'] . '%')
                                                     ->where('trUsulanDesa.Privilege',1)
                                                     ->whereNull('trUsulanKec.UsulanDesaID')
+                                                    ->orderBy('Prioritas','ASC')
                                                     ->orderBy("trUsulanDesa.NamaKegiatan",$direction);
             break;
             }           
@@ -414,6 +419,7 @@ class AspirasiMusrenKecamatanController extends Controller {
                                             ->where('trUsulanDesa.PmDesaID',$filter_desa)
                                             ->where('trUsulanDesa.Privilege',1)
                                             ->whereNull('trUsulanKec.UsulanDesaID')
+                                            ->orderBy('Prioritas','ASC')
                                             ->orderBy("trUsulanDesa.NamaKegiatan",$direction)
                                             ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
@@ -523,7 +529,7 @@ class AspirasiMusrenKecamatanController extends Controller {
         }
         else
         {
-            return redirect(route('aspirasimusrenkecamatan.index'))->with('success','Data ini usulan kegiatan Musrenbang Desa telah berhasil disimpan.');
+            return redirect(route('aspirasimusrenkecamatan.show',['id'=>$aspirasimusrenkecamatan->UsulanKecID]))->with('success','Data ini usulan kegiatan Musrenbang Desa telah berhasil disimpan.');
         }
     }
     /**
@@ -578,7 +584,7 @@ class AspirasiMusrenKecamatanController extends Controller {
         }
         else
         {
-            return redirect(route('aspirasimusrenkecamatan.index'))->with('success','Data ini usulan kegiatan Musrenbang Desa telah berhasil disimpan.');
+            return redirect(route('aspirasimusrenkecamatan.show',['id'=>$aspirasimusrenkecamatan->UsulanKecID]))->with('success','Data ini usulan kegiatan Musrenbang Desa telah berhasil disimpan.');
         }
 
     }

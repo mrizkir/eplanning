@@ -40,7 +40,7 @@
                     <th width="100">                        
                         PRIORITAS                     
                     </th>
-                    <th width="100">DI ACC ?</th>
+                    <th width="100">AKSI</th>
                 </tr>
             </thead>
             <tbody>                    
@@ -61,7 +61,7 @@
                     </td>
                     <td>
                         <div class="checkbox checkbox-switch">
-                            {{Form::checkbox('Privilege[]',$item->UsulanDesaID,$item->Privilege==1?$item->Privilege:'',['class'=>'switch','data-on-text'=>'YA','data-off-text'=>'TIDAK'])}}                                     
+                            {{Form::checkbox('Privilege[]',$item->UsulanDesaID,$item->Privilege==1?$item->Privilege:'',['class'=>'switch','data-on-text'=>'ACC','data-off-text'=>'DUM'])}}                                     
                         </div>
                     </td>
                 </tr>

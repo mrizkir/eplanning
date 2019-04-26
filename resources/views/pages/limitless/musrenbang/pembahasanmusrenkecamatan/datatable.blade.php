@@ -20,7 +20,12 @@
                         <a class="column-sort text-white" id="col-No_usulan" data-order="{{$direction}}" href="#">
                             KODE  
                         </a>                                             
-                    </th>                     
+                    </th>         
+                    <th width="200">
+                        <a class="column-sort text-white" id="col-Nm_Desa" data-order="{{$direction}}" href="#">
+                            NAMA DESA  
+                        </a>                                             
+                    </th>             
                     <th>
                         <a class="column-sort text-white" id="col-NamaKegiatan" data-order="{{$direction}}" href="#">
                             NAMA KEGIATAN  
@@ -39,14 +44,15 @@
                     </th> 
                     <th width="100">                        
                         PRIORITAS                     
-                    </th>
-                    <th width="100">DI ACC ?</th>
+                    </th>                    
+                    <th width="100">AKSI</th>
                 </tr>
             </thead>
             <tbody>                    
             @foreach ($data as $key=>$item)
                 <tr>                  
-                    <td>{{$item->No_usulan}}</td>
+                    <td>{{$item->No_usulan}}</td>                    
+                    <td>{{$item->Nm_Desa}}</td>
                     <td>
                         {{$item->NamaKegiatan}}<br />
                         <span class="label label-flat border-primary text-primary-600">{{$item->Jeniskeg == 1 ? 'FISIK' : 'NON-FISIK'}}</span>
@@ -61,7 +67,7 @@
                     </td>
                     <td>
                         <div class="checkbox checkbox-switch">
-                            {{Form::checkbox('Privilege[]',$item->UsulanKecID,$item->Privilege==1?$item->Privilege:'',['class'=>'switch','data-on-text'=>'YA','data-off-text'=>'TIDAK'])}}                                     
+                            {{Form::checkbox('Privilege[]',$item->UsulanKecID,$item->Privilege==1?$item->Privilege:'',['class'=>'switch','data-on-text'=>'ACC','data-off-text'=>'DUM'])}}                                     
                         </div>
                     </td>
                 </tr>

@@ -58,6 +58,7 @@ class PembahasanMusrenDesaController extends Controller {
                                                     ->where('trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
                                                     ->where('trUsulanDesa.PmDesaID',$filter_desa)
                                                     ->where(['trUsulanDesa.No_usulan'=>(int)$search['isikriteria']])
+                                                    ->orderBy('Prioritas','ASC')
                                                     ->orderBy($column_order,$direction);
                 break;
                 case 'NamaKegiatan' :
@@ -66,6 +67,7 @@ class PembahasanMusrenDesaController extends Controller {
                                                     ->where('trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
                                                     ->where('trUsulanDesa.PmDesaID',$filter_desa)
                                                     ->where('trUsulanDesa.NamaKegiatan', 'like', '%' . $search['isikriteria'] . '%')
+                                                    ->orderBy('Prioritas','ASC')
                                                     ->orderBy($column_order,$direction);                                        
             break;
             }           
@@ -76,8 +78,9 @@ class PembahasanMusrenDesaController extends Controller {
             $data = AspirasiMusrenDesaModel::join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanDesa.PmDesaID')
                                             ->join('tmPmKecamatan','tmPmDesa.PmKecamatanID','tmPmKecamatan.PmKecamatanID')
                                             ->where('trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
-                                            ->where('trUsulanDesa.PmDesaID',$filter_desa)
-                                            ->orderBy($column_order,$direction)
+                                            ->where('trUsulanDesa.PmDesaID',$filter_desa)                                            
+                                            ->orderBy('Prioritas','ASC')
+                                            ->orderBy($column_order,$direction)                                            
                                             ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('pembahasanmusrendesa.index'));                             

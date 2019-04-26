@@ -28,7 +28,25 @@ class RolesTableSeeder extends Seeder
                 'guard_name'=>'web',
                 'created_at'=>Carbon::now(),
                 'updated_at'=>Carbon::now()
-            ]   
+            ],    
+            [
+                'name'=>'dewan',
+                'guard_name'=>'web',
+                'created_at'=>Carbon::now(),
+                'updated_at'=>Carbon::now()
+            ],    
+            [
+                'name'=>'desa',
+                'guard_name'=>'web',
+                'created_at'=>Carbon::now(),
+                'updated_at'=>Carbon::now()
+            ],    
+            [
+                'name'=>'desa',
+                'guard_name'=>'kecamatan',
+                'created_at'=>Carbon::now(),
+                'updated_at'=>Carbon::now()
+            ]  
         ]);
     }
 }

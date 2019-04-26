@@ -25,7 +25,7 @@ class PembahasanMusrenKecamatanController extends Controller {
      */
     public function populateData ($currentpage=1) 
     {        
-        $columns=['UsulanKecID','No_usulan','NamaKegiatan','Output','NilaiUsulan','Target_Angka','Target_Uraian','Jeniskeg','Prioritas','Bobot','Privilege'];          
+        $columns=['UsulanKecID','Nm_Desa','No_usulan','NamaKegiatan','Output','NilaiUsulan','Target_Angka','Target_Uraian','Jeniskeg','Prioritas','Bobot','Privilege'];          
         if (!$this->checkStateIsExistSession('pembahasanmusrenkecamatan','orderby')) 
         {            
            $this->putControllerStateSession('pembahasanmusrenkecamatan','orderby',['column_name'=>'tmPmKecamatan.Nm_Kecamatan','order'=>'asc']);
@@ -53,18 +53,20 @@ class PembahasanMusrenKecamatanController extends Controller {
             switch ($search['kriteria']) 
             {
                 case 'No_usulan' :
-                    $data = AspirasiMusrenKecamatanModel::leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trUsulanKec.PmDesaID')
-                                                        ->leftJoin('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trUsulanKec.PmKecamatanID')
+                    $data = AspirasiMusrenKecamatanModel::join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trUsulanKec.PmKecamatanID')
+                                                        ->leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trUsulanKec.PmDesaID')
                                                         ->where('trUsulanKec.TA', config('globalsettings.tahun_perencanaan'))
                                                         ->where(['No_usulan'=>(int)$search['isikriteria']])
                                                         ->where('trUsulanKec.PmKecamatanID',$PmKecamatanID)
+                                                        ->orderBy('Prioritas','ASC')
                                                         ->orderBy($column_order,$direction); 
                 break;
                 case 'NamaKegiatan' :
-                    $data = AspirasiMusrenKecamatanModel::leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trUsulanKec.PmDesaID')
-                                                        ->leftJoin('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trUsulanKec.PmKecamatanID')
+                    $data = AspirasiMusrenKecamatanModel::join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trUsulanKec.PmKecamatanID')
+                                                        ->leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trUsulanKec.PmDesaID')
                                                         ->where('trUsulanKec.TA', config('globalsettings.tahun_perencanaan'))
                                                         ->where('NamaKegiatan', 'like', '%' . $search['isikriteria'] . '%')
+                                                        ->orderBy('Prioritas','ASC')
                                                         ->where('trUsulanKec.PmKecamatanID',$PmKecamatanID)
                                                         ->orderBy($column_order,$direction);                                        
                 break;
@@ -73,10 +75,11 @@ class PembahasanMusrenKecamatanController extends Controller {
         }
         else
         {
-            $data = AspirasiMusrenKecamatanModel::leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trUsulanKec.PmDesaID')
-                                                ->leftJoin('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trUsulanKec.PmKecamatanID')
+            $data = AspirasiMusrenKecamatanModel::join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trUsulanKec.PmKecamatanID')
+                                                ->leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trUsulanKec.PmDesaID')                                                
                                                 ->where('trUsulanKec.TA', config('globalsettings.tahun_perencanaan'))
                                                 ->where('trUsulanKec.PmKecamatanID',$PmKecamatanID)
+                                                ->orderBy('Prioritas','ASC')
                                                 ->orderBy("$column_order",$direction)
                                                 ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
@@ -133,7 +136,10 @@ class PembahasanMusrenKecamatanController extends Controller {
             break;
             case 'col-NilaiUsulan' :
                 $column_name = 'NilaiUsulan';
-            break;        
+            break;      
+            case 'col-Nm_Desa' :
+                $column_name = 'Nm_Desa';
+            break;  
             default :
                 $column_name = 'No_usulan';
         }
