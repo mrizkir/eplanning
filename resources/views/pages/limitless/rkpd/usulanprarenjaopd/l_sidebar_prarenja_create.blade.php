@@ -9,6 +9,11 @@
             </div>
             <div class="category-content no-padding"> 
                 <ul class="navigation navigation-main navigation-accordion">
+                    <li>
+                        <a href="{{route('usulanprarenjaopd.show',['id'=>$renja->RenjaID])}}">
+                            <i class="icon-info3"></i><span>DETAIL USULAN KEGIATAN</span>
+                        </a>
+                    </li> 
                     <li{!!Request::route()->getName()=='usulanprarenjaopd.create1' ? ' class="active"':""!!}>
                         <a href="{{route('usulanprarenjaopd.create1',['id'=>$renja->RenjaID])}}">
                             <i class="icon-info3"></i><span>INDIKATOR KEGIATAN</span>

@@ -20,7 +20,7 @@
         <table id="data" class="table table-striped table-hover">
             <thead>
                 <tr class="bg-teal-700">
-                    <th width="55">NO</th>     
+                    <th width="50">NO</th>     
                     <th width="150">
                         <a class="column-sort text-white" id="col-kode_kegiatan" data-order="{{$direction}}" href="#">
                             KODE KEGIATAN                                                                       
@@ -49,12 +49,15 @@
                             NILAI  
                         </a>                                             
                     </th> 
+                    <th width="120">                        
+                        PRIORITAS                          
+                    </th>
                     <th width="80">
-                        <a class="column-sort text-white" id="col-Status" data-order="{{$direction}}" href="#">
+                        <a class="column-sort text-white" id="col-status" data-order="{{$direction}}" href="#">
                             STATUS  
                         </a>                                             
                     </th> 
-                    <th width="120">AKSI</th>
+                    <th width="150">AKSI</th>
                 </tr>
             </thead>
             <tbody>                    
@@ -105,7 +108,8 @@
                     <td>{{Helper::formatAngka($item->Sasaran_Angka1)}} {{$item->Sasaran_Uraian1}}</td>
                     <td>{{$item->Target1}}</td>
                     <td class="text-right">{{Helper::formatuang($item->Jumlah1)}}</td>
-                    <td>{{$item->Status}}</td>
+                    <td>{{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}</td>
+                    <td>{{$item->status}}</td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">

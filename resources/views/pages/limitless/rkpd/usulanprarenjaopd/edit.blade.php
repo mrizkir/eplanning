@@ -34,7 +34,7 @@
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>['RKPD\UsulanPraRenjaOPDController@update',$data->usulanprarenjaopd_id],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
+            {!! Form::open(['action'=>['RKPD\UsulanPraRenjaOPDController@update',$renja->RenjaID],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
                 {{Form::hidden('_method','PUT')}}
                 <div class="form-group">
                     <label class="col-md-2 control-label">POSISI ENTRI: </label>
@@ -47,19 +47,19 @@
                 <div class="form-group">
                     {{Form::label('UrsID','NAMA URUSAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        <p class="form-control-static">{{$data->Nm_Urusan}}</p>           
+                        <p class="form-control-static">{{$renja->Nm_Bidang}}</p>           
                     </div>
                 </div> 
                 <div class="form-group">
                     {{Form::label('PrgID','NAMA PROGRAM',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        <p class="form-control-static">{{$data->PrgNm}}</p>
+                        <p class="form-control-static">{{$renja->PrgNm}}</p>
                     </div>
                 </div>
                 <div class="form-group">
                     {{Form::label('KgtID','NAMA KEGIATAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        <p class="form-control-static">{{$data->KgtNm}}</p>
+                        <p class="form-control-static">{{$renja->KgtNm}}</p>
                     </div>
                 </div>
                 <div class="form-group">
@@ -67,24 +67,23 @@
                     <div class="col-md-10">
                         <div class="row">
                             <div class="col-md-6">
-                                {{Form::text('Sasaran_Angka1','',['class'=>'form-control','placeholder'=>'ANGKA SASARAN'])}}
+                                {{Form::text('Sasaran_Angka1',Helper::formatAngka($renja['Sasaran_Angka1']),['class'=>'form-control','placeholder'=>'ANGKA SASARAN'])}}
                             </div>
                             <div class="col-md-6">
-                                {{Form::textarea('Sasaran_Uraian1','',['rows'=>3,'class'=>'form-control','placeholder'=>'URAIAN SASARAN'])}}
+                                {{Form::textarea('Sasaran_Uraian1',$renja['Sasaran_Uraian1'],['rows'=>3,'class'=>'form-control','placeholder'=>'URAIAN SASARAN'])}}
                             </div>
                         </div>                        
                     </div>                   
-                </div>
-                
+                </div>                
                 <div class="form-group">
                     {{Form::label('Sasaran_AngkaSetelah','SASARAN KEGIATAN (N+1)',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
                         <div class="row">
                             <div class="col-md-6">
-                                {{Form::text('Sasaran_AngkaSetelah','',['class'=>'form-control','placeholder'=>'ANGKA SASARAN (N+1)'])}}
+                                {{Form::text('Sasaran_AngkaSetelah',Helper::formatAngka($renja['Sasaran_AngkaSetelah']),['class'=>'form-control','placeholder'=>'ANGKA SASARAN (N+1)'])}}
                             </div>
                             <div class="col-md-6">
-                                {{Form::textarea('Sasaran_UraianSetelah','',['rows'=>3,'class'=>'form-control','placeholder'=>'URAIAN SASARAN (N+1)'])}}
+                                {{Form::textarea('Sasaran_UraianSetelah',$renja['Sasaran_UraianSetelah'],['rows'=>3,'class'=>'form-control','placeholder'=>'URAIAN SASARAN (N+1)'])}}
                             </div>
                         </div>                        
                     </div>
@@ -92,7 +91,7 @@
                 <div class="form-group">
                     {{Form::label('Target1','TARGET (%)',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('Target1','',['class'=>'form-control','placeholder'=>'PERSENTASE TARGET KEGIATAN'])}}
+                        {{Form::text('Target1',Helper::formatAngka($renja['Target1']),['class'=>'form-control','placeholder'=>'PERSENTASE TARGET KEGIATAN'])}}
                     </div>
                 </div>
                 <div class="form-group">
@@ -100,13 +99,13 @@
                     <div class="col-md-10">
                         <div class="row">
                             <div class="col-md-4">
-                                {{Form::text('NilaiSebelum','',['class'=>'form-control','placeholder'=>'NILAI (TA-1)'])}}
+                                {{Form::text('NilaiSebelum',Helper::formatUang($renja['NilaiSebelum']),['class'=>'form-control','placeholder'=>'NILAI (TA-1)'])}}
                             </div>
                             <div class="col-md-4">
-                                {{Form::text('NilaiUsulan1','',['class'=>'form-control','placeholder'=>'NILAI USULAN (TA)','id'=>'NilaiUsulan1'])}}
+                                {{Form::text('NilaiUsulan1',Helper::formatUang($renja['NilaiUsulan1']),['class'=>'form-control','placeholder'=>'NILAI USULAN (TA)','id'=>'NilaiUsulan1'])}}
                             </div> 
                             <div class="col-md-4">
-                                {{Form::text('NilaiSetelah','',['class'=>'form-control','placeholder'=>'NILAI (TA+1)','id'=>'NilaiSetelah'])}}
+                                {{Form::text('NilaiSetelah',Helper::formatUang($renja['NilaiSetelah']),['class'=>'form-control','placeholder'=>'NILAI (TA+1)','id'=>'NilaiSetelah'])}}
                             </div>       
                         </div>                                         
                     </div>
@@ -114,19 +113,19 @@
                 <div class="form-group">
                     {{Form::label('NamaIndikator','INDIKATOR KEGIATAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::textarea('NamaIndikator','',['rows'=>3,'class'=>'form-control','placeholder'=>'INDIKATOR KEGIATAN'])}}
+                        {{Form::textarea('NamaIndikator',$renja['NamaIndikator'],['rows'=>3,'class'=>'form-control','placeholder'=>'INDIKATOR KEGIATAN'])}}
                     </div>
                 </div>
                 <div class="form-group">
                     {{Form::label('SumberDanaID','SUMBER DANA',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::select('SumberDanaID', $sumber_dana, '',['class'=>'form-control','id'=>'KUrsID'])}}
+                        {{Form::select('SumberDanaID', $sumber_dana, $renja['SumberDanaID'],['class'=>'form-control','id'=>'SumberDanaID'])}}
                     </div>
                 </div>                
                 <div class="form-group">
                     {{Form::label('Descr','KETERANGAN / CATATAN PENTING',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::textarea('Descr','',['rows'=>3,'class'=>'form-control','placeholder'=>'KETERANGAN'])}}
+                        {{Form::textarea('Descr',$renja['Descr'],['rows'=>3,'class'=>'form-control','placeholder'=>'KETERANGAN'])}}
                     </div>
                 </div> 
                 <div class="form-group">            

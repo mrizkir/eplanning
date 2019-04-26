@@ -15,7 +15,7 @@
     <li><a href="#">PERENCANAAN</a></li>
     <li><a href="#">ASPIRASI / USULAN</a></li>
     <li><a href="{!!route('usulanprarenjaopd.index')!!}">USULAN PRA RENJA OPD/SKPD</a></li>
-    <li class="active">UBAH DATA RINCIAN KEGIATAN DARI MUSRENBANG KECAMATAN</li>
+    <li class="active">UBAH DATA RINCIAN KEGIATAN DARI OPD / SKPD</li>
 @endsection
 @section('page_content')
 <div class="content">
@@ -23,7 +23,7 @@
         <div class="panel-heading">
             <h5 class="panel-title">
                 <i class="icon-pencil7 position-left"></i> 
-                UBAH DATA RINCIAN KEGIATAN DARI MUSRENBANG KECAMATAN
+                UBAH DATA RINCIAN KEGIATAN DARI OPD / SKPD
             </h5>
             <div class="heading-elements">
                 <ul class="icons-list">                    
@@ -33,43 +33,9 @@
                 </ul>
             </div>
         </div>
-        {!! Form::open(['action'=>['RKPD\UsulanPraRenjaOPDController@update2',$renja->RenjaRincID],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
+        {!! Form::open(['action'=>['RKPD\UsulanPraRenjaOPDController@update4',$renja->RenjaRincID],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
         {{Form::hidden('_method','PUT')}}
-        <div class="panel-body">
-            <div class="form-group">
-                <label class="col-md-2 control-label">POSISI ENTRI: </label>
-                <div class="col-md-10">
-                    <p class="form-control-static">
-                        <span class="label border-left-primary label-striped">USULAN PRA RENJA OPD / SKPD</span>
-                    </p>
-                </div>                            
-            </div>   
-            <div class="form-group">
-                {{Form::label('PMProvID','PROVINSI',['class'=>'control-label col-md-2'])}}
-                <div class="col-md-10">
-                    <p class="form-control-static">{{$renja->Nm_Prov}}</p>
-                </div>
-            </div>       
-            <div class="form-group">
-                {{Form::label('PmKotaID','KAB. / KOTA',['class'=>'control-label col-md-2'])}}
-                <div class="col-md-10">
-                    <p class="form-control-static">{{$renja->Nm_Kota}}</p>
-                </div>
-            </div>  
-            <div class="form-group">
-                <label class="col-md-2 control-label">KECAMATAN</label> 
-                <div class="col-md-10">
-                    <p class="form-control-static">{{ucwords($renja->Nm_Kecamatan)}}</p>
-                </div>
-            </div>  
-            <div class="form-group">
-                <label class="col-md-2 control-label">USULAN KEGIATAN</label> 
-                <div class="col-md-10">
-                    <p class="form-control-static">{{ucwords($renja->NamaKegiatan)}}</p>
-                </div>
-            </div>                          
-        </div>        
-        <div class="panel-body">                    
+        <div class="panel-body">     
             <div class="form-group">
                 {{Form::label('No','NOMOR',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
@@ -119,7 +85,43 @@
                     {{Form::text('Descr',$renja->Descr,['class'=>'form-control','placeholder'=>'KETERANGAN / CATATAN PENTING'])}}
                 </div>
             </div>
-        </div>        
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                {{Form::label('PMProvID','PROVINSI',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    {{Form::select('PMProvID', $daftar_provinsi,config('globalsettings.default_provinsi'),['class'=>'form-control','id'=>'PMProvID'])}}
+                </div>
+            </div>       
+            <div class="form-group">
+                {{Form::label('PmKotaID','KAB. / KOTA',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    {{Form::select('PmKotaID', $daftar_kota_kab,config('globalsettings.defaul_kota_atau_kab'),['class'=>'form-control','id'=>'PMProvID'])}}
+                </div>
+            </div>  
+            <div class="form-group">
+                <label class="col-md-2 control-label">KECAMATAN :</label> 
+                <div class="col-md-10">
+                    <select name="PmKecamatanID" id="PmKecamatanID" class="select">
+                        <option></option>          
+                        @foreach ($daftar_kecamatan as $k=>$item)
+                            <option value="{{$k}}"{{$k==$renja->PmKecamatanID ? ' selected':''}}>{{$item}}</option>
+                        @endforeach              
+                    </select>                              
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label">DESA :</label> 
+                <div class="col-md-10">
+                    <select name="PmDesaID" id="PmDesaID" class="select">
+                        <option></option>    
+                        @foreach ($daftar_desa as $k=>$item)
+                            <option value="{{$k}}"{{$k==$renja->PmDesaID ? ' selected':''}}>{{$item}}</option>
+                        @endforeach                                                          
+                    </select>                            
+                </div>
+            </div>       
+        </div>
         <div class="panel-footer">
             <div class="col-md-10 col-md-offset-2">                        
                 {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}                                       
@@ -172,7 +174,49 @@ $(document).ready(function () {
                                             showWarnings:false,
                                             modifyValueOnWheel:false
                                         });
-
+    //styling select
+    $('#PMProvID.select').select2({
+        placeholder: "PILIH PROVINSI",
+        allowClear:true
+    }); 
+    $('#PmKotaID.select').select2({
+        placeholder: "PILIH KABUPATEN / KOTA",
+        allowClear:true
+    }); 
+    $('#PmKecamatanID.select').select2({
+        placeholder: "PILIH KECAMATAN",
+        allowClear:true
+    }); 
+    $('#PmDesaID.select').select2({
+        placeholder: "PILIH DESA",
+        allowClear:true
+    });
+    $(document).on('change','#PmKecamatanID',function(ev) {
+        ev.preventDefault();
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/filter',
+            dataType: 'json',
+            data: {                
+                "_token": token,
+                "PmKecamatanID": $('#PmKecamatanID').val(),
+                "create4":true
+            },
+            success:function(result)
+            { 
+                var daftar_desa = result.daftar_desa;
+                var listitems='<option></option>';
+                $.each(daftar_desa,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
+                $('#PmDesaID').html(listitems);
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    }); 
     $("#divdatatablerinciankegiatan").on("click",".btnDelete", function(){
         if (confirm('Apakah Anda ingin menghapus Data Rincian Kegiatan Pra Renja OPD / SKPD ini ?')) {
             let url_ = $(this).attr("data-url");

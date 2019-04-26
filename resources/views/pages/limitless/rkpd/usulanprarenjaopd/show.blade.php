@@ -29,7 +29,7 @@
                     <a href="{{route('usulanprarenjaopd.edit',['id'=>$renja->RenjaID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Usulan Pra Renja">
                         <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data Usulan Pra Renja" data-id="{{$renja->RenjaID}}" data-url="{{route('usulanprarenjaopd.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
+                    <a href="javascript:;" title="Hapus Data Usulan Pra Renja" data-id="{{$renja->RenjaID}}" data-url="{{route('usulanprarenjaopd.index')}}" class="btn btn-danger btn-icon heading-btn btnDeleteRenja">
                         <i class='icon-trash'></i>
                     </a>
                     <a href="{!!route('usulanprarenjaopd.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
@@ -148,7 +148,7 @@
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
-    $(".btnDelete").click(function(ev) {
+    $(".btnDeleteRenja").click(function(ev) {
         if (confirm('Apakah Anda ingin menghapus Data Usulan Pra Renja ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");

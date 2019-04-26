@@ -129,7 +129,7 @@
                 <div class="form-group">
                     {{Form::label('SumberDanaID','SUMBER DANA',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::select('SumberDanaID', $sumber_dana, '',['class'=>'form-control','id'=>'KUrsID'])}}
+                        {{Form::select('SumberDanaID', $sumber_dana, '',['class'=>'form-control','id'=>'SumberDanaID'])}}
                     </div>
                 </div>                
                 <div class="form-group">
