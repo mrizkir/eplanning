@@ -67,9 +67,16 @@
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>
                     <td>{{$item->kode_kegiatan}}</td>
-                    <td>{{$item->KgtNm}}</td>
+                    <td>
+                        {{ucwords($item->KgtNm)}}
+                        @if (empty($item->RenjaIndikatorID))
+                            <span class="label label-flat border-warning text-warning-600">
+                                INDIKATOR TIDAK ADA
+                            </span>
+                        @endif
+                    </td>
                     @if ($item->RenjaRincID=='')
-                    <td colspan="5">
+                    <td colspan="6">
                         <span class="label label-flat label-block border-info text-info-600">
                             PROSES INPUT PRA RENJA OPD / SKPD BELUM SELESAI
                         </span>
@@ -108,7 +115,11 @@
                     <td>{{Helper::formatAngka($item->Sasaran_Angka1)}} {{$item->Sasaran_Uraian1}}</td>
                     <td>{{$item->Target1}}</td>
                     <td class="text-right">{{Helper::formatuang($item->Jumlah1)}}</td>
-                    <td>{{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}</td>
+                    <td>
+                        <span class="label label-flat border-success text-success-600">
+                            {{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}
+                        </span>
+                    </td>
                     <td>{{$item->status}}</td>
                     <td>
                         <ul class="icons-list">

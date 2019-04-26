@@ -16,6 +16,7 @@ class CreateVUsulanPraRenjaOPDView extends Migration
         \DB::statement('CREATE VIEW v_usulan_pra_renja_opd AS
             SELECT 
                 A."RenjaID",
+                B1."RenjaIndikatorID",
                 B."RenjaRincID",
                 B."UsulanKecID",
                 B."PMProvID",
@@ -56,7 +57,8 @@ class CreateVUsulanPraRenjaOPDView extends Migration
                 B."isSKPD",
                 A."TA"
             FROM "trRenja" A
-                INNER JOIN "trRenjaRinc" B ON A."RenjaID"=B."RenjaID" AND A."TA"=B."TA"
+                LEFT JOIN "trRenjaRinc" B ON A."RenjaID"=B."RenjaID" AND A."TA"=B."TA"
+                LEFT JOIN "trRenjaIndikator" B1 ON A."RenjaID"=B1."RenjaID" AND A."TA"=B1."TA"
                 INNER JOIN "tmOrg" C ON A."OrgID"=C."OrgID" AND A."TA"=C."TA"
                 INNER JOIN "tmSOrg" D ON A."SOrgID"=D."SOrgID" AND A."TA"=D."TA"
                 INNER JOIN "tmKgt" E ON A."KgtID"=E."KgtID" AND A."TA"=E."TA"

@@ -114,8 +114,8 @@ class UsulanPraRenjaOPDController extends Controller {
         {
             $data = UsulanPraRenjaOPDModel::where('SOrgID',$SOrgID)                                            
                                             ->where('TA', config('globalsettings.tahun_perencanaan'))                                            
-                                            ->orderBy($column_order,$direction)
                                             ->orderBy('Prioritas','ASC')
+                                            ->orderBy($column_order,$direction)                                            
                                             ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);             
         }        
         $data->setPath(route('usulanprarenjaopd.index'));        
@@ -356,16 +356,16 @@ class UsulanPraRenjaOPDController extends Controller {
 
             $daftar_pokir = [];
             $data=\App\Models\Pokir\PokokPikiranModel::where('trPokPir.TA', config('globalsettings.tahun_perencanaan'))
-                                                                        ->where('trPokPir.PemilikPokokID',$PemilikPokokID)                                                
-                                                                        ->where('trPokPir.Privilege',1)  
-                                                                        ->where('trPokPir.OrgID',$auth->OrgID)       
-                                                                        ->WhereNotIn('PokPirID',function($query) use ($RenjaID){
-                                                                            $query->select('PokPirID')
-                                                                                    ->from('trRenjaRinc')
-                                                                                    ->where('RenjaID', $RenjaID);
-                                                                        })                                          
-                                                                        ->orderBY('NamaUsulanKegiatan','ASC')
-                                                                        ->get(); 
+                                                    ->where('trPokPir.PemilikPokokID',$PemilikPokokID)                                                
+                                                    ->where('trPokPir.Privilege',1)  
+                                                    ->where('trPokPir.OrgID',$filters['OrgID'])       
+                                                    ->WhereNotIn('PokPirID',function($query) use ($RenjaID){
+                                                        $query->select('PokPirID')
+                                                                ->from('trRenjaRinc')
+                                                                ->where('RenjaID', $RenjaID);
+                                                    })                                          
+                                                    ->orderBY('NamaUsulanKegiatan','ASC')
+                                                    ->get(); 
             $daftar_pokir = [];
             foreach ($data as $v)
             {

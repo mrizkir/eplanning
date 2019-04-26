@@ -90,10 +90,7 @@
                         </div>                            
                     </div> 
                     <div class="col-md-10 col-md-offset-2">                        
-                        {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}
-                        <a href="{{route('usulanprarenjaopd.create2',['id'=>$renja->RenjaID])}}">
-                            <b><i class="icon-forward3" class="btn btn-info btn-labeled btn-xs"></i></b> SKIP
-                        </a>                        
+                        {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}                                            
                     </div>
                 </div>
             {!! Form::close()!!}
