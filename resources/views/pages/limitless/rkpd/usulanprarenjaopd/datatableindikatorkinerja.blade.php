@@ -37,6 +37,11 @@
                 <td>{{$item->Tahun}} ({{$item->TA}})</td>                        
                 <td>
                     <ul class="icons-list">
+                        <li class="text-primary-600">                            
+                            <a class="btnEdit" href="{{route('usulanprarenjaopd.edit1',['id'=>$item->RenjaIndikatorID])}}" title="Ubah Data Indikator">
+                                <i class='icon-pencil7'></i>
+                            </a> 
+                        </li>
                         <li class="text-danger-600">
                             <a class="btnDelete" href="javascript:;" title="Hapus Data Idikator" data-id="{{$item->RenjaIndikatorID}}" data-url="{{route('usulanprarenjaopd.index')}}">
                                 <i class='icon-trash'></i>

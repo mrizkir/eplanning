@@ -15,10 +15,7 @@
     <li><a href="#">PERENCANAAN</a></li>
     <li><a href="#">ASPIRASI / USULAN</a></li>
     <li><a href="{!!route('usulanprarenjaopd.index')!!}">USULAN PRA RENJA OPD/SKPD</a></li>
-    <li class="active">TAMBAH DATA INDIKATOR KEGIATAN</li>
-@endsection
-@section('page_sidebar')
-    @include('pages.limitless.rkpd.usulanprarenjaopd.l_sidebar_prarenja_create')
+    <li class="active">UBAH DATA INDIKATOR KEGIATAN</li>
 @endsection
 @section('page_content')
 <div class="content">
@@ -26,7 +23,7 @@
         <div class="panel-heading">
             <h5 class="panel-title">
                 <i class="icon-pencil7 position-left"></i> 
-                TAMBAH DATA INDIKATOR KEGIATAN
+                UBAH DATA INDIKATOR KEGIATAN
             </h5>
             <div class="heading-elements">
                 <ul class="icons-list">                    
@@ -37,8 +34,8 @@
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>'RKPD\UsulanPraRenjaOPDController@store1','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
-            {{Form::hidden('RenjaID',$renja->RenjaID)}}
+            {!! Form::open(['action'=>['RKPD\UsulanPraRenjaOPDController@update1',$renja->RenjaIndikatorID],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
+                {{Form::hidden('_method','PUT')}}
                 <div class="form-group">    
                     <div class="form-group">
                         <label class="col-md-2 control-label">POSISI ENTRI: </label>
@@ -47,46 +44,35 @@
                                 <span class="label border-left-primary label-striped">USULAN PRA RENJA OPD / SKPD</span>
                             </p>
                         </div>                            
-                    </div>    
-                    <div class="form-group">
-                        {{Form::label('IndikatorKinerjaID','INDIKATOR KINERJA',['class'=>'control-label col-md-2'])}}
-                        <div class="col-md-10">
-                            <select name="IndikatorKinerjaID" id="IndikatorKinerjaID" class="select">
-                                <option></option>
-                                @foreach ($daftar_indikatorkinerja as $k=>$item)
-                                    <option value="{{$k}}">{{$item}}</option>
-                                @endforeach
-                            </select>                        
-                        </div>
                     </div>   
                     <div class="form-group">
                         <label class="col-md-2 control-label">NAMA INDIKATOR (RPJMD): </label>
                         <div class="col-md-10">
-                            <p class="form-control-static" id="pNamaIndikator">-</p>
+                            <p class="form-control-static" id="pNamaIndikator">{{$dataindikator_rpjmd['NamaIndikator']}}</p>
                         </div>                            
                     </div>  
                     <div class="form-group">
-                        <label class="col-md-2 control-label">TARGET TA {{config('globalsettings.tahun_perencanaan')}} (RPJMD): </label>
+                        <label class="col-md-2 control-label">TARGET TA {{$renja->TA}} (RPJMD): </label>
                         <div class="col-md-10">
-                            <p class="form-control-static" id="pTargetAngka">-</p>
+                            <p class="form-control-static" id="pTargetAngka">{{$dataindikator_rpjmd['TargetAngka']}}</p>
                         </div>                            
                     </div>  
                     <div class="form-group">
-                        <label class="col-md-2 control-label">PAGU DANA TA {{config('globalsettings.tahun_perencanaan')}} (RPJMD): </label>
+                        <label class="col-md-2 control-label">PAGU DANA TA {{$renja->TA}} (RPJMD): </label>
                         <div class="col-md-10">
-                            <p class="form-control-static" id="pPaguDana">-</p>
+                            <p class="form-control-static" id="pPaguDana">{{$dataindikator_rpjmd['PaguDana']}}</p>
                         </div>                            
                     </div>    
                     <div class="form-group">
                         <label class="col-md-2 control-label">TARGET ANGKA: </label>
                         <div class="col-md-10">
-                            {{Form::text('Target_Angka','',['class'=>'form-control','placeholder'=>'TARGET ANGKA KEGIATAN','id'=>'Target_Angka'])}}
+                            {{Form::text('Target_Angka',$renja->Target_Angka,['class'=>'form-control','placeholder'=>'TARGET ANGKA KEGIATAN','id'=>'Target_Angka'])}}
                         </div>                            
                     </div> 
                     <div class="form-group">
                         <label class="col-md-2 control-label">TARGET URAIAN: </label>
                         <div class="col-md-10">
-                            {{Form::text('Target_Uraian','',['class'=>'form-control','placeholder'=>'TARGET URAIAN KEGIATAN','id'=>'Target_Uraian'])}}
+                            {{Form::text('Target_Uraian',$renja->Target_Uraian,['class'=>'form-control','placeholder'=>'TARGET URAIAN KEGIATAN','id'=>'Target_Uraian'])}}
                         </div>                            
                     </div> 
                     <div class="col-md-10 col-md-offset-2">                        
@@ -109,12 +95,7 @@
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
-$(document).ready(function () {
-    //styling select
-    $('#IndikatorKinerjaID.select').select2({
-        placeholder: "PILIH INDIKATOR KINERJA (RPMJD)",
-        allowClear:true
-    });  
+$(document).ready(function () {     
     AutoNumeric.multiple(['#Target_Angka'], {
         allowDecimalPadding: false,
                                             minimumValue:0.00,
@@ -125,36 +106,10 @@ $(document).ready(function () {
                                             showWarnings:false,
                                             unformatOnSubmit: true,
                                             modifyValueOnWheel:false
-                                        });
-    $(document).on('change','#IndikatorKinerjaID',function(ev) {
-        ev.preventDefault();
-        IndikatorKinerjaID=$(this).val();        
-        $.ajax({
-            type:'post',
-            url: '{{route('usulanprarenjaopd.pilihindikatorkinerja')}}',
-            dataType: 'json',
-            data: {
-                "_token": token,
-                "IndikatorKinerjaID": IndikatorKinerjaID,
-            },
-            success:function(result)
-            {                   
-                $('#pNamaIndikator').html(result.NamaIndikator);
-                $('#pTargetAngka').html(result.TargetAngka);
-                $('#pPaguDana').html(result.PaguDana);
-            },
-            error:function(xhr, status, error)
-            {   
-                console.log(parseMessageAjaxEror(xhr, status, error));                           
-            },
-        });
-    });     
+                                        });    
     $('#frmdata').validate({
         ignore: [], 
         rules: {
-            IndikatorKinerjaID : {
-                required: true
-            },
             Target_Angka : {
                 required: true
             },
@@ -163,9 +118,6 @@ $(document).ready(function () {
             },
         },
         messages : {
-            IndikatorKinerjaID : {
-                required: "Mohon dipilih indikator kinerja RPJMD."
-            },
             Target_Angka : {
                 required: "Mohon untuk di isi target angka."
             },

@@ -306,7 +306,7 @@ class UsulanPraRenjaOPDController extends Controller {
                                                                                     'direction'=>$this->getControllerStateSession('usulanprarenjaopd.orderby','order'),
                                                                                     'data'=>$data])->render();                                                                                       
                                                                                     
-            $json_data = ['success'=>true,'SOrgID'=>$SOrgID,'datatable'=>$datatable];            
+            $json_data = ['success'=>true,'datatable'=>$datatable];            
         } 
 
         //create2
@@ -372,7 +372,7 @@ class UsulanPraRenjaOPDController extends Controller {
                 $daftar_pokir[$v->PokPirID]=$v->NamaUsulanKegiatan;
             }
 
-            $json_data = ['success'=>true,'PemilikPokokID'=>$PemilikPokokID,'daftar_pokir'=>$daftar_pokir];            
+            $json_data = ['success'=>true,'daftar_pokir'=>$daftar_pokir];            
         }
         //create3
         if ($request->exists('PokPirID') && $request->exists('create3') )
@@ -540,17 +540,26 @@ class UsulanPraRenjaOPDController extends Controller {
         $filters=$this->getControllerStateSession('usulanprarenjaopd','filters'); 
         if ($filters['SOrgID'] != 'none'&&$filters['SOrgID'] != ''&&$filters['SOrgID'] != null)
         {
-            $renja=UsulanPraRenjaOPDModel::findOrFailRenja($renjaid);  
-            $OrgID=$renja->OrgID;
-            $SOrgID=$renja->SOrgID;
-            $kegiatan=ProgramKegiatanModel::join('trUrsPrg','trUrsPrg.PrgID','tmKgt.PrgID')
-                                            ->find($renja->KgtID);
+            $OrgID=$filters['OrgID'];
+            $SOrgID=$filters['SOrgID'];
+
+            $renja=RenjaModel::select(\DB::raw('"RenjaID","KgtID"'))
+                                ->where('OrgID',$OrgID)
+                                ->where('SOrgID',$SOrgID)
+                                ->findOrFail($renjaid);
+            
+            
+            $kegiatan=ProgramKegiatanModel::select(\DB::raw('"trUrsPrg"."UrsID","trUrsPrg"."PrgID"'))
+                                            ->join('trUrsPrg','trUrsPrg.PrgID','tmKgt.PrgID')
+                                            ->find($renja->KgtID);                                            
             $UrsID=$kegiatan->UrsID;    
             $PrgID=$kegiatan->PrgID;          
             $daftar_indikatorkinerja = \DB::table('trIndikatorKinerja')
                                         ->where('UrsID',$UrsID)
                                         ->where('PrgID',$PrgID)
-                                        ->where('OrgID',$OrgID)
+                                        ->orWhere('OrgID',$OrgID)
+                                        ->orWhere('OrgID2',$OrgID)
+                                        ->orWhere('OrgID3',$OrgID)
                                         ->where('TA_N',config('globalsettings.rpjmd_tahun_mulai'))
                                         ->WhereNotIn('IndikatorKinerjaID',function($query) use ($renjaid){
                                             $query->select('IndikatorKinerjaID')
@@ -1003,6 +1012,30 @@ class UsulanPraRenjaOPDController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function edit1($id)
+    {
+        $theme = \Auth::user()->theme;
+
+        $renja = RenjaIndikatorModel::select(\DB::raw('"trRenjaIndikator"."RenjaIndikatorID","trRenjaIndikator"."IndikatorKinerjaID","trRenjaIndikator"."RenjaID","trRenjaIndikator"."Target_Angka","Target_Uraian","trRenjaIndikator"."TA"'))                                   
+                                    ->join('trIndikatorKinerja','trIndikatorKinerja.IndikatorKinerjaID','trRenjaIndikator.IndikatorKinerjaID')
+                                    ->findOrFail($id);        
+        if (!is_null($renja) ) 
+        {    
+            $dataindikator_rpjmd = \App\Models\RPJMD\RpjmdIndikatorKinerjaModel::getIndikatorKinerjaByID($renja->IndikatorKinerjaID,$renja->TA);            
+            $dataindikatorkinerja = $this->populateIndikatorKegiatan($renja->RenjaID);
+            return view("pages.$theme.rkpd.usulanprarenjaopd.edit1")->with(['page_active'=>'usulanprarenjaopd',
+                                                                            'renja'=>$renja,
+                                                                            'dataindikator_rpjmd'=>$dataindikator_rpjmd,
+                                                                            'dataindikatorkinerja'=>$dataindikatorkinerja
+                                                                            ]);
+        }        
+    }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function edit2($id)
     {
         $theme = \Auth::user()->theme;
@@ -1192,6 +1225,41 @@ class UsulanPraRenjaOPDController extends Controller {
         else
         {
             return redirect(route('usulanprarenjaopd.show',['id'=>$usulanprarenjaopd->RenjaID]))->with('success','Data ini telah berhasil disimpan.');
+        }
+    }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update1(Request $request, $id)
+    {
+        $this->validate($request, [
+            'Target_Angka'=>'required',
+            'Target_Uraian'=>'required',           
+        ]);
+        
+        $data=[        
+            'Target_Angka' => $request->input('Target_Angka'),
+            'Target_Uraian' => $request->input('Target_Uraian'),                                   
+        ];
+
+        $indikatorkinjera = RenjaIndikatorModel::find($id);
+        $indikatorkinjera->Target_Angka = $request->input('Target_Angka'); 
+        $indikatorkinjera->Target_Uraian = $request->input('Target_Uraian');       
+        $indikatorkinjera->save();
+
+        if ($request->ajax()) 
+        {
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data ini telah berhasil disimpan.'
+            ]);
+        }
+        else
+        {
+            return redirect(route('usulanprarenjaopd.show',['id'=>$indikatorkinjera->RenjaID]))->with('success','Data Indikator kegiatan telah berhasil disimpan. Selanjutnya isi Rincian Kegiatan');
         }
     }
     /**

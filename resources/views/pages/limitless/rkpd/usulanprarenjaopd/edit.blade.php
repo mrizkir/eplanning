@@ -178,20 +178,92 @@ $(document).ready(function () {
                                             showWarnings:false,
                                             modifyValueOnWheel:false
                                         });
-    $('#frmdata').validate({
+                                        $('#frmdata').validate({
+        ignore:[],
         rules: {
-            replaceit : {
+            UrsID : {
+                required: true
+            },  
+            PrgID : {
+                required: true
+            },
+            KgtID : {
+                required: true
+            },         
+            Sasaran_Angka1 : {
                 required: true,
-                minlength: 2
-            }
+            },
+            Sasaran_Uraian1 : {
+                required: true
+            },
+            Sasaran_AngkaSetelah : {
+                required: true
+            },
+            Sasaran_UraianSetelah : {
+                required: true
+            },
+            Target1 : {
+                required: true
+            },
+            NilaiSebelum : {
+                required: true
+            },
+            NilaiUsulan1 : {
+                required: true
+            },
+            NilaiSetelah : {
+                required: true
+            },
+            NamaIndikator : {
+                required: true,                
+            },
+            SumberDanaID : {
+                valueNotEquals: 'none'
+            }         
         },
         messages : {
-            replaceit : {
-                required: "Mohon untuk di isi karena ini diperlukan.",
-                minlength: "Mohon di isi minimal 2 karakter atau lebih."
+            UrsID : {
+                required: "Mohon untuk di pilih urusan untuk kegiatan ini.",                
+            },            
+            PrgID : {
+                required: "Mohon untuk di pilih program nama kegiatan.",                
+            },
+            KgtID : {
+                required: "Mohon untuk di pilih nama kegiatan.",                
+            },
+            Sasaran_Angka1 : {
+                required: "Mohon untuk di isi angka sasaran kegiatan.",                
+            },
+            Sasaran_Uraian1 : {
+                required: "Mohon untuk di isi uraian sasaran kegiatan.",                
+            },
+            Sasaran_AngkaSetelah : {
+                required: "Mohon untuk di isi angka sasaran kegiatan (N+1).",                
+            },
+            Sasaran_UraianSetelah : {
+                required: "Mohon untuk di isi uraian sasaran kegiatan (N+1).",                
+            },
+            Target1 : {
+                required: "Mohon untuk di isi persentase target kegiatan.",                
+            },
+            NilaiSebelum : {
+                required: "Mohon untuk di isi nilai (TA-1).",                
+            },
+            NilaiUsulan1 : {
+                required: "Mohon untuk di isi nilai (TA).",                
+            },
+            NilaiSetelah : {
+                required: "Mohon untuk di isi nilai (TA+1).",                
+            },
+            NamaIndikator : {
+                required: "Mohon untuk di isi indikator kegiatan.",                
+            },
+            SumberDanaID : {
+                valueNotEquals: "Mohon untuk di pilih sumber dana untuk kegiatan ini."                
             }
-        }     
-    });   
+
+        }      
+    });  
 });
 </script>
 @endsection

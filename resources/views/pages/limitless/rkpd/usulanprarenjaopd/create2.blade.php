@@ -320,6 +320,79 @@ $(document).ready(function () {
             });
         }        
     });
+    $('#frmdata').validate({
+        ignore: [], 
+        rules: {
+            PMProvID : {
+                required: true
+            },
+            PmKotaID : {
+                required: true
+            },
+            PmKecamatanID : {
+                required: true
+            },
+            UsulanKecID : {
+                required: true
+            },
+            No : {
+                required: true
+            },
+            Uraian : {
+                required: true
+            },
+            Sasaran_Angka1 : {
+                required: true
+            },
+            Sasaran_Uraian1 : {
+                required: true
+            },
+            Jumlah1 : {
+                required: true
+            },
+            Target1 : {
+                required: true
+            },
+            Prioritas : {
+                valueNotEquals: 'none'
+            } 
+        },
+        messages : {
+            PMProvID : {
+                required: "Mohon untuk dipilih Provinsi."
+            },
+            PmKotaID : {
+                required: "Mohon untuk dipilih Kabupaten/Kota."
+            },
+            PmKecamatanID : {
+                required: "Mohon untuk dipilih Kecamatan."
+            },
+            UsulanKecID : {
+                required: "Mohon untuk dipilih usulan kegiatan dari Musren. Kecamatan."
+            },
+            No : {
+                required: "Mohon untuk di isi Nomor rincian kegiatan."
+            },
+            Uraian : {
+                required: "Mohon untuk di isi uraian rincian kegiatan."
+            },
+            Sasaran_Angka1 : {
+                required: "Mohon untuk di isi angka sasaran rincian kegiatan."
+            },
+            Sasaran_Uraian1 : {
+                required: "Mohon untuk di isi sasaran rincian kegiatan."
+            },
+            Target1 : {
+                required: "Mohon untuk di isi target rincian kegiatan."
+            },
+            Jumlah1 : {
+                required: "Mohon untuk di isi nilai usulan rincian kegiatan."
+            },
+            Prioritas : {
+                valueNotEquals: "Mohon untuk di pilih prioritas rincian kegiatan."
+            }
+        }      
+    });   
 });
 </script>
 @endsection
