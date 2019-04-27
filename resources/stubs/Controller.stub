@@ -232,7 +232,7 @@ class {{modelName}}Controller extends Controller {
             return response()->json([
                 'success'=>true,
                 'message'=>'Data ini telah berhasil disimpan.'
-            ]);
+            ],200);
         }
         else
         {
@@ -302,7 +302,7 @@ class {{modelName}}Controller extends Controller {
             return response()->json([
                 'success'=>true,
                 'message'=>'Data ini telah berhasil diubah.'
-            ]);
+            ],200);
         }
         else
         {

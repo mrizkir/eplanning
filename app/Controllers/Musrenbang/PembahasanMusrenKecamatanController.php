@@ -312,7 +312,7 @@ class PembahasanMusrenKecamatanController extends Controller {
         }
         else
         {
-            return redirect(route('pembahasanmusrenkecamatan.show',['id'=>$pembahasanmusrenkecamatan->replaceit]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('pembahasanmusrenkecamatan.show',['id'=>$id]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
 }

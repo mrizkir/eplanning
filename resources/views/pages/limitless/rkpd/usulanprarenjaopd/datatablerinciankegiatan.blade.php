@@ -59,7 +59,11 @@
                 <td>{{Helper::formatAngka($item->Sasaran_Angka1)}} {{ucwords($item->Sasaran_Uraian1)}}</td>
                 <td>{{$item->Target1}}</td>               
                 <td>{{Helper::formatUang($item->Jumlah1)}}</td>       
-                <td>{{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}</td>
+                <td>
+                    <span class="label label-flat border-success text-success-600">
+                        {{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}
+                    </span>
+                </td>
                 <td>
                     <ul class="icons-list">
                         <li class="text-primary-600">

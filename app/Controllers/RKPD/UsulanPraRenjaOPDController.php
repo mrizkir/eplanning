@@ -278,7 +278,7 @@ class UsulanPraRenjaOPDController extends Controller {
             
             $this->putControllerStateSession('usulanprarenjaopd','filters',$filters);
 
-            $data = $this->populateData();
+            $data = [];
 
             $datatable = view("pages.$theme.rkpd.usulanprarenjaopd.datatable")->with(['page_active'=>'usulanprarenjaopd',                                                            
                                                                                     'search'=>$this->getControllerStateSession('usulanprarenjaopd','search'),
