@@ -470,7 +470,30 @@ class UsulanPraRenjaOPDController extends Controller {
         if ($request->exists('PrgID'))
         {
             $PrgID = $request->input('PrgID')==''?'none':$request->input('PrgID');
-            $daftar_kegiatan = ProgramKegiatanModel::getDaftarKegiatan(config('globalsettings.tahun_perencanaan'),false,$PrgID);
+            $r=\DB::table('v_program_kegiatan')
+                    ->where('TA',config('globalsettings.tahun_perencanaan'))
+                    ->where('PrgID',$PrgID)
+                    ->WhereNotIn('KgtID',function($query) {
+                        $query->select('KgtID')
+                                ->from('trRenja')
+                                ->where('TA', config('globalsettings.tahun_perencanaan'));
+                    }) 
+                    ->orderBy('Kd_Keg')
+                    ->orderBy('kode_kegiatan')
+                    ->get();
+            $daftar_kegiatan=[];        
+            foreach ($r as $k=>$v)
+            {
+                if ($v->Jns)
+                {
+                    $daftar_kegiatan[$v->KgtID]=$v->kode_kegiatan.'. '.$v->KgtNm;
+                }
+                else
+                {
+                    $daftar_kegiatan[$v->KgtID]=$v->kode_kegiatan.'. '.$v->KgtNm;
+                }
+                
+            }            
             $json_data['success']=true;
             $json_data['daftar_kegiatan']=$daftar_kegiatan;
         }

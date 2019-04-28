@@ -211,6 +211,9 @@ document.addEventListener('DOMContentLoaded', function() {
                             allowClear:true
                         });
                     }                  
+                    if ($('#divdatatable *').hasClass('switch')) {
+                        $(".switch").bootstrapSwitch();                
+                    } 
                 },
                 error:function(xhr, status, error){
                     console.log('ERROR');
@@ -239,6 +242,9 @@ document.addEventListener('DOMContentLoaded', function() {
                             allowClear:true
                         });
                     }              
+                    if ($('#divdatatable *').hasClass('switch')) {
+                        $(".switch").bootstrapSwitch();                
+                    } 
                 },
                 error:function(xhr, status, error){
                     console.log('ERROR');

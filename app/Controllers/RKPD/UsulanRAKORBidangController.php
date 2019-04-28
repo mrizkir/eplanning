@@ -128,7 +128,7 @@ class UsulanRAKORBidangController extends Controller {
         $this->setCurrentPageInsideSession('usulanrakorbidang',1);
         $data=$this->populateData();
 
-        $datatable = view("pages.$theme.rkpd.rakorbidang.datatable")->with(['page_active'=>'usulanrakorbidang',
+        $datatable = view("pages.$theme.rkpd.usulanrakorbidang.datatable")->with(['page_active'=>'usulanrakorbidang',
                                                                                 'search'=>$this->getControllerStateSession('usulanrakorbidang','search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                 'column_order'=>$this->getControllerStateSession('rakorbidang.orderby','column_name'),
@@ -164,7 +164,7 @@ class UsulanRAKORBidangController extends Controller {
             $data = $this->populateData($data->lastPage());
         }
         
-        $datatable = view("pages.$theme.rkpd.rakorbidang.datatable")->with(['page_active'=>'usulanrakorbidang',
+        $datatable = view("pages.$theme.rkpd.usulanrakorbidang.datatable")->with(['page_active'=>'usulanrakorbidang',
                                                             'search'=>$this->getControllerStateSession('usulanrakorbidang','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                             'column_order'=>$this->getControllerStateSession('rakorbidang.orderby','column_name'),
@@ -185,7 +185,7 @@ class UsulanRAKORBidangController extends Controller {
 
         $this->setCurrentPageInsideSession('usulanrakorbidang',$id);
         $data=$this->populateData($id);
-        $datatable = view("pages.$theme.rkpd.rakorbidang.datatable")->with(['page_active'=>'usulanrakorbidang',
+        $datatable = view("pages.$theme.rkpd.usulanrakorbidang.datatable")->with(['page_active'=>'usulanrakorbidang',
                                                                             'search'=>$this->getControllerStateSession('usulanrakorbidang','search'),
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                             'column_order'=>$this->getControllerStateSession('rakorbidang.orderby','column_name'),
@@ -218,7 +218,7 @@ class UsulanRAKORBidangController extends Controller {
         $this->setCurrentPageInsideSession('usulanrakorbidang',1);
         $data=$this->populateData();
 
-        $datatable = view("pages.$theme.rkpd.rakorbidang.datatable")->with(['page_active'=>'usulanrakorbidang',                                                            
+        $datatable = view("pages.$theme.rkpd.usulanrakorbidang.datatable")->with(['page_active'=>'usulanrakorbidang',                                                            
                                                             'search'=>$this->getControllerStateSession('usulanrakorbidang','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                             'column_order'=>$this->getControllerStateSession('rakorbidang.orderby','column_name'),
@@ -430,6 +430,63 @@ class UsulanRAKORBidangController extends Controller {
                                                                         'direction'=>$this->getControllerStateSession('usulanrakorbidang.orderby','order'),
                                                                         'data'=>$data]);
     }
+    public function pilihusulankegiatan(Request $request)
+    {
+        $json_data=[];
+        if ($request->exists('UrsID'))
+        {
+            $UrsID = $request->input('UrsID')==''?'none':$request->input('UrsID');
+            $daftar_program = ProgramModel::getDaftarProgram(config('globalsettings.tahun_perencanaan'),false,$UrsID);
+            $json_data['success']=true;
+            $json_data['daftar_program']=$daftar_program;
+        }
+
+        if ($request->exists('PrgID'))
+        {
+            $PrgID = $request->input('PrgID')==''?'none':$request->input('PrgID');
+            $r=\DB::table('v_program_kegiatan')
+                    ->where('TA',config('globalsettings.tahun_perencanaan'))
+                    ->where('PrgID',$PrgID)
+                    ->WhereNotIn('KgtID',function($query) {
+                        $query->select('KgtID')
+                                ->from('trRenja')
+                                ->where('TA', config('globalsettings.tahun_perencanaan'));
+                    }) 
+                    ->orderBy('Kd_Keg')
+                    ->orderBy('kode_kegiatan')
+                    ->get();
+            $daftar_kegiatan=[];        
+            foreach ($r as $k=>$v)
+            {
+                if ($v->Jns)
+                {
+                    $daftar_kegiatan[$v->KgtID]=$v->kode_kegiatan.'. '.$v->KgtNm;
+                }
+                else
+                {
+                    $daftar_kegiatan[$v->KgtID]=$v->kode_kegiatan.'. '.$v->KgtNm;
+                }
+                
+            }            
+            $json_data['success']=true;
+            $json_data['daftar_kegiatan']=$daftar_kegiatan;
+        }
+        return response()->json($json_data,200);  
+    }
+    public function pilihindikatorkinerja(Request $request)
+    {
+        $IndikatorKinerjaID = $request->input('IndikatorKinerjaID');
+        $json_data=\App\Models\RPJMD\RpjmdIndikatorKinerjaModel::getIndikatorKinerjaByID($IndikatorKinerjaID,config('globalsettings.tahun_perencanaan'));
+        if (is_null($json_data))
+        {
+            $json_data=[
+                'NamaIndikator'=>'-',
+                'TargetAngka'=>'-',
+                'PaguDana'=>'-'
+            ];
+        }
+        return response()->json($json_data,200);  
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -439,11 +496,91 @@ class UsulanRAKORBidangController extends Controller {
     {        
         $theme = \Auth::user()->theme;
 
-        return view("pages.$theme.rkpd.rakorbidang.create")->with(['page_active'=>'usulanrakorbidang',
-                                                                    
-                                                ]);  
+        $filters=$this->getControllerStateSession('usulanrakorbidang','filters'); 
+
+        if ($filters['SOrgID'] != 'none'&&$filters['SOrgID'] != ''&&$filters['SOrgID'] != null)
+        {
+            $SOrgID=$filters['SOrgID'];            
+            $OrgID=$filters['OrgID'];
+
+            $organisasi=\App\Models\DMaster\OrganisasiModel::find($OrgID);            
+            $UrsID=$organisasi->UrsID;
+
+            $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'),false);   
+            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(config('globalsettings.tahun_perencanaan'),false,$UrsID);
+            $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(config('globalsettings.tahun_perencanaan'),false);     
+            
+            return view("pages.$theme.rkpd.usulanrakorbidang.create")->with(['page_active'=>'usulanrakorbidang',
+                                                                            'daftar_urusan'=>$daftar_urusan,
+                                                                            'daftar_program'=>$daftar_program,
+                                                                            'UrsID_selected'=>$UrsID,
+                                                                            'sumber_dana'=>$sumber_dana
+                                                                        ]);  
+        }
+        else
+        {
+            return view("pages.$theme.rkpd.usulanrakorbidang.error")->with(['page_active'=>'usulanrakorbidang',
+                                                                            'errormessage'=>'Mohon unit kerja untuk di pilih terlebih dahulu.'
+                                                                            ]);  
+        }  
+    }    
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create1($renjaid)
+    {        
+        $theme = \Auth::user()->theme;
+
+        $filters=$this->getControllerStateSession('usulanrakorbidang','filters'); 
+        if ($filters['SOrgID'] != 'none'&&$filters['SOrgID'] != ''&&$filters['SOrgID'] != null)
+        {
+            $OrgID=$filters['OrgID'];
+            $SOrgID=$filters['SOrgID'];
+
+            $renja=RenjaModel::select(\DB::raw('"RenjaID","KgtID"'))
+                                ->where('OrgID',$OrgID)
+                                ->where('SOrgID',$SOrgID)
+                                ->findOrFail($renjaid);
+            
+            
+            $kegiatan=\App\Models\DMaster\ProgramKegiatanModel::select(\DB::raw('"trUrsPrg"."UrsID","trUrsPrg"."PrgID"'))
+                                            ->join('trUrsPrg','trUrsPrg.PrgID','tmKgt.PrgID')
+                                            ->find($renja->KgtID);                                            
+            $UrsID=$kegiatan->UrsID;    
+            $PrgID=$kegiatan->PrgID;          
+            $daftar_indikatorkinerja = \DB::table('trIndikatorKinerja')
+                                        ->where('UrsID',$UrsID)
+                                        ->where('PrgID',$PrgID)
+                                        ->orWhere('OrgID',$OrgID)
+                                        ->orWhere('OrgID2',$OrgID)
+                                        ->orWhere('OrgID3',$OrgID)
+                                        ->where('TA_N',config('globalsettings.rpjmd_tahun_mulai'))
+                                        ->WhereNotIn('IndikatorKinerjaID',function($query) use ($renjaid){
+                                            $query->select('IndikatorKinerjaID')
+                                                    ->from('trRenjaIndikator')
+                                                    ->where('RenjaID', $renjaid);
+                                        })
+                                        ->get()
+                                        ->pluck('NamaIndikator','IndikatorKinerjaID')
+                                        ->toArray();     
+            
+            $dataindikatorkinerja = $this->populateIndikatorKegiatan($renjaid);
+
+            return view("pages.$theme.rkpd.usulanrakorbidang.create1")->with(['page_active'=>'usulanrakorbidang',
+                                                                            'daftar_indikatorkinerja'=>$daftar_indikatorkinerja,
+                                                                            'renja'=>$renja,
+                                                                            'dataindikatorkinerja'=>$dataindikatorkinerja
+                                                                            ]);  
+        }
+        else
+        {
+            return view("pages.$theme.rkpd.usulanrakorbidang.error")->with(['page_active'=>'usulanrakorbidang',
+                                                                            'errormessage'=>'Mohon unit kerja untuk di pilih terlebih dahulu.'
+                                                                            ]);  
+        }
     }
-    
     /**
      * Store a newly created resource in storage.
      *
@@ -453,23 +590,53 @@ class UsulanRAKORBidangController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'replaceit'=>'required',
+            'UrsID'=>'required',
+            'PrgID'=>'required',
+            'KgtID'=>'required',
+            'SumberDanaID'=>'required',
+            'Sasaran_Angka1'=>'required',
+            'Sasaran_Uraian1' => 'required',
+            'Sasaran_AngkaSetelah'=>'required',
+            'Sasaran_UraianSetelah'=>'required',
+            'Target1'=>'required',
+            'NilaiSebelum'=>'required',
+            'NilaiUsulan1'=>'required',
+            'NilaiSetelah'=>'required',
+            'NamaIndikator'=>'required'
         ]);
-        
-        $rakorbidang = UsulanRAKORBidangModel::create([
-            'replaceit' => $request->input('replaceit'),
-        ]);        
+        $filters=$this->getControllerStateSession('usulanrakorbidang','filters'); 
+        $RenjaID=uniqid ('uid');
+        $data=[            
+            'RenjaID' => $RenjaID,            
+            'OrgID' => $filters['OrgID'],
+            'SOrgID' => $filters['SOrgID'],
+            'KgtID' => $request->input('KgtID'),
+            'SumberDanaID' => $request->input('SumberDanaID'),
+            'Sasaran_Angka1' => $request->input('Sasaran_Angka1'),
+            'Sasaran_Uraian1' => $request->input('Sasaran_Uraian1'),
+            'Sasaran_AngkaSetelah' => $request->input('Sasaran_AngkaSetelah'),
+            'Sasaran_UraianSetelah' => $request->input('Sasaran_UraianSetelah'),
+            'Target1' => $request->input('Target1'),
+            'NilaiSebelum' => $request->input('NilaiSebelum'),
+            'NilaiUsulan1' => $request->input('NilaiUsulan1'),
+            'NilaiSetelah' => $request->input('NilaiSetelah'),
+            'NamaIndikator' => $request->input('NamaIndikator'),            
+            'Descr' => $request->input('Descr'),
+            'TA' => config('globalsettings.tahun_perencanaan'),
+            'EntryLvl'=>1
+        ];
+        $usulanrakorbidang = RenjaModel::create($data);        
         
         if ($request->ajax()) 
         {
             return response()->json([
                 'success'=>true,
                 'message'=>'Data ini telah berhasil disimpan.'
-            ],200);
+            ]);
         }
         else
         {
-            return redirect(route('rakorbidang.show',['id'=>$rakorbidang->replaceit]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('usulanrakorbidang.create1',['id'=>$RenjaID]))->with('success','Data kegiatan telah berhasil disimpan. Selanjutnya isi Indikator Kinerja Kegiatan dari RPMJD');
         }
 
     }
@@ -487,7 +654,7 @@ class UsulanRAKORBidangController extends Controller {
         $data = UsulanRAKORBidangModel::findOrFail($id);
         if (!is_null($data) )  
         {
-            return view("pages.$theme.rkpd.rakorbidang.show")->with(['page_active'=>'usulanrakorbidang',
+            return view("pages.$theme.rkpd.usulanrakorbidang.show")->with(['page_active'=>'usulanrakorbidang',
                                                     'data'=>$data
                                                     ]);
         }        
@@ -506,7 +673,7 @@ class UsulanRAKORBidangController extends Controller {
         $data = UsulanRAKORBidangModel::findOrFail($id);
         if (!is_null($data) ) 
         {
-            return view("pages.$theme.rkpd.rakorbidang.edit")->with(['page_active'=>'usulanrakorbidang',
+            return view("pages.$theme.rkpd.usulanrakorbidang.edit")->with(['page_active'=>'usulanrakorbidang',
                                                     'data'=>$data
                                                     ]);
         }        
@@ -563,7 +730,7 @@ class UsulanRAKORBidangController extends Controller {
             {            
                 $data = $this->populateData($data->lastPage());
             }
-            $datatable = view("pages.$theme.rkpd.rakorbidang.datatable")->with(['page_active'=>'usulanrakorbidang',
+            $datatable = view("pages.$theme.rkpd.usulanrakorbidang.datatable")->with(['page_active'=>'usulanrakorbidang',
                                                             'search'=>$this->getControllerStateSession('usulanrakorbidang','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                                             'column_order'=>$this->getControllerStateSession('rakorbidang.orderby','column_name'),

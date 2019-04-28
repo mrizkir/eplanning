@@ -5,6 +5,7 @@ namespace App\Controllers\RKPD;
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Models\RKPD\UsulanPraRenjaOPDModel;
+use App\Models\RKPD\RenjaModel;
 use App\Models\RKPD\RenjaRincianModel;
 
 class PembahasanPraRenjaOPDController extends Controller {
@@ -365,8 +366,18 @@ class PembahasanPraRenjaOPDController extends Controller {
     {
         $pembahasanprarenjaopd = RenjaRincianModel::find($id);        
         $pembahasanprarenjaopd->Privilege = $request->input('Privilege');
+        $pembahasanprarenjaopd->Status = $request->input('Privilege');
         $pembahasanprarenjaopd->save();
 
+        $RenjaID = $pembahasanprarenjaopd->RenjaID;
+        if (RenjaRincianModel::where('RenjaID',$RenjaID)->count() > 0)
+        {
+            RenjaModel::where('RenjaID',$RenjaID)->update(['Privilege'=>1,'Status'=>1]);
+        }
+        else
+        {
+            RenjaModel::where('RenjaID',$RenjaID)->update(['Privilege'=>0,'Status'=>0]);
+        }        
         if ($request->ajax()) 
         {
             return response()->json([
