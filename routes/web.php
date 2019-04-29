@@ -228,6 +228,16 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/aspirasi/usulanrakorbidang/changenumberrecordperpage',['uses'=>'RKPD\UsulanRAKORBidangController@changenumberrecordperpage','as'=>'usulanrakorbidang.changenumberrecordperpage']);  
     Route::post('/aspirasi/usulanrakorbidang/orderby',['uses'=>'RKPD\UsulanRAKORBidangController@orderby','as'=>'usulanrakorbidang.orderby']);
     
+    //Rencana Kerja - Pembahasan Rakor Bidang OPD/SKPD [pembahasan]
+    Route::resource('/pembahasan/pembahasanrakorbidang','RKPD\PembahasanRAKORBidangController',['parameters'=>['pembahasanrakorbidang'=>'uuid'],
+                                                                                                              'only'=>['index','show','update']]); 
+    Route::post('/pembahasan/pembahasanrakorbidang/search',['uses'=>'RKPD\PembahasanRAKORBidangController@search','as'=>'pembahasanrakorbidang.search']);  
+    Route::post('/pembahasan/pembahasanrakorbidang/filter',['uses'=>'RKPD\PembahasanRAKORBidangController@filter','as'=>'pembahasanrakorbidang.filter']);              
+    Route::get('/pembahasan/pembahasanrakorbidang/paginate/{id}',['uses'=>'RKPD\PembahasanRAKORBidangController@paginate','as'=>'pembahasanrakorbidang.paginate']);              
+    Route::post('/pembahasan/pembahasanrakorbidang/changenumberrecordperpage',['uses'=>'RKPD\PembahasanRAKORBidangController@changenumberrecordperpage','as'=>'pembahasanrakorbidang.changenumberrecordperpage']);  
+    Route::post('/pembahasan/pembahasanrakorbidang/orderby',['uses'=>'RKPD\PembahasanRAKORBidangController@orderby','as'=>'pembahasanrakorbidang.orderby']);  
+    Route::post('/pembahasan/pembahasanrakorbidang/transfer',['uses'=>'RKPD\PembahasanRAKORBidangController@transfer','as'=>'pembahasanrakorbidang.transfer']);
+
     //setting - permissions    
     Route::resource('/setting/permissions','Setting\PermissionsController',[
                                                                             'parameters'=>['permissions'=>'id'],

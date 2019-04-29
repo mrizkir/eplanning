@@ -324,7 +324,7 @@ class UsulanPraRenjaOPDController extends Controller {
                                                                         ->where('trUsulanKec.TA', config('globalsettings.tahun_perencanaan'))
                                                                         ->where('trUsulanKec.PmKecamatanID',$PmKecamatanID)                                                
                                                                         ->where('trUsulanKec.Privilege',1)       
-                                                                        ->whereNull('trRenja.UsulanKecID')       
+                                                                        ->whereNull('rinciankegiatan.UsulanKecID')       
                                                                         ->orderBY('trUsulanKec.NamaKegiatan','ASC')
                                                                         ->get(); 
             $daftar_uraian = [];
@@ -362,6 +362,7 @@ class UsulanPraRenjaOPDController extends Controller {
                                                     ->leftJoinSub($subquery,'rinciankegiatan',function($join){
                                                         $join->on('trPokPir.PokPirID','=','rinciankegiatan.PokPirID');
                                                     })
+                                                    ->whereNull('rinciankegiatan.PokPirID')
                                                     ->where('trPokPir.TA', config('globalsettings.tahun_perencanaan'))
                                                     ->where('trPokPir.PemilikPokokID',$PemilikPokokID)                                                
                                                     ->where('trPokPir.Privilege',1)  

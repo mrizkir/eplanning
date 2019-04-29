@@ -241,6 +241,11 @@
                                             <i class="icon-cube"></i>P. MUSRENBANG KECAMATAN <span class="text-violet"><strong>[4]</strong></span>
                                         </a>
                                     </li>
+                                    <li{!!Helper::isMenuActive ($page_active,'pembahasanrakorbidang',' class="active"')!!}>
+                                        <a href="{{route('pembahasanrakorbidang.index')}}" title="Aspirasi Musrenbang Kecamatan">
+                                            <i class="icon-cube"></i>P. RAKOR BIDANG <span class="text-violet"><strong>[8]</strong></span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>

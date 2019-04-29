@@ -83,28 +83,28 @@
                 </div>
             </div>        
             <div class="form-group">
-                {{Form::label('Sasaran_Angka1','SASARAN KEGIATAN',['class'=>'control-label col-md-2'])}}
+                {{Form::label('Sasaran_Angka2','SASARAN KEGIATAN',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
                     <div class="row">
                         <div class="col-md-6">
-                            {{Form::text('Sasaran_Angka1','',['class'=>'form-control','placeholder'=>'ANGKA SASARAN'])}}
+                            {{Form::text('Sasaran_Angka2','',['class'=>'form-control','placeholder'=>'ANGKA SASARAN'])}}
                         </div>
                         <div class="col-md-6">
-                            {{Form::textarea('Sasaran_Uraian1','',['class'=>'form-control','placeholder'=>'URAIAN SASARAN','rows'=>3,'id'=>'Sasaran_Uraian1'])}}
+                            {{Form::textarea('Sasaran_Uraian2','',['class'=>'form-control','placeholder'=>'URAIAN SASARAN','rows'=>3,'id'=>'Sasaran_Uraian2'])}}
                         </div>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                {{Form::label('Target1','TARGET (%)',['class'=>'control-label col-md-2'])}}
+                {{Form::label('Target2','TARGET (%)',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
-                    {{Form::text('Target1','',['class'=>'form-control','placeholder'=>'TARGET'])}}
+                    {{Form::text('Target2','',['class'=>'form-control','placeholder'=>'TARGET'])}}
                 </div>
             </div>
             <div class="form-group">
-                {{Form::label('Jumlah1','NILAI USULAN',['class'=>'control-label col-md-2'])}}
+                {{Form::label('Jumlah2','NILAI USULAN',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
-                    {{Form::text('Jumlah1','',['class'=>'form-control','placeholder'=>'NILAI USULAN'])}}
+                    {{Form::text('Jumlah2','',['class'=>'form-control','placeholder'=>'NILAI USULAN'])}}
                 </div>
             </div>
             <div class="form-group">
@@ -141,7 +141,7 @@
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
-    AutoNumeric.multiple(['#No','#Sasaran_Angka1'], {
+    AutoNumeric.multiple(['#No','#Sasaran_Angka2'], {
                                             allowDecimalPadding: false,
                                             minimumValue:0,
                                             maximumValue:99999999999,
@@ -152,7 +152,7 @@ $(document).ready(function () {
                                             unformatOnSubmit: true,
                                             modifyValueOnWheel:false
                                         });
-    AutoNumeric.multiple(['#Target1'], {
+    AutoNumeric.multiple(['#Target2'], {
                                             allowDecimalPadding: false,
                                             minimumValue:0.00,
                                             maximumValue:100.00,
@@ -164,7 +164,7 @@ $(document).ready(function () {
                                             modifyValueOnWheel:false
                                         });
 
-    AutoNumeric.multiple(['#Jumlah1'],{
+    AutoNumeric.multiple(['#Jumlah2'],{
                                             allowDecimalPadding: false,
                                             decimalCharacter: ",",
                                             digitGroupSeparator: ".",
@@ -189,10 +189,10 @@ $(document).ready(function () {
         {
             $("#frmdata :input").not('[name=PemilikPokokID],[name=PokPirID]').prop("disabled", true);
             $('#Uraian').val('');
-            $('#Sasaran_Angka1').val('');
-            $('#Sasaran_Uraian1').val('');
-            $('#Target1').val('');
-            $('#Jumlah1').val('');
+            $('#Sasaran_Angka2').val('');
+            $('#Sasaran_Uraian2').val('');
+            $('#Target2').val('');
+            $('#Jumlah2').val('');
             $('#Prioritas').val('none');
             $('#Descr').val('');
         }
@@ -231,10 +231,10 @@ $(document).ready(function () {
         {
             $("#frmdata :input").not('[name=PemilikPokokID],[name=PokPirID]').prop("disabled", true);
             $('#Uraian').val('');
-            $('#Sasaran_Angka1').val('');
-            $('#Sasaran_Uraian1').val('');
-            $('#Target1').val('');
-            $('#Jumlah1').val('');
+            $('#Sasaran_Angka2').val('');
+            $('#Sasaran_Uraian2').val('');
+            $('#Target2').val('');
+            $('#Jumlah2').val('');
             $('#Prioritas').val('none');
             $('#Descr').val('');
         }
@@ -254,10 +254,10 @@ $(document).ready(function () {
                 {                    
                     console.log(result.data_kegiatan)  ;    
                     $('#Uraian').val(result.data_kegiatan.Uraian);   
-                    AutoNumeric.getAutoNumericElement('#Sasaran_Angka1').set(result.data_kegiatan.Sasaran_Angka1);               
-                    $('#Sasaran_Uraian1').val(result.data_kegiatan.Sasaran_Uraian1);                    
-                    AutoNumeric.getAutoNumericElement('#Target1').set(100);               
-                    AutoNumeric.getAutoNumericElement('#Jumlah1').set(result.data_kegiatan.NilaiUsulan);  
+                    AutoNumeric.getAutoNumericElement('#Sasaran_Angka2').set(result.data_kegiatan.Sasaran_Angka1);               
+                    $('#Sasaran_Uraian2').val(result.data_kegiatan.Sasaran_Uraian1);                    
+                    AutoNumeric.getAutoNumericElement('#Target2').set(100);               
+                    AutoNumeric.getAutoNumericElement('#Jumlah2').set(result.data_kegiatan.NilaiUsulan);  
 
                     $("#Prioritas option").filter(function () {
                         return ($(this).val() == result.data_kegiatan.Prioritas);
@@ -313,16 +313,16 @@ $(document).ready(function () {
             Uraian : {
                 required: true
             },
-            Sasaran_Angka1 : {
+            Sasaran_Angka2 : {
                 required: true
             },
-            Sasaran_Uraian1 : {
+            Sasaran_Uraian2 : {
                 required: true
             },
-            Jumlah1 : {
+            Jumlah2 : {
                 required: true
             },
-            Target1 : {
+            Target2 : {
                 required: true
             },
             Prioritas : {
@@ -342,16 +342,16 @@ $(document).ready(function () {
             Uraian : {
                 required: "Mohon untuk di isi uraian rincian kegiatan."
             },
-            Sasaran_Angka1 : {
+            Sasaran_Angka2 : {
                 required: "Mohon untuk di isi angka sasaran rincian kegiatan."
             },
-            Sasaran_Uraian1 : {
+            Sasaran_Uraian2 : {
                 required: "Mohon untuk di isi sasaran rincian kegiatan."
             },
-            Target1 : {
+            Target2 : {
                 required: "Mohon untuk di isi target rincian kegiatan."
             },
-            Jumlah1 : {
+            Jumlah2 : {
                 required: "Mohon untuk di isi nilai usulan rincian kegiatan."
             },
             Prioritas : {

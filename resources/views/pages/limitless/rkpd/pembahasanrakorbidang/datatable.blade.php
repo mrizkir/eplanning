@@ -8,11 +8,7 @@
             </div>
         </div>
         <div class="heading-elements">
-            <div class="heading-btn">
-                <a href="{!!route('usulanrakorbidang.create')!!}" class="btn btn-info btn-xs" title="Tambah Usulan Kegiatan">
-                    <i class="icon-googleplus5"></i>
-                </a>
-            </div>            
+            
         </div>
     </div>
     @if (count($data) > 0)
@@ -51,12 +47,8 @@
                     </th> 
                     <th width="120">                        
                         PRIORITAS                          
-                    </th>
-                    <th width="80">
-                        <a class="column-sort text-white" id="col-status" data-order="{{$direction}}" href="#">
-                            STATUS  
-                        </a>                                             
-                    </th> 
+                    </th>          
+                    <th width="70">TRANSFER</th>                            
                     <th width="150">AKSI</th>
                 </tr>
             </thead>
@@ -66,7 +58,9 @@
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>
-                    <td>{{$item->kode_kegiatan}}</td>
+                    <td>
+                        {{$item->kode_kegiatan}}                        
+                    </td>
                     <td>
                         {{ucwords($item->KgtNm)}}
                         @if (empty($item->RenjaIndikatorID))
@@ -80,14 +74,14 @@
                         <span class="label label-flat label-block border-info text-info-600">
                             PROSES INPUT PRA RENJA OPD / SKPD BELUM SELESAI
                         </span>
-                        <a href="{{route('usulanrakorbidang.create1',['uuid'=>$item->RenjaID])}}">
+                        <a href="{{route('usulanprarenjaopd.create1',['uuid'=>$item->RenjaID])}}">
                             Lanjutkan Input 
                         </a>
                     </td>
                     <td>
                         <ul class="icons-list">                            
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data Usulan Rakor Bidang" data-id="{{$item->RenjaID}}" data-url="{{route('usulanrakorbidang.index')}}" data-pid="renja">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data Usulan Pra Renja" data-id="{{$item->RenjaID}}" data-url="{{route('usulanprarenjaopd.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>
@@ -112,43 +106,33 @@
                             @endif
                         </span>
                     </td>
-                    <td>{{Helper::formatAngka($item->Sasaran_Angka2)}} {{$item->Sasaran_Uraian1}}</td>
+                    <td>{{Helper::formatAngka($item->Sasaran_Angka1)}} {{$item->Sasaran_Uraian1}}</td>
                     <td>{{$item->Target1}}</td>
-                    <td class="text-right">{{Helper::formatuang($item->Jumlah2)}}</td>
+                    <td class="text-right">{{Helper::formatuang($item->Jumlah1)}}</td>
                     <td>
                         <span class="label label-flat border-success text-success-600">
                             {{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}
                         </span>
                     </td>
-                    <td>{{$item->status}}</td>
                     <td>
-                        <ul class="icons-list">
-                            <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('usulanrakorbidang.show',['id'=>$item->RenjaID])}}" title="Detail Data Usulan Rakor Bidang">
-                                    <i class='icon-eye'></i>
-                                </a>  
-                            </li>
-                            <li class="text-primary-600">
-                                @if ($item->isSKPD)
-                                    <a class="btnEdit" href="{{route('usulanrakorbidang.edit4',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Rakor Bidang">
-                                        <i class='icon-pencil7'></i>
-                                    </a> 
-                                @elseif($item->isReses)
-                                    <a class="btnEdit" href="{{route('usulanrakorbidang.edit3',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Rakor Bidang">
-                                        <i class='icon-pencil7'></i>
-                                    </a>
-                                @else
-                                    <a class="btnEdit" href="{{route('usulanrakorbidang.edit2',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Rakor Bidang">
-                                        <i class='icon-pencil7'></i>
-                                    </a>
-                                @endif
-                            </li>
-                            <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data Usulan Rakor Bidang" data-id="{{$item->RenjaRincID}}" data-url="{{route('usulanrakorbidang.index')}}" data-pid="rincian">
-                                    <i class='icon-trash'></i>
-                                </a> 
-                            </li>
-                        </ul>
+                        @if ($item->Privilege==1)
+                            <i class="icon-checkmark"></i>
+                        @elseif ($item->status=='ACC')
+                            <a href="#" title="TRANSFER KEG. KE RAKOR BIDANG" class="btn btn-link" id="btnTransfer" data-id="{{$item->RenjaID}}">
+                                <i class="icon-play4"></i>
+                            </a>
+                        @else
+                            <i class="icon-cross3"></i>
+                        @endif      
+                    </td>
+                    <td>
+                        @if ($item->Privilege==0)
+                            <div class="checkbox checkbox-switch">
+                                {{Form::checkbox('Privilege[]',$item->RenjaRincID,$item->status=='ACC'?$item->status:'',['class'=>'switch','data-on-text'=>'ACC','data-off-text'=>'DUM'])}}                                     
+                            </div>
+                        @else
+                            {{$item->status}}
+                        @endif
                     </td>
                     @endif                    
                 </tr>

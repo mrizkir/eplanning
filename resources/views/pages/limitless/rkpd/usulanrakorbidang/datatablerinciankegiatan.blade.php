@@ -56,9 +56,9 @@
                         @endif
                     </span>
                 </td>                
-                <td>{{Helper::formatAngka($item->Sasaran_Angka1)}} {{ucwords($item->Sasaran_Uraian1)}}</td>
-                <td>{{$item->Target1}}</td>               
-                <td>{{Helper::formatUang($item->Jumlah1)}}</td>       
+                <td>{{Helper::formatAngka($item->Sasaran_Angka2)}} {{ucwords($item->Sasaran_Uraian2)}}</td>
+                <td>{{$item->Target2}}</td>               
+                <td>{{Helper::formatUang($item->Jumlah2)}}</td>       
                 <td>
                     <span class="label label-flat border-success text-success-600">
                         {{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}

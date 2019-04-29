@@ -3,9 +3,9 @@
         <h5>DAFTAR INDIKATOR KEGIATAN</h5>
     </div>
     <div class="heading-elements">
-        @if (Request::route()->getName()=='usulanprarenjaopd.show')
+        @if (Request::route()->getName()=='usulanrakorbidang.show')
         <div class="heading-btn">
-            <a href="{!!route('usulanprarenjaopd.create1',['id'=>$renja->RenjaID])!!}" class="btn btn-info btn-xs" title="Tambah Indikator Kegiatan">
+            <a href="{!!route('usulanrakorbidang.create1',['id'=>$renja->RenjaID])!!}" class="btn btn-info btn-xs" title="Tambah Indikator Kegiatan">
                 <i class="icon-googleplus5"></i>           
             </a>           
         </div>  
@@ -38,12 +38,12 @@
                 <td>
                     <ul class="icons-list">
                         <li class="text-primary-600">                            
-                            <a class="btnEdit" href="{{route('usulanprarenjaopd.edit1',['id'=>$item->RenjaIndikatorID])}}" title="Ubah Data Indikator">
+                            <a class="btnEdit" href="{{route('usulanrakorbidang.edit1',['id'=>$item->RenjaIndikatorID])}}" title="Ubah Data Indikator">
                                 <i class='icon-pencil7'></i>
                             </a> 
                         </li>
                         <li class="text-danger-600">
-                            <a class="btnDelete" href="javascript:;" title="Hapus Data Idikator" data-id="{{$item->RenjaIndikatorID}}" data-url="{{route('usulanprarenjaopd.index')}}">
+                            <a class="btnDelete" href="javascript:;" title="Hapus Data Idikator" data-id="{{$item->RenjaIndikatorID}}" data-url="{{route('usulanrakorbidang.index')}}">
                                 <i class='icon-trash'></i>
                             </a> 
                         </li>

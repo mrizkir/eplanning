@@ -326,15 +326,15 @@ class PembahasanPraRenjaOPDController extends Controller {
         $this->setCurrentPageInsideSession('pembahasanprarenjaopd',$data->currentPage());
 
         return view("pages.$theme.rkpd.pembahasanprarenjaopd.index")->with(['page_active'=>'pembahasanprarenjaopd',
-                                                                        'daftar_opd'=>$daftar_opd,
-                                                                        'daftar_unitkerja'=>$daftar_unitkerja,
-                                                                        'filters'=>$filters,
-                                                                        'search'=>$this->getControllerStateSession('pembahasanprarenjaopd','search'),
-                                                                        'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                                        'column_order'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','column_name'),
-                                                                        'direction'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','order'),
-                                                                        'data'=>$data]);               
-    }
+                                                                            'daftar_opd'=>$daftar_opd,
+                                                                            'daftar_unitkerja'=>$daftar_unitkerja,
+                                                                            'filters'=>$filters,
+                                                                            'search'=>$this->getControllerStateSession('pembahasanprarenjaopd','search'),
+                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                            'column_order'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','column_name'),
+                                                                            'direction'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','order'),
+                                                                            'data'=>$data]);               
+        }
     
     /**
      * Display the specified resource.
@@ -350,8 +350,8 @@ class PembahasanPraRenjaOPDController extends Controller {
         if (!is_null($data) )  
         {
             return view("pages.$theme.rkpd.pembahasanprarenjaopd.show")->with(['page_active'=>'pembahasanprarenjaopd',
-                                                    'data'=>$data
-                                                    ]);
+                                                                                'data'=>$data
+                                                                            ]);
         }        
     }
 
@@ -364,6 +364,8 @@ class PembahasanPraRenjaOPDController extends Controller {
      */
     public function update(Request $request, $id)
     {
+        $theme = \Auth::user()->theme;
+
         $pembahasanprarenjaopd = RenjaRincianModel::find($id);        
         $pembahasanprarenjaopd->Status = $request->input('Status');
         $pembahasanprarenjaopd->save();
@@ -381,9 +383,18 @@ class PembahasanPraRenjaOPDController extends Controller {
         }        
         if ($request->ajax()) 
         {
+            $data = $this->populateData();
+
+            $datatable = view("pages.$theme.rkpd.pembahasanprarenjaopd.datatable")->with(['page_active'=>'pembahasanprarenjaopd',                                                            
+                                                                                    'search'=>$this->getControllerStateSession('pembahasanprarenjaopd','search'),
+                                                                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                    'column_order'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','column_name'),
+                                                                                    'direction'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','order'),
+                                                                                    'data'=>$data])->render();
             return response()->json([
                 'success'=>true,
-                'message'=>'Data ini telah berhasil diubah.'
+                'message'=>'Data ini telah berhasil diubah.',
+                'datatable'=>$datatable
             ],200);
         }
         else
@@ -400,6 +411,8 @@ class PembahasanPraRenjaOPDController extends Controller {
      */
     public function transfer(Request $request)
     {
+        $theme = \Auth::user()->theme;
+
         if ($request->exists('RenjaID'))
         {
             $RenjaID=$request->input('RenjaID');
@@ -442,7 +455,7 @@ class PembahasanPraRenjaOPDController extends Controller {
                         "Descr",
                         "TA") 
                     SELECT 
-                        SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16) AS "RenjaRincID",
+                        REPLACE(SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16),\'-\',\'\') AS "RenjaRincID",
                         \''.$newRenjaiD.'\' AS "RenjaID",
                         "UsulanKecID",
                         "PMProvID",
@@ -484,7 +497,7 @@ class PembahasanPraRenjaOPDController extends Controller {
                         "Descr",
                         "TA")
                     SELECT 
-                        SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16) AS "RenjaRincID",
+                        REPLACE(SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16),\'-\',\'\') AS "RenjaIndikatorID",
                         "IndikatorKinerjaID",
                         \''.$newRenjaiD.'\' AS "RenjaID",
                         "Target_Angka",
@@ -505,9 +518,18 @@ class PembahasanPraRenjaOPDController extends Controller {
 
             if ($request->ajax()) 
             {
+                $data = $this->populateData();
+                
+                $datatable = view("pages.$theme.rkpd.pembahasanprarenjaopd.datatable")->with(['page_active'=>'pembahasanprarenjaopd',                                                            
+                                                                                    'search'=>$this->getControllerStateSession('pembahasanprarenjaopd','search'),
+                                                                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                    'column_order'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','column_name'),
+                                                                                    'direction'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','order'),
+                                                                                    'data'=>$data])->render();
                 return response()->json([
                     'success'=>true,
-                    'message'=>'Data ini telah berhasil diubah.'
+                    'message'=>'Data ini telah berhasil diubah.',
+                    'datatable'=>$datatable
                 ],200);
             }
             else

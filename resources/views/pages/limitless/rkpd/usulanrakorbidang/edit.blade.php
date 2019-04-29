@@ -9,12 +9,12 @@
     </span>     
 @endsection
 @section('page_info')
-    @include('pages.limitless.rkpd.usulanprarenjaopd.info')
+    @include('pages.limitless.rkpd.usulanrakorbidang.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">PERENCANAAN</a></li>
     <li><a href="#">ASPIRASI / USULAN</a></li>
-    <li><a href="{!!route('usulanprarenjaopd.index')!!}">USULAN PRA RENJA OPD/SKPD</a></li>
+    <li><a href="{!!route('usulanrakorbidang.index')!!}">USULAN PRA RENJA OPD/SKPD</a></li>
     <li class="active">UBAH DATA</li>
 @endsection
 @section('page_content')
@@ -28,7 +28,7 @@
             <div class="heading-elements">
                 <ul class="icons-list">                    
                     <li>
-                        <a href="{!!route('usulanprarenjaopd.index')!!}" data-action="closeredirect" title="keluar"></a>
+                        <a href="{!!route('usulanrakorbidang.index')!!}" data-action="closeredirect" title="keluar"></a>
                     </li>
                 </ul>
             </div>
@@ -63,14 +63,14 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    {{Form::label('Sasaran_Angka1','SASARAN KEGIATAN',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('Sasaran_Angka2','SASARAN KEGIATAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
                         <div class="row">
                             <div class="col-md-6">
-                                {{Form::text('Sasaran_Angka1',Helper::formatAngka($renja['Sasaran_Angka1']),['class'=>'form-control','placeholder'=>'ANGKA SASARAN'])}}
+                                {{Form::text('Sasaran_Angka2',Helper::formatAngka($renja['Sasaran_Angka2']),['class'=>'form-control','placeholder'=>'ANGKA SASARAN'])}}
                             </div>
                             <div class="col-md-6">
-                                {{Form::textarea('Sasaran_Uraian1',$renja['Sasaran_Uraian1'],['rows'=>3,'class'=>'form-control','placeholder'=>'URAIAN SASARAN'])}}
+                                {{Form::textarea('Sasaran_Uraian2',$renja['Sasaran_Uraian2'],['rows'=>3,'class'=>'form-control','placeholder'=>'URAIAN SASARAN'])}}
                             </div>
                         </div>                        
                     </div>                   
@@ -89,9 +89,9 @@
                     </div>
                 </div>                
                 <div class="form-group">
-                    {{Form::label('Target1','TARGET (%)',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('Target2','TARGET (%)',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('Target1',Helper::formatAngka($renja['Target1']),['class'=>'form-control','placeholder'=>'PERSENTASE TARGET KEGIATAN'])}}
+                        {{Form::text('Target2',Helper::formatAngka($renja['Target2']),['class'=>'form-control','placeholder'=>'PERSENTASE TARGET KEGIATAN'])}}
                     </div>
                 </div>
                 <div class="form-group">
@@ -102,7 +102,7 @@
                                 {{Form::text('NilaiSebelum',Helper::formatUang($renja['NilaiSebelum']),['class'=>'form-control','placeholder'=>'NILAI (TA-1)'])}}
                             </div>
                             <div class="col-md-4">
-                                {{Form::text('NilaiUsulan1',Helper::formatUang($renja['NilaiUsulan1']),['class'=>'form-control','placeholder'=>'NILAI USULAN (TA)','id'=>'NilaiUsulan1'])}}
+                                {{Form::text('NilaiUsulan2',Helper::formatUang($renja['NilaiUsulan2']),['class'=>'form-control','placeholder'=>'NILAI USULAN (TA)','id'=>'NilaiUsulan2'])}}
                             </div> 
                             <div class="col-md-4">
                                 {{Form::text('NilaiSetelah',Helper::formatUang($renja['NilaiSetelah']),['class'=>'form-control','placeholder'=>'NILAI (TA+1)','id'=>'NilaiSetelah'])}}
@@ -147,7 +147,7 @@
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
-    AutoNumeric.multiple(['#Sasaran_Angka1','#Sasaran_AngkaSetelah'], {
+    AutoNumeric.multiple(['#Sasaran_Angka2','#Sasaran_AngkaSetelah'], {
                                             allowDecimalPadding: false,
                                             minimumValue:0,
                                             maximumValue:99999999999,
@@ -158,7 +158,7 @@ $(document).ready(function () {
                                             unformatOnSubmit: true,
                                             modifyValueOnWheel:false
                                         });
-    AutoNumeric.multiple(['#Target1'], {
+    AutoNumeric.multiple(['#Target2'], {
                                             allowDecimalPadding: false,
                                             minimumValue:0.00,
                                             maximumValue:100.00,
@@ -170,7 +170,7 @@ $(document).ready(function () {
                                             modifyValueOnWheel:false
                                         });
 
-    AutoNumeric.multiple(['#NilaiSebelum','#NilaiUsulan1','#NilaiSetelah'],{
+    AutoNumeric.multiple(['#NilaiSebelum','#NilaiUsulan2','#NilaiSetelah'],{
                                             allowDecimalPadding: false,
                                             decimalCharacter: ",",
                                             digitGroupSeparator: ".",
@@ -190,10 +190,10 @@ $(document).ready(function () {
             KgtID : {
                 required: true
             },         
-            Sasaran_Angka1 : {
+            Sasaran_Angka2 : {
                 required: true,
             },
-            Sasaran_Uraian1 : {
+            Sasaran_Uraian2 : {
                 required: true
             },
             Sasaran_AngkaSetelah : {
@@ -202,13 +202,13 @@ $(document).ready(function () {
             Sasaran_UraianSetelah : {
                 required: true
             },
-            Target1 : {
+            Target2 : {
                 required: true
             },
             NilaiSebelum : {
                 required: true
             },
-            NilaiUsulan1 : {
+            NilaiUsulan2 : {
                 required: true
             },
             NilaiSetelah : {
@@ -231,10 +231,10 @@ $(document).ready(function () {
             KgtID : {
                 required: "Mohon untuk di pilih nama kegiatan.",                
             },
-            Sasaran_Angka1 : {
+            Sasaran_Angka2 : {
                 required: "Mohon untuk di isi angka sasaran kegiatan.",                
             },
-            Sasaran_Uraian1 : {
+            Sasaran_Uraian2 : {
                 required: "Mohon untuk di isi uraian sasaran kegiatan.",                
             },
             Sasaran_AngkaSetelah : {
@@ -243,13 +243,13 @@ $(document).ready(function () {
             Sasaran_UraianSetelah : {
                 required: "Mohon untuk di isi uraian sasaran kegiatan (N+1).",                
             },
-            Target1 : {
+            Target2 : {
                 required: "Mohon untuk di isi persentase target kegiatan.",                
             },
             NilaiSebelum : {
                 required: "Mohon untuk di isi nilai (TA-1).",                
             },
-            NilaiUsulan1 : {
+            NilaiUsulan2 : {
                 required: "Mohon untuk di isi nilai (TA).",                
             },
             NilaiSetelah : {

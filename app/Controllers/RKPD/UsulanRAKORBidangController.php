@@ -29,7 +29,7 @@ class UsulanRAKORBidangController extends Controller {
                                     ->where('trRenjaRinc.EntryLvl',1)
                                     ->where('RenjaID',$RenjaID)
                                     ->orderBy('Prioritas','ASC')
-                                    ->get(['trRenjaRinc.RenjaRincID','trRenjaRinc.RenjaID','trRenjaRinc.RenjaID','trRenjaRinc.UsulanKecID','Nm_Kecamatan','trRenjaRinc.Uraian','trRenjaRinc.No','trRenjaRinc.Sasaran_Angka1','trRenjaRinc.Sasaran_Uraian1','trRenjaRinc.Target1','trRenjaRinc.Jumlah1','trRenjaRinc.Prioritas','isSKPD','isReses','isReses_Uraian']);
+                                    ->get(['trRenjaRinc.RenjaRincID','trRenjaRinc.RenjaID','trRenjaRinc.RenjaID','trRenjaRinc.UsulanKecID','Nm_Kecamatan','trRenjaRinc.Uraian','trRenjaRinc.No','trRenjaRinc.Sasaran_Angka2','trRenjaRinc.Sasaran_Uraian2','trRenjaRinc.Target2','trRenjaRinc.Jumlah2','trRenjaRinc.Prioritas','isSKPD','isReses','isReses_Uraian']);
         
         return $data;
     }
@@ -292,13 +292,13 @@ class UsulanRAKORBidangController extends Controller {
                             ->select('UsulanKecID')
                             ->where('TA',config('globalsettings.tahun_perencanaan'));
             $data=\App\Models\Musrenbang\AspirasiMusrenKecamatanModel::select('trUsulanKec.*')
-                                                                        ->leftJoinSub($subquery,'trRenja',function($join){
-                                                                            $join->on('trUsulanKec.UsulanKecID','=','trRenja.UsulanKecID');
+                                                                        ->leftJoinSub($subquery,'rinciankegiatan',function($join){
+                                                                            $join->on('trUsulanKec.UsulanKecID','=','rinciankegiatan.UsulanKecID');
                                                                         })
                                                                         ->where('trUsulanKec.TA', config('globalsettings.tahun_perencanaan'))
                                                                         ->where('trUsulanKec.PmKecamatanID',$PmKecamatanID)                                                
                                                                         ->where('trUsulanKec.Privilege',1)       
-                                                                        ->whereNull('trRenja.UsulanKecID')       
+                                                                        ->whereNull('rinciankegiatan.UsulanKecID')       
                                                                         ->orderBY('trUsulanKec.NamaKegiatan','ASC')
                                                                         ->get(); 
             $daftar_uraian = [];
@@ -317,8 +317,8 @@ class UsulanRAKORBidangController extends Controller {
             $data_kegiatan['PmDesaID']=$data->PmDesaID;
             $data_kegiatan['Uraian']=$data->NamaKegiatan;
             $data_kegiatan['NilaiUsulan']=\App\Helpers\Helper::formatUang($data->NilaiUsulan);
-            $data_kegiatan['Sasaran_Angka1']=\App\Helpers\Helper::formatAngka($data->Target_Angka);
-            $data_kegiatan['Sasaran_Uraian1']=$data->Target_Uraian;
+            $data_kegiatan['Sasaran_Angka2']=\App\Helpers\Helper::formatAngka($data->Target_Angka);
+            $data_kegiatan['Sasaran_Uraian2']=$data->Target_Uraian;
             $data_kegiatan['Prioritas']=$data->Prioritas > 6 ? 6 : $data->Prioritas;
             $json_data = ['success'=>true,'data_kegiatan'=>$data_kegiatan];
         }
@@ -338,6 +338,7 @@ class UsulanRAKORBidangController extends Controller {
                                                     })
                                                     ->where('trPokPir.TA', config('globalsettings.tahun_perencanaan'))
                                                     ->where('trPokPir.PemilikPokokID',$PemilikPokokID)                                                
+                                                    ->whereNull('rinciankegiatan.PokPirID')
                                                     ->where('trPokPir.Privilege',1)  
                                                     ->where('trPokPir.OrgID',$filters['OrgID'])   
                                                     ->orderBY('NamaUsulanKegiatan','ASC')
@@ -358,8 +359,8 @@ class UsulanRAKORBidangController extends Controller {
             
             $data_kegiatan['Uraian']=$data->NamaUsulanKegiatan;
             $data_kegiatan['NilaiUsulan']=\App\Helpers\Helper::formatUang($data->NilaiUsulan);
-            $data_kegiatan['Sasaran_Angka1']=\App\Helpers\Helper::formatAngka($data->Sasaran_Uraian);
-            $data_kegiatan['Sasaran_Uraian1']=$data->Sasaran_Uraian;
+            $data_kegiatan['Sasaran_Angka2']=\App\Helpers\Helper::formatAngka($data->Sasaran_Uraian);
+            $data_kegiatan['Sasaran_Uraian2']=$data->Sasaran_Uraian;
             $data_kegiatan['Prioritas']=$data->Prioritas > 6 ? 6 : $data->Prioritas;
             $json_data = ['success'=>true,'data_kegiatan'=>$data_kegiatan];
         }
@@ -709,13 +710,13 @@ class UsulanRAKORBidangController extends Controller {
             'PrgID'=>'required',
             'KgtID'=>'required',
             'SumberDanaID'=>'required',
-            'Sasaran_Angka1'=>'required',
-            'Sasaran_Uraian1' => 'required',
+            'Sasaran_Angka2'=>'required',
+            'Sasaran_Uraian2' => 'required',
             'Sasaran_AngkaSetelah'=>'required',
             'Sasaran_UraianSetelah'=>'required',
-            'Target1'=>'required',
+            'Target2'=>'required',
             'NilaiSebelum'=>'required',
-            'NilaiUsulan1'=>'required',
+            'NilaiUsulan2'=>'required',
             'NilaiSetelah'=>'required',
             'NamaIndikator'=>'required'
         ]);
@@ -727,13 +728,13 @@ class UsulanRAKORBidangController extends Controller {
             'SOrgID' => $filters['SOrgID'],
             'KgtID' => $request->input('KgtID'),
             'SumberDanaID' => $request->input('SumberDanaID'),
-            'Sasaran_Angka1' => $request->input('Sasaran_Angka1'),
-            'Sasaran_Uraian1' => $request->input('Sasaran_Uraian1'),
+            'Sasaran_Angka2' => $request->input('Sasaran_Angka2'),
+            'Sasaran_Uraian2' => $request->input('Sasaran_Uraian2'),
             'Sasaran_AngkaSetelah' => $request->input('Sasaran_AngkaSetelah'),
             'Sasaran_UraianSetelah' => $request->input('Sasaran_UraianSetelah'),
-            'Target1' => $request->input('Target1'),
+            'Target2' => $request->input('Target2'),
             'NilaiSebelum' => $request->input('NilaiSebelum'),
-            'NilaiUsulan1' => $request->input('NilaiUsulan1'),
+            'NilaiUsulan2' => $request->input('NilaiUsulan2'),
             'NilaiSetelah' => $request->input('NilaiSetelah'),
             'NamaIndikator' => $request->input('NamaIndikator'),            
             'Descr' => $request->input('Descr'),
@@ -804,10 +805,10 @@ class UsulanRAKORBidangController extends Controller {
         $this->validate($request, [
             'No'=>'required',
             'Uraian'=>'required',
-            'Sasaran_Angka1'=>'required',
-            'Sasaran_Uraian1'=>'required',
-            'Target1'=>'required',
-            'Jumlah1'=>'required',
+            'Sasaran_Angka2'=>'required',
+            'Sasaran_Uraian2'=>'required',
+            'Target2'=>'required',
+            'Jumlah2'=>'required',
             'Prioritas' => 'required'            
         ]);
         $renjaid=$request->input('RenjaID');
@@ -822,10 +823,10 @@ class UsulanRAKORBidangController extends Controller {
             'UsulanKecID' => $request->input('UsulanKecID'),    
             'No' => $nomor_rincian,           
             'Uraian' => $request->input('Uraian'),
-            'Sasaran_Angka1' => $request->input('Sasaran_Angka1'),                       
-            'Sasaran_Uraian1' => $request->input('Sasaran_Uraian1'),                       
-            'Target1' => $request->input('Target1'),                       
-            'Jumlah1' => $request->input('Jumlah1'),                       
+            'Sasaran_Angka2' => $request->input('Sasaran_Angka2'),                       
+            'Sasaran_Uraian2' => $request->input('Sasaran_Uraian2'),                       
+            'Target2' => $request->input('Target2'),                       
+            'Jumlah2' => $request->input('Jumlah2'),                       
             'Prioritas' => $request->input('Prioritas'),              
             'Status' => 0,  
             'EntryLvl' => 1,                                       
@@ -855,10 +856,10 @@ class UsulanRAKORBidangController extends Controller {
         $this->validate($request, [
             'No'=>'required',
             'Uraian'=>'required',
-            'Sasaran_Angka1'=>'required',
-            'Sasaran_Uraian1'=>'required',
-            'Target1'=>'required',
-            'Jumlah1'=>'required',
+            'Sasaran_Angka2'=>'required',
+            'Sasaran_Uraian2'=>'required',
+            'Target2'=>'required',
+            'Jumlah2'=>'required',
             'Prioritas' => 'required'            
         ]);
 
@@ -880,10 +881,10 @@ class UsulanRAKORBidangController extends Controller {
             'PokPirID' => $PokPirID, 
             'No' => $nomor_rincian,           
             'Uraian' => $request->input('Uraian'),
-            'Sasaran_Angka1' => $request->input('Sasaran_Angka1'),                       
-            'Sasaran_Uraian1' => $request->input('Sasaran_Uraian1'),                       
-            'Target1' => $request->input('Target1'),                       
-            'Jumlah1' => $request->input('Jumlah1'),                       
+            'Sasaran_Angka2' => $request->input('Sasaran_Angka2'),                       
+            'Sasaran_Uraian2' => $request->input('Sasaran_Uraian2'),                       
+            'Target2' => $request->input('Target2'),                       
+            'Jumlah2' => $request->input('Jumlah2'),                       
             'Prioritas' => $request->input('Prioritas'),  
             'isReses' => true,     
             'isReses_Uraian' => $pokok_pikiran->Kd_PK,
@@ -916,10 +917,10 @@ class UsulanRAKORBidangController extends Controller {
         $this->validate($request, [
             'No'=>'required',
             'Uraian'=>'required',
-            'Sasaran_Angka1'=>'required',
-            'Sasaran_Uraian1'=>'required',
-            'Target1'=>'required',
-            'Jumlah1'=>'required',
+            'Sasaran_Angka2'=>'required',
+            'Sasaran_Uraian2'=>'required',
+            'Target2'=>'required',
+            'Jumlah2'=>'required',
             'Prioritas' => 'required'            
         ]);
         $renjaid=$request->input('RenjaID');
@@ -933,10 +934,10 @@ class UsulanRAKORBidangController extends Controller {
             'PmDesaID' => $request->input('PmDesaID'),    
             'No' => $nomor_rincian,           
             'Uraian' => $request->input('Uraian'),
-            'Sasaran_Angka1' => $request->input('Sasaran_Angka1'),                       
-            'Sasaran_Uraian1' => $request->input('Sasaran_Uraian1'),                       
-            'Target1' => $request->input('Target1'),                       
-            'Jumlah1' => $request->input('Jumlah1'),                       
+            'Sasaran_Angka2' => $request->input('Sasaran_Angka2'),                       
+            'Sasaran_Uraian2' => $request->input('Sasaran_Uraian2'),                       
+            'Target2' => $request->input('Target2'),                       
+            'Jumlah2' => $request->input('Jumlah2'),                       
             'Prioritas' => $request->input('Prioritas'),  
             'isSKPD' => true,     
             'Status' => 0,                               
@@ -991,7 +992,7 @@ class UsulanRAKORBidangController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $renja = RenjaModel::select(\DB::raw('"trRenja"."RenjaID","tmUrs"."Nm_Bidang","tmPrg"."PrgNm","tmKgt"."KgtNm","trRenja"."Sasaran_Angka1","trRenja"."Sasaran_Uraian1","trRenja"."Sasaran_AngkaSetelah","trRenja"."Sasaran_UraianSetelah","trRenja"."Target1","trRenja"."NilaiSebelum","trRenja"."NilaiUsulan1","trRenja"."NilaiSetelah","trRenja"."NamaIndikator","trRenja"."SumberDanaID","trRenja"."Descr"'))
+        $renja = RenjaModel::select(\DB::raw('"trRenja"."RenjaID","tmUrs"."Nm_Bidang","tmPrg"."PrgNm","tmKgt"."KgtNm","trRenja"."Sasaran_Angka2","trRenja"."Sasaran_Uraian2","trRenja"."Sasaran_AngkaSetelah","trRenja"."Sasaran_UraianSetelah","trRenja"."Target2","trRenja"."NilaiSebelum","trRenja"."NilaiUsulan2","trRenja"."NilaiSetelah","trRenja"."NamaIndikator","trRenja"."SumberDanaID","trRenja"."Descr"'))
                             ->join('tmKgt','tmKgt.KgtID','trRenja.KgtID')
                             ->join('tmPrg','tmPrg.PrgID','tmKgt.PrgID')
                             ->join('trUrsPrg','trUrsPrg.PrgID','tmPrg.PrgID')
@@ -1046,7 +1047,7 @@ class UsulanRAKORBidangController extends Controller {
         switch ($roles[0])
         {
             case 'superadmin' :
-                $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID","tmPMProv"."Nm_Prov","tmPmKota"."Nm_Kota","tmPmKecamatan"."Nm_Kecamatan","trRenjaRinc"."RenjaID","trRenjaRinc"."No","trRenjaRinc"."No","trUsulanKec"."NamaKegiatan","trRenjaRinc"."Uraian","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Uraian1","trRenjaRinc"."Target1","trRenjaRinc"."Jumlah1","trRenjaRinc"."Prioritas","trRenjaRinc"."Descr","trRenjaRinc"."isSKPD","trRenjaRinc"."isReses"'))                                            
+                $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID","tmPMProv"."Nm_Prov","tmPmKota"."Nm_Kota","tmPmKecamatan"."Nm_Kecamatan","trRenjaRinc"."RenjaID","trRenjaRinc"."No","trRenjaRinc"."No","trUsulanKec"."NamaKegiatan","trRenjaRinc"."Uraian","trRenjaRinc"."Sasaran_Angka2","trRenjaRinc"."Sasaran_Angka2","trRenjaRinc"."Sasaran_Uraian2","trRenjaRinc"."Target2","trRenjaRinc"."Jumlah2","trRenjaRinc"."Prioritas","trRenjaRinc"."Descr","trRenjaRinc"."isSKPD","trRenjaRinc"."isReses"'))                                            
                                             ->join('trUsulanKec','trUsulanKec.UsulanKecID','trRenjaRinc.UsulanKecID')                                                                                        
                                             ->join('tmPMProv','tmPMProv.PMProvID','trRenjaRinc.PMProvID')
                                             ->join('tmPmKota','tmPmKota.PmKotaID','trRenjaRinc.PmKotaID')
@@ -1056,14 +1057,14 @@ class UsulanRAKORBidangController extends Controller {
             case 'opd' :
                 $OrgID = $auth->OrgID;
                 $SOrgID = empty($auth->SOrgID)? $SOrgID= $this->getControllerStateSession('usulanrakorbidang.filters','SOrgID'):$auth->SOrgID;
-                $renja = empty($SOrgID)?RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID","tmPMProv"."Nm_Prov","tmPmKota"."Nm_Kota","tmPmKecamatan"."Nm_Kecamatan","trRenjaRinc"."RenjaID","trRenjaRinc"."No","trRenjaRinc"."No","trUsulanKec"."NamaKegiatan","trRenjaRinc"."Uraian","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Uraian1","trRenjaRinc"."Target1","trRenjaRinc"."Jumlah1","trRenjaRinc"."Prioritas","trRenjaRinc"."Descr","trRenjaRinc"."isSKPD","trRenjaRinc"."isReses"'))                                            
+                $renja = empty($SOrgID)?RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID","tmPMProv"."Nm_Prov","tmPmKota"."Nm_Kota","tmPmKecamatan"."Nm_Kecamatan","trRenjaRinc"."RenjaID","trRenjaRinc"."No","trRenjaRinc"."No","trUsulanKec"."NamaKegiatan","trRenjaRinc"."Uraian","trRenjaRinc"."Sasaran_Angka2","trRenjaRinc"."Sasaran_Angka2","trRenjaRinc"."Sasaran_Uraian2","trRenjaRinc"."Target2","trRenjaRinc"."Jumlah2","trRenjaRinc"."Prioritas","trRenjaRinc"."Descr","trRenjaRinc"."isSKPD","trRenjaRinc"."isReses"'))                                            
                                                         ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')
                                                         ->join('trUsulanKec','trUsulanKec.UsulanKecID','trRenjaRinc.UsulanKecID')                                                                                        
                                                         ->join('tmPMProv','tmPMProv.PMProvID','trRenjaRinc.PMProvID')
                                                         ->join('tmPmKota','tmPmKota.PmKotaID','trRenjaRinc.PmKotaID')
                                                         ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')                                            
                                                         ->where('trRenja.SOrgID',$SOrgID)->findOrFail($id)
-                                     :RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID","tmPMProv"."Nm_Prov","tmPmKota"."Nm_Kota","tmPmKecamatan"."Nm_Kecamatan","trRenjaRinc"."RenjaID","trRenjaRinc"."No","trRenjaRinc"."No","trUsulanKec"."NamaKegiatan","trRenjaRinc"."Uraian","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Uraian1","trRenjaRinc"."Target1","trRenjaRinc"."Jumlah1","trRenjaRinc"."Prioritas","trRenjaRinc"."Descr","trRenjaRinc"."isSKPD","trRenjaRinc"."isReses"'))                                            
+                                     :RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID","tmPMProv"."Nm_Prov","tmPmKota"."Nm_Kota","tmPmKecamatan"."Nm_Kecamatan","trRenjaRinc"."RenjaID","trRenjaRinc"."No","trRenjaRinc"."No","trUsulanKec"."NamaKegiatan","trRenjaRinc"."Uraian","trRenjaRinc"."Sasaran_Angka2","trRenjaRinc"."Sasaran_Angka2","trRenjaRinc"."Sasaran_Uraian2","trRenjaRinc"."Target2","trRenjaRinc"."Jumlah2","trRenjaRinc"."Prioritas","trRenjaRinc"."Descr","trRenjaRinc"."isSKPD","trRenjaRinc"."isReses"'))                                            
                                                         ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')
                                                         ->join('trUsulanKec','trUsulanKec.UsulanKecID','trRenjaRinc.UsulanKecID')                                                                                        
                                                         ->join('tmPMProv','tmPMProv.PMProvID','trRenjaRinc.PMProvID')
@@ -1074,10 +1075,9 @@ class UsulanRAKORBidangController extends Controller {
             break;
         }
         if (!is_null($renja) ) 
-        {   
-            // dd($renja);
+        {               
             $datarinciankegiatan = $this->populateRincianKegiatan($renja->RenjaID);
-
+            
             return view("pages.$theme.rkpd.usulanrakorbidang.edit2")->with(['page_active'=>'usulanrakorbidang',
                                                                             'renja'=>$renja,
                                                                             'datarinciankegiatan'=>$datarinciankegiatan
@@ -1099,7 +1099,7 @@ class UsulanRAKORBidangController extends Controller {
         switch ($roles[0])
         {
             case 'superadmin' :
-                $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID","trRenjaRinc"."RenjaID","trRenjaRinc"."No","tmPemilikPokok"."Kd_PK","tmPemilikPokok"."NmPk","trPokPir"."NamaUsulanKegiatan","trRenjaRinc"."No","trRenjaRinc"."Uraian","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Uraian1","trRenjaRinc"."Target1","trRenjaRinc"."Jumlah1","trRenjaRinc"."Prioritas","trRenjaRinc"."Descr","trRenjaRinc"."isSKPD","trRenjaRinc"."isReses"'))                                            
+                $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID","trRenjaRinc"."RenjaID","trRenjaRinc"."No","tmPemilikPokok"."Kd_PK","tmPemilikPokok"."NmPk","trPokPir"."NamaUsulanKegiatan","trRenjaRinc"."No","trRenjaRinc"."Uraian","trRenjaRinc"."Sasaran_Angka2","trRenjaRinc"."Sasaran_Angka2","trRenjaRinc"."Sasaran_Uraian2","trRenjaRinc"."Target2","trRenjaRinc"."Jumlah2","trRenjaRinc"."Prioritas","trRenjaRinc"."Descr","trRenjaRinc"."isSKPD","trRenjaRinc"."isReses"'))                                            
                                             ->join('trPokPir','trPokPir.PokPirID','trRenjaRinc.PokPirID')
                                             ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')                                                        
                                             ->findOrFail($id);        
@@ -1107,12 +1107,12 @@ class UsulanRAKORBidangController extends Controller {
             case 'opd' :
                 $OrgID = $auth->OrgID;
                 $SOrgID = empty($auth->SOrgID)? $SOrgID= $this->getControllerStateSession('usulanrakorbidang.filters','SOrgID'):$auth->SOrgID;
-                $renja = empty($SOrgID)?RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID","trRenjaRinc"."RenjaID","trRenjaRinc"."No","tmPemilikPokok"."Kd_PK","tmPemilikPokok"."NmPk","trPokPir"."NamaUsulanKegiatan","trRenjaRinc"."No","trRenjaRinc"."Uraian","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Uraian1","trRenjaRinc"."Target1","trRenjaRinc"."Jumlah1","trRenjaRinc"."Prioritas","trRenjaRinc"."Descr","trRenjaRinc"."isSKPD","trRenjaRinc"."isReses"'))                                            
+                $renja = empty($SOrgID)?RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID","trRenjaRinc"."RenjaID","trRenjaRinc"."No","tmPemilikPokok"."Kd_PK","tmPemilikPokok"."NmPk","trPokPir"."NamaUsulanKegiatan","trRenjaRinc"."No","trRenjaRinc"."Uraian","trRenjaRinc"."Sasaran_Angka2","trRenjaRinc"."Sasaran_Angka2","trRenjaRinc"."Sasaran_Uraian2","trRenjaRinc"."Target2","trRenjaRinc"."Jumlah2","trRenjaRinc"."Prioritas","trRenjaRinc"."Descr","trRenjaRinc"."isSKPD","trRenjaRinc"."isReses"'))                                            
                                                         ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')
                                                         ->join('trPokPir','trPokPir.PokPirID','trRenjaRinc.PokPirID')
                                                         ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')                                                        
                                                         ->where('trRenja.SOrgID',$SOrgID)->findOrFail($id)
-                                     :RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",trRenjaRinc"."RenjaID","trRenjaRinc"."No","tmPemilikPokok"."Kd_PK","tmPemilikPokok"."NmPk","trPokPir"."NamaUsulanKegiatan","trRenjaRinc"."No","trRenjaRinc"."Uraian","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Uraian1","trRenjaRinc"."Target1","trRenjaRinc"."Jumlah1","trRenjaRinc"."Prioritas","trRenjaRinc"."Descr","trRenjaRinc"."isSKPD","trRenjaRinc"."isReses"'))                                            
+                                     :RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",trRenjaRinc"."RenjaID","trRenjaRinc"."No","tmPemilikPokok"."Kd_PK","tmPemilikPokok"."NmPk","trPokPir"."NamaUsulanKegiatan","trRenjaRinc"."No","trRenjaRinc"."Uraian","trRenjaRinc"."Sasaran_Angka2","trRenjaRinc"."Sasaran_Angka2","trRenjaRinc"."Sasaran_Uraian2","trRenjaRinc"."Target2","trRenjaRinc"."Jumlah2","trRenjaRinc"."Prioritas","trRenjaRinc"."Descr","trRenjaRinc"."isSKPD","trRenjaRinc"."isReses"'))                                            
                                                         ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')
                                                         ->join('trPokPir','trPokPir.PokPirID','trRenjaRinc.PokPirID')
                                                         ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')                                                        
@@ -1144,24 +1144,23 @@ class UsulanRAKORBidangController extends Controller {
         switch ($roles[0])
         {
             case 'superadmin' :
-                $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID","trRenjaRinc"."RenjaID","trRenjaRinc"."PmKecamatanID","trRenjaRinc"."PmDesaID","trRenjaRinc"."No","trRenjaRinc"."No","trRenjaRinc"."Uraian","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Uraian1","trRenjaRinc"."Target1","trRenjaRinc"."Jumlah1","trRenjaRinc"."Prioritas","trRenjaRinc"."Descr","trRenjaRinc"."isSKPD","trRenjaRinc"."isReses"'))                                                                                        
+                $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID","trRenjaRinc"."RenjaID","trRenjaRinc"."PmKecamatanID","trRenjaRinc"."PmDesaID","trRenjaRinc"."No","trRenjaRinc"."No","trRenjaRinc"."Uraian","trRenjaRinc"."Sasaran_Angka2","trRenjaRinc"."Sasaran_Angka2","trRenjaRinc"."Sasaran_Uraian2","trRenjaRinc"."Target2","trRenjaRinc"."Jumlah2","trRenjaRinc"."Prioritas","trRenjaRinc"."Descr","trRenjaRinc"."isSKPD","trRenjaRinc"."isReses"'))                                                                                        
                                             ->findOrFail($id);        
             break;
             case 'opd' :
                 $OrgID = $auth->OrgID;
                 $SOrgID = empty($auth->SOrgID)? $SOrgID= $this->getControllerStateSession('usulanrakorbidang.filters','SOrgID'):$auth->SOrgID;
-                $renja = empty($SOrgID)?RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID","trRenjaRinc"."RenjaID","trRenjaRinc"."PmKecamatanID","trRenjaRinc"."PmDesaID","trRenjaRinc"."No","trRenjaRinc"."No","trRenjaRinc"."Uraian","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Uraian1","trRenjaRinc"."Target1","trRenjaRinc"."Jumlah1","trRenjaRinc"."Prioritas","trRenjaRinc"."Descr","trRenjaRinc"."isSKPD","trRenjaRinc"."isReses"'))
+                $renja = empty($SOrgID)?RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID","trRenjaRinc"."RenjaID","trRenjaRinc"."PmKecamatanID","trRenjaRinc"."PmDesaID","trRenjaRinc"."No","trRenjaRinc"."No","trRenjaRinc"."Uraian","trRenjaRinc"."Sasaran_Angka2","trRenjaRinc"."Sasaran_Angka2","trRenjaRinc"."Sasaran_Uraian2","trRenjaRinc"."Target2","trRenjaRinc"."Jumlah2","trRenjaRinc"."Prioritas","trRenjaRinc"."Descr","trRenjaRinc"."isSKPD","trRenjaRinc"."isReses"'))
                                                         ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')                                                        
                                                         ->where('trRenja.SOrgID',$SOrgID)->findOrFail($id)
-                                     :RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID","trRenjaRinc"."RenjaID","trRenjaRinc"."PmKecamatanID","trRenjaRinc"."PmDesaID","trRenjaRinc"."No","trRenjaRinc"."No","trRenjaRinc"."Uraian","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Uraian1","trRenjaRinc"."Target1","trRenjaRinc"."Jumlah1","trRenjaRinc"."Prioritas","trRenjaRinc"."Descr","trRenjaRinc"."isSKPD","trRenjaRinc"."isReses"'))
+                                     :RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID","trRenjaRinc"."RenjaID","trRenjaRinc"."PmKecamatanID","trRenjaRinc"."PmDesaID","trRenjaRinc"."No","trRenjaRinc"."No","trRenjaRinc"."Uraian","trRenjaRinc"."Sasaran_Angka2","trRenjaRinc"."Sasaran_Angka2","trRenjaRinc"."Sasaran_Uraian2","trRenjaRinc"."Target2","trRenjaRinc"."Jumlah2","trRenjaRinc"."Prioritas","trRenjaRinc"."Descr","trRenjaRinc"."isSKPD","trRenjaRinc"."isReses"'))
                                                         ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')                                                        
                                                         ->where('trRenja.OrgID',$OrgID)
                                                         ->findOrFail($id);        
             break;
         }        
         if (!is_null($renja) ) 
-        {               
-            // dd($renja);
+        {          
             $datarinciankegiatan = $this->populateRincianKegiatan($renja->RenjaID);
             //lokasi
             $daftar_provinsi = ['uidF1847004D8F547BF'=>'KEPULAUAN RIAU'];
@@ -1191,25 +1190,25 @@ class UsulanRAKORBidangController extends Controller {
         
         $this->validate($request, [            
             'SumberDanaID'=>'required',
-            'Sasaran_Angka1'=>'required',
-            'Sasaran_Uraian1' => 'required',
+            'Sasaran_Angka2'=>'required',
+            'Sasaran_Uraian2' => 'required',
             'Sasaran_AngkaSetelah'=>'required',
             'Sasaran_UraianSetelah'=>'required',
-            'Target1'=>'required',
+            'Target2'=>'required',
             'NilaiSebelum'=>'required',
-            'NilaiUsulan1'=>'required',
+            'NilaiUsulan2'=>'required',
             'NilaiSetelah'=>'required',
             'NamaIndikator'=>'required'
         ]);
         
         $usulanrakorbidang->SumberDanaID = $request->input('SumberDanaID');
-        $usulanrakorbidang->Sasaran_Angka1 = $request->input('Sasaran_Angka1');
-        $usulanrakorbidang->Sasaran_Uraian1 = $request->input('Sasaran_Uraian1');
+        $usulanrakorbidang->Sasaran_Angka2 = $request->input('Sasaran_Angka2');
+        $usulanrakorbidang->Sasaran_Uraian2 = $request->input('Sasaran_Uraian2');
         $usulanrakorbidang->Sasaran_AngkaSetelah = $request->input('Sasaran_AngkaSetelah');
         $usulanrakorbidang->Sasaran_UraianSetelah = $request->input('Sasaran_UraianSetelah');
-        $usulanrakorbidang->Target1 = $request->input('Target1');
+        $usulanrakorbidang->Target2 = $request->input('Target2');
         $usulanrakorbidang->NilaiSebelum = $request->input('NilaiSebelum');
-        $usulanrakorbidang->NilaiUsulan1 = $request->input('NilaiUsulan1');
+        $usulanrakorbidang->NilaiUsulan2 = $request->input('NilaiUsulan2');
         $usulanrakorbidang->NilaiSetelah = $request->input('NilaiSetelah');
         $usulanrakorbidang->NamaIndikator = $request->input('NamaIndikator');
         $usulanrakorbidang->Descr = $request->input('Descr');
@@ -1274,18 +1273,18 @@ class UsulanRAKORBidangController extends Controller {
         $this->validate($request, [
             'No'=>'required',
             'Uraian'=>'required',
-            'Sasaran_Angka1'=>'required',
-            'Sasaran_Uraian1'=>'required',
-            'Target1'=>'required',
-            'Jumlah1'=>'required',
+            'Sasaran_Angka2'=>'required',
+            'Sasaran_Uraian2'=>'required',
+            'Target2'=>'required',
+            'Jumlah2'=>'required',
             'Prioritas' => 'required'            
         ]);
         
         $rinciankegiatan->Uraian = $request->input('Uraian');
-        $rinciankegiatan->Sasaran_Angka1 = $request->input('Sasaran_Angka1'); 
-        $rinciankegiatan->Sasaran_Uraian1 = $request->input('Sasaran_Uraian1');
-        $rinciankegiatan->Target1 = $request->input('Target1');
-        $rinciankegiatan->Jumlah1 = $request->input('Jumlah1');  
+        $rinciankegiatan->Sasaran_Angka2 = $request->input('Sasaran_Angka2'); 
+        $rinciankegiatan->Sasaran_Uraian2 = $request->input('Sasaran_Uraian2');
+        $rinciankegiatan->Target2 = $request->input('Target2');
+        $rinciankegiatan->Jumlah2 = $request->input('Jumlah2');  
         $rinciankegiatan->Prioritas = $request->input('Prioritas');  
         $rinciankegiatan->Descr = $request->input('Descr');
         $rinciankegiatan->save();
@@ -1313,18 +1312,18 @@ class UsulanRAKORBidangController extends Controller {
         $this->validate($request, [
             'No'=>'required',
             'Uraian'=>'required',
-            'Sasaran_Angka1'=>'required',
-            'Sasaran_Uraian1'=>'required',
-            'Target1'=>'required',
-            'Jumlah1'=>'required',
+            'Sasaran_Angka2'=>'required',
+            'Sasaran_Uraian2'=>'required',
+            'Target2'=>'required',
+            'Jumlah2'=>'required',
             'Prioritas' => 'required'            
         ]);
         
         $rinciankegiatan->Uraian = $request->input('Uraian');
-        $rinciankegiatan->Sasaran_Angka1 = $request->input('Sasaran_Angka1'); 
-        $rinciankegiatan->Sasaran_Uraian1 = $request->input('Sasaran_Uraian1');
-        $rinciankegiatan->Target1 = $request->input('Target1');
-        $rinciankegiatan->Jumlah1 = $request->input('Jumlah1');  
+        $rinciankegiatan->Sasaran_Angka2 = $request->input('Sasaran_Angka2'); 
+        $rinciankegiatan->Sasaran_Uraian2 = $request->input('Sasaran_Uraian2');
+        $rinciankegiatan->Target2 = $request->input('Target2');
+        $rinciankegiatan->Jumlah2 = $request->input('Jumlah2');  
         $rinciankegiatan->Prioritas = $request->input('Prioritas');  
         $rinciankegiatan->Descr = $request->input('Descr');
         $rinciankegiatan->save();
@@ -1352,19 +1351,19 @@ class UsulanRAKORBidangController extends Controller {
         $this->validate($request, [
             'No'=>'required',
             'Uraian'=>'required',
-            'Sasaran_Angka1'=>'required',
-            'Sasaran_Uraian1'=>'required',
-            'Target1'=>'required',
-            'Jumlah1'=>'required',
+            'Sasaran_Angka2'=>'required',
+            'Sasaran_Uraian2'=>'required',
+            'Target2'=>'required',
+            'Jumlah2'=>'required',
             'Prioritas' => 'required'            
         ]);
         $rinciankegiatan->PmKecamatanID = $request->input('PmKecamatanID');
         $rinciankegiatan->PmDesaID = $request->input('PmDesaID');
         $rinciankegiatan->Uraian = $request->input('Uraian');
-        $rinciankegiatan->Sasaran_Angka1 = $request->input('Sasaran_Angka1'); 
-        $rinciankegiatan->Sasaran_Uraian1 = $request->input('Sasaran_Uraian1');
-        $rinciankegiatan->Target1 = $request->input('Target1');
-        $rinciankegiatan->Jumlah1 = $request->input('Jumlah1');  
+        $rinciankegiatan->Sasaran_Angka2 = $request->input('Sasaran_Angka2'); 
+        $rinciankegiatan->Sasaran_Uraian2 = $request->input('Sasaran_Uraian2');
+        $rinciankegiatan->Target2 = $request->input('Target2');
+        $rinciankegiatan->Jumlah2 = $request->input('Jumlah2');  
         $rinciankegiatan->Prioritas = $request->input('Prioritas');  
         $rinciankegiatan->Descr = $request->input('Descr');
         $rinciankegiatan->save();

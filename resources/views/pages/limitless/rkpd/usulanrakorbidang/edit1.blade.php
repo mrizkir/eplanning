@@ -9,12 +9,12 @@
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.rkpd.usulanprarenjaopd.info')
+    @include('pages.limitless.rkpd.usulanrakorbidang.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">PERENCANAAN</a></li>
     <li><a href="#">ASPIRASI / USULAN</a></li>
-    <li><a href="{!!route('usulanprarenjaopd.index')!!}">USULAN RAKOR BIDANG OPD/SKPD</a></li>
+    <li><a href="{!!route('usulanrakorbidang.index')!!}">USULAN RAKOR BIDANG OPD/SKPD</a></li>
     <li class="active">UBAH DATA INDIKATOR KEGIATAN</li>
 @endsection
 @section('page_content')
@@ -28,7 +28,7 @@
             <div class="heading-elements">
                 <ul class="icons-list">                    
                     <li>               
-                        <a href="{!!route('usulanprarenjaopd.index')!!}" data-action="closeredirect" title="keluar"></a>
+                        <a href="{!!route('usulanrakorbidang.index')!!}" data-action="closeredirect" title="keluar"></a>
                     </li>
                 </ul>
             </div>
@@ -83,7 +83,7 @@
         </div>
     </div>
     <div class="panel panel-flat border-top-lg border-top-info border-bottom-info" id="divdatatableindikatorkinerja">
-        @include('pages.limitless.rkpd.usulanprarenjaopd.datatableindikatorkinerja')         
+        @include('pages.limitless.rkpd.usulanrakorbidang.datatableindikatorkinerja')         
     </div>
 </div>   
 @endsection

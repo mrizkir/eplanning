@@ -74,7 +74,7 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>SASARAN KEGIATAN: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::formatAngka($renja->Sasaran_Angka1)}} {{$renja->Sasaran_Uraian1}}</p>
+                                    <p class="form-control-static">{{Helper::formatAngka($renja->Sasaran_Angka2)}} {{$renja->Sasaran_Uraian1}}</p>
                                 </div>                            
                             </div>    
                         </div>                        
@@ -90,7 +90,7 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>TARGET (%): </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::formatAngka($renja->Target1)}}</p>
+                                    <p class="form-control-static">{{Helper::formatAngka($renja->Target2)}}</p>
                                 </div>                            
                             </div>
                             <div class="form-group">
@@ -101,7 +101,7 @@
                                             <p class="form-control-static">{{Helper::formatUang($renja->NilaiSebelum)}}</p>
                                         </div>
                                         <div class="col-md-4">
-                                            <p class="form-control-static">{{Helper::formatUang($renja->NilaiUsulan1)}}</p>
+                                            <p class="form-control-static">{{Helper::formatUang($renja->NilaiUsulan2)}}</p>
                                         </div>
                                         <div class="col-md-4">
                                             <p class="form-control-static">{{Helper::formatUang($renja->NilaiSetelah)}}</p>

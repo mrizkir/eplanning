@@ -1,20 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    PEMBAHASAN PRA RENJA OPD
+    PEMBAHASAN RAKOR BIDANG OPD
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold">
-        PEMBAHASAN PRA RENJA OPD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
+        PEMBAHASAN RAKOR BIDANG OPD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.rkpd.pembahasanprarenjaopd.info')
+    @include('pages.limitless.rkpd.pembahasanrakorbidang.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">PERENCANAAN</a></li>
     <li><a href="#">PEMBAHASAN</a></li>
-    <li class="active">PEMBAHASAN PRA RENJA OPD</li>
+    <li class="active">PEMBAHASAN RAKOR BIDANG OPD</li>
 @endsection
 @section('page_content')
 <div class="row">
@@ -65,7 +65,7 @@
                 </h5>
             </div>
             <div class="panel-body">
-                {!! Form::open(['action'=>'RKPD\PembahasanPraRenjaOPDController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
+                {!! Form::open(['action'=>'RKPD\PembahasanRAKORBidangController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
                 <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">
@@ -91,7 +91,7 @@
         </div>
     </div>       
     <div class="col-md-12" id="divdatatable">
-        @include('pages.limitless.rkpd.pembahasanprarenjaopd.datatable')
+        @include('pages.limitless.rkpd.pembahasanrakorbidang.datatable')
     </div>
 </div>
 @endsection
