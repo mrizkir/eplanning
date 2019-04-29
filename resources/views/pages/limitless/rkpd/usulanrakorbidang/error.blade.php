@@ -9,10 +9,10 @@
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.rkpd.rakorbidang.info')
+    @include('pages.limitless.rkpd.usulanrakorbidang.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('rakorbidang.index')!!}">RAKOR BIDANG OPD/SKPD</a></li>
+    <li><a href="{!!route('usulanrakorbidang.index')!!}">RAKOR BIDANG OPD/SKPD</a></li>
     <li class="active">ERROR</li>
 @endsection
 @section('page_content')
