@@ -149,27 +149,45 @@ class UsulanRAKORBidangController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'replace_it' :
-                $column_name = 'replace_it';
-            break;           
+            case 'col-kode_kegiatan' :
+                $column_name = 'kode_kegiatan';
+            break;    
+            case 'col-KgtNm' :
+                $column_name = 'KgtNm';
+            break;    
+            case 'col-Uraian' :
+                $column_name = 'Uraian';
+            break;    
+            case 'col-Sasaran_Angka2' :
+                $column_name = 'Sasaran_Angka2';
+            break;  
+            case 'col-Jumlah2' :
+                $column_name = 'Jumlah2';
+            break; 
+            case 'col-status' :
+                $column_name = 'status';
+            break;
+            case 'col-Prioritas' :
+                $column_name = 'Prioritas';
+            break;
             default :
-                $column_name = 'replace_it';
+                $column_name = 'kode_kegiatan';
         }
-        $this->putControllerStateSession('usulanrakorbidang','orderby',['column_name'=>$column_name,'order'=>$orderby]);      
+        $this->putControllerStateSession('usulanrakorbidang','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
-        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('usulanrakorbidang');         
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('pembahasanrenjaopd');         
         $data=$this->populateData($currentpage);
         if ($currentpage > $data->lastPage())
         {            
             $data = $this->populateData($data->lastPage());
         }
-        
+
         $datatable = view("pages.$theme.rkpd.usulanrakorbidang.datatable")->with(['page_active'=>'usulanrakorbidang',
-                                                            'search'=>$this->getControllerStateSession('usulanrakorbidang','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('usulanrakorbidang.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('usulanrakorbidang.orderby','order'),
-                                                            'data'=>$data])->render();     
+                                                                                    'search'=>$this->getControllerStateSession('usulanrakorbidang','search'),
+                                                                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                    'column_order'=>$this->getControllerStateSession('usulanrakorbidang.orderby','column_name'),
+                                                                                    'direction'=>$this->getControllerStateSession('usulanrakorbidang.orderby','order'),
+                                                                                    'data'=>$data])->render();     
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
     }

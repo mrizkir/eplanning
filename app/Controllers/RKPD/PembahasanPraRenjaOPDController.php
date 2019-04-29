@@ -7,6 +7,7 @@ use App\Controllers\Controller;
 use App\Models\RKPD\UsulanPraRenjaOPDModel;
 use App\Models\RKPD\RenjaModel;
 use App\Models\RKPD\RenjaRincianModel;
+use App\Models\RKPD\RenjaIndikatorModel;
 
 class PembahasanPraRenjaOPDController extends Controller {
      /**
@@ -334,7 +335,7 @@ class PembahasanPraRenjaOPDController extends Controller {
                                                                             'column_order'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','column_name'),
                                                                             'direction'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','order'),
                                                                             'data'=>$data]);               
-        }
+    }
     
     /**
      * Display the specified resource.
@@ -415,17 +416,25 @@ class PembahasanPraRenjaOPDController extends Controller {
 
         if ($request->exists('RenjaID'))
         {
-            $RenjaID=$request->input('RenjaID');
-            $renja = RenjaModel::find($RenjaID);   
+            $RenjaID=$request->input('RenjaID'); 
+            \DB::transaction(function () use ($RenjaID) {
+                $renja = RenjaModel::find($RenjaID);   
+                $renja->Privilege=1;
+                $renja->save();
 
-            #new renja
-            $newRenjaiD=uniqid ('uid');
-            $newrenja = $renja->replicate();
-            $newrenja->RenjaID = $newRenjaiD;
-            $newrenja->EntryLvl = 1;
-            $newrenja->save();
-            
-            \DB::transaction(function () use ($newRenjaiD,$RenjaID) {
+                #new renja
+                $newRenjaiD=uniqid ('uid');
+                $newrenja = $renja->replicate();
+                $newrenja->RenjaID = $newRenjaiD;
+                $newrenja->Sasaran_Uraian2 = $newrenja->Sasaran_Uraian1;
+                $newrenja->Sasaran_Angka2 = $newrenja->Sasaran_Angka1;
+                $newrenja->Target2 = $newrenja->Target1;
+                $newrenja->NilaiUsulan2 = $newrenja->NilaiUsulan1;
+                $newrenja->EntryLvl = 1;
+                $newrenja->Status = 0;
+                $newrenja->Privilege = 0;
+                $newrenja->save();
+
                 $str_rinciankegiatan = '
                     INSERT INTO "trRenjaRinc" (
                         "RenjaRincID", 
@@ -453,7 +462,10 @@ class PembahasanPraRenjaOPDController extends Controller {
                         "EntryLvl",
                         "Prioritas",
                         "Descr",
-                        "TA") 
+                        "TA",
+                        "created_at", 
+                        "updated_at"
+                    ) 
                     SELECT 
                         REPLACE(SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16),\'-\',\'\') AS "RenjaRincID",
                         \''.$newRenjaiD.'\' AS "RenjaID",
@@ -476,11 +488,13 @@ class PembahasanPraRenjaOPDController extends Controller {
                         "isReses",
                         "isReses_Uraian",
                         "isSKPD",
-                        "Status",
+                        0 AS "Status",
                         1 AS "EntryLvl",
                         "Prioritas",
                         "Descr",
-                        "TA"
+                        "TA",
+                        NOW() AS created_at,
+                        NOW() AS updated_at
                     FROM 
                         "trRenjaRinc" 
                     WHERE "RenjaID"=\''.$RenjaID.'\'       
@@ -495,7 +509,10 @@ class PembahasanPraRenjaOPDController extends Controller {
                         "Target_Uraian",  
                         "Tahun",      
                         "Descr",
-                        "TA")
+                        "TA",
+                        "created_at", 
+                        "updated_at"
+                    )
                     SELECT 
                         REPLACE(SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16),\'-\',\'\') AS "RenjaIndikatorID",
                         "IndikatorKinerjaID",
@@ -504,7 +521,9 @@ class PembahasanPraRenjaOPDController extends Controller {
                         "Target_Uraian",
                         "Tahun",
                         "Descr",
-                        "TA"
+                        "TA",
+                        NOW() AS created_at,
+                        NOW() AS updated_at
                     FROM 
                         "trRenjaIndikator" 
                     WHERE 
@@ -512,8 +531,8 @@ class PembahasanPraRenjaOPDController extends Controller {
                 ';
 
                 \DB::statement($str_kinerja);
-                
                 RenjaRincianModel::where('RenjaID',$RenjaID)->update(['Privilege'=>1,'Status'=>1]);
+                RenjaIndikatorModel::where('RenjaID',$RenjaID)->update(['Privilege'=>1]);
             });            
 
             if ($request->ajax()) 

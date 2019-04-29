@@ -33,7 +33,7 @@
                         </a>
                     </th>
                     <th width="200">
-                        <a class="column-sort text-white" id="col-Sasaran_Angka1" data-order="{{$direction}}" href="#">
+                        <a class="column-sort text-white" id="col-Sasaran_Angka2" data-order="{{$direction}}" href="#">
                             SASARAN  
                         </a>                                             
                     </th> 
@@ -41,7 +41,7 @@
                         TARGET (%)                        
                     </th> 
                     <th width="150" class="text-right">
-                        <a class="column-sort text-white" id="col-Jumlah1" data-order="{{$direction}}" href="#">
+                        <a class="column-sort text-white" id="col-Jumlah2" data-order="{{$direction}}" href="#">
                             NILAI  
                         </a>                                             
                     </th> 
@@ -106,9 +106,9 @@
                             @endif
                         </span>
                     </td>
-                    <td>{{Helper::formatAngka($item->Sasaran_Angka1)}} {{$item->Sasaran_Uraian1}}</td>
-                    <td>{{$item->Target1}}</td>
-                    <td class="text-right">{{Helper::formatuang($item->Jumlah1)}}</td>
+                    <td>{{Helper::formatAngka($item->Sasaran_Angka2)}} {{$item->Sasaran_Uraian2}}</td>
+                    <td>{{$item->Target2}}</td>
+                    <td class="text-right">{{Helper::formatuang($item->Jumlah2)}}</td>
                     <td>
                         <span class="label label-flat border-success text-success-600">
                             {{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}
@@ -118,7 +118,7 @@
                         @if ($item->Privilege==1)
                             <i class="icon-checkmark"></i>
                         @elseif ($item->status=='ACC')
-                            <a href="#" title="TRANSFER KEG. KE RAKOR BIDANG" class="btn btn-link" id="btnTransfer" data-id="{{$item->RenjaID}}">
+                            <a href="#" title="TRANSFER KEG. KE FORUM SKPD" class="btn btn-link" id="btnTransfer" data-id="{{$item->RenjaID}}">
                                 <i class="icon-play4"></i>
                             </a>
                         @else
