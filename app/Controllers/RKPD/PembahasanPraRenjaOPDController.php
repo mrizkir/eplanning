@@ -91,7 +91,7 @@ class PembahasanPraRenjaOPDController extends Controller {
                                             ->orderBy($column_order,$direction)                                            
                                             ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);             
         }        
-        $data->setPath(route('pembahasanprarenjaopd.index'));        
+        $data->setPath(route('pembahasanprarenjaopd.index'));                
         return $data;
     }
     /**
@@ -365,18 +365,19 @@ class PembahasanPraRenjaOPDController extends Controller {
     public function update(Request $request, $id)
     {
         $pembahasanprarenjaopd = RenjaRincianModel::find($id);        
-        $pembahasanprarenjaopd->Privilege = $request->input('Privilege');
-        $pembahasanprarenjaopd->Status = $request->input('Privilege');
+        $pembahasanprarenjaopd->Status = $request->input('Status');
         $pembahasanprarenjaopd->save();
 
         $RenjaID = $pembahasanprarenjaopd->RenjaID;
-        if (RenjaRincianModel::where('RenjaID',$RenjaID)->count() > 0)
+        if (RenjaRincianModel::where('RenjaID',$RenjaID)->where('Status',1)->count() > 0)
         {
-            RenjaModel::where('RenjaID',$RenjaID)->update(['Privilege'=>1,'Status'=>1]);
+            RenjaModel::where('RenjaID',$RenjaID)->update(['Status'=>1]);
+            $a=0;
         }
         else
         {
-            RenjaModel::where('RenjaID',$RenjaID)->update(['Privilege'=>0,'Status'=>0]);
+            RenjaModel::where('RenjaID',$RenjaID)->update(['Status'=>0]);
+            $a=1;
         }        
         if ($request->ajax()) 
         {
@@ -387,7 +388,146 @@ class PembahasanPraRenjaOPDController extends Controller {
         }
         else
         {
-            return redirect(route('pembahasanprarenjaopd.show',['id'=>$pembahasanprarenjaopd->replaceit]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('pembahasanprarenjaopd.show',['id'=>$pembahasanprarenjaopd->RenjaRincID]))->with('success','Data ini telah berhasil disimpan.');
+        }
+    }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function transfer(Request $request)
+    {
+        if ($request->exists('RenjaID'))
+        {
+            $RenjaID=$request->input('RenjaID');
+            $renja = RenjaModel::find($RenjaID);   
+
+            #new renja
+            $newRenjaiD=uniqid ('uid');
+            $newrenja = $renja->replicate();
+            $newrenja->RenjaID = $newRenjaiD;
+            $newrenja->EntryLvl = 1;
+            $newrenja->save();
+            
+            \DB::transaction(function () use ($newRenjaiD,$RenjaID) {
+                $str_rinciankegiatan = '
+                    INSERT INTO "trRenjaRinc" (
+                        "RenjaRincID", 
+                        "RenjaID",
+                        "UsulanKecID",
+                        "PMProvID",
+                        "PmKotaID",
+                        "PmKecamatanID",
+                        "PmDesaID",
+                        "PokPirID",
+                        "Uraian",
+                        "No",
+                        "Sasaran_Uraian1",
+                        "Sasaran_Uraian2",              
+                        "Sasaran_Angka1",
+                        "Sasaran_Angka2",               
+                        "Target1",
+                        "Target2",                      
+                        "Jumlah1", 
+                        "Jumlah2", 
+                        "isReses",
+                        "isReses_Uraian",
+                        "isSKPD",
+                        "Status",
+                        "EntryLvl",
+                        "Prioritas",
+                        "Descr",
+                        "TA") 
+                    SELECT 
+                        SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16) AS "RenjaRincID",
+                        \''.$newRenjaiD.'\' AS "RenjaID",
+                        "UsulanKecID",
+                        "PMProvID",
+                        "PmKotaID",
+                        "PmKecamatanID",
+                        "PmDesaID",
+                        "PokPirID",
+                        "Uraian",
+                        "No",
+                        "Sasaran_Uraian1",
+                        "Sasaran_Uraian1" AS Sasaran_Uraian2,              
+                        "Sasaran_Angka1",
+                        "Sasaran_Angka1" AS "Sasaran_Angka2",               
+                        "Target1",
+                        "Target1" AS "Target2",                      
+                        "Jumlah1", 
+                        "Jumlah1" AS "Jumlah2", 
+                        "isReses",
+                        "isReses_Uraian",
+                        "isSKPD",
+                        "Status",
+                        1 AS "EntryLvl",
+                        "Prioritas",
+                        "Descr",
+                        "TA"
+                    FROM 
+                        "trRenjaRinc" 
+                    WHERE "RenjaID"=\''.$RenjaID.'\'       
+                ';
+                \DB::statement($str_rinciankegiatan);       
+                $str_kinerja='
+                    INSERT INTO "trRenjaIndikator" (
+                        "RenjaIndikatorID", 
+                        "IndikatorKinerjaID",
+                        "RenjaID",
+                        "Target_Angka",
+                        "Target_Uraian",  
+                        "Tahun",      
+                        "Descr",
+                        "TA")
+                    SELECT 
+                        SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16) AS "RenjaRincID",
+                        "IndikatorKinerjaID",
+                        \''.$newRenjaiD.'\' AS "RenjaID",
+                        "Target_Angka",
+                        "Target_Uraian",
+                        "Tahun",
+                        "Descr",
+                        "TA"
+                    FROM 
+                        "trRenjaIndikator" 
+                    WHERE 
+                        "RenjaID"=\''.$RenjaID.'\' 
+                ';
+
+                \DB::statement($str_kinerja);
+                
+                RenjaRincianModel::where('RenjaID',$RenjaID)->update(['Privilege'=>1,'Status'=>1]);
+            });            
+
+            if ($request->ajax()) 
+            {
+                return response()->json([
+                    'success'=>true,
+                    'message'=>'Data ini telah berhasil diubah.'
+                ],200);
+            }
+            else
+            {
+                return redirect(route('pembahasanprarenjaopd.show',['id'=>$pembahasanprarenjaopd->RenjaRincID]))->with('success','Data ini telah berhasil disimpan.');
+            }
+        }
+        else
+        {
+            if ($request->ajax()) 
+            {
+                return response()->json([
+                    'success'=>0,
+                    'message'=>'Data ini gagal diubah.'
+                ],200);
+            }
+            else
+            {
+                return redirect(route('pembahasanprarenjaopd.error'))->with('error','Data ini gagal diubah.');
+            }
         }
     }
 }

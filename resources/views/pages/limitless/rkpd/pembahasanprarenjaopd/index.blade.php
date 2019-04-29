@@ -171,7 +171,7 @@ $(document).ready(function () {
             data: {                
                 "_token": token,
                 "_method": 'PUT',
-                "Privilege":checked
+                "Status":checked
             },
             success:function(result)
             { 
@@ -182,6 +182,28 @@ $(document).ready(function () {
                 console.log(parseMessageAjaxEror(xhr, status, error));                           
             },
         });
+    });
+    $(document).on('click','#btnTransfer',function(ev){
+        ev.preventDefault();   
+        let RenjaID = $(this).attr("data-id");        
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/transfer',
+            dataType: 'json',
+            data: {                
+                "_token": token,
+                "RenjaID": RenjaID,
+            },
+            success:function(result)
+            { 
+                $('#divdatatable').html(result.datatable);
+                $(".switch").bootstrapSwitch();
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });     
     });
 });
 </script>

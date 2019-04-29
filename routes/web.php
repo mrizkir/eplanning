@@ -190,7 +190,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/aspirasi/usulanprarenjaopd/filter',['uses'=>'RKPD\UsulanPraRenjaOPDController@filter','as'=>'usulanprarenjaopd.filter']);                  
     Route::get('/aspirasi/usulanprarenjaopd/paginate/{id}',['uses'=>'RKPD\UsulanPraRenjaOPDController@paginate','as'=>'usulanprarenjaopd.paginate']);              
     Route::post('/aspirasi/usulanprarenjaopd/changenumberrecordperpage',['uses'=>'RKPD\UsulanPraRenjaOPDController@changenumberrecordperpage','as'=>'usulanprarenjaopd.changenumberrecordperpage']);  
-    Route::post('/aspirasi/usulanprarenjaopd/orderby',['uses'=>'RKPD\UsulanPraRenjaOPDController@orderby','as'=>'usulanprarenjaopd.orderby']);
+    Route::post('/aspirasi/usulanprarenjaopd/orderby',['uses'=>'RKPD\UsulanPraRenjaOPDController@orderby','as'=>'usulanprarenjaopd.orderby']);    
     
     //Rencana Kerja - Pembahasan Pra Renja OPD/SKPD [pembahasan]
     Route::resource('/pembahasan/pembahasanprarenjaopd','RKPD\PembahasanPraRenjaOPDController',['parameters'=>['pembahasanprarenjaopd'=>'uuid'],
@@ -200,6 +200,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::get('/pembahasan/pembahasanprarenjaopd/paginate/{id}',['uses'=>'RKPD\PembahasanPraRenjaOPDController@paginate','as'=>'pembahasanprarenjaopd.paginate']);              
     Route::post('/pembahasan/pembahasanprarenjaopd/changenumberrecordperpage',['uses'=>'RKPD\PembahasanPraRenjaOPDController@changenumberrecordperpage','as'=>'pembahasanprarenjaopd.changenumberrecordperpage']);  
     Route::post('/pembahasan/pembahasanprarenjaopd/orderby',['uses'=>'RKPD\PembahasanPraRenjaOPDController@orderby','as'=>'pembahasanprarenjaopd.orderby']);  
+    Route::post('/pembahasan/pembahasanprarenjaopd/transfer',['uses'=>'RKPD\PembahasanPraRenjaOPDController@transfer','as'=>'pembahasanprarenjaopd.transfer']);
     
     //Rencana Kerja - Usulan Rakor Bidang [aspirasi]
     Route::resource('/aspirasi/usulanrakorbidang','RKPD\UsulanRAKORBidangController',['parameters'=>['usulanrakorbidang'=>'uuid']]);        
@@ -226,7 +227,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::get('/aspirasi/usulanrakorbidang/paginate/{id}',['uses'=>'RKPD\UsulanRAKORBidangController@paginate','as'=>'usulanrakorbidang.paginate']);              
     Route::post('/aspirasi/usulanrakorbidang/changenumberrecordperpage',['uses'=>'RKPD\UsulanRAKORBidangController@changenumberrecordperpage','as'=>'usulanrakorbidang.changenumberrecordperpage']);  
     Route::post('/aspirasi/usulanrakorbidang/orderby',['uses'=>'RKPD\UsulanRAKORBidangController@orderby','as'=>'usulanrakorbidang.orderby']);
-
+    
     //setting - permissions    
     Route::resource('/setting/permissions','Setting\PermissionsController',[
                                                                             'parameters'=>['permissions'=>'id'],

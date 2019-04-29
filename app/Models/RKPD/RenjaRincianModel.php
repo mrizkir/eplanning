@@ -59,7 +59,6 @@ class RenjaRincianModel extends Model {
        'Status',
        'EntryLvl',
        'Prioritas',
-       'Prioritas',
        'Descr',
        'TA',
    ];

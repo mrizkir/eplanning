@@ -161,6 +161,7 @@ $(document).ready(function () {
         if (confirm('Apakah Anda ingin menghapus Data Usulan Pra Renja OPD / SKPD ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
+            let pid = $(this).attr("data-pid");
             $.ajax({            
                 type:'post',
                 url:url_+'/'+id,
@@ -169,7 +170,7 @@ $(document).ready(function () {
                     "_method": 'DELETE',
                     "_token": token,
                     "id": id,
-                    "rinciankegiatan": true,
+                    "pid": pid,
                 },
                 success:function(result){ 
                     if (result.success==1){

@@ -316,10 +316,10 @@ class UsulanPraRenjaOPDController extends Controller {
             $RenjaID = $request->input('RenjaID');
             $subquery = \DB::table('trRenjaRinc')
                             ->select('UsulanKecID')
-                            ->where('RenjaID',$RenjaID);
+                            ->where('TA',config('globalsettings.tahun_perencanaan'));
             $data=\App\Models\Musrenbang\AspirasiMusrenKecamatanModel::select('trUsulanKec.*')
-                                                                        ->leftJoinSub($subquery,'trRenja',function($join){
-                                                                            $join->on('trUsulanKec.UsulanKecID','=','trRenja.UsulanKecID');
+                                                                        ->leftJoinSub($subquery,'rinciankegiatan',function($join){
+                                                                            $join->on('trUsulanKec.UsulanKecID','=','rinciankegiatan.UsulanKecID');
                                                                         })
                                                                         ->where('trUsulanKec.TA', config('globalsettings.tahun_perencanaan'))
                                                                         ->where('trUsulanKec.PmKecamatanID',$PmKecamatanID)                                                
@@ -354,16 +354,18 @@ class UsulanPraRenjaOPDController extends Controller {
             $PemilikPokokID = $request->input('PemilikPokokID')==''?'none':$request->input('PemilikPokokID');           
             $RenjaID = $request->input('RenjaID');
 
-            $daftar_pokir = [];
-            $data=\App\Models\Pokir\PokokPikiranModel::where('trPokPir.TA', config('globalsettings.tahun_perencanaan'))
+            $subquery = \DB::table('trRenjaRinc')
+                            ->select('PokPirID')
+                            ->where('TA',config('globalsettings.tahun_perencanaan'));
+
+            $data=\App\Models\Pokir\PokokPikiranModel::select('trPokPir.*')
+                                                    ->leftJoinSub($subquery,'rinciankegiatan',function($join){
+                                                        $join->on('trPokPir.PokPirID','=','rinciankegiatan.PokPirID');
+                                                    })
+                                                    ->where('trPokPir.TA', config('globalsettings.tahun_perencanaan'))
                                                     ->where('trPokPir.PemilikPokokID',$PemilikPokokID)                                                
                                                     ->where('trPokPir.Privilege',1)  
-                                                    ->where('trPokPir.OrgID',$filters['OrgID'])       
-                                                    ->WhereNotIn('PokPirID',function($query) use ($RenjaID){
-                                                        $query->select('PokPirID')
-                                                                ->from('trRenjaRinc')
-                                                                ->where('RenjaID', $RenjaID);
-                                                    })                                          
+                                                    ->where('trPokPir.OrgID',$filters['OrgID'])  
                                                     ->orderBY('NamaUsulanKegiatan','ASC')
                                                     ->get(); 
             $daftar_pokir = [];
@@ -608,7 +610,7 @@ class UsulanPraRenjaOPDController extends Controller {
                                                                             ]);  
         }
     }
-     /**
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -780,7 +782,7 @@ class UsulanPraRenjaOPDController extends Controller {
         }
 
     }
-     /**
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -1446,13 +1448,14 @@ class UsulanPraRenjaOPDController extends Controller {
             }
             else
             {
-                return redirect(route('usulanprarenjaopd.create4',['id'=>$renjaid]))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+                return redirect(route('usulanprarenjaopd.show',['id'=>$renjaid]))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
             }
         }
-        else
+        else if ($request->exists('pid'))
         {
-            $usulanprarenjaopd = RenjaModel::find($id);
-            $result=$usulanprarenjaopd->delete();
+
+            $renja = $request->input('pid') == 'rincian' ?RenjaRincianModel::find($id) :RenjaModel::find($id);
+            $result=$renja->delete();
             if ($request->ajax()) 
             {
                 $currentpage=$this->getCurrentPageInsideSession('usulanprarenjaopd'); 

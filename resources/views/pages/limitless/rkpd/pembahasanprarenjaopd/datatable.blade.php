@@ -47,7 +47,8 @@
                     </th> 
                     <th width="120">                        
                         PRIORITAS                          
-                    </th>                     
+                    </th>          
+                    <th width="70">TRANSFER</th>                            
                     <th width="150">AKSI</th>
                 </tr>
             </thead>
@@ -57,7 +58,9 @@
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>
-                    <td>{{$item->kode_kegiatan}}</td>
+                    <td>
+                        {{$item->kode_kegiatan}}                        
+                    </td>
                     <td>
                         {{ucwords($item->KgtNm)}}
                         @if (empty($item->RenjaIndikatorID))
@@ -112,9 +115,24 @@
                         </span>
                     </td>
                     <td>
-                        <div class="checkbox checkbox-switch">
-                            {{Form::checkbox('Privilege[]',$item->RenjaRincID,$item->Privilege==1?$item->Privilege:'',['class'=>'switch','data-on-text'=>'ACC','data-off-text'=>'DUM'])}}                                     
-                        </div>
+                        @if ($item->Privilege==1)
+                            <i class="icon-checkmark"></i>
+                        @elseif ($item->status=='ACC')
+                            <a href="#" title="TRANSFER KEG. KE RAKOR BIDANG" class="btn btn-link" id="btnTransfer" data-id="{{$item->RenjaID}}">
+                                <i class="icon-play4"></i>
+                            </a>
+                        @else
+                            <i class="icon-cross3"></i>
+                        @endif      
+                    </td>
+                    <td>
+                        @if ($item->Privilege==0)
+                            <div class="checkbox checkbox-switch">
+                                {{Form::checkbox('Privilege[]',$item->RenjaRincID,$item->status=='ACC'?$item->status:'',['class'=>'switch','data-on-text'=>'ACC','data-off-text'=>'DUM'])}}                                     
+                            </div>
+                        @else
+                            {{$item->status}}
+                        @endif
                     </td>
                     @endif                    
                 </tr>

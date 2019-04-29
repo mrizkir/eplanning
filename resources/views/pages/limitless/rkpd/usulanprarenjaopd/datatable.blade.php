@@ -87,7 +87,7 @@
                     <td>
                         <ul class="icons-list">                            
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data Usulan Pra Renja" data-id="{{$item->RenjaID}}" data-url="{{route('usulanprarenjaopd.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data Usulan Pra Renja" data-id="{{$item->RenjaID}}" data-url="{{route('usulanprarenjaopd.index')}}" data-pid="renja">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>
@@ -144,7 +144,7 @@
                                 @endif
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data Usulan Pra Renja" data-id="{{$item->RenjaRincID}}" data-url="{{route('usulanprarenjaopd.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data Usulan Pra Renja" data-id="{{$item->RenjaRincID}}" data-url="{{route('usulanprarenjaopd.index')}}" data-pid="rincian">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>

@@ -87,7 +87,7 @@
                     <td>
                         <ul class="icons-list">                            
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data Usulan Pra Renja" data-id="{{$item->RenjaID}}" data-url="{{route('usulanrakorbidang.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data Usulan Rakor Bidang" data-id="{{$item->RenjaID}}" data-url="{{route('usulanrakorbidang.index')}}" data-pid="renja">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>
@@ -124,27 +124,27 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('usulanrakorbidang.show',['id'=>$item->RenjaID])}}" title="Detail Data Usulan Pra Renja">
+                                <a class="btnShow" href="{{route('usulanrakorbidang.show',['id'=>$item->RenjaID])}}" title="Detail Data Usulan Rakor Bidang">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
                                 @if ($item->isSKPD)
-                                    <a class="btnEdit" href="{{route('usulanrakorbidang.edit4',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Pra Renja">
+                                    <a class="btnEdit" href="{{route('usulanrakorbidang.edit4',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Rakor Bidang">
                                         <i class='icon-pencil7'></i>
                                     </a> 
                                 @elseif($item->isReses)
-                                    <a class="btnEdit" href="{{route('usulanrakorbidang.edit3',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Pra Renja">
+                                    <a class="btnEdit" href="{{route('usulanrakorbidang.edit3',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Rakor Bidang">
                                         <i class='icon-pencil7'></i>
                                     </a>
                                 @else
-                                    <a class="btnEdit" href="{{route('usulanrakorbidang.edit2',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Pra Renja">
+                                    <a class="btnEdit" href="{{route('usulanrakorbidang.edit2',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Rakor Bidang">
                                         <i class='icon-pencil7'></i>
                                     </a>
                                 @endif
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data Usulan Pra Renja" data-id="{{$item->RenjaRincID}}" data-url="{{route('usulanrakorbidang.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data Usulan Rakor Bidang" data-id="{{$item->RenjaRincID}}" data-url="{{route('usulanrakorbidang.index')}}" data-pid="rincian">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>
