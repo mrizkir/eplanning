@@ -33,7 +33,7 @@
                         </a>
                     </th>
                     <th width="200">
-                        <a class="column-sort text-white" id="col-Sasaran_Angka2" data-order="{{$direction}}" href="#">
+                        <a class="column-sort text-white" id="col-Sasaran_Angka3" data-order="{{$direction}}" href="#">
                             SASARAN  
                         </a>                                             
                     </th> 
@@ -41,7 +41,7 @@
                         TARGET (%)                        
                     </th> 
                     <th width="150" class="text-right">
-                        <a class="column-sort text-white" id="col-Jumlah2" data-order="{{$direction}}" href="#">
+                        <a class="column-sort text-white" id="col-Jumlah3" data-order="{{$direction}}" href="#">
                             NILAI  
                         </a>                                             
                     </th> 
@@ -72,7 +72,7 @@
                     @if ($item->RenjaRincID=='')
                     <td colspan="6">
                         <span class="label label-flat label-block border-info text-info-600">
-                            PROSES INPUT RAKOR BIDANG OPD / SKPD BELUM SELESAI
+                            PROSES INPUT FORUM FORUM OPD / SKPD BELUM SELESAI
                         </span>
                         <a href="{{route('usulanprarenjaopd.create1',['uuid'=>$item->RenjaID])}}">
                             Lanjutkan Input 
@@ -106,9 +106,9 @@
                             @endif
                         </span>
                     </td>
-                    <td>{{Helper::formatAngka($item->Sasaran_Angka2)}} {{$item->Sasaran_Uraian2}}</td>
+                    <td>{{Helper::formatAngka($item->Sasaran_Angka3)}} {{$item->Sasaran_Uraian2}}</td>
                     <td>{{$item->Target2}}</td>
-                    <td class="text-right">{{Helper::formatuang($item->Jumlah2)}}</td>
+                    <td class="text-right">{{Helper::formatuang($item->Jumlah3)}}</td>
                     <td>
                         <span class="label label-flat border-success text-success-600">
                             {{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}
@@ -118,7 +118,7 @@
                         @if ($item->Privilege==1)
                             <i class="icon-checkmark"></i>
                         @elseif ($item->status=='ACC')
-                            <a href="#" title="TRANSFER KEG. KE FORUM SKPD" class="btn btn-link" id="btnTransfer" data-id="{{$item->RenjaID}}">
+                            <a href="#" title="TRANSFER KEG. KE MUSREN. TK. KAB" class="btn btn-link" id="btnTransfer" data-id="{{$item->RenjaID}}">
                                 <i class="icon-play4"></i>
                             </a>
                         @else

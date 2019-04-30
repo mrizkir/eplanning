@@ -220,7 +220,12 @@
                                         <a href="{{route('pembahasanprarenjaopd.index')}}" title="Pembahasan Pra Renja OPD/SKPD">
                                             <i class="icon-cube"></i>P. PRA RENJA OPD/SKPD <span class="text-violet"><strong>[6]</strong></span>
                                         </a>                                        
-                                    </li>                              
+                                    </li>        
+                                    <li{!!Helper::isMenuActive ($page_active,'pembahasanforumopd',' class="active"')!!}>
+                                        <a href="{{route('pembahasanforumopd.index')}}" title="Pembahasan Forum OPD/SKPD">
+                                            <i class="icon-cube"></i>P. FORUM OPD/SKPD <span class="text-violet"><strong>[10]</strong></span>
+                                        </a>                                        
+                                    </li>                      
                                 </ul>
                             </div>
                             <div class="col-md-3">
