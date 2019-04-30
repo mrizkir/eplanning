@@ -74,7 +74,7 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>SASARAN KEGIATAN: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::formatAngka($renja->Sasaran_Angka2)}} {{$renja->Sasaran_Uraian1}}</p>
+                                    <p class="form-control-static">{{Helper::formatAngka($renja->Sasaran_Angka2)}} {{$renja->Sasaran_Uraian2}}</p>
                                 </div>                            
                             </div>    
                         </div>                        

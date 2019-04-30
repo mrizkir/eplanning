@@ -1,11 +1,11 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    USULAN PRA RENJA OPD/SKPD
+    USULAN FORUM OPD/SKPD
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        USULAN PRA RENJA OPD/SKPD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        USULAN FORUM OPD/SKPD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
     </span>     
 @endsection
 @section('page_info')
@@ -14,7 +14,7 @@
 @section('page_breadcrumb')
     <li><a href="#">PERENCANAAN</a></li>
     <li><a href="#">ASPIRASI / USULAN</a></li>
-    <li><a href="{!!route('usulanrakorbidang.index')!!}">USULAN PRA RENJA OPD/SKPD</a></li>
+    <li><a href="{!!route('usulanrakorbidang.index')!!}">USULAN FORUM OPD/SKPD</a></li>
     <li class="active">UBAH DATA</li>
 @endsection
 @section('page_content')
@@ -40,7 +40,7 @@
                     <label class="col-md-2 control-label">POSISI ENTRI: </label>
                     <div class="col-md-10">
                         <p class="form-control-static">
-                            <span class="label border-left-primary label-striped">USULAN PRA RENJA OPD / SKPD</span>
+                            <span class="label border-left-primary label-striped">USULAN FORUM OPD / SKPD</span>
                         </p>
                     </div>                            
                 </div>

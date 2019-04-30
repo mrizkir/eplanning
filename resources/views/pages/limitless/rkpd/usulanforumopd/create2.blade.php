@@ -1,24 +1,24 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    USULAN RAKOR BIDANG OPD/SKPD
+    USULAN FORUM OPD/SKPD
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        USULAN RAKOR BIDANG OPD/SKPD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        USULAN FORUM OPD/SKPD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.rkpd.usulanrakorbidang.info')
+    @include('pages.limitless.rkpd.usulanforumopd.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">PERENCANAAN</a></li>
     <li><a href="#">ASPIRASI / USULAN</a></li>
-    <li><a href="{!!route('usulanrakorbidang.index')!!}">USULAN RAKOR BIDANG OPD/SKPD</a></li>
+    <li><a href="{!!route('usulanforumopd.index')!!}">USULAN FORUM OPD/SKPD</a></li>
     <li class="active">TAMBAH DATA RINCIAN KEGIATAN DARI MUSRENBANG KECAMATAN</li>
 @endsection
 @section('page_sidebar')
-    @include('pages.limitless.rkpd.usulanrakorbidang.l_sidebar_prarenja_create')
+    @include('pages.limitless.rkpd.usulanforumopd.l_sidebar_prarenja_create')
 @endsection
 @section('page_content')
 <div class="content">
@@ -31,12 +31,12 @@
             <div class="heading-elements">
                 <ul class="icons-list">                    
                     <li>               
-                        <a href="{!!route('usulanrakorbidang.index')!!}" data-action="closeredirect" title="keluar"></a>
+                        <a href="{!!route('usulanforumopd.index')!!}" data-action="closeredirect" title="keluar"></a>
                     </li>
                 </ul>
             </div>
         </div>
-        {!! Form::open(['action'=>'RKPD\UsulanRAKORBidangController@store2','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
+        {!! Form::open(['action'=>'RKPD\UsulanForumOPDController@store2','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
         {{Form::hidden('RenjaID',$renja->RenjaID,['id'=>'RenjaID'])}}
         {{Form::hidden('PmDesaID','',['id'=>'PmDesaID'])}}
         <div class="panel-body">
@@ -44,7 +44,7 @@
                 <label class="col-md-2 control-label">POSISI ENTRI: </label>
                 <div class="col-md-10">
                     <p class="form-control-static">
-                        <span class="label border-left-primary label-striped">USULAN RAKOR BIDANG OPD / SKPD</span>
+                        <span class="label border-left-primary label-striped">USULAN FORUM OPD / SKPD</span>
                     </p>
                 </div>                            
             </div>   
@@ -94,28 +94,28 @@
                 </div>
             </div>        
             <div class="form-group">
-                {{Form::label('Sasaran_Angka2','SASARAN KEGIATAN',['class'=>'control-label col-md-2'])}}
+                {{Form::label('Sasaran_Angka3','SASARAN KEGIATAN',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
                     <div class="row">
                         <div class="col-md-6">
-                            {{Form::text('Sasaran_Angka2','',['class'=>'form-control','placeholder'=>'ANGKA SASARAN'])}}
+                            {{Form::text('Sasaran_Angka3','',['class'=>'form-control','placeholder'=>'ANGKA SASARAN'])}}
                         </div>
                         <div class="col-md-6">
-                            {{Form::textarea('Sasaran_Uraian2','',['class'=>'form-control','placeholder'=>'URAIAN SASARAN','rows'=>3,'id'=>'Sasaran_Uraian2'])}}
+                            {{Form::textarea('Sasaran_Uraian3','',['class'=>'form-control','placeholder'=>'URAIAN SASARAN','rows'=>3,'id'=>'Sasaran_Uraian3'])}}
                         </div>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                {{Form::label('Target2','TARGET (%)',['class'=>'control-label col-md-2'])}}
+                {{Form::label('Target3','TARGET (%)',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
-                    {{Form::text('Target2','',['class'=>'form-control','placeholder'=>'TARGET'])}}
+                    {{Form::text('Target3','',['class'=>'form-control','placeholder'=>'TARGET'])}}
                 </div>
             </div>
             <div class="form-group">
-                {{Form::label('Jumlah2','NILAI USULAN',['class'=>'control-label col-md-2'])}}
+                {{Form::label('Jumlah3','NILAI USULAN',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
-                    {{Form::text('Jumlah2','',['class'=>'form-control','placeholder'=>'NILAI USULAN'])}}
+                    {{Form::text('Jumlah3','',['class'=>'form-control','placeholder'=>'NILAI USULAN'])}}
                 </div>
             </div>
             <div class="form-group">
@@ -139,7 +139,7 @@
         {!! Form::close()!!}
     </div>
     <div class="panel panel-flat border-top-lg border-top-info border-bottom-info" id="divdatatablerinciankegiatan">
-        @include('pages.limitless.rkpd.usulanrakorbidang.datatablerinciankegiatan')         
+        @include('pages.limitless.rkpd.usulanforumopd.datatablerinciankegiatan')         
     </div>
 </div>   
 @endsection
@@ -152,7 +152,7 @@
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
-    AutoNumeric.multiple(['#No','#Sasaran_Angka2'], {
+    AutoNumeric.multiple(['#No','#Sasaran_Angka3'], {
                                             allowDecimalPadding: false,
                                             minimumValue:0,
                                             maximumValue:99999999999,
@@ -163,7 +163,7 @@ $(document).ready(function () {
                                             unformatOnSubmit: true,
                                             modifyValueOnWheel:false
                                         });
-    AutoNumeric.multiple(['#Target2'], {
+    AutoNumeric.multiple(['#Target3'], {
                                             allowDecimalPadding: false,
                                             minimumValue:0.00,
                                             maximumValue:100.00,
@@ -175,7 +175,7 @@ $(document).ready(function () {
                                             modifyValueOnWheel:false
                                         });
 
-    AutoNumeric.multiple(['#Jumlah2'],{
+    AutoNumeric.multiple(['#Jumlah3'],{
                                             allowDecimalPadding: false,
                                             decimalCharacter: ",",
                                             digitGroupSeparator: ".",
@@ -209,10 +209,10 @@ $(document).ready(function () {
             $("#frmdata :input").not('[name=PmKecamatanID],[name=UsulanKecID]').prop("disabled", true);
             $('#PmDesaID').val('');
             $('#Uraian').val('');
-            $('#Sasaran_Angka2').val('');
-            $('#Sasaran_Uraian2').val('');
-            $('#Target2').val('');
-            $('#Jumlah2').val('');
+            $('#Sasaran_Angka3').val('');
+            $('#Sasaran_Uraian3').val('');
+            $('#Target3').val('');
+            $('#Jumlah3').val('');
             $('#Prioritas').val('none');
             $('#Descr').val('');
         }
@@ -252,10 +252,10 @@ $(document).ready(function () {
             $("#frmdata :input").not('[name=PmKecamatanID],[name=UsulanKecID]').prop("disabled", true);
             $('#PmDesaID').val('');
             $('#Uraian').val('');
-            $('#Sasaran_Angka2').val('');
-            $('#Sasaran_Uraian2').val('');
-            $('#Target2').val('');
-            $('#Jumlah2').val('');
+            $('#Sasaran_Angka3').val('');
+            $('#Sasaran_Uraian3').val('');
+            $('#Target3').val('');
+            $('#Jumlah3').val('');
             $('#Prioritas').val('none');
             $('#Descr').val('');
         }
@@ -276,10 +276,10 @@ $(document).ready(function () {
                     console.log(result);             
                     $('#PmDesaID').val(result.data_kegiatan.PmDesaID);
                     $('#Uraian').val(result.data_kegiatan.Uraian);   
-                    AutoNumeric.getAutoNumericElement('#Sasaran_Angka2').set(result.data_kegiatan.Sasaran_Angka2);               
-                    $('#Sasaran_Uraian2').val(result.data_kegiatan.Sasaran_Uraian2);                    
-                    AutoNumeric.getAutoNumericElement('#Target2').set(100);               
-                    AutoNumeric.getAutoNumericElement('#Jumlah2').set(result.data_kegiatan.NilaiUsulan);  
+                    AutoNumeric.getAutoNumericElement('#Sasaran_Angka3').set(result.data_kegiatan.Sasaran_Angka3);               
+                    $('#Sasaran_Uraian3').val(result.data_kegiatan.Sasaran_Uraian3);                    
+                    AutoNumeric.getAutoNumericElement('#Target3').set(100);               
+                    AutoNumeric.getAutoNumericElement('#Jumlah3').set(result.data_kegiatan.NilaiUsulan);  
 
                     $("#Prioritas option").filter(function () {
                         return ($(this).val() == result.data_kegiatan.Prioritas);
@@ -341,16 +341,16 @@ $(document).ready(function () {
             Uraian : {
                 required: true
             },
-            Sasaran_Angka2 : {
+            Sasaran_Angka3 : {
                 required: true
             },
-            Sasaran_Uraian2 : {
+            Sasaran_Uraian3 : {
                 required: true
             },
-            Jumlah2 : {
+            Jumlah3 : {
                 required: true
             },
-            Target2 : {
+            Target3 : {
                 required: true
             },
             Prioritas : {
@@ -376,16 +376,16 @@ $(document).ready(function () {
             Uraian : {
                 required: "Mohon untuk di isi uraian rincian kegiatan."
             },
-            Sasaran_Angka2 : {
+            Sasaran_Angka3 : {
                 required: "Mohon untuk di isi angka sasaran rincian kegiatan."
             },
-            Sasaran_Uraian2 : {
+            Sasaran_Uraian3 : {
                 required: "Mohon untuk di isi sasaran rincian kegiatan."
             },
-            Target2 : {
+            Target3 : {
                 required: "Mohon untuk di isi target rincian kegiatan."
             },
-            Jumlah2 : {
+            Jumlah3 : {
                 required: "Mohon untuk di isi nilai usulan rincian kegiatan."
             },
             Prioritas : {
