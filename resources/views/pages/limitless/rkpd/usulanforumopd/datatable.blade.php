@@ -9,7 +9,7 @@
         </div>
         <div class="heading-elements">
             <div class="heading-btn">
-                <a href="{!!route('usulanrakorbidang.create')!!}" class="btn btn-info btn-xs" title="Tambah Usulan Kegiatan">
+                <a href="{!!route('usulanforumopd.create')!!}" class="btn btn-info btn-xs" title="Tambah Usulan Kegiatan">
                     <i class="icon-googleplus5"></i>
                 </a>
             </div>            
@@ -37,7 +37,7 @@
                         </a>
                     </th>
                     <th width="200">
-                        <a class="column-sort text-white" id="col-Sasaran_Angka2" data-order="{{$direction}}" href="#">
+                        <a class="column-sort text-white" id="col-Sasaran_Angka3" data-order="{{$direction}}" href="#">
                             SASARAN  
                         </a>                                             
                     </th> 
@@ -45,7 +45,7 @@
                         TARGET (%)                        
                     </th> 
                     <th width="150" class="text-right">
-                        <a class="column-sort text-white" id="col-Jumlah2" data-order="{{$direction}}" href="#">
+                        <a class="column-sort text-white" id="col-Jumlah3" data-order="{{$direction}}" href="#">
                             NILAI  
                         </a>                                             
                     </th> 
@@ -78,16 +78,16 @@
                     @if ($item->RenjaRincID=='')
                     <td colspan="6">
                         <span class="label label-flat label-block border-info text-info-600">
-                            PROSES INPUT RAKOR BIDANG OPD / SKPD BELUM SELESAI
+                            PROSES INPUT FORUM OPD / SKPD BELUM SELESAI
                         </span>
-                        <a href="{{route('usulanrakorbidang.create1',['uuid'=>$item->RenjaID])}}">
+                        <a href="{{route('usulanforumopd.create1',['uuid'=>$item->RenjaID])}}">
                             Lanjutkan Input 
                         </a>
                     </td>
                     <td>
                         <ul class="icons-list">                            
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data Usulan Rakor Bidang" data-id="{{$item->RenjaID}}" data-url="{{route('usulanrakorbidang.index')}}" data-pid="renja">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data Usulan Forum OPD" data-id="{{$item->RenjaID}}" data-url="{{route('usulanforumopd.index')}}" data-pid="renja">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>
@@ -112,9 +112,9 @@
                             @endif
                         </span>
                     </td>
-                    <td>{{Helper::formatAngka($item->Sasaran_Angka2)}} {{$item->Sasaran_Uraian2}}</td>
-                    <td>{{$item->Target2}}</td>
-                    <td class="text-right">{{Helper::formatuang($item->Jumlah2)}}</td>
+                    <td>{{Helper::formatAngka($item->Sasaran_Angka3)}} {{$item->Sasaran_Uraian3}}</td>
+                    <td>{{$item->Target3}}</td>
+                    <td class="text-right">{{Helper::formatuang($item->Jumlah3)}}</td>
                     <td>
                         <span class="label label-flat border-success text-success-600">
                             {{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}
@@ -124,27 +124,27 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('usulanrakorbidang.show',['id'=>$item->RenjaID])}}" title="Detail Data Usulan Rakor Bidang">
+                                <a class="btnShow" href="{{route('usulanforumopd.show',['id'=>$item->RenjaID])}}" title="Detail Data Usulan Forum OPD">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
                                 @if ($item->isSKPD)
-                                    <a class="btnEdit" href="{{route('usulanrakorbidang.edit4',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Rakor Bidang">
+                                    <a class="btnEdit" href="{{route('usulanforumopd.edit4',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Forum OPD">
                                         <i class='icon-pencil7'></i>
                                     </a> 
                                 @elseif($item->isReses)
-                                    <a class="btnEdit" href="{{route('usulanrakorbidang.edit3',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Rakor Bidang">
+                                    <a class="btnEdit" href="{{route('usulanforumopd.edit3',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Forum OPD">
                                         <i class='icon-pencil7'></i>
                                     </a>
                                 @else
-                                    <a class="btnEdit" href="{{route('usulanrakorbidang.edit2',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Rakor Bidang">
+                                    <a class="btnEdit" href="{{route('usulanforumopd.edit2',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Forum OPD">
                                         <i class='icon-pencil7'></i>
                                     </a>
                                 @endif
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data Usulan Rakor Bidang" data-id="{{$item->RenjaRincID}}" data-url="{{route('usulanrakorbidang.index')}}" data-pid="rincian">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data Usulan Forum OPD" data-id="{{$item->RenjaRincID}}" data-url="{{route('usulanforumopd.index')}}" data-pid="rincian">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>

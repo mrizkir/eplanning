@@ -245,7 +245,7 @@ class UsulanRAKORBidangController extends Controller {
         
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
     }
-     /**
+    /**
      * filter resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

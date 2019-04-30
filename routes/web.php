@@ -237,6 +237,32 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/pembahasan/pembahasanrakorbidang/changenumberrecordperpage',['uses'=>'RKPD\PembahasanRAKORBidangController@changenumberrecordperpage','as'=>'pembahasanrakorbidang.changenumberrecordperpage']);  
     Route::post('/pembahasan/pembahasanrakorbidang/orderby',['uses'=>'RKPD\PembahasanRAKORBidangController@orderby','as'=>'pembahasanrakorbidang.orderby']);  
     Route::post('/pembahasan/pembahasanrakorbidang/transfer',['uses'=>'RKPD\PembahasanRAKORBidangController@transfer','as'=>'pembahasanrakorbidang.transfer']);
+    
+    //Rencana Kerja - Usulan Forum OPD [aspirasi]
+    Route::resource('/aspirasi/usulanforumopd','RKPD\UsulanForumOPDController',['parameters'=>['usulanforumopd'=>'uuid']]);        
+    Route::post('/aspirasi/usulanforumopd/pilihusulankegiatan',['uses'=>'RKPD\UsulanForumOPDController@pilihusulankegiatan','as'=>'usulanforumopd.pilihusulankegiatan']);                  
+    Route::post('/aspirasi/usulanforumopd/pilihindikatorkinerja',['uses'=>'RKPD\UsulanForumOPDController@pilihindikatorkinerja','as'=>'usulanforumopd.pilihindikatorkinerja']);                  
+    Route::get('/aspirasi/usulanforumopd/create1/{uuid}',['uses'=>'RKPD\UsulanForumOPDController@create1','as'=>'usulanforumopd.create1']);              
+    Route::get('/aspirasi/usulanforumopd/create2/{uuid}',['uses'=>'RKPD\UsulanForumOPDController@create2','as'=>'usulanforumopd.create2']);              
+    Route::get('/aspirasi/usulanforumopd/create3/{uuid}',['uses'=>'RKPD\UsulanForumOPDController@create3','as'=>'usulanforumopd.create3']);              
+    Route::get('/aspirasi/usulanforumopd/create4/{uuid}',['uses'=>'RKPD\UsulanForumOPDController@create4','as'=>'usulanforumopd.create4']);              
+    Route::post('/aspirasi/usulanforumopd/store1',['uses'=>'RKPD\UsulanForumOPDController@store1','as'=>'usulanforumopd.store1']);  
+    Route::post('/aspirasi/usulanforumopd/store2',['uses'=>'RKPD\UsulanForumOPDController@store2','as'=>'usulanforumopd.store2']);  
+    Route::post('/aspirasi/usulanforumopd/store3',['uses'=>'RKPD\UsulanForumOPDController@store3','as'=>'usulanforumopd.store3']); 
+    Route::post('/aspirasi/usulanforumopd/store4',['uses'=>'RKPD\UsulanForumOPDController@store4','as'=>'usulanforumopd.store4']); 
+    Route::get('/aspirasi/usulanforumopd/{uuid}/edit1',['uses'=>'RKPD\UsulanForumOPDController@edit1','as'=>'usulanforumopd.edit1']);              
+    Route::get('/aspirasi/usulanforumopd/{uuid}/edit2',['uses'=>'RKPD\UsulanForumOPDController@edit2','as'=>'usulanforumopd.edit2']);              
+    Route::get('/aspirasi/usulanforumopd/{uuid}/edit3',['uses'=>'RKPD\UsulanForumOPDController@edit3','as'=>'usulanforumopd.edit3']);              
+    Route::get('/aspirasi/usulanforumopd/{uuid}/edit4',['uses'=>'RKPD\UsulanForumOPDController@edit4','as'=>'usulanforumopd.edit4']);              
+    Route::put('/aspirasi/usulanforumopd/update1/{uuid}',['uses'=>'RKPD\UsulanForumOPDController@update1','as'=>'usulanforumopd.update1']);  
+    Route::put('/aspirasi/usulanforumopd/update2/{uuid}',['uses'=>'RKPD\UsulanForumOPDController@update2','as'=>'usulanforumopd.update2']);  
+    Route::put('/aspirasi/usulanforumopd/update3/{uuid}',['uses'=>'RKPD\UsulanForumOPDController@update3','as'=>'usulanforumopd.update3']); 
+    Route::put('/aspirasi/usulanforumopd/update4/{uuid}',['uses'=>'RKPD\UsulanForumOPDController@update4','as'=>'usulanforumopd.update4']); 
+    Route::post('/aspirasi/usulanforumopd/search',['uses'=>'RKPD\UsulanForumOPDController@search','as'=>'usulanforumopd.search']);  
+    Route::post('/aspirasi/usulanforumopd/filter',['uses'=>'RKPD\UsulanForumOPDController@filter','as'=>'usulanforumopd.filter']);                  
+    Route::get('/aspirasi/usulanforumopd/paginate/{id}',['uses'=>'RKPD\UsulanForumOPDController@paginate','as'=>'usulanforumopd.paginate']);              
+    Route::post('/aspirasi/usulanforumopd/changenumberrecordperpage',['uses'=>'RKPD\UsulanForumOPDController@changenumberrecordperpage','as'=>'usulanforumopd.changenumberrecordperpage']);  
+    Route::post('/aspirasi/usulanforumopd/orderby',['uses'=>'RKPD\UsulanForumOPDController@orderby','as'=>'usulanforumopd.orderby']);
 
     //setting - permissions    
     Route::resource('/setting/permissions','Setting\PermissionsController',[
