@@ -163,7 +163,7 @@ $(document).ready(function () {
 
     
     $("#divdatatablerinciankegiatan").on("click",".btnDelete", function(){
-        if (confirm('Apakah Anda ingin menghapus Data Rincian Kegiatan Pra Renja OPD / SKPD ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data Rincian Kegiatan Rakor Bidang OPD / SKPD ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             $.ajax({            
@@ -180,7 +180,7 @@ $(document).ready(function () {
                     if (result.success==1){
                         $('#divdatatablerinciankegiatan').html(result.datatable);                        
                     }else{
-                        console.log("Gagal menghapus data rincian kegiatan Pra Renja OPD / SKPD dengan id "+id);
+                        console.log("Gagal menghapus data rincian kegiatan Rakor Bidang OPD / SKPD dengan id "+id);
                     }                    
                 },
                 error:function(xhr, status, error){

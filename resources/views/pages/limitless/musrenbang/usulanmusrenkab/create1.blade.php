@@ -1,21 +1,24 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    USULAN FORUM OPD/SKPD
+    USULAN MUSRENBANG KABUPATEN
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        USULAN FORUM OPD/SKPD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        USULAN MUSRENBANG KABUPATEN TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.rkpd.usulanforumopd.info')
+    @include('pages.limitless.musrenbang.usulanmusrenkab.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">PERENCANAAN</a></li>
     <li><a href="#">ASPIRASI / USULAN</a></li>
-    <li><a href="{!!route('usulanforumopd.index')!!}">USULAN FORUM OPD/SKPD</a></li>
-    <li class="active">UBAH DATA INDIKATOR KEGIATAN</li>
+    <li><a href="{!!route('usulanmusrenkab.index')!!}">USULAN MUSRENBANG KABUPATEN</a></li>
+    <li class="active">TAMBAH DATA INDIKATOR KEGIATAN</li>
+@endsection
+@section('page_sidebar')
+    @include('pages.limitless.musrenbang.usulanmusrenkab.l_sidebar_prarenja_create')
 @endsection
 @section('page_content')
 <div class="content">
@@ -23,19 +26,19 @@
         <div class="panel-heading">
             <h5 class="panel-title">
                 <i class="icon-pencil7 position-left"></i> 
-                UBAH DATA INDIKATOR KEGIATAN
+                TAMBAH DATA INDIKATOR KEGIATAN
             </h5>
             <div class="heading-elements">
                 <ul class="icons-list">                    
                     <li>               
-                        <a href="{!!route('usulanforumopd.index')!!}" data-action="closeredirect" title="keluar"></a>
+                        <a href="{!!route('usulanmusrenkab.index')!!}" data-action="closeredirect" title="keluar"></a>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>['RKPD\UsulanForumOPDController@update1',$renja->RenjaIndikatorID],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
-                {{Form::hidden('_method','PUT')}}
+            {!! Form::open(['action'=>'Musrenbang\UsulanMusrenKabController@store1','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
+            {{Form::hidden('RenjaID',$renja->RenjaID)}}
                 <div class="form-group">    
                     <div class="form-group">
                         <label class="col-md-2 control-label">POSISI ENTRI: </label>
@@ -44,35 +47,46 @@
                                 <span class="label border-left-primary label-striped">USULAN FORUM OPD / SKPD</span>
                             </p>
                         </div>                            
+                    </div>    
+                    <div class="form-group">
+                        {{Form::label('IndikatorKinerjaID','INDIKATOR KINERJA',['class'=>'control-label col-md-2'])}}
+                        <div class="col-md-10">
+                            <select name="IndikatorKinerjaID" id="IndikatorKinerjaID" class="select">
+                                <option></option>
+                                @foreach ($daftar_indikatorkinerja as $k=>$item)
+                                    <option value="{{$k}}">{{$item}}</option>
+                                @endforeach
+                            </select>                        
+                        </div>
                     </div>   
                     <div class="form-group">
                         <label class="col-md-2 control-label">NAMA INDIKATOR (RPJMD): </label>
                         <div class="col-md-10">
-                            <p class="form-control-static" id="pNamaIndikator">{{$dataindikator_rpjmd['NamaIndikator']}}</p>
+                            <p class="form-control-static" id="pNamaIndikator">-</p>
                         </div>                            
                     </div>  
                     <div class="form-group">
-                        <label class="col-md-2 control-label">TARGET TA {{$renja->TA}} (RPJMD): </label>
+                        <label class="col-md-2 control-label">TARGET TA {{config('globalsettings.tahun_perencanaan')}} (RPJMD): </label>
                         <div class="col-md-10">
-                            <p class="form-control-static" id="pTargetAngka">{{$dataindikator_rpjmd['TargetAngka']}}</p>
+                            <p class="form-control-static" id="pTargetAngka">-</p>
                         </div>                            
                     </div>  
                     <div class="form-group">
-                        <label class="col-md-2 control-label">PAGU DANA TA {{$renja->TA}} (RPJMD): </label>
+                        <label class="col-md-2 control-label">PAGU DANA TA {{config('globalsettings.tahun_perencanaan')}} (RPJMD): </label>
                         <div class="col-md-10">
-                            <p class="form-control-static" id="pPaguDana">{{$dataindikator_rpjmd['PaguDana']}}</p>
+                            <p class="form-control-static" id="pPaguDana">-</p>
                         </div>                            
                     </div>    
                     <div class="form-group">
                         <label class="col-md-2 control-label">TARGET ANGKA: </label>
                         <div class="col-md-10">
-                            {{Form::text('Target_Angka',$renja->Target_Angka,['class'=>'form-control','placeholder'=>'TARGET ANGKA KEGIATAN','id'=>'Target_Angka'])}}
+                            {{Form::text('Target_Angka','',['class'=>'form-control','placeholder'=>'TARGET ANGKA KEGIATAN','id'=>'Target_Angka'])}}
                         </div>                            
                     </div> 
                     <div class="form-group">
                         <label class="col-md-2 control-label">TARGET URAIAN: </label>
                         <div class="col-md-10">
-                            {{Form::text('Target_Uraian',$renja->Target_Uraian,['class'=>'form-control','placeholder'=>'TARGET URAIAN KEGIATAN','id'=>'Target_Uraian'])}}
+                            {{Form::text('Target_Uraian','',['class'=>'form-control','placeholder'=>'TARGET URAIAN KEGIATAN','id'=>'Target_Uraian'])}}
                         </div>                            
                     </div> 
                     <div class="col-md-10 col-md-offset-2">                        
@@ -83,7 +97,7 @@
         </div>
     </div>
     <div class="panel panel-flat border-top-lg border-top-info border-bottom-info" id="divdatatableindikatorkinerja">
-        @include('pages.limitless.rkpd.usulanforumopd.datatableindikatorkinerja')         
+        @include('pages.limitless.musrenbang.usulanmusrenkab.datatableindikatorkinerja')         
     </div>
 </div>   
 @endsection
@@ -95,7 +109,12 @@
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
-$(document).ready(function () {     
+$(document).ready(function () {
+    //styling select
+    $('#IndikatorKinerjaID.select').select2({
+        placeholder: "PILIH INDIKATOR KINERJA (RPMJD)",
+        allowClear:true
+    });  
     AutoNumeric.multiple(['#Target_Angka'], {
         allowDecimalPadding: false,
                                             minimumValue:0.00,
@@ -106,10 +125,36 @@ $(document).ready(function () {
                                             showWarnings:false,
                                             unformatOnSubmit: true,
                                             modifyValueOnWheel:false
-                                        });    
+                                        });
+    $(document).on('change','#IndikatorKinerjaID',function(ev) {
+        ev.preventDefault();
+        IndikatorKinerjaID=$(this).val();        
+        $.ajax({
+            type:'post',
+            url: '{{route('usulanmusrenkab.pilihindikatorkinerja')}}',
+            dataType: 'json',
+            data: {
+                "_token": token,
+                "IndikatorKinerjaID": IndikatorKinerjaID,
+            },
+            success:function(result)
+            {                   
+                $('#pNamaIndikator').html(result.NamaIndikator);
+                $('#pTargetAngka').html(result.TargetAngka);
+                $('#pPaguDana').html(result.PaguDana);
+            },
+            error:function(xhr, status, error)
+            {   
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    });     
     $('#frmdata').validate({
         ignore: [], 
         rules: {
+            IndikatorKinerjaID : {
+                required: true
+            },
             Target_Angka : {
                 required: true
             },
@@ -118,6 +163,9 @@ $(document).ready(function () {
             },
         },
         messages : {
+            IndikatorKinerjaID : {
+                required: "Mohon dipilih indikator kinerja RPJMD."
+            },
             Target_Angka : {
                 required: "Mohon untuk di isi target angka."
             },
@@ -127,7 +175,7 @@ $(document).ready(function () {
         }      
     });   
     $("#divdatatableindikatorkinerja").on("click",".btnDelete", function(){
-        if (confirm('Apakah Anda ingin menghapus Data Indikator Kegiatan Forum OPD / SKPD ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data Indikator Kegiatan Rakor Bidang OPD / SKPD ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             $.ajax({            
@@ -144,7 +192,7 @@ $(document).ready(function () {
                     if (result.success==1){
                         $('#divdatatableindikatorkinerja').html(result.datatable);                        
                     }else{
-                        console.log("Gagal menghapus data indikator kinerja Forum OPD / SKPD dengan id "+id);
+                        console.log("Gagal menghapus data indikator kinerja Rakor Bidang OPD / SKPD dengan id "+id);
                     }                    
                 },
                 error:function(xhr, status, error){

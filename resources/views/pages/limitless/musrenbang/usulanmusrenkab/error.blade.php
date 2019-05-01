@@ -1,23 +1,23 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    MUSRENBANGPEMDATINGKAT2
+    USULAN MUSRENBANG KABUPATEN
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold">
-        MUSRENBANGPEMDATINGKAT2 TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        USULAN MUSRENBANG KABUPATEN TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.musrenbang.musrenbangpemdatingkat2.info')
+    @include('pages.limitless.musrenbang.usulanmusrenkab.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('musrenbangpemdatingkat2.index')!!}">MUSRENBANGPEMDATINGKAT2</a></li>
+    <li><a href="{!!route('usulanmusrenkab.index')!!}">USULAN MUSRENBANG KABUPATEN</a></li>
     <li class="active">ERROR</li>
 @endsection
 @section('page_content')
 <div class="alert alert-danger alert-styled-left alert-bordered">
-    <button type="button" class="close" onclick="location.href='{{route('kelompokurusan.index')}}'">×</button>
+    <button type="button" class="close" onclick="location.href='{{route('usulanmusrenkab.index')}}'">×</button>
     {{$errormessage}}
 </div>
 @endsection

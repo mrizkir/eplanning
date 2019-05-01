@@ -240,7 +240,12 @@
                                         <a href="{{route('usulanrakorbidang.index')}}" title="Aspirasi Musrenbang Kecamatan">
                                             <i class="icon-cube"></i>U. RAKOR BIDANG <span class="text-violet"><strong>[7]</strong></span>
                                         </a>                                        
-                                    </li>                            
+                                    </li>       
+                                    <li{!!Helper::isMenuActive ($page_active,'usulanmusrenkab',' class="active"')!!}>
+                                        <a href="{{route('usulanmusrenkab.index')}}" title="Aspirasi Musrenbang Kabupaten">
+                                            <i class="icon-cube"></i>U. MUSRENBANG KAB. <span class="text-violet"><strong>[11]</strong></span>
+                                        </a>                                        
+                                    </li>                      
                                 </ul>
                             </div>
                             <div class="col-md-3">

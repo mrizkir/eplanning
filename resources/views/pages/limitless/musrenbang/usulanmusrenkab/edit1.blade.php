@@ -1,20 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    USULAN FORUM OPD/SKPD
+    USULAN MUSRENBANG KABUPATEN
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        USULAN FORUM OPD/SKPD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        USULAN MUSRENBANG KABUPATEN TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.rkpd.usulanforumopd.info')
+    @include('pages.limitless.musrenbang.usulanmusrenkab.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">PERENCANAAN</a></li>
     <li><a href="#">ASPIRASI / USULAN</a></li>
-    <li><a href="{!!route('usulanforumopd.index')!!}">USULAN FORUM OPD/SKPD</a></li>
+    <li><a href="{!!route('usulanmusrenkab.index')!!}">USULAN MUSRENBANG KABUPATEN</a></li>
     <li class="active">UBAH DATA INDIKATOR KEGIATAN</li>
 @endsection
 @section('page_content')
@@ -28,13 +28,13 @@
             <div class="heading-elements">
                 <ul class="icons-list">                    
                     <li>               
-                        <a href="{!!route('usulanforumopd.index')!!}" data-action="closeredirect" title="keluar"></a>
+                        <a href="{!!route('usulanmusrenkab.index')!!}" data-action="closeredirect" title="keluar"></a>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>['RKPD\UsulanForumOPDController@update1',$renja->RenjaIndikatorID],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
+            {!! Form::open(['action'=>['Musrenbang\UsulanMusrenKabController@update1',$renja->RenjaIndikatorID],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
                 {{Form::hidden('_method','PUT')}}
                 <div class="form-group">    
                     <div class="form-group">
@@ -83,7 +83,7 @@
         </div>
     </div>
     <div class="panel panel-flat border-top-lg border-top-info border-bottom-info" id="divdatatableindikatorkinerja">
-        @include('pages.limitless.rkpd.usulanforumopd.datatableindikatorkinerja')         
+        @include('pages.limitless.musrenbang.usulanmusrenkab.datatableindikatorkinerja')         
     </div>
 </div>   
 @endsection
