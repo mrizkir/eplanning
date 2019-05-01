@@ -212,7 +212,7 @@
                                 <span class="menu-heading underlined"><i class="icon-comment-discussion"></i> PEMBAHASAN</span>
                                 <ul class="menu-list">                                   
                                     <li{!!Helper::isMenuActive ($page_active,'pembahasanmusrendesa',' class="active"')!!}>
-                                        <a href="{{route('pembahasanmusrendesa.index')}}" title="Aspirasi Musrenbang Desa">
+                                        <a href="{{route('pembahasanmusrendesa.index')}}" title="Pembahasan Musrenbang Desa">
                                             <i class="icon-cube"></i>P. MUSRENBANG DESA / KELURAHAN <span class="text-violet"><strong>[2]</strong></span>
                                         </a>
                                     </li>  
@@ -242,7 +242,7 @@
                                         </a>                                        
                                     </li>       
                                     <li{!!Helper::isMenuActive ($page_active,'usulanmusrenkab',' class="active"')!!}>
-                                        <a href="{{route('usulanmusrenkab.index')}}" title="Aspirasi Musrenbang Kabupaten">
+                                        <a href="{{route('usulanmusrenkab.index')}}" title="Usulan Musrenbang Kabupaten">
                                             <i class="icon-cube"></i>U. MUSRENBANG KAB. <span class="text-violet"><strong>[11]</strong></span>
                                         </a>                                        
                                     </li>                      
@@ -252,13 +252,18 @@
                                 <span class="menu-heading underlined"><i class="icon-comment-discussion"></i> PEMBAHASAN</span>
                                 <ul class="menu-list">
                                     <li{!!Helper::isMenuActive ($page_active,'pembahasanmusrenkecamatan',' class="active"')!!}>
-                                        <a href="{{route('pembahasanmusrenkecamatan.index')}}" title="Aspirasi Musrenbang Kecamatan">
+                                        <a href="{{route('pembahasanmusrenkecamatan.index')}}" title="Pembahasan Musrenbang Kecamatan">
                                             <i class="icon-cube"></i>P. MUSRENBANG KECAMATAN <span class="text-violet"><strong>[4]</strong></span>
                                         </a>
                                     </li>
                                     <li{!!Helper::isMenuActive ($page_active,'pembahasanrakorbidang',' class="active"')!!}>
-                                        <a href="{{route('pembahasanrakorbidang.index')}}" title="Aspirasi Musrenbang Kecamatan">
+                                        <a href="{{route('pembahasanrakorbidang.index')}}" title="Pembahasan Rakor Bidang">
                                             <i class="icon-cube"></i>P. RAKOR BIDANG <span class="text-violet"><strong>[8]</strong></span>
+                                        </a>
+                                    </li>
+                                    <li{!!Helper::isMenuActive ($page_active,'pembahasanmusrenkab',' class="active"')!!}>
+                                        <a href="{{route('pembahasanmusrenkab.index')}}" title="Pembahasan Musrenbang Kabupaten">
+                                            <i class="icon-cube"></i>P. MUSRENBANG KAB. <span class="text-violet"><strong>[12]</strong></span>
                                         </a>
                                     </li>
                                 </ul>

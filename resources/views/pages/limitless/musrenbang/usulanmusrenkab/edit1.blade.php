@@ -127,7 +127,7 @@ $(document).ready(function () {
         }      
     });   
     $("#divdatatableindikatorkinerja").on("click",".btnDelete", function(){
-        if (confirm('Apakah Anda ingin menghapus Data Indikator Kegiatan Forum OPD / SKPD ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data Indikator Kegiatan Musren Kabupaten ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             $.ajax({            
@@ -144,7 +144,7 @@ $(document).ready(function () {
                     if (result.success==1){
                         $('#divdatatableindikatorkinerja').html(result.datatable);                        
                     }else{
-                        console.log("Gagal menghapus data indikator kinerja Forum OPD / SKPD dengan id "+id);
+                        console.log("Gagal menghapus data indikator kinerja Musren Kabupaten dengan id "+id);
                     }                    
                 },
                 error:function(xhr, status, error){

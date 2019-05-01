@@ -33,7 +33,7 @@
                         </a>
                     </th>
                     <th width="200">
-                        <a class="column-sort text-white" id="col-Sasaran_Angka3" data-order="{{$direction}}" href="#">
+                        <a class="column-sort text-white" id="col-Sasaran_Angka4" data-order="{{$direction}}" href="#">
                             SASARAN  
                         </a>                                             
                     </th> 
@@ -41,7 +41,7 @@
                         TARGET (%)                        
                     </th> 
                     <th width="150" class="text-right">
-                        <a class="column-sort text-white" id="col-Jumlah3" data-order="{{$direction}}" href="#">
+                        <a class="column-sort text-white" id="col-Jumlah4" data-order="{{$direction}}" href="#">
                             NILAI  
                         </a>                                             
                     </th> 
@@ -72,16 +72,16 @@
                     @if ($item->RenjaRincID=='')
                     <td colspan="6">
                         <span class="label label-flat label-block border-info text-info-600">
-                            PROSES INPUT FORUM OPD / SKPD BELUM SELESAI
+                            PROSES INPUT MUSRENBANG KABUPATEN BELUM SELESAI
                         </span>
-                        <a href="{{route('pembahasanforumopd.create1',['uuid'=>$item->RenjaID])}}">
+                        <a href="{{route('usulanprarenjaopd.create1',['uuid'=>$item->RenjaID])}}">
                             Lanjutkan Input 
                         </a>
                     </td>
                     <td>
                         <ul class="icons-list">                            
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data Usulan Forum OPD / SKPD" data-id="{{$item->RenjaID}}" data-url="{{route('pembahasanforumopd.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data Usulan Musren Kabupaten" data-id="{{$item->RenjaID}}" data-url="{{route('usulanprarenjaopd.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>
@@ -106,9 +106,9 @@
                             @endif
                         </span>
                     </td>
-                    <td>{{Helper::formatAngka($item->Sasaran_Angka3)}} {{$item->Sasaran_Uraian3}}</td>
-                    <td>{{$item->Target3}}</td>
-                    <td class="text-right">{{Helper::formatuang($item->Jumlah3)}}</td>
+                    <td>{{Helper::formatAngka($item->Sasaran_Angka4)}} {{$item->Sasaran_Uraian4}}</td>
+                    <td>{{$item->Target4}}</td>
+                    <td class="text-right">{{Helper::formatuang($item->Jumlah4)}}</td>
                     <td>
                         <span class="label label-flat border-success text-success-600">
                             {{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}
@@ -118,7 +118,7 @@
                         @if ($item->Privilege==1)
                             <i class="icon-checkmark"></i>
                         @elseif ($item->status=='ACC')
-                            <a href="#" title="TRANSFER KEG. KE MUSREN. TK. KAB" class="btn btn-link" id="btnTransfer" data-id="{{$item->RenjaID}}">
+                            <a href="#" title="TRANSFER KEG. KE RENJA. FINAL SKPD" class="btn btn-link" id="btnTransfer" data-id="{{$item->RenjaID}}">
                                 <i class="icon-play4"></i>
                             </a>
                         @else

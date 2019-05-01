@@ -172,7 +172,62 @@ $(document).ready(function () {
             });
         }
     });
-    
+    $("#divdatatableindikatorkinerja").on("click",".btnDelete", function(){
+        if (confirm('Apakah Anda ingin menghapus Data Indikator Kegiatan Forum OPD / SKPD ini ?')) {
+            let url_ = $(this).attr("data-url");
+            let id = $(this).attr("data-id");
+            $.ajax({            
+                type:'post',
+                url:url_+'/'+id,
+                dataType: 'json',
+                data: {
+                    "_method": 'DELETE',
+                    "_token": token,
+                    "id": id,
+                    'indikatorkinerja':true
+                },
+                success:function(result){ 
+                    if (result.success==1){
+                        $('#divdatatableindikatorkinerja').html(result.datatable);                        
+                    }else{
+                        console.log("Gagal menghapus data indikator kinerja Forum OPD / SKPD dengan id "+id);
+                    }                    
+                },
+                error:function(xhr, status, error){
+                    console.log('ERROR');
+                    console.log(parseMessageAjaxEror(xhr, status, error));                           
+                },
+            });
+        }        
+    });
+    $("#divdatatablerinciankegiatan").on("click",".btnDelete", function(){
+        if (confirm('Apakah Anda ingin menghapus Data Rincian Kegiatan Forum OPD / SKPD ini ?')) {
+            let url_ = $(this).attr("data-url");
+            let id = $(this).attr("data-id");
+            $.ajax({            
+                type:'post',
+                url:url_+'/'+id,
+                dataType: 'json',
+                data: {
+                    "_method": 'DELETE',
+                    "_token": token,
+                    "id": id,
+                    'rinciankegiatan':true
+                },
+                success:function(result){ 
+                    if (result.success==1){
+                        $('#divdatatablerinciankegiatan').html(result.datatable);                        
+                    }else{
+                        console.log("Gagal menghapus data rincian kegiatan Forum OPD / SKPD dengan id "+id);
+                    }                    
+                },
+                error:function(xhr, status, error){
+                    console.log('ERROR');
+                    console.log(parseMessageAjaxEror(xhr, status, error));                           
+                },
+            });
+        }        
+    });
 });
 </script>
 @endsection

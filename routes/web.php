@@ -299,6 +299,17 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::get('/aspirasi/usulanmusrenkab/paginate/{id}',['uses'=>'Musrenbang\UsulanMusrenKabController@paginate','as'=>'usulanmusrenkab.paginate']);              
     Route::post('/aspirasi/usulanmusrenkab/changenumberrecordperpage',['uses'=>'Musrenbang\UsulanMusrenKabController@changenumberrecordperpage','as'=>'usulanmusrenkab.changenumberrecordperpage']);  
     Route::post('/aspirasi/usulanmusrenkab/orderby',['uses'=>'Musrenbang\UsulanMusrenKabController@orderby','as'=>'usulanmusrenkab.orderby']);
+    
+    //Rencana Kerja - Pembahasan Musrenbang Kabupaten [pembahasan]
+    Route::resource('/pembahasan/pembahasanmusrenkab','Musrenbang\PembahasanMusrenKabController',['parameters'=>['pembahasanmusrenkab'=>'uuid'],
+                                                                                                              'only'=>['index','show','update']]); 
+    Route::post('/pembahasan/pembahasanmusrenkab/search',['uses'=>'Musrenbang\PembahasanMusrenKabController@search','as'=>'pembahasanmusrenkab.search']);  
+    Route::post('/pembahasan/pembahasanmusrenkab/filter',['uses'=>'Musrenbang\PembahasanMusrenKabController@filter','as'=>'pembahasanmusrenkab.filter']);              
+    Route::get('/pembahasan/pembahasanmusrenkab/paginate/{id}',['uses'=>'Musrenbang\PembahasanMusrenKabController@paginate','as'=>'pembahasanmusrenkab.paginate']);              
+    Route::post('/pembahasan/pembahasanmusrenkab/changenumberrecordperpage',['uses'=>'Musrenbang\PembahasanMusrenKabController@changenumberrecordperpage','as'=>'pembahasanmusrenkab.changenumberrecordperpage']);  
+    Route::post('/pembahasan/pembahasanmusrenkab/orderby',['uses'=>'Musrenbang\PembahasanMusrenKabController@orderby','as'=>'pembahasanmusrenkab.orderby']);  
+    Route::post('/pembahasan/pembahasanmusrenkab/transfer',['uses'=>'Musrenbang\PembahasanMusrenKabController@transfer','as'=>'pembahasanmusrenkab.transfer']);
+    
 
     //setting - permissions    
     Route::resource('/setting/permissions','Setting\PermissionsController',[

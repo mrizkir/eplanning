@@ -1,20 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    PEMBAHASAN FORUM OPD / SKPD
+    PEMBAHASAN MUSRENBANG KABUPATEN
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold">
-        PEMBAHASAN FORUM OPD / SKPD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
+        PEMBAHASAN MUSRENBANG KABUPATEN TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.rkpd.pembahasanforumopd.info')
+    @include('pages.limitless.musrenbang.pembahasanmusrenkab.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">PERENCANAAN</a></li>
     <li><a href="#">PEMBAHASAN</a></li>
-    <li class="active">PEMBAHASAN FORUM OPD / SKPD</li>
+    <li class="active">PEMBAHASAN MUSRENBANG KABUPATEN</li>
 @endsection
 @section('page_content')
 <div class="row">
@@ -91,7 +91,7 @@
         </div>
     </div>       
     <div class="col-md-12" id="divdatatable">
-        @include('pages.limitless.rkpd.pembahasanforumopd.datatable')
+        @include('pages.limitless.musrenbang.pembahasanmusrenkab.datatable')
     </div>
 </div>
 @endsection

@@ -26,10 +26,10 @@
                     <i class="icon-eye"></i>  DATA USULAN MUSRENBANG KABUPATEN
                 </h5>
                 <div class="heading-elements">                       
-                    <a href="{{route('usulanmusrenkab.edit',['id'=>$renja->RenjaID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Usulan Forum OPD / SKPD">
+                    <a href="{{route('usulanmusrenkab.edit',['id'=>$renja->RenjaID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Usulan Musren Kabupaten">
                         <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data Usulan Forum OPD / SKPD" data-id="{{$renja->RenjaID}}" data-url="{{route('usulanmusrenkab.index')}}" class="btn btn-danger btn-icon heading-btn btnDeleteRenja">
+                    <a href="javascript:;" title="Hapus Data Usulan Musren Kabupaten" data-id="{{$renja->RenjaID}}" data-url="{{route('usulanmusrenkab.index')}}" class="btn btn-danger btn-icon heading-btn btnDeleteRenja">
                         <i class='icon-trash'></i>
                     </a>
                     <a href="{!!route('usulanmusrenkab.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
@@ -149,7 +149,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
     $(".btnDeleteRenja").click(function(ev) {
-        if (confirm('Apakah Anda ingin menghapus Data Usulan Forum OPD / SKPD ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data Usulan Musren Kabupaten ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             let token = $('meta[name="csrf-token"]').attr('content');
@@ -172,7 +172,62 @@ $(document).ready(function () {
             });
         }
     });
-    
+    $("#divdatatableindikatorkinerja").on("click",".btnDelete", function(){
+        if (confirm('Apakah Anda ingin menghapus Data Indikator Kegiatan Musren Kabupaten ini ?')) {
+            let url_ = $(this).attr("data-url");
+            let id = $(this).attr("data-id");
+            $.ajax({            
+                type:'post',
+                url:url_+'/'+id,
+                dataType: 'json',
+                data: {
+                    "_method": 'DELETE',
+                    "_token": token,
+                    "id": id,
+                    'indikatorkinerja':true
+                },
+                success:function(result){ 
+                    if (result.success==1){
+                        $('#divdatatableindikatorkinerja').html(result.datatable);                        
+                    }else{
+                        console.log("Gagal menghapus data indikator kinerja Musren Kabupaten dengan id "+id);
+                    }                    
+                },
+                error:function(xhr, status, error){
+                    console.log('ERROR');
+                    console.log(parseMessageAjaxEror(xhr, status, error));                           
+                },
+            });
+        }        
+    });
+    $("#divdatatablerinciankegiatan").on("click",".btnDelete", function(){
+        if (confirm('Apakah Anda ingin menghapus Data Rincian Kegiatan Musren Kabupaten ini ?')) {
+            let url_ = $(this).attr("data-url");
+            let id = $(this).attr("data-id");
+            $.ajax({            
+                type:'post',
+                url:url_+'/'+id,
+                dataType: 'json',
+                data: {
+                    "_method": 'DELETE',
+                    "_token": token,
+                    "id": id,
+                    'rinciankegiatan':true
+                },
+                success:function(result){ 
+                    if (result.success==1){
+                        $('#divdatatablerinciankegiatan').html(result.datatable);                        
+                    }else{
+                        console.log("Gagal menghapus data rincian kegiatan Musren Kabupaten dengan id "+id);
+                    }                    
+                },
+                error:function(xhr, status, error){
+                    console.log('ERROR');
+                    console.log(parseMessageAjaxEror(xhr, status, error));                           
+                },
+            });
+        }        
+    });
 });
 </script>
 @endsection
