@@ -46,7 +46,7 @@ class PaguDanaRPJMDController extends Controller {
                     $data = PaguDanaRPJMDModel::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
                 case 'replaceit' :
-                    $data = PaguDanaRPJMDModel::where('replaceit', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = PaguDanaRPJMDModel::where('replaceit', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  

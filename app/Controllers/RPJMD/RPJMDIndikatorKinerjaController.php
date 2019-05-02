@@ -43,7 +43,7 @@ class RPJMDIndikatorKinerjaController extends Controller {
             switch ($search['kriteria']) 
             {                
                 case 'NamaIndikator' :
-                    $data = RPJMDIndikatorKinerjaModel::where('NamaIndikator', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = RPJMDIndikatorKinerjaModel::where('NamaIndikator', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  

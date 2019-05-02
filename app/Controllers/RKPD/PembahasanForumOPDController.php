@@ -65,7 +65,7 @@ class PembahasanForumOPDController extends Controller {
                                                     ->orderBy($column_order,$direction); 
                 break;
                 case 'KgtNm' :
-                    $data = UsulanForumOPDModel::where('KgtNm', 'like', '%' . $search['isikriteria'] . '%')                                                    
+                    $data = UsulanForumOPDModel::where('KgtNm', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                                     ->where('SOrgID',$SOrgID)
                                                     ->whereNotNull('RenjaRincID')
                                                     ->where('TA', config('globalsettings.tahun_perencanaan'))
@@ -73,7 +73,7 @@ class PembahasanForumOPDController extends Controller {
                                                     ->orderBy($column_order,$direction);                                        
                 break;
                 case 'Uraian' :
-                    $data = UsulanForumOPDModel::where('Uraian', 'like', '%' . $search['isikriteria'] . '%')                                                    
+                    $data = UsulanForumOPDModel::where('Uraian', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                                     ->where('SOrgID',$SOrgID)
                                                     ->whereNotNull('RenjaRincID')
                                                     ->where('TA', config('globalsettings.tahun_perencanaan'))

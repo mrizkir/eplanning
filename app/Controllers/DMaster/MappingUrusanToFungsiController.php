@@ -46,7 +46,7 @@ class MappingUrusanToFungsiController extends Controller {
                     $data = MappingUrusanToFungsiModel::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
                 case 'replaceit' :
-                    $data = MappingUrusanToFungsiModel::where('replaceit', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = MappingUrusanToFungsiModel::where('replaceit', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  

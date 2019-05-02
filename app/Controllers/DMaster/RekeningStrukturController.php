@@ -46,7 +46,7 @@ class RekeningStrukturController extends Controller {
                     $data = RekeningStrukturModel::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
                 case 'replaceit' :
-                    $data = RekeningStrukturModel::where('replaceit', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = RekeningStrukturModel::where('replaceit', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  

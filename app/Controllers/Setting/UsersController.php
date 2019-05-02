@@ -74,13 +74,13 @@ class UsersController extends Controller {
                     $data = User::with('roles:name')->where(['users.id'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
                 case 'username' :
-                    $data = User::with('roles:name')->where('username', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = User::with('roles:name')->where('username', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
                 case 'nama' :
-                    $data = User::with('roles:name')->where('name', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction); 
+                    $data = User::with('roles:name')->where('name', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction); 
                 break;
                 case 'email' :
-                    $data = User::with('roles:name')->where('email', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction); 
+                    $data = User::with('roles:name')->where('email', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction); 
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  

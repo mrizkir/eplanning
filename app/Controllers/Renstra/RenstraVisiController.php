@@ -46,7 +46,7 @@ class RenstraVisiController extends Controller {
                     $data = RenstraVisiModel::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
                 case 'replaceit' :
-                    $data = RenstraVisiModel::where('replaceit', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = RenstraVisiModel::where('replaceit', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  

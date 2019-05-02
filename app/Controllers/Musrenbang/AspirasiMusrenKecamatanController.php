@@ -70,7 +70,7 @@ class AspirasiMusrenKecamatanController extends Controller {
                     $data = AspirasiMusrenKecamatanModel::leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trUsulanKec.PmDesaID')
                                                         ->leftJoin('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trUsulanKec.PmKecamatanID')
                                                         ->where('trUsulanKec.TA', config('globalsettings.tahun_perencanaan'))
-                                                        ->where('NamaKegiatan', 'like', '%' . $search['isikriteria'] . '%')
+                                                        ->where('NamaKegiatan', 'ilike', '%' . $search['isikriteria'] . '%')
                                                         ->orderBy('Prioritas','ASC')
                                                         ->orderBy($column_order,$direction);                                        
                 break;
@@ -403,7 +403,7 @@ class AspirasiMusrenKecamatanController extends Controller {
                     $data = AspirasiMusrenDesaModel::leftJoin('trUsulanKec','trUsulanKec.UsulanDesaID','trUsulanDesa.UsulanDesaID')
                                                     ->where('trUsulanDesa.trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
                                                     ->where('trUsulanDesa.PmDesaID',$filter_desa)
-                                                    ->where('trUsulanDesa.NamaKegiatan', 'like', '%' . $search['isikriteria'] . '%')
+                                                    ->where('trUsulanDesa.NamaKegiatan', 'ilike', '%' . $search['isikriteria'] . '%')
                                                     ->where('trUsulanDesa.Privilege',1)
                                                     ->whereNull('trUsulanKec.UsulanDesaID')
                                                     ->orderBy('Prioritas','ASC')

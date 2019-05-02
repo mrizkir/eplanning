@@ -46,7 +46,7 @@ class KecamatanController extends Controller {
                     $data = KecamatanModel::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
                 case 'replaceit' :
-                    $data = KecamatanModel::where('replaceit', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = KecamatanModel::where('replaceit', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  

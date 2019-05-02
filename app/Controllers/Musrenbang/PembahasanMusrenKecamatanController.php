@@ -65,7 +65,7 @@ class PembahasanMusrenKecamatanController extends Controller {
                     $data = AspirasiMusrenKecamatanModel::join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trUsulanKec.PmKecamatanID')
                                                         ->leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trUsulanKec.PmDesaID')
                                                         ->where('trUsulanKec.TA', config('globalsettings.tahun_perencanaan'))
-                                                        ->where('NamaKegiatan', 'like', '%' . $search['isikriteria'] . '%')
+                                                        ->where('NamaKegiatan', 'ilike', '%' . $search['isikriteria'] . '%')
                                                         ->orderBy('Prioritas','ASC')
                                                         ->where('trUsulanKec.PmKecamatanID',$PmKecamatanID)
                                                         ->orderBy($column_order,$direction);                                        

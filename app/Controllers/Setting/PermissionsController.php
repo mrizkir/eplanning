@@ -42,7 +42,7 @@ class PermissionsController extends Controller {
             switch ($search['kriteria']) 
             {
                 case 'nama' :
-                    $data = Permission::where('name', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction); 
+                    $data = Permission::where('name', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction); 
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  

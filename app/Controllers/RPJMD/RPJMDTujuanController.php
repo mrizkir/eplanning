@@ -46,7 +46,7 @@ class RPJMDTujuanController extends Controller {
                     $data = RPJMDTujuanModel::where(['Kd_Tujuan'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
                 case 'Nm_Tujuan' :
-                    $data = RPJMDTujuanModel::where('Nm_Tujuan', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = RPJMDTujuanModel::where('Nm_Tujuan', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  

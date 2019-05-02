@@ -65,7 +65,7 @@ class MappingProgramToOPDController extends Controller {
                             ->orderBy("v_organisasi_program.$column_order",$direction);
                 break;
                 case 'PrgNm' :
-                    $data = MappingProgramToOPDModel::where('PrgNm', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = MappingProgramToOPDModel::where('PrgNm', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                     $data = \DB::table('v_organisasi_program')
                             ->select(\DB::raw('
                                 "v_organisasi_program"."orgProgramID",
@@ -81,7 +81,7 @@ class MappingProgramToOPDController extends Controller {
                             ->join ('tmUrs','tmOrg.UrsID','tmUrs.UrsID')
                             ->join ('tmKUrs','tmUrs.KUrsID','tmKUrs.KUrsID')
                             ->where('v_organisasi_program.TA',config('globalsettings.tahun_perencanaan'))
-                            ->where('PrgNm', 'like', '%' . $search['isikriteria'] . '%')                                        
+                            ->where('PrgNm', 'ilike', '%' . $search['isikriteria'] . '%')                                        
                             ->orderBy("v_organisasi_program.$column_order",$direction);
                 break;
             }           

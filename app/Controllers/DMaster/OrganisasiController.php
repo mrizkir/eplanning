@@ -53,7 +53,7 @@ class OrganisasiController extends Controller {
                 case 'OrgNm' :
                     $data =\DB::table('v_urusan_organisasi') 
                                 ->where('TA',config('globalsettings.tahun_perencanaan'))
-                                ->where('OrgNm', 'like', '%' . $search['isikriteria'] . '%')
+                                ->where('OrgNm', 'ilike', '%' . $search['isikriteria'] . '%')
                                 ->orderBy($column_order,$direction);                                        
                 break;
             }           

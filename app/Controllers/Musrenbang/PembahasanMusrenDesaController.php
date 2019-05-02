@@ -66,7 +66,7 @@ class PembahasanMusrenDesaController extends Controller {
                                                     ->join('tmPmKecamatan','tmPmDesa.PmKecamatanID','tmPmKecamatan.PmKecamatanID')
                                                     ->where('trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
                                                     ->where('trUsulanDesa.PmDesaID',$filter_desa)
-                                                    ->where('trUsulanDesa.NamaKegiatan', 'like', '%' . $search['isikriteria'] . '%')
+                                                    ->where('trUsulanDesa.NamaKegiatan', 'ilike', '%' . $search['isikriteria'] . '%')
                                                     ->orderBy('Prioritas','ASC')
                                                     ->orderBy($column_order,$direction);                                        
             break;

@@ -59,7 +59,7 @@ class ProgramKegiatanController extends Controller {
                 case 'KgtNm' :
                     $data = \DB::table('v_program_kegiatan')
                             ->where('TA',config('globalsettings.tahun_perencanaan'))
-                            ->where('KgtNm', 'like', '%' . $search['isikriteria'] . '%')
+                            ->where('KgtNm', 'ilike', '%' . $search['isikriteria'] . '%')
                             ->orderBy($column_order,$direction);                                        
                 break;
             }           

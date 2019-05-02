@@ -48,13 +48,13 @@ class UsersOPDController extends Controller {
                     $data = User::role('opd')->where(['users.id'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
                 case 'username' :
-                    $data = User::role('opd')->where('username', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = User::role('opd')->where('username', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
                 case 'nama' :
-                    $data = User::role('opd')->where('name', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction); 
+                    $data = User::role('opd')->where('name', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction); 
                 break;
                 case 'email' :
-                    $data = User::role('opd')->where('email', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction); 
+                    $data = User::role('opd')->where('email', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction); 
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  

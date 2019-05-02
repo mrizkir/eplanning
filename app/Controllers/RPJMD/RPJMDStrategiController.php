@@ -46,7 +46,7 @@ class RPJMDStrategiController extends Controller {
                     $data = RPJMDStrategiModel::where(['Kd_Strategi'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
                 case 'Nm_Strategi' :
-                    $data = RPJMDStrategiModel::where('Nm_Strategi', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = RPJMDStrategiModel::where('Nm_Strategi', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  

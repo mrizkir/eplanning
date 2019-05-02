@@ -65,7 +65,7 @@ class PembahasanPraRenjaOPDController extends Controller {
                                                     ->orderBy($column_order,$direction); 
                 break;
                 case 'KgtNm' :
-                    $data = UsulanPraRenjaOPDModel::where('KgtNm', 'like', '%' . $search['isikriteria'] . '%')                                                    
+                    $data = UsulanPraRenjaOPDModel::where('KgtNm', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                                     ->where('SOrgID',$SOrgID)
                                                     ->whereNotNull('RenjaRincID')
                                                     ->where('TA', config('globalsettings.tahun_perencanaan'))
@@ -73,7 +73,7 @@ class PembahasanPraRenjaOPDController extends Controller {
                                                     ->orderBy($column_order,$direction);                                        
                 break;
                 case 'Uraian' :
-                    $data = UsulanPraRenjaOPDModel::where('Uraian', 'like', '%' . $search['isikriteria'] . '%')                                                    
+                    $data = UsulanPraRenjaOPDModel::where('Uraian', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                                     ->where('SOrgID',$SOrgID)
                                                     ->whereNotNull('RenjaRincID')
                                                     ->where('TA', config('globalsettings.tahun_perencanaan'))

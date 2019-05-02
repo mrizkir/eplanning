@@ -47,7 +47,7 @@ class PaguAnggaranOPDController extends Controller {
             {
                 case 'OrgNm' :
                     $data = PaguAnggaranOPDModel::join('v_urusan_organisasi','tmPaguAnggaranOPD.OrgID','v_urusan_organisasi.OrgID')
-                                                ->where('OrgNm', 'like', '%' . $search['isikriteria'] . '%')
+                                                ->where('OrgNm', 'ilike', '%' . $search['isikriteria'] . '%')
                                                 ->where('tmPaguAnggaranOPD.TA',config('globalsettings.tahun_perencanaan'))
                                                 ->orderBy($column_order,$direction);                                        
                 break;

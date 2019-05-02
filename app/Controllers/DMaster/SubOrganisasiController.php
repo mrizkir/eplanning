@@ -52,7 +52,7 @@ class SubOrganisasiController extends Controller {
                 case 'SOrgNm' :
                     $data =\DB::table('v_suborganisasi') 
                                 ->where('TA',config('globalsettings.tahun_perencanaan'))
-                                ->where('SOrgNm', 'like', '%' . $search['isikriteria'] . '%')
+                                ->where('SOrgNm', 'ilike', '%' . $search['isikriteria'] . '%')
                                 ->orderBy($column_order,$direction);                                        
                 break;
             }           

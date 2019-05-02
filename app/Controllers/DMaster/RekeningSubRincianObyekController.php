@@ -46,7 +46,7 @@ class RekeningRincianObyekBelanjaModalController extends Controller {
                     $data = RekeningRincianObyekBelanjaModalModel::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
                 case 'replaceit' :
-                    $data = RekeningRincianObyekBelanjaModalModel::where('replaceit', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = RekeningRincianObyekBelanjaModalModel::where('replaceit', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  

@@ -46,7 +46,7 @@ class RPJMDMisiController extends Controller {
                     $data = RPJMDMisiModel::where(['Kd_PrioritasKab'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
                 case 'Nm_PrioritasKab' :
-                    $data = RPJMDMisiModel::where('Nm_PrioritasKab', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = RPJMDMisiModel::where('Nm_PrioritasKab', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  

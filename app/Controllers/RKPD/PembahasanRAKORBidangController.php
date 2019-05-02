@@ -65,7 +65,7 @@ class PembahasanRAKORBidangController extends Controller {
                                                     ->orderBy($column_order,$direction); 
                 break;
                 case 'KgtNm' :
-                    $data = UsulanRAKORBidangModel::where('KgtNm', 'like', '%' . $search['isikriteria'] . '%')                                                    
+                    $data = UsulanRAKORBidangModel::where('KgtNm', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                                     ->where('SOrgID',$SOrgID)
                                                     ->whereNotNull('RenjaRincID')
                                                     ->where('TA', config('globalsettings.tahun_perencanaan'))
@@ -73,7 +73,7 @@ class PembahasanRAKORBidangController extends Controller {
                                                     ->orderBy($column_order,$direction);                                        
                 break;
                 case 'Uraian' :
-                    $data = UsulanRAKORBidangModel::where('Uraian', 'like', '%' . $search['isikriteria'] . '%')                                                    
+                    $data = UsulanRAKORBidangModel::where('Uraian', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                                     ->where('SOrgID',$SOrgID)
                                                     ->whereNotNull('RenjaRincID')
                                                     ->where('TA', config('globalsettings.tahun_perencanaan'))

@@ -46,7 +46,7 @@ class RPJMDSasaranController extends Controller {
                     $data = RPJMDSasaranModel::where(['Kd_Sasaran'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
                 case 'Nm_Sasaran' :
-                    $data = RPJMDSasaranModel::where('Nm_Sasaran', 'like', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = RPJMDSasaranModel::where('Nm_Sasaran', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  

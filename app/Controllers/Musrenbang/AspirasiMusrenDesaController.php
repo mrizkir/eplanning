@@ -56,7 +56,7 @@ class AspirasiMusrenDesaController extends Controller {
                     $data = AspirasiMusrenDesaModel::join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanDesa.PmDesaID')
                                                     ->join('tmPmKecamatan','tmPmDesa.PmKecamatanID','tmPmKecamatan.PmKecamatanID')
                                                     ->where('trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
-                                                    ->where('NamaKegiatan', 'like', '%' . $search['isikriteria'] . '%')
+                                                    ->where('NamaKegiatan', 'ilike', '%' . $search['isikriteria'] . '%')
                                                     ->orderBy('Prioritas','ASC')                                        
                                                     ->orderBy($column_order,$direction);                                        
                 break;

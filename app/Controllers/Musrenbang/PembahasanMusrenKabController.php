@@ -65,7 +65,7 @@ class PembahasanMusrenKabController extends Controller {
                                                     ->orderBy($column_order,$direction); 
                 break;
                 case 'KgtNm' :
-                    $data = UsulanMusrenKabModel::where('KgtNm', 'like', '%' . $search['isikriteria'] . '%')                                                    
+                    $data = UsulanMusrenKabModel::where('KgtNm', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                                     ->where('SOrgID',$SOrgID)
                                                     ->whereNotNull('RenjaRincID')
                                                     ->where('TA', config('globalsettings.tahun_perencanaan'))
@@ -73,7 +73,7 @@ class PembahasanMusrenKabController extends Controller {
                                                     ->orderBy($column_order,$direction);                                        
                 break;
                 case 'Uraian' :
-                    $data = UsulanMusrenKabModel::where('Uraian', 'like', '%' . $search['isikriteria'] . '%')                                                    
+                    $data = UsulanMusrenKabModel::where('Uraian', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                                     ->where('SOrgID',$SOrgID)
                                                     ->whereNotNull('RenjaRincID')
                                                     ->where('TA', config('globalsettings.tahun_perencanaan'))
