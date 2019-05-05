@@ -286,10 +286,9 @@ class UsersController extends Controller {
     {        
         $theme = \Auth::user()->theme;
         
-        $daftar_roles=$this->getDaftarRoles();
-        $daftar_theme = \File::directories(public_path());    
+        $daftar_theme = $this->listOfthemes;   
         return view("pages.$theme.setting.users.create")->with(['page_active'=>'users',
-                                                                'daftar_roles'=>$daftar_roles
+                                                                'daftar_theme'=>$daftar_theme
                                                                 ]);  
     }
     
@@ -305,8 +304,7 @@ class UsersController extends Controller {
             'name'=>'required',
             'email'=>'required|string|email|unique:users',
             'username'=>'required|string|unique:users',
-            'password'=>'required',            
-            'role_name'=>'required',
+            'password'=>'required'
         ]);
         $now = \Carbon\Carbon::now()->toDateTimeString();        
         $user=User::create([
@@ -315,15 +313,12 @@ class UsersController extends Controller {
             'username'=> $request->input('username'),
             'password'=>\Hash::make($request->input('password')),
             'email_verified_at'=>\Carbon\Carbon::now(),
+            'theme'=>$request->input('theme'),
             'created_at'=>$now, 
             'updated_at'=>$now
         ]);            
-        $roles=$request->input('role_name');   
-        $user->assignRole($roles);        
-        if ($request->input('do_sync')==1)
-        {
-            $user->syncPermissions($user->getPermissionsViaRoles()->pluck('name')->toArray());
-        }
+        $roles='superadmin';   
+        $user->assignRole($roles);               
         if ($request->ajax()) 
         {
             return response()->json([
@@ -333,27 +328,10 @@ class UsersController extends Controller {
         }
         else
         {
-            return redirect(route('users.index'))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('users.show',['id'=>$user->id]))->with('success','Data ini telah berhasil disimpan.');
         }
 
-    }
-    /**
-     * Store a user permission resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function storeuserpermission(Request $request)
-    {      
-        $post = $request->all();
-        $permissions = isset($post['chkpermission'])?$post['chkpermission']:[];
-        $id = $post['user_id'];
-
-        $user = User::find($id);
-        $user->syncPermissions($permissions);
-        
-        return redirect(route('users.show',$id))->with('success','Permission user ('.$user->name.') berhasil diproses');
-    }
+    }    
     /**
      * Display the specified resource.
      *
@@ -366,12 +344,9 @@ class UsersController extends Controller {
 
         $user = User::find($id);
         if (!is_null($user) )  
-        {             
-            $permission_selected = $user->permissions->pluck('name','id')->toArray();                        
+        {                                               
             return view("pages.$theme.setting.users.show")->with(['page_active'=>'users',
-                                                                    'data'=>$user,
-                                                                    'data_permission'=>$user->getPermissionsViaRoles(),
-                                                                    'permission_selected'=>$permission_selected
+                                                                    'data'=>$user,                                                                    
                                                                 ]);
         }
         else
@@ -410,14 +385,11 @@ class UsersController extends Controller {
 
         $data = User::find($id);
         if (!is_null($data) ) 
-        {
-            $daftar_roles=$this->getDaftarRoles();
-            $user = \App\Models\User::with('roles')->find($id);
-            $user_roles=$user->roles->pluck('name', 'name')->toArray();           
-            return view("pages.$theme.setting.users.edit")->with(['page_active'=>'users',
-                                                                    'daftar_roles'=>$daftar_roles,
-                                                                    'user_roles'=>$user_roles,
+        {            
+            $daftar_theme = $this->listOfthemes;
+            return view("pages.$theme.setting.users.edit")->with(['page_active'=>'users',                                                                    
                                                                     'data'=>$data,
+                                                                    'daftar_theme'=>$daftar_theme
                                                                 ]);
         }
         else
@@ -439,29 +411,23 @@ class UsersController extends Controller {
      */
     public function update(Request $request, $id)
     {
+        $user = User::find($id);
         $this->validate($request, [
-            'username'=>['required',new IgnoreIfDataIsEqualValidation('users',$request->input('old_username'))],           
+            'username'=>['required',new IgnoreIfDataIsEqualValidation('users',$user->username)],           
             'name'=>'required',            
-            'email'=>'required|string|email|unique:users,email,'.$id,              
-            'role_name'=>'required',
+            'email'=>'required|string|email|unique:users,email,'.$id              
         ]); 
         
-        $user = User::find($id);
+        
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->username = $request->input('username');
+        $user->theme = $request->input('theme');
         if (!empty(trim($request->input('password')))) {
             $user->password = Hash::make($request->input('password'));
         }    
         $user->updated_at = \Carbon\Carbon::now()->toDateTimeString();
         $user->save();
-
-        $role_name = $request->input('role_name');
-        $user->syncRoles($role_name);
-        if ($request->input('do_sync')==1)
-        {
-            $user->syncPermissions($user->getPermissionsViaRoles()->pluck('name')->toArray());
-        }
         if ($request->ajax()) 
         {
             return response()->json([

@@ -106,8 +106,8 @@
 </div>  
 @endsection
 @section('page_asset_js')
-<script src="{!!asset('themes/limitless/assets/jquery-validation/jquery.validate.min.js')!!}"></script>
-<script src="{!!asset('themes/limitless/assets/jquery-validation/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/switch.min.js')!!}"></script>
 @endsection

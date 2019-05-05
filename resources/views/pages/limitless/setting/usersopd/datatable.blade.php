@@ -52,6 +52,7 @@
                             UNIT KERJA
                         </a>
                     </th>
+                    <th width="70">THEME</th>
                     <th width="100">AKSI</th>
                 </tr>
             </thead>
@@ -68,6 +69,7 @@
                     <td>{{$item->email}}</td> 
                     <td>{{$item->OrgNm}}</td> 
                     <td>{{$item->SOrgNm}}</td> 
+                    <td>{{$item->theme}}</td> 
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">

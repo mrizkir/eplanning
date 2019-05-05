@@ -5,14 +5,14 @@
 @section('page_header')
     <i class="icon-users position-left"></i>
     <span class="text-semibold">
-        USERS OPD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        USERS OPD
     </span>
 @endsection
 @section('page_info')
     @include('pages.limitless.setting.usersopd.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('usersopd.index')!!}">USERSOPD</a></li>
+    <li><a href="{!!route('usersopd.index')!!}">USERS OPD</a></li>
     <li class="active">ERROR</li>
 @endsection
 @section('page_content')

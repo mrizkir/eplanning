@@ -42,6 +42,9 @@
                             EMAIL  
                         </a>                                             
                     </th>
+                    <th width="70">                        
+                        THEME                                                                       
+                    </th>
                     <th width="100">AKSI</th>
                 </tr>
             </thead>
@@ -56,20 +59,21 @@
                     <td>{{$item->username}}</td>
                     <td>{{$item->name}}</td>
                     <td>{{$item->email}}</td>
+                    <td>{{$item->theme}}</td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('users.show',['id'=>$item->id])}}" title="Detail Data Users">
+                                <a class="btnShow" href="{{route('users.show',['id'=>$item->id])}}" title="Detail Data User">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('users.edit',['id'=>$item->id])}}" title="Ubah Data Users">
+                                <a class="btnEdit" href="{{route('users.edit',['id'=>$item->id])}}" title="Ubah Data User">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data Users" data-id="{{$item->id}}" data-url="{{route('users.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data User" data-id="{{$item->id}}" data-url="{{route('users.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>
