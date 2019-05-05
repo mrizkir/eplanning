@@ -21,11 +21,27 @@
             <thead>
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
+                    <th width="55"></th>
                     <th width="100">
-                        <a class="column-sort text-white" id="col-replace_it" data-order="{{$direction}}" href="#">
-                            replace_it  
+                        <a class="column-sort text-white" id="col-id" data-order="{{$direction}}" href="#">
+                            ID  
                         </a>                                             
                     </th> 
+                    <th width="200">
+                        <a class="column-sort text-white" id="col-username" data-order="{{$direction}}" href="#">
+                            USERNAME  
+                        </a>                                             
+                    </th> 
+                    <th>
+                        <a class="column-sort text-white" id="col-username" data-order="{{$direction}}" href="#">
+                            NAME  
+                        </a>                                             
+                    </th>
+                    <th>
+                        <a class="column-sort text-white" id="col-email" data-order="{{$direction}}" href="#">
+                            EMAIL  
+                        </a>                                             
+                    </th>
                     <th width="100">AKSI</th>
                 </tr>
             </thead>
@@ -34,22 +50,26 @@
                 <tr>
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
-                    </td>                  
-                    <td>{{$item->replace_it}}</td>
+                    </td>     
+                    <th><img src="{!!asset($item->foto)!!}" alt="{{$item->username}}" height="50"></th>
+                    <td>{{$item->id}}</td>
+                    <td>{{$item->username}}</td>
+                    <td>{{$item->name}}</td>
+                    <td>{{$item->email}}</td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('users.show',['id'=>$item->users_id])}}" title="Detail Data Users">
+                                <a class="btnShow" href="{{route('users.show',['id'=>$item->id])}}" title="Detail Data Users">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('users.edit',['id'=>$item->users_id])}}" title="Ubah Data Users">
+                                <a class="btnEdit" href="{{route('users.edit',['id'=>$item->id])}}" title="Ubah Data Users">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data Users" data-id="{{$item->users_id}}" data-url="{{route('users.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data Users" data-id="{{$item->id}}" data-url="{{route('users.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>

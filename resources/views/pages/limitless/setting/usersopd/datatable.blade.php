@@ -21,11 +21,12 @@
             <thead>
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
+                    <th></th>
                     <th width="100">
                         <a class="column-sort text-white" id="col-id" data-order="{{$direction}}" href="#">
                             ID  
                         </a>                                             
-                    </th> 
+                    </th>                     
                     <th>
                         <a class="column-sort text-white" id="col-username" data-order="{{$direction}}" href="#">
                             USERNAME  
@@ -60,6 +61,7 @@
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>                  
+                    <th><img src="{!!asset($item->foto)!!}" alt="{{$item->username}}" height="50"></th>
                     <td>{{$item->id}}</td>
                     <td>{{$item->username}}</td> 
                     <td>{{$item->name}}</td> 

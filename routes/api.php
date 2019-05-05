@@ -1,5 +1,9 @@
 <?php
 Route::group (['prefix'=>'v0'],function() {
+    // filepond upload
+    Route::post('/file/upload', 'API\v0\FilepondController@upload')->name('filepond.upload');
+    Route::delete('/file/delete', 'API\v0\FilepondController@delete')->name('filepond.delete');
+
     // Rekening
     Route::resource('/rekening/struktur','API\v0\DMaster\RekeningStrukturController',['names'=>'api-v0-rekening-struktur',
                                                                                     'parameters'=>['struktur'=>'uuid'],

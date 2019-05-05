@@ -71,16 +71,16 @@ class UsersController extends Controller {
             switch ($search['kriteria']) 
             {
                 case 'id' :
-                    $data = User::with('roles:name')->where(['users.id'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                    $data = $data = User::role('superadmin')->where(['users.id'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
                 case 'username' :
-                    $data = User::with('roles:name')->where('username', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = $data = User::role('superadmin')->where('username', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
                 case 'nama' :
-                    $data = User::with('roles:name')->where('name', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction); 
+                    $data = $data = User::role('superadmin')->where('name', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction); 
                 break;
                 case 'email' :
-                    $data = User::with('roles:name')->where('email', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction); 
+                    $data = User::role('superadmin')->where('email', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction); 
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
@@ -88,14 +88,7 @@ class UsersController extends Controller {
         else
         {
 
-            $data = $filter_role_id == 'none' ? 
-                                            User::with('roles:name')->orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage)             
-                                            :
-                                            User::whereHas('roles', function ($q){
-                                                $q->where('name', $this->getControllerStateSession('users.filters','role_id'));
-                                            })
-                                            ->orderBy($column_order,$direction)
-                                            ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);             
+            $data = User::role('superadmin')->orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage);           
         }   
 
         $data->setPath(route('users.index'));
@@ -389,7 +382,22 @@ class UsersController extends Controller {
                                                                 ]);
         }
     }
+    /**
+     * Display the specified resource.     
+     * @return \Illuminate\Http\Response
+     */
+    public function profil()
+    {
+        $theme = \Auth::user()->theme;
 
+        $user = User::find(\Auth::user()->id);
+        if (!is_null($user) )  
+        {   
+            return view("pages.$theme.setting.users.profil")->with(['page_active'=>'users',
+                                                                    'data'=>\Auth::user()
+                                                                ]);
+        }        
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -466,7 +474,52 @@ class UsersController extends Controller {
             return redirect(route('users.index'))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateprofil(Request $request)
+    {
+        $user = \Auth::user();
+        $id = $user->id;
 
+        $this->validate($request, [        
+            'email'=>'required|string|email|unique:users,email,'.$id,                          
+        ]);
+        
+        $user->email = $request->input('email');
+        if (!empty(trim($request->input('password1')))) {
+            $user->password = \Hash::make($request->input('password1'));
+        }    
+        $user->updated_at = \Carbon\Carbon::now()->toDateTimeString();
+        $user->save();
+
+        if ($request->ajax()) 
+        {
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data ini telah berhasil diubah.'
+            ]);
+        }
+        else
+        {
+            return redirect(route('users.profil'))->with('success',"Data profil telah berhasil diubah.");
+        }
+    }
+     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function uploadphotoprofile (Request $request)
+    {
+        
+    }
      /**
      * Remove the specified resource from storage.
      *

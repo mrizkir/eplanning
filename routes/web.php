@@ -332,11 +332,14 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     //setting - users
     Route::resource('/setting/users','Setting\UsersController',['parameters'=>['users'=>'id']]);           
     Route::get('/setting/users/paginatecreate/{id}',['uses'=>'Setting\UsersController@paginate','as'=>'users.paginate']);    
+    Route::get('/setting/users/profil',['uses'=>'Setting\UsersController@profil','as'=>'users.profil']);    
+    Route::put('/setting/users/updateprofil',['uses'=>'Setting\UsersController@updateprofil','as'=>'users.updateprofil']);        
     Route::post('/setting/users/changenumberrecordperpage',['uses'=>'Setting\UsersController@changenumberrecordperpage','as'=>'users.changenumberrecordperpage']);  
     Route::post('/setting/users/orderby',['uses'=>'Setting\UsersController@orderby','as'=>'users.orderby']); 
     Route::post('/setting/users/search',['uses'=>'Setting\UsersController@search','as'=>'users.search']);    
     Route::post('/setting/users/filter',['uses'=>'Setting\UsersController@filter','as'=>'users.filter']);    
     Route::post('/setting/users/storeuserpermission', ['uses'=>'Setting\UsersController@storeuserpermission','as'=>'users.storeuserpermission']);
+
     //setting - users OPD
     Route::resource('/setting/usersopd','Setting\UsersOPDController',['parameters'=>['usersopd'=>'id']]);           
     Route::get('/setting/usersopd/paginate/{id}',['uses'=>'Setting\UsersOPDController@paginate','as'=>'usersopd.paginate']);

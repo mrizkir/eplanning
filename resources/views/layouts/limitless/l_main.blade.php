@@ -24,7 +24,11 @@
                     <i class="caret"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right">
-                    <li><a href="#"><i class="icon-user-plus"></i> My profile</a></li>                    
+                    <li>
+                        <a href="{{route('users.profil',['id'=>Auth::user()->id])}}">
+                            <i class="icon-user-plus"></i> My profile
+                        </a>                        
+                    </li>                    
                     <li class="divider"></li>                    
                     <li>                       
                         <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">

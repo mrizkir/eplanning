@@ -1,18 +1,18 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    USERS
+    USERS BAPELITBANG
 @endsection
 @section('page_header')
     <i class="icon-users position-left"></i>
     <span class="text-semibold">
-        USERS TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
+        USERS BAPELITBANG
     </span>
 @endsection
 @section('page_info')
     @include('pages.limitless.setting.users.info')
 @endsection
 @section('page_breadcrumb')
-    <li class="active">USERS</li>
+    <li class="active">USERS BAPELITBANG</li>
 @endsection
 @section('page_content')
 <div class="row">
@@ -29,7 +29,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">
-                            {{Form::select('cmbKriteria', ['replaceit'=>'replaceit','nama'=>'replaceit'], isset($search['kriteria'])?$search['kriteria']:'replaceit',['class'=>'form-control'])}}
+                            {{Form::select('cmbKriteria', ['id'=>'USERID','username'=>'USERNAME','nama'=>'NAMA','email'=>'EMAIL'], isset($search['kriteria'])?$search['kriteria']:'username',['class'=>'form-control'])}}
                         </div>
                     </div>
                     <div class="form-group" id="divKriteria">
