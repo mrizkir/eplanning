@@ -327,9 +327,19 @@
                                                 <i class="icon-user"></i> OPD
                                             </a>
                                         </li>
-                                        <li{!!Helper::isMenuActive ($page_active,'dewan',' class="active"')!!}>
+                                        <li{!!Helper::isMenuActive ($page_active,'usersdewan',' class="active"')!!}>
                                             <a href="{!!route('users.index')!!}">
                                                 <i class="icon-user"></i> DEWAN
+                                            </a>
+                                        </li>
+                                        <li{!!Helper::isMenuActive ($page_active,'userskecamatan',' class="active"')!!}>
+                                            <a href="{!!route('users.index')!!}">
+                                                <i class="icon-user"></i> KECAMATAN
+                                            </a>
+                                        </li>
+                                        <li{!!Helper::isMenuActive ($page_active,'usersdesa',' class="active"')!!}>
+                                            <a href="{!!route('users.index')!!}">
+                                                <i class="icon-user"></i> DESA / KELURAHAN
                                             </a>
                                         </li>
                                         @endhasrole	

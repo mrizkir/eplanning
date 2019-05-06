@@ -35,14 +35,6 @@ class CreateSubOrganisasiTable extends Migration
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
-        
-        Schema::table('users', function (Blueprint $table) {
-            $table->foreign('SOrgID')
-                ->references('SOrgID')
-                ->on('tmSOrg')
-                ->onDelete('set null')
-                ->onUpdate('cascade');
-        });
     }
 
     /**

@@ -24,6 +24,12 @@ class CreateUsersTable extends Migration
             $table->string('OrgNm')->nullable();
             $table->string('SOrgID',19)->nullable();  
             $table->string('SOrgNm')->nullable();  
+            $table->string('PemilikPokokID',19)->nullable();  
+            $table->string('NmPk')->nullable();  
+            $table->string('PmKecamatanID',19)->nullable();  
+            $table->string('Nm_Kecamatan')->nullable(); 
+            $table->string('PmDesaID',19)->nullable();  
+            $table->string('Nm_Desa')->nullable(); 
             $table->string('theme')->default('default');
             $table->string('foto')->default('storage/images/users/no_photo.png');
             $table->boolean('active')->default(1);
@@ -33,8 +39,10 @@ class CreateUsersTable extends Migration
             $table->timestamps();
 
             $table->index('OrgID');  
-            $table->index('SOrgID');                  
-            $table->index('TA');
+            $table->index('SOrgID');
+            $table->index('PemilikPokokID');
+            $table->index('PmKecamatanID');
+            $table->index('PmDesaID');
             
         });
     }
