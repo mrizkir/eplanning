@@ -76,12 +76,13 @@
                         </span>                        
                     </td>
                     <td>
-                        <ul class="icons-list">
+                        <ul class="icons-list">                           
                             <li class="text-primary-600">
                                 <a class="btnShow" href="{{route('aspirasimusrendesa.show',['id'=>$item->UsulanDesaID])}}" title="Detail Data Kegiatan">
                                     <i class='icon-eye'></i>
                                 </a>  
-                            </li>
+                            </li>                            
+                            @if ($item->Privilege==0)
                             <li class="text-primary-600">
                                 <a class="btnEdit" href="{{route('aspirasimusrendesa.edit',['id'=>$item->UsulanDesaID])}}" title="Ubah Data Kegiatan">
                                     <i class='icon-pencil7'></i>
@@ -91,7 +92,8 @@
                                 <a class="btnDelete" href="javascript:;" title="Hapus Data Kegiatan" data-id="{{$item->UsulanDesaID}}" data-url="{{route('aspirasimusrendesa.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
-                            </li>
+                            </li> 
+                            @endif                            
                         </ul>
                     </td>
                 </tr>

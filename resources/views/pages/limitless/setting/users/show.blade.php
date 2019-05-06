@@ -24,10 +24,10 @@
                     <i class="icon-eye"></i>  DATA USER
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('users.edit',['id'=>$data->id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Users">
+                    <a href="{{route('users.edit',['id'=>$data->id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data User">
                         <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data Users" data-id="{{$data->id}}" data-url="{{route('users.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
+                    <a href="javascript:;" title="Hapus Data User" data-id="{{$data->id}}" data-url="{{route('users.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
                     </a>
                     <a href="{!!route('users.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">

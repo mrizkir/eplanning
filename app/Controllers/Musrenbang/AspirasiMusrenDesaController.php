@@ -26,7 +26,7 @@ class AspirasiMusrenDesaController extends Controller {
      */
     public function populateData ($currentpage=1) 
     {        
-        $columns=['UsulanDesaID','No_usulan','Nm_Desa','Nm_Kecamatan','NamaKegiatan','Output','NilaiUsulan','Target_Angka','Target_Uraian','Jeniskeg','Prioritas'];       
+        $columns=['*'];       
         if (!$this->checkStateIsExistSession('aspirasimusrendesa','orderby')) 
         {            
            $this->putControllerStateSession('aspirasimusrendesa','orderby',['column_name'=>'tmPmDesa.Nm_Desa','order'=>'asc']);
@@ -325,7 +325,8 @@ class AspirasiMusrenDesaController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $data = AspirasiMusrenDesaModel::findOrFail($id);
+        $data = AspirasiMusrenDesaModel::where('Privilege',0)
+                                        ->findOrFail($id);
         if (!is_null($data) ) 
         {
             $daftar_desa = DesaModel::getDaftarDesa(config('globalsettings.tahun_perencanaan'),false);
@@ -396,10 +397,16 @@ class AspirasiMusrenDesaController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $aspirasimusrendesa = AspirasiMusrenDesaModel::find($id);
-        $result=$aspirasimusrendesa->delete();
+        $aspirasimusrendesa = AspirasiMusrenDesaModel::where('Privilege',0)
+                                                        ->find($id);        
         if ($request->ajax()) 
         {
+            $bool=false;
+            if ($aspirasimusrendesa != null)            
+            {
+                $bool=true;
+                $result=$aspirasimusrendesa->delete();
+            }            
             $currentpage=$this->getCurrentPageInsideSession('aspirasimusrendesa'); 
             $data=$this->populateData($currentpage);
             if ($currentpage > $data->lastPage())
@@ -413,11 +420,19 @@ class AspirasiMusrenDesaController extends Controller {
                                                             'direction'=>$this->getControllerStateSession('aspirasimusrendesa.orderby','order'),
                                                             'data'=>$data])->render();      
             
-            return response()->json(['success'=>true,'datatable'=>$datatable],200); 
+            return response()->json(['success'=>$bool,'datatable'=>$datatable],200); 
         }
         else
         {
-            return redirect(route('aspirasimusrendesa.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+            if ($aspirasimusrendesa == null)            
+            {
+                return redirect(route('aspirasimusrendesa.error'))->with('error',"Data ini dengan ($id) telah gagal dihapus.");
+            }
+            else
+            {                
+                $result=$aspirasimusrendesa->delete();
+                return redirect(route('aspirasimusrendesa.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+            }
         }        
     }
 }

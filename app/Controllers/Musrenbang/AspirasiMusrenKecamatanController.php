@@ -362,7 +362,7 @@ class AspirasiMusrenKecamatanController extends Controller {
      */
     public function populateDataUsulanKegiatan ($currentpage=1) 
     {        
-        $columns=['trUsulanDesa.UsulanDesaID','trUsulanDesa.No_usulan','trUsulanDesa.NamaKegiatan','trUsulanDesa.Output','trUsulanDesa.NilaiUsulan','trUsulanDesa.Target_Angka','trUsulanDesa.Target_Uraian','trUsulanDesa.Jeniskeg','trUsulanDesa.Prioritas','trUsulanDesa.Bobot'];       
+        $columns=['*'];       
         if (!$this->checkStateIsExistSession('aspirasimusrenkecamatan','orderbypilihusulankegiatan')) 
         {            
            $this->putControllerStateSession('aspirasimusrenkecamatan','orderbypilihusulankegiatan',['column_name'=>'No_usulan','order'=>'asc']);
@@ -390,7 +390,8 @@ class AspirasiMusrenKecamatanController extends Controller {
             switch ($search['kriteria']) 
             {
                 case 'No_usulan' :                    
-                    $data = AspirasiMusrenDesaModel::leftJoin('trUsulanKec','trUsulanKec.UsulanDesaID','trUsulanDesa.UsulanDesaID')
+                $data = AspirasiMusrenDesaModel::select(\DB::raw('"trUsulanDesa"."UsulanDesaID","trUsulanDesa"."No_usulan","trUsulanDesa"."NamaKegiatan","trUsulanDesa"."Output","trUsulanDesa"."NilaiUsulan","trUsulanDesa"."Target_Angka","trUsulanDesa"."Target_Uraian","trUsulanDesa"."Jeniskeg","trUsulanDesa"."Prioritas","trUsulanDesa"."Bobot"'))
+                                                    ->leftJoin('trUsulanKec','trUsulanKec.UsulanDesaID','trUsulanDesa.UsulanDesaID')
                                                     ->where('trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
                                                     ->where('trUsulanDesa.PmDesaID',$filter_desa)
                                                     ->where(['trUsulanDesa.No_usulan'=>(int)$search['isikriteria']])
@@ -400,7 +401,8 @@ class AspirasiMusrenKecamatanController extends Controller {
                                                     ->orderBy("trUsulanDesa.NamaKegiatan",$direction);
                 break;
                 case 'NamaKegiatan' :
-                    $data = AspirasiMusrenDesaModel::leftJoin('trUsulanKec','trUsulanKec.UsulanDesaID','trUsulanDesa.UsulanDesaID')
+                $data = AspirasiMusrenDesaModel::select(\DB::raw('"trUsulanDesa"."UsulanDesaID","trUsulanDesa"."No_usulan","trUsulanDesa"."NamaKegiatan","trUsulanDesa"."Output","trUsulanDesa"."NilaiUsulan","trUsulanDesa"."Target_Angka","trUsulanDesa"."Target_Uraian","trUsulanDesa"."Jeniskeg","trUsulanDesa"."Prioritas","trUsulanDesa"."Bobot"'))
+                                                    ->leftJoin('trUsulanKec','trUsulanKec.UsulanDesaID','trUsulanDesa.UsulanDesaID')
                                                     ->where('trUsulanDesa.trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
                                                     ->where('trUsulanDesa.PmDesaID',$filter_desa)
                                                     ->where('trUsulanDesa.NamaKegiatan', 'ilike', '%' . $search['isikriteria'] . '%')
@@ -414,7 +416,8 @@ class AspirasiMusrenKecamatanController extends Controller {
         }
         else
         {
-            $data = AspirasiMusrenDesaModel::leftJoin('trUsulanKec','trUsulanKec.UsulanDesaID','trUsulanDesa.UsulanDesaID')
+            $data = AspirasiMusrenDesaModel::select(\DB::raw('"trUsulanDesa"."UsulanDesaID","trUsulanDesa"."No_usulan","trUsulanDesa"."NamaKegiatan","trUsulanDesa"."Output","trUsulanDesa"."NilaiUsulan","trUsulanDesa"."Target_Angka","trUsulanDesa"."Target_Uraian","trUsulanDesa"."Jeniskeg","trUsulanDesa"."Prioritas","trUsulanDesa"."Bobot"'))
+                                            ->leftJoin('trUsulanKec','trUsulanKec.UsulanDesaID','trUsulanDesa.UsulanDesaID')
                                             ->where('trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
                                             ->where('trUsulanDesa.PmDesaID',$filter_desa)
                                             ->where('trUsulanDesa.Privilege',1)

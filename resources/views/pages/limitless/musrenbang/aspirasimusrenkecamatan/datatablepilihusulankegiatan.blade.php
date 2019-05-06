@@ -70,7 +70,7 @@
                     </td>
                     <td>
                         <div class="checkbox checkbox-switch">
-                            {{Form::checkbox('UsulanDesaID[]',$item->UsulanDesaID,'',['class'=>'switch','data-on-text'=>'ACC','data-off-text'=>'DUM'])}}                                     
+                            {{Form::checkbox('UsulanDesaID[]',$item->UsulanDesaID,'',['class'=>'switch','data-on-text'=>'YA','data-off-text'=>'TIDAK'])}}                                     
                         </div>
                     </td>
                 </tr>

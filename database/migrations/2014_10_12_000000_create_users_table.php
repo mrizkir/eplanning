@@ -24,7 +24,6 @@ class CreateUsersTable extends Migration
             $table->string('OrgNm')->nullable();
             $table->string('SOrgID',19)->nullable();  
             $table->string('SOrgNm')->nullable();  
-            $table->year('TA')->nullable();       
             $table->string('theme')->default('default');
             $table->string('foto')->default('storage/images/users/no_photo.png');
             $table->boolean('active')->default(1);
