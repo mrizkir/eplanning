@@ -9,7 +9,7 @@
         </div>
         <div class="heading-elements">
             <div class="heading-btn">
-                <a href="{!!route('users.create')!!}" class="btn btn-info btn-xs" title="Tambah USERS">
+                <a href="{!!route('usersdesa.create')!!}" class="btn btn-info btn-xs" title="Tambah USERS DESA / KELURAHAN">
                     <i class="icon-googleplus5"></i>
                 </a>
             </div>            
@@ -21,30 +21,11 @@
             <thead>
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
-                    <th width="55"></th>
                     <th width="100">
-                        <a class="column-sort text-white" id="col-id" data-order="{{$direction}}" href="#">
-                            ID  
+                        <a class="column-sort text-white" id="col-replace_it" data-order="{{$direction}}" href="#">
+                            replace_it  
                         </a>                                             
                     </th> 
-                    <th width="200">
-                        <a class="column-sort text-white" id="col-username" data-order="{{$direction}}" href="#">
-                            USERNAME  
-                        </a>                                             
-                    </th> 
-                    <th>
-                        <a class="column-sort text-white" id="col-username" data-order="{{$direction}}" href="#">
-                            NAME  
-                        </a>                                             
-                    </th>
-                    <th>
-                        <a class="column-sort text-white" id="col-email" data-order="{{$direction}}" href="#">
-                            EMAIL  
-                        </a>                                             
-                    </th>
-                    <th width="70">                        
-                        THEME                                                                       
-                    </th>
                     <th width="100">AKSI</th>
                 </tr>
             </thead>
@@ -53,32 +34,25 @@
                 <tr>
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
-                    </td>     
-                    <th><img src="{!!asset($item->foto)!!}" alt="{{$item->username}}" height="50"></th>
-                    <td>{{$item->id}}</td>
-                    <td>{{$item->username}}</td>
-                    <td>{{$item->name}}</td>
-                    <td>{{$item->email}}</td>
-                    <td>{{$item->theme}}</td>
+                    </td>                  
+                    <td>{{$item->replace_it}}</td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('users.show',['id'=>$item->id])}}" title="Detail Data User">
+                                <a class="btnShow" href="{{route('usersdesa.show',['id'=>$item->usersdesa_id])}}" title="Detail Data UsersDesa">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('users.edit',['id'=>$item->id])}}" title="Ubah Data User">
+                                <a class="btnEdit" href="{{route('usersdesa.edit',['id'=>$item->usersdesa_id])}}" title="Ubah Data UsersDesa">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
-                            @if ($item->isdeleted)                            
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data User" data-id="{{$item->id}}" data-url="{{route('users.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data UsersDesa" data-id="{{$item->usersdesa_id}}" data-url="{{route('usersdesa.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>
-                            @endif                            
                         </ul>
                     </td>
                 </tr>

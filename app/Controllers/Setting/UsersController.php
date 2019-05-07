@@ -87,8 +87,9 @@ class UsersController extends Controller {
         }
         else
         {
-
-            $data = User::role('superadmin')->orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage);           
+            $data = User::role('superadmin')
+                        ->orderBy($column_order,$direction)
+                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);           
         }   
 
         $data->setPath(route('users.index'));
@@ -496,10 +497,14 @@ class UsersController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $user = User::find($id);
-        $result=$user->delete();
+        $user = User::where('isdeleted','t')
+                    ->find($id);        
         if ($request->ajax()) 
         {
+            if ($user instanceof User)
+            {
+                $user->delete();
+            }
             $currentpage=$this->getCurrentPageInsideSession('users'); 
             $data=$this->populateData($currentpage);
             if ($currentpage > $data->lastPage())

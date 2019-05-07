@@ -347,4 +347,13 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/setting/usersopd/search',['uses'=>'Setting\UsersOPDController@search','as'=>'usersopd.search']);    
     Route::post('/setting/usersopd/filter',['uses'=>'Setting\UsersOPDController@filter','as'=>'usersopd.filter']);    
     Route::post('/setting/usersopd/storeuserpermission', ['uses'=>'Setting\UsersOPDController@storeuserpermission','as'=>'usersopd.storeuserpermission']);
+
+    //setting - users Desa
+    Route::resource('/setting/usersdesa','Setting\UsersDesaController',['parameters'=>['usersdesa'=>'id']]);           
+    Route::get('/setting/usersdesa/paginate/{id}',['uses'=>'Setting\UsersDesaController@paginate','as'=>'usersdesa.paginate']);
+    Route::post('/setting/usersdesa/changenumberrecordperpage',['uses'=>'Setting\UsersDesaController@changenumberrecordperpage','as'=>'usersdesa.changenumberrecordperpage']);  
+    Route::post('/setting/usersdesa/orderby',['uses'=>'Setting\UsersDesaController@orderby','as'=>'usersdesa.orderby']); 
+    Route::post('/setting/usersdesa/search',['uses'=>'Setting\UsersDesaController@search','as'=>'usersdesa.search']);    
+    Route::post('/setting/usersdesa/filter',['uses'=>'Setting\UsersDesaController@filter','as'=>'usersdesa.filter']);    
+    Route::post('/setting/usersdesa/storeuserpermission', ['uses'=>'Setting\UsersDesaController@storeuserpermission','as'=>'usersdesa.storeuserpermission']);
 });

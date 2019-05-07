@@ -338,7 +338,7 @@
                                             </a>
                                         </li>
                                         <li{!!Helper::isMenuActive ($page_active,'usersdesa',' class="active"')!!}>
-                                            <a href="{!!route('users.index')!!}">
+                                            <a href="{!!route('usersdesa.index')!!}">
                                                 <i class="icon-user"></i> DESA / KELURAHAN
                                             </a>
                                         </li>

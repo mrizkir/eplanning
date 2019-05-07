@@ -47,7 +47,7 @@ class User extends Authenticatable
     /**
      * log the changed attributes for all these events 
      */
-    protected static $logAttributes = ['name', 'email', 'username','OrgID','OrgNm','SOrgID','SOrgNm'];
+    protected static $logAttributes = ['name', 'email', 'username','OrgID','OrgNm','SOrgID','SOrgNm','PemilikPokokID','NmPk','PmKecamatanID','Nm_Kecamatan','PmDesaID','Nm_Desa','theme'];
     /**
      * log changes to all the $fillable attributes of the model
      */
