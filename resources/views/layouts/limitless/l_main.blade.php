@@ -210,6 +210,11 @@
                                             <i class="icon-cube"></i>U. FORUM OPD/SKPD <span class="text-violet"><strong>[9]</strong></span>
                                         </a>                                        
                                     </li>                    
+                                    <li{!!Helper::isMenuActive ($page_active,'verifikasirenja',' class="active"')!!}>
+                                        <a href="{{route('verifikasirenja.index')}}" title="verifikasi rencana kerja">
+                                            <i class="icon-cube"></i>VERIFIKASI RENJA <span class="text-violet"><strong>[13]</strong></span>
+                                        </a>                                        
+                                    </li>                    
                                 </ul>
                             </div>
                             <div class="col-md-3">
@@ -229,7 +234,12 @@
                                         <a href="{{route('pembahasanforumopd.index')}}" title="Pembahasan Forum OPD/SKPD">
                                             <i class="icon-cube"></i>P. FORUM OPD/SKPD <span class="text-violet"><strong>[10]</strong></span>
                                         </a>                                        
-                                    </li>                      
+                                    </li>
+                                    <li{!!Helper::isMenuActive ($page_active,'rkpdmurni',' class="active"')!!}>
+                                        <a href="{{route('rkpdmurni.index')}}" title="RENCANA KERJA PERANGKAT DAERAH">
+                                            <i class="icon-cube"></i>RKPD <span class="text-violet"><strong>[14]</strong></span>
+                                        </a>                                        
+                                    </li>   
                                 </ul>
                             </div>
                             <div class="col-md-3">
