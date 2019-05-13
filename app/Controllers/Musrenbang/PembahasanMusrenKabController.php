@@ -86,11 +86,11 @@ class PembahasanMusrenKabController extends Controller {
         else
         {
             $data = UsulanMusrenKabModel::where('SOrgID',$SOrgID)                                     
-                                            ->whereNotNull('RenjaRincID')       
-                                            ->where('TA', config('globalsettings.tahun_perencanaan'))                                            
-                                            ->orderBy('Prioritas','ASC')
-                                            ->orderBy($column_order,$direction)                                            
-                                            ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);             
+                                        ->whereNotNull('RenjaRincID')       
+                                        ->where('TA', config('globalsettings.tahun_perencanaan'))                                            
+                                        ->orderBy('Prioritas','ASC')
+                                        ->orderBy($column_order,$direction)                                            
+                                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);             
         }        
         $data->setPath(route('pembahasanmusrenkab.index'));          
         return $data;
@@ -426,27 +426,46 @@ class PembahasanMusrenKabController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        if ($request->exists('RenjaID'))
+        if ($request->exists('RenjaRincID'))
         {
-            $RenjaID=$request->input('RenjaID');                                    
-            \DB::transaction(function () use ($RenjaID) {
-                $renja = RenjaModel::find($RenjaID);   
-                $renja->Privilege=1;
-                $renja->save();
+            $RenjaRincID=$request->input('RenjaRincID');                                    
+            $rincian_kegiatan=\DB::transaction(function () use ($RenjaRincID) {
+                $rincian_kegiatan = RenjaRincianModel::find($RenjaRincID);               
 
-                #new renja
-                $newRenjaiD=uniqid ('uid');
-                $newrenja = $renja->replicate();
-                $newrenja->RenjaID = $newRenjaiD;
-                $newrenja->Sasaran_Uraian5 = $newrenja->Sasaran_Uraian4;
-                $newrenja->Sasaran_Angka5 = $newrenja->Sasaran_Angka4;
-                $newrenja->Target5 = $newrenja->Target4;
-                $newrenja->NilaiUsulan5 = $newrenja->NilaiUsulan4;
-                $newrenja->EntryLvl = 4;
-                $newrenja->Status = 0;
-                $newrenja->Privilege = 0;
-                $newrenja->RenjaID_Src = $RenjaID;
-                $newrenja->save();
+                //check renja id sudah ada belum di RenjaID_Old
+                $old_renja = RenjaModel::select('RenjaID')
+                                        ->where('RenjaID_Src',$rincian_kegiatan->RenjaID)
+                                        ->get()
+                                        ->pluck('RenjaID')->toArray();
+
+                
+                if (count($old_renja) > 0)
+                {
+                    $RenjaID=$old_renja[0];
+                    $newRenjaiD=$RenjaID;
+                    $renja = RenjaModel::find($RenjaID);  
+                }
+                else
+                {
+                    $RenjaID=$rincian_kegiatan->RenjaID;
+                    $renja = RenjaModel::find($RenjaID);   
+                    $renja->Privilege=1;
+                    $renja->save();
+
+                    // #new renja
+                    $newRenjaiD=uniqid ('uid');
+                    $newrenja = $renja->replicate();
+                    $newrenja->RenjaID = $newRenjaiD;
+                    $newrenja->Sasaran_Uraian5 = $newrenja->Sasaran_Uraian4;
+                    $newrenja->Sasaran_Angka5 = $newrenja->Sasaran_Angka4;
+                    $newrenja->Target5 = $newrenja->Target4;
+                    $newrenja->NilaiUsulan5 = $newrenja->NilaiUsulan4;
+                    $newrenja->EntryLvl = 4;
+                    $newrenja->Status = 0;
+                    $newrenja->Privilege = 0;
+                    $newrenja->RenjaID_Src = $RenjaID;
+                    $newrenja->save();
+                }               
 
                 $str_rinciankegiatan = '
                     INSERT INTO "trRenjaRinc" (
@@ -534,8 +553,10 @@ class PembahasanMusrenKabController extends Controller {
                         NOW() AS updated_at
                     FROM 
                         "trRenjaRinc" 
-                    WHERE "RenjaID"=\''.$RenjaID.'\'       
-                ';
+                    WHERE "RenjaRincID"=\''.$RenjaRincID.'\' AND
+                        ("Status"=1 OR "Status"=2) AND
+                        "Privilege"=0      
+                ';                
                 \DB::statement($str_rinciankegiatan);       
                 $str_kinerja='
                     INSERT INTO "trRenjaIndikator" (
@@ -546,6 +567,7 @@ class PembahasanMusrenKabController extends Controller {
                         "Target_Uraian",  
                         "Tahun",      
                         "Descr",
+                        "Privilege",
                         "TA",
                         "created_at", 
                         "updated_at"
@@ -558,21 +580,23 @@ class PembahasanMusrenKabController extends Controller {
                         "Target_Uraian",
                         "Tahun",
                         "Descr",
+                        1 AS "Privilege",
                         "TA",
                         NOW() AS created_at,
                         NOW() AS updated_at
                     FROM 
                         "trRenjaIndikator" 
                     WHERE 
-                        "RenjaID"=\''.$RenjaID.'\' 
+                        "RenjaID"=\''.$RenjaID.'\' AND
+                        "Privilege"=0 
                 ';
-
                 \DB::statement($str_kinerja);
 
-                $renja->Privilege=1;
-                $renja->save();
-                RenjaRincianModel::where('RenjaID',$RenjaID)->update(['Privilege'=>1,'Status'=>1]);
+                RenjaRincianModel::where('RenjaRincID',$RenjaRincID)
+                                    ->update(['Privilege'=>1]);
                 RenjaIndikatorModel::where('RenjaID',$RenjaID)->update(['Privilege'=>1]);
+
+                return $rincian_kegiatan;
             });            
 
             if ($request->ajax()) 
@@ -587,8 +611,9 @@ class PembahasanMusrenKabController extends Controller {
                                                                                     'data'=>$data])->render();
                 return response()->json([
                     'success'=>true,
-                    'message'=>'Data ini telah berhasil diubah.',
-                    'datatable'=>$datatable
+                    'message'=>'Data ini telah berhasil ditransfer ke tahap verifikasi renja.',
+                    'datatable'=>$datatable,
+                    'rincian_kegiatan'=>$rincian_kegiatan
                 ],200);
             }
             else

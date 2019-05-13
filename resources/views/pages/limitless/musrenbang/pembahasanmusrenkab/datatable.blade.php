@@ -117,8 +117,8 @@
                     <td>
                         @if ($item->Privilege==1)
                             <i class="icon-checkmark"></i>
-                        @elseif ($item->status=='ACC')
-                            <a href="#" title="TRANSFER KE VERIFIKASI RENJA" class="btn btn-link" id="btnTransfer" data-id="{{$item->RenjaID}}">
+                        @elseif ($item->Status==1||$item->Status==2)
+                            <a href="#" title="TRANSFER KE VERIFIKASI RENJA" class="btn btn-link" id="btnTransfer" data-id="{{$item->RenjaRincID}}">
                                 <i class="icon-play4"></i>
                             </a>
                         @else
@@ -128,13 +128,31 @@
                     <td>
                         @if ($item->Privilege==0)
                             <div class="checkbox checkbox-switch">
-                                {{Form::checkbox('Privilege[]',$item->RenjaRincID,$item->status=='ACC'?$item->status:'',['class'=>'switch','data-on-text'=>'ACC','data-off-text'=>'DUM'])}}                                     
+                                {{Form::checkbox('Privilege[]',$item->RenjaRincID,$item->Status==1||$item->Status==2?'ACC':'',['class'=>'switch','data-on-text'=>'ACC','data-off-text'=>'DUM'])}}                                     
                             </div>
                         @else
-                            {{$item->status}}
+                            <span class="label label-success label-flat border-success text-success-600">
+                                {{HelperKegiatan::getStatusKegiatan($item->Status)}}
+                            </span>
+                            @if ($item->Status==2)
+                                <br/>   
+                                {{$item->Descr}}   
+                            @endif    
                         @endif
                     </td>
                     @endif                    
+                </tr>
+                <tr class="text-center info">
+                    <td colspan="10">
+                        <span class="label label-warning label-rounded">
+                            <strong>RenjaID:</strong>
+                            {{$item->RenjaID}}
+                        </span>
+                        <span class="label label-warning label-rounded">
+                            <strong>RenjaRincID:</strong>
+                            {{$item->RenjaRincID}}
+                        </span>
+                    </td>
                 </tr>
             @endforeach                    
             </tbody>

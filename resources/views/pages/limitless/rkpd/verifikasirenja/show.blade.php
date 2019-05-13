@@ -21,12 +21,18 @@
         <div class="panel panel-flat border-top-info border-bottom-info">
             <div class="panel-heading">
                 <h5 class="panel-title"> 
-                    <i class="icon-eye"></i>  DATA RENCANA KERJA KEGIATAN
+                    <i class="icon-eye"></i>  
+                    DATA RENCANA KERJA KEGIATAN
+                    @if (!empty($renja->RKPDID))
+                        <span class="label label-success label-rounded">SUDAH DI TRANSFER KE RKPD</span>
+                    @endif
                 </h5>
-                <div class="heading-elements">                            
+                <div class="heading-elements"> 
+                    @if (empty($renja->RKPDID))
                     <a id="btnTransfer" href="#" class="btn btn-primary btn-icon heading-btn btnEdit" title="Transfer RENJA Ke RKPD">
                         <i class="icon-play4"></i>
                     </a>
+                    @endif                                               
                     <a href="{!!route('verifikasirenja.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
                         <i class="icon-close2"></i>
                     </a>            
@@ -153,8 +159,7 @@ $(document).ready(function () {
                     "_token": token
                 },
                 success:function(data){ 
-                    console.log(data);
-                    // window.location.replace("{{route('verifikasirenja.show',['id'=>$renja->RenjaID])}}");                        
+                    window.location.replace("{{route('verifikasirenja.show',['id'=>$renja->RenjaID])}}");                        
                 },
                 error:function(xhr, status, error){
                     console.log('ERROR');

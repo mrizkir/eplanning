@@ -49,7 +49,7 @@ class HelperKegiatan {
     * digunakan untuk mendapatkan status kegiatan
     */
     public static function getStatusKegiatan ($StatusKegiatan=null) {
-      if ($StatusKegiatan == null)
+      if ($StatusKegiatan === null)
       {
         return HelperKegiatan::$StatusKegiatan;
       }

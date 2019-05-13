@@ -186,14 +186,14 @@ $(document).ready(function () {
     });
     $(document).on('click','#btnTransfer',function(ev){
         ev.preventDefault();   
-        let RenjaID = $(this).attr("data-id");        
+        let RenjaRincID = $(this).attr("data-id");        
         $.ajax({
             type:'post',
             url: url_current_page +'/transfer',
             dataType: 'json',
             data: {                
                 "_token": token,
-                "RenjaID": RenjaID,
+                "RenjaRincID": RenjaRincID,
             },
             success:function(result)
             { 

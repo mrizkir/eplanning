@@ -5,7 +5,7 @@ namespace App\Models\RKPD;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class RKPDMurniRincianModel extends Model {
+class RKPDRincianModel extends Model {
     use LogsActivity;
 
      /**
@@ -78,7 +78,7 @@ class RKPDMurniRincianModel extends Model {
      *
      * @var string
      */
-    protected static $logName = 'RKPDController';
+    protected static $logName = 'RKPDMurniController';
     /**
      * log the changed attributes for all these events 
      */

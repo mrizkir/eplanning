@@ -16,7 +16,6 @@ class CreateVUsulanRakorBidangView extends Migration
         \DB::statement('CREATE VIEW v_usulan_rakor_bidang AS
             SELECT 
                 A."RenjaID",
-                B1."RenjaIndikatorID",
                 B."RenjaRincID",
                 B."UsulanKecID",
                 B."PMProvID",
@@ -46,11 +45,7 @@ class CreateVUsulanRakorBidangView extends Migration
                 B."Target2",
                 B."Jumlah2",
                 B."Prioritas",
-                CASE WHEN B."Status"=0 OR B."Status" IS NULL THEN
-                    \'DUM\'
-                ELSE
-                    \'ACC\'
-                END AS Status,
+                B."Status",
                 B."Privilege",
                 B."isReses",
                 B."isReses_Uraian",
@@ -58,7 +53,6 @@ class CreateVUsulanRakorBidangView extends Migration
                 A."TA"
             FROM "trRenja" A
                 LEFT JOIN "trRenjaRinc" B ON A."RenjaID"=B."RenjaID" AND A."TA"=B."TA"
-                LEFT JOIN "trRenjaIndikator" B1 ON A."RenjaID"=B1."RenjaID" AND A."TA"=B1."TA"
                 INNER JOIN "tmOrg" C ON A."OrgID"=C."OrgID" AND A."TA"=C."TA"
                 INNER JOIN "tmSOrg" D ON A."SOrgID"=D."SOrgID" AND A."TA"=D."TA"
                 INNER JOIN "tmKgt" E ON A."KgtID"=E."KgtID" AND A."TA"=E."TA"

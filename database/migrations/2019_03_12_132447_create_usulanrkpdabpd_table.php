@@ -64,8 +64,7 @@ class CreateUsulanrkpdabpdTable extends Migration
                         ->references('RKPDID')
                         ->on('trRKPD')
                         ->onDelete('set null')
-                        ->onUpdate('cascade');
-        
+                        ->onUpdate('cascade');        
 
             $table->foreign('OrgID')
                     ->references('OrgID')
@@ -102,6 +101,7 @@ class CreateUsulanrkpdabpdTable extends Migration
             $table->string('Target_Uraian');
             $table->year('Tahun');
             $table->string('Descr')->nullable();
+            $table->year('TA');
 
             $table->tinyInteger('Privilege')->default(0);                        
             $table->string('RKPDIndikatorID_Src',19)->nullable(); 
@@ -140,6 +140,7 @@ class CreateUsulanrkpdabpdTable extends Migration
                 $table->string('PmKotaID',19)->nullable();
                 $table->string('PmKecamatanID',19)->nullable();
                 $table->string('PmDesaID',19)->nullable();
+                $table->string('UsulanKecID',19)->nullable();
                 $table->string('PokPirID',19)->nullable();
 
                 $table->text('Uraian');
@@ -171,6 +172,7 @@ class CreateUsulanrkpdabpdTable extends Migration
                 $table->index('RKPDID');
                 $table->index('PmKecamatanID');
                 $table->index('PmDesaID');
+                $table->index('UsulanKecID');
                 $table->index('PokPirID');
                 $table->index('RKPDRincID_Src');
 
@@ -215,6 +217,12 @@ class CreateUsulanrkpdabpdTable extends Migration
                         ->on('tmPmDesa')
                         ->onDelete('cascade')
                         ->onUpdate('cascade');
+
+                $table->foreign('UsulanKecID')
+                        ->references('UsulanKecID')
+                        ->on('trUsulanKec')
+                        ->onDelete('set null')
+                        ->onUpdate('cascade');  
 
                 $table->foreign('PokPirID')
                         ->references('PokPirID')

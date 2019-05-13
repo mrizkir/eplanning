@@ -9,7 +9,7 @@
     </span>     
 @endsection
 @section('page_info')
-    @include('pages.limitless.rkpd.rkpd.info')
+    @include('pages.limitless.rkpd.rkpdmurni.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="{!!route('rkpd.index')!!}">RKPD</a></li>

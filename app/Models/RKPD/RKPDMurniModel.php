@@ -13,38 +13,7 @@ class RKPDMurniModel extends Model {
      *
      * @var string
      */
-    protected $table = 'trRKPD';
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'RKPDID', 
-        'RenjaID',
-        'OrgID',
-        'SOrgID',
-        'KgtID',
-        'SumberDanaID',
-        'NamaIndikator',
-        'Sasaran_Uraian1',
-        'Sasaran_Uraian2',
-        'Sasaran_Angka1',
-        'Sasaran_Angka2',
-        'NilaiUsulan1',
-        'NilaiUsulan2',
-        'Target1',
-        'Target2',
-        'Sasaran_AngkaSetelah',
-        'Sasaran_UraianSetelah',
-        'Tgl_Posting',
-        'Descr',
-        'TA',
-        'status',
-        'EntryLvl',
-        'Privilege',
-        'RKPDID_Src'
-    ];
+    protected $table = 'v_rkpd';    
     /**
      * primary key tabel ini.
      *
@@ -62,23 +31,5 @@ class RKPDMurniModel extends Model {
      *
      * @var string
      */
-    public $timestamps = true;
-
-    /**
-     * make the model use another name than the default
-     *
-     * @var string
-     */
-    protected static $logName = 'RKPDController';
-    /**
-     * log the changed attributes for all these events 
-     */
-    protected static $logAttributes = ['RKPDID', 'KgtID', 'RKPDID_Src'];
-    /**
-     * log changes to all the $fillable attributes of the model
-     */
-    // protected static $logFillable = true;
-
-    //only the `deleted` event will get logged automatically
-    // protected static $recordEvents = ['deleted'];
+    public $timestamps = false;
 }

@@ -48,7 +48,7 @@
                     <th width="120">                        
                         PRIORITAS                          
                     </th>          
-                    <th width="150">KET</th>                            
+                    <th width="150">KONFIRMASI</th>                            
                     <th width="150">AKSI</th>
                 </tr>
             </thead>
@@ -115,7 +115,13 @@
                         </span>
                     </td>
                     <td>
-                        {{$item->status}} {{$item->Descr}}     
+                        <span class="label label-success label-flat border-success text-success-600">
+                            {{HelperKegiatan::getStatusKegiatan($item->Status)}}
+                        </span>
+                        @if ($item->Status==2)
+                            <br/>   
+                            {{$item->Descr}}   
+                         @endif    
                     </td>
                     <td>
                         <ul class="icons-list">
@@ -135,6 +141,18 @@
                         </ul>
                     </td>
                     @endif                    
+                </tr>
+                <tr class="text-center info">
+                    <td colspan="10">
+                        <span class="label label-warning label-rounded">
+                            <strong>RenjaID:</strong>
+                            {{$item->RenjaID}}
+                        </span>
+                        <span class="label label-warning label-rounded">
+                            <strong>RenjaRincID:</strong>
+                            {{$item->RenjaRincID}}
+                        </span>
+                    </td>
                 </tr>
             @endforeach                    
             </tbody>

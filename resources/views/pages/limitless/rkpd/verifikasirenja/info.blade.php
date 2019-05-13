@@ -1,3 +1,3 @@
 <small class="display-block">          
-    <code>info halaman</code>
+    <code>Verifikasi Renja Kegiatan</code>
 </small>

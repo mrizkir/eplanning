@@ -53,7 +53,7 @@ class CreateVIndikatorKinerjaView extends Migration
             FROM "trIndikatorKinerja" a 
                 JOIN "tmUrs" b ON b."UrsID" = a."UrsID"
                 JOIN "tmKUrs" ku ON ku."KUrsID" = b."KUrsID"
-                    JOIN "tmPrg" c ON c."PrgID" = a."PrgID"    
+                JOIN "tmPrg" c ON c."PrgID" = a."PrgID"    
                 LEFT JOIN "trUrsPrg" c1 ON c1."PrgID" = c."PrgID" 
                 LEFT JOIN "tmUrs" c2 ON c2."UrsID" = c1."UrsID"
                 LEFT JOIN "tmKUrs" c3 ON c3."KUrsID" = c2."KUrsID"

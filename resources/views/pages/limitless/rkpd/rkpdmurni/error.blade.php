@@ -9,15 +9,15 @@
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.rkpd.rkpd.info')
+    @include('pages.limitless.rkpdmurni.rkpd.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('rkpd.index')!!}">RKPD</a></li>
+    <li><a href="{!!route('rkpdmurni.index')!!}">RKPD</a></li>
     <li class="active">ERROR</li>
 @endsection
 @section('page_content')
 <div class="alert alert-danger alert-styled-left alert-bordered">
-    <button type="button" class="close" onclick="location.href='{{route('rkpd.index')}}'">×</button>
+    <button type="button" class="close" onclick="location.href='{{route('rkpdmurni.index')}}'">×</button>
     {{$errormessage}}
 </div>
 @endsection

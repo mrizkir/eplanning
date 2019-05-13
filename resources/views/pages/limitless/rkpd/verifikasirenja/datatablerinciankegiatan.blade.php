@@ -30,7 +30,6 @@
                 <th>NILAI USULAN</th>                
                 <th>PRIORITAS</th>                                         
                 <th>STATUS</th> 
-                <th width="120">AKSI</th>
             </tr>
         </thead>
         <tbody>                    
@@ -66,16 +65,14 @@
                     </span>
                 </td>
                 <td>
-                    {{HelperKegiatan::getStatusKegiatan($item->Status)}}
+                    <span class="label label-success label-flat border-success text-success-600">
+                        {{HelperKegiatan::getStatusKegiatan($item->Status)}}
+                    </span>
                     @if ($item->Status==2)
-                         {{$item->Descr}}   
-                    @endif
-                </td>
-                <td>
-                    <ul class="icons-list">
-                        
-                    </ul>
-                </td>
+                        <br/>   
+                        {{$item->Descr}}   
+                    @endif    
+                </td>               
             </tr>
         @endforeach                    
         </tbody>

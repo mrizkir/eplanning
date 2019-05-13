@@ -9,13 +9,51 @@
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.rkpd.rkpd.info')
+    @include('pages.limitless.rkpd.rkpdmurni.info')
 @endsection
 @section('page_breadcrumb')
     <li class="active">RKPD</li>
 @endsection
 @section('page_content')
 <div class="row">
+    <div class="col-md-12" id="divfilter">
+        <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
+            <div class="panel-heading">
+                <h5 class="panel-title"><i class="icon-bookmark2 position-left"></i> Filter Data</h5>
+                <div class="heading-elements">                       
+                    <ul class="icons-list">
+                        <li><a data-action="collapse"></a></li> 
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">OPD / SKPD :</label> 
+                        <div class="col-md-10">
+                            <select name="OrgID" id="OrgID" class="select">
+                                <option></option>
+                                @foreach ($daftar_opd as $k=>$item)
+                                    <option value="{{$k}}"{{$k==$filters['OrgID']?' selected':''}}>{{$item}}</option>
+                                @endforeach
+                            </select>                              
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">UNIT KERJA :</label> 
+                        <div class="col-md-10">
+                            <select name="SOrgID" id="SOrgID" class="select">
+                                <option></option>
+                                @foreach ($daftar_unitkerja as $k=>$item)
+                                    <option value="{{$k}}"{{$k==$filters['SOrgID']?' selected':''}}>{{$item}}</option>
+                                @endforeach
+                            </select>                              
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="col-md-12">
         <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
             <div class="panel-heading">
@@ -25,11 +63,11 @@
                 </h5>
             </div>
             <div class="panel-body">
-                {!! Form::open(['action'=>'RKPD\RKPDController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
+                {!! Form::open(['action'=>'RKPD\RKPDMurniController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">
-                            {{Form::select('cmbKriteria', ['replaceit'=>'replaceit','nama'=>'replaceit'], isset($search['kriteria'])?$search['kriteria']:'replaceit',['class'=>'form-control'])}}
+                            {{Form::select('cmbKriteria', ['kode_kegiatan'=>'KODE KEGIATAN','KgtNm'=>'NAMA KEGIATAN','Uraian'=>'NAMA URAIAN'], isset($search['kriteria'])?$search['kriteria']:'kode_kegiatan',['class'=>'form-control'])}}
                         </div>
                     </div>
                     <div class="form-group" id="divKriteria">
@@ -51,40 +89,74 @@
         </div>
     </div>       
     <div class="col-md-12" id="divdatatable">
-        @include('pages.limitless.rkpd.rkpd.datatable')
+        @include('pages.limitless.rkpd.rkpdmurni.datatable')
     </div>
 </div>
 @endsection
+@section('page_asset_js')
+<script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/switch.min.js')!!}"></script>
+@endsection
 @section('page_custom_js')
 <script type="text/javascript">
-$(document).ready(function () {  
-    $("#divdatatable").on("click",".btnDelete", function(){
-        if (confirm('Apakah Anda ingin menghapus Data RKPD ini ?')) {
-            let url_ = $(this).attr("data-url");
-            let id = $(this).attr("data-id");
-            $.ajax({            
-                type:'post',
-                url:url_+'/'+id,
-                dataType: 'json',
-                data: {
-                    "_method": 'DELETE',
-                    "_token": token,
-                    "id": id,
-                },
-                success:function(result){ 
-                    if (result.success==1){
-                        $('#divdatatable').html(result.datatable);                        
-                    }else{
-                        console.log("Gagal menghapus data RKPD dengan id "+id);
-                    }                    
-                },
-                error:function(xhr, status, error){
-                    console.log('ERROR');
-                    console.log(parseMessageAjaxEror(xhr, status, error));                           
-                },
-            });
-        }        
+$(document).ready(function () {      
+     //styling select
+     $('#OrgID.select').select2({
+        placeholder: "PILIH OPD / SKPD",
+        allowClear:true
+    }); 
+    $('#SOrgID.select').select2({
+        placeholder: "PILIH UNIT KERJA",
+        allowClear:true
+    }); 
+    $(document).on('change','#OrgID',function(ev) {
+        ev.preventDefault();   
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/filter',
+            dataType: 'json',
+            data: {                
+                "_token": token,
+                "OrgID": $('#OrgID').val(),
+            },
+            success:function(result)
+            { 
+                var daftar_unitkerja = result.daftar_unitkerja;
+                var listitems='<option></option>';
+                $.each(daftar_unitkerja,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
+                
+                $('#SOrgID').html(listitems);
+                $('#divdatatable').html(result.datatable);
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });     
     });
+    $(document).on('change','#SOrgID',function(ev) {
+        ev.preventDefault();   
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/filter',
+            dataType: 'json',
+            data: {                
+                "_token": token,
+                "SOrgID": $('#SOrgID').val(),
+            },
+            success:function(result)
+            { 
+                $('#divdatatable').html(result.datatable);
+                $(".switch").bootstrapSwitch();
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });     
+    });    
 });
 </script>
 @endsection

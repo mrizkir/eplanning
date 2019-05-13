@@ -8,7 +8,7 @@ use App\Models\RKPD\VerifikasiRenjaModel;
 use App\Models\RKPD\RenjaModel;
 use App\Models\RKPD\RenjaRincianModel;
 use App\Models\RKPD\RenjaIndikatorModel;
-use App\Models\RKPD\RKPDMurniModel;
+use App\Models\RKPD\RKPDModel;
 
 class VerifikasiRenjaController extends Controller {
      /**
@@ -116,7 +116,7 @@ class VerifikasiRenjaController extends Controller {
                                             ->where('TA', config('globalsettings.tahun_perencanaan'))                                            
                                             ->orderBy('Prioritas','ASC')
                                             ->orderBy('Privilege','DESC')
-                                            ->orderBy('status','DESC')
+                                            ->orderBy('Status','DESC')
                                             ->orderBy($column_order,$direction)                                            
                                             ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);             
         }        
@@ -367,21 +367,6 @@ class VerifikasiRenjaController extends Controller {
                      
     }
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {        
-        $theme = \Auth::user()->theme;
-
-        return view("pages.$theme.rkpd.verifikasirenja.create")->with(['page_active'=>'verifikasirenja',
-                                                                    
-                                                                           ]);  
-    }
-    
-   
-    /**
      * Edit the specified resource.
      *
      * @param  int  $id
@@ -409,9 +394,32 @@ class VerifikasiRenjaController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $renja = RenjaModel::join('v_program_kegiatan','v_program_kegiatan.KgtID','trRenja.KgtID')     
-                            ->join('tmSumberDana','tmSumberDana.SumberDanaID','trRenja.SumberDanaID')                       
-                            ->findOrFail($id);      
+        $renja = RenjaModel::select(\DB::raw('"trRenja"."RenjaID",
+                            "trRKPD"."RKPDID",
+                            "v_program_kegiatan"."Kd_Urusan",
+                            "v_program_kegiatan"."Nm_Urusan",
+                            "v_program_kegiatan"."Kd_Bidang",
+                            "v_program_kegiatan"."Nm_Bidang",
+                            "v_program_kegiatan"."Kd_Prog",
+                            "v_program_kegiatan"."PrgNm",
+                            "v_program_kegiatan"."kode_kegiatan",
+                            "v_program_kegiatan"."KgtNm",
+                            "trRenja"."Sasaran_Angka5",
+                            "trRenja"."Sasaran_Uraian5",
+                            "trRenja"."Sasaran_AngkaSetelah",
+                            "trRenja"."Sasaran_UraianSetelah",
+                            "trRenja"."Target5",
+                            "trRenja"."NilaiSebelum",
+                            "trRenja"."NilaiUsulan5",
+                            "trRenja"."NilaiSetelah",
+                            "trRenja"."NamaIndikator",
+                            "tmSumberDana"."Nm_SumberDana",
+                            "trRenja"."created_at",
+                            "trRenja"."updated_at"'))
+                            ->join('v_program_kegiatan','v_program_kegiatan.KgtID','trRenja.KgtID')     
+                            ->join('tmSumberDana','tmSumberDana.SumberDanaID','trRenja.SumberDanaID')   
+                            ->leftJoin('trRKPD','trRKPD.RKPDID','trRenja.RenjaID')   
+                            ->findOrFail($id);            
         if (!is_null($renja) )  
         {
             $datarinciankegiatan = $this->populateRincianKegiatan($id);
@@ -439,18 +447,92 @@ class VerifikasiRenjaController extends Controller {
             'Sasaran_Uraian5'=>'required',
             'Target5'=>'required',
             'Jumlah5'=>'required'           
-        ]);
-        $verifikasirenja->Uraian = $request->input('Uraian');
-        $verifikasirenja->Sasaran_Angka5 = $request->input('Sasaran_Angka5'); 
-        $verifikasirenja->Sasaran_Uraian5 = $request->input('Sasaran_Uraian5');
-        $verifikasirenja->Target5 = $request->input('Target5');
-        $verifikasirenja->Jumlah5 = $request->input('Jumlah5');  
-        $verifikasirenja->Descr = $request->input('Descr');
-        $status=$request->input('cmbStatus');
-        $verifikasirenja->Status = $status;
-        $verifikasirenja->Privilege = $status==0?0:1;
-        $verifikasirenja->save();
-         
+        ]);       
+        
+        \DB::transaction(function () use ($verifikasirenja,$request) {
+            $verifikasirenja->Uraian = $request->input('Uraian');
+            $verifikasirenja->Sasaran_Angka5 = $request->input('Sasaran_Angka5'); 
+            $verifikasirenja->Sasaran_Uraian5 = $request->input('Sasaran_Uraian5');
+            $verifikasirenja->Target5 = $request->input('Target5');
+            $verifikasirenja->Jumlah5 = $request->input('Jumlah5');  
+            $verifikasirenja->Descr = $request->input('Descr');
+            $status=$request->input('cmbStatus');
+            $verifikasirenja->Status = $status;
+            $verifikasirenja->Privilege = $status==0?0:1;
+            $verifikasirenja->save();
+
+            if ($status==1 || $status ==2)
+            {
+                $tanggal_posting=\Carbon\Carbon::now();
+                $RenjaID=$verifikasirenja->RenjaID;
+                if (\DB::table('trRKPDRinc')->where('RKPDID', $RenjaID)->exists())
+                {
+                    $str_rincianrenja = '
+                        INSERT INTO "trRKPDRinc" (
+                            "RKPDRincID",
+                            "RKPDID", 
+                            "PMProvID",
+                            "PmKotaID",
+                            "PmKecamatanID",
+                            "PmDesaID",
+                            "UsulanKecID",
+                            "PokPirID",
+                            "Uraian",
+                            "No",
+                            "Sasaran_Uraian1",
+                            "Sasaran_Angka1",                        
+                            "NilaiUsulan1",                        
+                            "Target1",                        
+                            "Tgl_Posting",                         
+                            "isReses",
+                            "isReses_Uraian",
+                            "isSKPD",
+                            "Descr",
+                            "TA",
+                            "status",
+                            "EntryLvl",
+                            "Privilege",                   
+                            "created_at", 
+                            "updated_at"
+                        ) 
+                        SELECT 
+                            "RenjaRincID" AS "RKPDRincID",
+                            "RenjaID" AS "RKPDID",
+                            "PMProvID",
+                            "PmKotaID",
+                            "PmKecamatanID",
+                            "PmDesaID",
+                            "UsulanKecID",
+                            "PokPirID",
+                            "Uraian",
+                            "No",
+                            "Sasaran_Uraian5" AS "Sasaran_Uraian1",
+                            "Sasaran_Angka5" AS "Sasaran_Angka1",        
+                            "Jumlah5" AS "NilaiUsulan1",        
+                            "Target5" AS "Target1",                                              
+                            \''.$tanggal_posting.'\' AS Tgl_Posting,
+                            "isReses",
+                            "isReses_Uraian",
+                            "isSKPD",
+                            "Descr",
+                            "TA",
+                            1 AS "status",
+                            5 AS "EntryLvl",
+                            "Privilege",                        
+                            NOW() AS created_at,
+                            NOW() AS updated_at
+                        FROM 
+                            "trRenjaRinc" 
+                        WHERE "RenjaRincID"=\''.$verifikasirenja->RenjaRincID.'\' AND
+                            ("Status"=1 OR "Status"=2) AND
+                            "Privilege"=1  
+                    ';
+
+                    \DB::statement($str_rincianrenja);                 
+                }
+            }
+        });
+        
         if ($request->ajax()) 
         {            
             return response()->json([
@@ -460,7 +542,7 @@ class VerifikasiRenjaController extends Controller {
         }
         else
         {
-            return redirect(route('verifikasirenja.show',['id'=>$verifikasirenja->RenjaID]))->with('success',"Data rincian kegiatan dengan id ($id) telah berhasil.");
+            return redirect(route('verifikasirenja.index'))->with('success',"Data rincian kegiatan dengan id ($id) telah berhasil.");
         }
     }
     /**
@@ -476,6 +558,7 @@ class VerifikasiRenjaController extends Controller {
 
         $RenjaID=$id; 
         $renja = RenjaModel::find($RenjaID); 
+
         if ($renja == null)
         {
             if ($request->ajax()) 
@@ -496,17 +579,17 @@ class VerifikasiRenjaController extends Controller {
                 $tanggal_posting=\Carbon\Carbon::now();
                 #new rkpd
                 $RKPDID=$renja->RenjaID;
-                RKPDMurniModel::create([
+                RKPDModel::create([
                     'RKPDID'=>$RKPDID,   
                     'OrgID'=>$renja->OrgID,
                     'SOrgID'=>$renja->SOrgID,
                     'KgtID'=>$renja->KgtID,
                     'SumberDanaID'=>$renja->SumberDanaID,
                     'NamaIndikator'=>$renja->NamaIndikator,
-                    'Sasaran_Uraian1'=>$renja->Sasaran_Uraian1,                    
-                    'Sasaran_Angka1'=>$renja->Sasaran_Angka1,                    
-                    'NilaiUsulan1'=>$renja->NilaiUsulan1,                    
-                    'Target1'=>$renja->Target1,                    
+                    'Sasaran_Uraian1'=>$renja->Sasaran_Uraian5,                    
+                    'Sasaran_Angka1'=>$renja->Sasaran_Angka5,                    
+                    'NilaiUsulan1'=>$renja->NilaiUsulan5,                    
+                    'Target1'=>$renja->Target5,                    
                     'Sasaran_AngkaSetelah'=>$renja->Sasaran_AngkaSetelah,
                     'Sasaran_UraianSetelah'=>$renja->Sasaran_UraianSetelah,
                     'Tgl_Posting'=>$tanggal_posting,
@@ -525,6 +608,7 @@ class VerifikasiRenjaController extends Controller {
                         "PmKotaID",
                         "PmKecamatanID",
                         "PmDesaID",
+                        "UsulanKecID",
                         "PokPirID",
                         "Uraian",
                         "No",
@@ -551,6 +635,7 @@ class VerifikasiRenjaController extends Controller {
                         "PmKotaID",
                         "PmKecamatanID",
                         "PmDesaID",
+                        "UsulanKecID",
                         "PokPirID",
                         "Uraian",
                         "No",
@@ -587,33 +672,35 @@ class VerifikasiRenjaController extends Controller {
                         "Target_Uraian",  
                         "Tahun",      
                         "Descr",
+                        "TA",
                         "Privilege",
                         "created_at", 
                         "updated_at"
                     )
                     SELECT 
-                        REPLACE(SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16),\'-\',\'\') AS "RenjaIndikatorID",
-                        "IndikatorKinerjaID",
-                        \''.$newRenjaiD.'\' AS "RenjaID",
+                        REPLACE(SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16),\'-\',\'\') AS "RKPDIndikatorID",
+                        \''.$RKPDID.'\' AS "RKPDID",
+                        "IndikatorKinerjaID",                        
                         "Target_Angka",
                         "Target_Uraian",
                         "Tahun",
                         "Descr",
+                        1 AS "Privilege",                        
                         "TA",
                         NOW() AS created_at,
                         NOW() AS updated_at
                     FROM 
                         "trRenjaIndikator" 
                     WHERE 
-                        "RenjaID"=\''.$RenjaID.'\' 
+                        "RenjaID"=\''.$renja->RenjaID.'\' 
                 ';
 
                 \DB::statement($str_kinerja);
-
-                // $renja->Privilege=1;
-                // $renja->save();
-
-
+                
+                //renja finish
+                $renja->Privilege=1;
+                $renja->Status=1;
+                $renja->save();
             });
             if ($request->ajax()) 
             {                
@@ -628,33 +715,5 @@ class VerifikasiRenjaController extends Controller {
                 return redirect(route('verifikasirenja.show',['id'=>$verifikasirenja->RenjaID]))->with('success','Data ini telah berhasil disimpan.');
             }
         }
-        // \DB::transaction(function () use ($RenjaID) {
-
-            
-
-                
-                
-        //         $newRenjaiD=uniqid ('uid');
-        //         $newrenja = $renja->replicate();
-        //         $newrenja->RenjaID = $newRenjaiD;
-        //         $newrenja->Sasaran_Angka5 = $newrenja->Sasaran_Uraian4;
-        //         $newrenja->Sasaran_Angka5 = $newrenja->Sasaran_Angka4;
-        //         $newrenja->Target5 = $newrenja->Target4;
-        //         $newrenja->NilaiUsulan5 = $newrenja->NilaiUsulan4;
-        //         $newrenja->EntryLvl = 4;
-        //         $newrenja->Status = 0;
-        //         $newrenja->Privilege = 0;
-        //         $newrenja->save();
-
-     
-                
-
-        //         $renja->Privilege=1;
-        //         $renja->save();
-        //         RenjaRincianModel::where('RenjaID',$RenjaID)->update(['Privilege'=>1,'Status'=>1]);
-        //         RenjaIndikatorModel::where('RenjaID',$RenjaID)->update(['Privilege'=>1]);
-                     
-
-      
     }
 }

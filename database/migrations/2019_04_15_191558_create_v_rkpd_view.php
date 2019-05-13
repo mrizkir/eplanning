@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateVUsulanPraRenjaOPDView extends Migration
+class CreateVRkpdView extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateVUsulanPraRenjaOPDView extends Migration
      */
     public function up()
     {
-        \DB::statement('CREATE VIEW v_usulan_pra_renja_opd AS
+        \DB::statement('CREATE VIEW v_rkpd AS
             SELECT 
-                A."RenjaID",
-                B."RenjaRincID",
-                B."UsulanKecID",
+                A."RKPDID",
+                B."RKPDRincID",
                 B."PMProvID",
                 I."Nm_Prov",
                 B."PmKotaID",
@@ -32,7 +31,7 @@ class CreateVUsulanPraRenjaOPDView extends Migration
                 G."Kd_Bidang",
                 G."Nm_Bidang",
                 A."OrgID",
-	            A."SOrgID",
+                A."SOrgID",
                 C."OrgNm",
                 D."SOrgNm",
                 CONCAT(H."Kd_Urusan", \'.\', G."Kd_Bidang", \'.\', F."Kd_Prog", \'.\', E."Kd_Keg") AS kode_kegiatan,
@@ -41,30 +40,36 @@ class CreateVUsulanPraRenjaOPDView extends Migration
                 B."No",
                 B."Uraian",
                 B."Sasaran_Angka1",
+                B."Sasaran_Angka2",
                 B."Sasaran_Uraian1",
+                B."Sasaran_Uraian2",
                 B."Target1",
-                B."Jumlah1",
-                B."Prioritas",
-                B."Status",
-                B."Privilege",
+                B."Target2",
+                B."NilaiUsulan1",
+                B."NilaiUsulan2",
+                B."Tgl_Posting",
                 B."isReses",
                 B."isReses_Uraian",
                 B."isSKPD",
-                A."TA"
-            FROM "trRenja" A
-                LEFT JOIN "trRenjaRinc" B ON A."RenjaID"=B."RenjaID" AND A."TA"=B."TA"
+                B."Descr",
+                A."TA",
+                B."status" AS "Status",
+                B."EntryLvl",
+                B."Privilege",
+                A."RKPDID_Src",
+                B."RKPDRincID_Src"
+            FROM "trRKPD" A
+                INNER JOIN "trRKPDRinc" B ON A."RKPDID"=B."RKPDID" AND A."TA"=B."TA"
                 INNER JOIN "tmOrg" C ON A."OrgID"=C."OrgID" AND A."TA"=C."TA"
                 INNER JOIN "tmSOrg" D ON A."SOrgID"=D."SOrgID" AND A."TA"=D."TA"
                 INNER JOIN "tmKgt" E ON A."KgtID"=E."KgtID" AND A."TA"=E."TA"
                 INNER JOIN "tmPrg" F ON E."PrgID"=F."PrgID" AND E."TA"=F."TA"
                 INNER JOIN "tmUrs" G ON C."UrsID"=G."UrsID" AND A."TA"=G."TA"
-	            INNER JOIN "tmKUrs" H ON G."KUrsID"=H."KUrsID" AND G."TA"=H."TA"
+                INNER JOIN "tmKUrs" H ON G."KUrsID"=H."KUrsID" AND G."TA"=H."TA"
                 LEFT JOIN "tmPMProv" I ON B."PMProvID"=I."PMProvID" AND B."TA"=I."TA"
                 LEFT JOIN "tmPmKota" J ON B."PmKotaID"=J."PmKotaID" AND B."TA"=J."TA"                
                 LEFT JOIN "tmPmKecamatan" K ON B."PmKecamatanID"=K."PmKecamatanID" AND B."TA"=K."TA"
-                LEFT JOIN "tmPmDesa" L ON B."PmDesaID"=L."PmDesaID" AND B."TA"=L."TA"
-            WHERE
-                A."EntryLvl"=\'0\'
+                LEFT JOIN "tmPmDesa" L ON B."PmDesaID"=L."PmDesaID" AND B."TA"=L."TA";
         ');				
     }
 
@@ -75,6 +80,6 @@ class CreateVUsulanPraRenjaOPDView extends Migration
      */
     public function down()
     {
-        \DB::statement('DROP VIEW v_usulan_pra_renja_opd');
+        \DB::statement('DROP VIEW v_rkpd');
     }
 }

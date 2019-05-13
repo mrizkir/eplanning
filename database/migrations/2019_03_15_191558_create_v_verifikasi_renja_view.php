@@ -15,8 +15,7 @@ class CreateVVerifikasiRenjaView extends Migration
     {
         \DB::statement('CREATE VIEW v_verifikasi_renja AS
             SELECT 
-                A."RenjaID",
-                B1."RenjaIndikatorID",
+                A."RenjaID",                
                 B."RenjaRincID",
                 B."UsulanKecID",
                 B."PMProvID",
@@ -62,11 +61,7 @@ class CreateVVerifikasiRenjaView extends Migration
                 B."Jumlah4",
                 B."Jumlah5",
                 B."Prioritas",
-                CASE WHEN B."Status"=0 OR B."Status" IS NULL THEN
-                    \'DUM\'
-                ELSE
-                    \'ACC\'
-                END AS Status,
+                B."Status",
                 B."Privilege",
                 B."isReses",
                 B."isReses_Uraian",
@@ -74,7 +69,6 @@ class CreateVVerifikasiRenjaView extends Migration
                 A."TA"
             FROM "trRenja" A
                 LEFT JOIN "trRenjaRinc" B ON A."RenjaID"=B."RenjaID" AND A."TA"=B."TA"
-                LEFT JOIN "trRenjaIndikator" B1 ON A."RenjaID"=B1."RenjaID" AND A."TA"=B1."TA"
                 INNER JOIN "tmOrg" C ON A."OrgID"=C."OrgID" AND A."TA"=C."TA"
                 INNER JOIN "tmSOrg" D ON A."SOrgID"=D."SOrgID" AND A."TA"=D."TA"
                 INNER JOIN "tmKgt" E ON A."KgtID"=E."KgtID" AND A."TA"=E."TA"
