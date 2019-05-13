@@ -159,6 +159,7 @@ class PembahasanPraRenjaOPDController extends Controller {
         }
         
         $datatable = view("pages.$theme.rkpd.pembahasanprarenjaopd.datatable")->with(['page_active'=>'pembahasanprarenjaopd',
+                                                                                    'label_transfer'=>'RAKOR BIDANG',
                                                                                     'search'=>$this->getControllerStateSession('pembahasanprarenjaopd','search'),
                                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                     'column_order'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','column_name'),
@@ -180,6 +181,7 @@ class PembahasanPraRenjaOPDController extends Controller {
         $this->setCurrentPageInsideSession('pembahasanprarenjaopd',$id);
         $data=$this->populateData($id);
         $datatable = view("pages.$theme.rkpd.pembahasanprarenjaopd.datatable")->with(['page_active'=>'pembahasanprarenjaopd',
+                                                                            'label_transfer'=>'RAKOR BIDANG',
                                                                             'search'=>$this->getControllerStateSession('pembahasanprarenjaopd','search'),
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                             'column_order'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','column_name'),
@@ -213,11 +215,12 @@ class PembahasanPraRenjaOPDController extends Controller {
         $data=$this->populateData();
 
         $datatable = view("pages.$theme.rkpd.pembahasanprarenjaopd.datatable")->with(['page_active'=>'pembahasanprarenjaopd',                                                            
-                                                            'search'=>$this->getControllerStateSession('pembahasanprarenjaopd','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','order'),
-                                                            'data'=>$data])->render();      
+                                                                                    'label_transfer'=>'RAKOR BIDANG',
+                                                                                    'search'=>$this->getControllerStateSession('pembahasanprarenjaopd','search'),
+                                                                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                    'column_order'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','column_name'),
+                                                                                    'direction'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','order'),
+                                                                                    'data'=>$data])->render();      
         
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
     }
@@ -249,6 +252,7 @@ class PembahasanPraRenjaOPDController extends Controller {
             $data = [];
 
             $datatable = view("pages.$theme.rkpd.pembahasanprarenjaopd.datatable")->with(['page_active'=>'pembahasanprarenjaopd',                                                            
+                                                                                    'label_transfer'=>'RAKOR BIDANG',
                                                                                     'search'=>$this->getControllerStateSession('pembahasanprarenjaopd','search'),
                                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                     'column_order'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','column_name'),
@@ -267,7 +271,8 @@ class PembahasanPraRenjaOPDController extends Controller {
 
             $data = $this->populateData();
 
-            $datatable = view("pages.$theme.rkpd.pembahasanprarenjaopd.datatable")->with(['page_active'=>'pembahasanprarenjaopd',                                                            
+            $datatable = view("pages.$theme.rkpd.pembahasanprarenjaopd.datatable")->with(['page_active'=>'pembahasanprarenjaopd',                                
+                                                                                    'label_transfer'=>'RAKOR BIDANG',                            
                                                                                     'search'=>$this->getControllerStateSession('pembahasanprarenjaopd','search'),
                                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                     'column_order'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','column_name'),
@@ -414,27 +419,46 @@ class PembahasanPraRenjaOPDController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        if ($request->exists('RenjaID'))
+        if ($request->exists('RenjaRincID'))
         {
-            $RenjaID=$request->input('RenjaID'); 
-            \DB::transaction(function () use ($RenjaID) {
-                $renja = RenjaModel::find($RenjaID);   
-                $renja->Privilege=1;
-                $renja->save();
+            $RenjaRincID=$request->input('RenjaRincID'); 
+            $rincian_kegiatan=\DB::transaction(function () use ($RenjaRincID) {
+                $rincian_kegiatan = RenjaRincianModel::find($RenjaRincID);               
 
-                #new renja
-                $newRenjaiD=uniqid ('uid');
-                $newrenja = $renja->replicate();
-                $newrenja->RenjaID = $newRenjaiD;
-                $newrenja->Sasaran_Uraian2 = $newrenja->Sasaran_Uraian1;
-                $newrenja->Sasaran_Angka2 = $newrenja->Sasaran_Angka1;
-                $newrenja->Target2 = $newrenja->Target1;
-                $newrenja->NilaiUsulan2 = $newrenja->NilaiUsulan1;
-                $newrenja->EntryLvl = 1;
-                $newrenja->Status = 0;
-                $newrenja->Privilege = 0;
-                $newrenja->RenjaID_Src = $RenjaID;
-                $newrenja->save();
+                //check renja id sudah ada belum di RenjaID_Old
+                $old_renja = RenjaModel::select('RenjaID')
+                                        ->where('RenjaID_Src',$rincian_kegiatan->RenjaID)
+                                        ->get()
+                                        ->pluck('RenjaID')->toArray();
+                
+                if (count($old_renja) > 0)
+                {
+                    $RenjaID=$old_renja[0];
+                    $newRenjaiD=$RenjaID;
+                    $renja = RenjaModel::find($RenjaID);  
+                }
+                else
+                {
+                    $RenjaID=$rincian_kegiatan->RenjaID;
+                    $renja = RenjaModel::find($RenjaID);   
+                    $renja->Privilege=1;
+                    $renja->save();
+
+                    #new renja
+                    $newRenjaiD=uniqid ('uid');
+                    $newrenja = $renja->replicate();
+                    $newrenja->RenjaID = $newRenjaiD;
+                    $newrenja->Sasaran_Uraian2 = $newrenja->Sasaran_Uraian1;
+                    $newrenja->Sasaran_Angka2 = $newrenja->Sasaran_Angka1;
+                    $newrenja->Target2 = $newrenja->Target1;
+                    $newrenja->NilaiUsulan2 = $newrenja->NilaiUsulan1;
+                    $newrenja->EntryLvl = 1;
+                    $newrenja->Status = 0;
+                    $newrenja->Privilege = 0;
+                    $newrenja->RenjaID_Src = $RenjaID;
+                    $newrenja->save();
+                }
+                
 
                 $str_rinciankegiatan = '
                     INSERT INTO "trRenjaRinc" (
@@ -500,7 +524,9 @@ class PembahasanPraRenjaOPDController extends Controller {
                         NOW() AS updated_at
                     FROM 
                         "trRenjaRinc" 
-                    WHERE "RenjaID"=\''.$RenjaID.'\'       
+                    WHERE "RenjaRincID"=\''.$RenjaRincID.'\' AND
+                        ("Status"=1 OR "Status"=2) AND
+                        "Privilege"=0             
                 ';
                 \DB::statement($str_rinciankegiatan);       
                 $str_kinerja='
@@ -512,6 +538,7 @@ class PembahasanPraRenjaOPDController extends Controller {
                         "Target_Uraian",  
                         "Tahun",      
                         "Descr",
+                        "Privilege",
                         "TA",
                         "RenjaIndikatorID_Src", 
                         "created_at", 
@@ -525,6 +552,7 @@ class PembahasanPraRenjaOPDController extends Controller {
                         "Target_Uraian",
                         "Tahun",
                         "Descr",
+                        1 AS "Privilege",
                         "TA",
                         "RenjaIndikatorID" AS "RenjaIndikatorID_Src",
                         NOW() AS created_at,
@@ -532,12 +560,16 @@ class PembahasanPraRenjaOPDController extends Controller {
                     FROM 
                         "trRenjaIndikator" 
                     WHERE 
-                        "RenjaID"=\''.$RenjaID.'\' 
+                        "RenjaID"=\''.$RenjaID.'\' AND
+                        "Privilege"=0 
                 ';
 
                 \DB::statement($str_kinerja);
-                RenjaRincianModel::where('RenjaID',$RenjaID)->update(['Privilege'=>1,'Status'=>1]);
-                RenjaIndikatorModel::where('RenjaID',$RenjaID)->update(['Privilege'=>1]);
+                RenjaRincianModel::where('RenjaID',$RenjaID)
+                                    ->update(['Privilege'=>1,'Status'=>1]);
+                RenjaIndikatorModel::where('RenjaID',$RenjaID)
+                                    ->update(['Privilege'=>1]);
+                return $rincian_kegiatan;
             });            
 
             if ($request->ajax()) 
@@ -545,6 +577,7 @@ class PembahasanPraRenjaOPDController extends Controller {
                 $data = $this->populateData();
                 
                 $datatable = view("pages.$theme.rkpd.pembahasanprarenjaopd.datatable")->with(['page_active'=>'pembahasanprarenjaopd',                                                            
+                                                                                    'label_transfer'=>'RAKOR BIDANG',
                                                                                     'search'=>$this->getControllerStateSession('pembahasanprarenjaopd','search'),
                                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                     'column_order'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','column_name'),
@@ -553,7 +586,8 @@ class PembahasanPraRenjaOPDController extends Controller {
                 return response()->json([
                     'success'=>true,
                     'message'=>'Data ini telah berhasil diubah.',
-                    'datatable'=>$datatable
+                    'datatable'=>$datatable,
+                    'rincian_kegiatan'=>$rincian_kegiatan
                 ],200);
             }
             else

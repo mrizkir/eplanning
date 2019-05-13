@@ -63,5 +63,6 @@ class Kernel extends HttpKernel
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
         'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
         'disablepreventback' => \App\Http\Middleware\DisablePreventBack::class,
+        'checkrenjaprocessed' => \App\Http\Middleware\CheckRenjaProcessed::class,
     ];
 }

@@ -569,6 +569,7 @@ class PembahasanMusrenKabController extends Controller {
                         "Descr",
                         "Privilege",
                         "TA",
+                        "RenjaIndikatorID_Src",
                         "created_at", 
                         "updated_at"
                     )
@@ -582,6 +583,7 @@ class PembahasanMusrenKabController extends Controller {
                         "Descr",
                         1 AS "Privilege",
                         "TA",
+                        "RenjaIndikatorID" AS "RenjaIndikatorID_Src",
                         NOW() AS created_at,
                         NOW() AS updated_at
                     FROM 
@@ -594,7 +596,8 @@ class PembahasanMusrenKabController extends Controller {
 
                 RenjaRincianModel::where('RenjaRincID',$RenjaRincID)
                                     ->update(['Privilege'=>1]);
-                RenjaIndikatorModel::where('RenjaID',$RenjaID)->update(['Privilege'=>1]);
+                RenjaIndikatorModel::where('RenjaID',$RenjaID)
+                                    ->update(['Privilege'=>1]);
 
                 return $rincian_kegiatan;
             });            

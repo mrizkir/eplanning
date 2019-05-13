@@ -25,13 +25,15 @@
                 <h5 class="panel-title"> 
                     <i class="icon-eye"></i>  DATA USULAN PRA RENJA OPD/SKPD
                 </h5>
-                <div class="heading-elements">                       
+                <div class="heading-elements">                    
                     <a href="{{route('usulanprarenjaopd.edit',['id'=>$renja->RenjaID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Usulan Pra Renja">
                         <i class="icon-pencil7"></i>
                     </a>
+                    @if ($renja->Privilege==0)                       
                     <a href="javascript:;" title="Hapus Data Usulan Pra Renja" data-id="{{$renja->RenjaID}}" data-url="{{route('usulanprarenjaopd.index')}}" class="btn btn-danger btn-icon heading-btn btnDeleteRenja">
                         <i class='icon-trash'></i>
                     </a>
+                    @endif
                     <a href="{!!route('usulanprarenjaopd.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
                         <i class="icon-close2"></i>
                     </a>            

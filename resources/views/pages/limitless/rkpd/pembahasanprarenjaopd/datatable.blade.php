@@ -48,7 +48,7 @@
                     PRIORITAS                          
                 </th>          
                 <th width="70">STATUS</th>                            
-                <th width="100">AKSI</th>
+                <th width="150">AKSI</th>
             </tr>
         </thead>
         <tbody>                    
@@ -98,7 +98,26 @@
                     @include('layouts.limitless.l_status_kegiatan')
                 </td>
                 <td>                    
-                    @include('layouts.limitless.l_ubah_status')
+                    <ul class="icons-list">
+                        @include('layouts.limitless.l_ubah_status')      
+                        @if ($item->Privilege==0)              
+                        <li class="text-primary-600">
+                            @if ($item->isSKPD)
+                                <a class="btnEdit" href="{{route('usulanprarenjaopd.edit4',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Pra Renja">
+                                    <i class='icon-pencil7'></i>
+                                </a> 
+                            @elseif($item->isReses)
+                                <a class="btnEdit" href="{{route('usulanprarenjaopd.edit3',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Pra Renja">
+                                    <i class='icon-pencil7'></i>
+                                </a>
+                            @else
+                                <a class="btnEdit" href="{{route('usulanprarenjaopd.edit2',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Pra Renja">
+                                    <i class='icon-pencil7'></i>
+                                </a>
+                            @endif  
+                        </li> 
+                        @endif
+                    </ul>
                 </td>                   
             </tr>
         @endforeach                    

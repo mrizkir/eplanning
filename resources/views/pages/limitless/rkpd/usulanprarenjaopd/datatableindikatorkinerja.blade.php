@@ -14,7 +14,7 @@
 </div>
 @if (count($dataindikatorkinerja) > 0)
 <div class="table-responsive"> 
-    <table id="data" class="table table-striped table-hover">
+    <table id="data" class="table table-striped table-hover" style="font-size:11px">
         <thead>
             <tr class="bg-teal-700">
                 <th width="55">NO</th>     
@@ -36,6 +36,7 @@
                 <td>{{$item->Target_Uraian}}</td>                        
                 <td>{{$item->Tahun}} ({{$item->TA}})</td>                        
                 <td>
+                    @if ($item->Privilege=0)
                     <ul class="icons-list">
                         <li class="text-primary-600">                            
                             <a class="btnEdit" href="{{route('usulanprarenjaopd.edit1',['id'=>$item->RenjaIndikatorID])}}" title="Ubah Data Indikator">
@@ -48,6 +49,19 @@
                             </a> 
                         </li>
                     </ul>
+                    @else
+                        <span class="label label-success label-flat text-success-600">
+                            TRANSFERED
+                        </span>
+                    @endif
+                </td>
+            </tr>
+            <tr class="text-center info">
+                <td colspan="10">
+                    <span class="label label-warning label-rounded">
+                        <strong>RenjaIndikatorID:</strong>
+                        {{$item->RenjaIndikatorID}}
+                    </span>
                 </td>
             </tr>
         @endforeach                    

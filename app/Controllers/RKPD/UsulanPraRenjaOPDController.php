@@ -997,8 +997,8 @@ class UsulanPraRenjaOPDController extends Controller {
                             ->findOrFail($id);
         if (!is_null($renja) )  
         {
-            $dataindikatorkinerja = $this->populateIndikatorKegiatan($id);
-            $datarinciankegiatan = $this->populateRincianKegiatan($id);            
+            $dataindikatorkinerja = $this->populateIndikatorKegiatan($id);            
+            $datarinciankegiatan = $this->populateRincianKegiatan($id);                
             return view("pages.$theme.rkpd.usulanprarenjaopd.show")->with(['page_active'=>'usulanprarenjaopd',
                                                                             'renja'=>$renja,
                                                                             'dataindikatorkinerja'=>$dataindikatorkinerja,

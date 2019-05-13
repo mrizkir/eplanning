@@ -123,13 +123,14 @@
                     <td>
                         @include('layouts.limitless.l_status_kegiatan')
                     </td>
-                    <td>
+                    <td>                           
                         <ul class="icons-list">
                             <li class="text-primary-600">
                                 <a class="btnShow" href="{{route('usulanprarenjaopd.show',['id'=>$item->RenjaID])}}" title="Detail Data Usulan Pra Renja">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
+                            @if ($item->Privilege==0)
                             <li class="text-primary-600">
                                 @if ($item->isSKPD)
                                     <a class="btnEdit" href="{{route('usulanprarenjaopd.edit4',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Pra Renja">
@@ -150,9 +151,22 @@
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>
-                        </ul>
+                            @endif
+                        </ul>                                        
                     </td>
                     @endif                    
+                </tr>
+                <tr class="text-center info">
+                    <td colspan="10">
+                        <span class="label label-warning label-rounded">
+                            <strong>RenjaID:</strong>
+                            {{$item->RenjaID}}
+                        </span>
+                        <span class="label label-warning label-rounded">
+                            <strong>RenjaRincID:</strong>
+                            {{$item->RenjaRincID}}
+                        </span>
+                    </td>
                 </tr>
             @endforeach                    
             </tbody>

@@ -20,14 +20,14 @@
 </div>
 @if (count($datarinciankegiatan) > 0)
 <div class="table-responsive"> 
-    <table id="data" class="table table-striped table-hover">
+    <table id="data" class="table table-striped table-hover" style="font-size:11px">
         <thead>
             <tr class="bg-teal-700">
                 <th width="55">NO</th>     
                 <th>NAMA URAIAN</th>                
                 <th>SASARAN KEGIATAN</th>  
                 <th>TARGET (%)</th> 
-                <th>NILAI USULAN</th>                
+                <th class="text-right">NILAI USULAN</th>                
                 <th>PRIORITAS</th>                                         
                 <th width="120">AKSI</th>
             </tr>
@@ -58,13 +58,14 @@
                 </td>                
                 <td>{{Helper::formatAngka($item->Sasaran_Angka1)}} {{ucwords($item->Sasaran_Uraian1)}}</td>
                 <td>{{$item->Target1}}</td>               
-                <td>{{Helper::formatUang($item->Jumlah1)}}</td>       
+                <td class="text-right">{{Helper::formatUang($item->Jumlah1)}}</td>       
                 <td>
                     <span class="label label-flat border-success text-success-600">
                         {{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}
                     </span>
                 </td>
                 <td>
+                    @if ($item->Privilege=0)
                     <ul class="icons-list">
                         <li class="text-primary-600">
                             @if ($item->isSKPD)
@@ -87,10 +88,30 @@
                             </a> 
                         </li>
                     </ul>
+                    @else
+                        <span class="label label-success label-flat text-success-600">
+                            TRANSFERED
+                        </span>
+                    @endif
+                </td>
+            </tr>
+            <tr class="text-center info">
+                <td colspan="10">                   
+                    <span class="label label-warning label-rounded">
+                        <strong>RenjaRincID:</strong>
+                        {{$item->RenjaRincID}}
+                    </span>
                 </td>
             </tr>
         @endforeach                    
         </tbody>
+        <tfoot>
+            <tr class="bg-grey-300" style="font-weight:bold">
+                <td colspan="4" class="text-right">TOTAL</td>
+                <td class="text-right">{{Helper::formatUang($datarinciankegiatan->sum('Jumlah1'))}}</td> 
+                <td colspan="3"></td>
+            </tr>
+        </tfoot>
     </table>       
 </div>       
 @else
