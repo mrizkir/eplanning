@@ -148,7 +148,7 @@
                     </div>
                 </div>
             </li>            
-            <li class="dropdown">
+            <li class="dropdown visible">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-strategy position-left"></i> RPJMD <span class="caret"></span>
                 </a>
@@ -185,107 +185,83 @@
                     </li>                  
                 </ul>
             </li>
-            <li class="dropdown mega-menu mega-menu-wide visible">
+            <li class="dropdown visible">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-airplane3 position-left"></i> WORKFLOW <span class="caret"></span>
                 </a>
-                <div class="dropdown-menu dropdown-content">
-                    <div class="dropdown-content-body">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <span class="menu-heading underlined"><i class="icon-people"></i> ASPIRASI / USULAN</span>
-                                <ul class="menu-list">                                   
-                                    <li{!!Helper::isMenuActive ($page_active,'aspirasimusrendesa',' class="active"')!!}>
-                                        <a href="{{route('aspirasimusrendesa.index')}}" title="Aspirasi Musrenbang Desa">
-                                            <i class="icon-cube"></i>A. MUSRENBANG DESA / KELURAHAN <span class="text-violet"><strong>[1]</strong></span>
-                                        </a>                                        
-                                    </li>     
-                                    <li{!!Helper::isMenuActive ($page_active,'usulanprarenjaopd',' class="active"')!!}>
-                                        <a href="{{route('usulanprarenjaopd.index')}}" title="Usulan Pra Renja OPD/SKPD">
-                                            <i class="icon-cube"></i>U. PRA RENJA OPD/SKPD <span class="text-violet"><strong>[5]</strong></span>
-                                        </a>                                        
-                                    </li>            
-                                    <li{!!Helper::isMenuActive ($page_active,'usulanforumopd',' class="active"')!!}>
-                                        <a href="{{route('usulanforumopd.index')}}" title="Usulan Forum OPD/SKPD">
-                                            <i class="icon-cube"></i>U. FORUM OPD/SKPD <span class="text-violet"><strong>[9]</strong></span>
-                                        </a>                                        
-                                    </li>                    
-                                    <li{!!Helper::isMenuActive ($page_active,'verifikasirenja',' class="active"')!!}>
-                                        <a href="{{route('verifikasirenja.index')}}" title="verifikasi rencana kerja">
-                                            <i class="icon-cube"></i>VERIFIKASI RENJA <span class="text-violet"><strong>[13]</strong></span>
-                                        </a>                                        
-                                    </li>                    
-                                </ul>
-                            </div>
-                            <div class="col-md-3">
-                                <span class="menu-heading underlined"><i class="icon-comment-discussion"></i> PEMBAHASAN</span>
-                                <ul class="menu-list">                                   
-                                    <li{!!Helper::isMenuActive ($page_active,'pembahasanmusrendesa',' class="active"')!!}>
-                                        <a href="{{route('pembahasanmusrendesa.index')}}" title="Pembahasan Musrenbang Desa">
-                                            <i class="icon-cube"></i>P. MUSRENBANG DESA / KELURAHAN <span class="text-violet"><strong>[2]</strong></span>
-                                        </a>
-                                    </li>  
-                                    <li{!!Helper::isMenuActive ($page_active,'pembahasanprarenjaopd',' class="active"')!!}>
-                                        <a href="{{route('pembahasanprarenjaopd.index')}}" title="Pembahasan Pra Renja OPD/SKPD">
-                                            <i class="icon-cube"></i>P. PRA RENJA OPD/SKPD <span class="text-violet"><strong>[6]</strong></span>
-                                        </a>                                        
-                                    </li>        
-                                    <li{!!Helper::isMenuActive ($page_active,'pembahasanforumopd',' class="active"')!!}>
-                                        <a href="{{route('pembahasanforumopd.index')}}" title="Pembahasan Forum OPD/SKPD">
-                                            <i class="icon-cube"></i>P. FORUM OPD/SKPD <span class="text-violet"><strong>[10]</strong></span>
-                                        </a>                                        
-                                    </li>
-                                    <li{!!Helper::isMenuActive ($page_active,'rkpdmurni',' class="active"')!!}>
-                                        <a href="{{route('rkpdmurni.index')}}" title="RENCANA KERJA PERANGKAT DAERAH">
-                                            <i class="icon-cube"></i>RKPD <span class="text-violet"><strong>[14]</strong></span>
-                                        </a>                                        
-                                    </li>   
-                                </ul>
-                            </div>
-                            <div class="col-md-3">
-                                <span class="menu-heading underlined"><i class="icon-people"></i> ASPIRASI / USULAN</span>
-                                <ul class="menu-list">                                                                                                          
-                                    <li{!!Helper::isMenuActive ($page_active,'aspirasimusrenkecamatan',' class="active"')!!}>
-                                        <a href="{{route('aspirasimusrenkecamatan.index')}}" title="Aspirasi Musrenbang Kecamatan">
-                                            <i class="icon-cube"></i>A. MUSRENBANG KECAMATAN <span class="text-violet"><strong>[3]</strong></span>
-                                        </a>                                        
-                                    </li>  
-                                    <li{!!Helper::isMenuActive ($page_active,'usulanrakorbidang',' class="active"')!!}>
-                                        <a href="{{route('usulanrakorbidang.index')}}" title="Aspirasi Musrenbang Kecamatan">
-                                            <i class="icon-cube"></i>U. RAKOR BIDANG <span class="text-violet"><strong>[7]</strong></span>
-                                        </a>                                        
-                                    </li>       
-                                    <li{!!Helper::isMenuActive ($page_active,'usulanmusrenkab',' class="active"')!!}>
-                                        <a href="{{route('usulanmusrenkab.index')}}" title="Usulan Musrenbang Kabupaten">
-                                            <i class="icon-cube"></i>U. MUSRENBANG KAB. <span class="text-violet"><strong>[11]</strong></span>
-                                        </a>                                        
-                                    </li>                      
-                                </ul>
-                            </div>
-                            <div class="col-md-3">
-                                <span class="menu-heading underlined"><i class="icon-comment-discussion"></i> PEMBAHASAN</span>
-                                <ul class="menu-list">
-                                    <li{!!Helper::isMenuActive ($page_active,'pembahasanmusrenkecamatan',' class="active"')!!}>
-                                        <a href="{{route('pembahasanmusrenkecamatan.index')}}" title="Pembahasan Musrenbang Kecamatan">
-                                            <i class="icon-cube"></i>P. MUSRENBANG KECAMATAN <span class="text-violet"><strong>[4]</strong></span>
-                                        </a>
-                                    </li>
-                                    <li{!!Helper::isMenuActive ($page_active,'pembahasanrakorbidang',' class="active"')!!}>
-                                        <a href="{{route('pembahasanrakorbidang.index')}}" title="Pembahasan Rakor Bidang">
-                                            <i class="icon-cube"></i>P. RAKOR BIDANG <span class="text-violet"><strong>[8]</strong></span>
-                                        </a>
-                                    </li>
-                                    <li{!!Helper::isMenuActive ($page_active,'pembahasanmusrenkab',' class="active"')!!}>
-                                        <a href="{{route('pembahasanmusrenkab.index')}}" title="Pembahasan Musrenbang Kabupaten">
-                                            <i class="icon-cube"></i>P. MUSRENBANG KAB. <span class="text-violet"><strong>[12]</strong></span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </li>
+                <ul class="dropdown-menu width-450"> 
+                    <li{!!Helper::isMenuActive ($page_active,'aspirasimusrendesa',' class="active"')!!}>
+                        <a href="{{route('aspirasimusrendesa.index')}}" title="Aspirasi Musrenbang Desa">
+                            <i class="icon-arrow-down16"></i>ASPIRASI MUSRENBANG DESA / KELURAHAN <span class="text-violet"><strong>[1]</strong></span>
+                        </a>                                        
+                    </li>    
+                    <li{!!Helper::isMenuActive ($page_active,'pembahasanmusrendesa',' class="active"')!!}>
+                        <a href="{{route('pembahasanmusrendesa.index')}}" title="Pembahasan Musrenbang Desa">
+                            <i class="icon-arrow-down16"></i>PEMBAHASAN MUSRENBANG DESA / KELURAHAN <span class="text-violet"><strong>[2]</strong></span>
+                        </a>
+                    </li>
+                    <li{!!Helper::isMenuActive ($page_active,'aspirasimusrenkecamatan',' class="active"')!!}>
+                        <a href="{{route('aspirasimusrenkecamatan.index')}}" title="Aspirasi Musrenbang Kecamatan">
+                            <i class="icon-arrow-down16"></i>ASPIRASI MUSRENBANG KECAMATAN <span class="text-violet"><strong>[3]</strong></span>
+                        </a>                                        
+                    </li>
+                    <li{!!Helper::isMenuActive ($page_active,'pembahasanmusrenkecamatan',' class="active"')!!}>
+                        <a href="{{route('pembahasanmusrenkecamatan.index')}}" title="Pembahasan Musrenbang Kecamatan">
+                            <i class="icon-arrow-down16"></i>PEMBAHASAN MUSRENBANG KECAMATAN <span class="text-violet"><strong>[4]</strong></span>
+                        </a>
+                    </li>
+                    <li{!!Helper::isMenuActive ($page_active,'usulanprarenjaopd',' class="active"')!!}>
+                        <a href="{{route('usulanprarenjaopd.index')}}" title="Usulan Pra Renja OPD/SKPD">
+                            <i class="icon-arrow-down16"></i>USULAN PRA RENJA OPD/SKPD <span class="text-violet"><strong>[5]</strong></span>
+                        </a>                                        
+                    </li>    
+                    <li{!!Helper::isMenuActive ($page_active,'pembahasanprarenjaopd',' class="active"')!!}>
+                        <a href="{{route('pembahasanprarenjaopd.index')}}" title="Pembahasan Pra Renja OPD/SKPD">
+                            <i class="icon-arrow-down16"></i>PEMBAHASAN PRA RENJA OPD/SKPD <span class="text-violet"><strong>[6]</strong></span>
+                        </a>                                        
+                    </li>
+                    <li{!!Helper::isMenuActive ($page_active,'usulanrakorbidang',' class="active"')!!}>
+                        <a href="{{route('usulanrakorbidang.index')}}" title="Aspirasi Musrenbang Kecamatan">
+                            <i class="icon-arrow-down16"></i>USULAN RAKOR BIDANG <span class="text-violet"><strong>[7]</strong></span>
+                        </a>                                        
+                    </li>
+                    <li{!!Helper::isMenuActive ($page_active,'pembahasanrakorbidang',' class="active"')!!}>
+                        <a href="{{route('pembahasanrakorbidang.index')}}" title="Pembahasan Rakor Bidang">
+                            <i class="icon-arrow-down16"></i>PEMBAHASAN RAKOR BIDANG <span class="text-violet"><strong>[8]</strong></span>
+                        </a>
+                    </li>
+                    <li{!!Helper::isMenuActive ($page_active,'usulanforumopd',' class="active"')!!}>
+                        <a href="{{route('usulanforumopd.index')}}" title="Usulan Forum OPD/SKPD">
+                            <i class="icon-arrow-down16"></i>USULAN FORUM OPD/SKPD <span class="text-violet"><strong>[9]</strong></span>
+                        </a>                                        
+                    </li>
+                    <li{!!Helper::isMenuActive ($page_active,'pembahasanforumopd',' class="active"')!!}>
+                        <a href="{{route('pembahasanforumopd.index')}}" title="Pembahasan Forum OPD/SKPD">
+                            <i class="icon-arrow-down16"></i>PEMBAHASAN FORUM OPD/SKPD <span class="text-violet"><strong>[10]</strong></span>
+                        </a>                                        
+                    </li>
+                    <li{!!Helper::isMenuActive ($page_active,'usulanmusrenkab',' class="active"')!!}>
+                        <a href="{{route('usulanmusrenkab.index')}}" title="Usulan Musrenbang Kabupaten">
+                            <i class="icon-arrow-down16"></i>USULAN MUSRENBANG KAB. <span class="text-violet"><strong>[11]</strong></span>
+                        </a>                                        
+                    </li>
+                    <li{!!Helper::isMenuActive ($page_active,'pembahasanmusrenkab',' class="active"')!!}>
+                        <a href="{{route('pembahasanmusrenkab.index')}}" title="Pembahasan Musrenbang Kabupaten">
+                            <i class="icon-arrow-down16"></i>PEMBAHASAN MUSRENBANG KAB. <span class="text-violet"><strong>[12]</strong></span>
+                        </a>
+                    </li>
+                    <li{!!Helper::isMenuActive ($page_active,'verifikasirenja',' class="active"')!!}>
+                        <a href="{{route('verifikasirenja.index')}}" title="verifikasi rencana kerja">
+                            <i class="icon-arrow-down16"></i>VERIFIKASI RENJA <span class="text-violet"><strong>[13]</strong></span>
+                        </a>                                        
+                    </li>  
+                    <li{!!Helper::isMenuActive ($page_active,'rkpdmurni',' class="active"')!!}>
+                        <a href="{{route('rkpdmurni.index')}}" title="RENCANA KERJA PERANGKAT DAERAH">
+                            <i class="icon-arrow-down16"></i>RKPD <span class="text-violet"><strong>[14]</strong></span>
+                        </a>                                        
+                    </li>
+                </ul>
+            </li>            
             <li class="dropdown mega-menu mega-menu-wide visible">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-airplane3 position-left"></i> MONEV <span class="caret"></span>

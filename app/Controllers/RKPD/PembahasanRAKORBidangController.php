@@ -448,6 +448,7 @@ class PembahasanRAKORBidangController extends Controller {
                 $newrenja->EntryLvl = 2;
                 $newrenja->Status = 0;
                 $newrenja->Privilege = 0;
+                $newrenja->RenjaID_Src = $RenjaID;
                 $newrenja->save();
 
                 $str_rinciankegiatan = '
@@ -482,6 +483,7 @@ class PembahasanRAKORBidangController extends Controller {
                         "Prioritas",
                         "Descr",
                         "TA",
+                        "RenjaRincID_Src",
                         "created_at", 
                         "updated_at"
                     ) 
@@ -516,6 +518,7 @@ class PembahasanRAKORBidangController extends Controller {
                         "Prioritas",
                         "Descr",
                         "TA",
+                        "RenjaRincID" AS "RenjaID_Src",
                         NOW() AS created_at,
                         NOW() AS updated_at
                     FROM 
@@ -533,6 +536,7 @@ class PembahasanRAKORBidangController extends Controller {
                         "Tahun",      
                         "Descr",
                         "TA",
+                        "RenjaIndikatorID_Src", 
                         "created_at", 
                         "updated_at"
                     )
@@ -545,6 +549,7 @@ class PembahasanRAKORBidangController extends Controller {
                         "Tahun",
                         "Descr",
                         "TA",
+                        "RenjaIndikatorID" AS "RenjaIndikatorID_Src",
                         NOW() AS created_at,
                         NOW() AS updated_at
                     FROM 

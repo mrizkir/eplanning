@@ -5,7 +5,7 @@ namespace App\Models\RKPD;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class RKPDMurniModel extends Model {
+class RKPDMurniRincianModel extends Model {
     use LogsActivity;
 
      /**
@@ -13,20 +13,28 @@ class RKPDMurniModel extends Model {
      *
      * @var string
      */
-    protected $table = 'trRKPD';
+    protected $table = 'trRKPDRinc';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
+    /**
+    * The attributes that are mass assignable.
+    *
+    * @var array
+    */
     protected $fillable = [
-        'RKPDID', 
-        'RenjaID',
-        'OrgID',
-        'SOrgID',
-        'KgtID',
-        'SumberDanaID',
-        'NamaIndikator',
+        'RKPDRincID', 
+        'RKPDID',
+        'RenjaRincID',
+        'PMProvID',
+        'PmKotaID',
+        'PmKecamatanID',
+        'PmDesaID',
+        'PokPirID',
+        'Uraian',
+        'No',
         'Sasaran_Uraian1',
         'Sasaran_Uraian2',
         'Sasaran_Angka1',
@@ -34,23 +42,24 @@ class RKPDMurniModel extends Model {
         'NilaiUsulan1',
         'NilaiUsulan2',
         'Target1',
-        'Target2',
-        'Sasaran_AngkaSetelah',
-        'Sasaran_UraianSetelah',
-        'Tgl_Posting',
+        'Target2',    
+        'Tgl_Posting', 
+        'isReses',
+        'isReses_Uraian',
+        'isSKPD',
         'Descr',
         'TA',
         'status',
         'EntryLvl',
-        'Privilege',
-        'RKPDID_Src'
+        'Privilege',        
+        'RKPDRincID_Src'        
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'RKPDID';
+    protected $primaryKey = 'RKPDRincID';
     /**
      * enable auto_increment.
      *
@@ -73,7 +82,7 @@ class RKPDMurniModel extends Model {
     /**
      * log the changed attributes for all these events 
      */
-    protected static $logAttributes = ['RKPDID', 'KgtID', 'RKPDID_Src'];
+    protected static $logAttributes = ['RKPDID', 'RKPDRincID', 'RKPDRincID_Src'];
     /**
      * log changes to all the $fillable attributes of the model
      */

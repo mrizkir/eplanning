@@ -23,32 +23,51 @@ class HelperKegiatan {
                                 3=>'P3',
                                 4=>'P4',
                                 5=>'P5',
-                                6=>'P6'];  
-     /**
-	* digunakan untuk mendapatkan entri level
-	*/
-	public static function getDaftarLevelEntri () {
-		return HelperKegiatan::$LevelEntri;
-    }
-    /**
-	* digunakan untuk mendapatkan nama entri level
-	*/
-	public static function getNamaLevelEntri ($EntryLvl) {
-		return HelperKegiatan::$LevelEntri[$EntryLvl];
-    }
+                                6=>'P6']; 
 
     /**
-	* digunakan untuk mendapatkan daftar prioritas
-	*/
-	public static function getDaftarPrioritas () {
-		return HelperKegiatan::$DaftarPrioritas;
-    }
-    /**
-	* digunakan untuk mendapatkan nama prioritas
-	*/
-	public static function getNamaPrioritas ($PrioritasID) {
-		return HelperKegiatan::$DaftarPrioritas[$PrioritasID];
-    }
+     * Daftar Prioritas
+     */ 
+    private static $StatusKegiatan =[0=>'DRAFT',
+                                    1=>'DI SETUJUI',
+                                    2=>'DI SETUJUI DENGAN CATATAN',
+                                    3=>'DI PENDING']; 
     
-
+    /**
+    * digunakan untuk mendapatkan entri level
+    */
+    public static function getDaftarLevelEntri () {
+      return HelperKegiatan::$LevelEntri;
+    }
+    /**
+    * digunakan untuk mendapatkan nama entri level
+    */
+    public static function getNamaLevelEntri ($EntryLvl) {
+      return HelperKegiatan::$LevelEntri[$EntryLvl];
+    }
+    /**
+    * digunakan untuk mendapatkan status kegiatan
+    */
+    public static function getStatusKegiatan ($StatusKegiatan=null) {
+      if ($StatusKegiatan == null)
+      {
+        return HelperKegiatan::$StatusKegiatan;
+      }
+      else
+      {
+        return HelperKegiatan::$StatusKegiatan[$StatusKegiatan];
+      }      
+    }
+    /**
+    * digunakan untuk mendapatkan daftar prioritas
+    */
+    public static function getDaftarPrioritas () {
+      return HelperKegiatan::$DaftarPrioritas;
+    }
+    /**
+    * digunakan untuk mendapatkan nama prioritas
+    */
+    public static function getNamaPrioritas ($PrioritasID) {
+      return HelperKegiatan::$DaftarPrioritas[$PrioritasID];
+    }
 }

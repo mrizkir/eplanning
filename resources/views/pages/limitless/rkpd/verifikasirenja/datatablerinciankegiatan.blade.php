@@ -3,15 +3,15 @@
         <h5>DAFTAR RINCIAN KEGIATAN</h5>
     </div>
     <div class="heading-elements">        
-        @if (Request::route()->getName()=='usulanprarenjaopd.show')
+        @if (Request::route()->getName()=='usulanrakorbidang.show')
         <div class="heading-btn">
-            <a href="{!!route('usulanprarenjaopd.create2',['id'=>$renja->RenjaID])!!}" class="btn btn-info btn-xs" title="Tambah Rincian Kegiatan dari Musren">
+            <a href="{!!route('usulanrakorbidang.create2',['id'=>$renja->RenjaID])!!}" class="btn btn-info btn-xs" title="Tambah Rincian Kegiatan dari Musren">
                 <i class="icon-googleplus5"></i>
             </a>
-            <a href="{!!route('usulanprarenjaopd.create3',['id'=>$renja->RenjaID])!!}" class="btn btn-success btn-xs" title="Tambah Rincian Kegiatan dari POKIR">
+            <a href="{!!route('usulanrakorbidang.create3',['id'=>$renja->RenjaID])!!}" class="btn btn-success btn-xs" title="Tambah Rincian Kegiatan dari POKIR">
                 <i class="icon-googleplus5"></i>
             </a>
-            <a href="{!!route('usulanprarenjaopd.create4',['id'=>$renja->RenjaID])!!}" class="btn btn-primary btn-xs" title="Tambah Rincian Kegiatan">
+            <a href="{!!route('usulanrakorbidang.create4',['id'=>$renja->RenjaID])!!}" class="btn btn-primary btn-xs" title="Tambah Rincian Kegiatan">
                 <i class="icon-googleplus5"></i>
             </a>
         </div>  
@@ -29,6 +29,7 @@
                 <th>TARGET (%)</th> 
                 <th>NILAI USULAN</th>                
                 <th>PRIORITAS</th>                                         
+                <th>STATUS</th> 
                 <th width="120">AKSI</th>
             </tr>
         </thead>
@@ -56,36 +57,23 @@
                         @endif
                     </span>
                 </td>                
-                <td>{{Helper::formatAngka($item->Sasaran_Angka1)}} {{ucwords($item->Sasaran_Uraian1)}}</td>
-                <td>{{$item->Target1}}</td>               
-                <td>{{Helper::formatUang($item->Jumlah1)}}</td>       
+                <td>{{Helper::formatAngka($item->Sasaran_Angka5)}} {{ucwords($item->Sasaran_Uraian5)}}</td>
+                <td>{{$item->Target5}}</td>               
+                <td>{{Helper::formatUang($item->Jumlah5)}}</td>       
                 <td>
                     <span class="label label-flat border-success text-success-600">
                         {{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}
                     </span>
                 </td>
                 <td>
+                    {{HelperKegiatan::getStatusKegiatan($item->Status)}}
+                    @if ($item->Status==2)
+                         {{$item->Descr}}   
+                    @endif
+                </td>
+                <td>
                     <ul class="icons-list">
-                        <li class="text-primary-600">
-                            @if ($item->isSKPD)
-                                <a class="btnEdit" href="{{route('usulanprarenjaopd.edit4',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Pra Renja">
-                                    <i class='icon-pencil7'></i>
-                                </a> 
-                            @elseif($item->isReses)
-                                <a class="btnEdit" href="{{route('usulanprarenjaopd.edit3',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Pra Renja">
-                                    <i class='icon-pencil7'></i>
-                                </a>
-                            @else
-                                <a class="btnEdit" href="{{route('usulanprarenjaopd.edit2',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Pra Renja">
-                                    <i class='icon-pencil7'></i>
-                                </a>
-                            @endif
-                        </li>
-                        <li class="text-danger-600">
-                            <a class="btnDelete" href="javascript:;" title="Hapus Data Idikator" data-id="{{$item->RenjaRincID}}" data-url="{{route('usulanprarenjaopd.index')}}">
-                                <i class='icon-trash'></i>
-                            </a> 
-                        </li>
+                        
                     </ul>
                 </td>
             </tr>

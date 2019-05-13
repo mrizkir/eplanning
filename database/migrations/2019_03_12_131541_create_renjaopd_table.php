@@ -61,7 +61,7 @@ class CreateRenjaopdTable extends Migration
             $table->tinyInteger('EntryLvl')->default(0);
             $table->tinyInteger('Privilege')->default(0);                        
             $table->boolean('Locked')->default(0);
-           
+            $table->string('RenjaID_Src',19)->nullable();
             $table->timestamps();
 
             $table->primary('RenjaID');
@@ -69,6 +69,13 @@ class CreateRenjaopdTable extends Migration
             $table->index('SOrgID');
             $table->index('KgtID');
             $table->index('SumberDanaID');
+            $table->index('RenjaID_Src');
+
+            $table->foreign('RenjaID_Src')
+                    ->references('RenjaID')
+                    ->on('trRenja')
+                    ->onDelete('set null')
+                    ->onUpdate('cascade');
 
             $table->foreign('OrgID')
                     ->references('OrgID')
@@ -97,7 +104,7 @@ class CreateRenjaopdTable extends Migration
         });
 
         Schema::create('trRenjaIndikator', function (Blueprint $table) {
-            $table->string('RenjaIndikatorID',19);
+            $table->string('RenjaIndikatorID',19);            
             $table->string('IndikatorKinerjaID',19);
             $table->string('RenjaID',19);
             $table->decimal('Target_Angka',10,2);
@@ -107,13 +114,19 @@ class CreateRenjaopdTable extends Migration
             $table->string('Descr')->nullable();
             $table->tinyInteger('Privilege')->default(0); 
             $table->year('TA');
-
+            $table->string('RenjaIndikatorID_Src',19)->nullable();
             $table->timestamps();
 
             $table->primary('RenjaIndikatorID');
             $table->index('IndikatorKinerjaID');
             $table->index('RenjaID');
+            $table->index('RenjaIndikatorID_Src');
 
+            $table->foreign('RenjaIndikatorID_Src')
+                    ->references('RenjaIndikatorID')
+                    ->on('trRenjaIndikator')
+                    ->onDelete('set null')
+                    ->onUpdate('cascade');
 
             $table->foreign('IndikatorKinerjaID')
                     ->references('IndikatorKinerjaID')
@@ -177,8 +190,8 @@ class CreateRenjaopdTable extends Migration
                 $table->tinyInteger('Prioritas');            
                 $table->text('Descr')->nullable();
                 $table->tinyInteger('Privilege')->default(0);
-                $table->year('TA');
-
+                $table->year('TA');                
+                $table->string('RenjaRincID_Src',19)->nullable();
                 $table->timestamps();
 
                 $table->primary('RenjaRincID');
@@ -187,7 +200,13 @@ class CreateRenjaopdTable extends Migration
                 $table->index('PmKecamatanID');
                 $table->index('PmDesaID');
                 $table->index('PokPirID');
+                $table->index('RenjaRincID_Src');
 
+                $table->foreign('RenjaRincID_Src')
+                    ->references('RenjaRincID')
+                    ->on('trRenjaRinc')
+                    ->onDelete('set null')
+                    ->onUpdate('cascade');
 
                 $table->foreign('RenjaID')
                     ->references('RenjaID')

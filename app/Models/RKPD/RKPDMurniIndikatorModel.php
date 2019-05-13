@@ -5,37 +5,36 @@ namespace App\Models\RKPD;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class RenjaIndikatorModel extends Model {
+class RKPDMurniIndikatorModel extends Model {
     use LogsActivity;
     /**
     * nama tabel model ini.
     *
     * @var string
     */
-   protected $table = 'trRenjaIndikator';
+   protected $table = 'trRKPDIndikator';
    /**
     * The attributes that are mass assignable.
     *
     * @var array
     */
    protected $fillable = [
-       'RenjaIndikatorID', 
-       'IndikatorKinerjaID',
-       'RenjaID',
+       'RKPDIndikatorID', 
+       'RKPDID',
+       'IndikatorKinerjaID',       
        'Target_Angka',
        'Target_Uraian',  
        'Tahun',      
        'Descr',
        'Privilege',
-       'TA',
-       'RenjaIndikatorID_Src'
+       'RKPDIndikatorID_Src'
    ];
    /**
     * primary key tabel ini.
     *
     * @var string
     */
-   protected $primaryKey = 'RenjaIndikatorID';
+   protected $primaryKey = 'RKPDIndikatorID';
    /**
     * enable auto_increment.
     *
@@ -53,9 +52,9 @@ class RenjaIndikatorModel extends Model {
      *
      * @var string
      */
-    protected static $logName = 'UsulanPraRenjaOPDController';
+    protected static $logName = 'RKPDMurniController';
     /**
      * log the changed attributes for all these events 
      */
-    protected static $logAttributes = ['RenjaIndikatorID', 'IndikatorKinerjaID', 'RenjaID','Target_Angka','Target_Uraian'];
+    protected static $logAttributes = ['RKPDIndikatorID', 'IndikatorKinerjaID', 'RKPDID','Target_Angka','Target_Uraian'];
 }

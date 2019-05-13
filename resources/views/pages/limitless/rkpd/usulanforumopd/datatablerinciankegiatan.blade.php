@@ -26,7 +26,7 @@
                 <th width="55">NO</th>     
                 <th>NAMA URAIAN</th>                
                 <th>SASARAN KEGIATAN</th>  
-                <th>TARGET</th> 
+                <th>TARGET (%)</th> 
                 <th>NILAI USULAN</th>                
                 <th>PRIORITAS</th>                                         
                 <th width="120">AKSI</th>

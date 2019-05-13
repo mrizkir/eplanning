@@ -57,7 +57,8 @@ class RenjaModel extends Model {
        'TA',
        'Status',
        'EntryLvl',
-       'Prioritas'
+       'Privilege',
+       'RenjaID_Src'
    ];
    /**
     * primary key tabel ini.

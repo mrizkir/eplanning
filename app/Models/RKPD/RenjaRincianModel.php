@@ -12,13 +12,13 @@ class RenjaRincianModel extends Model {
     *
     * @var string
     */
-   protected $table = 'trRenjaRinc';
-   /**
+    protected $table = 'trRenjaRinc';
+    /**
     * The attributes that are mass assignable.
     *
     * @var array
     */
-   protected $fillable = [
+    protected $fillable = [
        'RenjaRincID', 
        'RenjaID',
        'UsulanKecID',
@@ -61,25 +61,26 @@ class RenjaRincianModel extends Model {
        'Prioritas',
        'Descr',
        'TA',
+       'RenjaRincID_Src'
    ];
-   /**
+    /**
     * primary key tabel ini.
     *
     * @var string
     */
-   protected $primaryKey = 'RenjaRincID';
-   /**
+    protected $primaryKey = 'RenjaRincID';
+/**
     * enable auto_increment.
     *
     * @var string
     */
-   public $incrementing = false;
-   /**
+    public $incrementing = false;
+    /**
     * activated timestamps.
     *
     * @var string
     */
-   public $timestamps = true;
+    public $timestamps = true;
     /**
      * make the model use another name than the default
      *
@@ -90,4 +91,9 @@ class RenjaRincianModel extends Model {
      * log the changed attributes for all these events 
      */
     protected static $logAttributes = ['RenjaRincID', 'Uraian', 'Jumlah1'];
+
+    public function renja()
+    {
+        return $this->belongsTo('\App\Models\RKPD\RenjaModel','RenjaID');
+    }
 }

@@ -389,12 +389,10 @@ class PembahasanMusrenKabController extends Controller {
         if (RenjaRincianModel::where('RenjaID',$RenjaID)->where('Status',1)->count() > 0)
         {
             RenjaModel::where('RenjaID',$RenjaID)->update(['Status'=>1]);
-            $a=0;
         }
         else
         {
             RenjaModel::where('RenjaID',$RenjaID)->update(['Status'=>0]);
-            $a=1;
         }        
         if ($request->ajax()) 
         {
@@ -440,13 +438,14 @@ class PembahasanMusrenKabController extends Controller {
                 $newRenjaiD=uniqid ('uid');
                 $newrenja = $renja->replicate();
                 $newrenja->RenjaID = $newRenjaiD;
-                $newrenja->Sasaran_Angka5 = $newrenja->Sasaran_Uraian4;
+                $newrenja->Sasaran_Uraian5 = $newrenja->Sasaran_Uraian4;
                 $newrenja->Sasaran_Angka5 = $newrenja->Sasaran_Angka4;
                 $newrenja->Target5 = $newrenja->Target4;
                 $newrenja->NilaiUsulan5 = $newrenja->NilaiUsulan4;
                 $newrenja->EntryLvl = 4;
                 $newrenja->Status = 0;
                 $newrenja->Privilege = 0;
+                $newrenja->RenjaID_Src = $RenjaID;
                 $newrenja->save();
 
                 $str_rinciankegiatan = '
@@ -517,7 +516,7 @@ class PembahasanMusrenKabController extends Controller {
                         "Target2",
                         "Target3",
                         "Target4",
-                        "Target4" AS "Target4",                      
+                        "Target4" AS "Target5",                      
                         "Jumlah1", 
                         "Jumlah2", 
                         "Jumlah3", 

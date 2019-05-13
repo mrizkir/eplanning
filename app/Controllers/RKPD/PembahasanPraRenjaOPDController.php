@@ -433,6 +433,7 @@ class PembahasanPraRenjaOPDController extends Controller {
                 $newrenja->EntryLvl = 1;
                 $newrenja->Status = 0;
                 $newrenja->Privilege = 0;
+                $newrenja->RenjaID_Src = $RenjaID;
                 $newrenja->save();
 
                 $str_rinciankegiatan = '
@@ -463,6 +464,7 @@ class PembahasanPraRenjaOPDController extends Controller {
                         "Prioritas",
                         "Descr",
                         "TA",
+                        "RenjaRincID_Src",
                         "created_at", 
                         "updated_at"
                     ) 
@@ -493,6 +495,7 @@ class PembahasanPraRenjaOPDController extends Controller {
                         "Prioritas",
                         "Descr",
                         "TA",
+                        "RenjaRincID" AS "RenjaID_Src",
                         NOW() AS created_at,
                         NOW() AS updated_at
                     FROM 
@@ -510,6 +513,7 @@ class PembahasanPraRenjaOPDController extends Controller {
                         "Tahun",      
                         "Descr",
                         "TA",
+                        "RenjaIndikatorID_Src", 
                         "created_at", 
                         "updated_at"
                     )
@@ -522,6 +526,7 @@ class PembahasanPraRenjaOPDController extends Controller {
                         "Tahun",
                         "Descr",
                         "TA",
+                        "RenjaIndikatorID" AS "RenjaIndikatorID_Src",
                         NOW() AS created_at,
                         NOW() AS updated_at
                     FROM 

@@ -118,7 +118,7 @@
                         @if ($item->Privilege==1)
                             <i class="icon-checkmark"></i>
                         @elseif ($item->status=='ACC')
-                            <a href="#" title="TRANSFER KEG. KE RENJA. FINAL SKPD" class="btn btn-link" id="btnTransfer" data-id="{{$item->RenjaID}}">
+                            <a href="#" title="TRANSFER KE VERIFIKASI RENJA" class="btn btn-link" id="btnTransfer" data-id="{{$item->RenjaID}}">
                                 <i class="icon-play4"></i>
                             </a>
                         @else

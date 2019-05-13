@@ -32,8 +32,7 @@
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>['{{controllerName}}@update',$data->{{modelNameLower}}_id],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
-                {{Form::hidden('_method','PUT')}}
+            {!! Form::open(['action'=>['{{controllerName}}@update',$data->{{modelNameLower}}_id],'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                        
                 <div class="form-group">
                     {{Form::label('replaceit','replaceit',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">

@@ -8,11 +8,7 @@
             </div>
         </div>
         <div class="heading-elements">
-            <div class="heading-btn">
-                <a href="{!!route('verifikasirenja.create')!!}" class="btn btn-info btn-xs" title="Tambah VERIFIKASIRENJA">
-                    <i class="icon-googleplus5"></i>
-                </a>
-            </div>            
+            
         </div>
     </div>
     @if (count($data) > 0)
@@ -20,13 +16,40 @@
         <table id="data" class="table table-striped table-hover">
             <thead>
                 <tr class="bg-teal-700">
-                    <th width="55">NO</th>
-                    <th width="100">
-                        <a class="column-sort text-white" id="col-replace_it" data-order="{{$direction}}" href="#">
-                            replace_it  
+                    <th width="50">NO</th>     
+                    <th width="150">
+                        <a class="column-sort text-white" id="col-kode_kegiatan" data-order="{{$direction}}" href="#">
+                            KODE KEGIATAN                                                                       
+                        </a>
+                    </th>                
+                    <th width="400">
+                        <a class="column-sort text-white" id="col-KgtNm" data-order="{{$direction}}" href="#">
+                            NAMA KEGIATAN                                                                       
+                        </a>
+                    </th> 
+                    <th width="300">
+                        <a class="column-sort text-white" id="col-Uraian" data-order="{{$direction}}" href="#">
+                            NAMA URAIAN                                                                       
+                        </a>
+                    </th>
+                    <th width="200">
+                        <a class="column-sort text-white" id="col-Sasaran_Angka4" data-order="{{$direction}}" href="#">
+                            SASARAN  
                         </a>                                             
                     </th> 
-                    <th width="100">AKSI</th>
+                    <th width="120">                        
+                        TARGET (%)                        
+                    </th> 
+                    <th width="150" class="text-right">
+                        <a class="column-sort text-white" id="col-Jumlah4" data-order="{{$direction}}" href="#">
+                            NILAI  
+                        </a>                                             
+                    </th> 
+                    <th width="120">                        
+                        PRIORITAS                          
+                    </th>          
+                    <th width="150">KET</th>                            
+                    <th width="150">AKSI</th>
                 </tr>
             </thead>
             <tbody>                    
@@ -34,27 +57,84 @@
                 <tr>
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
-                    </td>                  
-                    <td>{{$item->replace_it}}</td>
+                    </td>
                     <td>
-                        <ul class="icons-list">
-                            <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('verifikasirenja.show',['id'=>$item->verifikasirenja_id])}}" title="Detail Data VerifikasiRenja">
-                                    <i class='icon-eye'></i>
-                                </a>  
-                            </li>
-                            <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('verifikasirenja.edit',['id'=>$item->verifikasirenja_id])}}" title="Ubah Data VerifikasiRenja">
-                                    <i class='icon-pencil7'></i>
-                                </a>  
-                            </li>
+                        {{$item->kode_kegiatan}}                        
+                    </td>
+                    <td>
+                        {{ucwords($item->KgtNm)}}
+                        @if (empty($item->RenjaIndikatorID))
+                            <span class="label label-flat border-warning text-warning-600">
+                                INDIKATOR TIDAK ADA
+                            </span>
+                        @endif
+                    </td>
+                    @if ($item->RenjaRincID=='')
+                    <td colspan="6">
+                        <span class="label label-flat label-block border-info text-info-600">
+                            PROSES INPUT MUSRENBANG KABUPATEN BELUM SELESAI
+                        </span>
+                        <a href="{{route('usulanprarenjaopd.create1',['uuid'=>$item->RenjaID])}}">
+                            Lanjutkan Input 
+                        </a>
+                    </td>
+                    <td>
+                        <ul class="icons-list">                            
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data VerifikasiRenja" data-id="{{$item->verifikasirenja_id}}" data-url="{{route('verifikasirenja.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data Usulan Musren Kabupaten" data-id="{{$item->RenjaID}}" data-url="{{route('usulanprarenjaopd.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>
                         </ul>
                     </td>
+                    @else
+                    <td>
+                        {{ucwords($item->Uraian)}}<br />
+                        <span class="label label-flat border-grey text-grey-600">                        
+                            @if ($item->isSKPD)
+                                <a href="#">
+                                    <strong>Usulan dari: </strong>OPD / SKPD
+                                </a> 
+                            @elseif($item->isReses)
+                                <a href="#">
+                                    <strong>Usulan dari: </strong>POKIR [{{$item->isReses_Uraian}}]
+                                </a>
+                            @else
+                                <a href="{{route('aspirasimusrenkecamatan.show',['id'=>$item->UsulanKecID])}}">
+                                    <strong>Usulan dari: MUSREN. KEC. {{$item->Nm_Kecamatan}}
+                                </a>
+                            @endif
+                        </span>
+                    </td>
+                    <td>{{Helper::formatAngka($item->Sasaran_Angka5)}} {{$item->Sasaran_Uraian5}}</td>
+                    <td>{{$item->Target5}}</td>
+                    <td class="text-right">{{Helper::formatuang($item->Jumlah5)}}</td>
+                    <td>
+                        <span class="label label-flat border-success text-success-600">
+                            {{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}
+                        </span>
+                    </td>
+                    <td>
+                        {{$item->status}} {{$item->Descr}}     
+                    </td>
+                    <td>
+                        <ul class="icons-list">
+                        @if ($item->Privilege==0)                        
+                            <li class="text-primary-600">
+                                <a class="btnEdit" href="{{route('verifikasirenja.edit',['id'=>$item->RenjaRincID])}}" title="Verifikasi Renja">
+                                    <i class='icon-database-check'></i>
+                                </a>  
+                            </li>                        
+                        @else
+                        <li class="text-primary-600">
+                            <a class="btnShow" href="{{route('verifikasirenja.show',['id'=>$item->RenjaID])}}" title="Transfer ke RKPD">
+                                <i class='icon-play4'></i>
+                            </a>  
+                        </li> 
+                        @endif
+                        </ul>
+                    </td>
+                    @endif                    
                 </tr>
             @endforeach                    
             </tbody>
@@ -67,7 +147,7 @@
     <div class="panel-body">
         <div class="alert alert-info alert-styled-left alert-bordered">
             <span class="text-semibold">Info!</span>
-            Belum ada data yang bisa ditampilkan.
+            Belum ada data yang bisa ditampilkan. Mohon pilih terlebih dahulu OPD dan Unit Kerja
         </div>
     </div>   
     @endif            
