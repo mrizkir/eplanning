@@ -327,6 +327,7 @@ class PembahasanPraRenjaOPDController extends Controller {
         $this->setCurrentPageInsideSession('pembahasanprarenjaopd',$data->currentPage());
 
         return view("pages.$theme.rkpd.pembahasanprarenjaopd.index")->with(['page_active'=>'pembahasanprarenjaopd',
+                                                                            'label_transfer'=>'RAKOR BIDANG',
                                                                             'daftar_opd'=>$daftar_opd,
                                                                             'daftar_unitkerja'=>$daftar_unitkerja,
                                                                             'filters'=>$filters,
@@ -375,18 +376,17 @@ class PembahasanPraRenjaOPDController extends Controller {
         if (RenjaRincianModel::where('RenjaID',$RenjaID)->where('Status',1)->count() > 0)
         {
             RenjaModel::where('RenjaID',$RenjaID)->update(['Status'=>1]);
-            $a=0;
         }
         else
         {
             RenjaModel::where('RenjaID',$RenjaID)->update(['Status'=>0]);
-            $a=1;
         }        
         if ($request->ajax()) 
         {
             $data = $this->populateData();
 
-            $datatable = view("pages.$theme.rkpd.pembahasanprarenjaopd.datatable")->with(['page_active'=>'pembahasanprarenjaopd',                                                            
+            $datatable = view("pages.$theme.rkpd.pembahasanprarenjaopd.datatable")->with(['page_active'=>'pembahasanprarenjaopd',                                
+                                                                                    'label_transfer'=>'RAKOR BIDANG',                            
                                                                                     'search'=>$this->getControllerStateSession('pembahasanprarenjaopd','search'),
                                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                     'column_order'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','column_name'),

@@ -120,7 +120,9 @@
                             {{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}
                         </span>
                     </td>
-                    <td>{{$item->status}}</td>
+                    <td>
+                        @include('layouts.limitless.l_status_kegiatan')
+                    </td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">

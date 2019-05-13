@@ -19,8 +19,7 @@
                 <th>NAMA URAIAN</th>                
                 <th>SASARAN KEGIATAN</th>  
                 <th>TARGET (%)</th> 
-                <th>NILAI USULAN</th>                
-                <th>PRIORITAS</th>                                         
+                <th>NILAI USULAN</th>                                      
                 <th>STATUS</th> 
             </tr>
         </thead>
@@ -48,14 +47,9 @@
                         @endif
                     </span>
                 </td>                
-                <td>{{Helper::formatAngka($item->Sasaran_Angka5)}} {{ucwords($item->Sasaran_Uraian5)}}</td>
-                <td>{{$item->Target5}}</td>               
-                <td>{{Helper::formatUang($item->Jumlah5)}}</td>       
-                <td>
-                    <span class="label label-flat border-success text-success-600">
-                        {{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}
-                    </span>
-                </td>
+                <td>{{Helper::formatAngka($item->Sasaran_Angka1)}} {{ucwords($item->Sasaran_Uraian1)}}</td>
+                <td>{{$item->Target1}}</td>               
+                <td>{{Helper::formatUang($item->NilaiUsulan1)}}</td>                       
                 <td>
                     <span class="label label-success label-flat border-success text-success-600">
                         {{HelperKegiatan::getStatusKegiatan($item->Status)}}

@@ -12,7 +12,7 @@
     @include('pages.limitless.rkpd.rkpdmurni.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('rkpd.index')!!}">RKPD</a></li>
+    <li><a href="{!!route('rkpdmurni.index')!!}">RKPD</a></li>
     <li class="active">DETAIL DATA</li>
 @endsection
 @section('page_content')
@@ -21,19 +21,19 @@
         <div class="panel panel-flat border-top-info border-bottom-info">
             <div class="panel-heading">
                 <h5 class="panel-title"> 
-                    <i class="icon-eye"></i>  DATA RKPD
+                    <i class="icon-eye"></i>  
+                    DATA RENCANA KERJA KEGIATAN
+                    @if (!empty($renja->RKPDID))
+                        <span class="label label-success label-rounded">SUDAH DI TRANSFER KE RKPD</span>
+                    @endif
                 </h5>
-                <div class="heading-elements">   
-                    <a href="{!!route('rkpd.create')!!}" class="btn btn-info btn-icon heading-btn btnAdd" title="Tambah RKPD">
-                        <i class="icon-googleplus5"></i>
+                <div class="heading-elements"> 
+                    @if (empty($renja->RKPDID))
+                    <a id="btnTransfer" href="#" class="btn btn-primary btn-icon heading-btn btnEdit" title="Transfer RENJA Ke RKPD">
+                        <i class="icon-play4"></i>
                     </a>
-                    <a href="{{route('rkpd.edit',['id'=>$data->rkpd_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RKPD">
-                        <i class="icon-pencil7"></i>
-                    </a>
-                    <a href="javascript:;" title="Hapus Data RKPD" data-id="{{$data->rkpd_id}}" data-url="{{route('rkpd.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
-                        <i class='icon-trash'></i>
-                    </a>
-                    <a href="{!!route('rkpd.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
+                    @endif                                               
+                    <a href="{!!route('rkpdmurni.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
                         <i class="icon-close2"></i>
                     </a>            
                 </div>
@@ -43,68 +43,97 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>rkpd id: </strong></label>
+                                <label class="col-md-4 control-label"><strong>RENJA ID: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->rkpd_id}}</p>
+                                    <p class="form-control-static">{{$renja->RenjaID}}</p>
                                 </div>                            
-                            </div>                            
+                            </div> 
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
+                                <label class="col-md-4 control-label"><strong>KELOMPOK URUSAN : </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}}</p>
+                                    <p class="form-control-static">[{{$renja->Kd_Urusan}}] {{$renja->Nm_Urusan}}</p>
                                 </div>                            
-                            </div>
+                            </div>  
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>URUSAN : </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">[{{$renja->Kd_Urusan.'.'.$renja->Kd_Bidang}}] {{$renja->Nm_Bidang}}</p>
+                                </div>                            
+                            </div> 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>PROGRAM : </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">[{{$renja->Kd_Urusan.'.'.$renja->Kd_Bidang.'.'.$renja->Kd_Prog}}] {{$renja->PrgNm}}</p>
+                                </div>                            
+                            </div> 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>KEGIATAN : </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">[{{$renja->kode_kegiatan}}] {{$renja->KgtNm}}</p>
+                                </div>                            
+                            </div> 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>SASARAN KEGIATAN: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{Helper::formatAngka($renja->Sasaran_Angka1)}} {{$renja->Sasaran_Uraian5}}</p>
+                                </div>                            
+                            </div>    
                         </div>                        
                     </div>
                     <div class="col-md-6">
-                        <div class="form-horizontal">
+                        <div class="form-horizontal">                            
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>replaceit: </strong></label>
+                                <label class="col-md-4 control-label"><strong>SASARAN KEGIATAN (N+1): </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">replaceit</p>
+                                    <p class="form-control-static">{{Helper::formatAngka($renja->Sasaran_AngkaSetelah)}} {{$renja->Sasaran_UraianSetelah}}</p>
                                 </div>                            
-                            </div>    
+                            </div>   
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>TGL. UBAH: </strong></label>
+                                <label class="col-md-4 control-label"><strong>TARGET (%): </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->updated_at)}}</p>
+                                    <p class="form-control-static">{{Helper::formatAngka($renja->Target1)}}</p>
                                 </div>                            
-                            </div>                         
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>NILAI: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{Helper::formatUang($renja->NilaiUsulan1)}}</p>                                
+                                </div>                            
+                            </div>  
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>INDIKATOR KEGIATAN: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$renja->NamaIndikator}}</p>
+                                </div>                            
+                            </div>  
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>SUMBER DANA: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$renja->Nm_SumberDana}}</p>
+                                </div>                            
+                            </div>  
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>TGL. BUAT / UBAH: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$renja->created_at)}} / {{Helper::tanggal('d/m/Y H:m',$renja->updated_at)}}</p>
+                                </div>                            
+                            </div>                     
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="col-md-12">
+        <div class="panel panel-flat border-top-lg border-top-info border-bottom-info" id="divdatatableindikatorkinerja">
+            @include('pages.limitless.rkpd.rkpdmurni.datatablerinciankegiatan')         
+        </div>
+    </div>    
 </div>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
-    $(".btnDelete").click(function(ev) {
-        if (confirm('Apakah Anda ingin menghapus Data RKPD ini ?')) {
-            let url_ = $(this).attr("data-url");
-            let id = $(this).attr("data-id");
-            let token = $('meta[name="csrf-token"]').attr('content');
-            $.ajax({            
-                type:'post',
-                url:url_+'/'+id,
-                dataType: 'json',
-                data: {
-                    "_method": 'DELETE',
-                    "_token": token,
-                    "id": id,
-                },
-                success:function(data){ 
-                    window.location.replace(url_);                        
-                },
-                error:function(xhr, status, error){
-                    console.log('ERROR');
-                    console.log(parseMessageAjaxEror(xhr, status, error));                           
-                },
-            });
-        }
-    });
     
 });
 </script>
