@@ -434,7 +434,7 @@ class PembahasanPraRenjaOPDController extends Controller {
                 if (count($old_renja) > 0)
                 {
                     $RenjaID=$old_renja[0];
-                    $newRenjaiD=$RenjaID;
+                    $newRenjaID=$RenjaID;
                     $renja = RenjaModel::find($RenjaID);  
                 }
                 else
@@ -445,9 +445,9 @@ class PembahasanPraRenjaOPDController extends Controller {
                     $renja->save();
 
                     #new renja
-                    $newRenjaiD=uniqid ('uid');
+                    $newRenjaID=uniqid ('uid');
                     $newrenja = $renja->replicate();
-                    $newrenja->RenjaID = $newRenjaiD;
+                    $newrenja->RenjaID = $newRenjaID;
                     $newrenja->Sasaran_Uraian2 = $newrenja->Sasaran_Uraian1;
                     $newrenja->Sasaran_Angka2 = $newrenja->Sasaran_Angka1;
                     $newrenja->Target2 = $newrenja->Target1;
@@ -494,7 +494,7 @@ class PembahasanPraRenjaOPDController extends Controller {
                     ) 
                     SELECT 
                         REPLACE(SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16),\'-\',\'\') AS "RenjaRincID",
-                        \''.$newRenjaiD.'\' AS "RenjaID",
+                        \''.$newRenjaID.'\' AS "RenjaID",
                         "UsulanKecID",
                         "PMProvID",
                         "PmKotaID",
@@ -547,7 +547,7 @@ class PembahasanPraRenjaOPDController extends Controller {
                     SELECT 
                         REPLACE(SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16),\'-\',\'\') AS "RenjaIndikatorID",
                         "IndikatorKinerjaID",
-                        \''.$newRenjaiD.'\' AS "RenjaID",
+                        \''.$newRenjaID.'\' AS "RenjaID",
                         "Target_Angka",
                         "Target_Uraian",
                         "Tahun",

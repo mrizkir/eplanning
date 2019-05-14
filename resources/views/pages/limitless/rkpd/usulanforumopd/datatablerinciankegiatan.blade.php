@@ -89,6 +89,14 @@
                     </ul>
                 </td>
             </tr>
+            <tr class="text-center info">
+                <td colspan="10">                   
+                    <span class="label label-warning label-rounded">
+                        <strong>RenjaRincID:</strong>
+                        {{$item->RenjaRincID}}
+                    </span>
+                </td>
+            </tr>
         @endforeach                    
         </tbody>
     </table>       

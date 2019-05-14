@@ -120,7 +120,9 @@
                             {{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}
                         </span>
                     </td>
-                    <td>{{$item->status}}</td>
+                    <td>
+                        @include('layouts.limitless.l_status_kegiatan')
+                    </td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
@@ -128,6 +130,7 @@
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
+                            @if ($item->Privilege==0)
                             <li class="text-primary-600">
                                 @if ($item->isSKPD)
                                     <a class="btnEdit" href="{{route('usulanrakorbidang.edit4',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Rakor Bidang">
@@ -148,9 +151,22 @@
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>
+                            @endif
                         </ul>
                     </td>
                     @endif                    
+                </tr>
+                <tr class="text-center info">
+                    <td colspan="10">
+                        <span class="label label-warning label-rounded">
+                            <strong>RenjaID:</strong>
+                            {{$item->RenjaID}}
+                        </span>
+                        <span class="label label-warning label-rounded">
+                            <strong>RenjaRincID:</strong>
+                            {{$item->RenjaRincID}}
+                        </span>
+                    </td>
                 </tr>
             @endforeach                    
             </tbody>

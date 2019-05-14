@@ -29,9 +29,11 @@
                     <a href="{{route('usulanrakorbidang.edit',['id'=>$renja->RenjaID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Usulan Rakor Bidang">
                         <i class="icon-pencil7"></i>
                     </a>
+                    @if ($renja->Privilege==0) 
                     <a href="javascript:;" title="Hapus Data Usulan Rakor Bidang" data-id="{{$renja->RenjaID}}" data-url="{{route('usulanrakorbidang.index')}}" class="btn btn-danger btn-icon heading-btn btnDeleteRenja">
                         <i class='icon-trash'></i>
                     </a>
+                    @endif
                     <a href="{!!route('usulanrakorbidang.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
                         <i class="icon-close2"></i>
                     </a>            
