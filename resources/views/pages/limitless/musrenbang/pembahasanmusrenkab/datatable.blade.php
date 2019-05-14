@@ -12,8 +12,7 @@
         </div>
     </div>
     @if (count($data) > 0)
-    <div class="table-responsive"> 
-        <table id="data" class="table table-striped table-hover">
+        <table id="data" class="table table-striped table-hover table-responsive">
             <thead>
                 <tr class="bg-teal-700">
                     <th width="50">NO</th>     
@@ -48,7 +47,7 @@
                     <th width="120">                        
                         PRIORITAS                          
                     </th>          
-                    <th width="70">TRANSFER</th>                            
+                    <th width="70">STATUS</th>                            
                     <th width="150">AKSI</th>
                 </tr>
             </thead>
@@ -115,30 +114,29 @@
                         </span>
                     </td>
                     <td>
-                        @if ($item->Privilege==1)
-                            <i class="icon-checkmark"></i>
-                        @elseif ($item->Status==1||$item->Status==2)
-                            <a href="#" title="TRANSFER KE VERIFIKASI RENJA" class="btn btn-link" id="btnTransfer" data-id="{{$item->RenjaRincID}}">
-                                <i class="icon-play4"></i>
-                            </a>
-                        @else
-                            <i class="icon-cross3"></i>
-                        @endif      
+                        @include('layouts.limitless.l_status_kegiatan')
                     </td>
                     <td>
-                        @if ($item->Privilege==0)
-                            <div class="checkbox checkbox-switch">
-                                {{Form::checkbox('Privilege[]',$item->RenjaRincID,$item->Status==1||$item->Status==2?'ACC':'',['class'=>'switch','data-on-text'=>'ACC','data-off-text'=>'DUM'])}}                                     
-                            </div>
-                        @else
-                            <span class="label label-success label-flat border-success text-success-600">
-                                {{HelperKegiatan::getStatusKegiatan($item->Status)}}
-                            </span>
-                            @if ($item->Status==2)
-                                <br/>   
-                                {{$item->Descr}}   
-                            @endif    
-                        @endif
+                        <ul class="icons-list">
+                            @include('layouts.limitless.l_ubah_status')      
+                            @if ($item->Privilege==0)              
+                            <li class="text-primary-600">
+                                @if ($item->isSKPD)
+                                    <a class="btnEdit" href="{{route('usulanmusrenkab.edit4',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Musrenbang Kab.">
+                                        <i class='icon-pencil7'></i>
+                                    </a> 
+                                @elseif($item->isReses)
+                                    <a class="btnEdit" href="{{route('usulanmusrenkab.edit3',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Musrenbang Kab.">
+                                        <i class='icon-pencil7'></i>
+                                    </a>
+                                @else
+                                    <a class="btnEdit" href="{{route('usulanmusrenkab.edit2',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Musrenbang Kab.">
+                                        <i class='icon-pencil7'></i>
+                                    </a>
+                                @endif  
+                            </li> 
+                            @endif
+                        </ul>
                     </td>
                     @endif                    
                 </tr>

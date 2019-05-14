@@ -31,14 +31,14 @@ class UsulanPraRenjaOPDController extends Controller {
     }
     private function populateRincianKegiatan($RenjaID)
     {
-        $data = RenjaRincianModel::leftJoin('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')
+        $data = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID","trRenjaRinc"."RenjaID","trRenjaRinc"."RenjaID","trRenjaRinc"."UsulanKecID","Nm_Kecamatan","trRenjaRinc"."Uraian","trRenjaRinc"."No","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Uraian1","trRenjaRinc"."Target1","trRenjaRinc"."Jumlah1","trRenjaRinc"."Status","trRenjaRinc"."Privilege","trRenjaRinc"."Prioritas","isSKPD","isReses","isReses_Uraian"'))
+                                    ->leftJoin('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')
                                     ->leftJoin('trPokPir','trPokPir.PokPirID','trRenjaRinc.PokPirID')
                                     ->leftJoin('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')
                                     ->where('trRenjaRinc.EntryLvl',0)
                                     ->where('RenjaID',$RenjaID)
                                     ->orderBy('Prioritas','ASC')
-                                    ->get(['trRenjaRinc.RenjaRincID','trRenjaRinc.RenjaID','trRenjaRinc.RenjaID','trRenjaRinc.UsulanKecID','Nm_Kecamatan','trRenjaRinc.Uraian','trRenjaRinc.No','trRenjaRinc.Sasaran_Angka1','trRenjaRinc.Sasaran_Uraian1','trRenjaRinc.Target1','trRenjaRinc.Jumlah1','trRenjaRinc.Prioritas','isSKPD','isReses','isReses_Uraian']);
-        
+                                    ->get();        
         return $data;
     }
     private function populateIndikatorKegiatan($RenjaID)
@@ -998,7 +998,7 @@ class UsulanPraRenjaOPDController extends Controller {
         if (!is_null($renja) )  
         {
             $dataindikatorkinerja = $this->populateIndikatorKegiatan($id);            
-            $datarinciankegiatan = $this->populateRincianKegiatan($id);                
+            $datarinciankegiatan = $this->populateRincianKegiatan($id);               
             return view("pages.$theme.rkpd.usulanprarenjaopd.show")->with(['page_active'=>'usulanprarenjaopd',
                                                                             'renja'=>$renja,
                                                                             'dataindikatorkinerja'=>$dataindikatorkinerja,

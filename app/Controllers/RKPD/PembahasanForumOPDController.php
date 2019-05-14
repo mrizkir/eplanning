@@ -553,7 +553,7 @@ class PembahasanForumOPDController extends Controller {
                         NOW() AS created_at,
                         NOW() AS updated_at
                     FROM 
-                        "RenjaRincID" 
+                        "trRenjaRinc" 
                     WHERE "RenjaRincID"=\''.$RenjaRincID.'\'  AND
                         ("Status"=1 OR "Status"=2) AND
                         "Privilege"=0              
@@ -596,11 +596,10 @@ class PembahasanForumOPDController extends Controller {
                 ';
 
                 \DB::statement($str_kinerja);
-                
-                RenjaRincianModel::where('RenjaID',$RenjaID)
-                                ->update(['Privilege'=>1,'Status'=>1]);
+                RenjaRincianModel::where('RenjaRincID',$RenjaRincID)
+                                    ->update(['Privilege'=>1,'Status'=>1]);
                 RenjaIndikatorModel::where('RenjaID',$RenjaID)
-                                ->update(['Privilege'=>1]);
+                                    ->update(['Privilege'=>1]);
 
                 return $rincian_kegiatan;
             });            

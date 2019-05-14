@@ -28,7 +28,8 @@
                 <th>SASARAN KEGIATAN</th>  
                 <th>TARGET (%)</th> 
                 <th class="text-right">NILAI USULAN</th>                
-                <th>PRIORITAS</th>                                         
+                <th width="120">PRIORITAS</th>   
+                <th width="80">STATUS</th>                                       
                 <th width="120">AKSI</th>
             </tr>
         </thead>
@@ -65,7 +66,10 @@
                     </span>
                 </td>
                 <td>
-                    @if ($item->Privilege=0)
+                    @include('layouts.limitless.l_status_kegiatan')
+                </td>
+                <td>                    
+                    @if ($item->Privilege==0)
                     <ul class="icons-list">
                         <li class="text-primary-600">
                             @if ($item->isSKPD)

@@ -23,13 +23,14 @@ class UsulanForumOPDController extends Controller {
     }
     private function populateRincianKegiatan($RenjaID)
     {
-        $data = RenjaRincianModel::leftJoin('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')
+        $data = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID","trRenjaRinc"."RenjaID","trRenjaRinc"."RenjaID","trRenjaRinc"."UsulanKecID","Nm_Kecamatan","trRenjaRinc"."Uraian","trRenjaRinc"."No","trRenjaRinc"."Sasaran_Angka3","trRenjaRinc"."Sasaran_Uraian3","trRenjaRinc"."Target3","trRenjaRinc"."Jumlah3","trRenjaRinc"."Status","trRenjaRinc"."Privilege","trRenjaRinc"."Prioritas","isSKPD","isReses","isReses_Uraian"'))
+                                    ->leftJoin('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')
                                     ->leftJoin('trPokPir','trPokPir.PokPirID','trRenjaRinc.PokPirID')
                                     ->leftJoin('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')
                                     ->where('trRenjaRinc.EntryLvl',2)
                                     ->where('RenjaID',$RenjaID)
                                     ->orderBy('Prioritas','ASC')
-                                    ->get(['trRenjaRinc.RenjaRincID','trRenjaRinc.RenjaID','trRenjaRinc.RenjaID','trRenjaRinc.UsulanKecID','Nm_Kecamatan','trRenjaRinc.Uraian','trRenjaRinc.No','trRenjaRinc.Sasaran_Angka3','trRenjaRinc.Sasaran_Uraian3','trRenjaRinc.Target3','trRenjaRinc.Jumlah3','trRenjaRinc.Prioritas','isSKPD','isReses','isReses_Uraian']);
+                                    ->get();
         
         return $data;
     }
@@ -416,7 +417,7 @@ class UsulanForumOPDController extends Controller {
                 }    
             break;
             case 'opd' :
-                $daftar_opd=OrganisasiModel::getDaftarOPD(config('globalsettings.tahun_perencanaan'),false,NULL,$auth->OrgID);  
+                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('globalsettings.tahun_perencanaan'),false,NULL,$auth->OrgID);  
                 $filters['OrgID']=$auth->OrgID;                
                 if (empty($auth->SOrgID)) 
                 {

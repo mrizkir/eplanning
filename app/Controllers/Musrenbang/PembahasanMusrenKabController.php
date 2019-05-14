@@ -111,11 +111,12 @@ class PembahasanMusrenKabController extends Controller {
         $data=$this->populateData();
 
         $datatable = view("pages.$theme.musrenbang.pembahasanmusrenkab.datatable")->with(['page_active'=>'pembahasanmusrenkab',
-                                                                                'search'=>$this->getControllerStateSession('pembahasanmusrenkab','search'),
-                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                                'column_order'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','column_name'),
-                                                                                'direction'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','order'),
-                                                                                'data'=>$data])->render();      
+                                                                                        'label_transfer'=>'Verifikasi Renja',
+                                                                                        'search'=>$this->getControllerStateSession('pembahasanmusrenkab','search'),
+                                                                                        'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                        'column_order'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','column_name'),
+                                                                                        'direction'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','order'),
+                                                                                        'data'=>$data])->render();      
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
     }
     /**
@@ -159,6 +160,7 @@ class PembahasanMusrenKabController extends Controller {
         }
         
         $datatable = view("pages.$theme.musrenbang.pembahasanprarenjaopd.datatable")->with(['page_active'=>'pembahasanprarenjaopd',
+                                                                                    'label_transfer'=>'Verifikasi Renja',
                                                                                     'search'=>$this->getControllerStateSession('pembahasanprarenjaopd','search'),
                                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                     'column_order'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','column_name'),
@@ -180,11 +182,12 @@ class PembahasanMusrenKabController extends Controller {
         $this->setCurrentPageInsideSession('pembahasanmusrenkab',$id);
         $data=$this->populateData($id);
         $datatable = view("pages.$theme.musrenbang.pembahasanmusrenkab.datatable")->with(['page_active'=>'pembahasanmusrenkab',
-                                                                            'search'=>$this->getControllerStateSession('pembahasanmusrenkab','search'),
-                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                            'column_order'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','column_name'),
-                                                                            'direction'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','order'),
-                                                                            'data'=>$data])->render(); 
+                                                                                'label_transfer'=>'Verifikasi Renja',
+                                                                                'search'=>$this->getControllerStateSession('pembahasanmusrenkab','search'),
+                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                'column_order'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','column_name'),
+                                                                                'direction'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','order'),
+                                                                                'data'=>$data])->render(); 
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
     }
@@ -213,11 +216,12 @@ class PembahasanMusrenKabController extends Controller {
         $data=$this->populateData();
 
         $datatable = view("pages.$theme.musrenbang.pembahasanmusrenkab.datatable")->with(['page_active'=>'pembahasanmusrenkab',                                                            
-                                                            'search'=>$this->getControllerStateSession('pembahasanmusrenkab','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','order'),
-                                                            'data'=>$data])->render();      
+                                                                                        'label_transfer'=>'Verifikasi Renja',
+                                                                                        'search'=>$this->getControllerStateSession('pembahasanmusrenkab','search'),
+                                                                                        'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                        'column_order'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','column_name'),
+                                                                                        'direction'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','order'),
+                                                                                        'data'=>$data])->render();      
         
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
     }
@@ -268,6 +272,7 @@ class PembahasanMusrenKabController extends Controller {
             $data = $this->populateData();
 
             $datatable = view("pages.$theme.musrenbang.pembahasanmusrenkab.datatable")->with(['page_active'=>'pembahasanmusrenkab',                                                            
+                                                                                    'label_transfer'=>'Verifikasi Renja',
                                                                                     'search'=>$this->getControllerStateSession('pembahasanmusrenkab','search'),
                                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                     'column_order'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','column_name'),
@@ -327,6 +332,7 @@ class PembahasanMusrenKabController extends Controller {
         $this->setCurrentPageInsideSession('pembahasanmusrenkab',$data->currentPage());
 
         return view("pages.$theme.musrenbang.pembahasanmusrenkab.index")->with(['page_active'=>'pembahasanmusrenkab',
+                                                                            'label_transfer'=>'Verifikasi Renja',
                                                                             'daftar_opd'=>$daftar_opd,
                                                                             'daftar_unitkerja'=>$daftar_unitkerja,
                                                                             'filters'=>$filters,
@@ -399,6 +405,7 @@ class PembahasanMusrenKabController extends Controller {
             $data = $this->populateData();
 
             $datatable = view("pages.$theme.musrenbang.pembahasanmusrenkab.datatable")->with(['page_active'=>'pembahasanmusrenkab',                                                            
+                                                                                    'label_transfer'=>'Verifikasi Renja',
                                                                                     'search'=>$this->getControllerStateSession('pembahasanmusrenkab','search'),
                                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                     'column_order'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','column_name'),
@@ -607,6 +614,7 @@ class PembahasanMusrenKabController extends Controller {
                 $data = $this->populateData();
                 
                 $datatable = view("pages.$theme.musrenbang.pembahasanmusrenkab.datatable")->with(['page_active'=>'pembahasanmusrenkab',                                                            
+                                                                                    'label_transfer'=>'Verifikasi Renja',
                                                                                     'search'=>$this->getControllerStateSession('pembahasanmusrenkab','search'),
                                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                     'column_order'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','column_name'),

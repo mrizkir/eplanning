@@ -97,12 +97,10 @@
 @endsection
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
-<script src="{!!asset('themes/limitless/assets/js/switch.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {  
-    $(".switch").bootstrapSwitch();
     //styling select
     $('#OrgID.select').select2({
         placeholder: "PILIH OPD / SKPD",
@@ -152,7 +150,6 @@ $(document).ready(function () {
             success:function(result)
             { 
                 $('#divdatatable').html(result.datatable);
-                $(".switch").bootstrapSwitch();
             },
             error:function(xhr, status, error){
                 console.log('ERROR');
@@ -160,10 +157,10 @@ $(document).ready(function () {
             },
         });     
     });
-    $(document).on('switchChange.bootstrapSwitch', '.switch',function (ev) {
+    $(document).on('click','.ubahstatus',function(ev) {
         ev.preventDefault();
-        var RenjaRincID = $(this).val();        
-        var checked = $(this).prop('checked') == true ? 1 :0;
+        var RenjaRincID = $(this).attr("data-id");
+        var Status = $(this).attr("data-status");
         $.ajax({
             type:'post',
             url: url_current_page +'/'+RenjaRincID,
@@ -171,12 +168,11 @@ $(document).ready(function () {
             data: {                
                 "_token": token,
                 "_method": 'PUT',
-                "Status":checked
+                "Status":Status
             },
             success:function(result)
             { 
-                $('#divdatatable').html(result.datatable);       
-                $(".switch").bootstrapSwitch();         
+                $('#divdatatable').html(result.datatable);         
             },
             error:function(xhr, status, error){
                 console.log('ERROR');
@@ -198,7 +194,6 @@ $(document).ready(function () {
             success:function(result)
             { 
                 $('#divdatatable').html(result.datatable);
-                $(".switch").bootstrapSwitch();
             },
             error:function(xhr, status, error){
                 console.log('ERROR');

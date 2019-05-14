@@ -457,8 +457,7 @@ class PembahasanPraRenjaOPDController extends Controller {
                     $newrenja->Privilege = 0;
                     $newrenja->RenjaID_Src = $RenjaID;
                     $newrenja->save();
-                }
-                
+                }                
 
                 $str_rinciankegiatan = '
                     INSERT INTO "trRenjaRinc" (
@@ -565,7 +564,7 @@ class PembahasanPraRenjaOPDController extends Controller {
                 ';
 
                 \DB::statement($str_kinerja);
-                RenjaRincianModel::where('RenjaID',$RenjaID)
+                RenjaRincianModel::where('RenjaRincID',$RenjaRincID)
                                     ->update(['Privilege'=>1,'Status'=>1]);
                 RenjaIndikatorModel::where('RenjaID',$RenjaID)
                                     ->update(['Privilege'=>1]);

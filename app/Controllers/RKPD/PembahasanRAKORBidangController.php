@@ -587,7 +587,7 @@ class PembahasanRAKORBidangController extends Controller {
                 ';
 
                 \DB::statement($str_kinerja);
-                RenjaRincianModel::where('RenjaID',$RenjaID)
+                RenjaRincianModel::where('RenjaRincID',$RenjaRincID)
                                     ->update(['Privilege'=>1,'Status'=>1]);
                 RenjaIndikatorModel::where('RenjaID',$RenjaID)
                                     ->update(['Privilege'=>1]);

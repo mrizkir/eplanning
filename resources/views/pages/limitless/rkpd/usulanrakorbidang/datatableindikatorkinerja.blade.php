@@ -36,7 +36,7 @@
                 <td>{{$item->Target_Uraian}}</td>                        
                 <td>{{$item->Tahun}} ({{$item->TA}})</td>                        
                 <td>
-                    @if ($item->Privilege=0)
+                    @if ($item->Privilege==0)
                     <ul class="icons-list">
                         <li class="text-primary-600">                            
                             <a class="btnEdit" href="{{route('usulanrakorbidang.edit1',['id'=>$item->RenjaIndikatorID])}}" title="Ubah Data Indikator">

@@ -120,7 +120,9 @@
                             {{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}
                         </span>
                     </td>
-                    <td>{{$item->status}}</td>
+                    <td>
+                        @include('layouts.limitless.l_status_kegiatan')    
+                    </td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
@@ -128,6 +130,7 @@
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
+                            @if ($item->Privilege==0)
                             <li class="text-primary-600">
                                 @if ($item->isSKPD)
                                     <a class="btnEdit" href="{{route('usulanmusrenkab.edit4',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Musren Kabupaten">
@@ -142,12 +145,13 @@
                                         <i class='icon-pencil7'></i>
                                     </a>
                                 @endif
-                            </li>
+                            </li>                            
                             <li class="text-danger-600">
                                 <a class="btnDelete" href="javascript:;" title="Hapus Data Usulan Musren Kabupaten" data-id="{{$item->RenjaRincID}}" data-url="{{route('usulanmusrenkab.index')}}" data-pid="rincian">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>
+                            @endif
                         </ul>
                     </td>
                     @endif                    

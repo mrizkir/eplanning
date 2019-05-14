@@ -190,16 +190,19 @@
                     <i class="icon-airplane3 position-left"></i> WORKFLOW <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu width-450"> 
+                    @hasrole('desa')
                     <li{!!Helper::isMenuActive ($page_active,'aspirasimusrendesa',' class="active"')!!}>
                         <a href="{{route('aspirasimusrendesa.index')}}" title="Aspirasi Musrenbang Desa">
                             <i class="icon-arrow-down16"></i>ASPIRASI MUSRENBANG DESA / KELURAHAN <span class="text-violet"><strong>[1]</strong></span>
                         </a>                                        
-                    </li>    
+                    </li>                       
                     <li{!!Helper::isMenuActive ($page_active,'pembahasanmusrendesa',' class="active"')!!}>
                         <a href="{{route('pembahasanmusrendesa.index')}}" title="Pembahasan Musrenbang Desa">
                             <i class="icon-arrow-down16"></i>PEMBAHASAN MUSRENBANG DESA / KELURAHAN <span class="text-violet"><strong>[2]</strong></span>
                         </a>
                     </li>
+                    @endhasrole
+                    @hasrole('kecamatan')
                     <li{!!Helper::isMenuActive ($page_active,'aspirasimusrenkecamatan',' class="active"')!!}>
                         <a href="{{route('aspirasimusrenkecamatan.index')}}" title="Aspirasi Musrenbang Kecamatan">
                             <i class="icon-arrow-down16"></i>ASPIRASI MUSRENBANG KECAMATAN <span class="text-violet"><strong>[3]</strong></span>
@@ -210,6 +213,8 @@
                             <i class="icon-arrow-down16"></i>PEMBAHASAN MUSRENBANG KECAMATAN <span class="text-violet"><strong>[4]</strong></span>
                         </a>
                     </li>
+                    @endhasrole
+                    @hasrole('opd')
                     <li{!!Helper::isMenuActive ($page_active,'usulanprarenjaopd',' class="active"')!!}>
                         <a href="{{route('usulanprarenjaopd.index')}}" title="Usulan Pra Renja OPD/SKPD">
                             <i class="icon-arrow-down16"></i>USULAN PRA RENJA OPD/SKPD <span class="text-violet"><strong>[5]</strong></span>
@@ -260,6 +265,7 @@
                             <i class="icon-arrow-down16"></i>RKPD <span class="text-violet"><strong>[14]</strong></span>
                         </a>                                        
                     </li>
+                    @endhasrole
                 </ul>
             </li>            
             <li class="dropdown mega-menu mega-menu-wide visible">
