@@ -45,7 +45,7 @@
                         </a>                                             
                     </th> 
                     <th width="120">                        
-                        PRIORITAS                          
+                        STATUS                          
                     </th>          
                     <th width="70">STATUS</th>                            
                     <th width="150">AKSI</th>

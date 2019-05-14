@@ -28,7 +28,8 @@
                 <th>SASARAN KEGIATAN</th>  
                 <th>TARGET (%)</th> 
                 <th>NILAI USULAN</th>                
-                <th>PRIORITAS</th>                                         
+                <th>PRIORITAS</th>    
+                <th>STATUS</th>                                        
                 <th width="120">AKSI</th>
             </tr>
         </thead>
@@ -57,7 +58,7 @@
                     </span>
                 </td>                
                 <td>{{Helper::formatAngka($item->Sasaran_Angka4)}} {{ucwords($item->Sasaran_Uraian4)}}</td>
-                <td>{{$item->Target3}}</td>               
+                <td>{{$item->Target4}}</td>               
                 <td>{{Helper::formatUang($item->Jumlah4)}}</td>       
                 <td>
                     <span class="label label-flat border-success text-success-600">
@@ -65,6 +66,10 @@
                     </span>
                 </td>
                 <td>
+                    @include('layouts.limitless.l_status_kegiatan')
+                </td>
+                <td>
+                    @if ($item->Privilege==0)
                     <ul class="icons-list">
                         <li class="text-primary-600">
                             @if ($item->isSKPD)
@@ -87,6 +92,11 @@
                             </a> 
                         </li>
                     </ul>
+                    @else
+                    <span class="label label-success label-flat text-success-600">
+                        TRANSFERED
+                    </span>
+                @endif
                 </td>
             </tr>
         @endforeach                    

@@ -29,9 +29,9 @@ class HelperKegiatan {
      * Daftar Prioritas
      */ 
     private static $StatusKegiatan =[0=>'DRAFT',
-                                    1=>'DI SETUJUI',
-                                    2=>'DI SETUJUI DENGAN CATATAN',
-                                    3=>'DI PENDING']; 
+                                    1=>'SETUJU',
+                                    2=>'SETUJU DG. CATATAN',
+                                    3=>'1PENDING']; 
     
     /**
     * digunakan untuk mendapatkan entri level

@@ -95,7 +95,6 @@
 @endsection
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
-<script src="{!!asset('themes/limitless/assets/js/switch.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
@@ -149,7 +148,6 @@ $(document).ready(function () {
             success:function(result)
             { 
                 $('#divdatatable').html(result.datatable);
-                $(".switch").bootstrapSwitch();
             },
             error:function(xhr, status, error){
                 console.log('ERROR');
