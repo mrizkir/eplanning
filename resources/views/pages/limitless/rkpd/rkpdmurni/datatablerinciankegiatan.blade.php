@@ -54,6 +54,22 @@
                     @include('layouts.limitless.l_status_kegiatan')
                 </td>               
             </tr>
+            <tr class="text-center info">
+                <td colspan="10">
+                    <span class="label label-warning label-rounded">
+                        <strong>RKPDID:</strong>
+                        {{$item->RKPDID}}
+                    </span>
+                    <span class="label label-warning label-rounded">
+                        <strong>RKPDRincID:</strong>
+                        {{$item->RKPDRincID}}
+                    </span>
+                    <span class="label label-warning label-rounded">
+                        <strong>KET:</strong>
+                        {{empty($item->Descr)?'-':$item->Descr}}
+                    </span>
+                </td>
+            </tr>
         @endforeach                    
         </tbody>
     </table>       

@@ -62,6 +62,10 @@
                         <strong>RenjaIndikatorID:</strong>
                         {{$item->RenjaIndikatorID}}
                     </span>
+                    <span class="label label-warning label-rounded">
+                        <strong>KET:</strong>
+                        {{empty($item->Descr)?'-':$item->Descr}}
+                    </span>
                 </td>
             </tr>
         @endforeach                    

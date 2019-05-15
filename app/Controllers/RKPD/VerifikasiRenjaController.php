@@ -23,13 +23,14 @@ class VerifikasiRenjaController extends Controller {
     }
     private function populateRincianKegiatan($RenjaID)
     {
-        $data = RenjaRincianModel::leftJoin('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')
+        $data = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID","trRenjaRinc"."RenjaID","trRenjaRinc"."RenjaID","trRenjaRinc"."UsulanKecID","Nm_Kecamatan","trRenjaRinc"."Uraian","trRenjaRinc"."No","trRenjaRinc"."Sasaran_Angka5","trRenjaRinc"."Sasaran_Uraian5","trRenjaRinc"."Target5","trRenjaRinc"."Jumlah5","trRenjaRinc"."Status","trRenjaRinc"."Privilege","trRenjaRinc"."Prioritas","isSKPD","isReses","isReses_Uraian","trRenjaRinc"."Descr"'))
+                                    ->leftJoin('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')
                                     ->leftJoin('trPokPir','trPokPir.PokPirID','trRenjaRinc.PokPirID')
                                     ->leftJoin('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')
                                     ->where('trRenjaRinc.EntryLvl',4)
                                     ->where('RenjaID',$RenjaID)
                                     ->orderBy('Prioritas','ASC')
-                                    ->get(['trRenjaRinc.RenjaRincID','trRenjaRinc.RenjaID','trRenjaRinc.RenjaID','trRenjaRinc.UsulanKecID','Nm_Kecamatan','trRenjaRinc.Uraian','trRenjaRinc.No','trRenjaRinc.Sasaran_Angka5','trRenjaRinc.Sasaran_Uraian5','trRenjaRinc.Target5','trRenjaRinc.Jumlah5','trRenjaRinc.Status','trRenjaRinc.Descr','trRenjaRinc.Prioritas','isSKPD','isReses','isReses_Uraian']);
+                                    ->get();
         
         return $data;
     }

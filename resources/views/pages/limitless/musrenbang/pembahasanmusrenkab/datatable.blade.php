@@ -45,7 +45,7 @@
                         </a>                                             
                     </th> 
                     <th width="120">                        
-                        STATUS                          
+                        PRIORITAS                          
                     </th>          
                     <th width="70">STATUS</th>                            
                     <th width="150">AKSI</th>
@@ -149,6 +149,10 @@
                         <span class="label label-warning label-rounded">
                             <strong>RenjaRincID:</strong>
                             {{$item->RenjaRincID}}
+                        </span>
+                        <span class="label label-warning label-rounded">
+                            <strong>KET:</strong>
+                            {{empty($item->Descr)?'-':$item->Descr}}
                         </span>
                     </td>
                 </tr>

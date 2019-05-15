@@ -95,6 +95,18 @@
                     </ul>
                 </td>
             </tr>
+            <tr class="text-center info">
+                <td colspan="10">
+                    <span class="label label-warning label-rounded">
+                        <strong>UsulanKecID:</strong>
+                        {{$item->UsulanKecID}}
+                    </span>
+                    <span class="label label-warning label-rounded">
+                        <strong>KET:</strong>
+                        {{empty($item->Descr)?'-':$item->Descr}}
+                    </span>
+                </td>
+            </tr>
             @endforeach                    
             </tbody>
         </table>               

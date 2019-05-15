@@ -23,7 +23,7 @@ class UsulanForumOPDController extends Controller {
     }
     private function populateRincianKegiatan($RenjaID)
     {
-        $data = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID","trRenjaRinc"."RenjaID","trRenjaRinc"."RenjaID","trRenjaRinc"."UsulanKecID","Nm_Kecamatan","trRenjaRinc"."Uraian","trRenjaRinc"."No","trRenjaRinc"."Sasaran_Angka3","trRenjaRinc"."Sasaran_Uraian3","trRenjaRinc"."Target3","trRenjaRinc"."Jumlah3","trRenjaRinc"."Status","trRenjaRinc"."Privilege","trRenjaRinc"."Prioritas","isSKPD","isReses","isReses_Uraian"'))
+        $data = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID","trRenjaRinc"."RenjaID","trRenjaRinc"."RenjaID","trRenjaRinc"."UsulanKecID","Nm_Kecamatan","trRenjaRinc"."Uraian","trRenjaRinc"."No","trRenjaRinc"."Sasaran_Angka3","trRenjaRinc"."Sasaran_Uraian3","trRenjaRinc"."Target3","trRenjaRinc"."Jumlah3","trRenjaRinc"."Status","trRenjaRinc"."Privilege","trRenjaRinc"."Prioritas","isSKPD","isReses","isReses_Uraian","trRenjaRinc"."Descr"'))
                                     ->leftJoin('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')
                                     ->leftJoin('trPokPir','trPokPir.PokPirID','trRenjaRinc.PokPirID')
                                     ->leftJoin('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')
