@@ -77,16 +77,16 @@
                             <strong>UsulanDesaID:</strong>
                             {{$item->UsulanDesaID}}
                         </span>
-                        <span class="label label-warning label-rounded">
-                            <strong>KET:</strong>
-                            {{empty($item->Descr)?'-':$item->Descr}}
-                        </span>
                         @if (!empty($item->UsulanKecID))
                         <span class="label label-warning label-rounded">
                             <strong>UsulanKecID:</strong>
                             {{$item->UsulanKecID}}
                         </span>
                         @endif
+                        <span class="label label-warning label-rounded">
+                            <strong>KET:</strong>
+                            {{empty($item->Descr)?'-':$item->Descr}}
+                        </span>                        
                     </td>
                 </tr>
             @endforeach                    
