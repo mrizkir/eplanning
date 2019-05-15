@@ -52,7 +52,15 @@
             @foreach ($data as $key=>$item)
                 <tr>                  
                     <td>{{$item->No_usulan}}</td>                    
-                    <td>{{$item->Nm_Desa}}</td>
+                    <td>
+                        @if (empty($item->Nm_Desa))
+                        <span class="label label-flat border-default text-grey-600">
+                            USULAN KEC.
+                        </span>  
+                        @else
+                        {{$item->Nm_Desa}}
+                        @endif                        
+                    </td>
                     <td>
                         {{$item->NamaKegiatan}}<br />
                         <span class="label label-flat border-primary text-primary-600">{{$item->Jeniskeg == 1 ? 'FISIK' : 'NON-FISIK'}}</span>
@@ -66,9 +74,15 @@
                         </span>                        
                     </td>
                     <td>
+                        @if (isset($daftar_usulan_kec_id[$item->UsulanKecID]))
+                        <span class="label label-success label-flat border-success text-success-600">
+                            TRANSFERED
+                        </span>
+                        @else
                         <div class="checkbox checkbox-switch">
                             {{Form::checkbox('Privilege[]',$item->UsulanKecID,$item->Privilege==1?$item->Privilege:'',['class'=>'switch','data-on-text'=>'ACC','data-off-text'=>'DUM'])}}                                     
                         </div>
+                        @endif                        
                     </td>
                 </tr>
                 <tr class="text-center info">
@@ -76,6 +90,10 @@
                         <span class="label label-warning label-rounded">
                             <strong>UsulanKecID:</strong>
                             {{$item->UsulanKecID}}
+                        </span>
+                        <span class="label label-warning label-rounded">
+                            <strong>OPD/SKPD:</strong>
+                            {{$item->OrgNm}}
                         </span>
                         <span class="label label-warning label-rounded">
                             <strong>KET:</strong>

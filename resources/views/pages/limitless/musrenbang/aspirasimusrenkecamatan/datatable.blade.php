@@ -54,6 +54,9 @@
                     <th width="55">                        
                         PRIORITAS                        
                     </th> 
+                    <th width="55">                        
+                        STATUS                        
+                    </th> 
                     <th width="100">AKSI</th>
                 </tr>
             </thead>
@@ -61,7 +64,15 @@
             @foreach ($data as $key=>$item)
             <tr>                  
                 <td>{{$item->No_usulan}}</td>
-                <td>{{$item->Nm_Desa}}</td>
+                <td>
+                    @if (empty($item->Nm_Desa))
+                    <span class="label label-flat border-default text-grey-600">
+                        USULAN KEC.
+                    </span>  
+                    @else
+                    {{$item->Nm_Desa}}
+                    @endif                        
+                </td>
                 <td>{{$item->Nm_Kecamatan}}</td>
                 <td>
                     {{$item->NamaKegiatan}}<br />
@@ -76,22 +87,41 @@
                     </span>                        
                 </td>
                 <td>
+                    @if (isset($daftar_usulan_kec_id[$item->UsulanKecID]))
+                    <span class="label label-success label-flat border-success text-success-600">
+                        TRANSFERED
+                    </span>
+                    @elseif($item->Privilege==1)
+                    <span class="label label-success label-flat border-success text-success-600">
+                        ACC
+                    </span>
+                    @else
+                    <span class="label label-default label-flat border-default text-grey-600">
+                        DUM
+                    </span>
+                    @endif
+                </td>
+                <td>
                     <ul class="icons-list">
                         <li class="text-primary-600">
                             <a class="btnShow" href="{{route('aspirasimusrenkecamatan.show',['id'=>$item->UsulanKecID])}}" title="Detail Data Kegiatan">
                                 <i class='icon-eye'></i>
                             </a>  
                         </li>
+                        @if (!isset($daftar_usulan_kec_id[$item->UsulanKecID]))
                         <li class="text-primary-600">
                             <a class="btnEdit" href="{{route('aspirasimusrenkecamatan.edit',['id'=>$item->UsulanKecID])}}" title="Ubah Data Kegiatan">
                                 <i class='icon-pencil7'></i>
                             </a>  
                         </li>
+                        @if($item->Privilege==0)
                         <li class="text-danger-600">
                             <a class="btnDelete" href="javascript:;" title="Hapus Data Kegiatan" data-id="{{$item->UsulanKecID}}" data-url="{{route('aspirasimusrenkecamatan.index')}}">
                                 <i class='icon-trash'></i>
                             </a> 
                         </li>
+                        @endif 
+                        @endif  
                     </ul>
                 </td>
             </tr>
@@ -100,6 +130,10 @@
                     <span class="label label-warning label-rounded">
                         <strong>UsulanKecID:</strong>
                         {{$item->UsulanKecID}}
+                    </span>
+                    <span class="label label-warning label-rounded">
+                        <strong>OPD/SKPD:</strong>
+                        {{$item->OrgNm}}
                     </span>
                     <span class="label label-warning label-rounded">
                         <strong>KET:</strong>

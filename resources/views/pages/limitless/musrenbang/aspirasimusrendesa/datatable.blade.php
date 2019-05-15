@@ -54,6 +54,9 @@
                     <th width="55">                        
                         PRIORITAS                        
                     </th> 
+                    <th width="55">                        
+                        STATUS                        
+                    </th>
                     <th width="100">AKSI</th>
                 </tr>
             </thead>
@@ -74,7 +77,22 @@
                         <span class="label label-flat border-success text-success-600">
                             {{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}
                         </span>                        
-                    </td>                    
+                    </td> 
+                    <td>
+                        @if (!empty($item->UsulanKecID))  
+                        <span class="label label-success label-flat border-success text-success-600">
+                            TRANSFERED
+                        </span>
+                        @elseif ($item->Privilege)
+                        <span class="label label-success label-flat border-success text-success-600">
+                            ACC
+                        </span>
+                        @else
+                        <span class="label label-default label-flat border-default text-grey-600">
+                            DUM
+                        </span>
+                        @endif
+                    </td>
                     <td>
                         <ul class="icons-list">   
                             <li class="text-primary-600">
@@ -89,8 +107,6 @@
                                 </a>  
                             </li>
                             @if ($item->Privilege==0)
-                        
-                            
                             <li class="text-danger-600">
                                 <a class="btnDelete" href="javascript:;" title="Hapus Data Kegiatan" data-id="{{$item->UsulanDesaID}}" data-url="{{route('aspirasimusrendesa.index')}}">
                                     <i class='icon-trash'></i>
@@ -117,16 +133,6 @@
                             {{$item->UsulanKecID}}
                         </span>
                         @endif
-                        @if ($item->Privilege)
-                            <span class="label label-success label-flat border-success text-success-600">
-                                ACC
-                            </span>
-                        @else
-                            <span class="label label-default label-flat border-default text-grey-600">
-                                DUM
-                            </span>
-                        @endif
-                        
                     </td>
                 </tr>
             @endforeach                    
