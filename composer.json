@@ -13,7 +13,7 @@
         "laravelcollective/html": "^5.8",
         "spatie/laravel-activitylog": "^3.2.2",
         "spatie/laravel-permission": "2.33",
-		"spatie/laravel-medialibrary:^7.0.0"
+		"spatie/laravel-medialibrary":"^7.0.0"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
