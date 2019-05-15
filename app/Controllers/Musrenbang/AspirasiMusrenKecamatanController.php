@@ -30,7 +30,7 @@ class AspirasiMusrenKecamatanController extends Controller {
      */
     public function populateData ($currentpage=1) 
     {        
-        $columns=['trUsulanKec.UsulanKecID','trUsulanKec.No_usulan','tmPmDesa.Nm_Desa','tmPmKecamatan.Nm_Kecamatan','trUsulanKec.NamaKegiatan','trUsulanKec.Output','trUsulanKec.NilaiUsulan','trUsulanKec.Target_Angka','trUsulanKec.Target_Uraian','trUsulanKec.Jeniskeg','trUsulanKec.Prioritas'];              
+        $columns=['*'];              
         
         if (!$this->checkStateIsExistSession('aspirasimusrenkecamatan','orderby')) 
         {            
@@ -59,7 +59,8 @@ class AspirasiMusrenKecamatanController extends Controller {
             switch ($search['kriteria']) 
             {
                 case 'No_usulan' :
-                    $data = AspirasiMusrenKecamatanModel::leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trUsulanKec.PmDesaID')
+                    $data = AspirasiMusrenKecamatanModel::select(\DB::raw('"trUsulanKec"."UsulanKecID","trUsulanKec"."No_usulan","tmPmDesa"."Nm_Desa","tmPmKecamatan"."Nm_Kecamatan","trUsulanKec"."NamaKegiatan","trUsulanKec"."Output","trUsulanKec"."NilaiUsulan","trUsulanKec"."Target_Angka","trUsulanKec"."Target_Uraian","trUsulanKec"."Jeniskeg","trUsulanKec"."Prioritas"'))
+                                                        ->leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trUsulanKec.PmDesaID')
                                                         ->leftJoin('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trUsulanKec.PmKecamatanID')
                                                         ->where('trUsulanKec.TA', config('globalsettings.tahun_perencanaan'))
                                                         ->where(['No_usulan'=>(int)$search['isikriteria']])
@@ -67,7 +68,8 @@ class AspirasiMusrenKecamatanController extends Controller {
                                                         ->orderBy($column_order,$direction); 
                 break;
                 case 'NamaKegiatan' :
-                    $data = AspirasiMusrenKecamatanModel::leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trUsulanKec.PmDesaID')
+                    $data = AspirasiMusrenKecamatanModel::select(\DB::raw('"trUsulanKec"."UsulanKecID","trUsulanKec"."No_usulan","tmPmDesa"."Nm_Desa","tmPmKecamatan"."Nm_Kecamatan","trUsulanKec"."NamaKegiatan","trUsulanKec"."Output","trUsulanKec"."NilaiUsulan","trUsulanKec"."Target_Angka","trUsulanKec"."Target_Uraian","trUsulanKec"."Jeniskeg","trUsulanKec"."Prioritas"'))
+                                                        ->leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trUsulanKec.PmDesaID')
                                                         ->leftJoin('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trUsulanKec.PmKecamatanID')
                                                         ->where('trUsulanKec.TA', config('globalsettings.tahun_perencanaan'))
                                                         ->where('NamaKegiatan', 'ilike', '%' . $search['isikriteria'] . '%')
@@ -79,7 +81,8 @@ class AspirasiMusrenKecamatanController extends Controller {
         }
         else
         {
-            $data = AspirasiMusrenKecamatanModel::leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trUsulanKec.PmDesaID')
+            $data = AspirasiMusrenKecamatanModel::select(\DB::raw('"trUsulanKec"."UsulanKecID","trUsulanKec"."No_usulan","tmPmDesa"."Nm_Desa","tmPmKecamatan"."Nm_Kecamatan","trUsulanKec"."NamaKegiatan","trUsulanKec"."Output","trUsulanKec"."NilaiUsulan","trUsulanKec"."Target_Angka","trUsulanKec"."Target_Uraian","trUsulanKec"."Jeniskeg","trUsulanKec"."Prioritas"'))
+                                                ->leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trUsulanKec.PmDesaID')
                                                 ->leftJoin('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trUsulanKec.PmKecamatanID')
                                                 ->where('trUsulanKec.TA', config('globalsettings.tahun_perencanaan'))
                                                 ->orderBy('Prioritas','ASC')

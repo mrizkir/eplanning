@@ -60,9 +60,15 @@
                         </span>                        
                     </td>
                     <td>
-                        <div class="checkbox checkbox-switch">
-                            {{Form::checkbox('Privilege[]',$item->UsulanDesaID,$item->Privilege==1?$item->Privilege:'',['class'=>'switch','data-on-text'=>'ACC','data-off-text'=>'DUM'])}}                                     
-                        </div>
+                        @if (empty($item->UsulanKecID))
+                            <div class="checkbox checkbox-switch">
+                                {{Form::checkbox('Privilege[]',$item->UsulanDesaID,$item->Privilege==1?$item->Privilege:'',['class'=>'switch','data-on-text'=>'ACC','data-off-text'=>'DUM'])}}                                     
+                            </div>
+                        @else
+                            <span class="label label-success label-flat border-success text-success-600">
+                                TRANSFERED
+                            </span>
+                        @endif                        
                     </td>
                 </tr>
                 <tr class="text-center info">
@@ -75,6 +81,12 @@
                             <strong>KET:</strong>
                             {{empty($item->Descr)?'-':$item->Descr}}
                         </span>
+                        @if (!empty($item->UsulanKecID))
+                        <span class="label label-warning label-rounded">
+                            <strong>UsulanKecID:</strong>
+                            {{$item->UsulanKecID}}
+                        </span>
+                        @endif
                     </td>
                 </tr>
             @endforeach                    

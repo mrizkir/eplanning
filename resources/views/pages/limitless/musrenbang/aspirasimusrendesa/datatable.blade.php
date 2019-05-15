@@ -74,26 +74,30 @@
                         <span class="label label-flat border-success text-success-600">
                             {{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}
                         </span>                        
-                    </td>
+                    </td>                    
                     <td>
-                        <ul class="icons-list">                           
+                        <ul class="icons-list">   
                             <li class="text-primary-600">
                                 <a class="btnShow" href="{{route('aspirasimusrendesa.show',['id'=>$item->UsulanDesaID])}}" title="Detail Data Kegiatan">
-                                    <i class='icon-eye'></i>
-                                </a>  
-                            </li>                            
-                            @if ($item->Privilege==0)
+                                <i class='icon-eye'></i>
+                            </a>  
+                            </li>          
+                        @if (empty($item->UsulanKecID))                                
                             <li class="text-primary-600">
                                 <a class="btnEdit" href="{{route('aspirasimusrendesa.edit',['id'=>$item->UsulanDesaID])}}" title="Ubah Data Kegiatan">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
+                            @if ($item->Privilege==0)
+                        
+                            
                             <li class="text-danger-600">
                                 <a class="btnDelete" href="javascript:;" title="Hapus Data Kegiatan" data-id="{{$item->UsulanDesaID}}" data-url="{{route('aspirasimusrendesa.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
-                            </li> 
+                            </li>                                 
                             @endif                            
+                        @endif                                         
                         </ul>
                     </td>
                 </tr>
@@ -107,6 +111,22 @@
                             <strong>KET:</strong>
                             {{empty($item->Descr)?'-':$item->Descr}}
                         </span>
+                        @if (!empty($item->UsulanKecID))
+                        <span class="label label-warning label-rounded">
+                            <strong>UsulanKecID:</strong>
+                            {{$item->UsulanKecID}}
+                        </span>
+                        @endif
+                        @if ($item->Privilege)
+                            <span class="label label-success label-flat border-success text-success-600">
+                                ACC
+                            </span>
+                        @else
+                            <span class="label label-default label-flat border-default text-grey-600">
+                                DUM
+                            </span>
+                        @endif
+                        
                     </td>
                 </tr>
             @endforeach                    

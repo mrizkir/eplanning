@@ -26,7 +26,7 @@ class PembahasanMusrenDesaController extends Controller {
      */
     public function populateData ($currentpage=1) 
     {        
-        $columns=['trUsulanDesa.UsulanDesaID','trUsulanDesa.No_usulan','trUsulanDesa.NamaKegiatan','trUsulanDesa.Output','trUsulanDesa.NilaiUsulan','trUsulanDesa.Target_Angka','trUsulanDesa.Target_Uraian','trUsulanDesa.Jeniskeg','trUsulanDesa.Prioritas','trUsulanDesa.Bobot','trUsulanDesa.Privilege'];       
+        $columns=['*'];       
         if (!$this->checkStateIsExistSession('pembahasanmusrendesa','orderby')) 
         {            
            $this->putControllerStateSession('pembahasanmusrendesa','orderby',['column_name'=>'tmPmDesa.Nm_Desa','order'=>'asc']);
@@ -53,21 +53,25 @@ class PembahasanMusrenDesaController extends Controller {
             switch ($search['kriteria']) 
             {
                 case 'No_usulan' :                    
-                    $data = AspirasiMusrenDesaModel::join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanDesa.PmDesaID')
+                    $data = AspirasiMusrenDesaModel::select(\DB::raw('"trUsulanDesa"."UsulanDesaID","trUsulanDesa"."No_usulan","trUsulanDesa"."NamaKegiatan","trUsulanDesa"."Output","trUsulanDesa"."NilaiUsulan","trUsulanDesa"."Target_Angka","trUsulanDesa"."Target_Uraian","trUsulanDesa"."Jeniskeg","trUsulanDesa"."Prioritas","trUsulanDesa"."Bobot","trUsulanDesa"."Privilege","trUsulanKec"."UsulanKecID"'))
+                                                    ->leftJoin('trUsulanKec','UsulanDesaID.UsulanKecID','trUsulanDesa.UsulanDesaID')
+                                                    ->join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanDesa.PmDesaID')
                                                     ->join('tmPmKecamatan','tmPmDesa.PmKecamatanID','tmPmKecamatan.PmKecamatanID')
                                                     ->where('trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
                                                     ->where('trUsulanDesa.PmDesaID',$filter_desa)
                                                     ->where(['trUsulanDesa.No_usulan'=>(int)$search['isikriteria']])
-                                                    ->orderBy('Prioritas','ASC')
+                                                    ->orderBy('trUsulanDesa.Prioritas','ASC')
                                                     ->orderBy($column_order,$direction);
                 break;
                 case 'NamaKegiatan' :
-                    $data = AspirasiMusrenDesaModel::join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanDesa.PmDesaID')
+                    $data = AspirasiMusrenDesaModel::select(\DB::raw('"trUsulanDesa"."UsulanDesaID","trUsulanDesa"."No_usulan","trUsulanDesa"."NamaKegiatan","trUsulanDesa"."Output","trUsulanDesa"."NilaiUsulan","trUsulanDesa"."Target_Angka","trUsulanDesa"."Target_Uraian","trUsulanDesa"."Jeniskeg","trUsulanDesa"."Prioritas","trUsulanDesa"."Bobot","trUsulanDesa"."Privilege","trUsulanKec"."UsulanKecID"'))
+                                                    ->leftJoin('trUsulanKec','trUsulanKec.UsulanDesaID','trUsulanDesa.UsulanDesaID')
+                                                    ->join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanDesa.PmDesaID')
                                                     ->join('tmPmKecamatan','tmPmDesa.PmKecamatanID','tmPmKecamatan.PmKecamatanID')
                                                     ->where('trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
                                                     ->where('trUsulanDesa.PmDesaID',$filter_desa)
                                                     ->where('trUsulanDesa.NamaKegiatan', 'ilike', '%' . $search['isikriteria'] . '%')
-                                                    ->orderBy('Prioritas','ASC')
+                                                    ->orderBy('trUsulanDesa.Prioritas','ASC')
                                                     ->orderBy($column_order,$direction);                                        
             break;
             }           
@@ -75,7 +79,9 @@ class PembahasanMusrenDesaController extends Controller {
         }
         else
         {
-            $data = AspirasiMusrenDesaModel::join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanDesa.PmDesaID')
+            $data = AspirasiMusrenDesaModel::select(\DB::raw('"trUsulanDesa"."UsulanDesaID","trUsulanDesa"."No_usulan","trUsulanDesa"."NamaKegiatan","trUsulanDesa"."Output","trUsulanDesa"."NilaiUsulan","trUsulanDesa"."Target_Angka","trUsulanDesa"."Target_Uraian","trUsulanDesa"."Jeniskeg","trUsulanDesa"."Prioritas","trUsulanDesa"."Bobot","trUsulanDesa"."Privilege","trUsulanKec"."UsulanKecID"'))
+                                            ->leftJoin('trUsulanKec','trUsulanKec.UsulanDesaID','trUsulanDesa.UsulanDesaID')
+                                            ->join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanDesa.PmDesaID')
                                             ->join('tmPmKecamatan','tmPmDesa.PmKecamatanID','tmPmKecamatan.PmKecamatanID')
                                             ->where('trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
                                             ->where('trUsulanDesa.PmDesaID',$filter_desa)                                            
@@ -103,6 +109,7 @@ class PembahasanMusrenDesaController extends Controller {
         $data=$this->populateData();
 
         $datatable = view("pages.$theme.musrenbang.pembahasanmusrendesa.datatable")->with(['page_active'=>'pembahasanmusrendesa',
+                                                                                'label_transfer'=>'MUSRENBANG KEC.',
                                                                                 'search'=>$this->getControllerStateSession('pembahasanmusrendesa','search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                 'column_order'=>$this->getControllerStateSession('pembahasanmusrendesa.orderby','column_name'),
@@ -151,6 +158,7 @@ class PembahasanMusrenDesaController extends Controller {
         }
 
         $datatable = view("pages.$theme.musrenbang.pembahasanmusrendesa.datatable")->with(['page_active'=>'pembahasanmusrendesa',
+                                                            'label_transfer'=>'MUSRENBANG KEC.',
                                                             'search'=>$this->getControllerStateSession('pembahasanmusrendesa','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                             'column_order'=>$this->getControllerStateSession('pembahasanmusrendesa.orderby','column_name'),
@@ -172,6 +180,7 @@ class PembahasanMusrenDesaController extends Controller {
         $this->setCurrentPageInsideSession('pembahasanmusrendesa',$id);
         $data=$this->populateData($id);
         $datatable = view("pages.$theme.musrenbang.pembahasanmusrendesa.datatable")->with(['page_active'=>'pembahasanmusrendesa',
+                                                                            'label_transfer'=>'MUSRENBANG KEC.',
                                                                             'search'=>$this->getControllerStateSession('pembahasanmusrendesa','search'),
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                             'column_order'=>$this->getControllerStateSession('pembahasanmusrendesa.orderby','column_name'),
@@ -204,12 +213,13 @@ class PembahasanMusrenDesaController extends Controller {
         $this->setCurrentPageInsideSession('pembahasanmusrendesa',1);
         $data=$this->populateData();
 
-        $datatable = view("pages.$theme.musrenbang.pembahasanmusrendesa.datatable")->with(['page_active'=>'pembahasanmusrendesa',                                                            
-                                                            'search'=>$this->getControllerStateSession('pembahasanmusrendesa','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('pembahasanmusrendesa.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('pembahasanmusrendesa.orderby','order'),
-                                                            'data'=>$data])->render();      
+        $datatable = view("pages.$theme.musrenbang.pembahasanmusrendesa.datatable")->with(['page_active'=>'pembahasanmusrendesa', 
+                                                                                            'label_transfer'=>'MUSRENBANG KEC.',                                                           
+                                                                                            'search'=>$this->getControllerStateSession('pembahasanmusrendesa','search'),
+                                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                            'column_order'=>$this->getControllerStateSession('pembahasanmusrendesa.orderby','column_name'),
+                                                                                            'direction'=>$this->getControllerStateSession('pembahasanmusrendesa.orderby','order'),
+                                                                                            'data'=>$data])->render();      
         
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
     }
@@ -244,7 +254,8 @@ class PembahasanMusrenDesaController extends Controller {
         $this->setCurrentPageInsideSession('pembahasanmusrendesa',1);
 
         $data=$this->populateData();        
-        $datatable = view("pages.$theme.musrenbang.pembahasanmusrendesa.datatable")->with(['page_active'=>'pembahasanmusrendesa',                                                            
+        $datatable = view("pages.$theme.musrenbang.pembahasanmusrendesa.datatable")->with(['page_active'=>'pembahasanmusrendesa',      
+                                                                                        'label_transfer'=>'MUSRENBANG KEC.',                                                      
                                                                                         'search'=>$this->getControllerStateSession('pembahasanmusrendesa','search'),
                                                                                         'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                         'column_order'=>$this->getControllerStateSession('pembahasanmusrendesa.orderby','column_name'),
@@ -277,6 +288,7 @@ class PembahasanMusrenDesaController extends Controller {
         $daftar_kecamatan=KecamatanModel::getDaftarKecamatan(config('globalsettings.tahun_perencanaan'),false);
         $daftar_desa=DesaModel::getDaftarDesa(config('globalsettings.tahun_perencanaan'),$filters['PmKecamatanID'],false);        
         return view("pages.$theme.musrenbang.pembahasanmusrendesa.index")->with(['page_active'=>'pembahasanmusrendesa',
+                                                                                'label_transfer'=>'MUSRENBANG KEC.',
                                                                                 'daftar_kecamatan'=>$daftar_kecamatan,
                                                                                 'daftar_desa'=>$daftar_desa,
                                                                                 'search'=>$this->getControllerStateSession('pembahasanmusrendesa','search'),
@@ -301,8 +313,8 @@ class PembahasanMusrenDesaController extends Controller {
         if (!is_null($data) )  
         {
             return view("pages.$theme.musrenbang.pembahasanmusrendesa.show")->with(['page_active'=>'pembahasanmusrendesa',
-                                                    'data'=>$data
-                                                    ]);
+                                                                                    'data'=>$data
+                                                                                ]);
         }        
     }
     /**

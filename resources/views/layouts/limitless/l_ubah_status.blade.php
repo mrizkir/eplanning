@@ -72,11 +72,11 @@
         <li class="dropdown-header">TRANSFER</li>
         <li>                                    
             @if ($item->Status==1 || $item->Status==2)
-                <a href="#" title="TRANSFER KEG. KE {{$label_transfer}} " id="btnTransfer" data-id="{{$item->RenjaRincID}}">
+                <a href="#" title="TRANSFER KEG. KE {{$label_transfer}} " id="btnTransfer" data-id="{{$item->RenjaRincID}}" title="{{$label_transfer}}">
                     <i class="icon-play4"></i> {{$label_transfer}}
                 </a>
             @else
-                <a href="#" onclick="event.preventDefault()">
+                <a href="#" onclick="event.preventDefault()" title="{{$label_transfer}}">
                     <i class="icon-stop"></i> {{$label_transfer}}
                 </a>
             @endif
@@ -90,12 +90,12 @@
         @else 
         <li class="dropdown-header">TRANSFER</li>
         <li>
-            <a href="#" onclick="event.preventDefault()">
+            <a href="#" onclick="event.preventDefault()" title="{{$label_transfer}}">
                 <i class="icon-checkbox-checked2"></i> {{$label_transfer}}
             </a>        
         </li>  
         <li>
-            <a href="#" onclick="event.preventDefault()">                                        
+            <a href="#" onclick="event.preventDefault()" title="{{$label_transfer}}">                                        
                 <i class="icon-history"></i>                                        
                 HISTORY
             </a>
