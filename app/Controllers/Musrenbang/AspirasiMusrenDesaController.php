@@ -17,7 +17,7 @@ class AspirasiMusrenDesaController extends Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['auth','role:desa']);
+        $this->middleware(['auth','role:superadmin|desa']);
     }
     /**
      * collect data from resources for index view

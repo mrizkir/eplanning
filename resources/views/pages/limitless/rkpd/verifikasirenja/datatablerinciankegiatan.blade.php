@@ -19,7 +19,7 @@
                 <th>NAMA URAIAN</th>                
                 <th>SASARAN KEGIATAN</th>  
                 <th>TARGET (%)</th> 
-                <th>NILAI USULAN</th>                
+                <th class="text-right">NILAI USULAN</th>                
                 <th>PRIORITAS</th>                                         
                 <th>STATUS</th> 
             </tr>
@@ -50,24 +50,37 @@
                 </td>                
                 <td>{{Helper::formatAngka($item->Sasaran_Angka5)}} {{ucwords($item->Sasaran_Uraian5)}}</td>
                 <td>{{$item->Target5}}</td>               
-                <td>{{Helper::formatUang($item->Jumlah5)}}</td>       
+                <td class="text-right">{{Helper::formatUang($item->Jumlah5)}}</td>       
                 <td>
                     <span class="label label-flat border-success text-success-600">
                         {{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}
                     </span>
                 </td>
                 <td>
-                    <span class="label label-success label-flat border-success text-success-600">
-                        {{HelperKegiatan::getStatusKegiatan($item->Status)}}
+                    @include('layouts.limitless.l_status_kegiatan')                        
+                </td>           
+            </tr>
+            <tr class="text-center info">
+                <td colspan="10">
+                    <span class="label label-warning label-rounded">
+                        <strong>RenjaID:</strong>
+                        {{$item->RenjaID}}
                     </span>
-                    @if ($item->Status==2)
-                        <br/>   
-                        {{$item->Descr}}   
-                    @endif    
-                </td>               
+                    <span class="label label-warning label-rounded">
+                        <strong>RenjaRincID:</strong>
+                        {{$item->RenjaRincID}}
+                    </span>
+                </td>
             </tr>
         @endforeach                    
         </tbody>
+        <tfoot>
+            <tr class="bg-grey-300" style="font-weight:bold">
+                <td colspan="4" class="text-right">TOTAL</td>
+                <td class="text-right">{{Helper::formatUang($datarinciankegiatan->sum('Jumlah5'))}}</td> 
+                <td colspan="3"></td>
+            </tr>
+        </tfoot>
     </table>       
 </div>       
 @else

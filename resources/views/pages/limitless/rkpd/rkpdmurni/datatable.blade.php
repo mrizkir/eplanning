@@ -45,7 +45,7 @@
                                 NILAI  
                             </a>                                             
                         </th>        
-                        <th width="150">KONFIRMASI</th>                            
+                        <th width="150">STATUS</th>                            
                         <th width="150">AKSI</th>
                     </tr>
                 </thead>

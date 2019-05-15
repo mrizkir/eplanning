@@ -19,7 +19,7 @@ class VerifikasiRenjaController extends Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['auth']);
+        $this->middleware(['auth','role:superadmin|opd']);
     }
     private function populateRincianKegiatan($RenjaID)
     {
@@ -140,6 +140,7 @@ class VerifikasiRenjaController extends Controller {
         $data=$this->populateData();
 
         $datatable = view("pages.$theme.rkpd.verifikasirenja.datatable")->with(['page_active'=>'verifikasirenja',
+                                                                                'label_transfer'=>'RKPD',
                                                                                 'search'=>$this->getControllerStateSession('verifikasirenja','search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                 'column_order'=>$this->getControllerStateSession('verifikasirenja.orderby','column_name'),
@@ -188,6 +189,7 @@ class VerifikasiRenjaController extends Controller {
         }
         
         $datatable = view("pages.$theme.rkpd.verifikasirenja.datatable")->with(['page_active'=>'verifikasirenja',
+                                                                                    'label_transfer'=>'RKPD',
                                                                                     'search'=>$this->getControllerStateSession('verifikasirenja','search'),
                                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                     'column_order'=>$this->getControllerStateSession('verifikasirenja.orderby','column_name'),
@@ -209,6 +211,7 @@ class VerifikasiRenjaController extends Controller {
         $this->setCurrentPageInsideSession('verifikasirenja',$id);
         $data=$this->populateData($id);
         $datatable = view("pages.$theme.rkpd.verifikasirenja.datatable")->with(['page_active'=>'verifikasirenja',
+                                                                            'label_transfer'=>'RKPD',
                                                                             'search'=>$this->getControllerStateSession('verifikasirenja','search'),
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                             'column_order'=>$this->getControllerStateSession('verifikasirenja.orderby','column_name'),
@@ -241,12 +244,13 @@ class VerifikasiRenjaController extends Controller {
         $this->setCurrentPageInsideSession('verifikasirenja',1);
         $data=$this->populateData();
 
-        $datatable = view("pages.$theme.rkpd.verifikasirenja.datatable")->with(['page_active'=>'verifikasirenja',                                                            
-                                                            'search'=>$this->getControllerStateSession('verifikasirenja','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('verifikasirenja.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('verifikasirenja.orderby','order'),
-                                                            'data'=>$data])->render();      
+        $datatable = view("pages.$theme.rkpd.verifikasirenja.datatable")->with(['page_active'=>'verifikasirenja',   
+                                                                                'label_transfer'=>'RKPD',                                                         
+                                                                                'search'=>$this->getControllerStateSession('verifikasirenja','search'),
+                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                'column_order'=>$this->getControllerStateSession('verifikasirenja.orderby','column_name'),
+                                                                                'direction'=>$this->getControllerStateSession('verifikasirenja.orderby','order'),
+                                                                                'data'=>$data])->render();      
         
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
     }
@@ -296,7 +300,8 @@ class VerifikasiRenjaController extends Controller {
 
             $data = $this->populateData();
 
-            $datatable = view("pages.$theme.rkpd.verifikasirenja.datatable")->with(['page_active'=>'verifikasirenja',                                                            
+            $datatable = view("pages.$theme.rkpd.verifikasirenja.datatable")->with(['page_active'=>'verifikasirenja',            
+                                                                                    'label_transfer'=>'RKPD',                                                
                                                                                     'search'=>$this->getControllerStateSession('verifikasirenja','search'),
                                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                     'column_order'=>$this->getControllerStateSession('verifikasirenja.orderby','column_name'),
@@ -356,14 +361,15 @@ class VerifikasiRenjaController extends Controller {
         $this->setCurrentPageInsideSession('verifikasirenja',$data->currentPage());
 
         return view("pages.$theme.rkpd.verifikasirenja.index")->with(['page_active'=>'verifikasirenja',
-                                                                            'daftar_opd'=>$daftar_opd,
-                                                                            'daftar_unitkerja'=>$daftar_unitkerja,
-                                                                            'filters'=>$filters,
-                                                                            'search'=>$this->getControllerStateSession('verifikasirenja','search'),
-                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                                            'column_order'=>$this->getControllerStateSession('verifikasirenja.orderby','column_name'),
-                                                                            'direction'=>$this->getControllerStateSession('verifikasirenja.orderby','order'),
-                                                                            'data'=>$data]);               
+                                                                        'label_transfer'=>'RKPD',
+                                                                        'daftar_opd'=>$daftar_opd,
+                                                                        'daftar_unitkerja'=>$daftar_unitkerja,
+                                                                        'filters'=>$filters,
+                                                                        'search'=>$this->getControllerStateSession('verifikasirenja','search'),
+                                                                        'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                        'column_order'=>$this->getControllerStateSession('verifikasirenja.orderby','column_name'),
+                                                                        'direction'=>$this->getControllerStateSession('verifikasirenja.orderby','order'),
+                                                                        'data'=>$data]);               
                      
     }
     /**
@@ -439,105 +445,47 @@ class VerifikasiRenjaController extends Controller {
     public function update(Request $request, $id)
     {
         $theme = \Auth::user()->theme;
-
-        $verifikasirenja = RenjaRincianModel::find($id);        
-        $this->validate($request, [
-            'Uraian'=>'required',
-            'Sasaran_Angka5'=>'required',
-            'Sasaran_Uraian5'=>'required',
-            'Target5'=>'required',
-            'Jumlah5'=>'required'           
-        ]);       
+        $verifikasirenja = RenjaRincianModel::find($id);   
         
-        \DB::transaction(function () use ($verifikasirenja,$request) {
+        if ($request->ajax()) 
+        {
+            $verifikasirenja->Status=$request->input('Status');            
+        }
+        else
+        {
+            $this->validate($request, [
+                'Uraian'=>'required',
+                'Sasaran_Angka5'=>'required',
+                'Sasaran_Uraian5'=>'required',
+                'Target5'=>'required',
+                'Jumlah5'=>'required'           
+            ]);    
             $verifikasirenja->Uraian = $request->input('Uraian');
             $verifikasirenja->Sasaran_Angka5 = $request->input('Sasaran_Angka5'); 
             $verifikasirenja->Sasaran_Uraian5 = $request->input('Sasaran_Uraian5');
             $verifikasirenja->Target5 = $request->input('Target5');
             $verifikasirenja->Jumlah5 = $request->input('Jumlah5');  
-            $verifikasirenja->Descr = $request->input('Descr');
-            $status=$request->input('cmbStatus');
-            $verifikasirenja->Status = $status;
-            $verifikasirenja->Privilege = $status==0?0:1;
-            $verifikasirenja->save();
-
-            if ($status==1 || $status ==2)
-            {
-                $tanggal_posting=\Carbon\Carbon::now();
-                $RenjaID=$verifikasirenja->RenjaID;
-                if (\DB::table('trRKPDRinc')->where('RKPDID', $RenjaID)->exists())
-                {
-                    $str_rincianrenja = '
-                        INSERT INTO "trRKPDRinc" (
-                            "RKPDRincID",
-                            "RKPDID", 
-                            "PMProvID",
-                            "PmKotaID",
-                            "PmKecamatanID",
-                            "PmDesaID",
-                            "UsulanKecID",
-                            "PokPirID",
-                            "Uraian",
-                            "No",
-                            "Sasaran_Uraian1",
-                            "Sasaran_Angka1",                        
-                            "NilaiUsulan1",                        
-                            "Target1",                        
-                            "Tgl_Posting",                         
-                            "isReses",
-                            "isReses_Uraian",
-                            "isSKPD",
-                            "Descr",
-                            "TA",
-                            "status",
-                            "EntryLvl",
-                            "Privilege",                   
-                            "created_at", 
-                            "updated_at"
-                        ) 
-                        SELECT 
-                            "RenjaRincID" AS "RKPDRincID",
-                            "RenjaID" AS "RKPDID",
-                            "PMProvID",
-                            "PmKotaID",
-                            "PmKecamatanID",
-                            "PmDesaID",
-                            "UsulanKecID",
-                            "PokPirID",
-                            "Uraian",
-                            "No",
-                            "Sasaran_Uraian5" AS "Sasaran_Uraian1",
-                            "Sasaran_Angka5" AS "Sasaran_Angka1",        
-                            "Jumlah5" AS "NilaiUsulan1",        
-                            "Target5" AS "Target1",                                              
-                            \''.$tanggal_posting.'\' AS Tgl_Posting,
-                            "isReses",
-                            "isReses_Uraian",
-                            "isSKPD",
-                            "Descr",
-                            "TA",
-                            1 AS "status",
-                            5 AS "EntryLvl",
-                            "Privilege",                        
-                            NOW() AS created_at,
-                            NOW() AS updated_at
-                        FROM 
-                            "trRenjaRinc" 
-                        WHERE "RenjaRincID"=\''.$verifikasirenja->RenjaRincID.'\' AND
-                            ("Status"=1 OR "Status"=2) AND
-                            "Privilege"=1  
-                    ';
-
-                    \DB::statement($str_rincianrenja);                 
-                }
-            }
-        });
+            $verifikasirenja->Descr = $request->input('Descr');            
+            $verifikasirenja->Status=$request->input('cmbStatus');                        
+        }        
+        $verifikasirenja->save();        
         
         if ($request->ajax()) 
         {            
+            $data = $this->populateData();
+            
+            $datatable = view("pages.$theme.rkpd.verifikasirenja.datatable")->with(['page_active'=>'verifikasirenja',                                                            
+                                                                                'label_transfer'=>'RKPD',
+                                                                                'search'=>$this->getControllerStateSession('verifikasirenja','search'),
+                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                'column_order'=>$this->getControllerStateSession('verifikasirenja.orderby','column_name'),
+                                                                                'direction'=>$this->getControllerStateSession('verifikasirenja.orderby','order'),
+                                                                                'data'=>$data])->render();
             return response()->json([
                 'success'=>true,
-                'message'=>'Data ini telah berhasil diubah.'                
+                'message'=>'Data ini telah berhasil diubah.',
+                'datatable'=>$datatable,
+                'rincian_kegiatan'=>$verifikasirenja                
             ],200);
         }
         else
@@ -556,10 +504,10 @@ class VerifikasiRenjaController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $RenjaID=$id; 
-        $renja = RenjaModel::find($RenjaID); 
+        $RenjaRincID=$id; 
+        $data = RenjaRincianModel::find($RenjaRincID); 
 
-        if ($renja == null)
+        if ($data == null)
         {
             if ($request->ajax()) 
             {
@@ -575,11 +523,13 @@ class VerifikasiRenjaController extends Controller {
         }
         else
         {
-            \DB::transaction(function () use ($renja) {
+            $rincian_kegiatan=\DB::transaction(function () use ($data) {
                 $tanggal_posting=\Carbon\Carbon::now();
                 #new rkpd
+                $renja=RenjaModel::find($data->RenjaID);  
                 $RKPDID=$renja->RenjaID;
-                RKPDModel::create([
+                
+                RKPDModel::firstOrCreate([
                     'RKPDID'=>$RKPDID,   
                     'OrgID'=>$renja->OrgID,
                     'SOrgID'=>$renja->SOrgID,
@@ -656,9 +606,9 @@ class VerifikasiRenjaController extends Controller {
                         NOW() AS updated_at
                     FROM 
                         "trRenjaRinc" 
-                    WHERE "RenjaID"=\''.$renja->RenjaID.'\' AND
+                    WHERE "RenjaRincID"=\''.$data->RenjaRincID.'\' AND
                         ("Status"=1 OR "Status"=2) AND
-                        "Privilege"=1  
+                        "Privilege"=0  
                 ';
 
                 \DB::statement($str_rincianrenja); 
@@ -692,28 +642,45 @@ class VerifikasiRenjaController extends Controller {
                     FROM 
                         "trRenjaIndikator" 
                     WHERE 
-                        "RenjaID"=\''.$renja->RenjaID.'\' 
+                        "RenjaID"=\''.$renja->RenjaID.'\' AND 
+                        "Privilege"=0
                 ';
 
                 \DB::statement($str_kinerja);
                 
+                //rincian renja finish
+                $data->Privilege=1;
+                $data->save();
+
                 //renja finish
                 $renja->Privilege=1;
                 $renja->Status=1;
                 $renja->save();
+                
+                return $str_rincianrenja;
             });
             if ($request->ajax()) 
             {                
+                $data = $this->populateData();
+            
+                $datatable = view("pages.$theme.rkpd.verifikasirenja.datatable")->with(['page_active'=>'verifikasirenja',                                                            
+                                                                                'label_transfer'=>'RKPD',
+                                                                                'search'=>$this->getControllerStateSession('verifikasirenja','search'),
+                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                'column_order'=>$this->getControllerStateSession('verifikasirenja.orderby','column_name'),
+                                                                                'direction'=>$this->getControllerStateSession('verifikasirenja.orderby','order'),
+                                                                                'data'=>$data])->render();
                 return response()->json([
                     'success'=>true,
-                    'message'=>'Data ini telah berhasil ditransfer.',
-                    ''
+                    'message'=>'Data ini telah berhasil diubah.',
+                    'datatable'=>$datatable,
+                    'rincian_kegiatan'=>$rincian_kegiatan                
                 ],200);
             }
             else
             {
                 return redirect(route('verifikasirenja.show',['id'=>$verifikasirenja->RenjaID]))->with('success','Data ini telah berhasil disimpan.');
             }
-        }
+        }//akhir check $data is null
     }
 }

@@ -26,14 +26,14 @@
         <li class="active">
             <a href="#">                                        
                 <i class="icon-checkmark"></i>                                        
-                SETUJUI
+                SETUJU
             </a>
         </li>
         @else
         <li>
             <a href="#" class="ubahstatus" data-status="1" data-id="{{$item->RenjaRincID}}">                                        
                 <i class="icon-cross"></i>                                        
-                SETUJUI
+                SETUJU
             </a>
         </li>
         @endif
@@ -42,14 +42,14 @@
         <li class="active">
             <a href="#">                                        
                 <i class="icon-checkmark"></i>                                        
-                SETUJUI CATATAN
+                SETUJU CATATAN
             </a>
         </li>
         @else
         <li>
             <a href="#" class="ubahstatus" data-status="2" data-id="{{$item->RenjaRincID}}">                                        
                 <i class="icon-cross"></i>                                        
-                SETUJUI CATATAN
+                SETUJU CATATAN
             </a>
         </li>
         @endif

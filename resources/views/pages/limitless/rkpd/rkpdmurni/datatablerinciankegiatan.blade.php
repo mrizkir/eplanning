@@ -51,13 +51,7 @@
                 <td>{{$item->Target1}}</td>               
                 <td>{{Helper::formatUang($item->NilaiUsulan1)}}</td>                       
                 <td>
-                    <span class="label label-success label-flat border-success text-success-600">
-                        {{HelperKegiatan::getStatusKegiatan($item->Status)}}
-                    </span>
-                    @if ($item->Status==2)
-                        <br/>   
-                        {{$item->Descr}}   
-                    @endif    
+                    @include('layouts.limitless.l_status_kegiatan')
                 </td>               
             </tr>
         @endforeach                    
