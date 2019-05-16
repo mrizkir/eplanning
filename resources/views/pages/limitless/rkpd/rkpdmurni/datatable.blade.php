@@ -8,7 +8,13 @@
                 </div>
             </div>
             <div class="heading-elements">
-                
+                <ul class="icons-list">
+                    <li>
+                        <a href="{!!route('rkpdmurni.printtoexcel')!!}" title="Print to Excel" id="btnprintexcel">
+                            <i class="icon-file-excel"></i>
+                        </a>                        
+                    </li>                                        
+                </ul>
             </div>
         </div>
         @if (count($data) > 0)

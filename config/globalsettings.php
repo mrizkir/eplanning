@@ -2,6 +2,7 @@
 
 return [
     //setting general
+    'nama_institusi'=>'BAPELITBANG KAB. BINTAN',
     'tahun_perencanaan'=>2020,
     'tahun_penyerapan'=>2019,
     'default_provinsi'=>'uidF1847004D8F547BF',

@@ -95,7 +95,6 @@
 @endsection
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
-<script src="{!!asset('themes/limitless/assets/js/switch.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
@@ -125,8 +124,7 @@ $(document).ready(function () {
                 var listitems='<option></option>';
                 $.each(daftar_unitkerja,function(key,value){
                     listitems+='<option value="' + key + '">'+value+'</option>';                    
-                });
-                
+                });                
                 $('#SOrgID').html(listitems);
                 $('#divdatatable').html(result.datatable);
             },
@@ -148,8 +146,7 @@ $(document).ready(function () {
             },
             success:function(result)
             { 
-                $('#divdatatable').html(result.datatable);
-                $(".switch").bootstrapSwitch();
+                $('#divdatatable').html(result.datatable);                
             },
             error:function(xhr, status, error){
                 console.log('ERROR');

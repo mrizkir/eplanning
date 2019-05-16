@@ -39,6 +39,7 @@ class CreateVRkpdView extends Migration
                 E."KgtNm",
                 B."No",
                 B."Uraian",
+                M."Nm_SumberDana",
                 B."Sasaran_Angka1",
                 B."Sasaran_Angka2",
                 B."Sasaran_Uraian1",
@@ -66,6 +67,7 @@ class CreateVRkpdView extends Migration
                 INNER JOIN "tmPrg" F ON E."PrgID"=F."PrgID" AND E."TA"=F."TA"
                 INNER JOIN "tmUrs" G ON C."UrsID"=G."UrsID" AND A."TA"=G."TA"
                 INNER JOIN "tmKUrs" H ON G."KUrsID"=H."KUrsID" AND G."TA"=H."TA"
+                INNER JOIN "tmSumberDana" M ON M."SumberDanaID"=A."SumberDanaID" AND A."TA"=M."TA"
                 LEFT JOIN "tmPMProv" I ON B."PMProvID"=I."PMProvID" AND B."TA"=I."TA"
                 LEFT JOIN "tmPmKota" J ON B."PmKotaID"=J."PmKotaID" AND B."TA"=J."TA"                
                 LEFT JOIN "tmPmKecamatan" K ON B."PmKecamatanID"=K."PmKecamatanID" AND B."TA"=K."TA"

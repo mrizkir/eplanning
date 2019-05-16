@@ -117,6 +117,7 @@ class RKPDMurniController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
+        $filters=$this->getControllerStateSession('rkpdmurni','filters');
         $numberRecordPerPage = $request->input('numberRecordPerPage');
         $this->putControllerStateSession('global_controller','numberRecordPerPage',$numberRecordPerPage);
         
@@ -124,6 +125,7 @@ class RKPDMurniController extends Controller {
         $data=$this->populateData();
 
         $datatable = view("pages.$theme.rkpd.rkpdmurni.datatable")->with(['page_active'=>'rkpdmurni',
+                                                                                'filters'=>$filters,
                                                                                 'search'=>$this->getControllerStateSession('rkpdmurni','search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                 'column_order'=>$this->getControllerStateSession('rkpdmurni.orderby','column_name'),
@@ -140,6 +142,7 @@ class RKPDMurniController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
+        $filters=$this->getControllerStateSession('rkpdmurni','filters');
         $orderby = $request->input('orderby') == 'asc'?'desc':'asc';
         $column=$request->input('column_name');
         switch($column) 
@@ -172,6 +175,7 @@ class RKPDMurniController extends Controller {
         }
         
         $datatable = view("pages.$theme.rkpd.rkpdmurni.datatable")->with(['page_active'=>'rkpdmurni',
+                                                                                    'filters'=>$filters,
                                                                                     'search'=>$this->getControllerStateSession('rkpdmurni','search'),
                                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                     'column_order'=>$this->getControllerStateSession('rkpdmurni.orderby','column_name'),
@@ -189,10 +193,12 @@ class RKPDMurniController extends Controller {
     public function paginate ($id) 
     {
         $theme = \Auth::user()->theme;
+        $filters=$this->getControllerStateSession('rkpdmurni','filters');
 
         $this->setCurrentPageInsideSession('rkpdmurni',$id);
         $data=$this->populateData($id);
         $datatable = view("pages.$theme.rkpd.rkpdmurni.datatable")->with(['page_active'=>'rkpdmurni',
+                                                                            'filters'=>$filters,
                                                                             'search'=>$this->getControllerStateSession('rkpdmurni','search'),
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                             'column_order'=>$this->getControllerStateSession('rkpdmurni.orderby','column_name'),
@@ -211,6 +217,7 @@ class RKPDMurniController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
+        $filters=$this->getControllerStateSession('rkpdmurni','filters');
         $action = $request->input('action');
         if ($action == 'reset') 
         {
@@ -225,7 +232,8 @@ class RKPDMurniController extends Controller {
         $this->setCurrentPageInsideSession('rkpdmurni',1);
         $data=$this->populateData();
 
-        $datatable = view("pages.$theme.rkpd.rkpdmurni.datatable")->with(['page_active'=>'rkpdmurni',                                                            
+        $datatable = view("pages.$theme.rkpd.rkpdmurni.datatable")->with(['page_active'=>'rkpdmurni',     
+                                                            'filters'=>$filters,
                                                             'search'=>$this->getControllerStateSession('rkpdmurni','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                             'column_order'=>$this->getControllerStateSession('rkpdmurni.orderby','column_name'),
@@ -261,7 +269,8 @@ class RKPDMurniController extends Controller {
 
             $data = [];
 
-            $datatable = view("pages.$theme.rkpd.rkpdmurni.datatable")->with(['page_active'=>'rkpdmurni',                                                            
+            $datatable = view("pages.$theme.rkpd.rkpdmurni.datatable")->with(['page_active'=>'rkpdmurni', 
+                                                                                    'filters'=>$filters,                                                           
                                                                                     'search'=>$this->getControllerStateSession('rkpdmurni','search'),
                                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                     'column_order'=>$this->getControllerStateSession('rkpdmurni.orderby','column_name'),
@@ -280,7 +289,8 @@ class RKPDMurniController extends Controller {
 
             $data = $this->populateData();
 
-            $datatable = view("pages.$theme.rkpd.rkpdmurni.datatable")->with(['page_active'=>'rkpdmurni',                                                            
+            $datatable = view("pages.$theme.rkpd.rkpdmurni.datatable")->with(['page_active'=>'rkpdmurni',  
+                                                                                    'filters'=>$filters,                                                          
                                                                                     'search'=>$this->getControllerStateSession('rkpdmurni','search'),
                                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                     'column_order'=>$this->getControllerStateSession('rkpdmurni.orderby','column_name'),
@@ -400,5 +410,17 @@ class RKPDMurniController extends Controller {
                                                                         'datarinciankegiatan'=>$datarinciankegiatan
                                                                     ]);
         }        
+    }
+    /**
+     * Print to Excel
+     *    
+     * @return \Illuminate\Http\Response
+     */
+    public function printtoexcel()
+    {       
+        $OrgID=$filters=$this->getControllerStateSession('rkpdmurni','filters.OrgID');        
+        
+        $generate_date=date('Y-m-d_H_m_s');
+        return \Excel::download(new  \App\Models\Report\ReportRKPDMurniModel (['OrgID'=>$OrgID]),"rkpd_$generate_date.xlsx");                  
     }
 }

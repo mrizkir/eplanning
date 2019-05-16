@@ -326,6 +326,8 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/rkpd/rkpdmurni/changenumberrecordperpage',['uses'=>'RKPD\RKPDMurniController@changenumberrecordperpage','as'=>'rkpdmurni.changenumberrecordperpage']);  
     Route::post('/rkpd/rkpdmurni/orderby',['uses'=>'RKPD\RKPDMurniController@orderby','as'=>'rkpdmurni.orderby']);  
     Route::put('/rkpd/rkpdmurni/transfer/{uuid}',['uses'=>'RKPD\RKPDMurniController@transfer','as'=>'rkpdmurni.transfer']);
+    Route::get('/rkpd/rkpdmurni/printtoexcel',['uses'=>'RKPD\RKPDMurniController@printtoexcel','as'=>'rkpdmurni.printtoexcel']);
+    Route::get('/rkpd/rkpdmurni/printtopdf',['uses'=>'RKPD\RKPDMurniController@printtopdf','as'=>'rkpdmurni.printtopdf']);
     
 
     //setting - permissions    
