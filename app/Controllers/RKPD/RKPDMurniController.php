@@ -34,12 +34,42 @@ class RKPDMurniController extends Controller {
     }
     private function populateIndikatorKegiatan($RKPDID)
     {
-      
+        
         $data = RKPDMurniIndikatorModel::join('trIndikatorKinerja','trIndikatorKinerja.IndikatorKinerjaID','trRenjaIndikator.IndikatorKinerjaID')
                                                             ->where('RKPDID',$RKPDID)
                                                             ->get();
 
         return $data;
+    }
+    public function populateSummary()
+    {
+        $filters=$this->getControllerStateSession('rkpdmurni','filters');
+
+        if ($filters['OrgID']=='none' && $filters['SOrgID']=='none')
+        {
+            $summary['jumlah_kegiatan']=RKPDMurniModel::where('EntryLvl',5)->count();
+            $summary['pagu_dana']=RKPDMurniModel::where('EntryLvl',5)->sum('NilaiUsulan1');
+        }
+        elseif ($filters['OrgID']!='none' || $filters['SOrgID']=='none')
+        {
+            $summary['jumlah_kegiatan']=RKPDMurniModel::where('EntryLvl',5)
+                                        ->where('OrgID',$filters['OrgID'])
+                                        ->count();
+            $summary['pagu_dana']=RKPDMurniModel::where('EntryLvl',5)
+                                                ->where('OrgID',$filters['OrgID'])
+                                                ->sum('NilaiUsulan1');
+        }
+        else
+        {
+            $summary['jumlah_kegiatan']=RKPDMurniModel::where('EntryLvl',5)
+                                        ->where('SOrgID',$filters['SOrgID'])
+                                        ->count();
+            $summary['pagu_dana']=RKPDMurniModel::where('EntryLvl',5)
+                                                ->where('SOrgID',$filters['SOrgID'])
+                                                ->sum('NilaiUsulan1');
+        }
+        $summary['pagu_dana']='Rp. '.\Helper::formatUang($summary['pagu_dana']);
+        return $summary;
     }
     /**
      * collect data from resources for index view
@@ -66,9 +96,9 @@ class RKPDMurniController extends Controller {
         if (!$this->checkStateIsExistSession('rkpdmurni','filters')) 
         {            
             $this->putControllerStateSession('rkpdmurni','filters',[
-                                                                            'OrgID'=>'none',
-                                                                            'SOrgID'=>'none',
-                                                                            ]);
+                                                                    'OrgID'=>'none',
+                                                                    'SOrgID'=>'none',
+                                                                    ]);
         }        
         $SOrgID= $this->getControllerStateSession('rkpdmurni.filters','SOrgID');        
 
@@ -257,7 +287,7 @@ class RKPDMurniController extends Controller {
         $daftar_unitkerja=[];
         $json_data = [];
 
-        // //index
+        //index
         if ($request->exists('OrgID'))
         {
             $OrgID = $request->input('OrgID')==''?'none':$request->input('OrgID');
@@ -267,8 +297,8 @@ class RKPDMurniController extends Controller {
             
             $this->putControllerStateSession('rkpdmurni','filters',$filters);
 
-            $data = [];
-
+            $data = [];            
+            $summary=$this->populateSummary();
             $datatable = view("pages.$theme.rkpd.rkpdmurni.datatable")->with(['page_active'=>'rkpdmurni', 
                                                                                     'filters'=>$filters,                                                           
                                                                                     'search'=>$this->getControllerStateSession('rkpdmurni','search'),
@@ -277,7 +307,10 @@ class RKPDMurniController extends Controller {
                                                                                     'direction'=>$this->getControllerStateSession('rkpdmurni.orderby','order'),
                                                                                     'data'=>$data])->render();
 
-            $json_data = ['success'=>true,'daftar_unitkerja'=>$daftar_unitkerja,'datatable'=>$datatable];
+            $json_data = ['success'=>true,
+                        'summary'=>$summary,
+                        'daftar_unitkerja'=>$daftar_unitkerja,
+                        'datatable'=>$datatable];
         } 
         //index
         if ($request->exists('SOrgID'))
@@ -287,8 +320,8 @@ class RKPDMurniController extends Controller {
             $this->putControllerStateSession('rkpdmurni','filters',$filters);
             $this->setCurrentPageInsideSession('rkpdmurni',1);
 
-            $data = $this->populateData();
-
+            $data = $this->populateData();            
+            $summary=$this->populateSummary();
             $datatable = view("pages.$theme.rkpd.rkpdmurni.datatable")->with(['page_active'=>'rkpdmurni',  
                                                                                     'filters'=>$filters,                                                          
                                                                                     'search'=>$this->getControllerStateSession('rkpdmurni','search'),
@@ -297,7 +330,9 @@ class RKPDMurniController extends Controller {
                                                                                     'direction'=>$this->getControllerStateSession('rkpdmurni.orderby','order'),
                                                                                     'data'=>$data])->render();                                                                                       
                                                                                     
-            $json_data = ['success'=>true,'datatable'=>$datatable];    
+            $json_data = ['success'=>true,
+                        'summary'=>$summary,
+                        'datatable'=>$datatable];    
         }
         return $json_data;
     }
@@ -350,6 +385,7 @@ class RKPDMurniController extends Controller {
         $this->setCurrentPageInsideSession('rkpdmurni',$data->currentPage());
 
         return view("pages.$theme.rkpd.rkpdmurni.index")->with(['page_active'=>'rkpdmurni',
+                                                                            'summary'=>$this->populateSummary(),
                                                                             'daftar_opd'=>$daftar_opd,
                                                                             'daftar_unitkerja'=>$daftar_unitkerja,
                                                                             'filters'=>$filters,

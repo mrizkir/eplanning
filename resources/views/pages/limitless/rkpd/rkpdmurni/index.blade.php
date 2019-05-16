@@ -12,10 +12,39 @@
     @include('pages.limitless.rkpd.rkpdmurni.info')
 @endsection
 @section('page_breadcrumb')
+    <li><a href="#">WORKFLOW</a></li>        
     <li class="active">RKPD</li>
 @endsection
 @section('page_content')
 <div class="row">
+    <div class="col-sm-6 col-md-3">
+        <div class="panel panel-body bg-blue-400 has-bg-image">
+            <div class="media no-margin">
+                <div class="media-body">
+                    <h3 class="no-margin" id="infopaneljumlahkegiatan">{{$summary['jumlah_kegiatan']}}</h3>
+                    <span class="text-uppercase text-size-mini">Jumlah Kegiatan</span>
+                </div>
+                <div class="media-right media-middle">
+                    <i class="icon-bag icon-3x opacity-75"></i>
+                </div>
+            </div>
+        </div>
+    </div>        
+    <div class="col-sm-6 col-md-3">
+        <div class="panel panel-body bg-indigo-400 has-bg-image">
+            <div class="media no-margin">
+                <div class="media-left media-middle">
+                    <i class="icon-enter6 icon-3x opacity-75"></i>
+                </div>
+
+                <div class="media-body text-right">
+                    <h3 class="no-margin" id="infopanelpagudana">{{$summary['pagu_dana']}}</h3>
+                    <span class="text-uppercase text-size-mini">Jumlah Pagu Dana</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="col-md-12" id="divfilter">
         <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
             <div class="panel-heading">
@@ -87,7 +116,7 @@
                 {!! Form::close()!!}
             </div>
         </div>
-    </div>       
+    </div>   
     <div class="col-md-12" id="divdatatable">
         @include('pages.limitless.rkpd.rkpdmurni.datatable')
     </div>
@@ -98,6 +127,11 @@
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
+function populateSummary(summary)
+{
+    $('#infopaneljumlahkegiatan').html(summary.jumlah_kegiatan);
+    $('#infopanelpagudana').html(summary.pagu_dana);
+}
 $(document).ready(function () {      
      //styling select
      $('#OrgID.select').select2({
@@ -126,7 +160,8 @@ $(document).ready(function () {
                     listitems+='<option value="' + key + '">'+value+'</option>';                    
                 });                
                 $('#SOrgID').html(listitems);
-                $('#divdatatable').html(result.datatable);
+                $('#divdatatable').html(result.datatable);    
+                populateSummary(result.summary);            
             },
             error:function(xhr, status, error){
                 console.log('ERROR');
@@ -146,7 +181,8 @@ $(document).ready(function () {
             },
             success:function(result)
             { 
-                $('#divdatatable').html(result.datatable);                
+                $('#divdatatable').html(result.datatable);  
+                populateSummary(result.summary);                                          
             },
             error:function(xhr, status, error){
                 console.log('ERROR');

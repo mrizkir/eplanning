@@ -7,13 +7,21 @@
                     </div>
                 </div>
             </div>
-            <div class="heading-elements">
+            <div class="heading-elements">               
                 <ul class="icons-list">
-                    <li>
-                        <a href="{!!route('rkpdmurni.printtoexcel')!!}" title="Print to Excel" id="btnprintexcel">
-                            <i class="icon-file-excel"></i>
-                        </a>                        
-                    </li>                                        
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-menu7"></i> 
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li>
+                                <a href="{!!route('rkpdmurni.printtoexcel')!!}" title="Print to Excel" id="btnprintexcel">
+                                    <i class="icon-file-excel"></i> Export to Excel
+                                </a>     
+                            </li>                            
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
