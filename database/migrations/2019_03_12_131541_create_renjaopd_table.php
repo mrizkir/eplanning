@@ -183,7 +183,7 @@ class CreateRenjaopdTable extends Migration
                 $table->decimal('Jumlah6',15,2)->nullable();
 
                 $table->boolean('isReses')->nullable();
-                $table->string('isReses_Uraian',5)->nullable();
+                $table->string('isReses_Uraian')->nullable();
                 $table->boolean('isSKPD')->nullable();
                 $table->tinyInteger('Status');
                 $table->tinyInteger('EntryLvl')->default(0);

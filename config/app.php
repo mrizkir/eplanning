@@ -37,8 +37,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
-        Maatwebsite\Excel\ExcelServiceProvider::class
+        App\Providers\RouteServiceProvider::class
     ],
     'aliases' => [
         'App' => Illuminate\Support\Facades\App::class,
@@ -75,7 +74,6 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Helper' => App\Helpers\Helper::class,
-        'HelperKegiatan' => App\Helpers\HelperKegiatan::class,
-        'Excel' => Maatwebsite\Excel\Facades\Excel::class
+        'HelperKegiatan' => App\Helpers\HelperKegiatan::class
     ],
 ];
