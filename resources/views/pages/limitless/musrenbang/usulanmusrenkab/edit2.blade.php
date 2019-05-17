@@ -23,7 +23,7 @@
         <div class="panel-heading">
             <h5 class="panel-title">
                 <i class="icon-pencil7 position-left"></i> 
-                UBAH DATA RINCIAN KEGIATAN DARI MUSRENBANG KABUPATEN
+                TAMBAH DATA RINCIAN KEGIATAN DARI MUSRENBANG KECAMATAN
             </h5>
             <div class="heading-elements">
                 <ul class="icons-list">                    

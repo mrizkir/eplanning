@@ -26,6 +26,9 @@
                     <i class="icon-eye"></i>  DATA URUSAN
                 </h5>
                 <div class="heading-elements">   
+                    <a href="{{route('urusan.create')}}" class="btn btn-info btn-icon heading-btn btnTambah" title="Tambah Data Urusan">
+                        <i class="icon-googleplus5"></i>
+                    </a>
                     <a href="{{route('urusan.edit',['id'=>$data->urusan_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Urusan">
                         <i class="icon-pencil7"></i>
                     </a>

@@ -95,6 +95,9 @@
     </div>
 </div>
 @endsection
+@section('page_custom_html')
+    @include('layouts.limitless.l_modal_histori_renja_only_pagu')
+@endsection
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
 @endsection
@@ -200,6 +203,28 @@ $(document).ready(function () {
                 console.log(parseMessageAjaxEror(xhr, status, error));                           
             },
         });     
+    });
+    $(document).on('click','.btnHistoriRenja',function(ev){
+        ev.preventDefault();   
+        let url = $(this).attr("data-url");
+        console.log(url);     
+        // $.ajax({
+        //     type:'post',
+        //     url: url_current_page +'/transfer',
+        //     dataType: 'json',
+        //     data: {                
+        //         "_token": token,
+        //         "RenjaRincID": RenjaRincID,
+        //     },
+        //     success:function(result)
+        //     { 
+        //         $('#divdatatable').html(result.datatable);
+        //     },
+        //     error:function(xhr, status, error){
+        //         console.log('ERROR');
+        //         console.log(parseMessageAjaxEror(xhr, status, error));                           
+        //     },
+        // });     
     });
 });
 </script>

@@ -31,7 +31,7 @@ class HelperKegiatan {
     private static $StatusKegiatan =[0=>'DRAFT',
                                     1=>'SETUJU',
                                     2=>'SETUJU DG. CATATAN',
-                                    3=>'1PENDING']; 
+                                    3=>'PENDING']; 
     
     /**
     * digunakan untuk mendapatkan entri level

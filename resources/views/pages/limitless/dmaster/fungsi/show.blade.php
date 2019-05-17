@@ -23,7 +23,10 @@
                 <h5 class="panel-title"> 
                     <i class="icon-eye"></i>  DATA FUNGSI
                 </h5>
-                <div class="heading-elements">   
+                <div class="heading-elements">
+                    <a href="{!!route('fungsi.create')!!}" class="btn btn-primary btn-icon heading-btn btnTambah" title="Tambah FUNGSI">
+                        <i class="icon-googleplus5"></i>
+                    </a>   
                     <a href="{{route('fungsi.edit',['id'=>$data->fungsi_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Fungsi">
                         <i class="icon-pencil7"></i>
                     </a>

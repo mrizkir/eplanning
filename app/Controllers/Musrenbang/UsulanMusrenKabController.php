@@ -1072,7 +1072,7 @@ class UsulanMusrenKabController extends Controller {
                                             ->join('tmPMProv','tmPMProv.PMProvID','trRenjaRinc.PMProvID')
                                             ->join('tmPmKota','tmPmKota.PmKotaID','trRenjaRinc.PmKotaID')
                                             ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')                                            
-                                            ->findOrFail($id);        
+                                            ->find($id);        
             break;
             case 'opd' :
                 $OrgID = $auth->OrgID;
@@ -1091,10 +1091,14 @@ class UsulanMusrenKabController extends Controller {
                                                         ->join('tmPmKota','tmPmKota.PmKotaID','trRenjaRinc.PmKotaID')
                                                         ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')                                            
                                                         ->where('trRenja.OrgID',$OrgID)
-                                                        ->findOrFail($id);        
+                                                        ->find($id);        
             break;
         }
-        if (!is_null($renja) ) 
+        if (is_null($renja) )
+        {
+            return redirect(route('usulanmusrenkab.edit4',['id'=>$id]))->with('error',"Data rincian kegiatan dari musrenbang Kec dengan ID ($id)  gagal diperoleh, diarahkan menjadi rincian usulan OPD / SKPD .");
+        } 
+        else
         {               
             $datarinciankegiatan = $this->populateRincianKegiatan($renja->RenjaID);
             

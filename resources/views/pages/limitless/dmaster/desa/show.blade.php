@@ -23,7 +23,10 @@
                 <h5 class="panel-title"> 
                     <i class="icon-eye"></i>  DATA DESA
                 </h5>
-                <div class="heading-elements">   
+                <div class="heading-elements">
+                    <a href="{!!route('desa.create')!!}" class="btn btn-primary btn-icon heading-btn btnTambah" title="Tambah DESA">
+                        <i class="icon-googleplus5"></i>
+                    </a>   
                     <a href="{{route('desa.edit',['id'=>$data->desa_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Desa">
                         <i class="icon-pencil7"></i>
                     </a>

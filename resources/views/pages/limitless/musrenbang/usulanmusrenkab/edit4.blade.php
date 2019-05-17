@@ -100,7 +100,7 @@
                 </div>
             </div>  
             <div class="form-group">
-                <label class="col-md-2 control-label">KABUPATEN :</label> 
+                <label class="col-md-2 control-label">KECAMATAN :</label> 
                 <div class="col-md-10">
                     <select name="PmKecamatanID" id="PmKecamatanID" class="select">
                         <option></option>          
@@ -184,7 +184,7 @@ $(document).ready(function () {
         allowClear:true
     }); 
     $('#PmKecamatanID.select').select2({
-        placeholder: "PILIH KABUPATEN",
+        placeholder: "PILIH KECAMATAN",
         allowClear:true
     }); 
     $('#PmDesaID.select').select2({

@@ -95,6 +95,9 @@
     </div>
 </div>
 @endsection
+@section('page_custom_html')
+    @include('layouts.limitless.l_modal_histori_renja_only_pagu')
+@endsection
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
 @endsection

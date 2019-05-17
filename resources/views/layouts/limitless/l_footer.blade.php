@@ -1,3 +1,4 @@
+@yield('page_custom_html')
 <script src="{!!asset('themes/limitless/assets/js/jquery.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/bootstrap.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/nicescroll.min.js')!!}"></script>

@@ -80,12 +80,6 @@
                     <i class="icon-stop"></i> {{$label_transfer}}
                 </a>
             @endif
-        </li>         
-        <li>
-            <a href="#" onclick="event.preventDefault()">                                        
-                <i class="icon-history"></i>                                        
-                HISTORY
-            </a>
         </li> 
         @else 
         <li class="dropdown-header">TRANSFER</li>
@@ -93,13 +87,13 @@
             <a href="#" onclick="event.preventDefault()" title="{{$label_transfer}}">
                 <i class="icon-checkbox-checked2"></i> {{$label_transfer}}
             </a>        
-        </li>  
+        </li>          
+        @endif 
         <li>
-            <a href="#" onclick="event.preventDefault()" title="{{$label_transfer}}">                                        
+            <a href="#"  title="{{$label_transfer}}" class="btnHistoriRenja" data-url="{{route('historirenja.onlypagu',['uuid'=>$item->RenjaRincID])}}" >                                        
                 <i class="icon-history"></i>                                        
                 HISTORY
             </a>
-        </li> 
-        @endif                              
+        </li>                              
     </ul>
 </li>

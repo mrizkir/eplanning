@@ -150,21 +150,21 @@ class PembahasanMusrenKabController extends Controller {
             default :
                 $column_name = 'kode_kegiatan';
         }
-        $this->putControllerStateSession('pembahasanprarenjaopd','orderby',['column_name'=>$column_name,'order'=>$orderby]);      
+        $this->putControllerStateSession('pembahasanmusrenkab','orderby',['column_name'=>$column_name,'order'=>$orderby]);      
 
-        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('pembahasanprarenjaopd');         
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('pembahasanmusrenkab');         
         $data=$this->populateData($currentpage);
         if ($currentpage > $data->lastPage())
         {            
             $data = $this->populateData($data->lastPage());
         }
         
-        $datatable = view("pages.$theme.musrenbang.pembahasanprarenjaopd.datatable")->with(['page_active'=>'pembahasanprarenjaopd',
+        $datatable = view("pages.$theme.musrenbang.pembahasanmusrenkab.datatable")->with(['page_active'=>'pembahasanmusrenkab',
                                                                                     'label_transfer'=>'Verifikasi Renja',
-                                                                                    'search'=>$this->getControllerStateSession('pembahasanprarenjaopd','search'),
+                                                                                    'search'=>$this->getControllerStateSession('pembahasanmusrenkab','search'),
                                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                                    'column_order'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','column_name'),
-                                                                                    'direction'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','order'),
+                                                                                    'column_order'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','column_name'),
+                                                                                    'direction'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','order'),
                                                                                     'data'=>$data])->render();     
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
