@@ -22,7 +22,7 @@ class RKPDMurniController extends Controller {
     }
     private function populateRincianKegiatan($RKPDID)
     {
-        $data = RKPDRincianModel::select(\DB::raw('"trRKPDRinc"."RKPDRincID","trRKPDRinc"."RKPDID","trRKPDRinc"."RKPDID","trRKPDRinc"."UsulanKecID","Nm_Kecamatan","trRKPDRinc"."Uraian","trRKPDRinc"."No","trRKPDRinc"."Sasaran_Angka1","trRKPDRinc"."Sasaran_Uraian1","trRKPDRinc"."Target1","trRKPDRinc"."NilaiUsulan1","trRKPDRinc"."status" AS "Status","trRKPDRinc"."Descr","isSKPD","isReses","isReses_Uraian","trRenjaRinc"."Descr"'))
+        $data = RKPDRincianModel::select(\DB::raw('"trRKPDRinc"."RKPDRincID","trRKPDRinc"."RKPDID","trRKPDRinc"."RKPDID","trRKPDRinc"."UsulanKecID","Nm_Kecamatan","trRKPDRinc"."Uraian","trRKPDRinc"."No","trRKPDRinc"."Sasaran_Angka1","trRKPDRinc"."Sasaran_Uraian1","trRKPDRinc"."Target1","trRKPDRinc"."NilaiUsulan1","trRKPDRinc"."Status" AS "Status","trRKPDRinc"."Descr","isSKPD","isReses","isReses_Uraian","trRKPDRinc"."Descr"'))
                                 ->leftJoin('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRKPDRinc.PmKecamatanID')
                                 ->leftJoin('trPokPir','trPokPir.PokPirID','trRKPDRinc.PokPirID')
                                 ->leftJoin('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')
@@ -35,7 +35,7 @@ class RKPDMurniController extends Controller {
     private function populateIndikatorKegiatan($RKPDID)
     {
         
-        $data = RKPDMurniIndikatorModel::join('trIndikatorKinerja','trIndikatorKinerja.IndikatorKinerjaID','trRenjaIndikator.IndikatorKinerjaID')
+        $data = RKPDMurniIndikatorModel::join('trIndikatorKinerja','trIndikatorKinerja.IndikatorKinerjaID','trRKPDIndikator.IndikatorKinerjaID')
                                                             ->where('RKPDID',$RKPDID)
                                                             ->get();
 
@@ -454,9 +454,24 @@ class RKPDMurniController extends Controller {
      */
     public function printtoexcel()
     {       
+       
+        $generate_date=date('Y-m-d_H_m_s');
         $OrgID=$filters=$this->getControllerStateSession('rkpdmurni','filters.OrgID');        
         
-        $generate_date=date('Y-m-d_H_m_s');
-        return \Excel::download(new  \App\Models\Report\ReportRKPDMurniModel (['OrgID'=>$OrgID]),"rkpd_$generate_date.xlsx");                  
+        $opd = \DB::table('v_urusan_organisasi')
+                    ->where('OrgID',$OrgID)->first();  
+        
+        $data_report['OrgID']=$opd->OrgID;
+        $data_report['Kd_Urusan']=$opd->Kd_Urusan;
+        $data_report['Nm_Urusan']=$opd->Nm_Urusan;
+        $data_report['Kd_Bidang']=$opd->Kd_Bidang;
+        $data_report['Nm_Bidang']=$opd->Nm_Bidang;
+        $data_report['kode_organisasi']=$opd->kode_organisasi;
+        $data_report['OrgNm']=$opd->OrgNm;
+        $data_report['NamaKepalaSKPD']=$opd->NamaKepalaSKPD;
+        $data_report['NIPKepalaSKPD']=$opd->NIPKepalaSKPD;
+        
+        $report= new \App\Models\Report\ReportRKPDMurniModel ($data_report);
+        return $report->download("rkpd_$generate_date.xlsx");
     }
 }

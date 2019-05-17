@@ -31,17 +31,20 @@ class CreateUsulanrkpdabpdTable extends Migration
             $table->decimal('NilaiUsulan1',15,2);
             $table->decimal('NilaiUsulan2',15,2)->nullable();
 
-            $table->decimal('Target1',10,2);
-            $table->decimal('Target2',10,2)->nullable();
+            $table->decimal('Target1',15,2);
+            $table->decimal('Target2',15,2)->nullable();
 
             $table->decimal('Sasaran_AngkaSetelah',15,2);
             $table->string('Sasaran_UraianSetelah');
+
+            $table->decimal('NilaiSebelum',15,2)->nullable();
+            $table->decimal('NilaiSetelah',15,2)->nullable();
 
             $table->date('Tgl_Posting');
 
             $table->string('Descr')->nullable();
             $table->year('TA'); 
-            $table->tinyInteger('status')->default(0);
+            $table->tinyInteger('Status')->default(0);
             $table->tinyInteger('EntryLvl')->default(0);
             $table->tinyInteger('Privilege')->default(0);
             $table->string('RKPDID_Src',19)->nullable();                    
@@ -97,7 +100,7 @@ class CreateUsulanrkpdabpdTable extends Migration
             $table->string('RKPDID',19);
             $table->string('IndikatorKinerjaID',19);
             
-            $table->decimal('Target_Angka',10,2);
+            $table->decimal('Target_Angka',15,2);
             $table->string('Target_Uraian');
             $table->year('Tahun');
             $table->string('Descr')->nullable();
@@ -153,8 +156,8 @@ class CreateUsulanrkpdabpdTable extends Migration
                 $table->decimal('NilaiUsulan1',15,2);
                 $table->decimal('NilaiUsulan2',15,2)->nullable();
 
-                $table->decimal('Target1',10,2);
-                $table->decimal('Target2',10,2)->nullable();
+                $table->decimal('Target1',15,2);
+                $table->decimal('Target2',15,2)->nullable();
 
                 $table->date('Tgl_Posting');
                 $table->boolean('isReses')->nullable();
@@ -162,7 +165,7 @@ class CreateUsulanrkpdabpdTable extends Migration
                 $table->boolean('isSKPD')->nullable();
                 $table->string('Descr')->nullable();
                 $table->year('TA'); 
-                $table->tinyInteger('status')->default(0);
+                $table->tinyInteger('Status')->default(0);
                 $table->tinyInteger('EntryLvl')->default(0);
                 $table->tinyInteger('Privilege')->default(0);                
                 $table->string('RKPDRincID_Src',19)->nullable();

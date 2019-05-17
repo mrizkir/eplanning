@@ -609,8 +609,7 @@ class PembahasanRAKORBidangController extends Controller {
                 return response()->json([
                     'success'=>true,
                     'message'=>'Data ini telah berhasil diubah.',
-                    'datatable'=>$datatable,
-                    'rincian_kegiatan'=>$rincian_kegiatan
+                    'datatable'=>$datatable
                 ],200);
             }
             else

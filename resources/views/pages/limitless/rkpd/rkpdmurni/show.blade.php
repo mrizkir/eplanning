@@ -22,10 +22,7 @@
             <div class="panel-heading">
                 <h5 class="panel-title"> 
                     <i class="icon-eye"></i>  
-                    DATA RENCANA KERJA KEGIATAN
-                    @if (!empty($renja->RKPDID))
-                        <span class="label label-success label-rounded">SUDAH DI TRANSFER KE RKPD</span>
-                    @endif
+                    DATA RENCANA KERJA KEGIATAN                   
                 </h5>
                 <div class="heading-elements"> 
                     @if (empty($renja->RKPDID))

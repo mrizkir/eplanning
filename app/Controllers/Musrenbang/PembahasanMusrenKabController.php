@@ -623,8 +623,7 @@ class PembahasanMusrenKabController extends Controller {
                 return response()->json([
                     'success'=>true,
                     'message'=>'Data ini telah berhasil ditransfer ke tahap verifikasi renja.',
-                    'datatable'=>$datatable,
-                    'rincian_kegiatan'=>$rincian_kegiatan
+                    'datatable'=>$datatable
                 ],200);
             }
             else

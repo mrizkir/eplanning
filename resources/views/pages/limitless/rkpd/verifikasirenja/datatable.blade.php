@@ -32,7 +32,7 @@
                     </a>
                 </th>
                 <th width="200">
-                    <a class="column-sort text-white" id="col-Sasaran_Angka4" data-order="{{$direction}}" href="#">
+                    <a class="column-sort text-white" id="col-Sasaran_Angka5" data-order="{{$direction}}" href="#">
                         SASARAN  
                     </a>                                             
                 </th> 
@@ -40,7 +40,7 @@
                     TARGET (%)                        
                 </th> 
                 <th width="150" class="text-right">
-                    <a class="column-sort text-white" id="col-Jumlah4" data-order="{{$direction}}" href="#">
+                    <a class="column-sort text-white" id="col-Jumlah5" data-order="{{$direction}}" href="#">
                         NILAI  
                     </a>                                             
                 </th> 

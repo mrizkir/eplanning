@@ -9,6 +9,7 @@ use App\Models\RKPD\RenjaModel;
 use App\Models\RKPD\RenjaRincianModel;
 use App\Models\RKPD\RenjaIndikatorModel;
 use App\Models\RKPD\RKPDModel;
+use App\Models\RKPD\RKPDRincianModel;
 
 class VerifikasiRenjaController extends Controller {
      /**
@@ -94,7 +95,7 @@ class VerifikasiRenjaController extends Controller {
                                                     ->where('TA', config('globalsettings.tahun_perencanaan'))
                                                     ->orderBy('Prioritas','ASC')
                                                     ->orderBy('Privilege','DESC')
-                                                    ->orderBy('status','DESC')
+                                                    ->orderBy('Status','DESC')
                                                     ->orderBy($column_order,$direction);                                        
                 break;
                 case 'Uraian' :
@@ -104,7 +105,7 @@ class VerifikasiRenjaController extends Controller {
                                                     ->where('TA', config('globalsettings.tahun_perencanaan'))
                                                     ->orderBy('Prioritas','ASC')
                                                     ->orderBy('Privilege','DESC')
-                                                    ->orderBy('status','DESC')
+                                                    ->orderBy('Status','DESC')
                                                     ->orderBy($column_order,$direction);                                        
                 break;
             }           
@@ -485,8 +486,7 @@ class VerifikasiRenjaController extends Controller {
             return response()->json([
                 'success'=>true,
                 'message'=>'Data ini telah berhasil diubah.',
-                'datatable'=>$datatable,
-                'rincian_kegiatan'=>$verifikasirenja                
+                'datatable'=>$datatable            
             ],200);
         }
         else
@@ -530,26 +530,38 @@ class VerifikasiRenjaController extends Controller {
                 $renja=RenjaModel::find($data->RenjaID);  
                 $RKPDID=$renja->RenjaID;
                 
-                RKPDModel::firstOrCreate([
-                    'RKPDID'=>$RKPDID,   
-                    'OrgID'=>$renja->OrgID,
-                    'SOrgID'=>$renja->SOrgID,
-                    'KgtID'=>$renja->KgtID,
-                    'SumberDanaID'=>$renja->SumberDanaID,
-                    'NamaIndikator'=>$renja->NamaIndikator,
-                    'Sasaran_Uraian1'=>$renja->Sasaran_Uraian5,                    
-                    'Sasaran_Angka1'=>$renja->Sasaran_Angka5,                    
-                    'NilaiUsulan1'=>$renja->NilaiUsulan5,                    
-                    'Target1'=>$renja->Target5,                    
-                    'Sasaran_AngkaSetelah'=>$renja->Sasaran_AngkaSetelah,
-                    'Sasaran_UraianSetelah'=>$renja->Sasaran_UraianSetelah,
-                    'Tgl_Posting'=>$tanggal_posting,
-                    'Descr'=>$renja->Descr,
-                    'TA'=>$renja->TA,
-                    'status'=>1,
-                    'EntryLvl'=>5,
-                    'Privilege'=>1,                                    
-                ]);
+                $rkpd=RKPDModel::find($RKPDID);
+                if ($rkpd == null)
+                {                    
+                    RKPDModel::Create([
+                        'RKPDID'=>$RKPDID,   
+                        'OrgID'=>$renja->OrgID,
+                        'SOrgID'=>$renja->SOrgID,
+                        'KgtID'=>$renja->KgtID,
+                        'SumberDanaID'=>$renja->SumberDanaID,
+                        'NamaIndikator'=>$renja->NamaIndikator,
+                        'Sasaran_Uraian1'=>$renja->Sasaran_Uraian5,                    
+                        'Sasaran_Angka1'=>$renja->Sasaran_Angka5,                    
+                        'NilaiUsulan1'=>$data->Jumlah5,                    
+                        'Target1'=>$renja->Target5,                    
+                        'Sasaran_AngkaSetelah'=>$renja->Sasaran_AngkaSetelah,
+                        'Sasaran_UraianSetelah'=>$renja->Sasaran_UraianSetelah,
+                        'NilaiSetelah'=>$renja->NilaiSetelah,
+                        'NilaiSebelum'=>$renja->NilaiSebelum,
+                        'Tgl_Posting'=>$tanggal_posting,
+                        'Descr'=>$renja->Descr,
+                        'TA'=>$renja->TA,
+                        'Status'=>1,
+                        'EntryLvl'=>5,
+                        'Privilege'=>1,                                    
+                    ]);
+                } 
+                else
+                {
+                    $NilaiUsulan1=(RKPDRincianModel::where('RKPDID',$RKPDID)->sum('NilaiUsulan1'))+$data->Jumlah5;
+                    $rkpd->NilaiUsulan1=$NilaiUsulan1;
+                    $rkpd->save();
+                }              
                 
                 $str_rincianrenja = '
                     INSERT INTO "trRKPDRinc" (
@@ -573,7 +585,7 @@ class VerifikasiRenjaController extends Controller {
                         "isSKPD",
                         "Descr",
                         "TA",
-                        "status",
+                        "Status",
                         "EntryLvl",
                         "Privilege",                   
                         "created_at", 
@@ -600,7 +612,7 @@ class VerifikasiRenjaController extends Controller {
                         "isSKPD",
                         "Descr",
                         "TA",
-                        1 AS "status",
+                        1 AS "Status",
                         5 AS "EntryLvl",
                         "Privilege",                        
                         NOW() AS created_at,
@@ -674,8 +686,7 @@ class VerifikasiRenjaController extends Controller {
                 return response()->json([
                     'success'=>true,
                     'message'=>'Data ini telah berhasil diubah.',
-                    'datatable'=>$datatable,
-                    'rincian_kegiatan'=>$rincian_kegiatan                
+                    'datatable'=>$datatable               
                 ],200);
             }
             else

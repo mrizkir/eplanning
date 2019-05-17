@@ -37,10 +37,12 @@ class RKPDModel extends Model {
         'Target2',
         'Sasaran_AngkaSetelah',
         'Sasaran_UraianSetelah',
+        'NilaiSetelah',
+        'NilaiSebelum',
         'Tgl_Posting',
         'Descr',
         'TA',
-        'status',
+        'Status',
         'EntryLvl',
         'Privilege',
         'RKPDID_Src'

@@ -42,21 +42,19 @@
                             </a>
                         </th> 
                         <th width="300">
-                            <a class="column-sort text-white" id="col-Uraian" data-order="{{$direction}}" href="#">
-                                NAMA URAIAN                                                                       
+                            <a class="column-sort text-white" id="col-NamaIndikator" data-order="{{$direction}}" href="#">
+                                INDIKATOR                                                                       
                             </a>
                         </th>
-                        <th width="200">
-                            <a class="column-sort text-white" id="col-Sasaran_Angka4" data-order="{{$direction}}" href="#">
-                                SASARAN  
-                            </a>                                             
+                        <th width="200">                            
+                            SASARAN                                                                           
                         </th> 
                         <th width="120">                        
                             TARGET (%)                        
                         </th> 
                         <th width="150" class="text-right">
-                            <a class="column-sort text-white" id="col-Jumlah4" data-order="{{$direction}}" href="#">
-                                NILAI  
+                            <a class="column-sort text-white" id="col-NilaiUsulan1" data-order="{{$direction}}" href="#">
+                                PAGU INDIKATIF  
                             </a>                                             
                         </th>        
                         <th width="150">STATUS</th>                            
@@ -73,30 +71,10 @@
                             {{$item->kode_kegiatan}}                        
                         </td>
                         <td>
-                            {{ucwords($item->KgtNm)}}
-                            @if (empty($item->RenjaIndikatorID))
-                                <span class="label label-flat border-warning text-warning-600">
-                                    INDIKATOR TIDAK ADA
-                                </span>
-                            @endif
+                            {{ucwords($item->KgtNm)}}                            
                         </td>                        
                         <td>
-                            {{ucwords($item->Uraian)}}<br />
-                            <span class="label label-flat border-grey text-grey-600">                        
-                                @if ($item->isSKPD)
-                                    <a href="#">
-                                        <strong>Usulan dari: </strong>OPD / SKPD
-                                    </a> 
-                                @elseif($item->isReses)
-                                    <a href="#">
-                                        <strong>Usulan dari: </strong>POKIR [{{$item->isReses_Uraian}}]
-                                    </a>
-                                @else
-                                    <a href="{{route('aspirasimusrenkecamatan.show',['id'=>$item->UsulanKecID])}}">
-                                        <strong>Usulan dari: MUSREN. KEC. {{$item->Nm_Kecamatan}}
-                                    </a>
-                                @endif
-                            </span>
+                            {{ucwords($item->NamaIndikator)}}                           
                         </td>
                         <td>{{Helper::formatAngka($item->Sasaran_Angka1)}} {{$item->Sasaran_Uraian1}}</td>
                         <td>{{$item->Target1}}</td>
@@ -119,11 +97,7 @@
                             <span class="label label-warning label-rounded">
                                 <strong>RKPDID:</strong>
                                 {{$item->RKPDID}}
-                            </span>
-                            <span class="label label-warning label-rounded">
-                                <strong>RKPDRincID:</strong>
-                                {{$item->RKPDRincID}}
-                            </span>
+                            </span>                            
                             <span class="label label-warning label-rounded">
                                 <strong>KET:</strong>
                                 {{empty($item->Descr)?'-':$item->Descr}}
@@ -132,6 +106,7 @@
                     </tr>
                 @endforeach                    
                 </tbody>
+                
             </table>               
         </div>
         <div class="panel-body border-top-info text-center" id="paginations">

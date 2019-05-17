@@ -19,7 +19,7 @@
                 <th>NAMA URAIAN</th>                
                 <th>SASARAN KEGIATAN</th>  
                 <th>TARGET (%)</th> 
-                <th>NILAI USULAN</th>                                      
+                <th class="text-right">PAGU INDIKATIF</th>                                      
                 <th>STATUS</th> 
             </tr>
         </thead>
@@ -49,7 +49,7 @@
                 </td>                
                 <td>{{Helper::formatAngka($item->Sasaran_Angka1)}} {{ucwords($item->Sasaran_Uraian1)}}</td>
                 <td>{{$item->Target1}}</td>               
-                <td>{{Helper::formatUang($item->NilaiUsulan1)}}</td>                       
+                <td class="text-right">{{Helper::formatUang($item->NilaiUsulan1)}}</td>                       
                 <td>
                     @include('layouts.limitless.l_status_kegiatan')
                 </td>               
@@ -72,6 +72,13 @@
             </tr>
         @endforeach                    
         </tbody>
+        <tfoot>
+            <tr class="bg-grey-300" style="font-weight:bold">
+                <td colspan="4" class="text-right">TOTAL</td>
+                <td class="text-right">{{Helper::formatUang($datarinciankegiatan->sum('NilaiUsulan1'))}}</td> 
+                <td colspan="3"></td>
+            </tr>
+        </tfoot>
     </table>       
 </div>       
 @else
