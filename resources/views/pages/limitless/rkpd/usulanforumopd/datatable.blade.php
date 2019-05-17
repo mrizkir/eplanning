@@ -70,6 +70,7 @@
                     <td>
                         {{ucwords($item->KgtNm)}}
                         @if (empty($item->RenjaIndikatorID))
+                            <br>
                             <span class="label label-flat border-warning text-warning-600">
                                 INDIKATOR TIDAK ADA
                             </span>
@@ -95,22 +96,29 @@
                     </td>
                     @else
                     <td>
-                        {{ucwords($item->Uraian)}}<br />
-                        <span class="label label-flat border-grey text-grey-600">                        
-                            @if ($item->isSKPD)
+                        {{ucwords($item->Uraian)}}
+                        @if ($item->isSKPD)
+                            <br />
+                            <span class="label label-flat border-grey text-grey-600">                        
                                 <a href="#">
                                     <strong>Usulan dari: </strong>OPD / SKPD
                                 </a> 
-                            @elseif($item->isReses)
+                            </span>
+                        @elseif($item->isReses)
+                            <br />
+                            <span class="label label-flat border-grey text-grey-600">                        
                                 <a href="#">
                                     <strong>Usulan dari: </strong>POKIR [{{$item->isReses_Uraian}}]
                                 </a>
-                            @else
+                            </span>
+                        @elseif(!empty($item->UsulanKecID))
+                            <br />
+                            <span class="label label-flat border-grey text-grey-600">                        
                                 <a href="{{route('aspirasimusrenkecamatan.show',['id'=>$item->UsulanKecID])}}">
                                     <strong>Usulan dari: MUSREN. KEC. {{$item->Nm_Kecamatan}}
                                 </a>
-                            @endif
-                        </span>
+                            </span>
+                        @endif
                     </td>
                     <td>{{Helper::formatAngka($item->Sasaran_Angka3)}} {{$item->Sasaran_Uraian3}}</td>
                     <td>{{$item->Target3}}</td>

@@ -1226,8 +1226,7 @@ class UsulanForumOPDController extends Controller {
         $usulanforumopd->Sasaran_AngkaSetelah = $request->input('Sasaran_AngkaSetelah');
         $usulanforumopd->Sasaran_UraianSetelah = $request->input('Sasaran_UraianSetelah');
         $usulanforumopd->Target3 = $request->input('Target3');
-        $usulanforumopd->NilaiSebelum = $request->input('NilaiSebelum');
-        $usulanforumopd->NilaiUsulan3 = $request->input('NilaiUsulan3');
+        $usulanforumopd->NilaiSebelum = $request->input('NilaiSebelum');        
         $usulanforumopd->NilaiSetelah = $request->input('NilaiSetelah');
         $usulanforumopd->NamaIndikator = $request->input('NamaIndikator');
         $usulanforumopd->Descr = $request->input('Descr');

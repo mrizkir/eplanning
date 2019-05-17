@@ -1231,8 +1231,7 @@ class UsulanMusrenKabController extends Controller {
         $usulanmusrenkab->Sasaran_AngkaSetelah = $request->input('Sasaran_AngkaSetelah');
         $usulanmusrenkab->Sasaran_UraianSetelah = $request->input('Sasaran_UraianSetelah');
         $usulanmusrenkab->Target4 = $request->input('Target4');
-        $usulanmusrenkab->NilaiSebelum = $request->input('NilaiSebelum');
-        $usulanmusrenkab->NilaiUsulan4 = $request->input('NilaiUsulan4');
+        $usulanmusrenkab->NilaiSebelum = $request->input('NilaiSebelum');        
         $usulanmusrenkab->NilaiSetelah = $request->input('NilaiSetelah');
         $usulanmusrenkab->NamaIndikator = $request->input('NamaIndikator');
         $usulanmusrenkab->Descr = $request->input('Descr');

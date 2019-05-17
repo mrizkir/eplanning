@@ -57,40 +57,44 @@ class PembahasanMusrenKabController extends Controller {
             switch ($search['kriteria']) 
             {
                 case 'kode_kegiatan' :
-                    $data = UsulanMusrenKabModel::where(['kode_kegiatan'=>$search['isikriteria']])                                                    
-                                                    ->where('SOrgID',$SOrgID)
-                                                    ->whereNotNull('RenjaRincID')
-                                                    ->where('TA', config('globalsettings.tahun_perencanaan'))
-                                                    ->orderBy('Prioritas','ASC')
-                                                    ->orderBy($column_order,$direction); 
+                    $data = \DB::table('v_usulan_musren_kab')
+                                ->where(['kode_kegiatan'=>$search['isikriteria']])                                                    
+                                ->where('SOrgID',$SOrgID)
+                                ->whereNotNull('RenjaRincID')
+                                ->where('TA', config('globalsettings.tahun_perencanaan'))
+                                ->orderBy('Prioritas','ASC')
+                                ->orderBy($column_order,$direction); 
                 break;
                 case 'KgtNm' :
-                    $data = UsulanMusrenKabModel::where('KgtNm', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
-                                                    ->where('SOrgID',$SOrgID)
-                                                    ->whereNotNull('RenjaRincID')
-                                                    ->where('TA', config('globalsettings.tahun_perencanaan'))
-                                                    ->orderBy('Prioritas','ASC')
-                                                    ->orderBy($column_order,$direction);                                        
+                    $data = \DB::table('v_usulan_musren_kab')
+                                ->where('KgtNm', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
+                                ->where('SOrgID',$SOrgID)
+                                ->whereNotNull('RenjaRincID')
+                                ->where('TA', config('globalsettings.tahun_perencanaan'))
+                                ->orderBy('Prioritas','ASC')
+                                ->orderBy($column_order,$direction);                                        
                 break;
                 case 'Uraian' :
-                    $data = UsulanMusrenKabModel::where('Uraian', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
-                                                    ->where('SOrgID',$SOrgID)
-                                                    ->whereNotNull('RenjaRincID')
-                                                    ->where('TA', config('globalsettings.tahun_perencanaan'))
-                                                    ->orderBy('Prioritas','ASC')
-                                                    ->orderBy($column_order,$direction);                                        
+                    $data = \DB::table('v_usulan_musren_kab')
+                                ->where('Uraian', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
+                                ->where('SOrgID',$SOrgID)
+                                ->whereNotNull('RenjaRincID')
+                                ->where('TA', config('globalsettings.tahun_perencanaan'))
+                                ->orderBy('Prioritas','ASC')
+                                ->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = UsulanMusrenKabModel::where('SOrgID',$SOrgID)                                     
-                                        ->whereNotNull('RenjaRincID')       
-                                        ->where('TA', config('globalsettings.tahun_perencanaan'))                                            
-                                        ->orderBy('Prioritas','ASC')
-                                        ->orderBy($column_order,$direction)                                            
-                                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);             
+            $data = \DB::table('v_usulan_musren_kab')
+                        ->where('SOrgID',$SOrgID)                                     
+                        ->whereNotNull('RenjaRincID')       
+                        ->where('TA', config('globalsettings.tahun_perencanaan'))                                            
+                        ->orderBy('Prioritas','ASC')
+                        ->orderBy($column_order,$direction)                                            
+                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);             
         }        
         $data->setPath(route('pembahasanmusrenkab.index'));          
         return $data;

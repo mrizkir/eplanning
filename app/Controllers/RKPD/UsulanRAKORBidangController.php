@@ -1226,8 +1226,7 @@ class UsulanRAKORBidangController extends Controller {
         $usulanrakorbidang->Sasaran_AngkaSetelah = $request->input('Sasaran_AngkaSetelah');
         $usulanrakorbidang->Sasaran_UraianSetelah = $request->input('Sasaran_UraianSetelah');
         $usulanrakorbidang->Target2 = $request->input('Target2');
-        $usulanrakorbidang->NilaiSebelum = $request->input('NilaiSebelum');
-        $usulanrakorbidang->NilaiUsulan2 = $request->input('NilaiUsulan2');
+        $usulanrakorbidang->NilaiSebelum = $request->input('NilaiSebelum');        
         $usulanrakorbidang->NilaiSetelah = $request->input('NilaiSetelah');
         $usulanrakorbidang->NamaIndikator = $request->input('NamaIndikator');
         $usulanrakorbidang->Descr = $request->input('Descr');

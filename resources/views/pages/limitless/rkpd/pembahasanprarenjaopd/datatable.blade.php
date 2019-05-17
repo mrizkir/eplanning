@@ -63,26 +63,35 @@
                 <td>
                     {{ucwords($item->KgtNm)}}
                     @if (empty($item->RenjaIndikatorID))
+                        <br>
                         <span class="label label-flat border-warning text-warning-600">
                             INDIKATOR TIDAK ADA
                         </span>
                     @endif
                 </td>                   
                 <td>
-                    {{ucwords($item->Uraian)}}<br />
-                    <span class="label label-flat border-grey text-grey-600">                        
+                    {{ucwords($item->Uraian)}}
                         @if ($item->isSKPD)
-                            <a href="#">
-                                <strong>Usulan dari: </strong>OPD / SKPD
-                            </a> 
+                            <br />
+                            <span class="label label-flat border-grey text-grey-600">                        
+                                <a href="#">
+                                    <strong>Usulan dari: </strong>OPD / SKPD
+                                </a> 
+                            </span>
                         @elseif($item->isReses)
-                            <a href="#">
-                                <strong>Usulan dari: </strong>POKIR [{{$item->isReses_Uraian}}]
-                            </a>
-                        @else
-                            <a href="{{route('aspirasimusrenkecamatan.show',['id'=>$item->UsulanKecID])}}">
-                                <strong>Usulan dari: MUSREN. KEC. {{$item->Nm_Kecamatan}}
-                            </a>
+                            <br />
+                            <span class="label label-flat border-grey text-grey-600">                        
+                                <a href="#">
+                                    <strong>Usulan dari: </strong>POKIR [{{$item->isReses_Uraian}}]
+                                </a>
+                            </span>
+                        @elseif(!empty($item->UsulanKecID))
+                            <br />
+                            <span class="label label-flat border-grey text-grey-600">                        
+                                <a href="{{route('aspirasimusrenkecamatan.show',['id'=>$item->UsulanKecID])}}">
+                                    <strong>Usulan dari: MUSREN. KEC. {{$item->Nm_Kecamatan}}
+                                </a>
+                            </span>
                         @endif
                     </span>
                 </td>

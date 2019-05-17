@@ -377,5 +377,5 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/setting/usersdesa/storeuserpermission', ['uses'=>'Setting\UsersDesaController@storeuserpermission','as'=>'usersdesa.storeuserpermission']);
 
     //setting - histori renja    
-    Route::get('/setting/historirenja/onlypagu/{uuid}',['uses'=>'Setting\HistroiRenjaController@onlypagu','as'=>'historirenja.onlypagu']);          
+    Route::get('/setting/historirenja/onlypagu/{uuid}',['uses'=>'Setting\HistoriRenjaController@onlypagu','as'=>'historirenja.onlypagu']);          
 });

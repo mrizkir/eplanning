@@ -91,7 +91,8 @@ class PembahasanRAKORBidangController extends Controller {
                                             ->orderBy('Prioritas','ASC')
                                             ->orderBy($column_order,$direction)                                            
                                             ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);             
-        }        
+        }      
+        
         $data->setPath(route('pembahasanrakorbidang.index'));  
         
         return $data;

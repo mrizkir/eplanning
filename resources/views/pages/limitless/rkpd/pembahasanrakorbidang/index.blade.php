@@ -204,6 +204,30 @@ $(document).ready(function () {
             },
         });     
     });
+    $("#divdatatable").on("click",".btnHistoriRenja", function(ev){   
+        ev.preventDefault();   
+        let _url = $(this).attr("data-url");
+        
+        $.ajax({
+            type:'get',
+            url: _url,
+            dataType: 'json',            
+            success:function(result)
+            { 
+                $('#modalrenjahistorionlypagu #modalnamauraian').html(result.data.Uraian);
+                $('#modalrenjahistorionlypagu #modalprarenja').html(result.data.Jumlah1);
+                $('#modalrenjahistorionlypagu #modalrakorbidang').html(result.data.Jumlah2);
+                $('#modalrenjahistorionlypagu #modalforumopd').html(result.data.Jumlah3);
+                $('#modalrenjahistorionlypagu #modalmusrenkab').html(result.data.Jumlah4);               
+                $('#modalrenjahistorionlypagu #modalverifikasitapd').html(result.data.Jumlah5);                
+                $('#modalrenjahistorionlypagu').modal('show');
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });     
+    });
 });
 </script>
 @endsection
