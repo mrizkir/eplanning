@@ -58,7 +58,7 @@ class PembahasanMusrenKabController extends Controller {
             {
                 case 'kode_kegiatan' :
                     $data = \DB::table('v_usulan_musren_kab')
-                                ->where(['kode_kegiatan'=>$search['isikriteria']])                                                    
+                                ->where('kode_kegiatan',$search['isikriteria'])                                                    
                                 ->where('SOrgID',$SOrgID)
                                 ->whereNotNull('RenjaRincID')
                                 ->where('TA', config('globalsettings.tahun_perencanaan'))
@@ -296,7 +296,7 @@ class PembahasanMusrenKabController extends Controller {
     {                
         $auth = \Auth::user();    
         $theme = $auth->theme;
-
+        
         $filters=$this->getControllerStateSession('pembahasanmusrenkab','filters');
         $roles=$auth->getRoleNames();        
         switch ($roles[0])
@@ -325,8 +325,7 @@ class PembahasanMusrenKabController extends Controller {
                 $this->putControllerStateSession('pembahasanmusrenkab','filters',$filters);
             break;
         }
-
-        $search=$this->getControllerStateSession('pembahasanmusrenkab','search');
+        $search=$this->getControllerStateSession('pembahasanmusrenkab','search');        
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('pembahasanmusrenkab'); 
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage())
@@ -335,7 +334,7 @@ class PembahasanMusrenKabController extends Controller {
         }
         $this->setCurrentPageInsideSession('pembahasanmusrenkab',$data->currentPage());
 
-        return view("pages.$theme.musrenbang.pembahasanmusrenkab.index")->with(['page_active'=>'pembahasanmusrenkab',
+        return view("pages.$theme.musrenbang.pembahasanmusrenkab.index")->with(['page_active'=>'pembahasanmusrenkab',                                                                            
                                                                             'label_transfer'=>'Verifikasi Renja',
                                                                             'daftar_opd'=>$daftar_opd,
                                                                             'daftar_unitkerja'=>$daftar_unitkerja,
@@ -344,6 +343,7 @@ class PembahasanMusrenKabController extends Controller {
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                                                             'column_order'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','column_name'),
                                                                             'direction'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','order'),
+                                                                            'totalpaguindikatif'=>RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('globalsettings.tahun_perencanaan'),3,$filters['SOrgID']),
                                                                             'data'=>$data]);               
                      
     }
@@ -406,18 +406,23 @@ class PembahasanMusrenKabController extends Controller {
         }        
         if ($request->ajax()) 
         {
-            $data = $this->populateData();
+            $filters=$this->getControllerStateSession('pembahasanmusrenkab','filters');
 
+            $data = $this->populateData();
+            
             $datatable = view("pages.$theme.musrenbang.pembahasanmusrenkab.datatable")->with(['page_active'=>'pembahasanmusrenkab',                                                            
                                                                                     'label_transfer'=>'Verifikasi Renja',
                                                                                     'search'=>$this->getControllerStateSession('pembahasanmusrenkab','search'),
                                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                     'column_order'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','column_name'),
-                                                                                    'direction'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','order'),
+                                                                                    'direction'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','order'),                                                                                    
                                                                                     'data'=>$data])->render();
+            
+            $totalpaguindikatif = RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('globalsettings.tahun_perencanaan'),3,$filters['SOrgID']);            
             return response()->json([
                 'success'=>true,
                 'message'=>'Data ini telah berhasil diubah.',
+                'totalpaguindikatif'=>$totalpaguindikatif,
                 'datatable'=>$datatable
             ],200);
         }

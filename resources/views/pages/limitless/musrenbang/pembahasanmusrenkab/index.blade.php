@@ -65,7 +65,7 @@
                 </h5>
             </div>
             <div class="panel-body">
-                {!! Form::open(['action'=>'RKPD\PembahasanRAKORBidangController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
+            {!! Form::open(['action'=>'Musrenbang\PembahasanMusrenKabController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
                 <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">
@@ -93,6 +93,44 @@
     <div class="col-md-12" id="divdatatable">
         @include('pages.limitless.musrenbang.pembahasanmusrenkab.datatable')
     </div>
+    @if (count($data) > 0)
+    <div class="col-md-12">
+        <table id="datastatus" class="table table-responsive">            
+            <tbody class="bg-grey-300" style="font-weight:bold">   
+                <tr>
+                    <td class="text-right">TOTAL PAGU INDIKATIF STATUS DRAFT [0]</td>
+                    <td id="totalstatus0" class="text-right">{{Helper::formatUang($totalpaguindikatif[0])}}</td>                     
+                    <td colspan="2">&nbsp;</td>
+                </tr>               
+                <tr>
+                    <td class="text-right">STATUS SETUJU [1]</td>
+                    <td id="totalstatus1" class="text-right">{{Helper::formatUang($totalpaguindikatif[1])}}</td> 
+                    <td colspan="2">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="text-right">STATUS SETUJU DENGAN CATATAN [2]</td>
+                    <td id="totalstatus2" class="text-right">
+                        {{Helper::formatUang($totalpaguindikatif[2])}}                        
+                    </td>
+                    <td width="100">[1+2] = </td> 
+                    <td id="totalstatus12">
+                        {{Helper::formatUang($totalpaguindikatif[1]+$totalpaguindikatif[2])}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-right">STATUS PENDING [3]</td>
+                    <td id="totalstatus3" class="text-right">{{Helper::formatUang($totalpaguindikatif[3])}}</td> 
+                    <td colspan="2">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="text-right">TOTAL KESELURUHAN (0+1+2+3)</td>
+                    <td id="totalstatus" class="text-right">{{Helper::formatUang($totalpaguindikatif['total'])}}</td> 
+                    <td colspan="2">&nbsp;</td>
+                </tr>
+            </tbody>            
+        </table>               
+    </div>
+    @endif
 </div>
 @endsection
 @section('page_custom_html')
@@ -100,10 +138,14 @@
 @endsection
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/autoNumeric.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
-$(document).ready(function () {  
+{
+    allowDecimalPadding: AutoNumeric.options.allowDecimalPadding.never
+}
+$(document).ready(function () {      
     //styling select
     $('#OrgID.select').select2({
         placeholder: "PILIH OPD / SKPD",
@@ -160,7 +202,7 @@ $(document).ready(function () {
             },
         });     
     });
-    $(document).on('click','.ubahstatus',function(ev) {
+    $("#divdatatable").on('click','.ubahstatus',function(ev) {
         ev.preventDefault();
         var RenjaRincID = $(this).attr("data-id");
         var Status = $(this).attr("data-status");
@@ -175,7 +217,25 @@ $(document).ready(function () {
             },
             success:function(result)
             { 
-                $('#divdatatable').html(result.datatable);         
+                $('#divdatatable').html(result.datatable);                                               
+                $('#datastatus #totalstatus0').html(result.totalpaguindikatif[0]);
+                var optionnumeric =  {
+                                        allowDecimalPadding: false,
+                                        decimalCharacter: ",",
+                                        digitGroupSeparator: ".",
+                                        showWarnings:false
+                                    };
+                new AutoNumeric ('#datastatus #totalstatus0',optionnumeric); 
+                $('#datastatus #totalstatus1').html(result.totalpaguindikatif[1]);                        
+                new AutoNumeric ('#datastatus #totalstatus1',optionnumeric); 
+                $('#datastatus #totalstatus2').html(result.totalpaguindikatif[2]); 
+                new AutoNumeric ('#datastatus #totalstatus2',optionnumeric);        
+                $('#datastatus #totalstatus12').html(parseFloat(result.totalpaguindikatif[1])+parseFloat(result.totalpaguindikatif[2]));        
+                new AutoNumeric ('#datastatus #totalstatus12',optionnumeric);        
+                $('#datastatus #totalstatus3').html(result.totalpaguindikatif[3]);        
+                new AutoNumeric ('#datastatus #totalstatus3',optionnumeric);        
+                $('#datastatus #totalstatus').html(result.totalpaguindikatif.total);                
+                new AutoNumeric ('#datastatus #totalstatus',optionnumeric);        
             },
             error:function(xhr, status, error){
                 console.log('ERROR');
@@ -183,7 +243,7 @@ $(document).ready(function () {
             },
         });
     });
-    $(document).on('click','#btnTransfer',function(ev){
+    $("#divdatatable").on('click','#btnTransfer',function(ev){
         ev.preventDefault();   
         let RenjaRincID = $(this).attr("data-id");        
         $.ajax({

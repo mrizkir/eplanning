@@ -26,29 +26,29 @@
                             NAMA KEGIATAN                                                                       
                         </a>
                     </th> 
-                    <th width="300">
+                    <th width="350">
                         <a class="column-sort text-white" id="col-Uraian" data-order="{{$direction}}" href="#">
                             NAMA URAIAN                                                                       
                         </a>
                     </th>
-                    <th width="200">
+                    <th width="250">
                         <a class="column-sort text-white" id="col-Sasaran_Angka4" data-order="{{$direction}}" href="#">
                             SASARAN  
                         </a>                                             
                     </th> 
-                    <th width="120">                        
+                    <th>                        
                         TARGET (%)                        
                     </th> 
-                    <th width="150" class="text-right">
+                    <th class="text-right">
                         <a class="column-sort text-white" id="col-Jumlah4" data-order="{{$direction}}" href="#">
                             NILAI  
                         </a>                                             
                     </th> 
-                    <th width="120">                        
+                    <th>                        
                         PRIORITAS                          
                     </th>          
-                    <th width="70">STATUS</th>                            
-                    <th width="150">AKSI</th>
+                    <th>STATUS</th>                            
+                    <th width="200">AKSI</th>
                 </tr>
             </thead>
             <tbody>                    
@@ -165,7 +165,7 @@
                     </td>
                 </tr>
             @endforeach                    
-            </tbody>
+            </tbody>           
         </table>               
     </div>
     <div class="panel-body border-top-info text-center" id="paginations">
