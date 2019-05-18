@@ -151,6 +151,9 @@ class PembahasanMusrenKabController extends Controller {
             case 'col-Jumlah4' :
                 $column_name = 'Jumlah4';
             break;
+            case 'col-Status' :
+                $column_name = 'Status';
+            break;
             default :
                 $column_name = 'kode_kegiatan';
         }

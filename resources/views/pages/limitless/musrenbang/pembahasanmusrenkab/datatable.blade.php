@@ -47,7 +47,11 @@
                     <th>                        
                         PRIORITAS                          
                     </th>          
-                    <th>STATUS</th>                            
+                    <th>
+                        <a class="column-sort text-white" id="col-Status" data-order="{{$direction}}" href="#">
+                            STATUS  
+                        </a>
+                    </th>                            
                     <th width="200">AKSI</th>
                 </tr>
             </thead>
