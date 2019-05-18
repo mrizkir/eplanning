@@ -1,18 +1,18 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    VERIFIKASIRENJA
+    VERIFIKASI TAPD
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold">
-        VERIFIKASIRENJA TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        VERIFIKASI TAPD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
     </span>
 @endsection
 @section('page_info')
     @include('pages.limitless.rkpd.verifikasirenja.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('verifikasirenja.index')!!}">VERIFIKASIRENJA</a></li>
+    <li><a href="{!!route('verifikasirenja.index')!!}">VERIFIKASI TAPD</a></li>
     <li class="active">ERROR</li>
 @endsection
 @section('page_content')

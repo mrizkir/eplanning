@@ -256,8 +256,8 @@
                         </a>
                     </li>
                     <li{!!Helper::isMenuActive ($page_active,'verifikasirenja',' class="active"')!!}>
-                        <a href="{{route('verifikasirenja.index')}}" title="verifikasi rencana kerja">
-                            <i class="icon-arrow-down16"></i>VERIFIKASI RENJA <span class="text-violet"><strong>[13]</strong></span>
+                        <a href="{{route('verifikasirenja.index')}}" title="verifikasi tapd">
+                            <i class="icon-arrow-down16"></i>VERIFIKASI TAPD <span class="text-violet"><strong>[13]</strong></span>
                         </a>                                        
                     </li>  
                     <li{!!Helper::isMenuActive ($page_active,'rkpdmurni',' class="active"')!!}>

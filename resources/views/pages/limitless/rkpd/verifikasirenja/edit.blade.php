@@ -1,18 +1,18 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    VERIFIKASI RENCANA KERJA
+    VERIFIKASI TAPD
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        VERIFIKASI RENCANA KERJA TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        VERIFIKASI TAPD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
     </span>     
 @endsection
 @section('page_info')
     @include('pages.limitless.rkpd.verifikasirenja.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('verifikasirenja.index')!!}">VERIFIKASI RENCANA KERJA</a></li>
+    <li><a href="{!!route('verifikasirenja.index')!!}">VERIFIKASI TAPD</a></li>
     <li class="active">DETAIL DATA</li>
 @endsection
 @section('page_content')
@@ -21,7 +21,7 @@
         <div class="panel-heading">
             <h5 class="panel-title">
                 <i class="icon-pencil7 position-left"></i> 
-                VERIFIKASI RENCANA KERJA
+                VERIFIKASI TAPD
             </h5>
             <div class="heading-elements">
                 <ul class="icons-list">                    
@@ -38,7 +38,7 @@
                 <label class="col-md-2 control-label">POSISI ENTRI: </label>
                 <div class="col-md-10">
                     <p class="form-control-static">
-                        <span class="label border-left-primary label-striped">VERIFIKASI RENCANA KERJA</span>
+                        <span class="label border-left-primary label-striped">VERIFIKASI TAPD</span>
                     </p>
                 </div>                            
             </div> 

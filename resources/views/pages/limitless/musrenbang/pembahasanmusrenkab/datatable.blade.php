@@ -15,7 +15,7 @@
         <table id="data" class="table table-striped table-hover table-responsive">
             <thead>
                 <tr class="bg-teal-700">
-                    <th width="50">NO</th>     
+                    <th width="100">NO</th>     
                     <th width="150">
                         <a class="column-sort text-white" id="col-kode_kegiatan" data-order="{{$direction}}" href="#">
                             KODE KEGIATAN                                                                       
@@ -59,7 +59,8 @@
             @foreach ($data as $key=>$item)
                 <tr>
                     <td>
-                        {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
+                        {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}   
+                        [{{$item->No}}]
                     </td>
                     <td>
                         {{$item->kode_kegiatan}}                        

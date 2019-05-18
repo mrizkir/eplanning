@@ -395,10 +395,10 @@ class PembahasanMusrenKabController extends Controller {
 
         $data = RenjaRincianModel::findOrFail($id);
         if (!is_null($data) )  
-        {
-            // dd($data);
+        {            
             return view("pages.$theme.musrenbang.pembahasanmusrenkab.show")->with(['page_active'=>'pembahasanmusrenkab',
-                                                                                'renja'=>$data
+                                                                                'renja'=>$data,
+                                                                                'item'=>$data
                                                                             ]);
         }        
     }

@@ -72,11 +72,16 @@
         <li class="dropdown-header">AKSI</li>
         @if ($item->Privilege==0)              
         <li class="text-primary-600">        
-            <a class="btnEdit" href="{{route('pembahasanmusrenkab.edit',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Musrenbang Kab.">
+            <a class="btnEdit" href="{{route($page_active.'.edit',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan">
                 <i class='icon-pencil7'></i> UBAH RINCIAN
             </a>             
         </li> 
         @endif
+        <li class="text-primary-600">        
+            <a class="btnEdit" href="{{route($page_active.'.show',['id'=>$item->RenjaRincID])}}" title="Detail Data Usulan">
+                <i class='icon-eye'></i> DETAIL RINCIAN
+            </a>             
+        </li> 
         <li>                                    
             @if ($item->Status==1 || $item->Status==2)
                 <a href="#" title="TRANSFER KEG. KE {{$label_transfer}} " id="btnTransfer" data-id="{{$item->RenjaRincID}}" title="{{$label_transfer}}">
