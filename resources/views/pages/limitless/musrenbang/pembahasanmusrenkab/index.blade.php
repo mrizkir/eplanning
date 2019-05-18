@@ -94,68 +94,70 @@
         @include('pages.limitless.musrenbang.pembahasanmusrenkab.datatable')
     </div>    
     <div class="col-md-12">
-        <table id="datastatus" class="table table-responsive"> 
-            <thead class="bg-info-300">
-                <tr>
-                    <th colspan="2" class="text-center">TOTAL PAGU INDIKATIF OPD / SKPD</th>
-                    <th width="150"><strong>PAGU DANA:</strong></th>
-                    <th id="paguanggaranopd">{{Helper::formatUang($paguanggaranopd)}}</th>
-                    <th colspan="4" class="text-center">TOTAL PAGU INDIKATIF UNIT KERJA</th>
-                </tr>
-            </thead>
-            <tbody class="bg-grey-300" style="font-weight:bold">   
-                <tr>
-                    <td class="text-right">STATUS DRAFT [0]</td>
-                    <td id="totalstatusopd0" class="text-right">{{Helper::formatUang($totalpaguindikatifopd[0])}}</td>                     
-                    <td colspan="2">&nbsp;</td>
-                    <td class="text-right">STATUS DRAFT [0]</td>
-                    <td id="totalstatusunitkerja0" class="text-right">{{Helper::formatUang($totalpaguindikatifunitkerja[0])}}</td>                     
-                    <td colspan="2">&nbsp;</td>
-                </tr>               
-                <tr>
-                    <td class="text-right">STATUS SETUJU [1]</td>
-                    <td id="totalstatusopd1" class="text-right">{{Helper::formatUang($totalpaguindikatifopd[1])}}</td> 
-                    <td colspan="2">&nbsp;</td>
-                    <td class="text-right">STATUS SETUJU [1]</td>
-                    <td id="totalstatusunitkerja1" class="text-right">{{Helper::formatUang($totalpaguindikatifunitkerja[1])}}</td> 
-                    <td colspan="2">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td class="text-right">STATUS SETUJU DENGAN CATATAN [2]</td>
-                    <td id="totalstatusopd2" class="text-right">
-                        {{Helper::formatUang($totalpaguindikatifopd[2])}}                        
-                    </td>
-                    <td width="100">[1+2] = </td> 
-                    <td id="totalstatusopd12">
-                        {{Helper::formatUang($totalpaguindikatifopd[1]+$totalpaguindikatifopd[2])}}
-                    </td>
-                    <td class="text-right">STATUS SETUJU DENGAN CATATAN [2]</td>
-                    <td id="totalstatusunitkerja2" class="text-right">
-                        {{Helper::formatUang($totalpaguindikatifunitkerja[2])}}                        
-                    </td>
-                    <td width="100">[1+2] = </td> 
-                    <td id="totalstatusunitkerja12">
-                        {{Helper::formatUang($totalpaguindikatifunitkerja[1]+$totalpaguindikatifunitkerja[2])}}
-                    </td>
-                </tr>
-                <tr>
-                    <td class="text-right">STATUS PENDING [3]</td>
-                    <td id="totalstatusopd3" class="text-right">{{Helper::formatUang($totalpaguindikatifopd[3])}}</td> 
-                    <td colspan="2">&nbsp;</td>
-                    <td class="text-right">STATUS PENDING [3]</td>
-                    <td id="totalstatusunitkerja3" class="text-right">{{Helper::formatUang($totalpaguindikatifunitkerja[3])}}</td> 
-                    <td colspan="2">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td class="text-right">TOTAL KESELURUHAN (0+1+2+3)</td>
-                    <td id="totalstatusopd" class="text-right">{{Helper::formatUang($totalpaguindikatifopd['total'])}}</td> 
-                    <td colspan="2">&nbsp;</td>
-                    <td class="text-right">TOTAL KESELURUHAN (0+1+2+3)</td>
-                    <td id="totalstatusunitkerja" class="text-right">{{Helper::formatUang($totalpaguindikatifunitkerja['total'])}}</td> 
-                    <td colspan="2">&nbsp;</td>
-                </tr>
-            </tbody>            
-        </table>               
+        <div class="table-responsive">
+            <table id="datastatus" class="table"> 
+                <thead class="bg-info-300">
+                    <tr>
+                        <th colspan="2" class="text-center">TOTAL PAGU INDIKATIF OPD / SKPD</th>
+                        <th width="150"><strong>PAGU DANA:</strong></th>
+                        <th id="paguanggaranopd">{{Helper::formatUang($paguanggaranopd)}}</th>
+                        <th colspan="4" class="text-center">TOTAL PAGU INDIKATIF UNIT KERJA</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-grey-300" style="font-weight:bold">   
+                    <tr>
+                        <td class="text-right">STATUS DRAFT [0]</td>
+                        <td id="totalstatusopd0" class="text-right">{{Helper::formatUang($totalpaguindikatifopd[0])}}</td>                     
+                        <td colspan="2">&nbsp;</td>
+                        <td class="text-right">STATUS DRAFT [0]</td>
+                        <td id="totalstatusunitkerja0" class="text-right">{{Helper::formatUang($totalpaguindikatifunitkerja[0])}}</td>                     
+                        <td colspan="2">&nbsp;</td>
+                    </tr>               
+                    <tr>
+                        <td class="text-right">STATUS SETUJU [1]</td>
+                        <td id="totalstatusopd1" class="text-right">{{Helper::formatUang($totalpaguindikatifopd[1])}}</td> 
+                        <td colspan="2">&nbsp;</td>
+                        <td class="text-right">STATUS SETUJU [1]</td>
+                        <td id="totalstatusunitkerja1" class="text-right">{{Helper::formatUang($totalpaguindikatifunitkerja[1])}}</td> 
+                        <td colspan="2">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">STATUS SETUJU DENGAN CATATAN [2]</td>
+                        <td id="totalstatusopd2" class="text-right">
+                            {{Helper::formatUang($totalpaguindikatifopd[2])}}                        
+                        </td>
+                        <td width="100">[1+2] = </td> 
+                        <td id="totalstatusopd12">
+                            {{Helper::formatUang($totalpaguindikatifopd[1]+$totalpaguindikatifopd[2])}}
+                        </td>
+                        <td class="text-right">STATUS SETUJU DENGAN CATATAN [2]</td>
+                        <td id="totalstatusunitkerja2" class="text-right">
+                            {{Helper::formatUang($totalpaguindikatifunitkerja[2])}}                        
+                        </td>
+                        <td width="100">[1+2] = </td> 
+                        <td id="totalstatusunitkerja12">
+                            {{Helper::formatUang($totalpaguindikatifunitkerja[1]+$totalpaguindikatifunitkerja[2])}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">STATUS PENDING [3]</td>
+                        <td id="totalstatusopd3" class="text-right">{{Helper::formatUang($totalpaguindikatifopd[3])}}</td> 
+                        <td colspan="2">&nbsp;</td>
+                        <td class="text-right">STATUS PENDING [3]</td>
+                        <td id="totalstatusunitkerja3" class="text-right">{{Helper::formatUang($totalpaguindikatifunitkerja[3])}}</td> 
+                        <td colspan="2">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">TOTAL KESELURUHAN (0+1+2+3)</td>
+                        <td id="totalstatusopd" class="text-right">{{Helper::formatUang($totalpaguindikatifopd['total'])}}</td> 
+                        <td colspan="2">&nbsp;</td>
+                        <td class="text-right">TOTAL KESELURUHAN (0+1+2+3)</td>
+                        <td id="totalstatusunitkerja" class="text-right">{{Helper::formatUang($totalpaguindikatifunitkerja['total'])}}</td> 
+                        <td colspan="2">&nbsp;</td>
+                    </tr>
+                </tbody>            
+            </table>               
+        </div>
     </div>    
 </div>
 @endsection
@@ -165,10 +167,12 @@
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/autoNumeric.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/switch.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
-$(document).ready(function () {      
+$(document).ready(function () {   
+    $(".switch").bootstrapSwitch();   
     //styling select
     $('#OrgID.select').select2({
         placeholder: "PILIH OPD / SKPD",

@@ -1,18 +1,43 @@
 <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
     <div class="panel-heading">
         <div class="panel-title">
-            <div class="row">
-                <div class="col-md-1">                    		
-					{!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control'])!!}                        
-                </div>
-            </div>
+            <h6 class="panel-title">&nbsp;</h6>
         </div>
         <div class="heading-elements">
-            
+            {!! Form::open(['url'=>'#','method'=>'post','class'=>'heading-form','id'=>'frmheading','name'=>'frmheading'])!!} 
+                <div class="form-group">
+                    <label class="checkbox-inline checkbox-right checkbox-switch checkbox-switch-sm">
+                        DRAFT
+                        <input id="chkDraft" name="chkDraft" type="checkbox" class="switch" data-on-text="ON" data-off-text="OFF" data-size="small" checked="checked">
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-inline checkbox-right checkbox-switch checkbox-switch-sm">
+                        SETUJU
+                        <input id="chkSetuju" name="chkSetuju" type="checkbox" class="switch" data-on-text="ON" data-off-text="OFF" data-size="small" checked="checked">
+                    </label>
+                </div>                                               
+                <div class="form-group">
+                    <label class="checkbox-inline checkbox-right checkbox-switch checkbox-switch-sm">
+                        SETUJU DG. CATATAN
+                        <input id="chkSetujuDgCatatan" name="chkSetujuDgCatatan" type="checkbox" class="switch" data-on-text="ON" data-off-text="OFF" data-size="small" checked="checked">
+                    </label>
+                </div>                
+                <div class="form-group">
+                    <label class="checkbox-inline checkbox-right checkbox-switch checkbox-switch-sm">
+                        PENDING
+                        <input id="chkPending" name="chkName" type="checkbox" class="switch" data-on-text="ON" data-off-text="OFF" data-size="small" checked="checked">
+                    </label>
+                </div>                
+                <div class="form-group">
+                    {!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control','style'=>'width:70px'])!!}                        
+                </div>                
+            {!! Form::close()!!}
         </div>
     </div>
     @if (count($data) > 0)
-        <table id="data" class="table table-striped table-hover table-responsive">
+    <div class="table-responsive">
+        <table id="data" class="table table-striped table-hover">
             <thead>
                 <tr class="bg-teal-700">
                     <th width="100">NO</th>     

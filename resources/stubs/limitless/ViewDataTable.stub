@@ -9,7 +9,7 @@
         </div>
         <div class="heading-elements">
             <div class="heading-btn">
-                <a href="{!!route('{{modelNameLower}}.create')!!}" class="btn btn-info btn-xs" title="Tambah {{modelNameUpper}}">
+                <a href="{!!route('{{modelNameLower}}.create')!!}" class="btn btn-info btn-xs heading-btn" title="Tambah {{modelNameUpper}}">
                     <i class="icon-googleplus5"></i>
                 </a>
             </div>            
