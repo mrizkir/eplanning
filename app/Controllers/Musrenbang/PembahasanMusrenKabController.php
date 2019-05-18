@@ -243,8 +243,8 @@ class PembahasanMusrenKabController extends Controller {
         $filters=$this->getControllerStateSession('pembahasanmusrenkab','filters');
         $daftar_unitkerja=[];
         $json_data = [];
-
-        // //index
+        
+        // //index        
         if ($request->exists('OrgID'))
         {
             $OrgID = $request->input('OrgID')==''?'none':$request->input('OrgID');
@@ -262,8 +262,15 @@ class PembahasanMusrenKabController extends Controller {
                                                                                     'column_order'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','column_name'),
                                                                                     'direction'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','order'),
                                                                                     'data'=>$data])->render();
-
-            $json_data = ['success'=>true,'daftar_unitkerja'=>$daftar_unitkerja,'datatable'=>$datatable];
+            
+            $totalpaguindikatifopd = RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('globalsettings.tahun_perencanaan'),3,$filters['OrgID']);            
+                  
+            $totalpaguindikatifunitkerja[0]=0;
+            $totalpaguindikatifunitkerja[1]=0;
+            $totalpaguindikatifunitkerja[2]=0;
+            $totalpaguindikatifunitkerja[3]=0;  
+            
+            $json_data = ['success'=>true,'daftar_unitkerja'=>$daftar_unitkerja,'totalpaguindikatifopd'=>$totalpaguindikatifopd,'totalpaguindikatifunitkerja'=>$totalpaguindikatifunitkerja,'datatable'=>$datatable];
         } 
         //index
         if ($request->exists('SOrgID'))
@@ -281,9 +288,11 @@ class PembahasanMusrenKabController extends Controller {
                                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                     'column_order'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','column_name'),
                                                                                     'direction'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','order'),
-                                                                                    'data'=>$data])->render();                                                                                       
+                                                                                    'data'=>$data])->render(); 
                                                                                     
-            $json_data = ['success'=>true,'datatable'=>$datatable];    
+            $totalpaguindikatifunitkerja = RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('globalsettings.tahun_perencanaan'),3,$filters['SOrgID']);            
+                                                                                    
+            $json_data = ['success'=>true,'totalpaguindikatifunitkerja'=>$totalpaguindikatifunitkerja,'datatable'=>$datatable];    
         }
         return $json_data;
     }
@@ -343,7 +352,8 @@ class PembahasanMusrenKabController extends Controller {
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                                                             'column_order'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','column_name'),
                                                                             'direction'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','order'),
-                                                                            'totalpaguindikatif'=>RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('globalsettings.tahun_perencanaan'),3,$filters['SOrgID']),
+                                                                            'totalpaguindikatifopd'=>RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('globalsettings.tahun_perencanaan'),3,$filters['OrgID']),
+                                                                            'totalpaguindikatifunitkerja' => RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('globalsettings.tahun_perencanaan'),3,$filters['SOrgID']),            
                                                                             'data'=>$data]);               
                      
     }
@@ -418,11 +428,14 @@ class PembahasanMusrenKabController extends Controller {
                                                                                     'direction'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','order'),                                                                                    
                                                                                     'data'=>$data])->render();
             
-            $totalpaguindikatif = RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('globalsettings.tahun_perencanaan'),3,$filters['SOrgID']);            
+            $totalpaguindikatifopd = RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('globalsettings.tahun_perencanaan'),3,$filters['OrgID']);                        
+            $totalpaguindikatifunitkerja = RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('globalsettings.tahun_perencanaan'),3,$filters['SOrgID']);
+                        
             return response()->json([
                 'success'=>true,
                 'message'=>'Data ini telah berhasil diubah.',
-                'totalpaguindikatif'=>$totalpaguindikatif,
+                'totalpaguindikatifopd'=>$totalpaguindikatifopd,
+                'totalpaguindikatifunitkerja'=>$totalpaguindikatifunitkerja,
                 'datatable'=>$datatable
             ],200);
         }

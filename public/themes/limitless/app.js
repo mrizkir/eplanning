@@ -1,3 +1,57 @@
+function formatPaguTotalIndikatifOPD(totalpaguindikatif)
+{
+    var optionnumeric =  {
+                            allowDecimalPadding: false,
+                            decimalCharacter: ",",
+                            digitGroupSeparator: ".",
+                            showWarnings:false
+                        };
+
+    $('#datastatus #totalstatusopd0').html(totalpaguindikatif[0]);                
+    new AutoNumeric ('#datastatus #totalstatusopd0',optionnumeric); 
+
+    $('#datastatus #totalstatusopd1').html(totalpaguindikatif[1]);                        
+    new AutoNumeric ('#datastatus #totalstatusopd1',optionnumeric); 
+
+    $('#datastatus #totalstatusopd2').html(totalpaguindikatif[2]); 
+    new AutoNumeric ('#datastatus #totalstatusopd2',optionnumeric);        
+
+    $('#datastatus #totalstatusopd12').html(parseFloat(totalpaguindikatif[1])+parseFloat(totalpaguindikatif[2]));        
+    new AutoNumeric ('#datastatus #totalstatusopd12',optionnumeric);        
+
+    $('#datastatus #totalstatusopd3').html(totalpaguindikatif[3]);        
+    new AutoNumeric ('#datastatus #totalstatusopd3',optionnumeric);        
+    
+    $('#datastatus #totalstatusopd').html(totalpaguindikatif.total);                
+    new AutoNumeric ('#datastatus #totalstatusopd',optionnumeric);        
+}
+function formatPaguTotalIndikatifUnitKerja(totalpaguindikatif)
+{
+    var optionnumeric =  {
+                            allowDecimalPadding: false,
+                            decimalCharacter: ",",
+                            digitGroupSeparator: ".",
+                            showWarnings:false
+                        };
+
+    $('#datastatus #totalstatusunitkerja0').html(totalpaguindikatif[0]);                
+    new AutoNumeric ('#datastatus #totalstatusunitkerja0',optionnumeric); 
+
+    $('#datastatus #totalstatusunitkerja1').html(totalpaguindikatif[1]);                        
+    new AutoNumeric ('#datastatus #totalstatusunitkerja1',optionnumeric); 
+
+    $('#datastatus #totalstatusunitkerja2').html(totalpaguindikatif[2]); 
+    new AutoNumeric ('#datastatus #totalstatusunitkerja2',optionnumeric);        
+
+    $('#datastatus #totalstatusunitkerja12').html(parseFloat(totalpaguindikatif[1])+parseFloat(totalpaguindikatif[2]));        
+    new AutoNumeric ('#datastatus #totalstatusunitkerja12',optionnumeric);        
+
+    $('#datastatus #totalstatusunitkerja3').html(totalpaguindikatif[3]);        
+    new AutoNumeric ('#datastatus #totalstatusunitkerja3',optionnumeric);        
+    
+    $('#datastatus #totalstatusunitkerja').html(totalpaguindikatif.total);                
+    new AutoNumeric ('#datastatus #totalstatusunitkerja',optionnumeric);        
+}
 //checking data type is json
 function isJSON (data) 
 {

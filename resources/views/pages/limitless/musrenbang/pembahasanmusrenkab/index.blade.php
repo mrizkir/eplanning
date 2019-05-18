@@ -92,45 +92,69 @@
     </div>       
     <div class="col-md-12" id="divdatatable">
         @include('pages.limitless.musrenbang.pembahasanmusrenkab.datatable')
-    </div>
-    @if (count($data) > 0)
+    </div>    
     <div class="col-md-12">
-        <table id="datastatus" class="table table-responsive">            
+        <table id="datastatus" class="table table-responsive"> 
+            <thead class="bg-info-300">
+                <tr>
+                    <th colspan="4" class="text-center">TOTAL PAGU INDIKATIF OPD / SKPD</th>
+                    <th colspan="4" class="text-center">TOTAL PAGU INDIKATIF UNIT KERJA</th>
+                </tr>
+            </thead>
             <tbody class="bg-grey-300" style="font-weight:bold">   
                 <tr>
-                    <td class="text-right">TOTAL PAGU INDIKATIF STATUS DRAFT [0]</td>
-                    <td id="totalstatus0" class="text-right">{{Helper::formatUang($totalpaguindikatif[0])}}</td>                     
+                    <td class="text-right">STATUS DRAFT [0]</td>
+                    <td id="totalstatusopd0" class="text-right">{{Helper::formatUang($totalpaguindikatifopd[0])}}</td>                     
+                    <td colspan="2">&nbsp;</td>
+                    <td class="text-right">STATUS DRAFT [0]</td>
+                    <td id="totalstatusunitkerja0" class="text-right">{{Helper::formatUang($totalpaguindikatifunitkerja[0])}}</td>                     
                     <td colspan="2">&nbsp;</td>
                 </tr>               
                 <tr>
                     <td class="text-right">STATUS SETUJU [1]</td>
-                    <td id="totalstatus1" class="text-right">{{Helper::formatUang($totalpaguindikatif[1])}}</td> 
+                    <td id="totalstatusopd1" class="text-right">{{Helper::formatUang($totalpaguindikatifopd[1])}}</td> 
+                    <td colspan="2">&nbsp;</td>
+                    <td class="text-right">STATUS SETUJU [1]</td>
+                    <td id="totalstatusunitkerja1" class="text-right">{{Helper::formatUang($totalpaguindikatifunitkerja[1])}}</td> 
                     <td colspan="2">&nbsp;</td>
                 </tr>
                 <tr>
                     <td class="text-right">STATUS SETUJU DENGAN CATATAN [2]</td>
-                    <td id="totalstatus2" class="text-right">
-                        {{Helper::formatUang($totalpaguindikatif[2])}}                        
+                    <td id="totalstatusopd2" class="text-right">
+                        {{Helper::formatUang($totalpaguindikatifopd[2])}}                        
                     </td>
                     <td width="100">[1+2] = </td> 
-                    <td id="totalstatus12">
-                        {{Helper::formatUang($totalpaguindikatif[1]+$totalpaguindikatif[2])}}
+                    <td id="totalstatusopd12">
+                        {{Helper::formatUang($totalpaguindikatifopd[1]+$totalpaguindikatifopd[2])}}
+                    </td>
+                    <td class="text-right">STATUS SETUJU DENGAN CATATAN [2]</td>
+                    <td id="totalstatusunitkerja2" class="text-right">
+                        {{Helper::formatUang($totalpaguindikatifunitkerja[2])}}                        
+                    </td>
+                    <td width="100">[1+2] = </td> 
+                    <td id="totalstatusunitkerja12">
+                        {{Helper::formatUang($totalpaguindikatifunitkerja[1]+$totalpaguindikatifunitkerja[2])}}
                     </td>
                 </tr>
                 <tr>
                     <td class="text-right">STATUS PENDING [3]</td>
-                    <td id="totalstatus3" class="text-right">{{Helper::formatUang($totalpaguindikatif[3])}}</td> 
+                    <td id="totalstatusopd3" class="text-right">{{Helper::formatUang($totalpaguindikatifopd[3])}}</td> 
+                    <td colspan="2">&nbsp;</td>
+                    <td class="text-right">STATUS PENDING [3]</td>
+                    <td id="totalstatusunitkerja3" class="text-right">{{Helper::formatUang($totalpaguindikatifunitkerja[3])}}</td> 
                     <td colspan="2">&nbsp;</td>
                 </tr>
                 <tr>
                     <td class="text-right">TOTAL KESELURUHAN (0+1+2+3)</td>
-                    <td id="totalstatus" class="text-right">{{Helper::formatUang($totalpaguindikatif['total'])}}</td> 
+                    <td id="totalstatusopd" class="text-right">{{Helper::formatUang($totalpaguindikatifopd['total'])}}</td> 
+                    <td colspan="2">&nbsp;</td>
+                    <td class="text-right">TOTAL KESELURUHAN (0+1+2+3)</td>
+                    <td id="totalstatusunitkerja" class="text-right">{{Helper::formatUang($totalpaguindikatifunitkerja['total'])}}</td> 
                     <td colspan="2">&nbsp;</td>
                 </tr>
             </tbody>            
         </table>               
-    </div>
-    @endif
+    </div>    
 </div>
 @endsection
 @section('page_custom_html')
@@ -142,9 +166,6 @@
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
-{
-    allowDecimalPadding: AutoNumeric.options.allowDecimalPadding.never
-}
 $(document).ready(function () {      
     //styling select
     $('#OrgID.select').select2({
@@ -171,10 +192,11 @@ $(document).ready(function () {
                 var listitems='<option></option>';
                 $.each(daftar_unitkerja,function(key,value){
                     listitems+='<option value="' + key + '">'+value+'</option>';                    
-                });
-                
+                });                
                 $('#SOrgID').html(listitems);
                 $('#divdatatable').html(result.datatable);
+                formatPaguTotalIndikatifOPD(result.totalpaguindikatifopd);
+                formatPaguTotalIndikatifUnitKerja(result.totalpaguindikatifunitkerja);
             },
             error:function(xhr, status, error){
                 console.log('ERROR');
@@ -195,6 +217,7 @@ $(document).ready(function () {
             success:function(result)
             { 
                 $('#divdatatable').html(result.datatable);
+                formatPaguTotalIndikatifUnitKerja(result.totalpaguindikatifunitkerja);
             },
             error:function(xhr, status, error){
                 console.log('ERROR');
@@ -217,25 +240,9 @@ $(document).ready(function () {
             },
             success:function(result)
             { 
-                $('#divdatatable').html(result.datatable);                                               
-                $('#datastatus #totalstatus0').html(result.totalpaguindikatif[0]);
-                var optionnumeric =  {
-                                        allowDecimalPadding: false,
-                                        decimalCharacter: ",",
-                                        digitGroupSeparator: ".",
-                                        showWarnings:false
-                                    };
-                new AutoNumeric ('#datastatus #totalstatus0',optionnumeric); 
-                $('#datastatus #totalstatus1').html(result.totalpaguindikatif[1]);                        
-                new AutoNumeric ('#datastatus #totalstatus1',optionnumeric); 
-                $('#datastatus #totalstatus2').html(result.totalpaguindikatif[2]); 
-                new AutoNumeric ('#datastatus #totalstatus2',optionnumeric);        
-                $('#datastatus #totalstatus12').html(parseFloat(result.totalpaguindikatif[1])+parseFloat(result.totalpaguindikatif[2]));        
-                new AutoNumeric ('#datastatus #totalstatus12',optionnumeric);        
-                $('#datastatus #totalstatus3').html(result.totalpaguindikatif[3]);        
-                new AutoNumeric ('#datastatus #totalstatus3',optionnumeric);        
-                $('#datastatus #totalstatus').html(result.totalpaguindikatif.total);                
-                new AutoNumeric ('#datastatus #totalstatus',optionnumeric);        
+                $('#divdatatable').html(result.datatable); 
+                formatPaguTotalIndikatifOPD(result.totalpaguindikatifopd);
+                formatPaguTotalIndikatifUnitKerja(result.totalpaguindikatifunitkerja);
             },
             error:function(xhr, status, error){
                 console.log('ERROR');

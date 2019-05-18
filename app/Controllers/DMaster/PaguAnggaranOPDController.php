@@ -220,9 +220,20 @@ class PaguAnggaranOPDController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $daftar_opd=OrganisasiModel::getDaftarOPD(config('globalsettings.tahun_perencanaan'),false);
+        $q=\DB::table('v_urusan_organisasi')
+                                ->select(\DB::raw('"v_urusan_organisasi"."OrgID","v_urusan_organisasi"."kode_organisasi","v_urusan_organisasi"."OrgNm"'))
+                                ->leftJoin('tmPaguAnggaranOPD','tmPaguAnggaranOPD.OrgID','v_urusan_organisasi.OrgID')
+                                ->whereNull('tmPaguAnggaranOPD.OrgID')
+                                ->where('v_urusan_organisasi.TA',config('globalsettings.tahun_perencanaan'))
+                                ->orderBy('kode_organisasi')
+                                ->get();
+        $daftar_organisasi=[];        
+        foreach ($q as $k=>$v)
+        {
+            $daftar_organisasi[$v->OrgID]=$v->kode_organisasi.'. '.$v->OrgNm;
+        } 
         return view("pages.$theme.dmaster.paguanggaranopd.create")->with(['page_active'=>'paguanggaranopd',
-                                                                        'daftar_opd'=>$daftar_opd
+                                                                        'daftar_opd'=>$daftar_organisasi
                                                                         ]);  
     }
     
@@ -299,11 +310,11 @@ class PaguAnggaranOPDController extends Controller {
                                     ->findOrFail($id);
         if (!is_null($data) ) 
         {
-            $daftar_opd=OrganisasiModel::getDaftarOPD(config('globalsettings.tahun_perencanaan'),false);
+            $daftar_opd=OrganisasiModel::getDaftarOPD(config('globalsettings.tahun_perencanaan'),false,NULL,$data->OrgID);
             return view("pages.$theme.dmaster.paguanggaranopd.edit")->with(['page_active'=>'paguanggaranopd',
-                                                    'data'=>$data,
-                                                    'daftar_opd'=>$daftar_opd
-                                                    ]);
+                                                                                'data'=>$data,
+                                                                                'daftar_opd'=>$daftar_opd
+                                                                            ]);
         }        
     }
 
