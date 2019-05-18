@@ -97,7 +97,9 @@
         <table id="datastatus" class="table table-responsive"> 
             <thead class="bg-info-300">
                 <tr>
-                    <th colspan="4" class="text-center">TOTAL PAGU INDIKATIF OPD / SKPD</th>
+                    <th colspan="2" class="text-center">TOTAL PAGU INDIKATIF OPD / SKPD</th>
+                    <th width="150"><strong>PAGU DANA:</strong></th>
+                    <th id="paguanggaranopd">{{Helper::formatUang($paguanggaranopd)}}</th>
                     <th colspan="4" class="text-center">TOTAL PAGU INDIKATIF UNIT KERJA</th>
                 </tr>
             </thead>
@@ -195,6 +197,15 @@ $(document).ready(function () {
                 });                
                 $('#SOrgID').html(listitems);
                 $('#divdatatable').html(result.datatable);
+                
+                $('#paguanggaranopd').html(result.paguanggaranopd);
+                new AutoNumeric ('#paguanggaranopd',{
+                    allowDecimalPadding: false,
+                    emptyInputBehavior:'zero',
+                    decimalCharacter: ",",
+                    digitGroupSeparator: ".",
+                    showWarnings:false
+                }); 
                 formatPaguTotalIndikatifOPD(result.totalpaguindikatifopd);
                 formatPaguTotalIndikatifUnitKerja(result.totalpaguindikatifunitkerja);
             },
