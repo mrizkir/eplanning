@@ -52,7 +52,7 @@
                             STATUS  
                         </a>
                     </th>                            
-                    <th width="200">AKSI</th>
+                    <th width="100">AKSI</th>
                 </tr>
             </thead>
             <tbody>                    
@@ -130,24 +130,7 @@
                     </td>
                     <td>
                         <ul class="icons-list">
-                            @include('layouts.limitless.l_ubah_status')      
-                            @if ($item->Privilege==0)              
-                            <li class="text-primary-600">
-                                @if ($item->isSKPD)
-                                    <a class="btnEdit" href="{{route('usulanmusrenkab.edit4',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Musrenbang Kab.">
-                                        <i class='icon-pencil7'></i>
-                                    </a> 
-                                @elseif($item->isReses)
-                                    <a class="btnEdit" href="{{route('usulanmusrenkab.edit3',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Musrenbang Kab.">
-                                        <i class='icon-pencil7'></i>
-                                    </a>
-                                @else
-                                    <a class="btnEdit" href="{{route('usulanmusrenkab.edit2',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Musrenbang Kab.">
-                                        <i class='icon-pencil7'></i>
-                                    </a>
-                                @endif  
-                            </li> 
-                            @endif
+                            @include('layouts.limitless.l_ubah_status')
                         </ul>
                     </td>
                     @endif                    

@@ -299,7 +299,8 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     
     //Rencana Kerja - Pembahasan Musrenbang Kabupaten [pembahasan]
     Route::resource('/musrenbang/pembahasanmusrenkab','Musrenbang\PembahasanMusrenKabController',['parameters'=>['pembahasanmusrenkab'=>'uuid'],
-                                                                                                              'only'=>['index','show','update']]); 
+                                                                                                              'only'=>['index','show','edit','update']]); 
+    Route::put('/musrenbang/pembahasanmusrenkab/update2/{uuid}',['uses'=>'Musrenbang\PembahasanMusrenKabController@update2','as'=>'pembahasanmusrenkab.update2']);  
     Route::post('/musrenbang/pembahasanmusrenkab/search',['uses'=>'Musrenbang\PembahasanMusrenKabController@search','as'=>'pembahasanmusrenkab.search']);  
     Route::post('/musrenbang/pembahasanmusrenkab/filter',['uses'=>'Musrenbang\PembahasanMusrenKabController@filter','as'=>'pembahasanmusrenkab.filter']);              
     Route::get('/musrenbang/pembahasanmusrenkab/paginate/{id}',['uses'=>'Musrenbang\PembahasanMusrenKabController@paginate','as'=>'pembahasanmusrenkab.paginate']);              

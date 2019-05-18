@@ -18,7 +18,7 @@ class PembahasanMusrenKabController extends Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['auth','role:superadmin|opd']);
+        $this->middleware(['auth','role:superadmin']);
     }
     /**
      * collect data from resources for index view
@@ -393,12 +393,35 @@ class PembahasanMusrenKabController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = PembahasanMusrenKabModel::findOrFail($id);
+        $data = RenjaRincianModel::findOrFail($id);
         if (!is_null($data) )  
         {
+            // dd($data);
             return view("pages.$theme.musrenbang.pembahasanmusrenkab.show")->with(['page_active'=>'pembahasanmusrenkab',
-                                                    'data'=>$data
-                                                    ]);
+                                                                                'renja'=>$data
+                                                                            ]);
+        }        
+    }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {   
+        $auth=\Auth::user();
+        $theme = $auth->theme;
+       
+        $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID","trRenjaRinc"."RenjaID","trRenjaRinc"."PmKecamatanID","trRenjaRinc"."PmDesaID","trRenjaRinc"."No","trRenjaRinc"."No","trRenjaRinc"."Uraian","trRenjaRinc"."Sasaran_Angka4","trRenjaRinc"."Sasaran_Angka4","trRenjaRinc"."Sasaran_Uraian4","trRenjaRinc"."Target4","trRenjaRinc"."Jumlah4","trRenjaRinc"."Prioritas","trRenjaRinc"."Descr","trRenjaRinc"."isSKPD","trRenjaRinc"."isReses"'))                                                                                        
+                                    ->findOrFail($id);       
+
+        if (!is_null($renja) ) 
+        {
+            return view("pages.$theme.musrenbang.pembahasanmusrenkab.edit")->with(['page_active'=>'pembahasanmusrenkab',
+                                                                            'renja'=>$renja,
+         
+                                                                            ]);
         }        
     }
     /**
@@ -455,6 +478,47 @@ class PembahasanMusrenKabController extends Controller {
             return redirect(route('pembahasanmusrenkab.show',['id'=>$pembahasanmusrenkab->RenjaRincID]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update2(Request $request, $id)
+    {
+        $rinciankegiatan = RenjaRincianModel::find($id);        
+        $this->validate($request, [
+            'No'=>'required',
+            'Uraian'=>'required',
+            'Sasaran_Angka4'=>'required',
+            'Sasaran_Uraian4'=>'required',
+            'Target4'=>'required',
+            'Jumlah4'=>'required',
+            'Prioritas' => 'required'            
+        ]);
+        $rinciankegiatan->PmKecamatanID = $request->input('PmKecamatanID');
+        $rinciankegiatan->PmDesaID = $request->input('PmDesaID');
+        $rinciankegiatan->Uraian = $request->input('Uraian');
+        $rinciankegiatan->Sasaran_Angka4 = $request->input('Sasaran_Angka4'); 
+        $rinciankegiatan->Sasaran_Uraian4 = $request->input('Sasaran_Uraian4');
+        $rinciankegiatan->Target4 = $request->input('Target4');
+        $rinciankegiatan->Jumlah4 = $request->input('Jumlah4');  
+        $rinciankegiatan->Prioritas = $request->input('Prioritas');
+        $rinciankegiatan->Status=$request->input('cmbStatus');                          
+        $rinciankegiatan->Descr = $request->input('Descr');
+        $rinciankegiatan->save();
+        if ($request->ajax()) 
+        {
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data ini telah berhasil disimpan.'
+            ]);
+        }
+        else
+        {
+            return redirect(route('pembahasanmusrenkab.show',['id'=>$rinciankegiatan->RenjaRincID]))->with('success','Data Rincian kegiatan telah berhasil disimpan.');
+        } 
+    }    
     /**
      * Update the specified resource in storage.
      *
