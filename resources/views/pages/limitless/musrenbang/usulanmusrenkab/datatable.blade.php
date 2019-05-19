@@ -148,8 +148,12 @@
                                     <a class="btnEdit" href="{{route('usulanmusrenkab.edit3',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Musren Kabupaten">
                                         <i class='icon-pencil7'></i>
                                     </a>
-                                @else
+                                @elseif(!empty($item->UsulanKecID))
                                     <a class="btnEdit" href="{{route('usulanmusrenkab.edit2',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Musren Kabupaten">
+                                        <i class='icon-pencil7'></i>
+                                    </a>
+                                @else
+                                    <a class="btnEdit" href="{{route('usulanmusrenkab.edit4',['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan Musren Kabupaten">
                                         <i class='icon-pencil7'></i>
                                     </a>
                                 @endif
