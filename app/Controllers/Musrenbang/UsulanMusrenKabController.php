@@ -831,28 +831,34 @@ class UsulanMusrenKabController extends Controller {
             'Jumlah4'=>'required',
             'Prioritas' => 'required'            
         ]);
-        $renjaid=$request->input('RenjaID');
-        $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->max('No')+1;
-        $rinciankegiatan= RenjaRincianModel::create([
-            'RenjaRincID' => uniqid ('uid'),           
-            'RenjaID' => $renjaid,            
-            'PMProvID' => $request->input('PMProvID'),           
-            'PmKotaID' => $request->input('PmKotaID'),           
-            'PmKecamatanID' => $request->input('PmKecamatanID'),  
-            'PmDesaID' => $request->input('PmDesaID'),         
-            'UsulanKecID' => $request->input('UsulanKecID'),    
-            'No' => $nomor_rincian,           
-            'Uraian' => $request->input('Uraian'),
-            'Sasaran_Angka4' => $request->input('Sasaran_Angka4'),                       
-            'Sasaran_Uraian4' => $request->input('Sasaran_Uraian4'),                       
-            'Target4' => $request->input('Target4'),                       
-            'Jumlah4' => $request->input('Jumlah4'),                       
-            'Prioritas' => $request->input('Prioritas'),              
-            'Status' => 0,  
-            'EntryLvl' => 3,                                       
-            'Descr' => $request->input('Descr'),
-            'TA' => config('globalsettings.tahun_perencanaan')
-        ]);
+        \DB::transaction(function () use ($request) {        
+            $renjaid=$request->input('RenjaID');
+            $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->max('No')+1;
+            $rinciankegiatan= RenjaRincianModel::create([
+                'RenjaRincID' => uniqid ('uid'),           
+                'RenjaID' => $renjaid,            
+                'PMProvID' => $request->input('PMProvID'),           
+                'PmKotaID' => $request->input('PmKotaID'),           
+                'PmKecamatanID' => $request->input('PmKecamatanID'),  
+                'PmDesaID' => $request->input('PmDesaID'),         
+                'UsulanKecID' => $request->input('UsulanKecID'),    
+                'No' => $nomor_rincian,           
+                'Uraian' => $request->input('Uraian'),
+                'Sasaran_Angka4' => $request->input('Sasaran_Angka4'),                       
+                'Sasaran_Uraian4' => $request->input('Sasaran_Uraian4'),                       
+                'Target4' => $request->input('Target4'),                       
+                'Jumlah4' => $request->input('Jumlah4'),                       
+                'Prioritas' => $request->input('Prioritas'),              
+                'Status' => 0,  
+                'EntryLvl' => 3,                                       
+                'Descr' => $request->input('Descr'),
+                'TA' => config('globalsettings.tahun_perencanaan')
+            ]);
+            $renja = $rinciankegiatan->renja;            
+            $renja->NilaiUsulan4=RenjaRincianModel::where('RenjaID',$renja->RenjaID)->sum('Jumlah4');            
+            $renja->save();
+        });
+
         if ($request->ajax()) 
         {
             return response()->json([
@@ -882,37 +888,44 @@ class UsulanMusrenKabController extends Controller {
             'Jumlah4'=>'required',
             'Prioritas' => 'required'            
         ]);
+        
+        \DB::transaction(function () use ($request) {        
+            $renjaid=$request->input('RenjaID');
+            $PokPirID=$request->input('PokPirID');
+            
+            $pokok_pikiran = \App\Models\Pokir\PokokPikiranModel::join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')
+                                                                ->where('PokPirID',$PokPirID)
+                                                                ->first(['trPokPir.PmDesaID','trPokPir.PmKecamatanID','trPokPir.PmKecamatanID','tmPemilikPokok.Kd_PK']);
+            
+            $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->max('No')+1;
+            $rinciankegiatan= RenjaRincianModel::create([
+                'RenjaRincID' => uniqid ('uid'),           
+                'RenjaID' => $renjaid,            
+                'PMProvID' => $request->input('PMProvID'),           
+                'PmKotaID' => $request->input('PmKotaID'),           
+                'PmKecamatanID' => $pokok_pikiran->PmKecamatanID,           
+                'PmDesaID' => $pokok_pikiran->PmDesaID,    
+                'PokPirID' => $PokPirID, 
+                'No' => $nomor_rincian,           
+                'Uraian' => $request->input('Uraian'),
+                'Sasaran_Angka4' => $request->input('Sasaran_Angka4'),                       
+                'Sasaran_Uraian4' => $request->input('Sasaran_Uraian4'),                       
+                'Target4' => $request->input('Target4'),                       
+                'Jumlah4' => $request->input('Jumlah4'),                       
+                'Prioritas' => $request->input('Prioritas'),  
+                'isReses' => true,     
+                'isReses_Uraian' => $pokok_pikiran->Kd_PK,
+                'Status' => 0,                             
+                'EntryLvl' => 3,             
+                'Descr' => $request->input('Descr'),
+                'TA' => config('globalsettings.tahun_perencanaan')
+            ]);
 
-        $renjaid=$request->input('RenjaID');
-        $PokPirID=$request->input('PokPirID');
-        
-        $pokok_pikiran = \App\Models\Pokir\PokokPikiranModel::join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')
-                                                            ->where('PokPirID',$PokPirID)
-                                                            ->first(['trPokPir.PmDesaID','trPokPir.PmKecamatanID','trPokPir.PmKecamatanID','tmPemilikPokok.Kd_PK']);
-        
-        $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->max('No')+1;
-        $rinciankegiatan= RenjaRincianModel::create([
-            'RenjaRincID' => uniqid ('uid'),           
-            'RenjaID' => $renjaid,            
-            'PMProvID' => $request->input('PMProvID'),           
-            'PmKotaID' => $request->input('PmKotaID'),           
-            'PmKecamatanID' => $pokok_pikiran->PmKecamatanID,           
-            'PmDesaID' => $pokok_pikiran->PmDesaID,    
-            'PokPirID' => $PokPirID, 
-            'No' => $nomor_rincian,           
-            'Uraian' => $request->input('Uraian'),
-            'Sasaran_Angka4' => $request->input('Sasaran_Angka4'),                       
-            'Sasaran_Uraian4' => $request->input('Sasaran_Uraian4'),                       
-            'Target4' => $request->input('Target4'),                       
-            'Jumlah4' => $request->input('Jumlah4'),                       
-            'Prioritas' => $request->input('Prioritas'),  
-            'isReses' => true,     
-            'isReses_Uraian' => $pokok_pikiran->Kd_PK,
-            'Status' => 0,                             
-            'EntryLvl' => 3,             
-            'Descr' => $request->input('Descr'),
-            'TA' => config('globalsettings.tahun_perencanaan')
-        ]);
+            $renja = $rinciankegiatan->renja;            
+            $renja->NilaiUsulan4=RenjaRincianModel::where('RenjaID',$renja->RenjaID)->sum('Jumlah4');            
+            $renja->save();
+
+        });
 
         if ($request->ajax()) 
         {
@@ -943,28 +956,36 @@ class UsulanMusrenKabController extends Controller {
             'Jumlah4'=>'required',
             'Prioritas' => 'required'            
         ]);
-        $renjaid=$request->input('RenjaID');
-        $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->max('No')+1;
-        $rinciankegiatan= RenjaRincianModel::create([
-            'RenjaRincID' => uniqid ('uid'),           
-            'RenjaID' => $renjaid,            
-            'PMProvID' => $request->input('PMProvID'),           
-            'PmKotaID' => $request->input('PmKotaID'),           
-            'PmKecamatanID' => $request->input('PmKecamatanID'),           
-            'PmDesaID' => $request->input('PmDesaID'),    
-            'No' => $nomor_rincian,           
-            'Uraian' => $request->input('Uraian'),
-            'Sasaran_Angka4' => $request->input('Sasaran_Angka4'),                       
-            'Sasaran_Uraian4' => $request->input('Sasaran_Uraian4'),                       
-            'Target4' => $request->input('Target4'),                       
-            'Jumlah4' => $request->input('Jumlah4'),                       
-            'Prioritas' => $request->input('Prioritas'),  
-            'isSKPD' => true,     
-            'Status' => 0,                               
-            'EntryLvl' => 3,           
-            'Descr' => $request->input('Descr'),
-            'TA' => config('globalsettings.tahun_perencanaan')
-        ]);
+
+        \DB::transaction(function () use ($request) {                
+            $renjaid=$request->input('RenjaID');
+            $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->max('No')+1;
+            $rinciankegiatan= RenjaRincianModel::create([
+                'RenjaRincID' => uniqid ('uid'),           
+                'RenjaID' => $renjaid,            
+                'PMProvID' => $request->input('PMProvID'),           
+                'PmKotaID' => $request->input('PmKotaID'),           
+                'PmKecamatanID' => $request->input('PmKecamatanID'),           
+                'PmDesaID' => $request->input('PmDesaID'),    
+                'No' => $nomor_rincian,           
+                'Uraian' => $request->input('Uraian'),
+                'Sasaran_Angka4' => $request->input('Sasaran_Angka4'),                       
+                'Sasaran_Uraian4' => $request->input('Sasaran_Uraian4'),                       
+                'Target4' => $request->input('Target4'),                       
+                'Jumlah4' => $request->input('Jumlah4'),                       
+                'Prioritas' => $request->input('Prioritas'),  
+                'isSKPD' => true,     
+                'Status' => 0,                               
+                'EntryLvl' => 3,           
+                'Descr' => $request->input('Descr'),
+                'TA' => config('globalsettings.tahun_perencanaan')
+            ]);
+
+            $renja = $rinciankegiatan->renja;            
+            $renja->NilaiUsulan4=RenjaRincianModel::where('RenjaID',$renja->RenjaID)->sum('Jumlah4');            
+            $renja->save();
+
+        });
         if ($request->ajax()) 
         {
             return response()->json([
@@ -1303,14 +1324,21 @@ class UsulanMusrenKabController extends Controller {
             'Prioritas' => 'required'            
         ]);
         
-        $rinciankegiatan->Uraian = $request->input('Uraian');
-        $rinciankegiatan->Sasaran_Angka4 = $request->input('Sasaran_Angka4'); 
-        $rinciankegiatan->Sasaran_Uraian4 = $request->input('Sasaran_Uraian4');
-        $rinciankegiatan->Target4 = $request->input('Target4');
-        $rinciankegiatan->Jumlah4 = $request->input('Jumlah4');  
-        $rinciankegiatan->Prioritas = $request->input('Prioritas');  
-        $rinciankegiatan->Descr = $request->input('Descr');
-        $rinciankegiatan->save();
+        \DB::transaction(function () use ($request,$rinciankegiatan) {
+            $rinciankegiatan->Uraian = $request->input('Uraian');
+            $rinciankegiatan->Sasaran_Angka4 = $request->input('Sasaran_Angka4'); 
+            $rinciankegiatan->Sasaran_Uraian4 = $request->input('Sasaran_Uraian4');
+            $rinciankegiatan->Target4 = $request->input('Target4');
+            $rinciankegiatan->Jumlah4 = $request->input('Jumlah4');  
+            $rinciankegiatan->Prioritas = $request->input('Prioritas');  
+            $rinciankegiatan->Descr = $request->input('Descr');
+            $rinciankegiatan->save();
+
+            $renja = $rinciankegiatan->renja;            
+            $renja->NilaiUsulan4=RenjaRincianModel::where('RenjaID',$renja->RenjaID)->sum('Jumlah4');            
+            $renja->save();
+            
+        });
         if ($request->ajax()) 
         {
             return response()->json([
@@ -1342,14 +1370,21 @@ class UsulanMusrenKabController extends Controller {
             'Prioritas' => 'required'            
         ]);
         
-        $rinciankegiatan->Uraian = $request->input('Uraian');
-        $rinciankegiatan->Sasaran_Angka4 = $request->input('Sasaran_Angka4'); 
-        $rinciankegiatan->Sasaran_Uraian4 = $request->input('Sasaran_Uraian4');
-        $rinciankegiatan->Target4 = $request->input('Target4');
-        $rinciankegiatan->Jumlah4 = $request->input('Jumlah4');  
-        $rinciankegiatan->Prioritas = $request->input('Prioritas');  
-        $rinciankegiatan->Descr = $request->input('Descr');
-        $rinciankegiatan->save();
+        \DB::transaction(function () use ($request,$rinciankegiatan) {            
+            $rinciankegiatan->Uraian = $request->input('Uraian');
+            $rinciankegiatan->Sasaran_Angka4 = $request->input('Sasaran_Angka4'); 
+            $rinciankegiatan->Sasaran_Uraian4 = $request->input('Sasaran_Uraian4');
+            $rinciankegiatan->Target4 = $request->input('Target4');
+            $rinciankegiatan->Jumlah4 = $request->input('Jumlah4');  
+            $rinciankegiatan->Prioritas = $request->input('Prioritas');  
+            $rinciankegiatan->Descr = $request->input('Descr');
+            $rinciankegiatan->save();
+
+            $renja = $rinciankegiatan->renja;            
+            $renja->NilaiUsulan4=RenjaRincianModel::where('RenjaID',$renja->RenjaID)->sum('Jumlah4');            
+            $renja->save();
+
+        });
         if ($request->ajax()) 
         {
             return response()->json([
@@ -1380,16 +1415,25 @@ class UsulanMusrenKabController extends Controller {
             'Jumlah4'=>'required',
             'Prioritas' => 'required'            
         ]);
-        $rinciankegiatan->PmKecamatanID = $request->input('PmKecamatanID');
-        $rinciankegiatan->PmDesaID = $request->input('PmDesaID');
-        $rinciankegiatan->Uraian = $request->input('Uraian');
-        $rinciankegiatan->Sasaran_Angka4 = $request->input('Sasaran_Angka4'); 
-        $rinciankegiatan->Sasaran_Uraian4 = $request->input('Sasaran_Uraian4');
-        $rinciankegiatan->Target4 = $request->input('Target4');
-        $rinciankegiatan->Jumlah4 = $request->input('Jumlah4');  
-        $rinciankegiatan->Prioritas = $request->input('Prioritas');  
-        $rinciankegiatan->Descr = $request->input('Descr');
-        $rinciankegiatan->save();
+        
+        \DB::transaction(function () use ($request,$rinciankegiatan) { 
+            $rinciankegiatan->PmKecamatanID = $request->input('PmKecamatanID');
+            $rinciankegiatan->PmDesaID = $request->input('PmDesaID');
+            $rinciankegiatan->Uraian = $request->input('Uraian');
+            $rinciankegiatan->Sasaran_Angka4 = $request->input('Sasaran_Angka4'); 
+            $rinciankegiatan->Sasaran_Uraian4 = $request->input('Sasaran_Uraian4');
+            $rinciankegiatan->Target4 = $request->input('Target4');
+            $rinciankegiatan->Jumlah4 = $request->input('Jumlah4');  
+            $rinciankegiatan->Prioritas = $request->input('Prioritas');  
+            $rinciankegiatan->Descr = $request->input('Descr');
+            $rinciankegiatan->save();
+
+            $renja = $rinciankegiatan->renja;            
+            $renja->NilaiUsulan4=RenjaRincianModel::where('RenjaID',$renja->RenjaID)->sum('Jumlah4');            
+            $renja->save();
+            
+        });
+
         if ($request->ajax()) 
         {
             return response()->json([
@@ -1431,17 +1475,24 @@ class UsulanMusrenKabController extends Controller {
             }
         }
         else  if ($request->exists('rinciankegiatan'))
-        {
+        {            
             $rinciankegiatan = RenjaRincianModel::find($id);
             $renjaid=$rinciankegiatan->RenjaID;
-            $result=$rinciankegiatan->delete();
+            $renja = \DB::transaction(function () use ($rinciankegiatan) {                 
+                $renja = $rinciankegiatan->renja;                            
+                $rinciankegiatan->delete();
+                $renja->NilaiUsulan4=RenjaRincianModel::where('RenjaID',$renja->RenjaID)->sum('Jumlah4');            
+                $renja->save();
+
+                return $renja;
+            });
             if ($request->ajax()) 
             {
                 $data = $this->populateRincianKegiatan($renjaid);
                         
                 $datatable = view("pages.$theme.musrenbang.usulanmusrenkab.datatablerinciankegiatan")->with(['datarinciankegiatan'=>$data])->render();     
                 
-                return response()->json(['success'=>true,'datatable'=>$datatable],200); 
+                return response()->json(['success'=>true,'NilaiUsulan4'=>$renja->NilaiUsulan4,'datatable'=>$datatable],200); 
             }
             else
             {
@@ -1450,7 +1501,6 @@ class UsulanMusrenKabController extends Controller {
         }
         else if ($request->exists('pid'))
         {
-
             $renja = $request->input('pid') == 'rincian' ?RenjaRincianModel::find($id) :RenjaModel::find($id);
             $result=$renja->delete();
             if ($request->ajax()) 
@@ -1459,11 +1509,11 @@ class UsulanMusrenKabController extends Controller {
                 $data=$this->populateData($currentpage);
                
                 $datatable = view("pages.$theme.musrenbang.usulanmusrenkab.datatable")->with(['page_active'=>'usulanmusrenkab',
-                                                                'search'=>$this->getControllerStateSession('usulanmusrenkab','search'),
-                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                                'column_order'=>$this->getControllerStateSession('usulanmusrenkab.orderby','column_name'),
-                                                                'direction'=>$this->getControllerStateSession('usulanmusrenkab.orderby','order'),
-                                                                'data'=>$data])->render();      
+                                                                                            'search'=>$this->getControllerStateSession('usulanmusrenkab','search'),
+                                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                                            'column_order'=>$this->getControllerStateSession('usulanmusrenkab.orderby','column_name'),
+                                                                                            'direction'=>$this->getControllerStateSession('usulanmusrenkab.orderby','order'),
+                                                                                            'data'=>$data])->render();      
                 
                 return response()->json(['success'=>true,'datatable'=>$datatable],200); 
             }

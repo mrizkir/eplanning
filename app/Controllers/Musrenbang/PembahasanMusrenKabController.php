@@ -496,17 +496,22 @@ class PembahasanMusrenKabController extends Controller {
             'Jumlah4'=>'required',
             'Prioritas' => 'required'            
         ]);
-        $rinciankegiatan->PmKecamatanID = $request->input('PmKecamatanID');
-        $rinciankegiatan->PmDesaID = $request->input('PmDesaID');
-        $rinciankegiatan->Uraian = $request->input('Uraian');
-        $rinciankegiatan->Sasaran_Angka4 = $request->input('Sasaran_Angka4'); 
-        $rinciankegiatan->Sasaran_Uraian4 = $request->input('Sasaran_Uraian4');
-        $rinciankegiatan->Target4 = $request->input('Target4');
-        $rinciankegiatan->Jumlah4 = $request->input('Jumlah4');  
-        $rinciankegiatan->Prioritas = $request->input('Prioritas');
-        $rinciankegiatan->Status=$request->input('cmbStatus');                          
-        $rinciankegiatan->Descr = $request->input('Descr');
-        $rinciankegiatan->save();
+        \DB::transaction(function () use ($request,$rinciankegiatan) { 
+            $rinciankegiatan->Uraian = $request->input('Uraian');
+            $rinciankegiatan->Sasaran_Angka4 = $request->input('Sasaran_Angka4'); 
+            $rinciankegiatan->Sasaran_Uraian4 = $request->input('Sasaran_Uraian4');
+            $rinciankegiatan->Target4 = $request->input('Target4');
+            $rinciankegiatan->Jumlah4 = $request->input('Jumlah4');  
+            $rinciankegiatan->Prioritas = $request->input('Prioritas');
+            $rinciankegiatan->Status=$request->input('cmbStatus');                          
+            $rinciankegiatan->Descr = $request->input('Descr');
+            $rinciankegiatan->save();
+
+            $renja = $rinciankegiatan->renja;            
+            $renja->NilaiUsulan4=RenjaRincianModel::where('RenjaID',$renja->RenjaID)->sum('Jumlah4');            
+            $renja->save();
+            
+        });
         if ($request->ajax()) 
         {
             return response()->json([
@@ -548,6 +553,7 @@ class PembahasanMusrenKabController extends Controller {
                     $RenjaID=$old_renja[0];
                     $newRenjaiD=$RenjaID;
                     $renja = RenjaModel::find($RenjaID);  
+                    $newrenja=$renja;
                 }
                 else
                 {
@@ -697,6 +703,9 @@ class PembahasanMusrenKabController extends Controller {
                         "Privilege"=0 
                 ';
                 \DB::statement($str_kinerja);
+                            
+                $newrenja->NilaiUsulan5=RenjaRincianModel::where('RenjaID',$newrenja->RenjaID)->sum('Jumlah5');            
+                $newrenja->save();
 
                 RenjaRincianModel::where('RenjaRincID',$RenjaRincID)
                                     ->update(['Privilege'=>1]);

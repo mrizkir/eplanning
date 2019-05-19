@@ -193,7 +193,7 @@ $(document).ready(function () {
                 "OrgID": $('#OrgID').val(),
             },
             success:function(result)
-            { 
+            {                  
                 var daftar_unitkerja = result.daftar_unitkerja;
                 var listitems='<option></option>';
                 $.each(daftar_unitkerja,function(key,value){
@@ -201,7 +201,7 @@ $(document).ready(function () {
                 });                
                 $('#SOrgID').html(listitems);
                 $('#divdatatable').html(result.datatable);
-                
+                $(".switch").bootstrapSwitch();   
                 $('#paguanggaranopd').html(result.paguanggaranopd);
                 new AutoNumeric ('#paguanggaranopd',{
                     allowDecimalPadding: false,
@@ -232,6 +232,7 @@ $(document).ready(function () {
             success:function(result)
             { 
                 $('#divdatatable').html(result.datatable);
+                $(".switch").bootstrapSwitch();  
                 formatPaguTotalIndikatifUnitKerja(result.totalpaguindikatifunitkerja);
             },
             error:function(xhr, status, error){

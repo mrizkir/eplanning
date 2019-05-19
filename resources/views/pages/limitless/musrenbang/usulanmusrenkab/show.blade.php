@@ -76,7 +76,7 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>SASARAN KEGIATAN: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::formatAngka($renja->Sasaran_Angka3)}} {{$renja->Sasaran_Uraian3}}</p>
+                                    <p class="form-control-static">{{Helper::formatAngka($renja->Sasaran_Angka4)}} {{$renja->Sasaran_Uraian3}}</p>
                                 </div>                            
                             </div>    
                         </div>                        
@@ -92,7 +92,7 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>TARGET (%): </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::formatAngka($renja->Target3)}}</p>
+                                    <p class="form-control-static">{{Helper::formatAngka($renja->Target4)}}</p>
                                 </div>                            
                             </div>
                             <div class="form-group">
@@ -103,7 +103,7 @@
                                             <p class="form-control-static">{{Helper::formatUang($renja->NilaiSebelum)}}</p>
                                         </div>
                                         <div class="col-md-4">
-                                            <p class="form-control-static">{{Helper::formatUang($renja->NilaiUsulan3)}}</p>
+                                            <p class="form-control-static" id="pNilaiUsulan4">{{Helper::formatUang($renja->NilaiUsulan4)}}</p>
                                         </div>
                                         <div class="col-md-4">
                                             <p class="form-control-static">{{Helper::formatUang($renja->NilaiSetelah)}}</p>
@@ -146,6 +146,9 @@
         </div>
     </div>
 </div>
+@endsection
+@section('page_asset_js')
+<script src="{!!asset('themes/limitless/assets/js/autoNumeric.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
@@ -218,7 +221,16 @@ $(document).ready(function () {
                 },
                 success:function(result){ 
                     if (result.success==1){
-                        $('#divdatatablerinciankegiatan').html(result.datatable);                        
+                        $('#divdatatablerinciankegiatan').html(result.datatable);          
+                        $('#pNilaiUsulan4').html(result.NilaiUsulan4);     
+                        
+                        new AutoNumeric ('#pNilaiUsulan4',{
+                                                            allowDecimalPadding: false,
+                                                            decimalCharacter: ",",
+                                                            digitGroupSeparator: ".",
+                                                            showWarnings:false
+                                                        });
+
                     }else{
                         console.log("Gagal menghapus data rincian kegiatan Musren Kabupaten dengan id "+id);
                     }                    
