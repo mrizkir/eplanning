@@ -27,7 +27,7 @@ class RekapPaguIndikatifOPDController extends Controller {
         $columns=['*'];       
         if (!$this->checkStateIsExistSession('rekappaguindikatifopd','orderby')) 
         {            
-           $this->putControllerStateSession('rekappaguindikatifopd','orderby',['column_name'=>'OrgID','order'=>'asc']);
+           $this->putControllerStateSession('rekappaguindikatifopd','orderby',['column_name'=>'Kode_Organisasi','order'=>'asc']);
         }
         $column_order=$this->getControllerStateSession('rekappaguindikatifopd.orderby','column_name'); 
         $direction=$this->getControllerStateSession('rekappaguindikatifopd.orderby','order'); 
