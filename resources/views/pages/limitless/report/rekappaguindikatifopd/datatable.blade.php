@@ -120,22 +120,40 @@
                         @endphp
                     </th>
                     <th class="text-right {{HelperKegiatan::setStyleForRekapMode1($prarenja1,$Jumlah1)}}">
-                       <strong>{{Helper::formatUang($prarenja1)}}</strong>
+                       <strong>
+                           {{Helper::formatUang($prarenja1)}} <br>
+                            ({{Helper::formatUang($Jumlah1-$prarenja1)}})
+                    </strong>
                     </th>
                     <th class="text-right {{HelperKegiatan::setStyleForRekapMode1($rakorbidang1,$Jumlah1)}}">
-                        <strong>{{Helper::formatUang($rakorbidang1)}}</strong>
+                        <strong>
+                            {{Helper::formatUang($rakorbidang1)}}<br>
+                            ({{Helper::formatUang($Jumlah1-$rakorbidang1)}})
+                        </strong>
                     </th>
                     <th class="text-right {{HelperKegiatan::setStyleForRekapMode1($forumopd1,$Jumlah1)}}">
-                        <strong>{{Helper::formatUang($forumopd1)}}</strong>
+                        <strong>
+                            {{Helper::formatUang($forumopd1)}}<br>
+                            ({{Helper::formatUang($Jumlah1-$forumopd1)}})
+                        </strong>
                     </th>
                     <th class="text-right {{HelperKegiatan::setStyleForRekapMode1($musrenkab1,$Jumlah1)}}">
-                        <strong>{{Helper::formatUang($musrenkab1)}}</strong>
+                        <strong>
+                            {{Helper::formatUang($musrenkab1)}}<br>
+                            ({{Helper::formatUang($Jumlah1-$musrenkab1)}})
+                        </strong>
                     </th>
                     <th class="text-right {{HelperKegiatan::setStyleForRekapMode1($renjafinal1,$Jumlah1)}}">
-                        <strong>{{Helper::formatUang($renjafinal1)}}</strong>
+                        <strong>
+                            {{Helper::formatUang($renjafinal1)}}<br>
+                            ({{Helper::formatUang($Jumlah1-$renjafinal1)}})
+                        </strong>
                     </th>
                     <th class="text-right {{HelperKegiatan::setStyleForRekapMode1($rkpd1,$Jumlah1)}}">
-                        <strong>{{Helper::formatUang($rkpd1)}}</strong> 
+                        <strong>
+                            {{Helper::formatUang($rkpd1)}}<br>
+                            ({{Helper::formatUang($Jumlah1-$rkpd1)}})
+                        </strong> 
                     </th>
                     <th class="text-right">
                         <strong>{{Helper::formatUang($Jumlah1)}}</strong>                        
@@ -184,6 +202,55 @@
             @endforeach                    
             {!! Form::close()!!}  
             </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="3" class="text-right">
+                        <strong>TOTAL</strong>                        
+                    </th>
+                    <th class="text-right {{HelperKegiatan::setStyleForRekapMode1($prarenja1,$Jumlah1)}}">
+                        <strong>
+                            {{Helper::formatUang($prarenja1)}} <br>
+                            ({{Helper::formatUang($Jumlah1-$prarenja1)}})
+                    </strong>
+                    </th>
+                    <th class="text-right {{HelperKegiatan::setStyleForRekapMode1($rakorbidang1,$Jumlah1)}}">
+                        <strong>
+                            {{Helper::formatUang($rakorbidang1)}}<br>
+                            ({{Helper::formatUang($Jumlah1-$rakorbidang1)}})
+                        </strong>
+                    </th>
+                    <th class="text-right {{HelperKegiatan::setStyleForRekapMode1($forumopd1,$Jumlah1)}}">
+                        <strong>
+                            {{Helper::formatUang($forumopd1)}}<br>
+                            ({{Helper::formatUang($Jumlah1-$forumopd1)}})
+                        </strong>
+                    </th>
+                    <th class="text-right {{HelperKegiatan::setStyleForRekapMode1($musrenkab1,$Jumlah1)}}">
+                        <strong>
+                            {{Helper::formatUang($musrenkab1)}}<br>
+                            ({{Helper::formatUang($Jumlah1-$musrenkab1)}})
+                        </strong>
+                    </th>
+                    <th class="text-right {{HelperKegiatan::setStyleForRekapMode1($renjafinal1,$Jumlah1)}}">
+                        <strong>
+                            {{Helper::formatUang($renjafinal1)}}<br>
+                            ({{Helper::formatUang($Jumlah1-$renjafinal1)}})
+                        </strong>
+                    </th>
+                    <th class="text-right {{HelperKegiatan::setStyleForRekapMode1($rkpd1,$Jumlah1)}}">
+                        <strong>
+                            {{Helper::formatUang($rkpd1)}}<br>
+                            ({{Helper::formatUang($Jumlah1-$rkpd1)}})
+                        </strong> 
+                    </th>
+                    <th class="text-right">
+                        <strong>{{Helper::formatUang($Jumlah1)}}</strong>                        
+                    </th>
+                    <th class="text-right">
+                        &nbsp;
+                    </th>
+                </tr>
+            </tfoot>
         </table>               
     </div>
     @else
