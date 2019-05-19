@@ -127,7 +127,7 @@
                 <div class="form-group">
                     {{Form::label('NilaiUsulan','NILAI USULAN ANGGARAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('NilaiUsulan',Helper::formatUang($data->NilaiUsulan),['class'=>'form-control','placeholder'=>'NILAI USULAN ANGGARAN'])}}
+                        {{Form::text('NilaiUsulan',$data->NilaiUsulan,['class'=>'form-control','placeholder'=>'NILAI USULAN ANGGARAN'])}}
                     </div>
                 </div>
                 <div class="form-group">

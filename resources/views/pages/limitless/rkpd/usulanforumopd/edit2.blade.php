@@ -104,7 +104,7 @@
             <div class="form-group">
                 {{Form::label('Jumlah3','NILAI USULAN',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
-                    {{Form::text('Jumlah3',Helper::formatUang($renja->Jumlah3),['class'=>'form-control','placeholder'=>'NILAI USULAN'])}}
+                    {{Form::text('Jumlah3',$renja->Jumlah3,['class'=>'form-control','placeholder'=>'NILAI USULAN'])}}
                 </div>
             </div>
             <div class="form-group">

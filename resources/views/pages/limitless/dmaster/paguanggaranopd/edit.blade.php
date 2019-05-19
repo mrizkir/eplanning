@@ -50,13 +50,13 @@
                 <div class="form-group">
                     {{Form::label('Jumlah1','PAGU ANGGARAN APBD',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('Jumlah1',Helper::formatUang($data['Jumlah1']),['class'=>'form-control','placeholder'=>'NILAI PAGU ANGGARAN APBD'])}}
+                        {{Form::text('Jumlah1',$data['Jumlah1'],['class'=>'form-control','placeholder'=>'NILAI PAGU ANGGARAN APBD'])}}
                     </div>
                 </div>
                 <div class="form-group">
                     {{Form::label('Jumlah2','PAGU ANGGARAN APBDP',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('Jumlah2',Helper::formatUang($data['Jumlah2']),['class'=>'form-control','placeholder'=>'NILAI PAGU ANGGARAN APBD'])}}
+                        {{Form::text('Jumlah2',$data['Jumlah2'],['class'=>'form-control','placeholder'=>'NILAI PAGU ANGGARAN APBD'])}}
                     </div>
                 </div>
                 <div class="form-group">
