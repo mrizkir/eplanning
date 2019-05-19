@@ -1428,7 +1428,7 @@ class UsulanPraRenjaOPDController extends Controller {
             $rinciankegiatan->save();
 
             $renja = $rinciankegiatan->renja;            
-            $renja->NilaiUsulan4=RenjaRincianModel::where('RenjaID',$renja->RenjaID)->sum('Jumlah4');            
+            $renja->NilaiUsulan1=RenjaRincianModel::where('RenjaID',$renja->RenjaID)->sum('Jumlah1');            
             $renja->save();
             
         });

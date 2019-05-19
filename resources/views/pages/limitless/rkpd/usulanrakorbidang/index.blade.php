@@ -12,6 +12,8 @@
     @include('pages.limitless.rkpd.usulanrakorbidang.info')
 @endsection
 @section('page_breadcrumb')
+    <li><a href="#">PERENCANAAN</a></li>
+    <li><a href="#">ASPIRASI / USULAN</a></li>
     <li class="active">USULAN RAKOR BIDANG</li>
 @endsection
 @section('page_content')
