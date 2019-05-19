@@ -99,15 +99,15 @@
                     <div class="col-md-10">
                         <div class="row">
                             <div class="col-md-4">
-                                {{Form::text('NilaiSebelum',Helper::formatUang($renja['NilaiSebelum']),['class'=>'form-control','placeholder'=>'NILAI (TA-1)'])}}
+                                {{Form::text('NilaiSebelum',$renja['NilaiSebelum'],['class'=>'form-control','placeholder'=>'NILAI (TA-1)'])}}
                             </div>
                             <div class="col-md-4">
-                                {{Form::text('NilaiUsulan2',Helper::formatUang($renja['NilaiUsulan2']),['class'=>'form-control','placeholder'=>'NILAI USULAN (TA)','id'=>'NilaiUsulan2','readonly'=>true])}}
+                                {{Form::text('NilaiUsulan2',$renja['NilaiUsulan2'],['class'=>'form-control','placeholder'=>'NILAI USULAN (TA)','id'=>'NilaiUsulan2','readonly'=>true])}}
                             </div> 
                             <div class="col-md-4">
-                                {{Form::text('NilaiSetelah',Helper::formatUang($renja['NilaiSetelah']),['class'=>'form-control','placeholder'=>'NILAI (TA+1)','id'=>'NilaiSetelah'])}}
+                                {{Form::text('NilaiSetelah',$renja['NilaiSetelah'],['class'=>'form-control','placeholder'=>'NILAI (TA+1)','id'=>'NilaiSetelah'])}}
                             </div>       
-                        </div>                                         
+                        </div>                                            
                     </div>
                 </div>
                 <div class="form-group">
