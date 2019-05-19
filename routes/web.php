@@ -7,7 +7,12 @@ Route::get('/',['uses'=>'FrontendController@welcome','as'=>'frontend.index']);
 Route::get('/logout',['uses'=>'Auth\LoginController@logout','as'=>'logout']);
 Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'auth']],function() {     
     Route::get('/',['uses'=>'DashboardController@index','as'=>'dashboard.index']);          
-    
+    Route::resource('/dashboard/rekappaguindikatifopd','Report\RekapPaguIndikatifOPDController',[
+                                                                                                    'parameters'=>['rekappaguindikatifopd'=>'uuid'],
+                                                                                                    'only'=>['index','store','update']
+                                                                                                ]); 
+    Route::post('/dashboard/rekappaguindikatifopd/orderby',['uses'=>'Report\RekapPaguIndikatifOPDController@orderby','as'=>'rekappaguindikatifopd.orderby']); 
+
     //masters - data kelompok urusan [data]
     Route::resource('/dmaster/kelompokurusan','DMaster\KelompokUrusanController',['parameters'=>['kelompokurusan'=>'uuid']]); 
     Route::get('/dmaster/kelompokurusan/paginate/{id}',['uses'=>'DMaster\KelompokUrusanController@paginate','as'=>'kelompokurusan.paginate']);              

@@ -71,7 +71,11 @@
                             <div class="col-md-3">
                                 <span class="menu-heading underlined"><i class="icon-map4"></i> PERENCANAAN</span>
                                 <ul class="menu-list">
-                                    
+                                    <li{!!Helper::isMenuActive ($page_active,'rekappaguindikatifopd',' class="active"')!!}>
+                                        <a href="{!!route('rekappaguindikatifopd.index')!!}">
+                                            <i class="icon-display"></i> REKAP. PAGU INDIKATIF OPD										
+                                        </a>   
+                                    </li>
                                 </ul>
                             </div>
                         </div>
