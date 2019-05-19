@@ -361,6 +361,7 @@ class UsulanMusrenKabController extends Controller {
                                                     ->whereNull('rinciankegiatan.PokPirID')
                                                     ->where('trPokPir.Privilege',1)  
                                                     ->where('trPokPir.OrgID',$filters['OrgID'])   
+                                                    ->orderBY('trPokPir.Prioritas','ASC')
                                                     ->orderBY('NamaUsulanKegiatan','ASC')
                                                     ->get(); 
             $daftar_pokir = [];

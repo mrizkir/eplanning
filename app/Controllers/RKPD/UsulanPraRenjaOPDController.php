@@ -367,6 +367,7 @@ class UsulanPraRenjaOPDController extends Controller {
                                                     ->where('trPokPir.PemilikPokokID',$PemilikPokokID)                                                
                                                     ->where('trPokPir.Privilege',1)  
                                                     ->where('trPokPir.OrgID',$filters['OrgID'])  
+                                                    ->orderBY('trPokPir.Prioritas','ASC')
                                                     ->orderBY('NamaUsulanKegiatan','ASC')
                                                     ->get(); 
             $daftar_pokir = [];
@@ -375,7 +376,7 @@ class UsulanPraRenjaOPDController extends Controller {
                 $daftar_pokir[$v->PokPirID]=$v->NamaUsulanKegiatan;
             }
 
-            $json_data = ['success'=>true,'daftar_pokir'=>$daftar_pokir];            
+            $json_data = ['success'=>true,'daftar_pokir'=>$daftar_pokir,'message'=>'bila daftar_pokir kosong mohon dicek Privilege apakah bernilai 1'];            
         }
         //create3
         if ($request->exists('PokPirID') && $request->exists('create3') )
