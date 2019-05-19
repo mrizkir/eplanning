@@ -551,9 +551,9 @@ class VerifikasiRenjaController extends Controller {
                         'Tgl_Posting'=>$tanggal_posting,
                         'Descr'=>$renja->Descr,
                         'TA'=>$renja->TA,
-                        'Status'=>1,
-                        'EntryLvl'=>5,
-                        'Privilege'=>1,                                    
+                        'Status'=>0,
+                        'EntryLvl'=>4,
+                        'Privilege'=>0,                                    
                     ]);
                 } 
                 else
@@ -562,7 +562,7 @@ class VerifikasiRenjaController extends Controller {
                     $rkpd->NilaiUsulan1=$NilaiUsulan1;
                     $rkpd->save();
                 }              
-                
+                //kondisi awal saat di transfer ke RKPD adalah entrillvl = 4 (RKPD)
                 $str_rincianrenja = '
                     INSERT INTO "trRKPDRinc" (
                         "RKPDRincID",
@@ -612,9 +612,9 @@ class VerifikasiRenjaController extends Controller {
                         "isSKPD",
                         "Descr",
                         "TA",
-                        1 AS "Status",
-                        5 AS "EntryLvl",
-                        "Privilege",                        
+                        0 AS "Status",
+                        4 AS "EntryLvl",
+                        0 AS "Privilege",                        
                         NOW() AS created_at,
                         NOW() AS updated_at
                     FROM 
@@ -648,7 +648,7 @@ class VerifikasiRenjaController extends Controller {
                         "Target_Uraian",
                         "Tahun",
                         "Descr",
-                        1 AS "Privilege",                        
+                        0 AS "Privilege",                        
                         "TA",
                         NOW() AS created_at,
                         NOW() AS updated_at

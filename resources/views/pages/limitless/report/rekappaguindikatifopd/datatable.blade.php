@@ -13,7 +13,7 @@
     </div>
     @if (count($data) > 0)
     <div class="table-responsive"> 
-        <table id="data" class="table table-striped table-hover" style="font-size:10px">
+        <table id="data" class="table table-striped table-hover" style="font-size:12px">
             <thead>
                 <tr class="bg-teal-700 text-right">
                     <th width="55">NO</th>
@@ -28,32 +28,32 @@
                         </a>                                             
                     </th>
                     <th width="150" class="text-right">
-                        <a class="column-sort text-white" id="col-Jumlah1" data-order="{{$direction}}" href="#">
+                        <a class="column-sort text-white" id="col-prarenja1" data-order="{{$direction}}" href="#">
                             PRA RENJA  
                         </a>                                             
                     </th>
                     <th width="150" class="text-right">
-                        <a class="column-sort text-white" id="col-Jumlah1" data-order="{{$direction}}" href="#">
+                        <a class="column-sort text-white" id="col-rakorbidang1" data-order="{{$direction}}" href="#">
                             RAKOR BIDANG  
                         </a>                                             
                     </th>
                     <th width="150" class="text-right">
-                        <a class="column-sort text-white" id="col-Jumlah1" data-order="{{$direction}}" href="#">
+                        <a class="column-sort text-white" id="col-forumopd1" data-order="{{$direction}}" href="#">
                             FORUM OPD  
                         </a>                                             
                     </th>
                     <th width="150" class="text-right">
-                        <a class="column-sort text-white" id="col-Jumlah1" data-order="{{$direction}}" href="#">
+                        <a class="column-sort text-white" id="col-musrenkab1" data-order="{{$direction}}" href="#">
                             MUSREN. TK. KABUPATEN
                         </a>                                             
                     </th>
                     <th width="150" class="text-right">
-                        <a class="column-sort text-white" id="col-Jumlah1" data-order="{{$direction}}" href="#">
+                        <a class="column-sort text-white" id="col-renjafinal1" data-order="{{$direction}}" href="#">
                             VERIFIKASI TAPD
                         </a>                                             
                     </th>
                     <th width="150" class="text-right">
-                        <a class="column-sort text-white" id="col-Jumlah1" data-order="{{$direction}}" href="#">
+                        <a class="column-sort text-white" id="col-rkpd1" data-order="{{$direction}}" href="#">
                             RKPD
                         </a>                                             
                     </th>
@@ -109,27 +109,36 @@
                 <tr>
                     <th colspan="3" class="text-right">
                         <strong>TOTAL</strong>
+                        @php
+                            $prarenja1=$data->sum('prarenja1');
+                            $rakorbidang1=$data->sum('rakorbidang1');
+                            $forumopd1=$data->sum('forumopd1');
+                            $musrenkab1=$data->sum('musrenkab1');
+                            $renjafinal1=$data->sum('renjafinal1');
+                            $rkpd1=$data->sum('rkpd1');
+                            $Jumlah1=$data->sum('Jumlah1');                           
+                        @endphp
+                    </th>
+                    <th class="text-right {{HelperKegiatan::setStyleForRekapMode1($prarenja1,$Jumlah1)}}">
+                       <strong>{{Helper::formatUang($prarenja1)}}</strong>
+                    </th>
+                    <th class="text-right {{HelperKegiatan::setStyleForRekapMode1($rakorbidang1,$Jumlah1)}}">
+                        <strong>{{Helper::formatUang($rakorbidang1)}}</strong>
+                    </th>
+                    <th class="text-right {{HelperKegiatan::setStyleForRekapMode1($forumopd1,$Jumlah1)}}">
+                        <strong>{{Helper::formatUang($forumopd1)}}</strong>
+                    </th>
+                    <th class="text-right {{HelperKegiatan::setStyleForRekapMode1($musrenkab1,$Jumlah1)}}">
+                        <strong>{{Helper::formatUang($musrenkab1)}}</strong>
+                    </th>
+                    <th class="text-right {{HelperKegiatan::setStyleForRekapMode1($renjafinal1,$Jumlah1)}}">
+                        <strong>{{Helper::formatUang($renjafinal1)}}</strong>
+                    </th>
+                    <th class="text-right {{HelperKegiatan::setStyleForRekapMode1($rkpd1,$Jumlah1)}}">
+                        <strong>{{Helper::formatUang($rkpd1)}}</strong> 
                     </th>
                     <th class="text-right">
-                       <strong>{{Helper::formatUang($data->sum('prarenja1'))}}</strong>
-                    </th>
-                    <th class="text-right">
-                        <strong>{{Helper::formatUang($data->sum('rakorbidang1'))}}</strong>
-                    </th>
-                    <th class="text-right">
-                        <strong>{{Helper::formatUang($data->sum('forumopd1'))}}</strong>
-                    </th>
-                    <th class="text-right">
-                        <strong>{{Helper::formatUang($data->sum('musrenkab1'))}}</strong>
-                    </th>
-                    <th class="text-right">
-                        <strong>{{Helper::formatUang($data->sum('renjafinal1'))}}</strong>
-                    </th>
-                    <th class="text-right">
-                        <strong>{{Helper::formatUang($data->sum('rkpd1'))}}</strong> 
-                    </th>
-                    <th class="text-right">
-                        <strong>{{Helper::formatUang($data->sum('Jumlah1'))}}</strong>                        
+                        <strong>{{Helper::formatUang($Jumlah1)}}</strong>                        
                     </th>
                     <th class="text-right">
                         &nbsp;
@@ -138,32 +147,31 @@
             </thead>
             <tbody>       
             {!! Form::open(['url'=>'#','method'=>'post','class'=>'heading-form','id'=>'frmdata','name'=>'frmdata'])!!}                       
-            @foreach ($data as $key=>$item)
+            @foreach ($data as $key=>$item)               
                 <tr class="text-right">
                     <td class="text-center">
-                        {{ $key + 1 }}  
-                        {{Form::hidden($item->OrgID,$item->OrgID)}}  
+                        {{ $key + 1 }}                          
                     </td>                  
                     <td class="text-left">{{$item->Kode_Organisasi}}</td>
                     <td class="text-left">
                         {{$item->OrgNm}}
                     </td>
-                    <td>
+                    <td class="{{HelperKegiatan::setStyleForRekapMode1($item->prarenja1,$item->Jumlah1)}}">
                         {{Helper::formatUang($item->prarenja1)}}
                     </td>
-                    <td>
+                    <td class="{{HelperKegiatan::setStyleForRekapMode1($item->rakorbidang1,$item->Jumlah1)}}">
                         {{Helper::formatUang($item->rakorbidang1)}}
                     </td>
-                    <td>
+                    <td class="{{HelperKegiatan::setStyleForRekapMode1($item->forumopd1,$item->Jumlah1)}}">
                         {{Helper::formatUang($item->forumopd1)}}
                     </td>
-                    <td>
+                    <td class="{{HelperKegiatan::setStyleForRekapMode1($item->musrenkab1,$item->Jumlah1)}}">
                         {{Helper::formatUang($item->musrenkab1)}}
                     </td>
-                    <td>
+                    <td class="{{HelperKegiatan::setStyleForRekapMode1($item->renjafinal1,$item->Jumlah1)}}">
                         {{Helper::formatUang($item->renjafinal1)}}
                     </td>
-                    <td>
+                    <td class="{{HelperKegiatan::setStyleForRekapMode1($item->rkpd1,$item->Jumlah1)}}">
                         {{Helper::formatUang($item->rkpd1)}}
                     </td>
                     <td>

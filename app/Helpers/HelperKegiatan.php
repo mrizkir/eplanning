@@ -70,4 +70,21 @@ class HelperKegiatan {
     public static function getNamaPrioritas ($PrioritasID) {
       return HelperKegiatan::$DaftarPrioritas[$PrioritasID];
     }
+    /**
+     * digunakan untuk memberikan style css
+     */
+    public static function setStyleForRekapMode1 ($a,$b)
+    {
+      if ($a < $b)
+      {
+        return 'info';
+      }
+      elseif ($a==$b)
+      {
+        return 'success';
+      }else
+      {
+        return 'danger';
+      }
+    }
 }

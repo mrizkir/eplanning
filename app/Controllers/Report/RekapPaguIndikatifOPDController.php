@@ -32,31 +32,10 @@ class RekapPaguIndikatifOPDController extends Controller {
         $column_order=$this->getControllerStateSession('rekappaguindikatifopd.orderby','column_name'); 
         $direction=$this->getControllerStateSession('rekappaguindikatifopd.orderby','order'); 
 
-        if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
-        {            
-            $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
-        }
-        $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
-        if ($this->checkStateIsExistSession('rekappaguindikatifopd','search')) 
-        {
-            $search=$this->getControllerStateSession('rekappaguindikatifopd','search');
-            switch ($search['kriteria']) 
-            {
-                case 'replaceit' :
-                    $data = RekapPaguIndikatifOPDModel::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
-                break;
-                case 'replaceit' :
-                    $data = RekapPaguIndikatifOPDModel::where('replaceit', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
-                break;
-            }           
-            $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
-        }
-        else
-        {
-            $data = RekapPaguIndikatifOPDModel::where('TA',config('globalsettings.tahun_perencanaan'))
-                                                ->orderBy($column_order,$direction)
-                                                ->get(); 
-        }        
+        $data = RekapPaguIndikatifOPDModel::where('TA',config('globalsettings.tahun_perencanaan'))
+                                        ->orderBy($column_order,$direction)
+                                        ->get();       
+        
         return $data;
     }    
     /**
@@ -72,9 +51,31 @@ class RekapPaguIndikatifOPDController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'Kode_Organisasi' :
+            case 'col-kode_organisasi' :
                 $column_name = 'Kode_Organisasi';
-            break;           
+            break;  
+            case 'col-OrgNm' :
+                $column_name = 'OrgNm';
+            break; 
+            case 'col-prarenja1' :
+                $column_name = 'prarenja1';
+            break; 
+            case 'col-rakorbidang1' :
+                $column_name = 'rakorbidang1';
+            break; 
+            case 'col-forumopd1' :
+                $column_name = 'forumopd1';
+            break; 
+            case 'col-musrenkab1' :
+                $column_name = 'musrenkab1';
+            break; 
+            case 'col-rkpd1' :
+                $column_name = 'rkpd1';
+            break; 
+            case 'col-Jumlah1' :
+                $column_name = 'Jumlah1';
+            break; 
+
             default :
                 $column_name = 'Kode_Organisasi';
         }
@@ -329,9 +330,9 @@ class RekapPaguIndikatifOPDController extends Controller {
                 $data = \DB::table('trRKPDRinc')
                             ->select(\DB::raw('"trRKPD"."OrgID", SUM("trRKPDRinc"."NilaiUsulan1") AS jumlah'))
                             ->join('trRKPD','trRKPDRinc.RKPDID','trRKPD.RKPDID')                            
-                            ->where('trRKPDRinc.EntryLvl',0)  
-                            ->where('trRKPDRinc.Status',1)                                      
-                            ->orWhere('trRKPDRinc.Status',2)                                                                                          
+                            ->where('trRKPDRinc.EntryLvl',4)  
+                            ->where('trRKPDRinc.Status',0)                                      
+                            ->orWhere('trRKPDRinc.Status',0)                                                                                          
                             ->where('trRKPDRinc.TA',$ta)
                             ->groupBy('trRKPD.OrgID')->get()->pluck('jumlah','OrgID')->toArray();
 
