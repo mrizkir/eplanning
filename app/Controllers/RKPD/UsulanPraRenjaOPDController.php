@@ -373,7 +373,7 @@ class UsulanPraRenjaOPDController extends Controller {
             $daftar_pokir = [];
             foreach ($data as $v)
             {
-                $daftar_pokir[$v->PokPirID]=$v->NamaUsulanKegiatan;
+                $daftar_pokir[$v->PokPirID]=$v->PokPirID.' - '.$v->NamaUsulanKegiatan;
             }
 
             $json_data = ['success'=>true,'daftar_pokir'=>$daftar_pokir,'message'=>'bila daftar_pokir kosong mohon dicek Privilege apakah bernilai 1'];            
@@ -1117,7 +1117,11 @@ class UsulanPraRenjaOPDController extends Controller {
                                                         ->findOrFail($id);        
             break;
         }
-        if (!is_null($renja) ) 
+        if (is_null($renja) )
+        {
+            return redirect(route('usulanprarenjaopd.edit4',['id'=>$id]))->with('error',"Data rincian kegiatan dari musrenbang Kec dengan ID ($id)  gagal diperoleh, diarahkan menjadi rincian usulan OPD / SKPD .");
+        } 
+        else 
         {               
             $datarinciankegiatan = $this->populateRincianKegiatan($renja->RenjaID);
 
@@ -1163,7 +1167,11 @@ class UsulanPraRenjaOPDController extends Controller {
                                                         ->findOrFail($id);        
             break;
         }        
-        if (!is_null($renja) ) 
+        if (is_null($renja) )
+        {
+            return redirect(route('usulanprarenjaopd.edit4',['id'=>$id]))->with('error',"Data rincian kegiatan dari Pokok Pikiran Anggota dengan ID ($id)  gagal diperoleh, diarahkan menjadi rincian usulan OPD / SKPD .");
+        } 
+        else
         {               
             $datarinciankegiatan = $this->populateRincianKegiatan($renja->RenjaID);
 

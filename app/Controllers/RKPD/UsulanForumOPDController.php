@@ -366,10 +366,10 @@ class UsulanForumOPDController extends Controller {
             $daftar_pokir = [];
             foreach ($data as $v)
             {
-                $daftar_pokir[$v->PokPirID]=$v->NamaUsulanKegiatan;
+                $daftar_pokir[$v->PokPirID]=$v->PokPirID.' - '.$v->NamaUsulanKegiatan;
             }
 
-            $json_data = ['success'=>true,'OrgID'=>$filters['OrgID'],'daftar_pokir'=>$daftar_pokir];            
+            $json_data = ['success'=>true,'daftar_pokir'=>$daftar_pokir,'message'=>'bila daftar_pokir kosong mohon dicek Privilege apakah bernilai 1'];                        
         }
         //create3
         if ($request->exists('PokPirID') && $request->exists('create3') )
@@ -1116,7 +1116,11 @@ class UsulanForumOPDController extends Controller {
                                                         ->findOrFail($id);        
             break;
         }
-        if (!is_null($renja) ) 
+        if (is_null($renja) )
+        {
+            return redirect(route('usulanforumopd.edit4',['id'=>$id]))->with('error',"Data rincian kegiatan dari musrenbang Kec dengan ID ($id)  gagal diperoleh, diarahkan menjadi rincian usulan OPD / SKPD .");
+        } 
+        else 
         {               
             $datarinciankegiatan = $this->populateRincianKegiatan($renja->RenjaID);
             
@@ -1162,7 +1166,11 @@ class UsulanForumOPDController extends Controller {
                                                         ->findOrFail($id);        
             break;
         }        
-        if (!is_null($renja) ) 
+        if (is_null($renja) )
+        {
+            return redirect(route('usulanforumopd.edit4',['id'=>$id]))->with('error',"Data rincian kegiatan dari Pokok Pikiran Anggota dengan ID ($id)  gagal diperoleh, diarahkan menjadi rincian usulan OPD / SKPD .");
+        } 
+        else
         {               
             $datarinciankegiatan = $this->populateRincianKegiatan($renja->RenjaID);
 
