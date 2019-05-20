@@ -46,6 +46,7 @@ class CreateVUsulanPraRenjaOPDView extends Migration
                 B."Jumlah1",
                 B."Prioritas",
                 B."Status",
+                A."Status_Indikator",
                 B."Privilege",
                 B."isReses",
                 B."isReses_Uraian",

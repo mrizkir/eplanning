@@ -58,4 +58,9 @@ class RenjaIndikatorModel extends Model {
      * log the changed attributes for all these events 
      */
     protected static $logAttributes = ['RenjaIndikatorID', 'IndikatorKinerjaID', 'RenjaID','Target_Angka','Target_Uraian'];
+
+    public function renja()
+    {
+        return $this->belongsTo('\App\Models\RKPD\RenjaModel','RenjaID');
+    }
 }

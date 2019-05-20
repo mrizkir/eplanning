@@ -43,6 +43,7 @@ class RKPDModel extends Model {
         'Descr',
         'TA',
         'Status',
+        'Status_Indikator',
         'EntryLvl',
         'Privilege',
         'RKPDID_Src'

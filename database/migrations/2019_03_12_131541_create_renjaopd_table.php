@@ -58,6 +58,7 @@ class CreateRenjaopdTable extends Migration
             $table->text('Descr')->nullable();
             $table->year('TA');            
             $table->tinyInteger('Status')->default(0);
+            $table->tinyInteger('Status_Indikator')->default(0);
             $table->tinyInteger('EntryLvl')->default(0);
             $table->tinyInteger('Privilege')->default(0);                        
             $table->boolean('Locked')->default(0);

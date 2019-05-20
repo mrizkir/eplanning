@@ -56,6 +56,7 @@ class CreateVRkpdRinciView extends Migration
                 B."Descr",
                 A."TA",
                 B."Status",
+                A."Status_Indikator",
                 B."EntryLvl",
                 B."Privilege",
                 A."RKPDID_Src",

@@ -62,7 +62,7 @@
                 </td>
                 <td>
                     {{ucwords($item->KgtNm)}}
-                    @if (empty($item->RenjaIndikatorID))
+                    @if ($item->Status_Indikator==0)
                         <span class="label label-flat border-warning text-warning-600">
                             INDIKATOR TIDAK ADA
                         </span>

@@ -47,6 +47,7 @@ class CreateVRkpdView extends Migration
                 A."Descr",
                 A."TA",
                 A."Status",
+                A."Status_Indikator",
                 A."EntryLvl",
                 A."Privilege",
                 A."RKPDID_Src"

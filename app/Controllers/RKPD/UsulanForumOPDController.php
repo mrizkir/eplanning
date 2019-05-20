@@ -801,7 +801,11 @@ class UsulanForumOPDController extends Controller {
             'TA' => config('globalsettings.tahun_perencanaan')
         ];
 
-        $indikatorkinjera = RenjaIndikatorModel::create($data);
+        $indikatorkinerja = RenjaIndikatorModel::create($data);
+        $renja = $indikatorkinerja->renja;
+        $renja->Status_Indikator=RenjaIndikatorModel::where('RenjaID',$indikatorkinerja->RenjaID)->count() > 0;
+        $renja->save();
+
         if ($request->ajax()) 
         {
             return response()->json([
@@ -1293,10 +1297,10 @@ class UsulanForumOPDController extends Controller {
             'Target_Uraian' => $request->input('Target_Uraian'),                                   
         ];
 
-        $indikatorkinjera = RenjaIndikatorModel::find($id);
-        $indikatorkinjera->Target_Angka = $request->input('Target_Angka'); 
-        $indikatorkinjera->Target_Uraian = $request->input('Target_Uraian');       
-        $indikatorkinjera->save();
+        $indikatorkinerja = RenjaIndikatorModel::find($id);
+        $indikatorkinerja->Target_Angka = $request->input('Target_Angka'); 
+        $indikatorkinerja->Target_Uraian = $request->input('Target_Uraian');       
+        $indikatorkinerja->save();
 
         if ($request->ajax()) 
         {
@@ -1307,7 +1311,7 @@ class UsulanForumOPDController extends Controller {
         }
         else
         {
-            return redirect(route('usulanforumopd.show',['id'=>$indikatorkinjera->RenjaID]))->with('success','Data Indikator kegiatan telah berhasil disimpan. Selanjutnya isi Rincian Kegiatan');
+            return redirect(route('usulanforumopd.show',['id'=>$indikatorkinerja->RenjaID]))->with('success','Data Indikator kegiatan telah berhasil disimpan. Selanjutnya isi Rincian Kegiatan');
         }
     }
     /**
@@ -1464,6 +1468,11 @@ class UsulanForumOPDController extends Controller {
             $indikatorkinerja = RenjaIndikatorModel::find($id);
             $renjaid=$indikatorkinerja->RenjaID;
             $result=$indikatorkinerja->delete();
+
+            $renja = $indikatorkinerja->renja;
+            $renja->Status_Indikator=RenjaIndikatorModel::where('RenjaID',$indikatorkinerja->RenjaID)->count() > 0;
+            $renja->save();
+
             if ($request->ajax()) 
             {
                 $data = $this->populateIndikatorKegiatan($renjaid);

@@ -45,6 +45,7 @@ class CreateUsulanrkpdabpdTable extends Migration
             $table->string('Descr')->nullable();
             $table->year('TA'); 
             $table->tinyInteger('Status')->default(0);
+            $table->tinyInteger('Status_Indikator')->default(0);
             $table->tinyInteger('EntryLvl')->default(0);
             $table->tinyInteger('Privilege')->default(0);
             $table->string('RKPDID_Src',19)->nullable();                    

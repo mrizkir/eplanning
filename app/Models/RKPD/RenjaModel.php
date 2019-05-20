@@ -56,6 +56,7 @@ class RenjaModel extends Model {
        'Descr',
        'TA',
        'Status',
+       'Status_Indikator',
        'EntryLvl',
        'Privilege',
        'RenjaID_Src'

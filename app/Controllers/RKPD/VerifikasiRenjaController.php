@@ -552,6 +552,7 @@ class VerifikasiRenjaController extends Controller {
                         'Descr'=>$renja->Descr,
                         'TA'=>$renja->TA,
                         'Status'=>0,
+                        'Status_Indikator'=>$renja->Status_Indikator,
                         'EntryLvl'=>4,
                         'Privilege'=>0,                                    
                     ]);
