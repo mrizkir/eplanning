@@ -419,8 +419,7 @@ class PembahasanMusrenKabController extends Controller {
         if (!is_null($renja) ) 
         {
             return view("pages.$theme.musrenbang.pembahasanmusrenkab.edit")->with(['page_active'=>'pembahasanmusrenkab',
-                                                                            'renja'=>$renja,
-         
+                                                                            'renja'=>$renja         
                                                                             ]);
         }        
     }

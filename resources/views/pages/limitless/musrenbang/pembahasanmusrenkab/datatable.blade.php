@@ -104,14 +104,14 @@
                         <span class="label label-flat label-block border-info text-info-600">
                             PROSES INPUT MUSRENBANG KABUPATEN BELUM SELESAI
                         </span>
-                        <a href="{{route('usulanprarenjaopd.create1',['uuid'=>$item->RenjaID])}}">
+                        <a href="{{route('pembahasanmusrenkab.create1',['uuid'=>$item->RenjaID])}}">
                             Lanjutkan Input 
                         </a>
                     </td>
                     <td>
                         <ul class="icons-list">                            
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data Usulan Musren Kabupaten" data-id="{{$item->RenjaID}}" data-url="{{route('usulanprarenjaopd.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data Usulan Musren Kabupaten" data-id="{{$item->RenjaID}}" data-url="{{route('pembahasanmusrenkab.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>

@@ -263,7 +263,7 @@ class AspirasiMusrenDesaController extends Controller {
             'Target_Angka'=>'required',
             'Prioritas'=>'required|not_in:none'            
         ]);
-        
+        $jeniskeg=$request->has('Jeniskeg')?input('Jeniskeg'):0;
         $aspirasimusrendesa = AspirasiMusrenDesaModel::create([
             'UsulanDesaID' => uniqid ('uid'),
             'PmDesaID' => $request->input('PmDesaID'),
@@ -275,7 +275,7 @@ class AspirasiMusrenDesaController extends Controller {
             'NilaiUsulan' => $request->input('NilaiUsulan'),
             'Target_Angka' => $request->input('Target_Angka'),
             'Target_Uraian' => $request->input('Target_Uraian'),
-            'Jeniskeg' => $request->input('Jeniskeg'),
+            'Jeniskeg' => $jeniskeg,
             'Prioritas' => $request->input('Prioritas'),
             'Descr' => $request->input('Descr'),
             'TA' => config('globalsettings.tahun_perencanaan')

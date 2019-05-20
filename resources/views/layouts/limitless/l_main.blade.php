@@ -152,46 +152,71 @@
                     </div>
                 </div>
             </li>            
-            <li class="dropdown visible">
+            <li class="dropdown mega-menu mega-menu-wide visible">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="icon-strategy position-left"></i> RPJMD <span class="caret"></span>
+                    <i class="icon-airplane3 position-left"></i> PERENCANAAN <span class="caret"></span>
                 </a>
-                <ul class="dropdown-menu width-350">   
-                    <li{!!Helper::isMenuActive ($page_active,'rpjmdmisi',' class="active"')!!}>
-                        <a href="{{route('rpjmdmisi.index')}}">
-                            <i class="icon-align-center-horizontal"></i> MISI
-                        </a>
-                    </li>     
-                    <li{!!Helper::isMenuActive ($page_active,'rpjmdtujuan',' class="active"')!!}>
-                        <a href="{{route('rpjmdtujuan.index')}}">
-                            <i class="icon-align-center-horizontal"></i> TUJUAN
-                        </a>
-                    </li>  
-                    <li{!!Helper::isMenuActive ($page_active,'rpjmdsasaran',' class="active"')!!}>
-                        <a href="{{route('rpjmdsasaran.index')}}">
-                            <i class="icon-align-center-horizontal"></i> SASARAN
-                        </a>
-                    </li>   
-                    <li{!!Helper::isMenuActive ($page_active,'rpjmdstrategi',' class="active"')!!}>
-                        <a href="{{route('rpjmdstrategi.index')}}">
-                            <i class="icon-align-center-horizontal"></i> STRATEGI
-                        </a>
-                    </li>           
-                    <li{!!Helper::isMenuActive ($page_active,'rpjmdkebijakan',' class="active"')!!}>
-                        <a href="{{route('rpjmdkebijakan.index')}}">
-                            <i class="icon-align-center-horizontal"></i> PRIORITAS KEBIJAKAN
-                        </a>
-                    </li>  
-                    <li{!!Helper::isMenuActive ($page_active,'rpjmdindikatorkinerja',' class="active"')!!}>
-                        <a href="{{route('rpjmdindikatorkinerja.index')}}">
-                            <i class="icon-align-center-horizontal"></i> INDIKASI RENCANA PROGRAM
-                        </a>
-                    </li>                  
-                </ul>
-            </li>
+                <div class="dropdown-menu dropdown-content">
+                    <div class="dropdown-content-body">
+                        <div class="row">                            
+                            <div class="col-md-3">
+                                <span class="menu-heading underlined"><i class="icon-strategy"></i> RPJMD</span>
+                                <ul class="menu-list">
+                                    <li{!!Helper::isMenuActive ($page_active,'rpjmdmisi',' class="active"')!!}>
+                                        <a href="{{route('rpjmdmisi.index')}}">
+                                            <i class="icon-strategy"></i> MISI <span class="text-violet"><strong>[1]</strong></span>
+                                        </a>
+                                    </li>     
+                                    <li{!!Helper::isMenuActive ($page_active,'rpjmdtujuan',' class="active"')!!}>
+                                        <a href="{{route('rpjmdtujuan.index')}}">
+                                            <i class="icon-strategy"></i> TUJUAN <span class="text-violet"><strong>[2]</strong></span>
+                                        </a>
+                                    </li>  
+                                    <li{!!Helper::isMenuActive ($page_active,'rpjmdsasaran',' class="active"')!!}>
+                                        <a href="{{route('rpjmdsasaran.index')}}">
+                                            <i class="icon-strategy"></i> SASARAN <span class="text-violet"><strong>[3]</strong></span>
+                                        </a>
+                                    </li>   
+                                    <li{!!Helper::isMenuActive ($page_active,'rpjmdstrategi',' class="active"')!!}>
+                                        <a href="{{route('rpjmdstrategi.index')}}">
+                                            <i class="icon-strategy"></i> STRATEGI <span class="text-violet"><strong>[4]</strong></span>
+                                        </a>
+                                    </li>           
+                                    <li{!!Helper::isMenuActive ($page_active,'rpjmdkebijakan',' class="active"')!!}>
+                                        <a href="{{route('rpjmdkebijakan.index')}}">
+                                            <i class="icon-strategy"></i> PRIORITAS KEBIJAKAN <span class="text-violet"><strong>[5]</strong></span>
+                                        </a>
+                                    </li>  
+                                    <li{!!Helper::isMenuActive ($page_active,'rpjmdindikatorkinerja',' class="active"')!!}>
+                                        <a href="{{route('rpjmdindikatorkinerja.index')}}">
+                                            <i class="icon-strategy"></i> INDIKASI RENCANA PROGRAM <span class="text-violet"><strong>[6]</strong></span>
+                                        </a>
+                                    </li> 
+                                </ul>
+                            </div>
+                            <div class="col-md-3">
+                                <span class="menu-heading underlined"><i class="icon-strategy"></i> RENSTRA</span>
+                                <ul class="menu-list">
+                                    
+                                </ul>
+                            </div>
+                            <div class="col-md-3">
+                                <span class="menu-heading underlined"><i class="icon-strategy"></i> POKOK PIKIRAN</span>
+                                <ul class="menu-list">
+                                    <li{!!Helper::isMenuActive ($page_active,'rpjmdindikatorkinerja',' class="active"')!!}>
+                                        <a href="{{route('rpjmdindikatorkinerja.index')}}">
+                                            <i class="icon-strategy"></i> PEMILIK POKOK</span>
+                                        </a>
+                                    </li> 
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>               
             <li class="dropdown visible">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="icon-airplane3 position-left"></i> WORKFLOW <span class="caret"></span>
+                    <i class="icon-sort-amount-desc position-left"></i> WORKFLOW <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu width-450"> 
                     @hasrole('superadmin|desa')
@@ -271,25 +296,7 @@
                     </li>
                     @endhasrole
                 </ul>
-            </li>            
-            <li class="dropdown mega-menu mega-menu-wide visible">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="icon-airplane3 position-left"></i> MONEV <span class="caret"></span>
-                </a>
-                <div class="dropdown-menu dropdown-content">
-                    <div class="dropdown-content-body">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <span class="menu-heading underlined"><i class="icon-cart"></i> BELANJA MURNI</span>
-                                
-                            </div>
-                            <div class="col-md-3">
-                                <span class="menu-heading underlined"><i class="icon-cart"></i> BELANJA PERUBAHAN</span>                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </li>
+            </li>                        
             <li class="dropdown mega-menu mega-menu-wide visible">                
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-cogs position-left"></i> SETTING <span class="caret"></span>

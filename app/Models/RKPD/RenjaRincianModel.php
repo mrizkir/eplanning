@@ -99,14 +99,15 @@ class RenjaRincianModel extends Model {
     /**
      * digunakan untuk mendapatkan total pagu indikatif berdasarkan status dan opd
      */
-    public static function getTotalPaguIndikatifByStatusAndOPD ($tahun_perencanaan,$entrlvl,string $OrgID=null)
+    public static function getTotalPaguIndikatifByStatusAndOPD ($tahun_perencanaan,$EntryLvl,string $OrgID=null)
     {
+        $field = $EntryLvl+1;        
         $data=\DB::table('trRenjaRinc')
-                ->select(\DB::raw('"trRenjaRinc"."Status",SUM("trRenjaRinc"."Jumlah4") AS "Jumlah"'))
+                ->select(\DB::raw('"trRenjaRinc"."Status",SUM("trRenjaRinc"."Jumlah'.$field.'") AS "Jumlah"'))
                 ->join('trRenja','trRenjaRinc.RenjaID','trRenja.RenjaID')
                 ->where('trRenjaRinc.TA',$tahun_perencanaan)
                 ->where('trRenja.OrgID',$OrgID)
-                ->where('trRenjaRinc.EntryLvl',$entrlvl)
+                ->where('trRenjaRinc.EntryLvl',$EntryLvl)
                 ->groupBy('trRenjaRinc.Status')
                 ->orderBy('trRenjaRinc.Status')
                 ->get()
@@ -124,14 +125,15 @@ class RenjaRincianModel extends Model {
     /**
      * digunakan untuk mendapatkan total pagu indikatif berdasarkan status dan opd
      */
-    public static function getTotalPaguIndikatifByStatusAndUnitKerja ($tahun_perencanaan,$entrlvl,string $SOrgID=null)
+    public static function getTotalPaguIndikatifByStatusAndUnitKerja ($tahun_perencanaan,$EntryLvl,string $SOrgID=null)
     {
+        $field = $EntryLvl+1; 
         $data=\DB::table('trRenjaRinc')
-                ->select(\DB::raw('"trRenjaRinc"."Status",SUM("trRenjaRinc"."Jumlah4") AS "Jumlah"'))
+                ->select(\DB::raw('"trRenjaRinc"."Status",SUM("trRenjaRinc"."Jumlah'.$field.'") AS "Jumlah"'))
                 ->join('trRenja','trRenjaRinc.RenjaID','trRenja.RenjaID')
                 ->where('trRenjaRinc.TA',$tahun_perencanaan)
                 ->where('trRenja.SOrgID',$SOrgID)
-                ->where('trRenjaRinc.EntryLvl',$entrlvl)
+                ->where('trRenjaRinc.EntryLvl',$EntryLvl)
                 ->groupBy('trRenjaRinc.Status')
                 ->orderBy('trRenjaRinc.Status')
                 ->get()

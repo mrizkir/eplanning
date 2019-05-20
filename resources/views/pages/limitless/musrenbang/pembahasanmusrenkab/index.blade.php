@@ -257,6 +257,7 @@ $(document).ready(function () {
             success:function(result)
             { 
                 $('#divdatatable').html(result.datatable); 
+                $(".switch").bootstrapSwitch();  
                 formatPaguTotalIndikatifOPD(result.totalpaguindikatifopd);
                 formatPaguTotalIndikatifUnitKerja(result.totalpaguindikatifunitkerja);
             },

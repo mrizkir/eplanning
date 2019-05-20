@@ -111,6 +111,7 @@ class PembahasanPraRenjaOPDController extends Controller {
         $data=$this->populateData();
 
         $datatable = view("pages.$theme.rkpd.pembahasanprarenjaopd.datatable")->with(['page_active'=>'pembahasanprarenjaopd',
+                                                                                'label_transfer'=>'RAKOR BIDANG',
                                                                                 'search'=>$this->getControllerStateSession('pembahasanprarenjaopd','search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                 'column_order'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','column_name'),
@@ -259,7 +260,18 @@ class PembahasanPraRenjaOPDController extends Controller {
                                                                                     'direction'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','order'),
                                                                                     'data'=>$data])->render();
 
-            $json_data = ['success'=>true,'daftar_unitkerja'=>$daftar_unitkerja,'datatable'=>$datatable];
+            $totalpaguindikatifopd = RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('globalsettings.tahun_perencanaan'),0,$filters['OrgID']);            
+                  
+            $totalpaguindikatifunitkerja[0]=0;
+            $totalpaguindikatifunitkerja[1]=0;
+            $totalpaguindikatifunitkerja[2]=0;
+            $totalpaguindikatifunitkerja[3]=0;                 
+
+            $paguanggaranopd=\App\Models\DMaster\PaguAnggaranOPDModel::select('Jumlah1')
+                                                                        ->where('OrgID',$filters['OrgID'])
+                                                                        ->value('Jumlah1');
+
+            $json_data = ['success'=>true,'paguanggaranopd'=>$paguanggaranopd,'daftar_unitkerja'=>$daftar_unitkerja,'daftar_unitkerja'=>$daftar_unitkerja,'datatable'=>$datatable];
         } 
         //index
         if ($request->exists('SOrgID'))
@@ -278,8 +290,9 @@ class PembahasanPraRenjaOPDController extends Controller {
                                                                                     'column_order'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','column_name'),
                                                                                     'direction'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','order'),
                                                                                     'data'=>$data])->render();                                                                                       
-                                                                                    
-            $json_data = ['success'=>true,'datatable'=>$datatable];    
+
+            $totalpaguindikatifunitkerja = RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('globalsettings.tahun_perencanaan'),0,$filters['SOrgID']);                                                                                    
+            $json_data = ['success'=>true,'totalpaguindikatifunitkerja'=>$totalpaguindikatifunitkerja,'datatable'=>$datatable];    
         }
         return $json_data;
     }
@@ -330,7 +343,9 @@ class PembahasanPraRenjaOPDController extends Controller {
             $data = $this->populateData($data->lastPage());
         }
         $this->setCurrentPageInsideSession('pembahasanprarenjaopd',$data->currentPage());
-
+        $paguanggaranopd=\App\Models\DMaster\PaguAnggaranOPDModel::select('Jumlah1')
+                                                                    ->where('OrgID',$filters['OrgID'])                                                    
+                                                                    ->value('Jumlah1');
         return view("pages.$theme.rkpd.pembahasanprarenjaopd.index")->with(['page_active'=>'pembahasanprarenjaopd',
                                                                             'label_transfer'=>'RAKOR BIDANG',
                                                                             'daftar_opd'=>$daftar_opd,
@@ -340,6 +355,9 @@ class PembahasanPraRenjaOPDController extends Controller {
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                                                             'column_order'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','column_name'),
                                                                             'direction'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','order'),
+                                                                            'paguanggaranopd'=>$paguanggaranopd,
+                                                                            'totalpaguindikatifopd'=>RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('globalsettings.tahun_perencanaan'),0,$filters['OrgID']),
+                                                                            'totalpaguindikatifunitkerja' => RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('globalsettings.tahun_perencanaan'),0,$filters['SOrgID']),            
                                                                             'data'=>$data]);               
     }
     
@@ -353,15 +371,36 @@ class PembahasanPraRenjaOPDController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = UsulanPraRenjaOPDModel::findOrFail($id);
+        $data = RenjaRincianModel::findOrFail($id);
         if (!is_null($data) )  
         {
             return view("pages.$theme.rkpd.pembahasanprarenjaopd.show")->with(['page_active'=>'pembahasanprarenjaopd',
-                                                                                'data'=>$data
+                                                                                'renja'=>$data,
+                                                                                'item'=>$data
                                                                             ]);
         }        
     }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {   
+        $auth=\Auth::user();
+        $theme = $auth->theme;
+       
+        $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID","trRenjaRinc"."RenjaID","trRenjaRinc"."PmKecamatanID","trRenjaRinc"."PmDesaID","trRenjaRinc"."No","trRenjaRinc"."No","trRenjaRinc"."Uraian","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Uraian1","trRenjaRinc"."Target1","trRenjaRinc"."Jumlah1","trRenjaRinc"."Prioritas","trRenjaRinc"."Descr","trRenjaRinc"."isSKPD","trRenjaRinc"."isReses"'))
+                                    ->findOrFail($id);       
 
+        if (!is_null($renja) ) 
+        {
+            return view("pages.$theme.rkpd.pembahasanprarenjaopd.edit")->with(['page_active'=>'pembahasanprarenjaopd',
+                                                                            'renja'=>$renja         
+                                                                            ]);
+        }        
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -388,18 +427,25 @@ class PembahasanPraRenjaOPDController extends Controller {
         }        
         if ($request->ajax()) 
         {
+            $filters=$this->getControllerStateSession('pembahasanprarenjaopd','filters');
             $data = $this->populateData();
-
+            
+            
             $datatable = view("pages.$theme.rkpd.pembahasanprarenjaopd.datatable")->with(['page_active'=>'pembahasanprarenjaopd',                                
                                                                                     'label_transfer'=>'RAKOR BIDANG',                            
                                                                                     'search'=>$this->getControllerStateSession('pembahasanprarenjaopd','search'),
                                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                     'column_order'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','column_name'),
-                                                                                    'direction'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','order'),
+                                                                                    'direction'=>$this->getControllerStateSession('pembahasanprarenjaopd.orderby','order'),                                       
                                                                                     'data'=>$data])->render();
+
+            $totalpaguindikatifopd = RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('globalsettings.tahun_perencanaan'),0,$filters['OrgID']);                        
+            $totalpaguindikatifunitkerja = RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('globalsettings.tahun_perencanaan'),0,$filters['SOrgID']);                                                                                    
             return response()->json([
                 'success'=>true,
                 'message'=>'Data ini telah berhasil diubah.',
+                'totalpaguindikatifopd'=>$totalpaguindikatifopd,
+                'totalpaguindikatifunitkerja'=>$totalpaguindikatifunitkerja,
                 'datatable'=>$datatable
             ],200);
         }
@@ -407,6 +453,52 @@ class PembahasanPraRenjaOPDController extends Controller {
         {
             return redirect(route('pembahasanprarenjaopd.show',['id'=>$pembahasanprarenjaopd->RenjaRincID]))->with('success','Data ini telah berhasil disimpan.');
         }
+    }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update2(Request $request, $id)
+    {
+        $rinciankegiatan = RenjaRincianModel::find($id);        
+        $this->validate($request, [
+            'No'=>'required',
+            'Uraian'=>'required',
+            'Sasaran_Angka1'=>'required',
+            'Sasaran_Uraian1'=>'required',
+            'Target1'=>'required',
+            'Jumlah1'=>'required',
+            'Prioritas' => 'required'            
+        ]);
+        \DB::transaction(function () use ($request,$rinciankegiatan) { 
+            $rinciankegiatan->Uraian = $request->input('Uraian');
+            $rinciankegiatan->Sasaran_Angka1 = $request->input('Sasaran_Angka1'); 
+            $rinciankegiatan->Sasaran_Uraian1 = $request->input('Sasaran_Uraian1');
+            $rinciankegiatan->Target1 = $request->input('Target1');
+            $rinciankegiatan->Jumlah1 = $request->input('Jumlah1');  
+            $rinciankegiatan->Prioritas = $request->input('Prioritas');
+            $rinciankegiatan->Status=$request->input('cmbStatus');                          
+            $rinciankegiatan->Descr = $request->input('Descr');
+            $rinciankegiatan->save();
+
+            $renja = $rinciankegiatan->renja;            
+            $renja->NilaiUsulan1=RenjaRincianModel::where('RenjaID',$renja->RenjaID)->sum('Jumlah1');            
+            $renja->save();
+            
+        });
+        if ($request->ajax()) 
+        {
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data ini telah berhasil disimpan.'
+            ]);
+        }
+        else
+        {
+            return redirect(route('pembahasanprarenjaopd.show',['id'=>$rinciankegiatan->RenjaRincID]))->with('success','Data Rincian kegiatan telah berhasil disimpan.');
+        } 
     }
     /**
      * Update the specified resource in storage.
