@@ -24,7 +24,7 @@
                     <i class="icon-eye"></i>  
                     DETAIL RINCIAN RENCANA KEGIATAN 
                     @if ($renja->Privilege==1))
-                        <span class="label label-success label-rounded">SUDAH DI TRANSFER KE RAKOR BIDANG</span>
+                        <span class="label label-success label-rounded">SUDAH DI TRANSFER KE VERIFIKASI TAPD</span>
                     @endif
                 </h5>
                 <div class="heading-elements">   
