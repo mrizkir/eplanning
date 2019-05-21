@@ -1,13 +1,36 @@
 <?php
 
-namespace {{namespace}};
+namespace App\Controllers\RKPD;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
-use {{modelnamespace}}Model;
+use App\Models\RKPD\PembahasanModel;
 
-class {{modelName}}Controller extends Controller 
-{
+class PembahasanController extends Controller {
+    /**
+     * digunakan untuk mendapatkan label tranfer ke selanjutnya
+     */
+    private function getLabelTransfer ()
+    {
+        switch ($this->NameOfPage) 
+        {            
+            case 'usulanprarenjaopd' :
+                $dbViewName = 'RAKOR BIDANG';
+            break;
+            case 'usulanrakorbidang' :
+                $dbViewName = 'FORUM OPD';
+            break;
+            case 'usulanforumopd' :
+                $dbViewName = 'MUSRENBANG TK. KAB.';
+            break;
+            case 'usulanmusrenkab' :
+                $dbViewName = 'v_usulan_musren_kab';
+            break;
+            default :
+                $dbViewName = null;
+        }
+        return $dbViewName;
+    }    
      /**
      * Membuat sebuah objek
      *
@@ -26,37 +49,37 @@ class {{modelName}}Controller extends Controller
     public function populateData ($currentpage=1) 
     {        
         $columns=['*'];       
-        //if (!$this->checkStateIsExistSession('{{modelNameLower}}','orderby')) 
+        //if (!$this->checkStateIsExistSession('pembahasan','orderby')) 
         //{            
-        //    $this->putControllerStateSession('{{modelNameLower}}','orderby',['column_name'=>'replace_it','order'=>'asc']);
+        //    $this->putControllerStateSession('pembahasan','orderby',['column_name'=>'replace_it','order'=>'asc']);
         //}
-        //$column_order=$this->getControllerStateSession('{{modelNameLower}}.orderby','column_name'); 
-        //$direction=$this->getControllerStateSession('{{modelNameLower}}.orderby','order'); 
+        //$column_order=$this->getControllerStateSession('pembahasan.orderby','column_name'); 
+        //$direction=$this->getControllerStateSession('pembahasan.orderby','order'); 
 
         if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
         {            
             $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
         }
         $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
-        if ($this->checkStateIsExistSession('{{modelNameLower}}','search')) 
+        if ($this->checkStateIsExistSession('pembahasan','search')) 
         {
-            $search=$this->getControllerStateSession('{{modelNameLower}}','search');
+            $search=$this->getControllerStateSession('pembahasan','search');
             switch ($search['kriteria']) 
             {
                 case 'replaceit' :
-                    $data = {{modelName}}Model::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                    $data = PembahasanModel::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
                 case 'replaceit' :
-                    $data = {{modelName}}Model::where('replaceit', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = PembahasanModel::where('replaceit', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = {{modelName}}Model::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data = PembahasanModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
-        $data->setPath(route('{{modelNameLower}}.index'));
+        $data->setPath(route('pembahasan.index'));
         return $data;
     }
     /**
@@ -71,14 +94,14 @@ class {{modelName}}Controller extends Controller
         $numberRecordPerPage = $request->input('numberRecordPerPage');
         $this->putControllerStateSession('global_controller','numberRecordPerPage',$numberRecordPerPage);
         
-        $this->setCurrentPageInsideSession('{{modelNameLower}}',1);
+        $this->setCurrentPageInsideSession('pembahasan',1);
         $data=$this->populateData();
 
-        $datatable = view("{{viewName}}.datatable")->with(['page_active'=>'{{modelNameLower}}',
-                                                                                'search'=>$this->getControllerStateSession('{{modelNameLower}}','search'),
+        $datatable = view("pages.$theme.rkpd.pembahasan.datatable")->with(['page_active'=>'pembahasan',
+                                                                                'search'=>$this->getControllerStateSession('pembahasan','search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                                'column_order'=>$this->getControllerStateSession('{{modelNameLower}}.orderby','column_name'),
-                                                                                'direction'=>$this->getControllerStateSession('{{modelNameLower}}.orderby','order'),
+                                                                                'column_order'=>$this->getControllerStateSession('pembahasan.orderby','column_name'),
+                                                                                'direction'=>$this->getControllerStateSession('pembahasan.orderby','order'),
                                                                                 'data'=>$data])->render();      
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
     }
@@ -101,20 +124,20 @@ class {{modelName}}Controller extends Controller
             default :
                 $column_name = 'replace_it';
         }
-        $this->putControllerStateSession('{{modelNameLower}}','orderby',['column_name'=>$column_name,'order'=>$orderby]);      
+        $this->putControllerStateSession('pembahasan','orderby',['column_name'=>$column_name,'order'=>$orderby]);      
 
-        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('{{modelNameLower}}');         
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('pembahasan');         
         $data=$this->populateData($currentpage);
         if ($currentpage > $data->lastPage())
         {            
             $data = $this->populateData($data->lastPage());
         }
         
-        $datatable = view("{{viewName}}.datatable")->with(['page_active'=>'{{modelNameLower}}',
-                                                            'search'=>$this->getControllerStateSession('{{modelNameLower}}','search'),
+        $datatable = view("pages.$theme.rkpd.pembahasan.datatable")->with(['page_active'=>'pembahasan',
+                                                            'search'=>$this->getControllerStateSession('pembahasan','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('{{modelNameLower}}.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('{{modelNameLower}}.orderby','order'),
+                                                            'column_order'=>$this->getControllerStateSession('pembahasan.orderby','column_name'),
+                                                            'direction'=>$this->getControllerStateSession('pembahasan.orderby','order'),
                                                             'data'=>$data])->render();     
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
@@ -129,13 +152,13 @@ class {{modelName}}Controller extends Controller
     {
         $theme = \Auth::user()->theme;
 
-        $this->setCurrentPageInsideSession('{{modelNameLower}}',$id);
+        $this->setCurrentPageInsideSession('pembahasan',$id);
         $data=$this->populateData($id);
-        $datatable = view("{{viewName}}.datatable")->with(['page_active'=>'{{modelNameLower}}',
-                                                                            'search'=>$this->getControllerStateSession('{{modelNameLower}}','search'),
+        $datatable = view("pages.$theme.rkpd.pembahasan.datatable")->with(['page_active'=>'pembahasan',
+                                                                            'search'=>$this->getControllerStateSession('pembahasan','search'),
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                            'column_order'=>$this->getControllerStateSession('{{modelNameLower}}.orderby','column_name'),
-                                                                            'direction'=>$this->getControllerStateSession('{{modelNameLower}}.orderby','order'),
+                                                                            'column_order'=>$this->getControllerStateSession('pembahasan.orderby','column_name'),
+                                                                            'direction'=>$this->getControllerStateSession('pembahasan.orderby','order'),
                                                                             'data'=>$data])->render(); 
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
@@ -153,22 +176,22 @@ class {{modelName}}Controller extends Controller
         $action = $request->input('action');
         if ($action == 'reset') 
         {
-            $this->destroyControllerStateSession('{{modelNameLower}}','search');
+            $this->destroyControllerStateSession('pembahasan','search');
         }
         else
         {
             $kriteria = $request->input('cmbKriteria');
             $isikriteria = $request->input('txtKriteria');
-            $this->putControllerStateSession('{{modelNameLower}}','search',['kriteria'=>$kriteria,'isikriteria'=>$isikriteria]);
+            $this->putControllerStateSession('pembahasan','search',['kriteria'=>$kriteria,'isikriteria'=>$isikriteria]);
         }      
-        $this->setCurrentPageInsideSession('{{modelNameLower}}',1);
+        $this->setCurrentPageInsideSession('pembahasan',1);
         $data=$this->populateData();
 
-        $datatable = view("{{viewName}}.datatable")->with(['page_active'=>'{{modelNameLower}}',                                                            
-                                                            'search'=>$this->getControllerStateSession('{{modelNameLower}}','search'),
+        $datatable = view("pages.$theme.rkpd.pembahasan.datatable")->with(['page_active'=>'pembahasan',                                                            
+                                                            'search'=>$this->getControllerStateSession('pembahasan','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('{{modelNameLower}}.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('{{modelNameLower}}.orderby','order'),
+                                                            'column_order'=>$this->getControllerStateSession('pembahasan.orderby','column_name'),
+                                                            'direction'=>$this->getControllerStateSession('pembahasan.orderby','order'),
                                                             'data'=>$data])->render();      
         
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
@@ -182,20 +205,20 @@ class {{modelName}}Controller extends Controller
     {                
         $theme = \Auth::user()->theme;
 
-        $search=$this->getControllerStateSession('{{modelNameLower}}','search');
-        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('{{modelNameLower}}'); 
+        $search=$this->getControllerStateSession('pembahasan','search');
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('pembahasan'); 
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage())
         {            
             $data = $this->populateData($data->lastPage());
         }
-        $this->setCurrentPageInsideSession('{{modelNameLower}}',$data->currentPage());
+        $this->setCurrentPageInsideSession('pembahasan',$data->currentPage());
         
-        return view("{{viewName}}.index")->with(['page_active'=>'{{modelNameLower}}',
-                                                'search'=>$this->getControllerStateSession('{{modelNameLower}}','search'),
+        return view("pages.$theme.rkpd.pembahasan.index")->with(['page_active'=>'pembahasan',
+                                                'search'=>$this->getControllerStateSession('pembahasan','search'),
                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                'column_order'=>$this->getControllerStateSession('{{modelNameLower}}.orderby','column_name'),
-                                                'direction'=>$this->getControllerStateSession('{{modelNameLower}}.orderby','order'),
+                                                'column_order'=>$this->getControllerStateSession('pembahasan.orderby','column_name'),
+                                                'direction'=>$this->getControllerStateSession('pembahasan.orderby','order'),
                                                 'data'=>$data]);               
     }
     /**
@@ -207,7 +230,7 @@ class {{modelName}}Controller extends Controller
     {        
         $theme = \Auth::user()->theme;
 
-        return view("{{viewName}}.create")->with(['page_active'=>'{{modelNameLower}}',
+        return view("pages.$theme.rkpd.pembahasan.create")->with(['page_active'=>'pembahasan',
                                                                     
                                                 ]);  
     }
@@ -224,7 +247,7 @@ class {{modelName}}Controller extends Controller
             'replaceit'=>'required',
         ]);
         
-        ${{modelNameLower}} = {{modelName}}Model::create([
+        $pembahasan = PembahasanModel::create([
             'replaceit' => $request->input('replaceit'),
         ]);        
         
@@ -237,7 +260,7 @@ class {{modelName}}Controller extends Controller
         }
         else
         {
-            return redirect(route('{{modelNameLower}}.show',['id'=>${{modelNameLower}}->replaceit]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('pembahasan.show',['id'=>$pembahasan->replaceit]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -252,10 +275,10 @@ class {{modelName}}Controller extends Controller
     {
         $theme = \Auth::user()->theme;
 
-        $data = {{modelName}}Model::findOrFail($id);
+        $data = PembahasanModel::findOrFail($id);
         if (!is_null($data) )  
         {
-            return view("{{viewName}}.show")->with(['page_active'=>'{{modelNameLower}}',
+            return view("pages.$theme.rkpd.pembahasan.show")->with(['page_active'=>'pembahasan',
                                                     'data'=>$data
                                                     ]);
         }        
@@ -271,10 +294,10 @@ class {{modelName}}Controller extends Controller
     {
         $theme = \Auth::user()->theme;
         
-        $data = {{modelName}}Model::findOrFail($id);
+        $data = PembahasanModel::findOrFail($id);
         if (!is_null($data) ) 
         {
-            return view("{{viewName}}.edit")->with(['page_active'=>'{{modelNameLower}}',
+            return view("pages.$theme.rkpd.pembahasan.edit")->with(['page_active'=>'pembahasan',
                                                     'data'=>$data
                                                     ]);
         }        
@@ -289,14 +312,14 @@ class {{modelName}}Controller extends Controller
      */
     public function update(Request $request, $id)
     {
-        ${{modelNameLower}} = {{modelName}}Model::find($id);
+        $pembahasan = PembahasanModel::find($id);
         
         $this->validate($request, [
             'replaceit'=>'required',
         ]);
         
-        ${{modelNameLower}}->replaceit = $request->input('replaceit');
-        ${{modelNameLower}}->save();
+        $pembahasan->replaceit = $request->input('replaceit');
+        $pembahasan->save();
 
         if ($request->ajax()) 
         {
@@ -307,7 +330,7 @@ class {{modelName}}Controller extends Controller
         }
         else
         {
-            return redirect(route('{{modelNameLower}}.show',['id'=>${{modelNameLower}}->replaceit]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('pembahasan.show',['id'=>$pembahasan->replaceit]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
 
@@ -321,28 +344,28 @@ class {{modelName}}Controller extends Controller
     {
         $theme = \Auth::user()->theme;
         
-        ${{modelNameLower}} = {{modelName}}Model::find($id);
-        $result=${{modelNameLower}}->delete();
+        $pembahasan = PembahasanModel::find($id);
+        $result=$pembahasan->delete();
         if ($request->ajax()) 
         {
-            $currentpage=$this->getCurrentPageInsideSession('{{modelNameLower}}'); 
+            $currentpage=$this->getCurrentPageInsideSession('pembahasan'); 
             $data=$this->populateData($currentpage);
             if ($currentpage > $data->lastPage())
             {            
                 $data = $this->populateData($data->lastPage());
             }
-            $datatable = view("{{viewName}}.datatable")->with(['page_active'=>'{{modelNameLower}}',
-                                                            'search'=>$this->getControllerStateSession('{{modelNameLower}}','search'),
+            $datatable = view("pages.$theme.rkpd.pembahasan.datatable")->with(['page_active'=>'pembahasan',
+                                                            'search'=>$this->getControllerStateSession('pembahasan','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                            'column_order'=>$this->getControllerStateSession('{{modelNameLower}}.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('{{modelNameLower}}.orderby','order'),
+                                                            'column_order'=>$this->getControllerStateSession('pembahasan.orderby','column_name'),
+                                                            'direction'=>$this->getControllerStateSession('pembahasan.orderby','order'),
                                                             'data'=>$data])->render();      
             
             return response()->json(['success'=>true,'datatable'=>$datatable],200); 
         }
         else
         {
-            return redirect(route('{{modelNameLower}}.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+            return redirect(route('pembahasan.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
         }        
     }
 }

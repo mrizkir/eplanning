@@ -18,7 +18,13 @@ class Controller extends BaseController
         $this->listOfthemes=$this->getListThemes(false);
         \View::share('listOfthemes', $this->listOfthemes);
     }
-
+    /**
+     * digunakan untuk mendapatkan nama untuk session 
+     */
+    public function getNameForSession()
+    {
+        return \Helper::getNameOfPage();
+    }
     /**
      * digunakan untuk mengecek apakah controller telah memiliki ke session
      */

@@ -1,12 +1,11 @@
 <?php
 
-namespace {{namespace}};
+namespace App\Models\RKPD;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class {{modelName}}Model extends Model 
-{
+class PembahasanModel extends Model {
     use LogsActivity;
 
      /**
@@ -14,7 +13,7 @@ class {{modelName}}Model extends Model
      *
      * @var string
      */
-    protected $table = '{{modelNameLower}}';
+    protected $table = 'pembahasan';
     /**
      * The attributes that are mass assignable.
      *
@@ -28,7 +27,7 @@ class {{modelName}}Model extends Model
      *
      * @var string
      */
-    protected $primaryKey = '{{modelNameLower}}_id';
+    protected $primaryKey = 'pembahasan_id';
     /**
      * enable auto_increment.
      *
@@ -47,7 +46,7 @@ class {{modelName}}Model extends Model
      *
      * @var string
      */
-    // protected static $logName = '{{modelName}}Controller';
+    // protected static $logName = 'PembahasanController';
     /**
      * log the changed attributes for all these events 
      */
