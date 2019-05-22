@@ -32,7 +32,7 @@
                 </ul>
             </div>
         </div>
-        {!! Form::open(['url'=>route(Helper::getNameOfPage('update2'),$renja->RenjaRincID),'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
+        {!! Form::open(['url'=>route(Helper::getNameOfPage('update4'),$renja->RenjaRincID),'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
         <div class="panel-body">     
             <div class="form-group">
                 {{Form::label('No','NOMOR',['class'=>'control-label col-md-2'])}}
