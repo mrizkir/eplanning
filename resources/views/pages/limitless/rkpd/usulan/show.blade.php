@@ -152,11 +152,12 @@
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
-    $(".btnDeleteRenja").click(function(ev) {
+    $(document).on('click',".btnDeleteRenja", function(ev) {
+        ev.preventDefault();
         if (confirm('Apakah Anda ingin menghapus Data Usulan {{$page_title}} ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
-            let token = $('meta[name="csrf-token"]').attr('content');
+            let token = $('meta[name="csrf-token"]').attr('content');            
             $.ajax({            
                 type:'post',
                 url:url_+'/'+id,
@@ -165,6 +166,7 @@ $(document).ready(function () {
                     "_method": 'DELETE',
                     "_token": token,
                     "id": id,
+                    "pid":'renja'
                 },
                 success:function(data){ 
                     window.location.replace(url_);                        

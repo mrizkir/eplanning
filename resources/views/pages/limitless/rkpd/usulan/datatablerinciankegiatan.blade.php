@@ -2,8 +2,8 @@
     <div class="panel-title">
         <h5>DAFTAR RINCIAN KEGIATAN</h5>
     </div>
-    <div class="heading-elements">        
-        @if (Request::route()->getName()==Helper::getNameOfPage('show'))
+    <div class="heading-elements">    
+        @if ($renja->Privilege==0)
         <div class="heading-btn">
             <a href="{!!route(Helper::getNameOfPage('create2'),['id'=>$renja->RenjaID])!!}" class="btn btn-info btn-xs" title="Tambah Rincian Kegiatan dari Musren. Kec.">
                 <i class="icon-googleplus5"></i>
@@ -15,7 +15,7 @@
                 <i class="icon-googleplus5"></i>
             </a>
         </div>  
-        @endif  
+        @endif        
     </div>
 </div>
 @if (count($datarinciankegiatan) > 0)
@@ -78,7 +78,7 @@
                 <td>                   
                     <ul class="icons-list"> 
                         <li class="text-primary-600">
-                            <a class="btnShow" href="{{route(Helper::getNameOfPage('show'),['id'=>$item->RenjaID])}}" title="Detail Data Usulan Musren Kabupaten">
+                            <a class="btnShow" href="{{route(Helper::getNameOfPage('showrincian'),['id'=>$item->RenjaRincID])}}" title="Detail Data Usulan Musren Kabupaten">
                                 <i class='icon-eye'></i>
                             </a>  
                         </li>

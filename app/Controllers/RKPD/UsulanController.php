@@ -1259,6 +1259,642 @@ class UsulanController extends Controller
         }        
     }
     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showrincian($id)
+    {
+        $theme = \Auth::user()->theme;
+        switch ($this->NameOfPage) 
+        {            
+            case 'usulanprarenjaopd' :
+                 $data = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",                                                            
+                                                            "trRenjaRinc"."RenjaID",
+                                                            "trRenjaRinc"."No",
+                                                            "trRenjaRinc"."Uraian",
+                                                            "trRenjaRinc"."Sasaran_Angka1" AS "Sasaran_Angka",
+                                                            "trRenjaRinc"."Sasaran_Uraian1" AS "Sasaran_Uraian",
+                                                            "trRenjaRinc"."Target1" AS "Target",
+                                                            "trRenjaRinc"."Jumlah1" AS "Jumlah",
+                                                            "trRenjaRinc"."Prioritas",
+                                                            "trRenjaRinc"."Status",
+                                                            "trRenjaRinc"."Descr",
+                                                            "trRenjaRinc"."created_at",
+                                                            "trRenjaRinc"."updated_at"'))    
+                                            ->findOrFail($id);
+            break;
+            case 'usulanrakorbidang' :
+
+            break;
+            case 'usulanforumopd' :
+                
+            break;
+            case 'usulanmusrenkab' :
+                
+            break;                
+        }        
+       
+        if (!is_null($data) )  
+        {            
+            return view("pages.$theme.rkpd.usulan.showrincian")->with(['page_active'=>$this->NameOfPage,
+                                                                'page_title'=>$this->getPageTitle(),
+                                                                'renja'=>$data,
+                                                                'item'=>$data
+                                                            ]);
+        }          
+    }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $theme = \Auth::user()->theme;
+        switch ($this->NameOfPage) 
+        {            
+            case 'usulanprarenjaopd' :
+                $renja = RenjaModel::select(\DB::raw('"trRenja"."RenjaID","tmUrs"."Nm_Bidang","tmPrg"."PrgNm","tmKgt"."KgtNm","trRenja"."Sasaran_Angka1" AS "Sasaran_Angka","trRenja"."Sasaran_Uraian1" AS "Sasaran_Uraian","trRenja"."Sasaran_AngkaSetelah","trRenja"."Sasaran_UraianSetelah","trRenja"."Target1" AS "Target","trRenja"."NilaiSebelum","trRenja"."NilaiUsulan1" AS "NilaiUsulan","trRenja"."NilaiSetelah","trRenja"."NamaIndikator","trRenja"."SumberDanaID","trRenja"."Descr"'))
+                            ->join('tmKgt','tmKgt.KgtID','trRenja.KgtID')
+                            ->join('tmPrg','tmPrg.PrgID','tmKgt.PrgID')
+                            ->join('trUrsPrg','trUrsPrg.PrgID','tmPrg.PrgID')
+                            ->join('tmUrs','tmUrs.UrsID','trUrsPrg.UrsID')
+                            ->findOrFail($id);        
+            break;
+            case 'usulanrakorbidang' :
+                
+            break;
+            case 'usulanforumopd' :
+            
+            break;
+            case 'usulanmusrenkab' :
+            
+            break;                
+        }   
+        
+        if (!is_null($renja) ) 
+        {
+            $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(config('globalsettings.tahun_perencanaan'),false);     
+            return view("pages.$theme.rkpd.usulan.edit")->with(['page_active'=>$this->NameOfPage,
+                                                                'page_title'=>$this->getPageTitle(),
+                                                                'renja'=>$renja,
+                                                                'sumber_dana'=>$sumber_dana
+                                                                ]);
+        }        
+    }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit1($id)
+    {
+        $theme = \Auth::user()->theme;
+
+        $renja = RenjaIndikatorModel::select(\DB::raw('"trRenjaIndikator"."RenjaIndikatorID",
+                                                        "trRenjaIndikator"."IndikatorKinerjaID",
+                                                        "trRenjaIndikator"."RenjaID",
+                                                        "trRenjaIndikator"."Target_Angka",
+                                                        "Target_Uraian",
+                                                        "trRenjaIndikator"."TA"'))                                   
+                                    ->join('trIndikatorKinerja','trIndikatorKinerja.IndikatorKinerjaID','trRenjaIndikator.IndikatorKinerjaID')
+                                    ->findOrFail($id);        
+        if (!is_null($renja) ) 
+        {    
+            $dataindikator_rpjmd = \App\Models\RPJMD\RpjmdIndikatorKinerjaModel::getIndikatorKinerjaByID($renja->IndikatorKinerjaID,$renja->TA);            
+            $dataindikatorkinerja = $this->populateIndikatorKegiatan($renja->RenjaID);
+            return view("pages.$theme.rkpd.usulan.edit1")->with(['page_active'=>$this->NameOfPage,
+                                                                'page_title'=>$this->getPageTitle(),
+                                                                'renja'=>$renja,
+                                                                'dataindikator_rpjmd'=>$dataindikator_rpjmd,
+                                                                'dataindikatorkinerja'=>$dataindikatorkinerja
+                                                                ]);
+        }        
+    }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit2($id)
+    {
+        $theme = \Auth::user()->theme;
+
+        $auth=\Auth::user();
+        $theme = $auth->theme;
+        $roles = $auth->getRoleNames();
+        
+        switch ($this->NameOfPage) 
+        {            
+            case 'usulanprarenjaopd' :
+                switch ($roles[0])
+                {
+                    case 'superadmin' :
+                        $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
+                                                                    "tmPMProv"."Nm_Prov",
+                                                                    "tmPmKota"."Nm_Kota",
+                                                                    "tmPmKecamatan"."Nm_Kecamatan",
+                                                                    "trRenjaRinc"."RenjaID",
+                                                                    "trRenjaRinc"."No",
+                                                                    "trUsulanKec"."NamaKegiatan",
+                                                                    "trRenjaRinc"."Uraian",
+                                                                    "trRenjaRinc"."Sasaran_Angka1" AS "Sasaran_Angka",
+                                                                    "trRenjaRinc"."Sasaran_Uraian1" AS "Sasaran_Uraian",
+                                                                    "trRenjaRinc"."Target1" AS "Target",
+                                                                    "trRenjaRinc"."Jumlah1" AS "Jumlah",
+                                                                    "trRenjaRinc"."Prioritas",
+                                                                    "trRenjaRinc"."Descr",
+                                                                    "trRenjaRinc"."isSKPD",
+                                                                    "trRenjaRinc"."isReses"'))                                            
+                                                    ->join('trUsulanKec','trUsulanKec.UsulanKecID','trRenjaRinc.UsulanKecID')                                                                                        
+                                                    ->join('tmPMProv','tmPMProv.PMProvID','trRenjaRinc.PMProvID')
+                                                    ->join('tmPmKota','tmPmKota.PmKotaID','trRenjaRinc.PmKotaID')
+                                                    ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')                                            
+                                                    ->findOrFail($id);        
+                    break;
+                    case 'opd' :
+                        $OrgID = $auth->OrgID;
+                        $SOrgID = empty($auth->SOrgID)? $SOrgID= $this->getControllerStateSession('usulanprarenjaopd.filters','SOrgID'):$auth->SOrgID;
+                        $renja = empty($SOrgID)?RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
+                                                                    "tmPMProv"."Nm_Prov",
+                                                                    "tmPmKota"."Nm_Kota",
+                                                                    "tmPmKecamatan"."Nm_Kecamatan",
+                                                                    "trRenjaRinc"."RenjaID",
+                                                                    "trRenjaRinc"."No",
+                                                                    "trUsulanKec"."NamaKegiatan",
+                                                                    "trRenjaRinc"."Uraian",
+                                                                    "trRenjaRinc"."Sasaran_Angka1" AS "Sasaran_Angka",
+                                                                    "trRenjaRinc"."Sasaran_Uraian1" AS "Sasaran_Uraian",
+                                                                    "trRenjaRinc"."Target1" AS "Target",
+                                                                    "trRenjaRinc"."Jumlah1" AS "Jumlah",
+                                                                    "trRenjaRinc"."Prioritas",
+                                                                    "trRenjaRinc"."Descr",
+                                                                    "trRenjaRinc"."isSKPD",
+                                                                    "trRenjaRinc"."isReses"'))                                            
+                                                                ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')
+                                                                ->join('trUsulanKec','trUsulanKec.UsulanKecID','trRenjaRinc.UsulanKecID')                                                                                        
+                                                                ->join('tmPMProv','tmPMProv.PMProvID','trRenjaRinc.PMProvID')
+                                                                ->join('tmPmKota','tmPmKota.PmKotaID','trRenjaRinc.PmKotaID')
+                                                                ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')                                            
+                                                                ->where('trRenja.SOrgID',$SOrgID)->findOrFail($id)
+                                            :RenjaRincianModel::select(\DB::raw(\DB::raw('"trRenjaRinc"."RenjaRincID",
+                                                                    "tmPMProv"."Nm_Prov",
+                                                                    "tmPmKota"."Nm_Kota",
+                                                                    "tmPmKecamatan"."Nm_Kecamatan",
+                                                                    "trRenjaRinc"."RenjaID",
+                                                                    "trRenjaRinc"."No",
+                                                                    "trUsulanKec"."NamaKegiatan",
+                                                                    "trRenjaRinc"."Uraian",
+                                                                    "trRenjaRinc"."Sasaran_Angka1" AS "Sasaran_Angka",
+                                                                    "trRenjaRinc"."Sasaran_Uraian1" AS "Sasaran_Uraian",
+                                                                    "trRenjaRinc"."Target1" AS "Target",
+                                                                    "trRenjaRinc"."Jumlah1" AS "Jumlah",
+                                                                    "trRenjaRinc"."Prioritas",
+                                                                    "trRenjaRinc"."Descr",
+                                                                    "trRenjaRinc"."isSKPD",
+                                                                    "trRenjaRinc"."isReses"')))                                            
+                                                                ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')
+                                                                ->join('trUsulanKec','trUsulanKec.UsulanKecID','trRenjaRinc.UsulanKecID')                                                                                        
+                                                                ->join('tmPMProv','tmPMProv.PMProvID','trRenjaRinc.PMProvID')
+                                                                ->join('tmPmKota','tmPmKota.PmKotaID','trRenjaRinc.PmKotaID')
+                                                                ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')                                            
+                                                                ->where('trRenja.OrgID',$OrgID)
+                                                                ->findOrFail($id);        
+                    break;
+                }    
+            break;
+            case 'usulanrakorbidang' :
+                
+            break;
+            case 'usulanforumopd' :
+            
+            break;
+            case 'usulanmusrenkab' :
+                
+            break;                
+        }           
+        if (is_null($renja) )
+        {
+            return redirect(route(\Helper::getNameOfPage('edit4'),['id'=>$id]))->with('error',"Data rincian kegiatan dari musrenbang Kec dengan ID ($id)  gagal diperoleh, diarahkan menjadi rincian usulan OPD / SKPD .");
+        } 
+        else 
+        {               
+            $datarinciankegiatan = $this->populateRincianKegiatan($renja->RenjaID);
+
+            return view("pages.$theme.rkpd.usulan.edit2")->with(['page_active'=>$this->NameOfPage,
+                                                                'page_title'=>$this->getPageTitle(),
+                                                                'renja'=>$renja,
+                                                                'datarinciankegiatan'=>$datarinciankegiatan
+                                                                ]);
+        }             
+    }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit3($id)
+    {   
+        $auth=\Auth::user();
+        $theme = $auth->theme;
+        $roles = $auth->getRoleNames();        
+        switch ($roles[0])
+        {
+            case 'superadmin' :
+                $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
+                                                            "trRenjaRinc"."RenjaID",
+                                                            "trRenjaRinc"."No",
+                                                            "tmPemilikPokok"."Kd_PK",
+                                                            "tmPemilikPokok"."NmPk",
+                                                            "trPokPir"."NamaUsulanKegiatan",                                                            
+                                                            "trRenjaRinc"."Uraian",
+                                                            "trRenjaRinc"."Sasaran_Angka1" AS "Sasaran_Angka",
+                                                            "trRenjaRinc"."Sasaran_Uraian1" AS "Sasaran_Uraian",
+                                                            "trRenjaRinc"."Target1" AS "Target",
+                                                            "trRenjaRinc"."Jumlah1" AS "Jumlah",
+                                                            "trRenjaRinc"."Prioritas",
+                                                            "trRenjaRinc"."Descr",
+                                                            "trRenjaRinc"."isSKPD",
+                                                            "trRenjaRinc"."isReses"'))                                            
+                                            ->join('trPokPir','trPokPir.PokPirID','trRenjaRinc.PokPirID')
+                                            ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')                                                        
+                                            ->findOrFail($id);        
+            break;
+            case 'opd' :
+                $OrgID = $auth->OrgID;
+                $SOrgID = empty($auth->SOrgID)? $SOrgID= $this->getControllerStateSession('usulanprarenjaopd.filters','SOrgID'):$auth->SOrgID;
+                $renja = empty($SOrgID)?RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
+                                                                            "trRenjaRinc"."RenjaID",
+                                                                            "trRenjaRinc"."No",
+                                                                            "tmPemilikPokok"."Kd_PK",
+                                                                            "tmPemilikPokok"."NmPk",
+                                                                            "trPokPir"."NamaUsulanKegiatan",
+                                                                            "trRenjaRinc"."Uraian",
+                                                                            "trRenjaRinc"."Sasaran_Angka1" AS "Sasaran_Angka",
+                                                                            "trRenjaRinc"."Sasaran_Uraian1" AS "Sasaran_Uraian",
+                                                                            "trRenjaRinc"."Target1" AS "Target",
+                                                                            "trRenjaRinc"."Jumlah1" AS "Jumlah",
+                                                                            "trRenjaRinc"."Prioritas",
+                                                                            "trRenjaRinc"."Descr",
+                                                                            "trRenjaRinc"."isSKPD",
+                                                                            "trRenjaRinc"."isReses"'))                                            
+                                                        ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')
+                                                        ->join('trPokPir','trPokPir.PokPirID','trRenjaRinc.PokPirID')
+                                                        ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')                                                        
+                                                        ->where('trRenja.SOrgID',$SOrgID)->findOrFail($id)
+                                     :RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
+                                                                            "trRenjaRinc"."RenjaID",
+                                                                            "trRenjaRinc"."No",
+                                                                            "tmPemilikPokok"."Kd_PK",
+                                                                            "tmPemilikPokok"."NmPk",
+                                                                            "trPokPir"."NamaUsulanKegiatan",
+                                                                            "trRenjaRinc"."Uraian",
+                                                                            "trRenjaRinc"."Sasaran_Angka1" AS "Sasaran_Angka",
+                                                                            "trRenjaRinc"."Sasaran_Uraian1" AS "Sasaran_Uraian",
+                                                                            "trRenjaRinc"."Target1" AS "Target",
+                                                                            "trRenjaRinc"."Jumlah1" AS "Jumlah",
+                                                                            "trRenjaRinc"."Prioritas",
+                                                                            "trRenjaRinc"."Descr",
+                                                                            "trRenjaRinc"."isSKPD",
+                                                                            "trRenjaRinc"."isReses"'))                                            
+                                                        ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')
+                                                        ->join('trPokPir','trPokPir.PokPirID','trRenjaRinc.PokPirID')
+                                                        ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')                                                        
+                                                        ->where('trRenja.OrgID',$OrgID)
+                                                        ->findOrFail($id);        
+            break;
+        }        
+        if (is_null($renja) )
+        {
+            return redirect(route(\Helper::getNameOfPage('edit4'),['id'=>$id]))->with('error',"Data rincian kegiatan dari Pokok Pikiran Anggota dengan ID ($id)  gagal diperoleh, diarahkan menjadi rincian usulan OPD / SKPD .");
+        } 
+        else
+        {               
+            $datarinciankegiatan = $this->populateRincianKegiatan($renja->RenjaID);
+
+            return view("pages.$theme.rkpd.usulan.edit3")->with(['page_active'=>$this->NameOfPage,
+                                                                'page_title'=>$this->getPageTitle(),
+                                                                'renja'=>$renja,
+                                                                'datarinciankegiatan'=>$datarinciankegiatan
+                                                                ]);
+        }        
+    }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit4($id)
+    {   
+        $auth=\Auth::user();
+        $theme = $auth->theme;
+        $roles = $auth->getRoleNames();   
+        switch ($this->NameOfPage) 
+        {            
+            case 'usulanprarenjaopd' :
+                switch ($roles[0])
+                {
+                    case 'superadmin' :
+                        $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
+                                                                    "trRenjaRinc"."RenjaID",
+                                                                    "trRenjaRinc"."PmKecamatanID",
+                                                                    "trRenjaRinc"."PmDesaID",
+                                                                    "trRenjaRinc"."No",
+                                                                    "trRenjaRinc"."Uraian",
+                                                                    "trRenjaRinc"."Sasaran_Angka1" AS "Sasaran_Angka",
+                                                                    "trRenjaRinc"."Sasaran_Uraian1" AS "Sasaran_Uraian",
+                                                                    "trRenjaRinc"."Target1" AS "Target",
+                                                                    "trRenjaRinc"."Jumlah1" AS "Jumlah",
+                                                                    "trRenjaRinc"."Prioritas",
+                                                                    "trRenjaRinc"."Descr",
+                                                                    "trRenjaRinc"."isSKPD",
+                                                                    "trRenjaRinc"."isReses"'))                                                                                        
+                                                    ->findOrFail($id);        
+                    break;
+                    case 'opd' :
+                        $OrgID = $auth->OrgID;
+                        $SOrgID = empty($auth->SOrgID)? $SOrgID= $this->getControllerStateSession('usulanprarenjaopd.filters','SOrgID'):$auth->SOrgID;
+                        $renja = empty($SOrgID)?RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
+                                                                    "trRenjaRinc"."RenjaID",
+                                                                    "trRenjaRinc"."PmKecamatanID",
+                                                                    "trRenjaRinc"."PmDesaID",
+                                                                    "trRenjaRinc"."No",
+                                                                    "trRenjaRinc"."Uraian",
+                                                                    "trRenjaRinc"."Sasaran_Angka1" AS "Sasaran_Angka",
+                                                                    "trRenjaRinc"."Sasaran_Uraian1" AS "Sasaran_Uraian",
+                                                                    "trRenjaRinc"."Target1" AS "Target",
+                                                                    "trRenjaRinc"."Jumlah1" AS "Jumlah",
+                                                                    "trRenjaRinc"."Prioritas",
+                                                                    "trRenjaRinc"."Descr",
+                                                                    "trRenjaRinc"."isSKPD",
+                                                                    "trRenjaRinc"."isReses"'))
+                                                                ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')                                                        
+                                                                ->where('trRenja.SOrgID',$SOrgID)->findOrFail($id)
+                                            :RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID","trRenjaRinc"."RenjaID","trRenjaRinc"."PmKecamatanID","trRenjaRinc"."PmDesaID","trRenjaRinc"."No","trRenjaRinc"."No","trRenjaRinc"."Uraian","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Angka1","trRenjaRinc"."Sasaran_Uraian1","trRenjaRinc"."Target1","trRenjaRinc"."Jumlah1","trRenjaRinc"."Prioritas","trRenjaRinc"."Descr","trRenjaRinc"."isSKPD","trRenjaRinc"."isReses"'))
+                                                                ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')                                                        
+                                                                ->where('trRenja.OrgID',$OrgID)
+                                                                ->findOrFail($id);        
+                    break;
+                }        
+            break;
+            case 'usulanrakorbidang' :
+                
+            break;
+            case 'usulanforumopd' :
+                
+            break;
+            case 'usulanmusrenkab' :
+                
+            break;
+            default :
+                $dbViewName = null;
+        }   
+        if (!is_null($renja) ) 
+        {               
+            $datarinciankegiatan = $this->populateRincianKegiatan($renja->RenjaID);
+            //lokasi
+            $daftar_provinsi = ['uidF1847004D8F547BF'=>'KEPULAUAN RIAU'];
+            $daftar_kota_kab = ['uidE4829D1F21F44ECA'=>'BINTAN'];        
+            $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(config('globalsettings.tahun_perencanaan'),$renja->PmKotaID,false);
+            $daftar_desa=\App\Models\DMaster\DesaModel::getDaftarDesa(config('globalsettings.tahun_perencanaan'),$renja->PmKecamatanID,false);
+            return view("pages.$theme.rkpd.usulan.edit4")->with(['page_active'=>$this->NameOfPage,
+                                                                'page_title'=>$this->getPageTitle(),
+                                                                'renja'=>$renja,
+                                                                'datarinciankegiatan'=>$datarinciankegiatan,
+                                                                'daftar_provinsi'=> $daftar_provinsi,
+                                                                'daftar_kota_kab'=> $daftar_kota_kab,
+                                                                'daftar_kecamatan'=>$daftar_kecamatan,
+                                                                'daftar_desa'=>$daftar_desa
+                                                                ]);
+        }        
+    }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $usulanprarenjaopd = RenjaModel::find($id);
+        
+        $this->validate($request, [            
+            'SumberDanaID'=>'required',
+            'Sasaran_Angka'=>'required',
+            'Sasaran_Uraian' => 'required',
+            'Sasaran_AngkaSetelah'=>'required',
+            'Sasaran_UraianSetelah'=>'required',
+            'Target'=>'required',
+            'NilaiSebelum'=>'required',
+            'NilaiUsulan'=>'required',
+            'NilaiSetelah'=>'required',
+            'NamaIndikator'=>'required'
+        ]);
+        
+        switch ($this->NameOfPage) 
+        {            
+            case 'usulanprarenjaopd' :
+                $usulanprarenjaopd->SumberDanaID = $request->input('SumberDanaID');
+                $usulanprarenjaopd->Sasaran_Angka1 = $request->input('Sasaran_Angka');
+                $usulanprarenjaopd->Sasaran_Uraian1 = $request->input('Sasaran_Uraian');
+                $usulanprarenjaopd->Sasaran_AngkaSetelah = $request->input('Sasaran_AngkaSetelah');
+                $usulanprarenjaopd->Sasaran_UraianSetelah = $request->input('Sasaran_UraianSetelah');
+                $usulanprarenjaopd->Target1 = $request->input('Target');
+                $usulanprarenjaopd->NilaiSebelum = $request->input('NilaiSebelum');
+                $usulanprarenjaopd->NilaiSetelah = $request->input('NilaiSetelah');
+                $usulanprarenjaopd->NamaIndikator = $request->input('NamaIndikator');
+                $usulanprarenjaopd->Descr = $request->input('Descr');
+                $usulanprarenjaopd->save();
+            break;
+            case 'usulanrakorbidang' :
+                
+            break;
+            case 'usulanforumopd' :
+            
+            break;
+            case 'usulanmusrenkab' :
+            
+            break;                
+        }   
+
+        if ($request->ajax()) 
+        {
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data ini telah berhasil diubah.'
+            ]);
+        }
+        else
+        {
+            return redirect(route(\Helper::getNameOfPage('show'),['id'=>$usulanprarenjaopd->RenjaID]))->with('success','Data ini telah berhasil disimpan.');
+        }
+    }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update1(Request $request, $id)
+    {
+        $this->validate($request, [
+            'Target_Angka'=>'required',
+            'Target_Uraian'=>'required',           
+        ]);
+        
+        $data=[        
+            'Target_Angka' => $request->input('Target_Angka'),
+            'Target_Uraian' => $request->input('Target_Uraian'),                                   
+        ];
+
+        $indikatorkinerja = RenjaIndikatorModel::find($id);
+        $indikatorkinerja->Target_Angka = $request->input('Target_Angka'); 
+        $indikatorkinerja->Target_Uraian = $request->input('Target_Uraian');       
+        $indikatorkinerja->save();
+
+        if ($request->ajax()) 
+        {
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data ini telah berhasil disimpan.'
+            ]);
+        }
+        else
+        {
+            return redirect(route(\Helper::getNameOfPage('show'),['id'=>$indikatorkinerja->RenjaID]))->with('success','Data Indikator kegiatan telah berhasil disimpan. Selanjutnya isi Rincian Kegiatan');
+        }
+    }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update2(Request $request, $id)
+    {
+        $rinciankegiatan = RenjaRincianModel::find($id);        
+        $this->validate($request, [
+            'No'=>'required',
+            'Uraian'=>'required',
+            'Sasaran_Angka'=>'required',
+            'Sasaran_Uraian'=>'required',
+            'Target'=>'required',
+            'Jumlah'=>'required',
+            'Prioritas' => 'required'            
+        ]);
+        
+        \DB::transaction(function () use ($request,$rinciankegiatan) {
+            switch ($this->NameOfPage) 
+            {            
+                case 'usulanprarenjaopd' :
+                   $rinciankegiatan->Uraian = $request->input('Uraian');
+                    $rinciankegiatan->Sasaran_Angka1 = $request->input('Sasaran_Angka'); 
+                    $rinciankegiatan->Sasaran_Uraian1 = $request->input('Sasaran_Uraian');
+                    $rinciankegiatan->Target1 = $request->input('Target');
+                    $rinciankegiatan->Jumlah1 = $request->input('Jumlah');  
+                    $rinciankegiatan->Prioritas = $request->input('Prioritas');  
+                    $rinciankegiatan->Descr = $request->input('Descr');
+                    $rinciankegiatan->save();
+
+                    $renja = $rinciankegiatan->renja;            
+                    $renja->NilaiUsulan1=RenjaRincianModel::where('RenjaID',$renja->RenjaID)->sum('Jumlah1');            
+                    $renja->save();
+                break;
+                case 'usulanrakorbidang' :
+                    
+                break;
+                case 'usulanforumopd' :
+                
+                break;
+                case 'usulanmusrenkab' :
+                
+                break;                
+            }   
+        });
+        if ($request->ajax()) 
+        {
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data ini telah berhasil disimpan.'
+            ]);
+        }
+        else
+        {
+            return redirect(route(\Helper::getNameOfPage('show'),['id'=>$rinciankegiatan->RenjaID]))->with('success','Data Rincian kegiatan telah berhasil disimpan.');
+        } 
+    }      
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update4(Request $request, $id)
+    {
+        $rinciankegiatan = RenjaRincianModel::find($id);        
+        $this->validate($request, [
+            'No'=>'required',
+            'Uraian'=>'required',
+            'Sasaran_Angka'=>'required',
+            'Sasaran_Uraian'=>'required',
+            'Target'=>'required',
+            'Jumlah'=>'required',
+            'Prioritas' => 'required'            
+        ]);
+
+        \DB::transaction(function () use ($request,$rinciankegiatan) { 
+
+            switch ($this->NameOfPage) 
+            {            
+                case 'usulanprarenjaopd' :
+                    $rinciankegiatan->PmKecamatanID = $request->input('PmKecamatanID');
+                    $rinciankegiatan->PmDesaID = $request->input('PmDesaID');
+                    $rinciankegiatan->Uraian = $request->input('Uraian');
+                    $rinciankegiatan->Sasaran_Angka1 = $request->input('Sasaran_Angka'); 
+                    $rinciankegiatan->Sasaran_Uraian1 = $request->input('Sasaran_Uraian');
+                    $rinciankegiatan->Target1 = $request->input('Target');
+                    $rinciankegiatan->Jumlah1 = $request->input('Jumlah');  
+                    $rinciankegiatan->Prioritas = $request->input('Prioritas');  
+                    $rinciankegiatan->Descr = $request->input('Descr');
+                    $rinciankegiatan->save();
+
+                    $renja = $rinciankegiatan->renja;            
+                    $renja->NilaiUsulan1=RenjaRincianModel::where('RenjaID',$renja->RenjaID)->sum('Jumlah1');            
+                    $renja->save();
+                break;
+                case 'usulanrakorbidang' :
+                    
+                break;
+                case 'usulanforumopd' :
+                
+                break;
+                case 'usulanmusrenkab' :
+                
+                break;                
+            }               
+            
+        });
+        if ($request->ajax()) 
+        {
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data ini telah berhasil disimpan.'
+            ]);
+        }
+        else
+        {
+            return redirect(route(\Helper::getNameOfPage('show'),['id'=>$rinciankegiatan->RenjaID]))->with('success','Data Rincian kegiatan telah berhasil disimpan.');
+        } 
+    }  
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -1295,10 +1931,9 @@ class UsulanController extends Controller
         {
             $rinciankegiatan = RenjaRincianModel::find($id);
             $renjaid=$rinciankegiatan->RenjaID;
-            $NilaiUsulan = \DB::transaction(function () use ($rinciankegiatan) {                 
-                $renja = $rinciankegiatan->renja;                            
+            $renja = $rinciankegiatan->renja;
+            $NilaiUsulan = \DB::transaction(function () use ($rinciankegiatan,$renja) {                                                                             
                 $rinciankegiatan->delete();
-
                 switch ($this->NameOfPage) 
                 {            
                     case 'usulanprarenjaopd' :
@@ -1324,7 +1959,13 @@ class UsulanController extends Controller
             {
                 $data = $this->populateRincianKegiatan($renjaid);
                         
-                $datatable = view("pages.$theme.rkpd.usulan.datatablerinciankegiatan")->with(['datarinciankegiatan'=>$data])->render();     
+                $datatable = view("pages.$theme.rkpd.usulan.datatablerinciankegiatan")
+                                ->with([
+                                    'page_active'=>$this->NameOfPage,
+                                    'page_title'=>$this->getPageTitle(),
+                                    'renja'=>$renja,
+                                    'datarinciankegiatan'=>$data])
+                                ->render();     
                 
                 return response()->json(['success'=>true,'NilaiUsulan'=>$NilaiUsulan,'datatable'=>$datatable],200); 
             }
@@ -1332,7 +1973,7 @@ class UsulanController extends Controller
             {
                 return redirect(route(\Helper::getNameOfPage('show'),['id'=>$renjaid]))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
             }
-        }
+        }//akhir penyeleksian kondisi bila rincian kegiatan
         else if ($request->exists('pid'))
         {
 

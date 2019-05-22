@@ -1,6 +1,6 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-     {{$page_title}}
+    {{$page_title}}
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
