@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 class HelperKegiatan {
     /**
-     * Daftar Prioritas
+     * Daftar Level Entri
      */ 
     private static $LevelEntri =['none'=>'DAFTAR POSISI ENTRI',
                                 0=>'RENJA SKPD',
@@ -26,7 +26,7 @@ class HelperKegiatan {
                                 6=>'P6']; 
 
     /**
-     * Daftar Prioritas
+     * Daftar Status Kegiatan
      */ 
     private static $StatusKegiatan =[0=>'DRAFT',
                                     1=>'SETUJU',
@@ -38,6 +38,29 @@ class HelperKegiatan {
     */
     public static function getDaftarLevelEntri () {
       return HelperKegiatan::$LevelEntri;
+    }
+    /**
+    * digunakan untuk mendapatkan entri level
+    */
+    public static function getLevelEntriByName ($level_name) {
+      switch ($level_name) 
+        {            
+            case 'usulanprarenjaopd' :
+                $level = 0;
+            break;
+            case 'usulanrakorbidang' :
+                $level = 1;
+            break;
+            case 'usulanforumopd' :
+                $level = 2;
+            break;
+            case 'usulanmusrenkab' :
+                $level = 3;
+            break;
+            default :
+                $level = null;
+        }
+        return $level;
     }
     /**
     * digunakan untuk mendapatkan nama entri level

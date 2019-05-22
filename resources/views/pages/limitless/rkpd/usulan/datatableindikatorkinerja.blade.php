@@ -3,7 +3,7 @@
         <h5>DAFTAR INDIKATOR KEGIATAN</h5>
     </div>
     <div class="heading-elements">
-        @if (Request::route()->getName()=='usulanprarenjaopd.show')
+        @if ($renja->Privilege==0)
         <div class="heading-btn">
             <a href="{!!route(Helper::getNameOfPage('create1'),['id'=>$renja->RenjaID])!!}" class="btn btn-info btn-xs" title="Tambah Indikator Kegiatan">
                 <i class="icon-googleplus5"></i>           

@@ -32,8 +32,7 @@
                 </ul>
             </div>
         </div>
-        {!! Form::open(['url'=>route(Helper::getNameOfPage('update4'),$renja->RenjaRincID),'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
-        {{Form::hidden('_method','PUT')}}
+        {!! Form::open(['url'=>route(Helper::getNameOfPage('update2'),$renja->RenjaRincID),'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                                      
         <div class="panel-body">
             <div class="form-group">
                 <label class="col-md-2 control-label">POSISI ENTRI: </label>

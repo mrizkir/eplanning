@@ -227,8 +227,7 @@ class UsulanController extends Controller
                                                             "isSKPD",
                                                             "isReses",
                                                             "isReses_Uraian",
-                                                            "trRenjaRinc".
-                                                            "Descr"'))
+                                                            "trRenjaRinc"."Descr"'))
                                         ->where('trRenjaRinc.EntryLvl',2);  
             break;
             case 'usulanmusrenkab' :
@@ -248,8 +247,7 @@ class UsulanController extends Controller
                                                             "isSKPD",
                                                             "isReses",
                                                             "isReses_Uraian",
-                                                            "trRenjaRinc".
-                                                            "Descr"'))
+                                                            "trRenjaRinc"."Descr"'))
                                         ->where('trRenjaRinc.EntryLvl',3);  
             break;
         }
@@ -464,7 +462,18 @@ class UsulanController extends Controller
                                                                             'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
                                                                             'data'=>$data])->render();
 
-            $json_data = ['success'=>true,'daftar_unitkerja'=>$daftar_unitkerja,'datatable'=>$datatable];
+            $totalpaguindikatifopd = RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('globalsettings.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['OrgID']);            
+                  
+            $totalpaguindikatifunitkerja[0]=0;
+            $totalpaguindikatifunitkerja[1]=0;
+            $totalpaguindikatifunitkerja[2]=0;
+            $totalpaguindikatifunitkerja[3]=0;  
+            
+            $paguanggaranopd=\App\Models\DMaster\PaguAnggaranOPDModel::select('Jumlah1')
+                                                                        ->where('OrgID',$filters['OrgID'])
+                                                                        ->value('Jumlah1');
+
+            $json_data = ['success'=>true,'paguanggaranopd'=>$paguanggaranopd,'totalpaguindikatifopd'=>$totalpaguindikatifopd,'totalpaguindikatifunitkerja'=>$totalpaguindikatifunitkerja,'daftar_unitkerja'=>$daftar_unitkerja,'datatable'=>$datatable];
         } 
         //index
         if ($request->exists('SOrgID'))
@@ -474,8 +483,7 @@ class UsulanController extends Controller
             $this->putControllerStateSession($this->SessionName,'filters',$filters);
             $this->setCurrentPageInsideSession($this->SessionName,1);
 
-            $data = $this->populateData();
-
+            $data = $this->populateData();            
             $datatable = view("pages.$theme.rkpd.usulan.datatable")->with(['page_active'=>$this->NameOfPage,   
                                                                             'page_title'=>$this->getPageTitle(),                                                                                                                                    
                                                                             'search'=>$this->getControllerStateSession($this->SessionName,'search'),
@@ -483,8 +491,10 @@ class UsulanController extends Controller
                                                                             'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
                                                                             'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
                                                                             'data'=>$data])->render();                                                                                       
-                                                                                    
-            $json_data = ['success'=>true,'datatable'=>$datatable];            
+                        
+            $totalpaguindikatifunitkerja = RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('globalsettings.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['SOrgID']);            
+            
+            $json_data = ['success'=>true,'totalpaguindikatifunitkerja'=>$totalpaguindikatifunitkerja,'datatable'=>$datatable];            
         } 
 
         //create2
@@ -626,6 +636,9 @@ class UsulanController extends Controller
             $data = $this->populateData($data->lastPage());
         }
         $this->setCurrentPageInsideSession($this->SessionName,$data->currentPage());
+        $paguanggaranopd=\App\Models\DMaster\PaguAnggaranOPDModel::select('Jumlah1')
+                                                                    ->where('OrgID',$filters['OrgID'])                                                    
+                                                                    ->value('Jumlah1');
 
         return view("pages.$theme.rkpd.usulan.index")->with(['page_active'=>$this->NameOfPage, 
                                                             'page_title'=>$this->getPageTitle(),
@@ -636,6 +649,9 @@ class UsulanController extends Controller
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                                             'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
                                                             'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
+                                                            'paguanggaranopd'=>$paguanggaranopd,
+                                                            'totalpaguindikatifopd'=>RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('globalsettings.tahun_perencanaan'),3,$filters['OrgID']),
+                                                            'totalpaguindikatifunitkerja' => RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('globalsettings.tahun_perencanaan'),3,$filters['SOrgID']),            
                                                             'data'=>$data]);
     }   
     public function pilihusulankegiatan(Request $request)
@@ -704,8 +720,7 @@ class UsulanController extends Controller
     {        
         $theme = \Auth::user()->theme;
 
-        $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
-
+        $filters=$this->getControllerStateSession($this->SessionName,'filters');         
         if ($filters['SOrgID'] != 'none'&&$filters['SOrgID'] != ''&&$filters['SOrgID'] != null)
         {
             $SOrgID=$filters['SOrgID'];            
@@ -1201,10 +1216,10 @@ class UsulanController extends Controller
                         'Descr' => $request->input('Descr'),
                         'TA' => config('globalsettings.tahun_perencanaan')
                     ];
-
+                    
                     $rinciankegiatan= RenjaRincianModel::create($data);
                     $renja = $rinciankegiatan->renja;            
-                    $renja->NilaiUsulan3=RenjaRincianModel::where('RenjaID',$renja->RenjaID)->sum('Jumlah3');
+                    $renja->NilaiUsulan4=RenjaRincianModel::where('RenjaID',$renja->RenjaID)->sum('Jumlah4');
                     $renja->save();
                 break;                
             }            
@@ -1890,7 +1905,7 @@ class UsulanController extends Controller
                                                     ->join('tmPMProv','tmPMProv.PMProvID','trRenjaRinc.PMProvID')
                                                     ->join('tmPmKota','tmPmKota.PmKotaID','trRenjaRinc.PmKotaID')
                                                     ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')                                            
-                                                    ->findOrFail($id);        
+                                                    ->find($id);        
                     break;
                     case 'opd' :
                         $OrgID = $auth->OrgID;
@@ -1916,7 +1931,7 @@ class UsulanController extends Controller
                                                                 ->join('tmPMProv','tmPMProv.PMProvID','trRenjaRinc.PMProvID')
                                                                 ->join('tmPmKota','tmPmKota.PmKotaID','trRenjaRinc.PmKotaID')
                                                                 ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')                                            
-                                                                ->where('trRenja.SOrgID',$SOrgID)->findOrFail($id)
+                                                                ->where('trRenja.SOrgID',$SOrgID)->find($id)
                                             :RenjaRincianModel::select(\DB::raw(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                     "tmPMProv"."Nm_Prov",
                                                                     "tmPmKota"."Nm_Kota",
@@ -1939,7 +1954,7 @@ class UsulanController extends Controller
                                                                 ->join('tmPmKota','tmPmKota.PmKotaID','trRenjaRinc.PmKotaID')
                                                                 ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')                                            
                                                                 ->where('trRenja.OrgID',$OrgID)
-                                                                ->findOrFail($id);        
+                                                                ->find($id);        
                     break;
                 }    
             break;
@@ -1967,7 +1982,7 @@ class UsulanController extends Controller
                                                     ->join('tmPMProv','tmPMProv.PMProvID','trRenjaRinc.PMProvID')
                                                     ->join('tmPmKota','tmPmKota.PmKotaID','trRenjaRinc.PmKotaID')
                                                     ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')                                            
-                                                    ->findOrFail($id);        
+                                                    ->find($id);        
                     break;
                     case 'opd' :
                         $OrgID = $auth->OrgID;
@@ -1993,7 +2008,7 @@ class UsulanController extends Controller
                                                                 ->join('tmPMProv','tmPMProv.PMProvID','trRenjaRinc.PMProvID')
                                                                 ->join('tmPmKota','tmPmKota.PmKotaID','trRenjaRinc.PmKotaID')
                                                                 ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')                                            
-                                                                ->where('trRenja.SOrgID',$SOrgID)->findOrFail($id)
+                                                                ->where('trRenja.SOrgID',$SOrgID)->find($id)
                                             :RenjaRincianModel::select(\DB::raw(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                     "tmPMProv"."Nm_Prov",
                                                                     "tmPmKota"."Nm_Kota",
@@ -2016,7 +2031,7 @@ class UsulanController extends Controller
                                                                 ->join('tmPmKota','tmPmKota.PmKotaID','trRenjaRinc.PmKotaID')
                                                                 ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')                                            
                                                                 ->where('trRenja.OrgID',$OrgID)
-                                                                ->findOrFail($id);        
+                                                                ->find($id);        
                     break;
                 }
             break;
@@ -2044,7 +2059,7 @@ class UsulanController extends Controller
                                                     ->join('tmPMProv','tmPMProv.PMProvID','trRenjaRinc.PMProvID')
                                                     ->join('tmPmKota','tmPmKota.PmKotaID','trRenjaRinc.PmKotaID')
                                                     ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')                                            
-                                                    ->findOrFail($id);        
+                                                    ->find($id);        
                     break;
                     case 'opd' :
                         $OrgID = $auth->OrgID;
@@ -2070,7 +2085,7 @@ class UsulanController extends Controller
                                                                 ->join('tmPMProv','tmPMProv.PMProvID','trRenjaRinc.PMProvID')
                                                                 ->join('tmPmKota','tmPmKota.PmKotaID','trRenjaRinc.PmKotaID')
                                                                 ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')                                            
-                                                                ->where('trRenja.SOrgID',$SOrgID)->findOrFail($id)
+                                                                ->where('trRenja.SOrgID',$SOrgID)->find($id)
                                             :RenjaRincianModel::select(\DB::raw(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                     "tmPMProv"."Nm_Prov",
                                                                     "tmPmKota"."Nm_Kota",
@@ -2093,7 +2108,7 @@ class UsulanController extends Controller
                                                                 ->join('tmPmKota','tmPmKota.PmKotaID','trRenjaRinc.PmKotaID')
                                                                 ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')                                            
                                                                 ->where('trRenja.OrgID',$OrgID)
-                                                                ->findOrFail($id);        
+                                                                ->find($id);        
                     break;
                 }
             break;
@@ -2109,10 +2124,10 @@ class UsulanController extends Controller
                                                                     "trRenjaRinc"."No",
                                                                     "trUsulanKec"."NamaKegiatan",
                                                                     "trRenjaRinc"."Uraian",
-                                                                    "trRenjaRinc"."Sasaran_Angka3" AS "Sasaran_Angka",
-                                                                    "trRenjaRinc"."Sasaran_Uraian3" AS "Sasaran_Uraian",
-                                                                    "trRenjaRinc"."Target3" AS "Target",
-                                                                    "trRenjaRinc"."Jumlah3" AS "Jumlah",
+                                                                    "trRenjaRinc"."Sasaran_Angka4" AS "Sasaran_Angka",
+                                                                    "trRenjaRinc"."Sasaran_Uraian4" AS "Sasaran_Uraian",
+                                                                    "trRenjaRinc"."Target4" AS "Target",
+                                                                    "trRenjaRinc"."Jumlah4" AS "Jumlah",
                                                                     "trRenjaRinc"."Prioritas",
                                                                     "trRenjaRinc"."Descr",
                                                                     "trRenjaRinc"."isSKPD",
@@ -2121,7 +2136,7 @@ class UsulanController extends Controller
                                                     ->join('tmPMProv','tmPMProv.PMProvID','trRenjaRinc.PMProvID')
                                                     ->join('tmPmKota','tmPmKota.PmKotaID','trRenjaRinc.PmKotaID')
                                                     ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')                                            
-                                                    ->findOrFail($id);        
+                                                    ->find($id);        
                     break;
                     case 'opd' :
                         $OrgID = $auth->OrgID;
@@ -2147,7 +2162,7 @@ class UsulanController extends Controller
                                                                 ->join('tmPMProv','tmPMProv.PMProvID','trRenjaRinc.PMProvID')
                                                                 ->join('tmPmKota','tmPmKota.PmKotaID','trRenjaRinc.PmKotaID')
                                                                 ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')                                            
-                                                                ->where('trRenja.SOrgID',$SOrgID)->findOrFail($id)
+                                                                ->where('trRenja.SOrgID',$SOrgID)->find($id)
                                             :RenjaRincianModel::select(\DB::raw(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                     "tmPMProv"."Nm_Prov",
                                                                     "tmPmKota"."Nm_Kota",
@@ -2170,7 +2185,7 @@ class UsulanController extends Controller
                                                                 ->join('tmPmKota','tmPmKota.PmKotaID','trRenjaRinc.PmKotaID')
                                                                 ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')                                            
                                                                 ->where('trRenja.OrgID',$OrgID)
-                                                                ->findOrFail($id);        
+                                                                ->find($id);        
                     break;
                 }
             break;                
@@ -2225,7 +2240,7 @@ class UsulanController extends Controller
                                                                     "trRenjaRinc"."isReses"'))                                            
                                                     ->join('trPokPir','trPokPir.PokPirID','trRenjaRinc.PokPirID')
                                                     ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')                                                        
-                                                    ->findOrFail($id);        
+                                                    ->find($id);        
                     break;
                     case 'opd' :
                         $OrgID = $auth->OrgID;
@@ -2248,7 +2263,7 @@ class UsulanController extends Controller
                                                                 ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')
                                                                 ->join('trPokPir','trPokPir.PokPirID','trRenjaRinc.PokPirID')
                                                                 ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')                                                        
-                                                                ->where('trRenja.SOrgID',$SOrgID)->findOrFail($id)
+                                                                ->where('trRenja.SOrgID',$SOrgID)->find($id)
                                             :RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                                     "trRenjaRinc"."RenjaID",
                                                                                     "trRenjaRinc"."No",
@@ -2268,7 +2283,7 @@ class UsulanController extends Controller
                                                                 ->join('trPokPir','trPokPir.PokPirID','trRenjaRinc.PokPirID')
                                                                 ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')                                                        
                                                                 ->where('trRenja.OrgID',$OrgID)
-                                                                ->findOrFail($id);        
+                                                                ->find($id);        
                     break;
                 }
             break;
@@ -2293,7 +2308,7 @@ class UsulanController extends Controller
                                                                     "trRenjaRinc"."isReses"'))                                            
                                                     ->join('trPokPir','trPokPir.PokPirID','trRenjaRinc.PokPirID')
                                                     ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')                                                        
-                                                    ->findOrFail($id);        
+                                                    ->find($id);        
                     break;
                     case 'opd' :
                         $OrgID = $auth->OrgID;
@@ -2316,7 +2331,7 @@ class UsulanController extends Controller
                                                                 ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')
                                                                 ->join('trPokPir','trPokPir.PokPirID','trRenjaRinc.PokPirID')
                                                                 ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')                                                        
-                                                                ->where('trRenja.SOrgID',$SOrgID)->findOrFail($id)
+                                                                ->where('trRenja.SOrgID',$SOrgID)->find($id)
                                             :RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                                     "trRenjaRinc"."RenjaID",
                                                                                     "trRenjaRinc"."No",
@@ -2336,7 +2351,7 @@ class UsulanController extends Controller
                                                                 ->join('trPokPir','trPokPir.PokPirID','trRenjaRinc.PokPirID')
                                                                 ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')                                                        
                                                                 ->where('trRenja.OrgID',$OrgID)
-                                                                ->findOrFail($id);        
+                                                                ->find($id);        
                     break;
                 }
             break;
@@ -2361,7 +2376,7 @@ class UsulanController extends Controller
                                                                     "trRenjaRinc"."isReses"'))                                            
                                                     ->join('trPokPir','trPokPir.PokPirID','trRenjaRinc.PokPirID')
                                                     ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')                                                        
-                                                    ->findOrFail($id);        
+                                                    ->find($id);        
                     break;
                     case 'opd' :
                         $OrgID = $auth->OrgID;
@@ -2384,7 +2399,7 @@ class UsulanController extends Controller
                                                                 ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')
                                                                 ->join('trPokPir','trPokPir.PokPirID','trRenjaRinc.PokPirID')
                                                                 ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')                                                        
-                                                                ->where('trRenja.SOrgID',$SOrgID)->findOrFail($id)
+                                                                ->where('trRenja.SOrgID',$SOrgID)->find($id)
                                             :RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                                     "trRenjaRinc"."RenjaID",
                                                                                     "trRenjaRinc"."No",
@@ -2404,7 +2419,7 @@ class UsulanController extends Controller
                                                                 ->join('trPokPir','trPokPir.PokPirID','trRenjaRinc.PokPirID')
                                                                 ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')                                                        
                                                                 ->where('trRenja.OrgID',$OrgID)
-                                                                ->findOrFail($id);        
+                                                                ->find($id);        
                     break;
                 }
             break;
@@ -2429,7 +2444,7 @@ class UsulanController extends Controller
                                                                     "trRenjaRinc"."isReses"'))                                            
                                                     ->join('trPokPir','trPokPir.PokPirID','trRenjaRinc.PokPirID')
                                                     ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')                                                        
-                                                    ->findOrFail($id);        
+                                                    ->find($id);        
                     break;
                     case 'opd' :
                         $OrgID = $auth->OrgID;
@@ -2452,7 +2467,7 @@ class UsulanController extends Controller
                                                                 ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')
                                                                 ->join('trPokPir','trPokPir.PokPirID','trRenjaRinc.PokPirID')
                                                                 ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')                                                        
-                                                                ->where('trRenja.SOrgID',$SOrgID)->findOrFail($id)
+                                                                ->where('trRenja.SOrgID',$SOrgID)->find($id)
                                             :RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                                     "trRenjaRinc"."RenjaID",
                                                                                     "trRenjaRinc"."No",
@@ -2472,7 +2487,7 @@ class UsulanController extends Controller
                                                                 ->join('trPokPir','trPokPir.PokPirID','trRenjaRinc.PokPirID')
                                                                 ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')                                                        
                                                                 ->where('trRenja.OrgID',$OrgID)
-                                                                ->findOrFail($id);        
+                                                                ->find($id);        
                     break;
                 }
             break;       
@@ -2694,10 +2709,10 @@ class UsulanController extends Controller
                                                                     "trRenjaRinc"."PmDesaID",
                                                                     "trRenjaRinc"."No",
                                                                     "trRenjaRinc"."Uraian",
-                                                                    "trRenjaRinc"."Sasaran_Angka2" AS "Sasaran_Angka",
-                                                                    "trRenjaRinc"."Sasaran_Uraian2" AS "Sasaran_Uraian",
-                                                                    "trRenjaRinc"."Target2" AS "Target",
-                                                                    "trRenjaRinc"."Jumlah2" AS "Jumlah",
+                                                                    "trRenjaRinc"."Sasaran_Angka4" AS "Sasaran_Angka",
+                                                                    "trRenjaRinc"."Sasaran_Uraian4" AS "Sasaran_Uraian",
+                                                                    "trRenjaRinc"."Target4" AS "Target",
+                                                                    "trRenjaRinc"."Jumlah4" AS "Jumlah",
                                                                     "trRenjaRinc"."Prioritas",
                                                                     "trRenjaRinc"."Descr",
                                                                     "trRenjaRinc"."isSKPD",
@@ -3053,7 +3068,7 @@ class UsulanController extends Controller
                     $rinciankegiatan->save();
         
                     $renja = $rinciankegiatan->renja;            
-                    $renja->NilaiUsulan2=RenjaRincianModel::where('RenjaID',$renja->RenjaID)->sum('Jumlah2');            
+                    $renja->NilaiUsulan3=RenjaRincianModel::where('RenjaID',$renja->RenjaID)->sum('Jumlah3');            
                     $renja->save();
                 break;
                 case 'usulanmusrenkab' :
@@ -3146,6 +3161,7 @@ class UsulanController extends Controller
                         $NilaiUsulan=$renja->NilaiUsulan4;
                     break;                
                 }   
+                $renja->save();
                 return $NilaiUsulan;
             });
             if ($request->ajax()) 
