@@ -177,7 +177,7 @@ class UsulanMusrenKabController extends Controller {
         }
         $this->putControllerStateSession('usulanmusrenkab','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
-        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('pembahasanrenjaopd');         
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('usulanmusrenkab');         
         $data=$this->populateData($currentpage);
         if ($currentpage > $data->lastPage())
         {            

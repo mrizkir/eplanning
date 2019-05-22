@@ -67,6 +67,7 @@ class CreateVVerifikasiRenjaView extends Migration
                 B."isReses",
                 B."isReses_Uraian",
                 B."isSKPD",
+                B."Descr",
                 A."TA"
             FROM "trRenja" A
                 LEFT JOIN "trRenjaRinc" B ON A."RenjaID"=B."RenjaID" AND A."TA"=B."TA"

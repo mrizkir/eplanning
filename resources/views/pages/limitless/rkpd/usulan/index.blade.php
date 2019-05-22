@@ -96,10 +96,12 @@
 @endsection
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/switch.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {  
+    $(".switch").bootstrapSwitch();
     //styling select
     $('#OrgID.select').select2({
         placeholder: "PILIH OPD / SKPD",
@@ -129,6 +131,7 @@ $(document).ready(function () {
                 
                 $('#SOrgID').html(listitems);
                 $('#divdatatable').html(result.datatable);
+                $(".switch").bootstrapSwitch();
             },
             error:function(xhr, status, error){
                 console.log('ERROR');
@@ -149,6 +152,7 @@ $(document).ready(function () {
             success:function(result)
             { 
                 $('#divdatatable').html(result.datatable);
+                $(".switch").bootstrapSwitch();
             },
             error:function(xhr, status, error){
                 console.log('ERROR');
@@ -173,7 +177,8 @@ $(document).ready(function () {
                 },
                 success:function(result){ 
                     if (result.success==1){
-                        $('#divdatatable').html(result.datatable);                        
+                        $('#divdatatable').html(result.datatable);       
+                        $(".switch").bootstrapSwitch();                 
                     }else{
                         console.log("Gagal menghapus data {{ucwords(strtolower($page_title))}} dengan id "+id);
                     }                    
