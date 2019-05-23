@@ -57,6 +57,18 @@ class HelperKegiatan {
             case 'usulanmusrenkab' :
                 $level = 3;
             break;
+            case 'pembahasanprarenjaopd' :
+                $level = 0;
+            break;
+            case 'pembahasanrakorbidang' :
+                $level = 1;
+            break;
+            case 'pembahasanforumopd' :
+                $level = 2;
+            break;
+            case 'pembahasanmusrenkab' :
+                $level = 3;
+            break;
             default :
                 $level = null;
         }

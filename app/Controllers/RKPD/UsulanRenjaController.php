@@ -9,26 +9,10 @@ use App\Models\RKPD\RenjaIndikatorModel;
 use App\Models\RKPD\RenjaModel;
 use App\Models\RKPD\RenjaRincianModel;
 
-class UsulanRenjaController extends Controller 
-{
-     /**
-     * nama session
-     */
-    private $PageTitle;
-    /**
-     * nama session
-     */
-    private $SessionName;
 
-     /**
-     * nama dari halaman saat ini 
-     */
-    private $NameOfPage;
+class UsulanRenjaController extends Controller 
+{    
     /**
-     * nama session
-     */
-    private $LabelTransfer;
-     /**
      * Membuat sebuah objek
      *
      * @return void
@@ -187,7 +171,7 @@ class UsulanRenjaController extends Controller
                                                             "isReses",
                                                             "isReses_Uraian",
                                                             "trRenjaRinc"."Descr"'))
-                                        ->where('trRenjaRinc.EntryLvl',0);
+                                        ->where('trRenjaRinc.EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage));
             break;
             case 'usulanrakorbidang' :
                 $data = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
@@ -207,7 +191,7 @@ class UsulanRenjaController extends Controller
                                                             "isReses",
                                                             "isReses_Uraian",
                                                             "trRenjaRinc"."Descr"'))
-                                        ->where('trRenjaRinc.EntryLvl',1);  
+                                        ->where('trRenjaRinc.EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage));  
             break;
             case 'usulanforumopd' :
                 $data = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
@@ -227,7 +211,7 @@ class UsulanRenjaController extends Controller
                                                             "isReses",
                                                             "isReses_Uraian",
                                                             "trRenjaRinc"."Descr"'))
-                                        ->where('trRenjaRinc.EntryLvl',2);  
+                                        ->where('trRenjaRinc.EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage));  
             break;
             case 'usulanmusrenkab' :
                  $data = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
@@ -247,7 +231,7 @@ class UsulanRenjaController extends Controller
                                                             "isReses",
                                                             "isReses_Uraian",
                                                             "trRenjaRinc"."Descr"'))
-                                        ->where('trRenjaRinc.EntryLvl',3);  
+                                        ->where('trRenjaRinc.EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage));  
             break;
         }
         $data = $data->leftJoin('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')
@@ -649,8 +633,8 @@ class UsulanRenjaController extends Controller
                                                             'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
                                                             'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
                                                             'paguanggaranopd'=>$paguanggaranopd,
-                                                            'totalpaguindikatifopd'=>RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('globalsettings.tahun_perencanaan'),3,$filters['OrgID']),
-                                                            'totalpaguindikatifunitkerja' => RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('globalsettings.tahun_perencanaan'),3,$filters['SOrgID']),            
+                                                            'totalpaguindikatifopd'=>RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('globalsettings.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['OrgID']),
+                                                            'totalpaguindikatifunitkerja' => RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('globalsettings.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['SOrgID']),            
                                                             'data'=>$data]);
     }   
     public function pilihusulankegiatan(Request $request)

@@ -11,8 +11,28 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;    
+    /**
+     * nama session
+     */
+    protected $PageTitle;
+    /**
+     * nama session
+     */
+    protected $SessionName;
 
+     /**
+     * nama dari halaman saat ini 
+     */
+    protected $NameOfPage;
+    /**
+     * nama session
+     */
+    protected $LabelTransfer;
+    /**
+     * digunakan untuk menampung daftar theme
+     */
     protected $listOfthemes;
+
     public function __construct () 
     {          
         $this->listOfthemes=$this->getListThemes(false);
