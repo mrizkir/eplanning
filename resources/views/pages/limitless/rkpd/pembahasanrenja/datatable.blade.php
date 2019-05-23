@@ -128,7 +128,7 @@
                     <td>{{$item->Target}}</td>
                     <td class="text-right">{{Helper::formatuang($item->Jumlah)}}</td>
                     <td>
-                        <span class="label label-flat border-success text-success-600">
+                        <span class="label label-flat border-pink text-pink-600">
                             {{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}
                         </span>
                     </td>
