@@ -21,7 +21,8 @@
                 <th>NAMA INDIKATOR</th>                
                 <th>TARGET ANGKA</th>
                 <th>TARGET URAIAN</th>                        
-                <th>TAHUN KE</th>                        
+                <th>TAHUN KE</th> 
+                <th>VERIFIKASI</th>                       
                 <th width="120">AKSI</th>
             </tr>
         </thead>
@@ -34,7 +35,18 @@
                 <td>{{$item->NamaIndikator}}</td>
                 <td>{{$item->Target_Angka}}</td>
                 <td>{{$item->Target_Uraian}}</td>                        
-                <td>{{$item->Tahun}} ({{$item->TA}})</td>                        
+                <td>{{$item->Tahun}} ({{$item->TA}})</td>  
+                <td>
+                    @if ($item->Privilege==0)
+                    <span class="label label-flat border-grey text-grey-600 label-icon">
+                        <i class="icon-cross2"></i>
+                    </span>
+                    @else
+                    <span class="label label-flat border-success text-success-600 label-icon">
+                        <i class="icon-checkmark"></i>
+                    </span>                            
+                    @endif   
+                </td>                      
                 <td>
                     @if ($item->Privilege==0)
                     <ul class="icons-list">
@@ -50,9 +62,7 @@
                         </li>
                     </ul>
                     @else
-                        <span class="label label-success label-flat text-success-600">
-                            TRANSFERED
-                        </span>
+                        N.A
                     @endif
                 </td>
             </tr>

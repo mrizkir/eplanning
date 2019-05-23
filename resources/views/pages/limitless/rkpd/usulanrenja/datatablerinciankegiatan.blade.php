@@ -30,6 +30,7 @@
                 <th class="text-right">NILAI USULAN</th>                
                 <th width="120">PRIORITAS</th>   
                 <th width="80">STATUS</th>                                       
+                <th width="80">VERIFIKASI</th>                                       
                 <th width="120">AKSI</th>
             </tr>
         </thead>
@@ -68,12 +69,23 @@
                 <td>{{$item->Target}}</td>               
                 <td class="text-right">{{Helper::formatUang($item->Jumlah)}}</td>       
                 <td>
-                    <span class="label label-flat border-success text-success-600">
+                    <span class="label label-flat border-pink text-pink-600">
                         {{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}
                     </span>
-                </td>
+                </td>                
                 <td>
                     @include('layouts.limitless.l_status_kegiatan')
+                </td>
+                <td>
+                    @if ($item->Privilege==0)
+                    <span class="label label-flat border-grey text-grey-600 label-icon">
+                        <i class="icon-cross2"></i>
+                    </span>
+                    @else
+                    <span class="label label-flat border-success text-success-600 label-icon">
+                        <i class="icon-checkmark"></i>
+                    </span>                            
+                    @endif     
                 </td>
                 <td>                   
                     <ul class="icons-list"> 
@@ -106,11 +118,7 @@
                             <a class="btnDelete" href="javascript:;" title="Hapus Data Rincian Kegiatan" data-id="{{$item->RenjaRincID}}" data-url="{{route(Helper::getNameOfPage('index'))}}">
                                 <i class='icon-trash'></i>
                             </a> 
-                        </li>                   
-                        @else
-                        <span class="label label-success label-flat text-success-600">
-                            TRANSFERED
-                        </span>
+                        </li>             
                         @endif
                     </ul>
                 </td>
@@ -133,7 +141,7 @@
             <tr class="bg-grey-300" style="font-weight:bold">
                 <td colspan="4" class="text-right">TOTAL</td>
                 <td class="text-right">{{Helper::formatUang($datarinciankegiatan->sum('Jumlah'))}}</td> 
-                <td colspan="3"></td>
+                <td colspan="4"></td>
             </tr>
         </tfoot>
     </table>       

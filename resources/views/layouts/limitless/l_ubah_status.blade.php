@@ -96,7 +96,7 @@
         </li>          
         @endif 
         <li class="text-primary-600">        
-            <a class="btnEdit" href="{{route($page_active.'.show',['id'=>$item->RenjaRincID])}}" title="Detail Data Usulan">
+            <a class="btnEdit" href="{{route($page_active.'.showrincian',['id'=>$item->RenjaRincID])}}" title="Detail Data Usulan">
                 <i class='icon-eye'></i> DETAIL RINCIAN
             </a>             
         </li> 

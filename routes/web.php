@@ -143,7 +143,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
 
      //workflow - Pembahasan Musrenbang Desa [pembahasan]
     Route::resource('/workflow/musrenbang/pembahasanmusrendesa','Musrenbang\PembahasanMusrenDesaController',['parameters'=>['pembahasanmusrendesa'=>'uuid'],
-                                                                                                    'only'=>['index','show','update']]); 
+                                                                                                    'only'=>['index','update']]); 
     Route::post('/workflow/musrenbang/pembahasanmusrendesa/search',['uses'=>'Musrenbang\PembahasanMusrenDesaController@search','as'=>'pembahasanmusrendesa.search']);  
     Route::post('/workflow/musrenbang/pembahasanmusrendesa/filter',['uses'=>'Musrenbang\PembahasanMusrenDesaController@filter','as'=>'pembahasanmusrendesa.filter']);              
     Route::get('/workflow/musrenbang/pembahasanmusrendesa/paginate/{id}',['uses'=>'Musrenbang\PembahasanMusrenDesaController@paginate','as'=>'pembahasanmusrendesa.paginate']);              
@@ -164,7 +164,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     
     //workflow - Pembahasan Musrenbang Kecamatan [pembahasan]
     Route::resource('/workflow/musrenbang/pembahasanmusrenkecamatan','Musrenbang\PembahasanMusrenKecamatanController',['parameters'=>['pembahasanmusrenkecamatan'=>'uuid'],
-                                                                                                              'only'=>['index','show','update']]); 
+                                                                                                              'only'=>['index','update']]); 
     Route::post('/workflow/musrenbang/pembahasanmusrenkecamatan/search',['uses'=>'Musrenbang\PembahasanMusrenKecamatanController@search','as'=>'pembahasanmusrenkecamatan.search']);  
     Route::post('/workflow/musrenbang/pembahasanmusrenkecamatan/filter',['uses'=>'Musrenbang\PembahasanMusrenKecamatanController@filter','as'=>'pembahasanmusrenkecamatan.filter']);              
     Route::get('/workflow/musrenbang/pembahasanmusrenkecamatan/paginate/{id}',['uses'=>'Musrenbang\PembahasanMusrenKecamatanController@paginate','as'=>'pembahasanmusrenkecamatan.paginate']);              
@@ -200,8 +200,9 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     
     //workflow - Pembahasan Pra Renja OPD/SKPD [pembahasan]
     Route::resource('/workflow/rkpd/pembahasanprarenjaopd','RKPD\PembahasanRenjaController',['parameters'=>['pembahasanprarenjaopd'=>'uuid'],
-                                                                                                        'only'=>['index','show','edit','update']]);
+                                                                                                        'only'=>['index','edit','update']]);
     Route::put('/workflow/rkpd/pembahasanprarenjaopd/update2/{uuid}',['uses'=>'RKPD\PembahasanRenjaController@update2','as'=>'pembahasanprarenjaopd.update2']);
+    Route::get('/workflow/rkpd/pembahasanprarenjaopd/showrincian/{uuid}',['uses'=>'RKPD\PembahasanRenjaController@showrincian','as'=>'pembahasanprarenjaopd.showrincian']); 
     Route::post('/workflow/rkpd/pembahasanprarenjaopd/search',['uses'=>'RKPD\PembahasanRenjaController@search','as'=>'pembahasanprarenjaopd.search']);  
     Route::post('/workflow/rkpd/pembahasanprarenjaopd/filter',['uses'=>'RKPD\PembahasanRenjaController@filter','as'=>'pembahasanprarenjaopd.filter']);              
     Route::get('/workflow/rkpd/pembahasanprarenjaopd/paginate/{id}',['uses'=>'RKPD\PembahasanRenjaController@paginate','as'=>'pembahasanprarenjaopd.paginate']);              
@@ -238,8 +239,9 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     
     //Workflow- Pembahasan Rakor Bidang OPD/SKPD [pembahasan]
     Route::resource('/workflow/rkpd/pembahasanrakorbidang','RKPD\PembahasanRenjaController',['parameters'=>['pembahasanrakorbidang'=>'uuid'],
-                                                                                                              'only'=>['index','show','edit','update']]); 
+                                                                                                              'only'=>['index','edit','update']]); 
     Route::put('/workflow/rkpd/pembahasanrakorbidang/update2/{uuid}',['uses'=>'RKPD\PembahasanRenjaController@update2','as'=>'pembahasanrakorbidang.update2']);
+    Route::get('/workflow/rkpd/pembahasanrakorbidang/showrincian/{uuid}',['uses'=>'RKPD\PembahasanRenjaController@showrincian','as'=>'pembahasanrakorbidang.showrincian']); 
     Route::post('/workflow/rkpd/pembahasanrakorbidang/search',['uses'=>'RKPD\PembahasanRenjaController@search','as'=>'pembahasanrakorbidang.search']);  
     Route::post('/workflow/rkpd/pembahasanrakorbidang/filter',['uses'=>'RKPD\PembahasanRenjaController@filter','as'=>'pembahasanrakorbidang.filter']);              
     Route::get('/workflow/rkpd/pembahasanrakorbidang/paginate/{id}',['uses'=>'RKPD\PembahasanRenjaController@paginate','as'=>'pembahasanrakorbidang.paginate']);              
@@ -276,8 +278,9 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     
     //Workflow- Pembahasan Forum OPD/SKPD [pembahasan]
     Route::resource('/workflow/rkpd/pembahasanforumopd','RKPD\PembahasanRenjaController',['parameters'=>['pembahasanforumopd'=>'uuid'],
-                                                                                                              'only'=>['index','show','edit','update']]); 
+                                                                                                              'only'=>['index','edit','update']]); 
     Route::put('/workflow/rkpd/pembahasanforumopd/update2/{uuid}',['uses'=>'RKPD\PembahasanRenjaController@update2','as'=>'pembahasanforumopd.update2']);
+    Route::get('/workflow/rkpd/pembahasanforumopd/showrincian/{uuid}',['uses'=>'RKPD\PembahasanRenjaController@showrincian','as'=>'pembahasanforumopd.showrincian']); 
     Route::post('/workflow/rkpd/pembahasanforumopd/search',['uses'=>'RKPD\PembahasanRenjaController@search','as'=>'pembahasanforumopd.search']);  
     Route::post('/workflow/rkpd/pembahasanforumopd/filter',['uses'=>'RKPD\PembahasanRenjaController@filter','as'=>'pembahasanforumopd.filter']);              
     Route::get('/workflow/rkpd/pembahasanforumopd/paginate/{id}',['uses'=>'RKPD\PembahasanRenjaController@paginate','as'=>'pembahasanforumopd.paginate']);              
@@ -314,8 +317,9 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     
     //Workflow- Pembahasan Musrenbang Kabupaten [pembahasan]
     Route::resource('/workflow/musrenbang/pembahasanmusrenkab','RKPD\PembahasanRenjaController',['parameters'=>['pembahasanmusrenkab'=>'uuid'],
-                                                                                                              'only'=>['index','show','edit','update']]); 
+                                                                                                              'only'=>['index','edit','update']]); 
     Route::put('/workflow/musrenbang/pembahasanmusrenkab/update2/{uuid}',['uses'=>'RKPD\PembahasanRenjaController@update2','as'=>'pembahasanmusrenkab.update2']);  
+    Route::get('/workflow/rkpd/pembahasanmusrenkab/showrincian/{uuid}',['uses'=>'RKPD\PembahasanRenjaController@showrincian','as'=>'pembahasanmusrenkab.showrincian']); 
     Route::post('/workflow/musrenbang/pembahasanmusrenkab/search',['uses'=>'RKPD\PembahasanRenjaController@search','as'=>'pembahasanmusrenkab.search']);  
     Route::post('/workflow/musrenbang/pembahasanmusrenkab/filter',['uses'=>'RKPD\PembahasanRenjaController@filter','as'=>'pembahasanmusrenkab.filter']);              
     Route::get('/workflow/musrenbang/pembahasanmusrenkab/paginate/{id}',['uses'=>'RKPD\PembahasanRenjaController@paginate','as'=>'pembahasanmusrenkab.paginate']);              
@@ -325,7 +329,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     
     //Workflow- verifikasi renja [pembahasan tapd]
     Route::resource('/workflow/rkpd/verifikasirenja','RKPD\VerifikasiRenjaController',['parameters'=>['verifikasirenja'=>'uuid'],
-                                                                                                              'only'=>['index','show','edit','update']]); 
+                                                                                                              'only'=>['index','edit','update']]); 
     Route::post('/workflow/rkpd/verifikasirenja/search',['uses'=>'RKPD\VerifikasiRenjaController@search','as'=>'verifikasirenja.search']);  
     Route::post('/workflow/rkpd/verifikasirenja/filter',['uses'=>'RKPD\VerifikasiRenjaController@filter','as'=>'verifikasirenja.filter']);              
     Route::get('/workflow/rkpd/verifikasirenja/paginate/{id}',['uses'=>'RKPD\VerifikasiRenjaController@paginate','as'=>'verifikasirenja.paginate']);              

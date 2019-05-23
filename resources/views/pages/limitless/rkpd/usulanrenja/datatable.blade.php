@@ -75,14 +75,15 @@
                         </a>                                             
                     </th> 
                     <th width="120">                        
-                        PRIORITAS                          
+                        PRIO.                        
                     </th>
                     <th width="80">
                         <a class="column-sort text-white" id="col-status" data-order="{{$direction}}" href="#">
                             STATUS  
                         </a>                                             
                     </th> 
-                    <th width="150">AKSI</th>
+                    <th>VER.</th>
+                    <th width="200">AKSI</th>
                 </tr>
             </thead>
             <tbody>                    
@@ -149,12 +150,23 @@
                     <td>{{$item->Target}}</td>
                     <td class="text-right">{{Helper::formatuang($item->Jumlah)}}</td>
                     <td>
-                        <span class="label label-flat border-success text-success-600">
+                        <span class="label label-flat border-pink text-pink-600">
                             {{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}
                         </span>
-                    </td>
+                    </td>                    
                     <td>
                         @include('layouts.limitless.l_status_kegiatan')    
+                    </td>
+                    <td>                    
+                        @if ($item->Privilege==0)
+                        <span class="label label-flat border-grey text-grey-600 label-icon">
+                            <i class="icon-cross2"></i>
+                        </span>
+                        @else
+                            <span class="label label-flat border-success text-success-600 label-icon">
+                                <i class="icon-checkmark"></i>
+                            </span>                            
+                        @endif                    
                     </td>
                     <td>
                         <ul class="icons-list">
@@ -194,7 +206,7 @@
                     @endif                    
                 </tr>
                 <tr class="text-center info">
-                    <td colspan="10">
+                    <td colspan="11">
                         <span class="label label-warning label-rounded">
                             <strong>RenjaID:</strong>
                             {{$item->RenjaID}}

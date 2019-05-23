@@ -79,7 +79,25 @@ class UsulanRenjaController extends Controller
         switch ($this->NameOfPage) 
         {            
             case 'usulanprarenjaopd' :
-                $rawSql = \DB::raw('"RenjaID","RenjaRincID","UsulanKecID","Nm_Kecamatan","kode_kegiatan","KgtNm","Uraian","Sasaran_Angka1" AS "Sasaran_Angka","Sasaran_Uraian1" AS "Sasaran_Uraian","Target1" AS "Target","Jumlah1" AS "Jumlah","Prioritas","isSKPD","isReses","isReses_Uraian","Status","Privilege","Status_Indikator","Descr"');
+                $rawSql = \DB::raw('"RenjaID",
+                                    "RenjaRincID",
+                                    "UsulanKecID",
+                                    "Nm_Kecamatan",
+                                    "kode_kegiatan",
+                                    "KgtNm",
+                                    "Uraian",
+                                    "Sasaran_Angka1" AS "Sasaran_Angka",
+                                    "Sasaran_Uraian1" AS "Sasaran_Uraian",
+                                    "Target1" AS "Target",
+                                    "Jumlah1" AS "Jumlah",
+                                    "Prioritas",
+                                    "isSKPD",
+                                    "isReses",
+                                    "isReses_Uraian",
+                                    "Status",
+                                    "Privilege",
+                                    "Status_Indikator",
+                                    "Descr"');
             break;
             case 'usulanrakorbidang' :
                 $rawSql = \DB::raw('"RenjaID",
@@ -291,6 +309,7 @@ class UsulanRenjaController extends Controller
             {
                 case 'kode_kegiatan' :
                     $data = \DB::table($this->getViewName())
+                                ->select($this->getField())
                                 ->where(['kode_kegiatan'=>$search['isikriteria']])                                                    
                                 ->where('SOrgID',$SOrgID)
                                 ->where('TA', config('globalsettings.tahun_perencanaan'))
@@ -299,6 +318,7 @@ class UsulanRenjaController extends Controller
                 break;
                 case 'KgtNm' :
                     $data = \DB::table($this->getViewName())
+                                ->select($this->getField())
                                 ->where('KgtNm', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                 ->where('SOrgID',$SOrgID)
                                 ->where('TA', config('globalsettings.tahun_perencanaan'))
@@ -386,6 +406,29 @@ class UsulanRenjaController extends Controller
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
     }
+     /**
+     * paginate resource in storage called by ajax
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function paginate ($id) 
+    {
+        $theme = \Auth::user()->theme;
+
+        $this->setCurrentPageInsideSession($this->SessionName,$id);
+        $data=$this->populateData($id);
+        $datatable = view("pages.$theme.rkpd.usulanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
+                                                                                'page_title'=>$this->getPageTitle(),
+                                                                                'label_transfer'=>$this->LabelTransfer,
+                                                                                'search'=>$this->getControllerStateSession($this->SessionName,'search'),
+                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                                                'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
+                                                                                'data'=>$data])->render(); 
+
+        return response()->json(['success'=>true,'datatable'=>$datatable],200);        
+    }
     /**
      * digunakan untuk mengganti jumlah record per halaman
      * @param  \Illuminate\Http\Request  $request
@@ -468,12 +511,12 @@ class UsulanRenjaController extends Controller
 
             $data = $this->populateData();            
             $datatable = view("pages.$theme.rkpd.usulanrenja.datatable")->with(['page_active'=>$this->NameOfPage,   
-                                                                            'page_title'=>$this->getPageTitle(),                                                                                                                                    
-                                                                            'search'=>$this->getControllerStateSession($this->SessionName,'search'),
-                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                            'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
-                                                                            'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
-                                                                            'data'=>$data])->render();                                                                                       
+                                                                                'page_title'=>$this->getPageTitle(),                                                                                                                                    
+                                                                                'search'=>$this->getControllerStateSession($this->SessionName,'search'),
+                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                                                'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
+                                                                                'data'=>$data])->render();                                                                                       
                         
             $totalpaguindikatifunitkerja = RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('globalsettings.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['SOrgID']);            
             
@@ -573,6 +616,40 @@ class UsulanRenjaController extends Controller
         return response()->json($json_data,200);  
     }
     /**
+     * search resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function search (Request $request) 
+    {
+        $theme = \Auth::user()->theme;
+
+        $action = $request->input('action');
+        if ($action == 'reset') 
+        {
+            $this->destroyControllerStateSession($this->SessionName,'search');
+        }
+        else
+        {
+            $kriteria = $request->input('cmbKriteria');
+            $isikriteria = $request->input('txtKriteria');
+            $this->putControllerStateSession($this->SessionName,'search',['kriteria'=>$kriteria,'isikriteria'=>$isikriteria]);
+        }      
+        $this->setCurrentPageInsideSession($this->SessionName,1);
+        $data=$this->populateData();
+
+        $datatable = view("pages.$theme.rkpd.usulanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
+                                                                            'page_title'=>$this->getPageTitle(),                                                            
+                                                                            'search'=>$this->getControllerStateSession($this->SessionName,'search'),
+                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                            'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                                            'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
+                                                                            'data'=>$data])->render();      
+        
+        return response()->json(['success'=>true,'datatable'=>$datatable],200);        
+    }
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -624,18 +701,18 @@ class UsulanRenjaController extends Controller
                                                                     ->value('Jumlah1');
 
         return view("pages.$theme.rkpd.usulanrenja.index")->with(['page_active'=>$this->NameOfPage, 
-                                                            'page_title'=>$this->getPageTitle(),
-                                                            'daftar_opd'=>$daftar_opd,
-                                                            'daftar_unitkerja'=>$daftar_unitkerja,
-                                                            'filters'=>$filters,
-                                                            'search'=>$this->getControllerStateSession($this->SessionName,'search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                            'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
-                                                            'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
-                                                            'paguanggaranopd'=>$paguanggaranopd,
-                                                            'totalpaguindikatifopd'=>RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('globalsettings.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['OrgID']),
-                                                            'totalpaguindikatifunitkerja' => RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('globalsettings.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['SOrgID']),            
-                                                            'data'=>$data]);
+                                                                'page_title'=>$this->getPageTitle(),
+                                                                'daftar_opd'=>$daftar_opd,
+                                                                'daftar_unitkerja'=>$daftar_unitkerja,
+                                                                'filters'=>$filters,
+                                                                'search'=>$this->getControllerStateSession($this->SessionName,'search'),
+                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                                'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
+                                                                'paguanggaranopd'=>$paguanggaranopd,
+                                                                'totalpaguindikatifopd'=>RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('globalsettings.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['OrgID']),
+                                                                'totalpaguindikatifunitkerja' => RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('globalsettings.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['SOrgID']),            
+                                                                'data'=>$data]);
     }   
     public function pilihusulankegiatan(Request $request)
     {
@@ -1558,6 +1635,7 @@ class UsulanRenjaController extends Controller
                                             "NilaiUsulan1" AS "NilaiUsulan",
                                             "NilaiSetelah",
                                             "Nm_SumberDana",
+                                            "trRenja"."Privilege",
                                             "trRenja"."created_at",
                                             "trRenja"."updated_at"
                                             '))
@@ -1585,6 +1663,7 @@ class UsulanRenjaController extends Controller
                                             "NilaiUsulan2" AS "NilaiUsulan",
                                             "NilaiSetelah",
                                             "Nm_SumberDana",
+                                            "trRenja"."Privilege",
                                             "trRenja"."created_at",
                                             "trRenja"."updated_at"
                                             '))
@@ -1612,6 +1691,7 @@ class UsulanRenjaController extends Controller
                                                     "NilaiUsulan3" AS "NilaiUsulan",
                                                     "NilaiSetelah",
                                                     "Nm_SumberDana",
+                                                    "trRenja"."Privilege",
                                                     "trRenja"."created_at",
                                                     "trRenja"."updated_at"
                                             '))
@@ -1639,6 +1719,7 @@ class UsulanRenjaController extends Controller
                                             "NilaiUsulan4" AS "NilaiUsulan",
                                             "NilaiSetelah",
                                             "Nm_SumberDana",
+                                            "trRenja"."Privilege",
                                             "trRenja"."created_at",
                                             "trRenja"."updated_at"
                                             '))
@@ -1682,6 +1763,7 @@ class UsulanRenjaController extends Controller
                                                             "trRenjaRinc"."Prioritas",
                                                             "trRenjaRinc"."Status",
                                                             "trRenjaRinc"."Descr",
+                                                            "trRenjaRinc"."Privilege",
                                                             "trRenjaRinc"."created_at",
                                                             "trRenjaRinc"."updated_at"'))    
                                             ->findOrFail($id);
@@ -1698,6 +1780,7 @@ class UsulanRenjaController extends Controller
                                                             "trRenjaRinc"."Prioritas",
                                                             "trRenjaRinc"."Status",
                                                             "trRenjaRinc"."Descr",
+                                                            "trRenjaRinc"."Privilege",
                                                             "trRenjaRinc"."created_at",
                                                             "trRenjaRinc"."updated_at"'))    
                                             ->findOrFail($id);
@@ -1714,6 +1797,7 @@ class UsulanRenjaController extends Controller
                                                             "trRenjaRinc"."Prioritas",
                                                             "trRenjaRinc"."Status",
                                                             "trRenjaRinc"."Descr",
+                                                            "trRenjaRinc"."Privilege",
                                                             "trRenjaRinc"."created_at",
                                                             "trRenjaRinc"."updated_at"'))    
                                             ->findOrFail($id);
@@ -1730,6 +1814,7 @@ class UsulanRenjaController extends Controller
                                                             "trRenjaRinc"."Prioritas",
                                                             "trRenjaRinc"."Status",
                                                             "trRenjaRinc"."Descr",
+                                                            "trRenjaRinc"."Privilege",
                                                             "trRenjaRinc"."created_at",
                                                             "trRenjaRinc"."updated_at"'))    
                                             ->findOrFail($id);

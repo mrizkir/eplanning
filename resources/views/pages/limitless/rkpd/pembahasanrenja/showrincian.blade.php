@@ -28,27 +28,8 @@
                         <span class="label label-success label-rounded">SUDAH DI TRANSFER</span>
                     @endif
                 </h5>
-                <div class="heading-elements">   
-                 @if ($renja->Privilege==0))
-                     @if ($renja->isSKPD)
-                        <a href="{{route(Helper::getNameOfPage('edit4'),['id'=>$renja->RenjaRincID])}}" title="Ubah Data {{$page_title}}" class="btn btn-primary btn-icon heading-btn btnEdit">
-                            <i class='icon-pencil7'></i>
-                        </a> 
-                    @elseif($renja->isReses)
-                        <a href="{{route(Helper::getNameOfPage('edit3'),['id'=>$renja->RenjaRincID])}}" title="Ubah Data {{$page_title}}" class="btn btn-primary btn-icon heading-btn btnEdit">
-                            <i class='icon-pencil7'></i>
-                        </a>
-                    @elseif(!empty($renja->UsulanKecID))
-                        <a href="{{route(Helper::getNameOfPage('edit2'),['id'=>$renja->RenjaRincID])}}" title="Ubah Data {{$page_title}}" class="btn btn-primary btn-icon heading-btn btnEdit">
-                            <i class='icon-pencil7'></i>
-                        </a>
-                    @else
-                        <a href="{{route(Helper::getNameOfPage('edit4'),['id'=>$renja->RenjaRincID])}}" title="Ubah Data {{$page_title}}" class="btn btn-primary btn-icon heading-btn btnEdit">
-                            <i class='icon-pencil7'></i>
-                        </a>
-                    @endif                    
-                    @endif{{-- akhir privilege --}}
-                    <a href="{!!route(Helper::getNameOfPage('show'),['id'=>$renja->RenjaID])!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
+                <div class="heading-elements">                      
+                    <a href="{!!route(Helper::getNameOfPage('index'))!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
                         <i class="icon-close2"></i>
                     </a>  
                 </div>

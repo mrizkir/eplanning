@@ -24,11 +24,11 @@
                 <h5 class="panel-title"> 
                     <i class="icon-eye"></i>  DATA USULAN {{$page_title}}
                 </h5>
-                <div class="heading-elements">                    
+                <div class="heading-elements">
+                    @if ($renja->Privilege==0)
                     <a href="{{route(Helper::getNameOfPage('edit'),['id'=>$renja->RenjaID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Usulan {{$page_title}}">
                         <i class="icon-pencil7"></i>
-                    </a>
-                    @if ($renja->Privilege==0)                       
+                    </a>                       
                     <a href="javascript:;" title="Hapus Data Usulan {{$page_title}}" data-id="{{$renja->RenjaID}}" data-url="{{route(Helper::getNameOfPage('index'))}}" class="btn btn-danger btn-icon heading-btn btnDeleteRenja">
                         <i class='icon-trash'></i>
                     </a>

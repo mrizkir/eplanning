@@ -9,7 +9,7 @@ use App\Models\RKPD\RenjaIndikatorModel;
 use App\Models\RKPD\RenjaModel;
 use App\Models\RKPD\RenjaRincianModel;
 
-class PembahasanRenjaController extends Controller {
+class PembahasanRenjaController extends Controller {    
     /**
      * Membuat sebuah objek
      *
@@ -23,6 +23,10 @@ class PembahasanRenjaController extends Controller {
         $this->SessionName=$this->getNameForSession();      
         //set nama halaman saat ini
         $this->NameOfPage = \Helper::getNameOfPage();
+
+        //set nama halaman saat ini
+        $this->LabelTransfer = $this->getLabelTransfer();
+
     }
     private function getPageTitle()
     {
@@ -45,6 +49,27 @@ class PembahasanRenjaController extends Controller {
         }
         return $pagetitle;
     }
+    private function getLabelTransfer()
+    {
+        switch ($this->NameOfPage) 
+        {            
+            case 'pembahasanprarenjaopd' :
+               $pagetitle = 'RAKOR BIDANG';
+            break;
+            case 'pembahasanrakorbidang' :
+                $pagetitle = 'FORUM OPD / SKPD';
+            break;
+            case 'pembahasanforumopd' :
+                $pagetitle = 'MUSRENBANG KABUPATEN';
+            break;
+            case 'pembahasanmusrenkab' :
+                $pagetitle = 'VERIFIKASI TAPD';                
+            break;           
+            default :
+                $pagetitle = 'WORKFLOW';
+        }
+        return $pagetitle;
+    }
     /**
      * digunakan untuk mendapatkan nama view db
      */
@@ -52,16 +77,16 @@ class PembahasanRenjaController extends Controller {
     {
         switch ($this->NameOfPage) 
         {            
-            case 'usulanprarenjaopd' :
+            case 'pembahasanprarenjaopd' :
                 $dbViewName = 'v_usulan_pra_renja_opd';
             break;
-            case 'usulanrakorbidang' :
+            case 'pembahasanrakorbidang' :
                 $dbViewName = 'v_usulan_rakor_bidang';
             break;
-            case 'usulanforumopd' :
+            case 'pembahasanforumopd' :
                 $dbViewName = 'v_usulan_forum_opd';
             break;
-            case 'usulanmusrenkab' :
+            case 'pembahasanmusrenkab' :
                 $dbViewName = 'v_usulan_musren_kab';
             break;
             default :
@@ -76,15 +101,35 @@ class PembahasanRenjaController extends Controller {
     {
         switch ($this->NameOfPage) 
         {            
-            case 'usulanprarenjaopd' :
-                $rawSql = \DB::raw('"RenjaID","RenjaRincID","UsulanKecID","Nm_Kecamatan","kode_kegiatan","KgtNm","Uraian","Sasaran_Angka1" AS "Sasaran_Angka","Sasaran_Uraian1" AS "Sasaran_Uraian","Target1" AS "Target","Jumlah1" AS "Jumlah","Prioritas","isSKPD","isReses","isReses_Uraian","Status","Privilege","Status_Indikator","Descr"');
+            case 'pembahasanprarenjaopd' :
+                $rawSql = \DB::raw('"RenjaID",                                    
+                                    "RenjaRincID",
+                                    "UsulanKecID",
+                                    "Nm_Kecamatan",
+                                    "kode_kegiatan",
+                                    "No",
+                                    "KgtNm",
+                                    "Uraian",
+                                    "Sasaran_Angka1" AS "Sasaran_Angka",
+                                    "Sasaran_Uraian1" AS "Sasaran_Uraian",
+                                    "Target1" AS "Target",
+                                    "Jumlah1" AS "Jumlah",
+                                    "Prioritas",
+                                    "isSKPD",
+                                    "isReses",
+                                    "isReses_Uraian",
+                                    "Status",
+                                    "Privilege",
+                                    "Status_Indikator",
+                                    "Descr"');
             break;
-            case 'usulanrakorbidang' :
+            case 'pembahasanrakorbidang' :
                 $rawSql = \DB::raw('"RenjaID",
                                     "RenjaRincID",
                                     "UsulanKecID",
                                     "Nm_Kecamatan",
                                     "kode_kegiatan",
+                                    "No",
                                     "KgtNm",
                                     "Uraian",
                                     "Sasaran_Angka2" AS "Sasaran_Angka",
@@ -100,12 +145,13 @@ class PembahasanRenjaController extends Controller {
                                     "Status_Indikator",
                                     "Descr"');
             break;
-            case 'usulanforumopd' :
+            case 'pembahasanforumopd' :
                 $rawSql = \DB::raw('"RenjaID",
                                     "RenjaRincID",
                                     "UsulanKecID",
                                     "Nm_Kecamatan",
                                     "kode_kegiatan",
+                                    "No",
                                     "KgtNm",
                                     "Uraian",
                                     "Sasaran_Angka3" AS "Sasaran_Angka",
@@ -121,10 +167,11 @@ class PembahasanRenjaController extends Controller {
                                     "Status_Indikator",
                                     "Descr"');
             break;
-            case 'usulanmusrenkab' :
+            case 'pembahasanmusrenkab' :
                 $rawSql = \DB::raw('"RenjaID",
                                     "RenjaRincID",
                                     "UsulanKecID",
+                                    "No",
                                     "Nm_Kecamatan",
                                     "kode_kegiatan",
                                     "KgtNm",
@@ -184,7 +231,8 @@ class PembahasanRenjaController extends Controller {
             switch ($search['kriteria']) 
             {
                 case 'kode_kegiatan' :
-                    $data = \DB::table('v_usulan_musren_kab')
+                    $data = \DB::table($this->getViewName())
+                                ->select($this->getField())
                                 ->where('kode_kegiatan',$search['isikriteria'])                                                    
                                 ->where('SOrgID',$SOrgID)
                                 ->whereNotNull('RenjaRincID')
@@ -193,7 +241,8 @@ class PembahasanRenjaController extends Controller {
                                 ->orderBy($column_order,$direction); 
                 break;
                 case 'KgtNm' :
-                    $data = \DB::table('v_usulan_musren_kab')
+                    $data = \DB::table($this->getViewName())
+                                ->select($this->getField())
                                 ->where('KgtNm', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                 ->where('SOrgID',$SOrgID)
                                 ->whereNotNull('RenjaRincID')
@@ -202,7 +251,8 @@ class PembahasanRenjaController extends Controller {
                                 ->orderBy($column_order,$direction);                                        
                 break;
                 case 'Uraian' :
-                    $data = \DB::table('v_usulan_musren_kab')
+                    $data = \DB::table($this->getViewName())
+                                ->select($this->getField())
                                 ->where('Uraian', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                 ->where('SOrgID',$SOrgID)
                                 ->whereNotNull('RenjaRincID')
@@ -215,7 +265,8 @@ class PembahasanRenjaController extends Controller {
         }
         else
         {
-            $data = \DB::table('v_usulan_musren_kab')
+            $data = \DB::table($this->getViewName())
+                        ->select($this->getField())
                         ->where('SOrgID',$SOrgID)                                     
                         ->whereNotNull('RenjaRincID')       
                         ->where('TA', config('globalsettings.tahun_perencanaan'))                                            
@@ -227,11 +278,222 @@ class PembahasanRenjaController extends Controller {
         return $data;
     }
     /**
+     * digunakan untuk mengganti jumlah record per halaman
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function changenumberrecordperpage (Request $request) 
+    {
+        $theme = \Auth::user()->theme;
+
+        $numberRecordPerPage = $request->input('numberRecordPerPage');
+        $this->putControllerStateSession('global_controller','numberRecordPerPage',$numberRecordPerPage);
+        
+        $this->setCurrentPageInsideSession($this->SessionName,1);
+        $data=$this->populateData();
+
+        $datatable = view("pages.$theme.rkpd.pembahasanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
+                                                                                'page_title'=>$this->getPageTitle(),
+                                                                                'label_transfer'=>$this->LabelTransfer,
+                                                                                'search'=>$this->getControllerStateSession($this->SessionName,'search'),
+                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                                                'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
+                                                                                'data'=>$data])->render();      
+        return response()->json(['success'=>true,'datatable'=>$datatable],200);
+    }
+    /**
+     * digunakan untuk mengurutkan record 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function orderby (Request $request) 
+    {
+        $theme = \Auth::user()->theme;
+
+        $orderby = $request->input('orderby') == 'asc'?'desc':'asc';
+        $column=$request->input('column_name');
+        switch($column) 
+        {
+            case 'col-kode_kegiatan' :
+                $column_name = 'kode_kegiatan';
+            break;    
+            case 'col-KgtNm' :
+                $column_name = 'KgtNm';
+            break;    
+            case 'col-Uraian' :
+                $column_name = 'Uraian';
+            break;    
+            case 'col-Sasaran_Angka' :
+                $column_name = 'Sasaran_Angka';
+            break;  
+            case 'col-Jumlah' :
+                $column_name = 'Jumlah';
+            break;
+            case 'col-Status' :
+                $column_name = 'Status';
+            break;
+            default :
+                $column_name = 'kode_kegiatan';
+        }
+        $this->putControllerStateSession($this->SessionName,'orderby',['column_name'=>$column_name,'order'=>$orderby]);      
+
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession($this->SessionName);         
+        $data=$this->populateData($currentpage);
+        if ($currentpage > $data->lastPage())
+        {            
+            $data = $this->populateData($data->lastPage());
+        }
+        
+        $datatable = view("pages.$theme.rkpd.pembahasanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
+                                                                                'page_title'=>$this->getPageTitle(),
+                                                                                'label_transfer'=>$this->LabelTransfer,
+                                                                                'search'=>$this->getControllerStateSession($this->SessionName,'search'),
+                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                                                'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
+                                                                                'data'=>$data])->render();     
+
+        return response()->json(['success'=>true,'datatable'=>$datatable],200);
+    }
+    /**
+     * paginate resource in storage called by ajax
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function paginate ($id) 
+    {
+        $theme = \Auth::user()->theme;
+
+        $this->setCurrentPageInsideSession($this->SessionName,$id);
+        $data=$this->populateData($id);
+        $datatable = view("pages.$theme.rkpd.pembahasanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
+                                                                                'page_title'=>$this->getPageTitle(),
+                                                                                'label_transfer'=>$this->LabelTransfer,
+                                                                                'search'=>$this->getControllerStateSession($this->SessionName,'search'),
+                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                                                'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
+                                                                                'data'=>$data])->render(); 
+
+        return response()->json(['success'=>true,'datatable'=>$datatable],200);        
+    }
+    /**
+     * search resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function search (Request $request) 
+    {
+        $theme = \Auth::user()->theme;
+
+        $action = $request->input('action');
+        if ($action == 'reset') 
+        {
+            $this->destroyControllerStateSession($this->SessionName,'search');
+        }
+        else
+        {
+            $kriteria = $request->input('cmbKriteria');
+            $isikriteria = $request->input('txtKriteria');
+            $this->putControllerStateSession($this->SessionName,'search',['kriteria'=>$kriteria,'isikriteria'=>$isikriteria]);
+        }      
+        $this->setCurrentPageInsideSession($this->SessionName,1);
+        $data=$this->populateData();
+
+        $datatable = view("pages.$theme.rkpd.pembahasanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
+                                                                                'page_title'=>$this->getPageTitle(),                                                            
+                                                                                'label_transfer'=>$this->LabelTransfer,
+                                                                                'search'=>$this->getControllerStateSession($this->SessionName,'search'),
+                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                                                'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
+                                                                                'data'=>$data])->render();      
+        
+        return response()->json(['success'=>true,'datatable'=>$datatable],200);        
+    }    
+    /**
+     * filter resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function filter(Request $request) 
+    {
+        $auth = \Auth::user();    
+        $theme = $auth->theme;
+
+        $filters=$this->getControllerStateSession($this->SessionName,'filters');
+        $daftar_unitkerja=[];
+        $json_data = [];
+        
+        // //index        
+        if ($request->exists('OrgID'))
+        {
+            $OrgID = $request->input('OrgID')==''?'none':$request->input('OrgID');
+            $filters['OrgID']=$OrgID;
+            $filters['SOrgID']='none';
+            $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('globalsettings.tahun_perencanaan'),false,$OrgID);  
+            
+            $this->putControllerStateSession($this->SessionName,'filters',$filters);
+
+            $data = [];
+
+            $datatable = view("pages.$theme.rkpd.pembahasanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
+                                                                                    'page_title'=>$this->getPageTitle(), 
+                                                                                    'label_transfer'=>$this->LabelTransfer,                                                                       
+                                                                                    'search'=>$this->getControllerStateSession($this->SessionName,'search'),
+                                                                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                    'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                                                    'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
+                                                                                    'data'=>$data])->render();
+            
+            $totalpaguindikatifopd = RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('globalsettings.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['OrgID']);            
+                  
+            $totalpaguindikatifunitkerja[0]=0;
+            $totalpaguindikatifunitkerja[1]=0;
+            $totalpaguindikatifunitkerja[2]=0;
+            $totalpaguindikatifunitkerja[3]=0;  
+            
+            $paguanggaranopd=\App\Models\DMaster\PaguAnggaranOPDModel::select('Jumlah1')
+                                                                        ->where('OrgID',$filters['OrgID'])
+                                                                        ->value('Jumlah1');
+
+            $json_data = ['success'=>true,'paguanggaranopd'=>$paguanggaranopd,'daftar_unitkerja'=>$daftar_unitkerja,'totalpaguindikatifopd'=>$totalpaguindikatifopd,'totalpaguindikatifunitkerja'=>$totalpaguindikatifunitkerja,'datatable'=>$datatable];
+        } 
+        //index
+        if ($request->exists('SOrgID'))
+        {
+            $SOrgID = $request->input('SOrgID')==''?'none':$request->input('SOrgID');
+            $filters['SOrgID']=$SOrgID;
+            $this->putControllerStateSession($this->SessionName,'filters',$filters);
+            $this->setCurrentPageInsideSession($this->SessionName,1);
+
+            $data = $this->populateData();
+
+            $datatable = view("pages.$theme.rkpd.pembahasanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
+                                                                                    'page_title'=>$this->getPageTitle(),
+                                                                                    'label_transfer'=>$this->LabelTransfer,
+                                                                                    'search'=>$this->getControllerStateSession($this->getViewName(),'search'),
+                                                                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                    'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                                                    'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
+                                                                                    'data'=>$data])->render(); 
+                                                                                    
+            $totalpaguindikatifunitkerja = RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('globalsettings.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['SOrgID']);            
+                                                                                    
+            $json_data = ['success'=>true,'totalpaguindikatifunitkerja'=>$totalpaguindikatifunitkerja,'datatable'=>$datatable];    
+        }
+        return $json_data;
+    }    
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request) 
     {
         $auth = \Auth::user();    
         $theme = $auth->theme;
@@ -259,7 +521,7 @@ class PembahasanRenjaController extends Controller {
         
         return view("pages.$theme.rkpd.pembahasanrenja.index")->with(['page_active'=>$this->NameOfPage, 
                                                                         'page_title'=>$this->getPageTitle(),                                                                            
-                                                                        'label_transfer'=>'Verifikasi Renja',
+                                                                        'label_transfer'=>$this->LabelTransfer,
                                                                         'daftar_opd'=>$daftar_opd,
                                                                         'daftar_unitkerja'=>$daftar_unitkerja,
                                                                         'filters'=>$filters,
@@ -268,8 +530,1027 @@ class PembahasanRenjaController extends Controller {
                                                                         'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
                                                                         'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
                                                                         'paguanggaranopd'=>$paguanggaranopd,
-                                                                        'totalpaguindikatifopd'=>RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('globalsettings.tahun_perencanaan'),3,$filters['OrgID']),
-                                                                        'totalpaguindikatifunitkerja' => RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('globalsettings.tahun_perencanaan'),3,$filters['SOrgID']),            
+                                                                        'totalpaguindikatifopd'=>RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('globalsettings.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['OrgID']),
+                                                                        'totalpaguindikatifunitkerja' => RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('globalsettings.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['SOrgID']),            
                                                                         'data'=>$data]);             
+    }
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showrincian($id)
+    {
+        $theme = \Auth::user()->theme;
+        switch ($this->NameOfPage) 
+        {            
+            case 'pembahasanprarenjaopd' :
+                $data = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",                                                            
+                                                            "trRenjaRinc"."RenjaID",
+                                                            "trRenjaRinc"."No",
+                                                            "trRenjaRinc"."Uraian",
+                                                            "trRenjaRinc"."Sasaran_Angka1" AS "Sasaran_Angka",
+                                                            "trRenjaRinc"."Sasaran_Uraian1" AS "Sasaran_Uraian",
+                                                            "trRenjaRinc"."Target1" AS "Target",
+                                                            "trRenjaRinc"."Jumlah1" AS "Jumlah",
+                                                            "trRenjaRinc"."Prioritas",
+                                                            "trRenjaRinc"."Status",
+                                                            "trRenjaRinc"."Descr",
+                                                            "trRenjaRinc"."Privilege",
+                                                            "trRenjaRinc"."created_at",
+                                                            "trRenjaRinc"."updated_at"'))    
+                                            ->findOrFail($id);
+            break;
+            case 'pembahasanrakorbidang' :
+                $data = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",                                                            
+                                                            "trRenjaRinc"."RenjaID",
+                                                            "trRenjaRinc"."No",
+                                                            "trRenjaRinc"."Uraian",
+                                                            "trRenjaRinc"."Sasaran_Angka2" AS "Sasaran_Angka",
+                                                            "trRenjaRinc"."Sasaran_Uraian2" AS "Sasaran_Uraian",
+                                                            "trRenjaRinc"."Target2" AS "Target",
+                                                            "trRenjaRinc"."Jumlah2" AS "Jumlah",
+                                                            "trRenjaRinc"."Prioritas",
+                                                            "trRenjaRinc"."Status",
+                                                            "trRenjaRinc"."Descr",
+                                                            "trRenjaRinc"."Privilege",
+                                                            "trRenjaRinc"."created_at",
+                                                            "trRenjaRinc"."updated_at"'))    
+                                            ->findOrFail($id);
+            break;
+            case 'pembahasanforumopd' :
+                $data = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",                                                            
+                                                            "trRenjaRinc"."RenjaID",
+                                                            "trRenjaRinc"."No",
+                                                            "trRenjaRinc"."Uraian",
+                                                            "trRenjaRinc"."Sasaran_Angka3" AS "Sasaran_Angka",
+                                                            "trRenjaRinc"."Sasaran_Uraian3" AS "Sasaran_Uraian",
+                                                            "trRenjaRinc"."Target3" AS "Target",
+                                                            "trRenjaRinc"."Jumlah3" AS "Jumlah",
+                                                            "trRenjaRinc"."Prioritas",
+                                                            "trRenjaRinc"."Status",
+                                                            "trRenjaRinc"."Descr",
+                                                            "trRenjaRinc"."Privilege",
+                                                            "trRenjaRinc"."created_at",
+                                                            "trRenjaRinc"."updated_at"'))    
+                                            ->findOrFail($id);
+            break;
+            case 'pembahasanmusrenkab' :
+                $data = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",                                                            
+                                                            "trRenjaRinc"."RenjaID",
+                                                            "trRenjaRinc"."No",
+                                                            "trRenjaRinc"."Uraian",
+                                                            "trRenjaRinc"."Sasaran_Angka4" AS "Sasaran_Angka",
+                                                            "trRenjaRinc"."Sasaran_Uraian4" AS "Sasaran_Uraian",
+                                                            "trRenjaRinc"."Target4" AS "Target",
+                                                            "trRenjaRinc"."Jumlah4" AS "Jumlah",
+                                                            "trRenjaRinc"."Prioritas",
+                                                            "trRenjaRinc"."Status",
+                                                            "trRenjaRinc"."Descr",
+                                                            "trRenjaRinc"."Privilege",
+                                                            "trRenjaRinc"."created_at",
+                                                            "trRenjaRinc"."updated_at"'))    
+                                            ->findOrFail($id);
+            break;                
+        }        
+       
+        if (!is_null($data) )  
+        {            
+            return view("pages.$theme.rkpd.pembahasanrenja.showrincian")->with(['page_active'=>$this->NameOfPage,
+                                                                                'page_title'=>$this->getPageTitle(),
+                                                                                'renja'=>$data,
+                                                                                'item'=>$data
+                                                                            ]);
+        }          
+    }
+   /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {   
+        $auth=\Auth::user();
+        $theme = $auth->theme;
+        $roles = $auth->getRoleNames();   
+        switch ($this->NameOfPage) 
+        {            
+            case 'pembahasanprarenjaopd' :               
+                    $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
+                                                                "trRenjaRinc"."RenjaID",
+                                                                "trRenjaRinc"."PmKecamatanID",
+                                                                "trRenjaRinc"."PmDesaID",
+                                                                "trRenjaRinc"."No",
+                                                                "trRenjaRinc"."Uraian",
+                                                                "trRenjaRinc"."Sasaran_Angka1" AS "Sasaran_Angka",
+                                                                "trRenjaRinc"."Sasaran_Uraian1" AS "Sasaran_Uraian",
+                                                                "trRenjaRinc"."Target1" AS "Target",
+                                                                "trRenjaRinc"."Jumlah1" AS "Jumlah",
+                                                                "trRenjaRinc"."Prioritas",
+                                                                "trRenjaRinc"."Descr",
+                                                                "trRenjaRinc"."isSKPD",
+                                                                "trRenjaRinc"."isReses"'))                                                                                        
+                                                ->findOrFail($id);        
+                    
+            break;
+            case 'pembahasanrakorbidang' :               
+                $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
+                                                            "trRenjaRinc"."RenjaID",
+                                                            "trRenjaRinc"."PmKecamatanID",
+                                                            "trRenjaRinc"."PmDesaID",
+                                                            "trRenjaRinc"."No",
+                                                            "trRenjaRinc"."Uraian",
+                                                            "trRenjaRinc"."Sasaran_Angka2" AS "Sasaran_Angka",
+                                                            "trRenjaRinc"."Sasaran_Uraian2" AS "Sasaran_Uraian",
+                                                            "trRenjaRinc"."Target2" AS "Target",
+                                                            "trRenjaRinc"."Jumlah2" AS "Jumlah",
+                                                            "trRenjaRinc"."Prioritas",
+                                                            "trRenjaRinc"."Descr",
+                                                            "trRenjaRinc"."isSKPD",
+                                                            "trRenjaRinc"."isReses"'))                                                                                        
+                                            ->findOrFail($id);   
+            break;
+            case 'pembahasanforumopd' :               
+                $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
+                                                            "trRenjaRinc"."RenjaID",
+                                                            "trRenjaRinc"."PmKecamatanID",
+                                                            "trRenjaRinc"."PmDesaID",
+                                                            "trRenjaRinc"."No",
+                                                            "trRenjaRinc"."Uraian",
+                                                            "trRenjaRinc"."Sasaran_Angka3" AS "Sasaran_Angka",
+                                                            "trRenjaRinc"."Sasaran_Uraian3" AS "Sasaran_Uraian",
+                                                            "trRenjaRinc"."Target3" AS "Target",
+                                                            "trRenjaRinc"."Jumlah3" AS "Jumlah",
+                                                            "trRenjaRinc"."Prioritas",
+                                                            "trRenjaRinc"."Descr",
+                                                            "trRenjaRinc"."isSKPD",
+                                                            "trRenjaRinc"."isReses"'))                                                                                        
+                                            ->findOrFail($id);        
+                  
+            break;
+            case 'pembahasanmusrenkab' :                  
+                $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
+                                                            "trRenjaRinc"."RenjaID",
+                                                            "trRenjaRinc"."PmKecamatanID",
+                                                            "trRenjaRinc"."PmDesaID",
+                                                            "trRenjaRinc"."No",
+                                                            "trRenjaRinc"."Uraian",
+                                                            "trRenjaRinc"."Sasaran_Angka4" AS "Sasaran_Angka",
+                                                            "trRenjaRinc"."Sasaran_Uraian4" AS "Sasaran_Uraian",
+                                                            "trRenjaRinc"."Target4" AS "Target",
+                                                            "trRenjaRinc"."Jumlah4" AS "Jumlah",
+                                                            "trRenjaRinc"."Prioritas",
+                                                            "trRenjaRinc"."Descr",
+                                                            "trRenjaRinc"."isSKPD",
+                                                            "trRenjaRinc"."isReses"'))                                                                                        
+                                            ->findOrFail($id);        
+                  
+            break;
+            default :
+                $dbViewName = null;
+        }   
+        
+        if (!is_null($renja) ) 
+        {  
+            return view("pages.$theme.rkpd.pembahasanrenja.edit")->with(['page_active'=>$this->NameOfPage,
+                                                                        'page_title'=>$this->getPageTitle(),
+                                                                        'renja'=>$renja,                                                                   
+                                                                    ]);
+        }        
+    }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $theme = \Auth::user()->theme;
+
+        $pembahasanmusrenkab = RenjaRincianModel::find($id);        
+        $pembahasanmusrenkab->Status = $request->input('Status');
+        $pembahasanmusrenkab->save();
+
+        $RenjaID = $pembahasanmusrenkab->RenjaID;
+        if (RenjaRincianModel::where('RenjaID',$RenjaID)->where('Status',1)->count() > 0)
+        {
+            RenjaModel::where('RenjaID',$RenjaID)->update(['Status'=>1]);
+        }
+        else
+        {
+            RenjaModel::where('RenjaID',$RenjaID)->update(['Status'=>0]);
+        }        
+        if ($request->ajax()) 
+        {
+            $filters=$this->getControllerStateSession($this->SessionName,'filters');
+
+            $data = $this->populateData();
+            
+            $datatable = view("pages.$theme.rkpd.pembahasanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
+                                                                                    'page_title'=>$this->getPageTitle(),                                                                            
+                                                                                    'label_transfer'=>$this->LabelTransfer,
+                                                                                    'search'=>$this->getControllerStateSession($this->SessionName,'search'),
+                                                                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                    'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                                                    'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
+                                                                                    'data'=>$data])->render();
+            
+            $totalpaguindikatifopd = RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('globalsettings.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['OrgID']);                        
+            $totalpaguindikatifunitkerja = RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('globalsettings.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['SOrgID']);
+                        
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data ini telah berhasil diubah.',
+                'totalpaguindikatifopd'=>$totalpaguindikatifopd,
+                'totalpaguindikatifunitkerja'=>$totalpaguindikatifunitkerja,
+                'datatable'=>$datatable
+            ],200);
+        }
+        else
+        {
+            return redirect(route(\Helper::getNameOfPage('index')))->with('success','Data ini telah berhasil disimpan.');
+        }
+    }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update2(Request $request, $id)
+    {
+        $rinciankegiatan = RenjaRincianModel::find($id);        
+        $this->validate($request, [
+            'No'=>'required',
+            'Uraian'=>'required',
+            'Sasaran_Angka'=>'required',
+            'Sasaran_Uraian'=>'required',
+            'Target'=>'required',
+            'Jumlah'=>'required',
+            'Prioritas' => 'required'            
+        ]);
+
+        \DB::transaction(function () use ($request,$rinciankegiatan) { 
+
+            switch ($this->NameOfPage) 
+            {            
+                case 'pembahasanprarenjaopd' :
+                    $rinciankegiatan->PmKecamatanID = $request->input('PmKecamatanID');
+                    $rinciankegiatan->PmDesaID = $request->input('PmDesaID');
+                    $rinciankegiatan->Uraian = $request->input('Uraian');
+                    $rinciankegiatan->Sasaran_Angka1 = $request->input('Sasaran_Angka'); 
+                    $rinciankegiatan->Sasaran_Uraian1 = $request->input('Sasaran_Uraian');
+                    $rinciankegiatan->Target1 = $request->input('Target');
+                    $rinciankegiatan->Jumlah1 = $request->input('Jumlah');  
+                    $rinciankegiatan->Prioritas = $request->input('Prioritas');  
+                    $rinciankegiatan->Descr = $request->input('Descr');
+                    $rinciankegiatan->save();
+
+                    $renja = $rinciankegiatan->renja;            
+                    $renja->NilaiUsulan1=RenjaRincianModel::where('RenjaID',$renja->RenjaID)->sum('Jumlah1');            
+                    $renja->save();
+                break;
+                case 'pembahasanrakorbidang' :
+                    $rinciankegiatan->PmKecamatanID = $request->input('PmKecamatanID');
+                    $rinciankegiatan->PmDesaID = $request->input('PmDesaID');
+                    $rinciankegiatan->Uraian = $request->input('Uraian');
+                    $rinciankegiatan->Sasaran_Angka2 = $request->input('Sasaran_Angka'); 
+                    $rinciankegiatan->Sasaran_Uraian2 = $request->input('Sasaran_Uraian');
+                    $rinciankegiatan->Target2 = $request->input('Target');
+                    $rinciankegiatan->Jumlah2 = $request->input('Jumlah');  
+                    $rinciankegiatan->Prioritas = $request->input('Prioritas');  
+                    $rinciankegiatan->Descr = $request->input('Descr');
+                    $rinciankegiatan->save();
+        
+                    $renja = $rinciankegiatan->renja;            
+                    $renja->NilaiUsulan2=RenjaRincianModel::where('RenjaID',$renja->RenjaID)->sum('Jumlah2');            
+                    $renja->save();
+                break;
+                case 'pembahasanforumopd' :
+                    $rinciankegiatan->PmKecamatanID = $request->input('PmKecamatanID');
+                    $rinciankegiatan->PmDesaID = $request->input('PmDesaID');
+                    $rinciankegiatan->Uraian = $request->input('Uraian');
+                    $rinciankegiatan->Sasaran_Angka3 = $request->input('Sasaran_Angka'); 
+                    $rinciankegiatan->Sasaran_Uraian3 = $request->input('Sasaran_Uraian');
+                    $rinciankegiatan->Target3 = $request->input('Target');
+                    $rinciankegiatan->Jumlah3 = $request->input('Jumlah');  
+                    $rinciankegiatan->Prioritas = $request->input('Prioritas');  
+                    $rinciankegiatan->Descr = $request->input('Descr');
+                    $rinciankegiatan->save();
+        
+                    $renja = $rinciankegiatan->renja;            
+                    $renja->NilaiUsulan3=RenjaRincianModel::where('RenjaID',$renja->RenjaID)->sum('Jumlah3');            
+                    $renja->save();
+                break;
+                case 'pembahasanmusrenkab' :
+                    $rinciankegiatan->PmKecamatanID = $request->input('PmKecamatanID');
+                    $rinciankegiatan->PmDesaID = $request->input('PmDesaID');
+                    $rinciankegiatan->Uraian = $request->input('Uraian');
+                    $rinciankegiatan->Sasaran_Angka4 = $request->input('Sasaran_Angka'); 
+                    $rinciankegiatan->Sasaran_Uraian4 = $request->input('Sasaran_Uraian');
+                    $rinciankegiatan->Target4 = $request->input('Target');
+                    $rinciankegiatan->Jumlah4 = $request->input('Jumlah');  
+                    $rinciankegiatan->Prioritas = $request->input('Prioritas');  
+                    $rinciankegiatan->Descr = $request->input('Descr');
+                    $rinciankegiatan->save();
+        
+                    $renja = $rinciankegiatan->renja;            
+                    $renja->NilaiUsulan4=RenjaRincianModel::where('RenjaID',$renja->RenjaID)->sum('Jumlah4');            
+                    $renja->save();
+                break;                
+            }               
+            
+        });
+        if ($request->ajax()) 
+        {
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data ini telah berhasil disimpan.'
+            ]);
+        }
+        else
+        {
+            return redirect(route(\Helper::getNameOfPage('showrincian'),['id'=>$rinciankegiatan->RenjaRincID]))->with('success','Data Rincian kegiatan telah berhasil disimpan.');
+        } 
+    }  
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function transfer(Request $request)
+    {
+        $theme = \Auth::user()->theme;
+
+        if ($request->exists('RenjaRincID'))
+        {
+            $RenjaRincID=$request->input('RenjaRincID');                                    
+            $rincian_kegiatan=\DB::transaction(function () use ($RenjaRincID) {
+                $rincian_kegiatan = RenjaRincianModel::find($RenjaRincID);               
+
+                //check renja id sudah ada belum di RenjaID_Old
+                $old_renja = RenjaModel::select('RenjaID')
+                                        ->where('RenjaID_Src',$rincian_kegiatan->RenjaID)
+                                        ->get()
+                                        ->pluck('RenjaID')->toArray();
+
+               switch ($this->NameOfPage) 
+                {            
+                    case 'pembahasanprarenjaopd' :
+                        if (count($old_renja) > 0)
+                        {
+                            $RenjaID=$old_renja[0];
+                            $newRenjaiD=$RenjaID;
+                            $renja = RenjaModel::find($RenjaID);  
+                            $newrenja=$renja;
+                        }
+                        else
+                        {
+                            $RenjaID=$rincian_kegiatan->RenjaID;
+                            $renja = RenjaModel::find($RenjaID);   
+                            $renja->Privilege=1;
+                            $renja->save();
+                        }
+                        #new renja
+                        $newRenjaID=uniqid ('uid');
+                        $newrenja = $renja->replicate();
+                        $newrenja->RenjaID = $newRenjaID;
+                        $newrenja->Sasaran_Uraian2 = $newrenja->Sasaran_Uraian1;
+                        $newrenja->Sasaran_Angka2 = $newrenja->Sasaran_Angka1;
+                        $newrenja->Target2 = $newrenja->Target1;
+                        $newrenja->NilaiUsulan2 = $newrenja->NilaiUsulan1;
+                        $newrenja->EntryLvl = 1;
+                        $newrenja->Status = 0;
+                        $newrenja->Privilege = 0;
+                        $newrenja->RenjaID_Src = $RenjaID;
+                        $newrenja->save();
+
+                        $str_rinciankegiatan = '
+                            INSERT INTO "trRenjaRinc" (
+                                "RenjaRincID", 
+                                "RenjaID",
+                                "UsulanKecID",
+                                "PMProvID",
+                                "PmKotaID",
+                                "PmKecamatanID",
+                                "PmDesaID",
+                                "PokPirID",
+                                "Uraian",
+                                "No",
+                                "Sasaran_Uraian1",
+                                "Sasaran_Uraian2",              
+                                "Sasaran_Angka1",
+                                "Sasaran_Angka2",               
+                                "Target1",
+                                "Target2",                      
+                                "Jumlah1", 
+                                "Jumlah2", 
+                                "isReses",
+                                "isReses_Uraian",
+                                "isSKPD",
+                                "Status",
+                                "EntryLvl",
+                                "Prioritas",
+                                "Descr",
+                                "TA",
+                                "RenjaRincID_Src",
+                                "created_at", 
+                                "updated_at"
+                            ) 
+                            SELECT 
+                                REPLACE(SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16),\'-\',\'\') AS "RenjaRincID",
+                                \''.$newRenjaID.'\' AS "RenjaID",
+                                "UsulanKecID",
+                                "PMProvID",
+                                "PmKotaID",
+                                "PmKecamatanID",
+                                "PmDesaID",
+                                "PokPirID",
+                                "Uraian",
+                                "No",
+                                "Sasaran_Uraian1",
+                                "Sasaran_Uraian1" AS Sasaran_Uraian2,              
+                                "Sasaran_Angka1",
+                                "Sasaran_Angka1" AS "Sasaran_Angka2",               
+                                "Target1",
+                                "Target1" AS "Target2",                      
+                                "Jumlah1", 
+                                "Jumlah1" AS "Jumlah2", 
+                                "isReses",
+                                "isReses_Uraian",
+                                "isSKPD",
+                                0 AS "Status",
+                                1 AS "EntryLvl",
+                                "Prioritas",
+                                "Descr",
+                                "TA",
+                                "RenjaRincID" AS "RenjaID_Src",
+                                NOW() AS created_at,
+                                NOW() AS updated_at
+                            FROM 
+                                "trRenjaRinc" 
+                            WHERE "RenjaRincID"=\''.$RenjaRincID.'\' AND
+                                ("Status"=1 OR "Status"=2) AND
+                                "Privilege"=0             
+                        ';
+                        \DB::statement($str_rinciankegiatan);       
+                        $str_kinerja='
+                            INSERT INTO "trRenjaIndikator" (
+                                "RenjaIndikatorID", 
+                                "IndikatorKinerjaID",
+                                "RenjaID",
+                                "Target_Angka",
+                                "Target_Uraian",  
+                                "Tahun",      
+                                "Descr",
+                                "Privilege",
+                                "TA",
+                                "RenjaIndikatorID_Src", 
+                                "created_at", 
+                                "updated_at"
+                            )
+                            SELECT 
+                                REPLACE(SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16),\'-\',\'\') AS "RenjaIndikatorID",
+                                "IndikatorKinerjaID",
+                                \''.$newRenjaID.'\' AS "RenjaID",
+                                "Target_Angka",
+                                "Target_Uraian",
+                                "Tahun",
+                                "Descr",
+                                1 AS "Privilege",
+                                "TA",
+                                "RenjaIndikatorID" AS "RenjaIndikatorID_Src",
+                                NOW() AS created_at,
+                                NOW() AS updated_at
+                            FROM 
+                                "trRenjaIndikator" 
+                            WHERE 
+                                "RenjaID"=\''.$RenjaID.'\' AND
+                                "Privilege"=0 
+                        ';
+
+                        \DB::statement($str_kinerja);
+                        RenjaRincianModel::where('RenjaRincID',$RenjaRincID)
+                                            ->update(['Privilege'=>1,'Status'=>1]);
+                        RenjaIndikatorModel::where('RenjaID',$RenjaID)
+                                            ->update(['Privilege'=>1]);
+
+                    break; //end pembahasanprarenjaopd
+                    case 'pembahasanrakorbidang' :
+                        if (count($old_renja) > 0)
+                        {
+                            $RenjaID=$old_renja[0];
+                            $newRenjaiD=$RenjaID;
+                            $renja = RenjaModel::find($RenjaID);  
+                            $newrenja=$renja;
+                        }
+                        else
+                        {
+                            $RenjaID=$rincian_kegiatan->RenjaID;
+                            $renja = RenjaModel::find($RenjaID);   
+                            $renja->Privilege=1;
+                            $renja->save();
+                        }
+                        #new renja
+                        $newRenjaID=uniqid ('uid');
+                        $newrenja = $renja->replicate();
+                        $newrenja->RenjaID = $newRenjaID;
+                        $newrenja->Sasaran_Uraian3 = $newrenja->Sasaran_Uraian2;
+                        $newrenja->Sasaran_Angka3 = $newrenja->Sasaran_Angka2;
+                        $newrenja->Target3 = $newrenja->Target2;
+                        $newrenja->NilaiUsulan3 = $newrenja->NilaiUsulan2;
+                        $newrenja->EntryLvl = 2;
+                        $newrenja->Status = 0;
+                        $newrenja->Privilege = 0;
+                        $newrenja->RenjaID_Src = $RenjaID;
+                        $newrenja->save();
+
+                        $str_rinciankegiatan = '
+                            INSERT INTO "trRenjaRinc" (
+                                "RenjaRincID", 
+                                "RenjaID",
+                                "UsulanKecID",
+                                "PMProvID",
+                                "PmKotaID",
+                                "PmKecamatanID",
+                                "PmDesaID",
+                                "PokPirID",
+                                "Uraian",
+                                "No",
+                                "Sasaran_Uraian1",
+                                "Sasaran_Uraian2",              
+                                "Sasaran_Uraian3",              
+                                "Sasaran_Angka1",
+                                "Sasaran_Angka2",               
+                                "Sasaran_Angka3",               
+                                "Target1",
+                                "Target2",                      
+                                "Target3",                      
+                                "Jumlah1", 
+                                "Jumlah2", 
+                                "Jumlah3", 
+                                "isReses",
+                                "isReses_Uraian",
+                                "isSKPD",
+                                "Status",
+                                "EntryLvl",
+                                "Prioritas",
+                                "Descr",
+                                "TA",
+                                "RenjaRincID_Src",
+                                "created_at", 
+                                "updated_at"
+                            ) 
+                            SELECT 
+                                REPLACE(SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16),\'-\',\'\') AS "RenjaRincID",
+                                \''.$newRenjaID.'\' AS "RenjaID",
+                                "UsulanKecID",
+                                "PMProvID",
+                                "PmKotaID",
+                                "PmKecamatanID",
+                                "PmDesaID",
+                                "PokPirID",
+                                "Uraian",
+                                "No",
+                                "Sasaran_Uraian1",
+                                "Sasaran_Uraian2",
+                                "Sasaran_Uraian2" AS Sasaran_Uraian3,              
+                                "Sasaran_Angka1",
+                                "Sasaran_Angka2",
+                                "Sasaran_Angka2" AS "Sasaran_Angka3",               
+                                "Target1",
+                                "Target2",
+                                "Target2" AS "Target3",                      
+                                "Jumlah1", 
+                                "Jumlah2", 
+                                "Jumlah2" AS "Jumlah3", 
+                                "isReses",
+                                "isReses_Uraian",
+                                "isSKPD",
+                                0 AS "Status",
+                                2 AS "EntryLvl",
+                                "Prioritas",
+                                "Descr",
+                                "TA",
+                                "RenjaRincID" AS "RenjaID_Src",
+                                NOW() AS created_at,
+                                NOW() AS updated_at
+                            FROM 
+                                "trRenjaRinc" 
+                            WHERE "RenjaRincID"=\''.$RenjaRincID.'\' AND
+                                ("Status"=1 OR "Status"=2) AND
+                                "Privilege"=0       
+                        ';
+                        \DB::statement($str_rinciankegiatan);       
+                        $str_kinerja='
+                            INSERT INTO "trRenjaIndikator" (
+                                "RenjaIndikatorID", 
+                                "IndikatorKinerjaID",
+                                "RenjaID",
+                                "Target_Angka",
+                                "Target_Uraian",  
+                                "Tahun",      
+                                "Descr",
+                                "Privilege",
+                                "TA",
+                                "RenjaIndikatorID_Src", 
+                                "created_at", 
+                                "updated_at"
+                            )
+                            SELECT 
+                                REPLACE(SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16),\'-\',\'\') AS "RenjaIndikatorID",
+                                "IndikatorKinerjaID",
+                                \''.$newRenjaID.'\' AS "RenjaID",
+                                "Target_Angka",
+                                "Target_Uraian",
+                                "Tahun",
+                                "Descr",
+                                1 AS "Privilege",
+                                "TA",
+                                "RenjaIndikatorID" AS "RenjaIndikatorID_Src",
+                                NOW() AS created_at,
+                                NOW() AS updated_at
+                            FROM 
+                                "trRenjaIndikator" 
+                            WHERE 
+                                "RenjaID"=\''.$RenjaID.'\' AND
+                                "Privilege"=0  
+                        ';
+
+                        \DB::statement($str_kinerja);
+                        RenjaRincianModel::where('RenjaRincID',$RenjaRincID)
+                                            ->update(['Privilege'=>1,'Status'=>1]);
+                        RenjaIndikatorModel::where('RenjaID',$RenjaID)
+                                            ->update(['Privilege'=>1]);
+                    break;
+                    case 'pembahasanforumopd' :
+                        if (count($old_renja) > 0)
+                        {
+                            $RenjaID=$old_renja[0];
+                            $newRenjaiD=$RenjaID;
+                            $renja = RenjaModel::find($RenjaID);  
+                            $newrenja=$renja;
+                        }
+                        else
+                        {
+                            $RenjaID=$rincian_kegiatan->RenjaID;
+                            $renja = RenjaModel::find($RenjaID);   
+                            $renja->Privilege=1;
+                            $renja->save();
+                        }
+                        // #new renja
+                        $newRenjaID=uniqid ('uid');
+                        $newrenja = $renja->replicate();
+                        $newrenja->RenjaID = $newRenjaID;
+                        $newrenja->Sasaran_Uraian4 = $newrenja->Sasaran_Uraian3;
+                        $newrenja->Sasaran_Angka4 = $newrenja->Sasaran_Angka3;
+                        $newrenja->Target4 = $newrenja->Target3;
+                        $newrenja->NilaiUsulan4 = $newrenja->NilaiUsulan3;
+                        $newrenja->EntryLvl = 3;
+                        $newrenja->Status = 0;
+                        $newrenja->Privilege = 0;
+                        $newrenja->RenjaID_Src = $RenjaID;
+                        $newrenja->save();
+
+                        $str_rinciankegiatan = '
+                            INSERT INTO "trRenjaRinc" (
+                                "RenjaRincID", 
+                                "RenjaID",
+                                "UsulanKecID",
+                                "PMProvID",
+                                "PmKotaID",
+                                "PmKecamatanID",
+                                "PmDesaID",
+                                "PokPirID",
+                                "Uraian",
+                                "No",
+                                "Sasaran_Uraian1",
+                                "Sasaran_Uraian2",              
+                                "Sasaran_Uraian3",              
+                                "Sasaran_Uraian4",              
+                                "Sasaran_Angka1",
+                                "Sasaran_Angka2",               
+                                "Sasaran_Angka3",               
+                                "Sasaran_Angka4",               
+                                "Target1",
+                                "Target2",                      
+                                "Target3",                      
+                                "Target4",                      
+                                "Jumlah1", 
+                                "Jumlah2", 
+                                "Jumlah3", 
+                                "Jumlah4", 
+                                "isReses",
+                                "isReses_Uraian",
+                                "isSKPD",
+                                "Status",
+                                "EntryLvl",
+                                "Prioritas",
+                                "Descr",
+                                "TA",
+                                "RenjaRincID_Src",
+                                "created_at", 
+                                "updated_at"
+                            ) 
+                            SELECT 
+                                REPLACE(SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16),\'-\',\'\') AS "RenjaRincID",
+                                \''.$newRenjaID.'\' AS "RenjaID",
+                                "UsulanKecID",
+                                "PMProvID",
+                                "PmKotaID",
+                                "PmKecamatanID",
+                                "PmDesaID",
+                                "PokPirID",
+                                "Uraian",
+                                "No",
+                                "Sasaran_Uraian1",
+                                "Sasaran_Uraian2",
+                                "Sasaran_Uraian3",
+                                "Sasaran_Uraian3" AS Sasaran_Uraian4,              
+                                "Sasaran_Angka1",
+                                "Sasaran_Angka2",
+                                "Sasaran_Angka3",
+                                "Sasaran_Angka3" AS "Sasaran_Angka4",               
+                                "Target1",
+                                "Target2",
+                                "Target3",
+                                "Target3" AS "Target4",                      
+                                "Jumlah1", 
+                                "Jumlah2", 
+                                "Jumlah3", 
+                                "Jumlah3" AS "Jumlah4", 
+                                "isReses",
+                                "isReses_Uraian",
+                                "isSKPD",
+                                0 AS "Status",
+                                3 AS "EntryLvl",
+                                "Prioritas",
+                                "Descr",
+                                "TA",
+                                "RenjaRincID" AS "RenjaID_Src",
+                                NOW() AS created_at,
+                                NOW() AS updated_at
+                            FROM 
+                                "trRenjaRinc" 
+                            WHERE "RenjaRincID"=\''.$RenjaRincID.'\'  AND
+                                ("Status"=1 OR "Status"=2) AND
+                                "Privilege"=0              
+                        ';
+                        \DB::statement($str_rinciankegiatan);       
+
+                        $str_kinerja='
+                            INSERT INTO "trRenjaIndikator" (
+                                "RenjaIndikatorID", 
+                                "IndikatorKinerjaID",
+                                "RenjaID",
+                                "Target_Angka",
+                                "Target_Uraian",  
+                                "Tahun",      
+                                "Descr",
+                                "Privilege",
+                                "TA",
+                                "RenjaIndikatorID_Src", 
+                                "created_at", 
+                                "updated_at"
+                            )
+                            SELECT 
+                                REPLACE(SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16),\'-\',\'\') AS "RenjaIndikatorID",
+                                "IndikatorKinerjaID",
+                                \''.$newRenjaID.'\' AS "RenjaID",
+                                "Target_Angka",
+                                "Target_Uraian",
+                                "Tahun",
+                                "Descr",
+                                1 AS "Privilege",
+                                "TA",
+                                "RenjaIndikatorID" AS "RenjaIndikatorID_Src",
+                                NOW() AS created_at,
+                                NOW() AS updated_at
+                            FROM 
+                                "trRenjaIndikator" 
+                            WHERE 
+                                "RenjaID"=\''.$RenjaID.'\'  AND
+                                "Privilege"=0 
+                        ';
+
+                        \DB::statement($str_kinerja);
+                        RenjaRincianModel::where('RenjaRincID',$RenjaRincID)
+                                            ->update(['Privilege'=>1,'Status'=>1]);
+                        RenjaIndikatorModel::where('RenjaID',$RenjaID)
+                                            ->update(['Privilege'=>1]);
+                        
+                    break; //end pembahasanforumopd
+                    case 'pembahasanmusrenkab' :
+                        if (count($old_renja) > 0)
+                        {
+                            $RenjaID=$old_renja[0];
+                            $newRenjaiD=$RenjaID;
+                            $renja = RenjaModel::find($RenjaID);  
+                            $newrenja=$renja;
+                        }
+                        else
+                        {
+                            $RenjaID=$rincian_kegiatan->RenjaID;
+                            $renja = RenjaModel::find($RenjaID);   
+                            $renja->Privilege=1;
+                            $renja->save();
+                        }
+                        // #new renja
+                        $newRenjaiD=uniqid ('uid');
+                        $newrenja = $renja->replicate();
+                        $newrenja->RenjaID = $newRenjaiD;
+                        $newrenja->Sasaran_Uraian5 = $newrenja->Sasaran_Uraian4;
+                        $newrenja->Sasaran_Angka5 = $newrenja->Sasaran_Angka4;
+                        $newrenja->Target5 = $newrenja->Target4;
+                        $newrenja->NilaiUsulan5 = $newrenja->NilaiUsulan4;
+                        $newrenja->EntryLvl = 4;
+                        $newrenja->Status = 0;
+                        $newrenja->Privilege = 0;
+                        $newrenja->RenjaID_Src = $RenjaID;
+                        $newrenja->save();
+
+                        $str_rinciankegiatan = '
+                            INSERT INTO "trRenjaRinc" (
+                                "RenjaRincID", 
+                                "RenjaID",
+                                "UsulanKecID",
+                                "PMProvID",
+                                "PmKotaID",
+                                "PmKecamatanID",
+                                "PmDesaID",
+                                "PokPirID",
+                                "Uraian",
+                                "No",
+                                "Sasaran_Uraian1",
+                                "Sasaran_Uraian2",              
+                                "Sasaran_Uraian3",              
+                                "Sasaran_Uraian4",                                      
+                                "Sasaran_Uraian5",
+                                "Sasaran_Angka1",
+                                "Sasaran_Angka2",               
+                                "Sasaran_Angka3",               
+                                "Sasaran_Angka4",               
+                                "Sasaran_Angka5",               
+                                "Target1",
+                                "Target2",                      
+                                "Target3",                      
+                                "Target4",                      
+                                "Target5",                      
+                                "Jumlah1", 
+                                "Jumlah2", 
+                                "Jumlah3", 
+                                "Jumlah4", 
+                                "Jumlah5", 
+                                "isReses",
+                                "isReses_Uraian",
+                                "isSKPD",
+                                "Status",
+                                "EntryLvl",
+                                "Prioritas",
+                                "Descr",
+                                "TA",
+                                "created_at", 
+                                "updated_at"
+                            ) 
+                            SELECT 
+                                REPLACE(SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16),\'-\',\'\') AS "RenjaRincID",
+                                \''.$newRenjaiD.'\' AS "RenjaID",
+                                "UsulanKecID",
+                                "PMProvID",
+                                "PmKotaID",
+                                "PmKecamatanID",
+                                "PmDesaID",
+                                "PokPirID",
+                                "Uraian",
+                                "No",
+                                "Sasaran_Uraian1",
+                                "Sasaran_Uraian2",
+                                "Sasaran_Uraian3",
+                                "Sasaran_Uraian4",
+                                "Sasaran_Uraian4" AS Sasaran_Angka5,              
+                                "Sasaran_Angka1",
+                                "Sasaran_Angka2",
+                                "Sasaran_Angka3",
+                                "Sasaran_Angka4",
+                                "Sasaran_Angka4" AS "Sasaran_Angka5",               
+                                "Target1",
+                                "Target2",
+                                "Target3",
+                                "Target4",
+                                "Target4" AS "Target5",                      
+                                "Jumlah1", 
+                                "Jumlah2", 
+                                "Jumlah3", 
+                                "Jumlah4", 
+                                "Jumlah4" AS "Jumlah5", 
+                                "isReses",
+                                "isReses_Uraian",
+                                "isSKPD",
+                                0 AS "Status",
+                                4 AS "EntryLvl",
+                                "Prioritas",
+                                "Descr",
+                                "TA",
+                                NOW() AS created_at,
+                                NOW() AS updated_at
+                            FROM 
+                                "trRenjaRinc" 
+                            WHERE "RenjaRincID"=\''.$RenjaRincID.'\' AND
+                                ("Status"=1 OR "Status"=2) AND
+                                "Privilege"=0      
+                        ';                
+                        \DB::statement($str_rinciankegiatan);       
+                        $str_kinerja='
+                            INSERT INTO "trRenjaIndikator" (
+                                "RenjaIndikatorID", 
+                                "IndikatorKinerjaID",
+                                "RenjaID",
+                                "Target_Angka",
+                                "Target_Uraian",  
+                                "Tahun",      
+                                "Descr",
+                                "Privilege",
+                                "TA",
+                                "RenjaIndikatorID_Src",
+                                "created_at", 
+                                "updated_at"
+                            )
+                            SELECT 
+                                REPLACE(SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16),\'-\',\'\') AS "RenjaIndikatorID",
+                                "IndikatorKinerjaID",
+                                \''.$newRenjaiD.'\' AS "RenjaID",
+                                "Target_Angka",
+                                "Target_Uraian",
+                                "Tahun",
+                                "Descr",
+                                1 AS "Privilege",
+                                "TA",
+                                "RenjaIndikatorID" AS "RenjaIndikatorID_Src",
+                                NOW() AS created_at,
+                                NOW() AS updated_at
+                            FROM 
+                                "trRenjaIndikator" 
+                            WHERE 
+                                "RenjaID"=\''.$RenjaID.'\' AND
+                                "Privilege"=0 
+                        ';
+                        \DB::statement($str_kinerja);
+                                    
+                        $newrenja->NilaiUsulan5=RenjaRincianModel::where('RenjaID',$newrenja->RenjaID)->sum('Jumlah5');            
+                        $newrenja->save();
+
+                        RenjaRincianModel::where('RenjaRincID',$RenjaRincID)
+                                            ->update(['Privilege'=>1]);
+                        RenjaIndikatorModel::where('RenjaID',$RenjaID)
+                                            ->update(['Privilege'=>1]);
+
+                    break; //end pembahasanmusrenkab              
+                }
+                return $rincian_kegiatan;
+            });            
+
+            if ($request->ajax()) 
+            {
+                $data = $this->populateData();
+                
+                $datatable = view("pages.$theme.rkpd.pembahasanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
+                                                                                        'page_title'=>$this->getPageTitle(),                                                                            
+                                                                                        'label_transfer'=>$this->LabelTransfer,
+                                                                                        'search'=>$this->getControllerStateSession($this->SessionName,'search'),
+                                                                                        'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                        'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                                                        'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
+                                                                                        'data'=>$data])->render();
+                return response()->json([
+                    'success'=>true,
+                    'message'=>'Data ini telah berhasil ditransfer ke tahap '.$this->LabelTransfer,
+                    'datatable'=>$datatable
+                ],200);
+            }
+            else
+            {
+                return redirect(route(\Helper::getNameOfPage('showrincian'),['id'=>$rinciankegiatan->RenjaRincID]))->with('success','Data ini telah berhasil disimpan.');
+            }
+        }
+        else
+        {
+            if ($request->ajax()) 
+            {
+                return response()->json([
+                    'success'=>0,
+                    'message'=>'Data ini gagal diubah.'
+                ],200);
+            }
+            else
+            {
+                return redirect(route(\Helper::getNameOfPage('showrincian'),['id'=>$rinciankegiatan->RenjaRincID]))->with('error','Data ini gagal diubah.');
+            }
+        }
     }
 }
