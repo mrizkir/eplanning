@@ -70,14 +70,15 @@
                         </a>                                             
                     </th> 
                     <th>                        
-                        PRIORITAS                          
+                        PRIO.                          
                     </th>          
                     <th>
                         <a class="column-sort text-white" id="col-Status" data-order="{{$direction}}" href="#">
                             STATUS  
                         </a>
-                    </th>                            
-                    <th width="100">AKSI</th>
+                    </th> 
+                    <th>VER.</th>                           
+                    <th width="150">AKSI</th>
                 </tr>
             </thead>
             <tbody>                    
@@ -134,6 +135,17 @@
                     </td>
                     <td>
                         @include('layouts.limitless.l_status_kegiatan')
+                    </td>                    
+                    <td>                    
+                        @if ($item->Privilege==0)
+                        <span class="label label-flat border-grey text-grey-600 label-icon">
+                            <i class="icon-cross2"></i>
+                        </span>
+                        @else
+                            <span class="label label-flat border-success text-success-600 label-icon">
+                                <i class="icon-checkmark"></i>
+                            </span>                            
+                        @endif                    
                     </td>
                     <td>
                         <ul class="icons-list">
@@ -142,7 +154,7 @@
                     </td>                                
                 </tr>
                 <tr class="text-center info">
-                    <td colspan="10">
+                    <td colspan="11">
                         <span class="label label-warning label-rounded">
                             <strong>RenjaID:</strong>
                             {{$item->RenjaID}}
