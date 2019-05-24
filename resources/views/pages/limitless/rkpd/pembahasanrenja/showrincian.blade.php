@@ -79,6 +79,16 @@
                                 </div>                            
                             </div>                             
                             <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>PRIORITAS: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">
+                                        <span class="label label-flat border-pink text-pink-600">
+                                            {{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}
+                                        </span>
+                                    </p>
+                                </div>                            
+                            </div>  
+                            <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>STATUS: </strong></label>
                                 <div class="col-md-8">
                                     <p class="form-control-static">

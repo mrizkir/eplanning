@@ -45,9 +45,14 @@
                     </a>                                             
                 </th> 
                 <th width="120">                        
-                    PRIORITAS                          
+                    PRIO.                          
                 </th>          
-                <th width="120">STATUS</th>                            
+                <th>
+                    <a class="column-sort text-white" id="col-Status" data-order="{{$direction}}" href="#">
+                        STATUS  
+                    </a>
+                </th>
+                <th>VER.</th>
                 <th width="150">AKSI</th>
             </tr>
         </thead>
@@ -69,55 +74,60 @@
                     @endif
                 </td>                    
                 <td>
-                    {{ucwords($item->Uraian)}}<br />
-                    <span class="label label-flat border-grey text-grey-600">                        
-                        @if ($item->isSKPD)
+                    {{ucwords($item->Uraian)}}
+                    @if ($item->isSKPD)
+                        <br />
+                        <span class="label label-flat border-grey text-grey-600">                        
                             <a href="#">
                                 <strong>Usulan dari: </strong>OPD / SKPD
                             </a> 
-                        @elseif($item->isReses)
+                        </span>
+                    @elseif($item->isReses)
+                        <br />
+                        <span class="label label-flat border-grey text-grey-600">                        
                             <a href="#">
                                 <strong>Usulan dari: </strong>POKIR [{{$item->isReses_Uraian}}]
                             </a>
-                        @else
+                        </span>
+                    @elseif(!empty($item->UsulanKecID))
+                        <br />
+                        <span class="label label-flat border-grey text-grey-600">                        
                             <a href="{{route('aspirasimusrenkecamatan.show',['id'=>$item->UsulanKecID])}}">
                                 <strong>Usulan dari: MUSREN. KEC. {{$item->Nm_Kecamatan}}
                             </a>
-                        @endif
-                    </span>
+                        </span>
+                    @endif
                 </td>
                 <td>{{Helper::formatAngka($item->Sasaran_Angka5)}} {{$item->Sasaran_Uraian5}}</td>
                 <td>{{$item->Target5}}</td>
                 <td class="text-right">{{Helper::formatuang($item->Jumlah5)}}</td>
                 <td>
-                    <span class="label label-flat border-success text-success-600">
+                    <span class="label label-flat border-pink text-pink-600">
                         {{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}
                     </span>
                 </td>
                 <td>
                     @include('layouts.limitless.l_status_kegiatan')
                 </td>
+                <td>                    
+                    @if ($item->Privilege==0)
+                    <span class="label label-flat border-grey text-grey-600 label-icon">
+                        <i class="icon-cross2"></i>
+                    </span>
+                    @else
+                        <span class="label label-flat border-success text-success-600 label-icon">
+                            <i class="icon-checkmark"></i>
+                        </span>                            
+                    @endif                    
+                </td>
                 <td>
                     <ul class="icons-list">
-                        @include('layouts.limitless.l_ubah_status')
-                        @if ($item->Privilege==0)                        
-                            <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('verifikasirenja.edit',['id'=>$item->RenjaRincID])}}" title="Ubah Rincian Kegiatan">
-                                    <i class='icon-pencil7'></i>
-                                </a>  
-                            </li>                        
-                        @else
-                        <li class="text-primary-600">
-                            <a class="btnShow" href="{{route('verifikasirenja.show',['id'=>$item->RenjaID])}}" title="Transfer ke RKPD">
-                                <i class='icon-eye'></i>
-                            </a>  
-                        </li> 
-                        @endif
+                        @include('layouts.limitless.l_ubah_status')                        
                     </ul>
                 </td>                 
             </tr>
             <tr class="text-center info">
-                <td colspan="10">
+                <td colspan="11">
                     <span class="label label-warning label-rounded">
                         <strong>RenjaID:</strong>
                         {{$item->RenjaID}}

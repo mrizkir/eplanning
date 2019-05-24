@@ -167,6 +167,9 @@
                             <strong>KET:</strong>
                             {{empty($item->Descr)?'-':$item->Descr}}
                         </span>
+                        <a href="{{route(HelperKegiatan::getRouteUsulanFromPembahasan($page_active,'show'),['id'=>$item->RenjaID])}}">
+                            LIAT DI USULAN
+                        </a>
                     </td>
                 </tr>
             @endforeach                    

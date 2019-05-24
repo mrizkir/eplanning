@@ -25,175 +25,9 @@ class PembahasanRenjaController extends Controller {
         $this->NameOfPage = \Helper::getNameOfPage();
 
         //set nama halaman saat ini
-        $this->LabelTransfer = $this->getLabelTransfer();
+        $this->LabelTransfer = \HelperKegiatan::getLabelTransfer($this->NameOfPage);
 
-    }
-    private function getPageTitle()
-    {
-        switch ($this->NameOfPage) 
-        {            
-            case 'pembahasanprarenjaopd' :
-               $pagetitle = 'PEMBAHASAN PRA RENJA OPD/SKPD';
-            break;
-            case 'pembahasanrakorbidang' :
-                $pagetitle = 'PEMBAHASAN RAKOR BIDANG';
-            break;
-            case 'pembahasanforumopd' :
-                $pagetitle = 'PEMBAHASAN FORUM OPD / SKPD';
-            break;
-            case 'pembahasanmusrenkab' :
-                $pagetitle = 'PEMBAHASAN MUSRENBANG KABUPATEN';                
-            break;           
-            default :
-                $pagetitle = 'WORKFLOW';
-        }
-        return $pagetitle;
-    }
-    private function getLabelTransfer()
-    {
-        switch ($this->NameOfPage) 
-        {            
-            case 'pembahasanprarenjaopd' :
-               $pagetitle = 'RAKOR BIDANG';
-            break;
-            case 'pembahasanrakorbidang' :
-                $pagetitle = 'FORUM OPD / SKPD';
-            break;
-            case 'pembahasanforumopd' :
-                $pagetitle = 'MUSRENBANG KABUPATEN';
-            break;
-            case 'pembahasanmusrenkab' :
-                $pagetitle = 'VERIFIKASI TAPD';                
-            break;           
-            default :
-                $pagetitle = 'WORKFLOW';
-        }
-        return $pagetitle;
-    }
-    /**
-     * digunakan untuk mendapatkan nama view db
-     */
-    private function getViewName ()
-    {
-        switch ($this->NameOfPage) 
-        {            
-            case 'pembahasanprarenjaopd' :
-                $dbViewName = 'v_usulan_pra_renja_opd';
-            break;
-            case 'pembahasanrakorbidang' :
-                $dbViewName = 'v_usulan_rakor_bidang';
-            break;
-            case 'pembahasanforumopd' :
-                $dbViewName = 'v_usulan_forum_opd';
-            break;
-            case 'pembahasanmusrenkab' :
-                $dbViewName = 'v_usulan_musren_kab';
-            break;
-            default :
-                $dbViewName = null;
-        }
-        return $dbViewName;
-    }   
-    /**
-     * digunakan untuk mendapatkan nama view db
-     */
-    private function getField ()
-    {
-        switch ($this->NameOfPage) 
-        {            
-            case 'pembahasanprarenjaopd' :
-                $rawSql = \DB::raw('"RenjaID",                                    
-                                    "RenjaRincID",
-                                    "UsulanKecID",
-                                    "Nm_Kecamatan",
-                                    "kode_kegiatan",
-                                    "No",
-                                    "KgtNm",
-                                    "Uraian",
-                                    "Sasaran_Angka1" AS "Sasaran_Angka",
-                                    "Sasaran_Uraian1" AS "Sasaran_Uraian",
-                                    "Target1" AS "Target",
-                                    "Jumlah1" AS "Jumlah",
-                                    "Prioritas",
-                                    "isSKPD",
-                                    "isReses",
-                                    "isReses_Uraian",
-                                    "Status",
-                                    "Privilege",
-                                    "Status_Indikator",
-                                    "Descr"');
-            break;
-            case 'pembahasanrakorbidang' :
-                $rawSql = \DB::raw('"RenjaID",
-                                    "RenjaRincID",
-                                    "UsulanKecID",
-                                    "Nm_Kecamatan",
-                                    "kode_kegiatan",
-                                    "No",
-                                    "KgtNm",
-                                    "Uraian",
-                                    "Sasaran_Angka2" AS "Sasaran_Angka",
-                                    "Sasaran_Uraian2" AS "Sasaran_Uraian",
-                                    "Target2" AS "Target",
-                                    "Jumlah2" AS "Jumlah",
-                                    "Prioritas",
-                                    "isSKPD",
-                                    "isReses",
-                                    "isReses_Uraian",
-                                    "Status",
-                                    "Privilege",
-                                    "Status_Indikator",
-                                    "Descr"');
-            break;
-            case 'pembahasanforumopd' :
-                $rawSql = \DB::raw('"RenjaID",
-                                    "RenjaRincID",
-                                    "UsulanKecID",
-                                    "Nm_Kecamatan",
-                                    "kode_kegiatan",
-                                    "No",
-                                    "KgtNm",
-                                    "Uraian",
-                                    "Sasaran_Angka3" AS "Sasaran_Angka",
-                                    "Sasaran_Uraian3" AS "Sasaran_Uraian",
-                                    "Target3" AS "Target",
-                                    "Jumlah3" AS "Jumlah",
-                                    "Prioritas",
-                                    "isSKPD",
-                                    "isReses",
-                                    "isReses_Uraian",
-                                    "Status",
-                                    "Privilege",
-                                    "Status_Indikator",
-                                    "Descr"');
-            break;
-            case 'pembahasanmusrenkab' :
-                $rawSql = \DB::raw('"RenjaID",
-                                    "RenjaRincID",
-                                    "UsulanKecID",
-                                    "No",
-                                    "Nm_Kecamatan",
-                                    "kode_kegiatan",
-                                    "KgtNm",
-                                    "Uraian",
-                                    "Sasaran_Angka4" AS "Sasaran_Angka",
-                                    "Sasaran_Uraian4" AS "Sasaran_Uraian",
-                                    "Target4" AS "Target",
-                                    "Jumlah4" AS "Jumlah",
-                                    "Prioritas",
-                                    "isSKPD",
-                                    "isReses",
-                                    "isReses_Uraian",
-                                    "Status",
-                                    "Privilege",
-                                    "Status_Indikator",
-                                    "Descr"');
-            break;
-            default :
-                $rawSql = null;
-        }        
-        return $rawSql;
-    } 
+    }     
     /**
      * collect data from resources for index view
      *
@@ -231,8 +65,8 @@ class PembahasanRenjaController extends Controller {
             switch ($search['kriteria']) 
             {
                 case 'kode_kegiatan' :
-                    $data = \DB::table($this->getViewName())
-                                ->select($this->getField())
+                    $data = \DB::table(\HelperKegiatan::getViewName($this->NameOfPage))
+                                ->select(\HelperKegiatan::getField($this->NameOfPage))
                                 ->where('kode_kegiatan',$search['isikriteria'])                                                    
                                 ->where('SOrgID',$SOrgID)
                                 ->whereNotNull('RenjaRincID')
@@ -241,8 +75,8 @@ class PembahasanRenjaController extends Controller {
                                 ->orderBy($column_order,$direction); 
                 break;
                 case 'KgtNm' :
-                    $data = \DB::table($this->getViewName())
-                                ->select($this->getField())
+                    $data = \DB::table(\HelperKegiatan::getViewName($this->NameOfPage))
+                                ->select(\HelperKegiatan::getField($this->NameOfPage))
                                 ->where('KgtNm', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                 ->where('SOrgID',$SOrgID)
                                 ->whereNotNull('RenjaRincID')
@@ -251,8 +85,8 @@ class PembahasanRenjaController extends Controller {
                                 ->orderBy($column_order,$direction);                                        
                 break;
                 case 'Uraian' :
-                    $data = \DB::table($this->getViewName())
-                                ->select($this->getField())
+                    $data = \DB::table(\HelperKegiatan::getViewName($this->NameOfPage))
+                                ->select(\HelperKegiatan::getField($this->NameOfPage))
                                 ->where('Uraian', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                 ->where('SOrgID',$SOrgID)
                                 ->whereNotNull('RenjaRincID')
@@ -265,8 +99,8 @@ class PembahasanRenjaController extends Controller {
         }
         else
         {
-            $data = \DB::table($this->getViewName())
-                        ->select($this->getField())
+            $data = \DB::table(\HelperKegiatan::getViewName($this->NameOfPage))
+                        ->select(\HelperKegiatan::getField($this->NameOfPage))
                         ->where('SOrgID',$SOrgID)                                     
                         ->whereNotNull('RenjaRincID')       
                         ->where('TA', config('globalsettings.tahun_perencanaan'))                                            
@@ -293,7 +127,7 @@ class PembahasanRenjaController extends Controller {
         $data=$this->populateData();
 
         $datatable = view("pages.$theme.rkpd.pembahasanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
-                                                                                'page_title'=>$this->getPageTitle(),
+                                                                                'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                                 'label_transfer'=>$this->LabelTransfer,
                                                                                 'search'=>$this->getControllerStateSession($this->SessionName,'search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
@@ -346,7 +180,7 @@ class PembahasanRenjaController extends Controller {
         }
         
         $datatable = view("pages.$theme.rkpd.pembahasanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
-                                                                                'page_title'=>$this->getPageTitle(),
+                                                                                'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                                 'label_transfer'=>$this->LabelTransfer,
                                                                                 'search'=>$this->getControllerStateSession($this->SessionName,'search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
@@ -369,7 +203,7 @@ class PembahasanRenjaController extends Controller {
         $this->setCurrentPageInsideSession($this->SessionName,$id);
         $data=$this->populateData($id);
         $datatable = view("pages.$theme.rkpd.pembahasanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
-                                                                                'page_title'=>$this->getPageTitle(),
+                                                                                'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                                 'label_transfer'=>$this->LabelTransfer,
                                                                                 'search'=>$this->getControllerStateSession($this->SessionName,'search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
@@ -404,7 +238,7 @@ class PembahasanRenjaController extends Controller {
         $data=$this->populateData();
 
         $datatable = view("pages.$theme.rkpd.pembahasanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
-                                                                                'page_title'=>$this->getPageTitle(),                                                            
+                                                                                'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),                                                            
                                                                                 'label_transfer'=>$this->LabelTransfer,
                                                                                 'search'=>$this->getControllerStateSession($this->SessionName,'search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
@@ -442,7 +276,7 @@ class PembahasanRenjaController extends Controller {
             $data = [];
 
             $datatable = view("pages.$theme.rkpd.pembahasanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
-                                                                                    'page_title'=>$this->getPageTitle(), 
+                                                                                    'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage), 
                                                                                     'label_transfer'=>$this->LabelTransfer,                                                                       
                                                                                     'search'=>$this->getControllerStateSession($this->SessionName,'search'),
                                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
@@ -474,9 +308,9 @@ class PembahasanRenjaController extends Controller {
             $data = $this->populateData();
 
             $datatable = view("pages.$theme.rkpd.pembahasanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
-                                                                                    'page_title'=>$this->getPageTitle(),
+                                                                                    'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                                     'label_transfer'=>$this->LabelTransfer,
-                                                                                    'search'=>$this->getControllerStateSession($this->getViewName(),'search'),
+                                                                                    'search'=>$this->getControllerStateSession($this->SessionName,'search'),
                                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                     'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
                                                                                     'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
@@ -520,7 +354,7 @@ class PembahasanRenjaController extends Controller {
                                                                     ->value('Jumlah1');
         
         return view("pages.$theme.rkpd.pembahasanrenja.index")->with(['page_active'=>$this->NameOfPage, 
-                                                                        'page_title'=>$this->getPageTitle(),                                                                            
+                                                                        'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),                                                                            
                                                                         'label_transfer'=>$this->LabelTransfer,
                                                                         'daftar_opd'=>$daftar_opd,
                                                                         'daftar_unitkerja'=>$daftar_unitkerja,
@@ -618,7 +452,7 @@ class PembahasanRenjaController extends Controller {
         if (!is_null($data) )  
         {            
             return view("pages.$theme.rkpd.pembahasanrenja.showrincian")->with(['page_active'=>$this->NameOfPage,
-                                                                                'page_title'=>$this->getPageTitle(),
+                                                                                'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                                 'renja'=>$data,
                                                                                 'item'=>$data
                                                                             ]);
@@ -715,7 +549,7 @@ class PembahasanRenjaController extends Controller {
         if (!is_null($renja) ) 
         {  
             return view("pages.$theme.rkpd.pembahasanrenja.edit")->with(['page_active'=>$this->NameOfPage,
-                                                                        'page_title'=>$this->getPageTitle(),
+                                                                        'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                         'renja'=>$renja,                                                                   
                                                                     ]);
         }        
@@ -751,7 +585,7 @@ class PembahasanRenjaController extends Controller {
             $data = $this->populateData();
             
             $datatable = view("pages.$theme.rkpd.pembahasanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
-                                                                                    'page_title'=>$this->getPageTitle(),                                                                            
+                                                                                    'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),                                                                            
                                                                                     'label_transfer'=>$this->LabelTransfer,
                                                                                     'search'=>$this->getControllerStateSession($this->SessionName,'search'),
                                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
@@ -1037,7 +871,7 @@ class PembahasanRenjaController extends Controller {
 
                         \DB::statement($str_kinerja);
                         RenjaRincianModel::where('RenjaRincID',$RenjaRincID)
-                                            ->update(['Privilege'=>1,'Status'=>1]);
+                                            ->update(['Privilege'=>1]);
                         RenjaIndikatorModel::where('RenjaID',$RenjaID)
                                             ->update(['Privilege'=>1]);
 
@@ -1185,7 +1019,7 @@ class PembahasanRenjaController extends Controller {
 
                         \DB::statement($str_kinerja);
                         RenjaRincianModel::where('RenjaRincID',$RenjaRincID)
-                                            ->update(['Privilege'=>1,'Status'=>1]);
+                                            ->update(['Privilege'=>1]);
                         RenjaIndikatorModel::where('RenjaID',$RenjaID)
                                             ->update(['Privilege'=>1]);
                     break;
@@ -1341,7 +1175,7 @@ class PembahasanRenjaController extends Controller {
 
                         \DB::statement($str_kinerja);
                         RenjaRincianModel::where('RenjaRincID',$RenjaRincID)
-                                            ->update(['Privilege'=>1,'Status'=>1]);
+                                            ->update(['Privilege'=>1]);
                         RenjaIndikatorModel::where('RenjaID',$RenjaID)
                                             ->update(['Privilege'=>1]);
                         
@@ -1520,7 +1354,7 @@ class PembahasanRenjaController extends Controller {
                 $data = $this->populateData();
                 
                 $datatable = view("pages.$theme.rkpd.pembahasanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
-                                                                                        'page_title'=>$this->getPageTitle(),                                                                            
+                                                                                        'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),                                                                            
                                                                                         'label_transfer'=>$this->LabelTransfer,
                                                                                         'search'=>$this->getControllerStateSession($this->SessionName,'search'),
                                                                                         'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),

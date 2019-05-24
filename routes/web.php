@@ -330,6 +330,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     //Workflow- verifikasi renja [pembahasan tapd]
     Route::resource('/workflow/rkpd/verifikasirenja','RKPD\VerifikasiRenjaController',['parameters'=>['verifikasirenja'=>'uuid'],
                                                                                                               'only'=>['index','edit','update']]); 
+    Route::get('/workflow/rkpd/verifikasirenja/showrincian/{uuid}',['uses'=>'RKPD\VerifikasiRenjaController@showrincian','as'=>'verifikasirenja.showrincian']); 
     Route::post('/workflow/rkpd/verifikasirenja/search',['uses'=>'RKPD\VerifikasiRenjaController@search','as'=>'verifikasirenja.search']);  
     Route::post('/workflow/rkpd/verifikasirenja/filter',['uses'=>'RKPD\VerifikasiRenjaController@filter','as'=>'verifikasirenja.filter']);              
     Route::get('/workflow/rkpd/verifikasirenja/paginate/{id}',['uses'=>'RKPD\VerifikasiRenjaController@paginate','as'=>'verifikasirenja.paginate']);              
@@ -339,7 +340,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     
     //Workflow- verifikasi renja [pembahasan tapd]
     Route::resource('/workflow/rkpd/rkpdmurni','RKPD\RKPDMurniController',['parameters'=>['rkpdmurni'=>'uuid'],
-                                                                    'only'=>['index','show','edit','update']]); 
+                                                                    'only'=>['index','show','edit','update']]);     
     Route::post('/workflow/rkpd/rkpdmurni/search',['uses'=>'RKPD\RKPDMurniController@search','as'=>'rkpdmurni.search']);  
     Route::post('/workflow/rkpd/rkpdmurni/filter',['uses'=>'RKPD\RKPDMurniController@filter','as'=>'rkpdmurni.filter']);              
     Route::get('/workflow/rkpd/rkpdmurni/paginate/{id}',['uses'=>'RKPD\RKPDMurniController@paginate','as'=>'rkpdmurni.paginate']);              

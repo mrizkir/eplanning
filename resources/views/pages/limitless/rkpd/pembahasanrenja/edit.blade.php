@@ -14,7 +14,7 @@
 @section('page_breadcrumb')
     <li><a href="#">WORKFLOW</a></li>
     <li><a href="{!!route(Helper::getNameOfPage('index'))!!}!!}">{{$page_title}}</a></li>
-    <li class="active">UBAH DATA RINCIAN KEGIATAN DARI OPD / SKPD</li>
+    <li class="active">UBAH DATA RINCIAN KEGIATAN</li>
 @endsection
 @section('page_content')
 <div class="content">
@@ -22,18 +22,26 @@
         <div class="panel-heading">
             <h5 class="panel-title">
                 <i class="icon-pencil7 position-left"></i> 
-                UBAH DATA RINCIAN KEGIATAN DARI OPD / SKPD
+                UBAH DATA RINCIAN KEGIATAN
             </h5>
             <div class="heading-elements">
                 <ul class="icons-list">                    
                     <li>               
-                        <a href="{!!route(Helper::getNameOfPage('show'),['id'=>$renja->RenjaID])!!}" data-action="closeredirect" title="keluar"></a>
+                        <a href="{!!route(Helper::getNameOfPage('index'))!!}" data-action="closeredirect" title="keluar"></a>
                     </li>
                 </ul>
             </div>
         </div>
         {!! Form::open(['url'=>route(Helper::getNameOfPage('update2'),$renja->RenjaRincID),'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
-        <div class="panel-body">     
+        <div class="panel-body">    
+            <div class="form-group">
+                <label class="col-md-2 control-label">POSISI ENTRI: </label>
+                <div class="col-md-10">
+                    <p class="form-control-static">
+                        <span class="label border-left-primary label-striped">{{$page_title}}</span>
+                    </p>
+                </div>                            
+            </div> 
             <div class="form-group">
                 {{Form::label('No','NOMOR',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">

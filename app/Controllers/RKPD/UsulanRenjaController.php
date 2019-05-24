@@ -25,148 +25,7 @@ class UsulanRenjaController extends Controller
         $this->SessionName=$this->getNameForSession();      
         //set nama halaman saat ini
         $this->NameOfPage = \Helper::getNameOfPage();
-    }
-    private function getPageTitle()
-    {
-        switch ($this->NameOfPage) 
-        {            
-            case 'usulanprarenjaopd' :
-                $pagetitle = 'USULAN PRA RENJA OPD/SKPD';
-            break;
-            case 'usulanrakorbidang' :
-                $pagetitle = 'USULAN RAKOR BIDANG';
-            break;
-            case 'usulanforumopd' :
-                $pagetitle = 'USULAN FORUM OPD / SKPD';
-            break;
-            case 'usulanmusrenkab' :
-                $pagetitle = 'USULAN MUSRENBANG KABUPATEN';
-            break;
-            default :
-                $pagetitle = 'WORKFLOW';
-        }
-        return $pagetitle;
-    }
-    /**
-     * digunakan untuk mendapatkan nama view db
-     */
-    private function getViewName ()
-    {
-        switch ($this->NameOfPage) 
-        {            
-            case 'usulanprarenjaopd' :
-                $dbViewName = 'v_usulan_pra_renja_opd';
-            break;
-            case 'usulanrakorbidang' :
-                $dbViewName = 'v_usulan_rakor_bidang';
-            break;
-            case 'usulanforumopd' :
-                $dbViewName = 'v_usulan_forum_opd';
-            break;
-            case 'usulanmusrenkab' :
-                $dbViewName = 'v_usulan_musren_kab';
-            break;
-            default :
-                $dbViewName = null;
-        }
-        return $dbViewName;
-    }   
-    /**
-     * digunakan untuk mendapatkan nama view db
-     */
-    private function getField ()
-    {
-        switch ($this->NameOfPage) 
-        {            
-            case 'usulanprarenjaopd' :
-                $rawSql = \DB::raw('"RenjaID",
-                                    "RenjaRincID",
-                                    "UsulanKecID",
-                                    "Nm_Kecamatan",
-                                    "kode_kegiatan",
-                                    "KgtNm",
-                                    "Uraian",
-                                    "Sasaran_Angka1" AS "Sasaran_Angka",
-                                    "Sasaran_Uraian1" AS "Sasaran_Uraian",
-                                    "Target1" AS "Target",
-                                    "Jumlah1" AS "Jumlah",
-                                    "Prioritas",
-                                    "isSKPD",
-                                    "isReses",
-                                    "isReses_Uraian",
-                                    "Status",
-                                    "Privilege",
-                                    "Status_Indikator",
-                                    "Descr"');
-            break;
-            case 'usulanrakorbidang' :
-                $rawSql = \DB::raw('"RenjaID",
-                                    "RenjaRincID",
-                                    "UsulanKecID",
-                                    "Nm_Kecamatan",
-                                    "kode_kegiatan",
-                                    "KgtNm",
-                                    "Uraian",
-                                    "Sasaran_Angka2" AS "Sasaran_Angka",
-                                    "Sasaran_Uraian2" AS "Sasaran_Uraian",
-                                    "Target2" AS "Target",
-                                    "Jumlah2" AS "Jumlah",
-                                    "Prioritas",
-                                    "isSKPD",
-                                    "isReses",
-                                    "isReses_Uraian",
-                                    "Status",
-                                    "Privilege",
-                                    "Status_Indikator",
-                                    "Descr"');
-            break;
-            case 'usulanforumopd' :
-                $rawSql = \DB::raw('"RenjaID",
-                                    "RenjaRincID",
-                                    "UsulanKecID",
-                                    "Nm_Kecamatan",
-                                    "kode_kegiatan",
-                                    "KgtNm",
-                                    "Uraian",
-                                    "Sasaran_Angka3" AS "Sasaran_Angka",
-                                    "Sasaran_Uraian3" AS "Sasaran_Uraian",
-                                    "Target3" AS "Target",
-                                    "Jumlah3" AS "Jumlah",
-                                    "Prioritas",
-                                    "isSKPD",
-                                    "isReses",
-                                    "isReses_Uraian",
-                                    "Status",
-                                    "Privilege",
-                                    "Status_Indikator",
-                                    "Descr"');
-            break;
-            case 'usulanmusrenkab' :
-                $rawSql = \DB::raw('"RenjaID",
-                                    "RenjaRincID",
-                                    "UsulanKecID",
-                                    "Nm_Kecamatan",
-                                    "kode_kegiatan",
-                                    "KgtNm",
-                                    "Uraian",
-                                    "Sasaran_Angka4" AS "Sasaran_Angka",
-                                    "Sasaran_Uraian4" AS "Sasaran_Uraian",
-                                    "Target4" AS "Target",
-                                    "Jumlah4" AS "Jumlah",
-                                    "Prioritas",
-                                    "isSKPD",
-                                    "isReses",
-                                    "isReses_Uraian",
-                                    "Status",
-                                    "Privilege",
-                                    "Status_Indikator",
-                                    "Descr"');
-            break;
-            default :
-                $rawSql = null;
-        }        
-        return $rawSql;
-    } 
+    }    
     private function populateRincianKegiatan($RenjaID)
     {
         switch ($this->NameOfPage) 
@@ -308,8 +167,8 @@ class UsulanRenjaController extends Controller
             switch ($search['kriteria']) 
             {
                 case 'kode_kegiatan' :
-                    $data = \DB::table($this->getViewName())
-                                ->select($this->getField())
+                    $data = \DB::table(\HelperKegiatan::getViewName($this->NameOfPage))
+                                ->select(\HelperKegiatan::getField($this->NameOfPage))
                                 ->where(['kode_kegiatan'=>$search['isikriteria']])                                                    
                                 ->where('SOrgID',$SOrgID)
                                 ->where('TA', config('globalsettings.tahun_perencanaan'))
@@ -317,8 +176,8 @@ class UsulanRenjaController extends Controller
                                 ->orderBy($column_order,$direction); 
                 break;
                 case 'KgtNm' :
-                    $data = \DB::table($this->getViewName())
-                                ->select($this->getField())
+                    $data = \DB::table(\HelperKegiatan::getViewName($this->NameOfPage))
+                                ->select(\HelperKegiatan::getField($this->NameOfPage))
                                 ->where('KgtNm', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                 ->where('SOrgID',$SOrgID)
                                 ->where('TA', config('globalsettings.tahun_perencanaan'))
@@ -326,8 +185,8 @@ class UsulanRenjaController extends Controller
                                 ->orderBy($column_order,$direction);                                        
                 break;
                 case 'Uraian' :
-                    $data =  \DB::table($this->getViewName())
-                                    ->select($this->getField())
+                    $data =  \DB::table(\HelperKegiatan::getViewName($this->NameOfPage))
+                                    ->select(\HelperKegiatan::getField($this->NameOfPage))
                                     ->where('Uraian', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                     ->where('SOrgID',$SOrgID)
                                     ->where('TA', config('globalsettings.tahun_perencanaan'))
@@ -339,8 +198,8 @@ class UsulanRenjaController extends Controller
         }
         else
         {
-            $data = \DB::table($this->getViewName())
-                            ->select($this->getField())
+            $data = \DB::table(\HelperKegiatan::getViewName($this->NameOfPage))
+                            ->select(\HelperKegiatan::getField($this->NameOfPage))
                             ->where('SOrgID',$SOrgID)                                            
                             ->where('TA', config('globalsettings.tahun_perencanaan'))                                            
                             ->orderBy('Prioritas','ASC')
@@ -397,7 +256,7 @@ class UsulanRenjaController extends Controller
         }
 
         $datatable = view("pages.$theme.rkpd.usulanrenja.datatable")->with(['page_active'=>$this->NameOfPage,
-                                                                        'page_title'=>$this->getPageTitle(),                                                                           
+                                                                        'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),                                                                           
                                                                         'search'=>$this->getControllerStateSession($this->SessionName,'search'),
                                                                         'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                                                         'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
@@ -419,7 +278,7 @@ class UsulanRenjaController extends Controller
         $this->setCurrentPageInsideSession($this->SessionName,$id);
         $data=$this->populateData($id);
         $datatable = view("pages.$theme.rkpd.usulanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
-                                                                                'page_title'=>$this->getPageTitle(),
+                                                                                'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                                 'label_transfer'=>$this->LabelTransfer,
                                                                                 'search'=>$this->getControllerStateSession($this->SessionName,'search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
@@ -445,7 +304,7 @@ class UsulanRenjaController extends Controller
         $data=$this->populateData();
 
         $datatable = view("pages.$theme.rkpd.usulanrenja.datatable")->with(['page_active'=>$this->NameOfPage,
-                                                                                'page_title'=>$this->getPageTitle(),                                                                           
+                                                                                'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),                                                                           
                                                                                 'search'=>$this->getControllerStateSession($this->SessionName,'search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                                                                 'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
@@ -481,7 +340,7 @@ class UsulanRenjaController extends Controller
             $data = [];
 
             $datatable = view("pages.$theme.rkpd.usulanrenja.datatable")->with(['page_active'=>$this->NameOfPage,   
-                                                                            'page_title'=>$this->getPageTitle(),                                                                                                                                    
+                                                                            'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),                                                                                                                                    
                                                                             'search'=>$this->getControllerStateSession($this->SessionName,'search'),
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                             'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
@@ -511,7 +370,7 @@ class UsulanRenjaController extends Controller
 
             $data = $this->populateData();            
             $datatable = view("pages.$theme.rkpd.usulanrenja.datatable")->with(['page_active'=>$this->NameOfPage,   
-                                                                                'page_title'=>$this->getPageTitle(),                                                                                                                                    
+                                                                                'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),                                                                                                                                    
                                                                                 'search'=>$this->getControllerStateSession($this->SessionName,'search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                 'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
@@ -640,7 +499,7 @@ class UsulanRenjaController extends Controller
         $data=$this->populateData();
 
         $datatable = view("pages.$theme.rkpd.usulanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
-                                                                            'page_title'=>$this->getPageTitle(),                                                            
+                                                                            'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),                                                            
                                                                             'search'=>$this->getControllerStateSession($this->SessionName,'search'),
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                             'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
@@ -701,7 +560,7 @@ class UsulanRenjaController extends Controller
                                                                     ->value('Jumlah1');
 
         return view("pages.$theme.rkpd.usulanrenja.index")->with(['page_active'=>$this->NameOfPage, 
-                                                                'page_title'=>$this->getPageTitle(),
+                                                                'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                 'daftar_opd'=>$daftar_opd,
                                                                 'daftar_unitkerja'=>$daftar_unitkerja,
                                                                 'filters'=>$filters,
@@ -794,7 +653,7 @@ class UsulanRenjaController extends Controller
             $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(config('globalsettings.tahun_perencanaan'),false);     
             
             return view("pages.$theme.rkpd.usulanrenja.create")->with(['page_active'=>$this->NameOfPage,
-                                                                    'page_title'=>$this->getPageTitle(),
+                                                                    'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                     'daftar_urusan'=>$daftar_urusan,
                                                                     'daftar_program'=>$daftar_program,
                                                                     'UrsID_selected'=>$UrsID,
@@ -804,7 +663,7 @@ class UsulanRenjaController extends Controller
         else
         {
             return view("pages.$theme.rkpd.usulanrenja.error")->with(['page_active'=>$this->NameOfPage,
-                                                                    'page_title'=>$this->getPageTitle(),
+                                                                    'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                     'errormessage'=>'Mohon unit kerja untuk di pilih terlebih dahulu.'
                                                                 ]);  
         }  
@@ -854,7 +713,7 @@ class UsulanRenjaController extends Controller
             $dataindikatorkinerja = $this->populateIndikatorKegiatan($renjaid);
 
             return view("pages.$theme.rkpd.usulanrenja.create1")->with(['page_active'=>$this->NameOfPage,
-                                                                    'page_title'=>$this->getPageTitle(),
+                                                                    'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                     'daftar_indikatorkinerja'=>$daftar_indikatorkinerja,
                                                                     'renja'=>$renja,
                                                                     'dataindikatorkinerja'=>$dataindikatorkinerja
@@ -863,7 +722,7 @@ class UsulanRenjaController extends Controller
         else
         {
             return view("pages.$theme.rkpd.usulanrenja.error")->with(['page_active'=>$this->NameOfPage,
-                                                                'page_title'=>$this->getPageTitle(),
+                                                                'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                 'errormessage'=>'Mohon unit kerja untuk di pilih terlebih dahulu.'
                                                                 ]);  
         }
@@ -890,7 +749,7 @@ class UsulanRenjaController extends Controller
             $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(config('globalsettings.tahun_perencanaan'),config('globalsettings.defaul_kota_atau_kab'),false);
             $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->max('No')+1;
             return view("pages.$theme.rkpd.usulanrenja.create2")->with(['page_active'=>$this->NameOfPage,
-                                                                    'page_title'=>$this->getPageTitle(),
+                                                                    'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                     'renja'=>$renja,
                                                                     'datarinciankegiatan'=>$datarinciankegiatan,
                                                                     'nomor_rincian'=>$nomor_rincian,
@@ -902,7 +761,7 @@ class UsulanRenjaController extends Controller
         else
         {
             return view("pages.$theme.rkpd.usulanrenja.error")->with(['page_active'=>$this->NameOfPage,
-                                                                'page_title'=>$this->getPageTitle(),
+                                                                'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                 'errormessage'=>'Mohon unit kerja untuk di pilih terlebih dahulu.'
                                                                 ]);  
         }
@@ -933,7 +792,7 @@ class UsulanRenjaController extends Controller
             $PMProvID = 'uidF1847004D8F547BF';
             $PmKotaID = 'uidE4829D1F21F44ECA';
             return view("pages.$theme.rkpd.usulanrenja.create3")->with(['page_active'=>$this->NameOfPage,
-                                                                            'page_title'=>$this->getPageTitle(),
+                                                                            'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                             'renja'=>$renja,
                                                                             'datarinciankegiatan'=>$datarinciankegiatan,
                                                                             'daftar_pemilik'=>$daftar_pemilik, 
@@ -945,7 +804,7 @@ class UsulanRenjaController extends Controller
         else
         {
             return view("pages.$theme.rkpd.usulanrenja.error")->with(['page_active'=>$this->NameOfPage,
-                                                                'page_title'=>$this->getPageTitle(),
+                                                                'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                 'errormessage'=>'Mohon unit kerja untuk di pilih terlebih dahulu.'
                                                                 ]);  
         }
@@ -970,7 +829,7 @@ class UsulanRenjaController extends Controller
             $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(config('globalsettings.tahun_perencanaan'),config('globalsettings.defaul_kota_atau_kab'),false);
             $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->max('No')+1;
             return view("pages.$theme.rkpd.usulanrenja.create4")->with(['page_active'=>$this->NameOfPage,
-                                                                    'page_title'=>$this->getPageTitle(),
+                                                                    'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                     'renja'=>$renja,
                                                                     'nomor_rincian'=>$nomor_rincian,
                                                                     'datarinciankegiatan'=>$datarinciankegiatan,
@@ -982,7 +841,7 @@ class UsulanRenjaController extends Controller
         else
         {
             return view("pages.$theme.rkpd.usulanrenja.error")->with(['page_active'=>$this->NameOfPage,
-                                                                'page_title'=>$this->getPageTitle(),
+                                                                'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                 'errormessage'=>'Mohon unit kerja untuk di pilih terlebih dahulu.'
                                                                 ]);  
         }
@@ -1733,7 +1592,7 @@ class UsulanRenjaController extends Controller
             $dataindikatorkinerja = $this->populateIndikatorKegiatan($id);            
             $datarinciankegiatan = $this->populateRincianKegiatan($id);               
             return view("pages.$theme.rkpd.usulanrenja.show")->with(['page_active'=>$this->NameOfPage,
-                                                                'page_title'=>$this->getPageTitle(),
+                                                                'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                 'renja'=>$renja,
                                                                 'dataindikatorkinerja'=>$dataindikatorkinerja,
                                                                 'datarinciankegiatan'=>$datarinciankegiatan
@@ -1824,7 +1683,7 @@ class UsulanRenjaController extends Controller
         if (!is_null($data) )  
         {            
             return view("pages.$theme.rkpd.usulanrenja.showrincian")->with(['page_active'=>$this->NameOfPage,
-                                                                'page_title'=>$this->getPageTitle(),
+                                                                'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                 'renja'=>$data,
                                                                 'item'=>$data
                                                             ]);
@@ -1897,7 +1756,7 @@ class UsulanRenjaController extends Controller
         {
             $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(config('globalsettings.tahun_perencanaan'),false);     
             return view("pages.$theme.rkpd.usulanrenja.edit")->with(['page_active'=>$this->NameOfPage,
-                                                                'page_title'=>$this->getPageTitle(),
+                                                                'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                 'renja'=>$renja,
                                                                 'sumber_dana'=>$sumber_dana
                                                                 ]);
@@ -1926,7 +1785,7 @@ class UsulanRenjaController extends Controller
             $dataindikator_rpjmd = \App\Models\RPJMD\RpjmdIndikatorKinerjaModel::getIndikatorKinerjaByID($renja->IndikatorKinerjaID,$renja->TA);            
             $dataindikatorkinerja = $this->populateIndikatorKegiatan($renja->RenjaID);
             return view("pages.$theme.rkpd.usulanrenja.edit1")->with(['page_active'=>$this->NameOfPage,
-                                                                'page_title'=>$this->getPageTitle(),
+                                                                'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                 'renja'=>$renja,
                                                                 'dataindikator_rpjmd'=>$dataindikator_rpjmd,
                                                                 'dataindikatorkinerja'=>$dataindikatorkinerja
@@ -2267,7 +2126,7 @@ class UsulanRenjaController extends Controller
             $datarinciankegiatan = $this->populateRincianKegiatan($renja->RenjaID);
 
             return view("pages.$theme.rkpd.usulanrenja.edit2")->with(['page_active'=>$this->NameOfPage,
-                                                                'page_title'=>$this->getPageTitle(),
+                                                                'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                 'renja'=>$renja,
                                                                 'datarinciankegiatan'=>$datarinciankegiatan
                                                                 ]);
@@ -2569,7 +2428,7 @@ class UsulanRenjaController extends Controller
             $datarinciankegiatan = $this->populateRincianKegiatan($renja->RenjaID);
 
             return view("pages.$theme.rkpd.usulanrenja.edit3")->with(['page_active'=>$this->NameOfPage,
-                                                                'page_title'=>$this->getPageTitle(),
+                                                                'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                 'renja'=>$renja,
                                                                 'datarinciankegiatan'=>$datarinciankegiatan
                                                                 ]);
@@ -2839,7 +2698,7 @@ class UsulanRenjaController extends Controller
             $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(config('globalsettings.tahun_perencanaan'),$renja->PmKotaID,false);
             $daftar_desa=\App\Models\DMaster\DesaModel::getDaftarDesa(config('globalsettings.tahun_perencanaan'),$renja->PmKecamatanID,false);
             return view("pages.$theme.rkpd.usulanrenja.edit4")->with(['page_active'=>$this->NameOfPage,
-                                                                'page_title'=>$this->getPageTitle(),
+                                                                'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                 'renja'=>$renja,
                                                                 'datarinciankegiatan'=>$datarinciankegiatan,
                                                                 'daftar_provinsi'=> $daftar_provinsi,
@@ -3239,7 +3098,7 @@ class UsulanRenjaController extends Controller
                 $datatable = view("pages.$theme.rkpd.usulanrenja.datatablerinciankegiatan")
                                 ->with([
                                     'page_active'=>$this->NameOfPage,
-                                    'page_title'=>$this->getPageTitle(),
+                                    'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                     'renja'=>$renja,
                                     'datarinciankegiatan'=>$data])
                                 ->render();     
@@ -3262,7 +3121,7 @@ class UsulanRenjaController extends Controller
                 $data=$this->populateData($currentpage);
                
                 $datatable = view("pages.$theme.rkpd.usulanrenja.datatable")->with(['page_active'=>$this->NameOfPage,
-                                                                                'page_title'=>$this->getPageTitle(), 
+                                                                                'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage), 
                                                                                 'search'=>$this->getControllerStateSession('usulanprarenjaopd','search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                                                                 'column_order'=>$this->getControllerStateSession('usulanprarenjaopd.orderby','column_name'),

@@ -122,4 +122,212 @@ class HelperKegiatan {
         return 'danger';
       }
     }
+    public static function getPageTitle($nameofpage)
+    {
+        switch ($nameofpage) 
+        {            
+            case 'usulanprarenjaopd' :
+                $pagetitle = 'USULAN PRA RENJA OPD/SKPD';
+            break;
+            case 'usulanrakorbidang' :
+                $pagetitle = 'USULAN RAKOR BIDANG';
+            break;
+            case 'usulanforumopd' :
+                $pagetitle = 'USULAN FORUM OPD / SKPD';
+            break;
+            case 'usulanmusrenkab' :
+                $pagetitle = 'USULAN MUSRENBANG KABUPATEN';
+            break;
+            
+            case 'pembahasanprarenjaopd' :
+               $pagetitle = 'PEMBAHASAN PRA RENJA OPD/SKPD';
+            break;
+            case 'pembahasanrakorbidang' :
+                $pagetitle = 'PEMBAHASAN RAKOR BIDANG';
+            break;
+            case 'pembahasanforumopd' :
+                $pagetitle = 'PEMBAHASAN FORUM OPD / SKPD';
+            break;
+            case 'pembahasanmusrenkab' :
+                $pagetitle = 'PEMBAHASAN MUSRENBANG KABUPATEN';                
+            break;           
+            default :
+                $pagetitle = 'WORKFLOW';
+        }
+        return $pagetitle;
+    }
+    public static function getLabelTransfer($nameofpage)
+    {
+        switch ($nameofpage) 
+        {            
+            case 'pembahasanprarenjaopd' :
+               $pagetitle = 'RAKOR BIDANG';
+            break;
+            case 'pembahasanrakorbidang' :
+                $pagetitle = 'FORUM OPD / SKPD';
+            break;
+            case 'pembahasanforumopd' :
+                $pagetitle = 'MUSRENBANG KABUPATEN';
+            break;
+            case 'pembahasanmusrenkab' :
+                $pagetitle = 'VERIFIKASI TAPD';                
+            break;           
+            default :
+                $pagetitle = 'WORKFLOW';
+        }
+        return $pagetitle;
+    }
+    public static function getRouteUsulanFromPembahasan(string $nameofpage,string $action)
+    {
+        switch ($nameofpage) 
+        {            
+            case 'pembahasanprarenjaopd' :
+                return "usulanprarenjaopd.$action";
+            break;
+            case 'pembahasanrakorbidang' :
+                return "usulanrakorbidang.$action";
+            break;
+            case 'pembahasanforumopd' :
+                return "usulanforumopd.$action";
+            break;
+            case 'pembahasanmusrenkab' :
+                return "usulanmusrenkab.$action";
+            break;           
+            default :
+                $pagetitle = 'WORKFLOW';
+        }
+        return $pagetitle;
+    }
+    /**
+     * digunakan untuk mendapatkan nama view db
+     */
+    public static function getViewName ($nameofpage)
+    {
+        switch ($nameofpage) 
+        {         
+            case 'usulanprarenjaopd' :
+            case 'pembahasanprarenjaopd' :
+                $dbViewName = 'v_usulan_pra_renja_opd';
+            break;
+            case 'usulanrakorbidang' :
+            case 'pembahasanrakorbidang' :
+                $dbViewName = 'v_usulan_rakor_bidang';
+            break;
+            case 'usulanforumopd' :
+            case 'pembahasanforumopd' :
+                $dbViewName = 'v_usulan_forum_opd';
+            break;
+            case 'usulanmusrenkab' :
+            case 'pembahasanmusrenkab' :
+                $dbViewName = 'v_usulan_musren_kab';
+            break;               
+            default :
+                $dbViewName = null;
+        }
+        return $dbViewName;
+    }   
+    /**
+     * digunakan untuk mendapatkan nama view db
+     */
+    public static function getField ($nameofpage)
+    {
+        switch ($nameofpage) 
+        {            
+            case 'usulanprarenjaopd' :
+            case 'pembahasanprarenjaopd' :
+                $rawSql = \DB::raw('"RenjaID",                                    
+                                    "RenjaRincID",
+                                    "UsulanKecID",
+                                    "Nm_Kecamatan",
+                                    "kode_kegiatan",
+                                    "No",
+                                    "KgtNm",
+                                    "Uraian",
+                                    "Sasaran_Angka1" AS "Sasaran_Angka",
+                                    "Sasaran_Uraian1" AS "Sasaran_Uraian",
+                                    "Target1" AS "Target",
+                                    "Jumlah1" AS "Jumlah",
+                                    "Prioritas",
+                                    "isSKPD",
+                                    "isReses",
+                                    "isReses_Uraian",
+                                    "Status",
+                                    "Privilege",
+                                    "Status_Indikator",
+                                    "Descr"');
+            break;
+            case 'usulanrakorbidang' :
+            case 'pembahasanrakorbidang' :
+                $rawSql = \DB::raw('"RenjaID",
+                                    "RenjaRincID",
+                                    "UsulanKecID",
+                                    "Nm_Kecamatan",
+                                    "kode_kegiatan",
+                                    "No",
+                                    "KgtNm",
+                                    "Uraian",
+                                    "Sasaran_Angka2" AS "Sasaran_Angka",
+                                    "Sasaran_Uraian2" AS "Sasaran_Uraian",
+                                    "Target2" AS "Target",
+                                    "Jumlah2" AS "Jumlah",
+                                    "Prioritas",
+                                    "isSKPD",
+                                    "isReses",
+                                    "isReses_Uraian",
+                                    "Status",
+                                    "Privilege",
+                                    "Status_Indikator",
+                                    "Descr"');
+            break;
+            case 'usulanforumopd' :
+            case 'pembahasanforumopd' :
+                $rawSql = \DB::raw('"RenjaID",
+                                    "RenjaRincID",
+                                    "UsulanKecID",
+                                    "Nm_Kecamatan",
+                                    "kode_kegiatan",
+                                    "No",
+                                    "KgtNm",
+                                    "Uraian",
+                                    "Sasaran_Angka3" AS "Sasaran_Angka",
+                                    "Sasaran_Uraian3" AS "Sasaran_Uraian",
+                                    "Target3" AS "Target",
+                                    "Jumlah3" AS "Jumlah",
+                                    "Prioritas",
+                                    "isSKPD",
+                                    "isReses",
+                                    "isReses_Uraian",
+                                    "Status",
+                                    "Privilege",
+                                    "Status_Indikator",
+                                    "Descr"');
+            break;
+            case 'usulanmusrenkab' :
+            case 'pembahasanmusrenkab' :
+                $rawSql = \DB::raw('"RenjaID",
+                                    "RenjaRincID",
+                                    "UsulanKecID",
+                                    "No",
+                                    "Nm_Kecamatan",
+                                    "kode_kegiatan",
+                                    "KgtNm",
+                                    "Uraian",
+                                    "Sasaran_Angka4" AS "Sasaran_Angka",
+                                    "Sasaran_Uraian4" AS "Sasaran_Uraian",
+                                    "Target4" AS "Target",
+                                    "Jumlah4" AS "Jumlah",
+                                    "Prioritas",
+                                    "isSKPD",
+                                    "isReses",
+                                    "isReses_Uraian",
+                                    "Status",
+                                    "Privilege",
+                                    "Status_Indikator",
+                                    "Descr"');
+            break;
+            default :
+                $rawSql = null;
+        }        
+        return $rawSql;
+    }
 }
