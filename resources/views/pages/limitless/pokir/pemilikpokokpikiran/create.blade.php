@@ -1,18 +1,18 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    PEMILIKPOKOKPIKIRAN
+    PEMILIK POKOK PIKIRAN
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        PEMILIKPOKOKPIKIRAN TAHUN PERENCANAAN {{config('eplanning.tahun_perencanaan')}}
+        PEMILIK POKOK PIKIRAN TAHUN PERENCANAAN {{config('eplanning.tahun_perencanaan')}}
     </span>
 @endsection
 @section('page_info')
     @include('pages.limitless.pokir.pemilikpokokpikiran.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('pemilikpokokpikiran.index')!!}">PEMILIKPOKOKPIKIRAN</a></li>
+    <li><a href="{!!route('pemilikpokokpikiran.index')!!}">PEMILIK POKOK PIKIRAN</a></li>
     <li class="active">TAMBAH DATA</li>
 @endsection
 @section('page_content')
@@ -34,11 +34,23 @@
         <div class="panel-body">
             {!! Form::open(['action'=>'Pokir\PemilikPokokPikiranController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
                 <div class="form-group">
-                    {{Form::label('replaceit','replaceit',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('Kd_PK','KODE',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('replaceit','',['class'=>'form-control','placeholder'=>'replaceit'])}}
+                        {{Form::text('Kd_PK','',['class'=>'form-control','placeholder'=>'Kode Pemilik Pokok Pikiran'])}}
                     </div>
                 </div>
+                <div class="form-group">
+                    {{Form::label('NmPk','NAMA',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('NmPk','',['class'=>'form-control','placeholder'=>'Nama Pemilik Pokok Pikiran'])}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::textarea('Descr','',['class'=>'form-control','placeholder'=>'KETERANGAN','rows' => 2, 'cols' => 40])}}
+                    </div>
+                </div>  
                 <div class="form-group">            
                     <div class="col-md-10 col-md-offset-2">                        
                         {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}
@@ -58,13 +70,21 @@
 $(document).ready(function () {
     $('#frmdata').validate({
         rules: {
-            replaceit : {
+            Kd_PK : {
+                required: true,
+                minlength: 2
+            },
+            Nm_Pk : {
                 required: true,
                 minlength: 2
             }
         },
         messages : {
-            replaceit : {
+            Kd_PK : {
+                required: "Mohon untuk di isi karena ini diperlukan.",
+                minlength: "Mohon di isi minimal 2 karakter atau lebih."
+            },
+            Nm_Pk : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             }

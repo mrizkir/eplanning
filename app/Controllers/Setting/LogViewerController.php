@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Crypt;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
+use App\Models\Setting\Logs\LogViewerModel;
 
 class LogViewerController extends Controller 
 {
@@ -24,7 +25,7 @@ class LogViewerController extends Controller
         parent::__construct();
         $this->middleware(['auth','role:superadmin']);
 
-        $this->log_viewer = new LogViewer();
+        $this->log_viewer = new LogViewerModel();
     }
     /**
      * collect data from resources for index view

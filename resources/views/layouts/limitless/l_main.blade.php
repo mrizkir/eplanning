@@ -203,8 +203,8 @@
                             <div class="col-md-3">
                                 <span class="menu-heading underlined"><i class="icon-strategy"></i> POKOK PIKIRAN</span>
                                 <ul class="menu-list">
-                                    <li{!!Helper::isMenuActive ($page_active,'rpjmdindikatorkinerja',' class="active"')!!}>
-                                        <a href="{{route('rpjmdindikatorkinerja.index')}}">
+                                    <li{!!Helper::isMenuActive ($page_active,'pemilikpokokpikiran',' class="active"')!!}>
+                                        <a href="{{route('pemilikpokokpikiran.index')}}">
                                             <i class="icon-strategy"></i> PEMILIK POKOK</span>
                                         </a>
                                     </li> 

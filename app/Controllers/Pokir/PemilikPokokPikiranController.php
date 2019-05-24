@@ -5,6 +5,8 @@ namespace App\Controllers\Pokir;
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Models\Pokir\PemilikPokokPikiranModel;
+use App\Rules\CheckRecordIsExistValidation;
+use App\Rules\IgnoreIfDataIsEqualValidation;
 
 class PemilikPokokPikiranController extends Controller {
      /**
@@ -25,12 +27,12 @@ class PemilikPokokPikiranController extends Controller {
     public function populateData ($currentpage=1) 
     {        
         $columns=['*'];       
-        //if (!$this->checkStateIsExistSession('pemilikpokokpikiran','orderby')) 
-        //{            
-        //    $this->putControllerStateSession('pemilikpokokpikiran','orderby',['column_name'=>'replace_it','order'=>'asc']);
-        //}
-        //$column_order=$this->getControllerStateSession('pemilikpokokpikiran.orderby','column_name'); 
-        //$direction=$this->getControllerStateSession('pemilikpokokpikiran.orderby','order'); 
+        if (!$this->checkStateIsExistSession('pemilikpokokpikiran','orderby')) 
+        {            
+           $this->putControllerStateSession('pemilikpokokpikiran','orderby',['column_name'=>'Kd_PK','order'=>'asc']);
+        }
+        $column_order=$this->getControllerStateSession('pemilikpokokpikiran.orderby','column_name'); 
+        $direction=$this->getControllerStateSession('pemilikpokokpikiran.orderby','order'); 
 
         if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
         {            
@@ -42,11 +44,11 @@ class PemilikPokokPikiranController extends Controller {
             $search=$this->getControllerStateSession('pemilikpokokpikiran','search');
             switch ($search['kriteria']) 
             {
-                case 'replaceit' :
-                    $data = PemilikPokokPikiranModel::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                case 'Kd_PK' :
+                    $data = PemilikPokokPikiranModel::where(['Kd_PK'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
-                case 'replaceit' :
-                    $data = PemilikPokokPikiranModel::where('replaceit', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                case 'NmPk' :
+                    $data = PemilikPokokPikiranModel::where('NmPk', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
@@ -94,11 +96,14 @@ class PemilikPokokPikiranController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'replace_it' :
-                $column_name = 'replace_it';
+            case 'col-Kd_PK' :
+                $column_name = 'Kd_PK';
+            break;           
+            case 'col-NmPk' :
+                $column_name = 'NmPk';
             break;           
             default :
-                $column_name = 'replace_it';
+                $column_name = 'Kd_PK';
         }
         $this->putControllerStateSession('pemilikpokokpikiran','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
@@ -186,11 +191,11 @@ class PemilikPokokPikiranController extends Controller {
         $this->setCurrentPageInsideSession('pemilikpokokpikiran',$data->currentPage());
         
         return view("pages.$theme.pokir.pemilikpokokpikiran.index")->with(['page_active'=>'pemilikpokokpikiran',
-                                                'search'=>$this->getControllerStateSession('pemilikpokokpikiran','search'),
-                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                'column_order'=>$this->getControllerStateSession('pemilikpokokpikiran.orderby','column_name'),
-                                                'direction'=>$this->getControllerStateSession('pemilikpokokpikiran.orderby','order'),
-                                                'data'=>$data]);               
+                                                                            'search'=>$this->getControllerStateSession('pemilikpokokpikiran','search'),
+                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                            'column_order'=>$this->getControllerStateSession('pemilikpokokpikiran.orderby','column_name'),
+                                                                            'direction'=>$this->getControllerStateSession('pemilikpokokpikiran.orderby','order'),
+                                                                            'data'=>$data]);               
     }
     /**
      * Show the form for creating a new resource.
@@ -203,7 +208,7 @@ class PemilikPokokPikiranController extends Controller {
 
         return view("pages.$theme.pokir.pemilikpokokpikiran.create")->with(['page_active'=>'pemilikpokokpikiran',
                                                                     
-                                                ]);  
+                                                                            ]);  
     }
     
     /**
@@ -215,11 +220,29 @@ class PemilikPokokPikiranController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'replaceit'=>'required',
+            'Kd_PK'=>[new CheckRecordIsExistValidation('tmPemilikPokok',['where'=>['TA','=',config('eplanning.tahun_perencanaan')]]),
+                        'required',
+                        'min:2'
+                    ],
+            'NmPk'=>'required|min:2'
         ]);
         
         $pemilikpokokpikiran = PemilikPokokPikiranModel::create([
-            'replaceit' => $request->input('replaceit'),
+            'PemilikPokokID'=> uniqid ('uid'),
+            'Kd_PK' => $request->input('Kd_PK'),
+            'NmPk' => $request->input('NmPk'),
+            'Jumlah_Kegiatan1' => 0,
+            'Jumlah_Kegiatan2' => 0,
+            'Jumlah_Kegiatan3' => 0,
+            'Jumlah_Kegiatan4' => 0,
+            'Jumlah_Kegiatan5' => 0,
+            'Jumlah1' => 0,
+            'Jumlah2' => 0,
+            'Jumlah3' => 0,
+            'Jumlah4' => 0,
+            'Jumlah5' => 0,
+            'Descr' => $request->input('Descr'),
+            'TA'=>config('eplanning.tahun_perencanaan')
         ]);        
         
         if ($request->ajax()) 
@@ -231,7 +254,7 @@ class PemilikPokokPikiranController extends Controller {
         }
         else
         {
-            return redirect(route('pemilikpokokpikiran.index'))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('pemilikpokokpikiran.show',['id'=>$pemilikpokokpikiran->PemilikPokokID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -269,8 +292,8 @@ class PemilikPokokPikiranController extends Controller {
         if (!is_null($data) ) 
         {
             return view("pages.$theme.pokir.pemilikpokokpikiran.edit")->with(['page_active'=>'pemilikpokokpikiran',
-                                                    'data'=>$data
-                                                    ]);
+                                                                                'data'=>$data
+                                                                            ]);
         }        
     }
 
@@ -286,10 +309,16 @@ class PemilikPokokPikiranController extends Controller {
         $pemilikpokokpikiran = PemilikPokokPikiranModel::find($id);
         
         $this->validate($request, [
-            'replaceit'=>'required',
+            'Kd_PK'=>[new IgnoreIfDataIsEqualValidation('tmPemilikPokok',$pemilikpokokpikiran->Kd_PK,['where'=>['TA','=',config('eplanning.tahun_perencanaan')]]),
+                        'required',
+                        'min:2'
+                    ],
+            'NmPk'=>'required|min:2'
         ]);
         
-        $pemilikpokokpikiran->replaceit = $request->input('replaceit');
+        $pemilikpokokpikiran->Kd_PK = $request->input('Kd_PK');
+        $pemilikpokokpikiran->NmPk = $request->input('NmPk');
+        $pemilikpokokpikiran->Descr = $request->input('Descr');
         $pemilikpokokpikiran->save();
 
         if ($request->ajax()) 
@@ -301,7 +330,7 @@ class PemilikPokokPikiranController extends Controller {
         }
         else
         {
-            return redirect(route('pemilikpokokpikiran.index'))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('pemilikpokokpikiran.show',['id'=>$pemilikpokokpikiran->PemilikPokokID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 

@@ -1,19 +1,20 @@
 <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
     <div class="panel-heading">
         <div class="panel-title">
-            <div class="row">
-                <div class="col-md-1">                    		
-					{!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control'])!!}                        
-                </div>
-            </div>
+            <h6 class="panel-title">&nbsp;</h6>
         </div>
         <div class="heading-elements">
-            <div class="heading-btn">
-                <a href="{!!route('pemilikpokokpikiran.create')!!}" class="btn btn-info btn-xs" title="Tambah PEMILIKPOKOKPIKIRAN">
-                    <i class="icon-googleplus5"></i>
-                </a>
-            </div>            
-        </div>
+            {!! Form::open(['url'=>'#','method'=>'post','class'=>'heading-form','id'=>'frmheading','name'=>'frmheading'])!!} 
+                <div class="form-group">
+                    {!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control','style'=>'width:70px'])!!}                        
+                </div> 
+                <div class="form-group">
+                    <a href="{!!route('pemilikpokokpikiran.create')!!}" class="btn btn-info btn-xs" title="Tambah PEMILIKPOKOKPIKIRAN">
+                        <i class="icon-googleplus5"></i>
+                    </a>
+                </div> 
+            {!! Form::close()!!}
+        </div>       
     </div>
     @if (count($data) > 0)
     <div class="table-responsive"> 
@@ -22,9 +23,17 @@
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
                     <th width="100">
-                        <a class="column-sort text-white" id="col-replace_it" data-order="{{$direction}}" href="#">
-                            replace_it  
+                        <a class="column-sort text-white" id="col-Kd_PK" data-order="{{$direction}}" href="#">
+                            KODE  
                         </a>                                             
+                    </th> 
+                    <th>
+                        <a class="column-sort text-white" id="col-NmPk" data-order="{{$direction}}" href="#">
+                            NAMA  
+                        </a>                                             
+                    </th>
+                    <th>                       
+                        KET.  
                     </th> 
                     <th width="100">AKSI</th>
                 </tr>
@@ -35,21 +44,23 @@
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>                  
-                    <td>{{$item->replace_it}}</td>
+                    <td>{{$item->Kd_PK}}</td>
+                    <td>{{$item->NmPk}}</td>                   
+                    <td>{{$item->Descr}}</td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('pemilikpokokpikiran.show',['id'=>$item->pemilikpokokpikiran_id])}}" title="Detail Data PemilikPokokPikiran">
+                                <a class="btnShow" href="{{route('pemilikpokokpikiran.show',['id'=>$item->PemilikPokokID])}}" title="Detail Data Pemilik Pokok Pikiran">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('pemilikpokokpikiran.edit',['id'=>$item->pemilikpokokpikiran_id])}}" title="Ubah Data PemilikPokokPikiran">
+                                <a class="btnEdit" href="{{route('pemilikpokokpikiran.edit',['id'=>$item->PemilikPokokID])}}" title="Ubah Data Pemilik Pokok Pikiran">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data PemilikPokokPikiran" data-id="{{$item->pemilikpokokpikiran_id}}" data-url="{{route('pemilikpokokpikiran.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data Pemilik Pokok Pikiran" data-id="{{$item->PemilikPokokID}}" data-url="{{route('pemilikpokokpikiran.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>

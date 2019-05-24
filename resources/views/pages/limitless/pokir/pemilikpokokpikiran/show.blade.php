@@ -1,18 +1,18 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    PEMILIKPOKOKPIKIRAN
+    PEMILIK POKOK PIKIRAN
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        PEMILIKPOKOKPIKIRAN TAHUN PERENCANAAN {{config('eplanning.tahun_perencanaan')}}
+        PEMILIK POKOK PIKIRAN TAHUN PERENCANAAN {{config('eplanning.tahun_perencanaan')}}
     </span>     
 @endsection
 @section('page_info')
     @include('pages.limitless.pokir.pemilikpokokpikiran.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('pemilikpokokpikiran.index')!!}">PEMILIKPOKOKPIKIRAN</a></li>
+    <li><a href="{!!route('pemilikpokokpikiran.index')!!}">PEMILIK POKOK PIKIRAN</a></li>
     <li class="active">DETAIL DATA</li>
 @endsection
 @section('page_content')
@@ -21,13 +21,13 @@
         <div class="panel panel-flat border-top-info border-bottom-info">
             <div class="panel-heading">
                 <h5 class="panel-title"> 
-                    <i class="icon-eye"></i>  DATA PEMILIKPOKOKPIKIRAN
+                    <i class="icon-eye"></i>  DATA PEMILIK POKOK PIKIRAN
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('pemilikpokokpikiran.edit',['id'=>$data->pemilikpokokpikiran_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data PemilikPokokPikiran">
+                    <a href="{{route('pemilikpokokpikiran.edit',['id'=>$data->PemilikPokokID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Pemilik Pokok Pikiran">
                         <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data PemilikPokokPikiran" data-id="{{$data->pemilikpokokpikiran_id}}" data-url="{{route('pemilikpokokpikiran.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
+                    <a href="javascript:;" title="Hapus Data Pemilik Pokok Pikiran" data-id="{{$data->PemilikPokokID}}" data-url="{{route('pemilikpokokpikiran.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
                     </a>
                     <a href="{!!route('pemilikpokokpikiran.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
@@ -40,30 +40,42 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>pemilikpokokpikiran id: </strong></label>
+                                <label class="col-md-4 control-label"><strong>PemilikPokokID: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->pemilikpokokpikiran_id}}</p>
-                                </div>                            
-                            </div>                            
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}}</p>
+                                    <p class="form-control-static">{{$data->PemilikPokokID}}</p>
                                 </div>                            
                             </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>KODE: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->Kd_PK}}</p>
+                                </div>                            
+                            </div>    
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>NAMA: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->NmPk}}</p>
+                                </div>                            
+                            </div>    
                         </div>                        
                     </div>
                     <div class="col-md-6">
                         <div class="form-horizontal">
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>replaceit: </strong></label>
+                             <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>KETERANGAN: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">replaceit</p>
+                                    <p class="form-control-static">{{$data->Descr}}</p>
                                 </div>                            
-                            </div>    
+                            </div> 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
+                                <div class="col-md-8"> 
+                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->updated_at)}}</p>
+                                </div>                            
+                            </div>                         
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>TGL. UBAH: </strong></label>
-                                <div class="col-md-8">
+                                <div class="col-md-8"> 
                                     <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->updated_at)}}</p>
                                 </div>                            
                             </div>                         
@@ -79,7 +91,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
     $(".btnDelete").click(function(ev) {
-        if (confirm('Apakah Anda ingin menghapus Data PemilikPokokPikiran ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data Pemilik Pokok Pikiran ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             let token = $('meta[name="csrf-token"]').attr('content');

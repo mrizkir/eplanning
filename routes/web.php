@@ -131,8 +131,11 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/perencanaan/rpjmd/rpjmdindikatorkinerja/orderby',['uses'=>'RPJMD\RPJMDIndikatorKinerjaController@orderby','as'=>'rpjmdindikatorkinerja.orderby']);
         
     //POKIR - Pemilik Pokok Pikiran
-    Route::resource('/perencanaan/pokir/pemilikpokir','Pokir\PemilikPokokPikiranController',['parameters'=>['pemilikpokir'=>'uuid']]);        
-    
+    Route::resource('/perencanaan/pokir/pemilikpokokpikiran','Pokir\PemilikPokokPikiranController',['parameters'=>['pemilikpokokpikiran'=>'uuid']]);        
+    Route::post('/perencanaan/pokir/pemilikpokokpikiran/search',['uses'=>'Pokir\PemilikPokokPikiranController@search','as'=>'pemilikpokokpikiran.search']); 
+    Route::get('/perencanaan/pokir/pemilikpokokpikiran/paginate/{id}',['uses'=>'Pokir\PemilikPokokPikiranController@paginate','as'=>'pemilikpokokpikiran.paginate']);              
+    Route::post('/perencanaan/pokir/pemilikpokokpikiran/changenumberrecordperpage',['uses'=>'Pokir\PemilikPokokPikiranController@changenumberrecordperpage','as'=>'pemilikpokokpikiran.changenumberrecordperpage']);  
+    Route::post('/perencanaan/pokir/pemilikpokokpikiran/orderby',['uses'=>'Pokir\PemilikPokokPikiranController@orderby','as'=>'pemilikpokokpikiran.orderby']); 
     //workflow - Aspirasi Musrenbang Desa
     Route::resource('/workflow/musrenbang/aspirasimusrendesa','Musrenbang\AspirasiMusrenDesaController',['parameters'=>['aspirasimusrendesa'=>'uuid']]);        
     Route::post('/workflow/musrenbang/aspirasimusrendesa/search',['uses'=>'Musrenbang\AspirasiMusrenDesaController@search','as'=>'aspirasimusrendesa.search']);  

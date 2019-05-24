@@ -19,7 +19,24 @@ class PemilikPokokPikiranModel extends Model {
      * @var array
      */
     protected $fillable = [
-        'PemilikPokokID', 'Kd_PK', 'NmPk', 'Jumlah1', 'Jumlah2', 'Descr', 'TA'
+        'PemilikPokokID', 
+        'Kd_PK', 
+        'NmPk',
+         
+        'Jumlah_Kegiatan1', 
+        'Jumlah_Kegiatan2', 
+        'Jumlah_Kegiatan3', 
+        'Jumlah_Kegiatan4', 
+        'Jumlah_Kegiatan5', 
+
+        'Jumlah1', 
+        'Jumlah2', 
+        'Jumlah3', 
+        'Jumlah4', 
+        'Jumlah5', 
+
+        'Descr', 
+        'TA'
     ];
     /**
      * primary key tabel ini.
