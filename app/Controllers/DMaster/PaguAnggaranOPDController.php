@@ -48,7 +48,7 @@ class PaguAnggaranOPDController extends Controller {
                 case 'OrgNm' :
                     $data = PaguAnggaranOPDModel::join('v_urusan_organisasi','tmPaguAnggaranOPD.OrgID','v_urusan_organisasi.OrgID')
                                                 ->where('OrgNm', 'ilike', '%' . $search['isikriteria'] . '%')
-                                                ->where('tmPaguAnggaranOPD.TA',config('globalsettings.tahun_perencanaan'))
+                                                ->where('tmPaguAnggaranOPD.TA',config('eplanning.tahun_perencanaan'))
                                                 ->orderBy($column_order,$direction);                                        
                 break;
             }           
@@ -57,7 +57,7 @@ class PaguAnggaranOPDController extends Controller {
         else
         {
             $data = PaguAnggaranOPDModel::join('v_urusan_organisasi','tmPaguAnggaranOPD.OrgID','v_urusan_organisasi.OrgID')
-                                        ->where('tmPaguAnggaranOPD.TA',config('globalsettings.tahun_perencanaan'))
+                                        ->where('tmPaguAnggaranOPD.TA',config('eplanning.tahun_perencanaan'))
                                         ->orderBy($column_order,$direction)
                                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
@@ -224,7 +224,7 @@ class PaguAnggaranOPDController extends Controller {
                                 ->select(\DB::raw('"v_urusan_organisasi"."OrgID","v_urusan_organisasi"."kode_organisasi","v_urusan_organisasi"."OrgNm"'))
                                 ->leftJoin('tmPaguAnggaranOPD','tmPaguAnggaranOPD.OrgID','v_urusan_organisasi.OrgID')
                                 ->whereNull('tmPaguAnggaranOPD.OrgID')
-                                ->where('v_urusan_organisasi.TA',config('globalsettings.tahun_perencanaan'))
+                                ->where('v_urusan_organisasi.TA',config('eplanning.tahun_perencanaan'))
                                 ->orderBy('kode_organisasi')
                                 ->get();
         $daftar_organisasi=[];        
@@ -246,7 +246,7 @@ class PaguAnggaranOPDController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'OrgID'=> [new CheckRecordIsExistValidation('tmPaguAnggaranOPD',['where'=>['TA','=',config('globalsettings.tahun_perencanaan')]]),
+            'OrgID'=> [new CheckRecordIsExistValidation('tmPaguAnggaranOPD',['where'=>['TA','=',config('eplanning.tahun_perencanaan')]]),
                         'required'],
             'Jumlah1'=>'required|numeric',
             'Jumlah2'=>'required|numeric',
@@ -258,7 +258,7 @@ class PaguAnggaranOPDController extends Controller {
             'Jumlah1' => $request->input('Jumlah1'),
             'Jumlah2' => $request->input('Jumlah2'),
             'Descr' => $request->input('Descr'),
-            'TA' => config('globalsettings.tahun_perencanaan')
+            'TA' => config('eplanning.tahun_perencanaan')
         ]);        
         
         if ($request->ajax()) 
@@ -286,7 +286,7 @@ class PaguAnggaranOPDController extends Controller {
         $theme = \Auth::user()->theme;
 
         $data = PaguAnggaranOPDModel::join('v_urusan_organisasi','tmPaguAnggaranOPD.OrgID','v_urusan_organisasi.OrgID')
-                                    ->where('tmPaguAnggaranOPD.TA',config('globalsettings.tahun_perencanaan'))
+                                    ->where('tmPaguAnggaranOPD.TA',config('eplanning.tahun_perencanaan'))
                                     ->findOrFail($id);
         if (!is_null($data) )  
         {
@@ -306,11 +306,11 @@ class PaguAnggaranOPDController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $data = PaguAnggaranOPDModel::where('TA',config('globalsettings.tahun_perencanaan'))
+        $data = PaguAnggaranOPDModel::where('TA',config('eplanning.tahun_perencanaan'))
                                     ->findOrFail($id);
         if (!is_null($data) ) 
         {
-            $daftar_opd=OrganisasiModel::getDaftarOPD(config('globalsettings.tahun_perencanaan'),false,NULL,$data->OrgID);
+            $daftar_opd=OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false,NULL,$data->OrgID);
             return view("pages.$theme.dmaster.paguanggaranopd.edit")->with(['page_active'=>'paguanggaranopd',
                                                                                 'data'=>$data,
                                                                                 'daftar_opd'=>$daftar_opd
@@ -330,7 +330,7 @@ class PaguAnggaranOPDController extends Controller {
         $paguanggaranopd = PaguAnggaranOPDModel::find($id);
         
         $this->validate($request, [
-            'OrgID'=> [new IgnoreIfDataIsEqualValidation('tmPaguAnggaranOPD',$paguanggaranopd->OrgID,['where'=>['TA','=',config('globalsettings.tahun_perencanaan')]]),
+            'OrgID'=> [new IgnoreIfDataIsEqualValidation('tmPaguAnggaranOPD',$paguanggaranopd->OrgID,['where'=>['TA','=',config('eplanning.tahun_perencanaan')]]),
                         'required'],
             'Jumlah1'=>'required|numeric',
             'Jumlah2'=>'required|numeric',
@@ -366,7 +366,7 @@ class PaguAnggaranOPDController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $paguanggaranopd = PaguAnggaranOPDModel::where('TA',config('globalsettings.tahun_perencanaan'))
+        $paguanggaranopd = PaguAnggaranOPDModel::where('TA',config('eplanning.tahun_perencanaan'))
                                                 ->find($id);
         $result=$paguanggaranopd->delete();
         if ($request->ajax()) 

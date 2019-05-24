@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        {{$page_title}} TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        {{$page_title}} TAHUN PERENCANAAN {{config('eplanning.tahun_perencanaan')}}
     </span>
 @endsection
 @section('page_info')
@@ -88,13 +88,13 @@
             <div class="form-group">
                 {{Form::label('PMProvID','PROVINSI',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
-                    {{Form::select('PMProvID', $daftar_provinsi,config('globalsettings.default_provinsi'),['class'=>'form-control','id'=>'PMProvID'])}}
+                    {{Form::select('PMProvID', $daftar_provinsi,config('eplanning.default_provinsi'),['class'=>'form-control','id'=>'PMProvID'])}}
                 </div>
             </div>       
             <div class="form-group">
                 {{Form::label('PmKotaID','KAB. / KOTA',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
-                    {{Form::select('PmKotaID', $daftar_kota_kab,config('globalsettings.defaul_kota_atau_kab'),['class'=>'form-control','id'=>'PMProvID'])}}
+                    {{Form::select('PmKotaID', $daftar_kota_kab,config('eplanning.defaul_kota_atau_kab'),['class'=>'form-control','id'=>'PMProvID'])}}
                 </div>
             </div>  
             <div class="form-group">

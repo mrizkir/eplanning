@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold">
-        REKAP PAGU INDIKATIF OPD TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
+        REKAP PAGU INDIKATIF OPD TAHUN PERENCANAAN {{config('eplanning.tahun_perencanaan')}}  
     </span>
 @endsection
 @section('page_info')

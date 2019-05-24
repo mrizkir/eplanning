@@ -12,7 +12,7 @@
         <p class="navbar-text">
             <a href="#">
                 <span class="label bg-success-400">
-                    Saat ini Anda berada di Tahun Perencanaan {{config('globalsettings.tahun_perencanaan')}} dan Penyerapan Anggaran Tahun {{config('globalsettings.tahun_penyerapan')}}
+                    Saat ini Anda berada di Tahun Perencanaan {{config('eplanning.tahun_perencanaan')}} dan Penyerapan Anggaran Tahun {{config('eplanning.tahun_penyerapan')}}
                 </span>
             </a>
         </p>
@@ -345,6 +345,19 @@
                                                 <i class="icon-user"></i> DESA / KELURAHAN
                                             </a>
                                         </li>
+                                        @endhasrole	
+                                    </ul>
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="menu-heading underlined"><i class="icon-wrench"></i> CACHE & LOG</span>
+                                    <ul class="menu-list">
+                                        @hasrole('superadmin')     
+                                        <li class="dropdown-header">LOG</li>                
+                                        <li{!!Helper::isMenuActive ($page_active,'logviewer',' class="active"')!!}>
+                                            <a href="{!!route('logviewer.index')!!}">
+                                                <i class="icon-history"></i> LOG
+                                            </a>
+                                        </li> 
                                         @endhasrole	
                                     </ul>
                                 </div>

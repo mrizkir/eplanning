@@ -57,7 +57,7 @@ class PembahasanMusrenKecamatanController extends Controller {
                                                         ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trUsulanKec.PmKecamatanID')
                                                         ->join('tmOrg','tmOrg.OrgID','trUsulanKec.OrgID')
                                                         ->leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trUsulanKec.PmDesaID')
-                                                        ->where('trUsulanKec.TA', config('globalsettings.tahun_perencanaan'))
+                                                        ->where('trUsulanKec.TA', config('eplanning.tahun_perencanaan'))
                                                         ->where(['No_usulan'=>(int)$search['isikriteria']])
                                                         ->where('trUsulanKec.PmKecamatanID',$PmKecamatanID)
                                                         ->orderBy('trUsulanKec.Prioritas','ASC')
@@ -68,7 +68,7 @@ class PembahasanMusrenKecamatanController extends Controller {
                                                         ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trUsulanKec.PmKecamatanID')
                                                         ->join('tmOrg','tmOrg.OrgID','trUsulanKec.OrgID')
                                                         ->leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trUsulanKec.PmDesaID')                                                        
-                                                        ->where('trUsulanKec.TA', config('globalsettings.tahun_perencanaan'))
+                                                        ->where('trUsulanKec.TA', config('eplanning.tahun_perencanaan'))
                                                         ->where('NamaKegiatan', 'ilike', '%' . $search['isikriteria'] . '%')
                                                         ->orderBy('trUsulanKec.Prioritas','ASC')
                                                         ->where('trUsulanKec.PmKecamatanID',$PmKecamatanID)
@@ -83,7 +83,7 @@ class PembahasanMusrenKecamatanController extends Controller {
                                                 ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trUsulanKec.PmKecamatanID')
                                                 ->join('tmOrg','tmOrg.OrgID','trUsulanKec.OrgID')
                                                 ->leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trUsulanKec.PmDesaID')                                                                                                
-                                                ->where('trUsulanKec.TA', config('globalsettings.tahun_perencanaan'))
+                                                ->where('trUsulanKec.TA', config('eplanning.tahun_perencanaan'))
                                                 ->where('trUsulanKec.PmKecamatanID',$PmKecamatanID)
                                                 ->orderBy('trUsulanKec.Prioritas','ASC')
                                                 ->orderBy("$column_order",$direction)
@@ -267,7 +267,7 @@ class PembahasanMusrenKecamatanController extends Controller {
         }
         $this->setCurrentPageInsideSession('pembahasanmusrenkecamatan',$data->currentPage());
         $filters=$this->getControllerStateSession('pembahasanmusrenkecamatan','filters');        
-        $daftar_kecamatan=KecamatanModel::getDaftarKecamatan(config('globalsettings.tahun_perencanaan'),false);
+        $daftar_kecamatan=KecamatanModel::getDaftarKecamatan(config('eplanning.tahun_perencanaan'),false);
         $daftar_usulan_kec_id=\App\Models\Musrenbang\AspirasiMusrenKecamatanModel::select('UsulanKecID')
                                                                                 ->where('Privilege',1)
                                                                                 ->whereExists(function($query){
@@ -275,7 +275,7 @@ class PembahasanMusrenKecamatanController extends Controller {
                                                                                         ->from('trRenjaRinc')
                                                                                         ->whereRaw('"trRenjaRinc"."UsulanKecID"="trUsulanKec"."UsulanKecID"');
                                                                                 })
-                                                                                ->where('TA',config('globalsettings.tahun_perencanaan'))
+                                                                                ->where('TA',config('eplanning.tahun_perencanaan'))
                                                                                 ->get()->pluck('UsulanKecID','UsulanKecID')->toArray();
         
         return view("pages.$theme.musrenbang.pembahasanmusrenkecamatan.index")->with(['page_active'=>'pembahasanmusrenkecamatan',

@@ -80,19 +80,19 @@ class RKPDMurniController extends Controller {
                 case 'kode_kegiatan' :
                     $data = RKPDMurniModel::where(['kode_kegiatan'=>$search['isikriteria']])                                                    
                                                     ->where('SOrgID',$SOrgID)
-                                                    ->where('TA', config('globalsettings.tahun_perencanaan'))
+                                                    ->where('TA', config('eplanning.tahun_perencanaan'))
                                                     ->orderBy($column_order,$direction); 
                 break;
                 case 'KgtNm' :
                     $data = RKPDMurniModel::where('KgtNm', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                                     ->where('SOrgID',$SOrgID)
-                                                    ->where('TA', config('globalsettings.tahun_perencanaan'))
+                                                    ->where('TA', config('eplanning.tahun_perencanaan'))
                                                     ->orderBy($column_order,$direction);                                        
                 break;
                 case 'Uraian' :
                     $data = RKPDMurniModel::where('Uraian', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                                     ->where('SOrgID',$SOrgID)
-                                                    ->where('TA', config('globalsettings.tahun_perencanaan'))
+                                                    ->where('TA', config('eplanning.tahun_perencanaan'))
                                                     ->orderBy($column_order,$direction);                                        
                 break;
             }           
@@ -101,7 +101,7 @@ class RKPDMurniController extends Controller {
         else
         {
             $data = RKPDMurniModel::where('SOrgID',$SOrgID)                                                                                      
-                                            ->where('TA', config('globalsettings.tahun_perencanaan'))                                            
+                                            ->where('TA', config('eplanning.tahun_perencanaan'))                                            
                                             ->orderBy($column_order,$direction)                                            
                                             ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);             
         }        
@@ -263,7 +263,7 @@ class RKPDMurniController extends Controller {
             $OrgID = $request->input('OrgID')==''?'none':$request->input('OrgID');
             $filters['OrgID']=$OrgID;
             $filters['SOrgID']='none';
-            $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('globalsettings.tahun_perencanaan'),false,$OrgID);  
+            $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('eplanning.tahun_perencanaan'),false,$OrgID);  
             
             $this->putControllerStateSession('rkpdmurni','filters',$filters);
 
@@ -319,24 +319,24 @@ class RKPDMurniController extends Controller {
         switch ($roles[0])
         {
             case 'superadmin' :                 
-                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('globalsettings.tahun_perencanaan'),false);  
+                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false);  
                 $daftar_unitkerja=array();           
                 if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
                 {
-                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('globalsettings.tahun_perencanaan'),false,$filters['OrgID']);        
+                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('eplanning.tahun_perencanaan'),false,$filters['OrgID']);        
                 }    
             break;
             case 'opd' :
-                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('globalsettings.tahun_perencanaan'),false,NULL,$auth->OrgID);  
+                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false,NULL,$auth->OrgID);  
                 $filters['OrgID']=$auth->OrgID;                
                 if (empty($auth->SOrgID)) 
                 {
-                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('globalsettings.tahun_perencanaan'),false,$auth->OrgID);  
+                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('eplanning.tahun_perencanaan'),false,$auth->OrgID);  
                     $filters['SOrgID']=empty($filters['SOrgID'])?'':$filters['SOrgID'];                    
                 }   
                 else
                 {
-                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('globalsettings.tahun_perencanaan'),false,$auth->OrgID,$auth->SOrgID);
+                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('eplanning.tahun_perencanaan'),false,$auth->OrgID,$auth->SOrgID);
                     $filters['SOrgID']=$auth->SOrgID;
                 }                
                 $this->putControllerStateSession('rkpdmurni','filters',$filters);

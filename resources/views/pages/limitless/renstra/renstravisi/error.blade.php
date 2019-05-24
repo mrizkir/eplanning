@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold">
-        RENSTRAVISI TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        RENSTRAVISI TAHUN PERENCANAAN {{config('eplanning.tahun_perencanaan')}}
     </span>
 @endsection
 @section('page_info')

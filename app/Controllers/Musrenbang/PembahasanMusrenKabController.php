@@ -61,7 +61,7 @@ class PembahasanMusrenKabController extends Controller {
                                 ->where('kode_kegiatan',$search['isikriteria'])                                                    
                                 ->where('SOrgID',$SOrgID)
                                 ->whereNotNull('RenjaRincID')
-                                ->where('TA', config('globalsettings.tahun_perencanaan'))
+                                ->where('TA', config('eplanning.tahun_perencanaan'))
                                 ->orderBy('Prioritas','ASC')
                                 ->orderBy($column_order,$direction); 
                 break;
@@ -70,7 +70,7 @@ class PembahasanMusrenKabController extends Controller {
                                 ->where('KgtNm', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                 ->where('SOrgID',$SOrgID)
                                 ->whereNotNull('RenjaRincID')
-                                ->where('TA', config('globalsettings.tahun_perencanaan'))
+                                ->where('TA', config('eplanning.tahun_perencanaan'))
                                 ->orderBy('Prioritas','ASC')
                                 ->orderBy($column_order,$direction);                                        
                 break;
@@ -79,7 +79,7 @@ class PembahasanMusrenKabController extends Controller {
                                 ->where('Uraian', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                 ->where('SOrgID',$SOrgID)
                                 ->whereNotNull('RenjaRincID')
-                                ->where('TA', config('globalsettings.tahun_perencanaan'))
+                                ->where('TA', config('eplanning.tahun_perencanaan'))
                                 ->orderBy('Prioritas','ASC')
                                 ->orderBy($column_order,$direction);                                        
                 break;
@@ -91,7 +91,7 @@ class PembahasanMusrenKabController extends Controller {
             $data = \DB::table('v_usulan_musren_kab')
                         ->where('SOrgID',$SOrgID)                                     
                         ->whereNotNull('RenjaRincID')       
-                        ->where('TA', config('globalsettings.tahun_perencanaan'))                                            
+                        ->where('TA', config('eplanning.tahun_perencanaan'))                                            
                         ->orderBy('Prioritas','ASC')
                         ->orderBy($column_order,$direction)                                            
                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);             
@@ -253,7 +253,7 @@ class PembahasanMusrenKabController extends Controller {
             $OrgID = $request->input('OrgID')==''?'none':$request->input('OrgID');
             $filters['OrgID']=$OrgID;
             $filters['SOrgID']='none';
-            $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('globalsettings.tahun_perencanaan'),false,$OrgID);  
+            $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('eplanning.tahun_perencanaan'),false,$OrgID);  
             
             $this->putControllerStateSession('pembahasanmusrenkab','filters',$filters);
 
@@ -266,7 +266,7 @@ class PembahasanMusrenKabController extends Controller {
                                                                                     'direction'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','order'),
                                                                                     'data'=>$data])->render();
             
-            $totalpaguindikatifopd = RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('globalsettings.tahun_perencanaan'),3,$filters['OrgID']);            
+            $totalpaguindikatifopd = RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('eplanning.tahun_perencanaan'),3,$filters['OrgID']);            
                   
             $totalpaguindikatifunitkerja[0]=0;
             $totalpaguindikatifunitkerja[1]=0;
@@ -297,7 +297,7 @@ class PembahasanMusrenKabController extends Controller {
                                                                                     'direction'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','order'),
                                                                                     'data'=>$data])->render(); 
                                                                                     
-            $totalpaguindikatifunitkerja = RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('globalsettings.tahun_perencanaan'),3,$filters['SOrgID']);            
+            $totalpaguindikatifunitkerja = RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('eplanning.tahun_perencanaan'),3,$filters['SOrgID']);            
                                                                                     
             $json_data = ['success'=>true,'totalpaguindikatifunitkerja'=>$totalpaguindikatifunitkerja,'datatable'=>$datatable];    
         }
@@ -318,24 +318,24 @@ class PembahasanMusrenKabController extends Controller {
         switch ($roles[0])
         {
             case 'superadmin' :                 
-                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('globalsettings.tahun_perencanaan'),false);  
+                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false);  
                 $daftar_unitkerja=array();           
                 if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
                 {
-                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('globalsettings.tahun_perencanaan'),false,$filters['OrgID']);        
+                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('eplanning.tahun_perencanaan'),false,$filters['OrgID']);        
                 }    
             break;
             case 'opd' :
-                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('globalsettings.tahun_perencanaan'),false,NULL,$auth->OrgID);  
+                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false,NULL,$auth->OrgID);  
                 $filters['OrgID']=$auth->OrgID;                
                 if (empty($auth->SOrgID)) 
                 {
-                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('globalsettings.tahun_perencanaan'),false,$auth->OrgID);  
+                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('eplanning.tahun_perencanaan'),false,$auth->OrgID);  
                     $filters['SOrgID']=empty($filters['SOrgID'])?'':$filters['SOrgID'];                    
                 }   
                 else
                 {
-                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('globalsettings.tahun_perencanaan'),false,$auth->OrgID,$auth->SOrgID);
+                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('eplanning.tahun_perencanaan'),false,$auth->OrgID,$auth->SOrgID);
                     $filters['SOrgID']=$auth->SOrgID;
                 }                
                 $this->putControllerStateSession('pembahasanmusrenkab','filters',$filters);
@@ -363,8 +363,8 @@ class PembahasanMusrenKabController extends Controller {
                                                                             'column_order'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','column_name'),
                                                                             'direction'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','order'),
                                                                             'paguanggaranopd'=>$paguanggaranopd,
-                                                                            'totalpaguindikatifopd'=>RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('globalsettings.tahun_perencanaan'),3,$filters['OrgID']),
-                                                                            'totalpaguindikatifunitkerja' => RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('globalsettings.tahun_perencanaan'),3,$filters['SOrgID']),            
+                                                                            'totalpaguindikatifopd'=>RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('eplanning.tahun_perencanaan'),3,$filters['OrgID']),
+                                                                            'totalpaguindikatifunitkerja' => RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('eplanning.tahun_perencanaan'),3,$filters['SOrgID']),            
                                                                             'data'=>$data]);               
                      
     }
@@ -461,8 +461,8 @@ class PembahasanMusrenKabController extends Controller {
                                                                                     'direction'=>$this->getControllerStateSession('pembahasanmusrenkab.orderby','order'),                                                                                    
                                                                                     'data'=>$data])->render();
             
-            $totalpaguindikatifopd = RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('globalsettings.tahun_perencanaan'),3,$filters['OrgID']);                        
-            $totalpaguindikatifunitkerja = RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('globalsettings.tahun_perencanaan'),3,$filters['SOrgID']);
+            $totalpaguindikatifopd = RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('eplanning.tahun_perencanaan'),3,$filters['OrgID']);                        
+            $totalpaguindikatifunitkerja = RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('eplanning.tahun_perencanaan'),3,$filters['SOrgID']);
                         
             return response()->json([
                 'success'=>true,

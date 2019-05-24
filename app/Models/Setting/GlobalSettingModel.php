@@ -56,7 +56,7 @@ class GlobalSettingModel extends Model {
         $settings = $this::lists('globalsetting_key', 'globalsetting_value')->all();
 
         // Generate and save config file
-        $filePath = config_path() . '/globalsettings.php';
+        $filePath = config_path() . '/eplanning.php';
         $content = '<?php return ' . var_export($settings, true) . ';';
         File::put($filePath, $content);
     }

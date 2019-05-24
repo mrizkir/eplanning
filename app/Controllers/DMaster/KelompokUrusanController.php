@@ -40,7 +40,7 @@ class KelompokUrusanController extends Controller {
         }
         $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
   
-        $data = KelompokUrusanModel::where('TA',config('globalsettings.tahun_perencanaan'))->orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+        $data = KelompokUrusanModel::where('TA',config('eplanning.tahun_perencanaan'))->orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         
         $data->setPath(route('kelompokurusan.index'));
         return $data;
@@ -210,7 +210,7 @@ class KelompokUrusanController extends Controller {
     {
         $this->validate($request,
         [
-            'Kd_Urusan'=>[new CheckRecordIsExistValidation('tmKUrs',['where'=>['TA','=',config('globalsettings.tahun_perencanaan')]]),
+            'Kd_Urusan'=>[new CheckRecordIsExistValidation('tmKUrs',['where'=>['TA','=',config('eplanning.tahun_perencanaan')]]),
                             'required',
                             'min:1',
                             'max:4',
@@ -231,7 +231,7 @@ class KelompokUrusanController extends Controller {
             'Kd_Urusan'=>$request->input('Kd_Urusan'),
             'Nm_Urusan'=>$request->input('Nm_Urusan'),
             'Descr'=>$request->input('Descr'),
-            'TA'=>config('globalsettings.tahun_perencanaan'),
+            'TA'=>config('eplanning.tahun_perencanaan'),
         ]);
         if ($request->ajax()) 
         {
@@ -257,7 +257,7 @@ class KelompokUrusanController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = KelompokUrusanModel::where('TA',config('globalsettings.tahun_perencanaan'))
+        $data = KelompokUrusanModel::where('TA',config('eplanning.tahun_perencanaan'))
                                     ->where('KUrsID',$id)
                                     ->firstOrFail();
         if (!is_null($data) )  
@@ -278,7 +278,7 @@ class KelompokUrusanController extends Controller {
     {        
         $theme = \Auth::user()->theme;
         
-        $data = KelompokUrusanModel::where('TA',config('globalsettings.tahun_perencanaan'))
+        $data = KelompokUrusanModel::where('TA',config('eplanning.tahun_perencanaan'))
                                     ->where('KUrsID',$id)
                                     ->firstOrFail();
         if (!is_null($data) ) 
@@ -301,7 +301,7 @@ class KelompokUrusanController extends Controller {
         $kelompokurusan = KelompokUrusanModel::find($id);
         $this->validate($request, 
         [
-            'Kd_Urusan'=>[new IgnoreIfDataIsEqualValidation('tmKUrs',$kelompokurusan->Kd_Urusan,['where'=>['TA','=',config('globalsettings.tahun_perencanaan')]]),
+            'Kd_Urusan'=>[new IgnoreIfDataIsEqualValidation('tmKUrs',$kelompokurusan->Kd_Urusan,['where'=>['TA','=',config('eplanning.tahun_perencanaan')]]),
                             'required',
                             'min:1',
                             'max:4',

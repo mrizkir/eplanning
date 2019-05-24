@@ -50,7 +50,7 @@ class RPJMDIndikatorKinerjaController extends Controller {
         }
         else
         {
-            $data = RPJMDIndikatorKinerjaModel::where('TA_N',config('globalsettings.rpjmd_tahun_mulai'))
+            $data = RPJMDIndikatorKinerjaModel::where('TA_N',config('eplanning.rpjmd_tahun_mulai'))
                                                 ->orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('rpjmdindikatorkinerja.index'));

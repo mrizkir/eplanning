@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        PEMBAHASANMUSRENDESA TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        PEMBAHASANMUSRENDESA TAHUN PERENCANAAN {{config('eplanning.tahun_perencanaan')}}
     </span>     
 @endsection
 @section('page_info')

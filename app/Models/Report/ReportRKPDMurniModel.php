@@ -22,7 +22,7 @@ class ReportRKPDMurniModel extends ReportModel
         $OrgID = $this->dataReport['OrgID'];
 
         $sheet = $this->spreadsheet->getActiveSheet();        
-        $sheet->setTitle ('LAPORAN RKPD TA '.config('globalsettings.tahun_perencanaan'));   
+        $sheet->setTitle ('LAPORAN RKPD TA '.config('eplanning.tahun_perencanaan'));   
         
         $sheet->getParent()->getDefaultStyle()->applyFromArray([
             'font' => [
@@ -32,9 +32,9 @@ class ReportRKPDMurniModel extends ReportModel
         ]);
 
         $sheet->mergeCells ('A1:K1');
-        $sheet->setCellValue('A1','RUMUSAN PROGRAM DAN KEGIATAN OPD TAHUN '.config('globalsettings.tahun_perencanaan'));
+        $sheet->setCellValue('A1','RUMUSAN PROGRAM DAN KEGIATAN OPD TAHUN '.config('eplanning.tahun_perencanaan'));
 
-        $n1 = config('globalsettings.tahun_perencanaan')+1;
+        $n1 = config('eplanning.tahun_perencanaan')+1;
         $sheet->mergeCells ('A2:K2');
         $sheet->setCellValue('A2','DAN PRAKIRAAN MAJU TAHUN '.$n1);
 
@@ -62,7 +62,7 @@ class ReportRKPDMurniModel extends ReportModel
         $sheet->mergeCells ('C10:C11');
         $sheet->setCellValue('C10','INDIKATOR KINERJA PROGRAM/KEGIATAN'); 
         $sheet->mergeCells ('D10:G10');
-        $sheet->setCellValue('D10','RENCANA TAHUN '.config('globalsettings.tahun_perencanaan')); 
+        $sheet->setCellValue('D10','RENCANA TAHUN '.config('eplanning.tahun_perencanaan')); 
         $sheet->mergeCells ('H10:J10');
         $sheet->setCellValue('H10','PERKIRAAN MAJU RENCANA TAHUN '.$n1);
         $sheet->mergeCells ('K10:K11');
@@ -113,7 +113,7 @@ class ReportRKPDMurniModel extends ReportModel
 
         $daftar_program=RKPDMurniModel::select(\DB::raw('"PrgID","kode_program","PrgNm"'))
                                         ->where('OrgID',$OrgID)
-                                        ->where('TA',config('globalsettings.tahun_perencanaan'))
+                                        ->where('TA',config('eplanning.tahun_perencanaan'))
                                         ->get()->toArray();
 
         

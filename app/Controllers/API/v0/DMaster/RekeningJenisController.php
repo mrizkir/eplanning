@@ -24,7 +24,7 @@ class RekeningJenisController extends Controller {
      */
     public function index(Request $request)
     {               
-        $ta=config('globalsettings.tahun_perencanaan');
+        $ta=config('eplanning.tahun_perencanaan');
        
         $data=RekeningJenisModel::join('tmKlp','tmKlp.KlpID','tmJns.KlpID')
                                 ->join('tmStr','tmStr.StrID','tmKlp.StrID')

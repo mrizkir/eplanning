@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-cube position-left"></i>
     <span class="text-semibold">
-        USULAN DESA / KELURAHAN (MUSREN DESA) TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}  
+        USULAN DESA / KELURAHAN (MUSREN DESA) TAHUN PERENCANAAN {{config('eplanning.tahun_perencanaan')}}  
     </span>
 @endsection
 @section('page_info')

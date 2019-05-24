@@ -36,7 +36,7 @@ class OrganisasiController extends Controller {
         {
             $numberRecordPerPage = $request->input('numberrecordperpage');
         }
-        $ta=config('globalsettings.tahun_perencanaan');
+        $ta=config('eplanning.tahun_perencanaan');
         if ($request->exists('ta'))
         {
             $ta = $request->input('ta');

@@ -84,7 +84,7 @@ class RPJMDIndikatorKinerjaModel extends Model {
     public static function getDaftarIndikatorKinerja($UrsID,$PrgID=null,$OrgID=null,$prepend=true)
     {   
         $data = RPJMDIndikatorKinerjaModel::where('UrsID',$UrsID)
-                                            ->where('TA_N',config('globalsettings.rpjmd_tahun_mulai'));
+                                            ->where('TA_N',config('eplanning.rpjmd_tahun_mulai'));
 
         if ($PrgID != null)
         {
@@ -112,7 +112,7 @@ class RPJMDIndikatorKinerjaModel extends Model {
         $data_indikator=null;
         if (!is_null($data) )  
         {   
-            $tahun_n=($ta-config('globalsettings.rpjmd_tahun_mulai'))+1;
+            $tahun_n=($ta-config('eplanning.rpjmd_tahun_mulai'))+1;
             $target_n="TargetN$tahun_n";
             $pagudana_n="PaguDanaN$tahun_n";
             $data_indikator=[

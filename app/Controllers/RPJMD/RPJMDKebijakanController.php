@@ -201,7 +201,7 @@ class RPJMDKebijakanController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $rpjmd_strategi=RpjmdStrategiModel::getRPJDMStrategi(config('globalsettings.tahun_perencanaan'));
+        $rpjmd_strategi=RpjmdStrategiModel::getRPJDMStrategi(config('eplanning.tahun_perencanaan'));
         return view("pages.$theme.rpjmd.rpjmdkebijakan.create")->with(['page_active'=>'rpjmdkebijakan',
                                                                     'rpjmd_strategi'=>$rpjmd_strategi
                                                                     ]);  

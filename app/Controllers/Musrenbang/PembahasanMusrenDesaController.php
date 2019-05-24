@@ -57,7 +57,7 @@ class PembahasanMusrenDesaController extends Controller {
                                                     ->leftJoin('trUsulanKec','UsulanDesaID.UsulanKecID','trUsulanDesa.UsulanDesaID')
                                                     ->join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanDesa.PmDesaID')
                                                     ->join('tmPmKecamatan','tmPmDesa.PmKecamatanID','tmPmKecamatan.PmKecamatanID')
-                                                    ->where('trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
+                                                    ->where('trUsulanDesa.TA', config('eplanning.tahun_perencanaan'))
                                                     ->where('trUsulanDesa.PmDesaID',$filter_desa)
                                                     ->where(['trUsulanDesa.No_usulan'=>(int)$search['isikriteria']])
                                                     ->orderBy('trUsulanDesa.Prioritas','ASC')
@@ -68,7 +68,7 @@ class PembahasanMusrenDesaController extends Controller {
                                                     ->leftJoin('trUsulanKec','trUsulanKec.UsulanDesaID','trUsulanDesa.UsulanDesaID')
                                                     ->join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanDesa.PmDesaID')
                                                     ->join('tmPmKecamatan','tmPmDesa.PmKecamatanID','tmPmKecamatan.PmKecamatanID')
-                                                    ->where('trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
+                                                    ->where('trUsulanDesa.TA', config('eplanning.tahun_perencanaan'))
                                                     ->where('trUsulanDesa.PmDesaID',$filter_desa)
                                                     ->where('trUsulanDesa.NamaKegiatan', 'ilike', '%' . $search['isikriteria'] . '%')
                                                     ->orderBy('trUsulanDesa.Prioritas','ASC')
@@ -83,7 +83,7 @@ class PembahasanMusrenDesaController extends Controller {
                                             ->leftJoin('trUsulanKec','trUsulanKec.UsulanDesaID','trUsulanDesa.UsulanDesaID')
                                             ->join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanDesa.PmDesaID')
                                             ->join('tmPmKecamatan','tmPmDesa.PmKecamatanID','tmPmKecamatan.PmKecamatanID')
-                                            ->where('trUsulanDesa.TA', config('globalsettings.tahun_perencanaan'))
+                                            ->where('trUsulanDesa.TA', config('eplanning.tahun_perencanaan'))
                                             ->where('trUsulanDesa.PmDesaID',$filter_desa)                                            
                                             ->orderBy('Prioritas','ASC')
                                             ->orderBy($column_order,$direction)                                            
@@ -240,14 +240,14 @@ class PembahasanMusrenDesaController extends Controller {
             $PmKecamatanID = $request->input('PmKecamatanID')==''?'none':$request->input('PmKecamatanID');
             $filters['PmKecamatanID']=$PmKecamatanID;
 
-            $daftar_desa=DesaModel::getDaftarDesa(config('globalsettings.tahun_perencanaan'),$PmKecamatanID);
+            $daftar_desa=DesaModel::getDaftarDesa(config('eplanning.tahun_perencanaan'),$PmKecamatanID);
         }   
         if ($request->exists('PmDesaID'))
         {
             $PmDesaID = $request->input('PmDesaID')==''?'none':$request->input('PmDesaID');
             $filters['PmDesaID']=$PmDesaID;
 
-            $daftar_desa=DesaModel::getDaftarDesa(config('globalsettings.tahun_perencanaan'),$filters['PmKecamatanID']);
+            $daftar_desa=DesaModel::getDaftarDesa(config('eplanning.tahun_perencanaan'),$filters['PmKecamatanID']);
         }
 
         $this->putControllerStateSession('pembahasanmusrendesa','filters',$filters);   
@@ -285,8 +285,8 @@ class PembahasanMusrenDesaController extends Controller {
         }
         $this->setCurrentPageInsideSession('pembahasanmusrendesa',$data->currentPage());
         $filters=$this->getControllerStateSession('pembahasanmusrendesa','filters');        
-        $daftar_kecamatan=KecamatanModel::getDaftarKecamatan(config('globalsettings.tahun_perencanaan'),false);
-        $daftar_desa=DesaModel::getDaftarDesa(config('globalsettings.tahun_perencanaan'),$filters['PmKecamatanID'],false);        
+        $daftar_kecamatan=KecamatanModel::getDaftarKecamatan(config('eplanning.tahun_perencanaan'),false);
+        $daftar_desa=DesaModel::getDaftarDesa(config('eplanning.tahun_perencanaan'),$filters['PmKecamatanID'],false);        
         return view("pages.$theme.musrenbang.pembahasanmusrendesa.index")->with(['page_active'=>'pembahasanmusrendesa',
                                                                                 'label_transfer'=>'MUSRENBANG KEC.',
                                                                                 'daftar_kecamatan'=>$daftar_kecamatan,

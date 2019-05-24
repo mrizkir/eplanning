@@ -46,13 +46,13 @@ class OrganisasiController extends Controller {
             {
                 case 'kode_organisasi' :
                     $data =\DB::table('v_urusan_organisasi') 
-                                ->where('TA',config('globalsettings.tahun_perencanaan'))
+                                ->where('TA',config('eplanning.tahun_perencanaan'))
                                 ->where(['kode_organisasi'=>$search['isikriteria']])
                                 ->orderBy($column_order,$direction); 
                 break;
                 case 'OrgNm' :
                     $data =\DB::table('v_urusan_organisasi') 
-                                ->where('TA',config('globalsettings.tahun_perencanaan'))
+                                ->where('TA',config('eplanning.tahun_perencanaan'))
                                 ->where('OrgNm', 'ilike', '%' . $search['isikriteria'] . '%')
                                 ->orderBy($column_order,$direction);                                        
                 break;
@@ -62,7 +62,7 @@ class OrganisasiController extends Controller {
         else
         {
             $data = \DB::table('v_urusan_organisasi') 
-                                ->where('TA',config('globalsettings.tahun_perencanaan'))
+                                ->where('TA',config('eplanning.tahun_perencanaan'))
                                 ->orderBy($column_order,$direction)
                                 ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
@@ -222,7 +222,7 @@ class OrganisasiController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'),false);
+        $daftar_urusan=UrusanModel::getDaftarUrusan(config('eplanning.tahun_perencanaan'),false);
         return view("pages.$theme.dmaster.organisasi.create")->with(['page_active'=>'organisasi',
                                                                     'daftar_urusan'=>$daftar_urusan
                                                                     ]);  
@@ -251,7 +251,7 @@ class OrganisasiController extends Controller {
             'NamaKepalaSKPD' => '-',
             'NIPKepalaSKPD' => '-',
             'Descr' => $request->input('Descr'),
-            'TA'=>config('globalsettings.tahun_perencanaan'),
+            'TA'=>config('eplanning.tahun_perencanaan'),
         ]);        
         
         SubOrganisasiModel::create([
@@ -315,7 +315,7 @@ class OrganisasiController extends Controller {
         $data = OrganisasiModel::findOrFail($id);
         if (!is_null($data) ) 
         {
-            $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'),false);
+            $daftar_urusan=UrusanModel::getDaftarUrusan(config('eplanning.tahun_perencanaan'),false);
             return view("pages.$theme.dmaster.organisasi.edit")->with(['page_active'=>'organisasi',
                                                                     'daftar_urusan'=>$daftar_urusan,
                                                                     'data'=>$data

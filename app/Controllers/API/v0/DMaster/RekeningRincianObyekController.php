@@ -24,7 +24,7 @@ class RekeningRincianObyekController extends Controller {
      */
     public function index(Request $request)
     {      
-        $ta=config('globalsettings.tahun_perencanaan');       
+        $ta=config('eplanning.tahun_perencanaan');       
         $data=RekeningRincianObyekModel::join('tmOby','tmOby.ObyID','tmROby.ObyID')
                                 ->join('tmJns','tmJns.JnsID','tmOby.JnsID')
                                 ->join('tmKlp','tmKlp.KlpID','tmJns.KlpID')

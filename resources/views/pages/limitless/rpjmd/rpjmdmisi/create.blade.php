@@ -1,18 +1,18 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RPJMD MISI TAHUN {{config('globalsettings.rpjmd_tahun_mulai')}} - {{config('globalsettings.rpjmd_tahun_akhir')}}
+    RPJMD MISI TAHUN {{config('eplanning.rpjmd_tahun_mulai')}} - {{config('eplanning.rpjmd_tahun_akhir')}}
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        RPJMD MISI TAHUN {{config('globalsettings.rpjmd_tahun_mulai')}} - {{config('globalsettings.rpjmd_tahun_akhir')}}
+        RPJMD MISI TAHUN {{config('eplanning.rpjmd_tahun_mulai')}} - {{config('eplanning.rpjmd_tahun_akhir')}}
     </span>
 @endsection
 @section('page_info')
     @include('pages.limitless.rpjmd.rpjmdmisi.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('rpjmdmisi.index')!!}">RPJMD MISI TAHUN {{config('globalsettings.rpjmd_tahun_mulai')}} - {{config('globalsettings.rpjmd_tahun_akhir')}}</a></li>
+    <li><a href="{!!route('rpjmdmisi.index')!!}">RPJMD MISI TAHUN {{config('eplanning.rpjmd_tahun_mulai')}} - {{config('eplanning.rpjmd_tahun_akhir')}}</a></li>
     <li class="active">TAMBAH DATA</li>
 @endsection
 @section('page_content')

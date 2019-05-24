@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-chess-king position-left"></i>
     <span class="text-semibold"> 
-        URUSAN TAHUN PERENCANAAN {{config('globalsettings.tahun_perencanaan')}}
+        URUSAN TAHUN PERENCANAAN {{config('eplanning.tahun_perencanaan')}}
     </span>
 @endsection
 @section('page_info')

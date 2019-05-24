@@ -1,11 +1,11 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RPJMD KEBIJAKAN TAHUN {{config('globalsettings.rpjmd_tahun_mulai')}} - {{config('globalsettings.rpjmd_tahun_akhir')}}
+    RPJMD KEBIJAKAN TAHUN {{config('eplanning.rpjmd_tahun_mulai')}} - {{config('eplanning.rpjmd_tahun_akhir')}}
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold">
-        RPJMD KEBIJAKAN  TAHUN {{config('globalsettings.rpjmd_tahun_mulai')}} - {{config('globalsettings.rpjmd_tahun_akhir')}}
+        RPJMD KEBIJAKAN  TAHUN {{config('eplanning.rpjmd_tahun_mulai')}} - {{config('eplanning.rpjmd_tahun_akhir')}}
     </span>
 @endsection
 @section('page_info')
@@ -13,7 +13,7 @@
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">RPJMD</a></li>
-    <li class="active">RPJMD KEBIJAKAN  TAHUN {{config('globalsettings.rpjmd_tahun_mulai')}} - {{config('globalsettings.rpjmd_tahun_akhir')}}</li>
+    <li class="active">RPJMD KEBIJAKAN  TAHUN {{config('eplanning.rpjmd_tahun_mulai')}} - {{config('eplanning.rpjmd_tahun_akhir')}}</li>
 @endsection
 @section('page_content')
 <div class="row">

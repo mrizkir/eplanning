@@ -224,7 +224,7 @@ class UsersDesaController extends Controller {
     {        
         $theme = \Auth::user()->theme;
         $daftar_theme = $this->listOfthemes;             
-        $daftar_desa=\App\Models\DMaster\DesaModel::getDaftarDesa(config('globalsettings.tahun_perencanaan'),null,false);         
+        $daftar_desa=\App\Models\DMaster\DesaModel::getDaftarDesa(config('eplanning.tahun_perencanaan'),null,false);         
         return view("pages.$theme.setting.usersdesa.create")->with(['page_active'=>'usersdesa',
                                                                     'daftar_desa'=>$daftar_desa,
                                                                     'daftar_theme'=>$daftar_theme

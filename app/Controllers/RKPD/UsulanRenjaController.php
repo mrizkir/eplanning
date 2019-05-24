@@ -171,7 +171,7 @@ class UsulanRenjaController extends Controller
                                 ->select(\HelperKegiatan::getField($this->NameOfPage))
                                 ->where(['kode_kegiatan'=>$search['isikriteria']])                                                    
                                 ->where('SOrgID',$SOrgID)
-                                ->where('TA', config('globalsettings.tahun_perencanaan'))
+                                ->where('TA', config('eplanning.tahun_perencanaan'))
                                 ->orderBy('Prioritas','ASC')
                                 ->orderBy($column_order,$direction); 
                 break;
@@ -180,7 +180,7 @@ class UsulanRenjaController extends Controller
                                 ->select(\HelperKegiatan::getField($this->NameOfPage))
                                 ->where('KgtNm', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                 ->where('SOrgID',$SOrgID)
-                                ->where('TA', config('globalsettings.tahun_perencanaan'))
+                                ->where('TA', config('eplanning.tahun_perencanaan'))
                                 ->orderBy('Prioritas','ASC')
                                 ->orderBy($column_order,$direction);                                        
                 break;
@@ -189,7 +189,7 @@ class UsulanRenjaController extends Controller
                                     ->select(\HelperKegiatan::getField($this->NameOfPage))
                                     ->where('Uraian', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                     ->where('SOrgID',$SOrgID)
-                                    ->where('TA', config('globalsettings.tahun_perencanaan'))
+                                    ->where('TA', config('eplanning.tahun_perencanaan'))
                                     ->orderBy('Prioritas','ASC')
                                     ->orderBy($column_order,$direction);                                        
                 break;
@@ -201,7 +201,7 @@ class UsulanRenjaController extends Controller
             $data = \DB::table(\HelperKegiatan::getViewName($this->NameOfPage))
                             ->select(\HelperKegiatan::getField($this->NameOfPage))
                             ->where('SOrgID',$SOrgID)                                            
-                            ->where('TA', config('globalsettings.tahun_perencanaan'))                                            
+                            ->where('TA', config('eplanning.tahun_perencanaan'))                                            
                             ->orderBy('Prioritas','ASC')
                             ->orderBy($column_order,$direction)                                            
                             ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
@@ -333,7 +333,7 @@ class UsulanRenjaController extends Controller
             $OrgID = $request->input('OrgID')==''?'none':$request->input('OrgID');
             $filters['OrgID']=$OrgID;
             $filters['SOrgID']='none';
-            $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('globalsettings.tahun_perencanaan'),false,$OrgID);  
+            $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('eplanning.tahun_perencanaan'),false,$OrgID);  
             
             $this->putControllerStateSession($this->SessionName,'filters',$filters);
 
@@ -347,7 +347,7 @@ class UsulanRenjaController extends Controller
                                                                             'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
                                                                             'data'=>$data])->render();
 
-            $totalpaguindikatifopd = RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('globalsettings.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['OrgID']);            
+            $totalpaguindikatifopd = RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('eplanning.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['OrgID']);            
                   
             $totalpaguindikatifunitkerja[0]=0;
             $totalpaguindikatifunitkerja[1]=0;
@@ -377,7 +377,7 @@ class UsulanRenjaController extends Controller
                                                                                 'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
                                                                                 'data'=>$data])->render();                                                                                       
                         
-            $totalpaguindikatifunitkerja = RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('globalsettings.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['SOrgID']);            
+            $totalpaguindikatifunitkerja = RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('eplanning.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['SOrgID']);            
             
             $json_data = ['success'=>true,'totalpaguindikatifunitkerja'=>$totalpaguindikatifunitkerja,'datatable'=>$datatable];            
         } 
@@ -389,12 +389,12 @@ class UsulanRenjaController extends Controller
             $RenjaID = $request->input('RenjaID');
             $subquery = \DB::table('trRenjaRinc')
                             ->select('UsulanKecID')
-                            ->where('TA',config('globalsettings.tahun_perencanaan'));
+                            ->where('TA',config('eplanning.tahun_perencanaan'));
             $data=\App\Models\Musrenbang\AspirasiMusrenKecamatanModel::select('trUsulanKec.*')
                                                                         ->leftJoinSub($subquery,'rinciankegiatan',function($join){
                                                                             $join->on('trUsulanKec.UsulanKecID','=','rinciankegiatan.UsulanKecID');
                                                                         })
-                                                                        ->where('trUsulanKec.TA', config('globalsettings.tahun_perencanaan'))
+                                                                        ->where('trUsulanKec.TA', config('eplanning.tahun_perencanaan'))
                                                                         ->where('trUsulanKec.PmKecamatanID',$PmKecamatanID)                                                
                                                                         ->where('trUsulanKec.Privilege',1)       
                                                                         ->whereNull('rinciankegiatan.UsulanKecID')       
@@ -429,13 +429,13 @@ class UsulanRenjaController extends Controller
 
             $subquery = \DB::table('trRenjaRinc')
                             ->select('PokPirID')
-                            ->where('TA',config('globalsettings.tahun_perencanaan'));
+                            ->where('TA',config('eplanning.tahun_perencanaan'));
 
             $data=\App\Models\Pokir\PokokPikiranModel::select('trPokPir.*')
                                                     ->leftJoinSub($subquery,'rinciankegiatan',function($join){
                                                         $join->on('trPokPir.PokPirID','=','rinciankegiatan.PokPirID');
                                                     })
-                                                    ->where('trPokPir.TA', config('globalsettings.tahun_perencanaan'))
+                                                    ->where('trPokPir.TA', config('eplanning.tahun_perencanaan'))
                                                     ->where('trPokPir.PemilikPokokID',$PemilikPokokID)                                                
                                                     ->whereNull('rinciankegiatan.PokPirID')
                                                     ->where('trPokPir.Privilege',1)  
@@ -467,7 +467,7 @@ class UsulanRenjaController extends Controller
         if ($request->exists('PmKecamatanID') && $request->exists('create4') )
         {
             $PmKecamatanID = $request->input('PmKecamatanID')==''?'none':$request->input('PmKecamatanID');
-            $daftar_desa=\App\Models\DMaster\DesaModel::getDaftarDesa(config('globalsettings.tahun_perencanaan'),$PmKecamatanID,false);
+            $daftar_desa=\App\Models\DMaster\DesaModel::getDaftarDesa(config('eplanning.tahun_perencanaan'),$PmKecamatanID,false);
                                                                                     
             $json_data = ['success'=>true,'daftar_desa'=>$daftar_desa];            
         } 
@@ -524,24 +524,24 @@ class UsulanRenjaController extends Controller
         switch ($roles[0])
         {
             case 'superadmin' :     
-                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('globalsettings.tahun_perencanaan'),false);  
+                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false);  
                 $daftar_unitkerja=array();           
                 if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
                 {
-                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('globalsettings.tahun_perencanaan'),false,$filters['OrgID']);        
+                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('eplanning.tahun_perencanaan'),false,$filters['OrgID']);        
                 }    
             break;
             case 'opd' :
-                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('globalsettings.tahun_perencanaan'),false,NULL,$auth->OrgID);  
+                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false,NULL,$auth->OrgID);  
                 $filters['OrgID']=$auth->OrgID;                
                 if (empty($auth->SOrgID)) 
                 {
-                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('globalsettings.tahun_perencanaan'),false,$auth->OrgID);  
+                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('eplanning.tahun_perencanaan'),false,$auth->OrgID);  
                     $filters['SOrgID']=empty($filters['SOrgID'])?'':$filters['SOrgID'];                    
                 }   
                 else
                 {
-                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('globalsettings.tahun_perencanaan'),false,$auth->OrgID,$auth->SOrgID);
+                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('eplanning.tahun_perencanaan'),false,$auth->OrgID,$auth->SOrgID);
                     $filters['SOrgID']=$auth->SOrgID;
                 }                
                 $this->putControllerStateSession($this->SessionName,'filters',$filters);
@@ -569,8 +569,8 @@ class UsulanRenjaController extends Controller
                                                                 'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
                                                                 'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
                                                                 'paguanggaranopd'=>$paguanggaranopd,
-                                                                'totalpaguindikatifopd'=>RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('globalsettings.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['OrgID']),
-                                                                'totalpaguindikatifunitkerja' => RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('globalsettings.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['SOrgID']),            
+                                                                'totalpaguindikatifopd'=>RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('eplanning.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['OrgID']),
+                                                                'totalpaguindikatifunitkerja' => RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('eplanning.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['SOrgID']),            
                                                                 'data'=>$data]);
     }   
     public function pilihusulankegiatan(Request $request)
@@ -579,7 +579,7 @@ class UsulanRenjaController extends Controller
         if ($request->exists('UrsID'))
         {
             $UrsID = $request->input('UrsID')==''?'none':$request->input('UrsID');
-            $daftar_program = ProgramModel::getDaftarProgram(config('globalsettings.tahun_perencanaan'),false,$UrsID);
+            $daftar_program = ProgramModel::getDaftarProgram(config('eplanning.tahun_perencanaan'),false,$UrsID);
             $json_data['success']=true;
             $json_data['daftar_program']=$daftar_program;
         }
@@ -588,12 +588,12 @@ class UsulanRenjaController extends Controller
         {
             $PrgID = $request->input('PrgID')==''?'none':$request->input('PrgID');
             $r=\DB::table('v_program_kegiatan')
-                    ->where('TA',config('globalsettings.tahun_perencanaan'))
+                    ->where('TA',config('eplanning.tahun_perencanaan'))
                     ->where('PrgID',$PrgID)
                     ->WhereNotIn('KgtID',function($query) {
                         $query->select('KgtID')
                                 ->from('trRenja')
-                                ->where('TA', config('globalsettings.tahun_perencanaan'));
+                                ->where('TA', config('eplanning.tahun_perencanaan'));
                     }) 
                     ->orderBy('Kd_Keg')
                     ->orderBy('kode_kegiatan')
@@ -619,7 +619,7 @@ class UsulanRenjaController extends Controller
     public function pilihindikatorkinerja(Request $request)
     {
         $IndikatorKinerjaID = $request->input('IndikatorKinerjaID');
-        $json_data=\App\Models\RPJMD\RpjmdIndikatorKinerjaModel::getIndikatorKinerjaByID($IndikatorKinerjaID,config('globalsettings.tahun_perencanaan'));
+        $json_data=\App\Models\RPJMD\RpjmdIndikatorKinerjaModel::getIndikatorKinerjaByID($IndikatorKinerjaID,config('eplanning.tahun_perencanaan'));
         if (is_null($json_data))
         {
             $json_data=[
@@ -648,9 +648,9 @@ class UsulanRenjaController extends Controller
             $organisasi=\App\Models\DMaster\OrganisasiModel::find($OrgID);            
             $UrsID=$organisasi->UrsID;
 
-            $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'),false);   
-            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(config('globalsettings.tahun_perencanaan'),false,$UrsID);
-            $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(config('globalsettings.tahun_perencanaan'),false);     
+            $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusan(config('eplanning.tahun_perencanaan'),false);   
+            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(config('eplanning.tahun_perencanaan'),false,$UrsID);
+            $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(config('eplanning.tahun_perencanaan'),false);     
             
             return view("pages.$theme.rkpd.usulanrenja.create")->with(['page_active'=>$this->NameOfPage,
                                                                     'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
@@ -700,7 +700,7 @@ class UsulanRenjaController extends Controller
                                         ->orWhere('OrgID',$OrgID)
                                         ->orWhere('OrgID2',$OrgID)
                                         ->orWhere('OrgID3',$OrgID)
-                                        ->where('TA_N',config('globalsettings.rpjmd_tahun_mulai'))
+                                        ->where('TA_N',config('eplanning.rpjmd_tahun_mulai'))
                                         ->WhereNotIn('IndikatorKinerjaID',function($query) use ($renjaid){
                                             $query->select('IndikatorKinerjaID')
                                                     ->from('trRenjaIndikator')
@@ -746,7 +746,7 @@ class UsulanRenjaController extends Controller
             //lokasi
             $daftar_provinsi = ['uidF1847004D8F547BF'=>'KEPULAUAN RIAU'];
             $daftar_kota_kab = ['uidE4829D1F21F44ECA'=>'BINTAN'];        
-            $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(config('globalsettings.tahun_perencanaan'),config('globalsettings.defaul_kota_atau_kab'),false);
+            $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(config('eplanning.tahun_perencanaan'),config('eplanning.defaul_kota_atau_kab'),false);
             $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->max('No')+1;
             return view("pages.$theme.rkpd.usulanrenja.create2")->with(['page_active'=>$this->NameOfPage,
                                                                     'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
@@ -783,7 +783,7 @@ class UsulanRenjaController extends Controller
             $datarinciankegiatan = $this->populateRincianKegiatan($renjaid);
 
             $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->max('No')+1;
-            $daftar_pemilik= \App\Models\Pokir\PemilikPokokPikiranModel::where('TA',config('globalsettings.tahun_perencanaan')) 
+            $daftar_pemilik= \App\Models\Pokir\PemilikPokokPikiranModel::where('TA',config('eplanning.tahun_perencanaan')) 
                                                                         ->select(\DB::raw('"PemilikPokokID", CONCAT("NmPk",\' [\',"Kd_PK",\']\') AS "NmPk"'))                                                                       
                                                                         ->get()
                                                                         ->pluck('NmPk','PemilikPokokID')                                                                        
@@ -826,7 +826,7 @@ class UsulanRenjaController extends Controller
             //lokasi
             $daftar_provinsi = ['uidF1847004D8F547BF'=>'KEPULAUAN RIAU'];
             $daftar_kota_kab = ['uidE4829D1F21F44ECA'=>'BINTAN'];        
-            $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(config('globalsettings.tahun_perencanaan'),config('globalsettings.defaul_kota_atau_kab'),false);
+            $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(config('eplanning.tahun_perencanaan'),config('eplanning.defaul_kota_atau_kab'),false);
             $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->max('No')+1;
             return view("pages.$theme.rkpd.usulanrenja.create4")->with(['page_active'=>$this->NameOfPage,
                                                                     'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
@@ -889,7 +889,7 @@ class UsulanRenjaController extends Controller
                     'NilaiSetelah' => $request->input('NilaiSetelah'),
                     'NamaIndikator' => $request->input('NamaIndikator'),            
                     'Descr' => $request->input('Descr'),
-                    'TA' => config('globalsettings.tahun_perencanaan'),
+                    'TA' => config('eplanning.tahun_perencanaan'),
                     'EntryLvl'=>0
                 ];
             break;
@@ -909,7 +909,7 @@ class UsulanRenjaController extends Controller
                     'NilaiSetelah' => $request->input('NilaiSetelah'),
                     'NamaIndikator' => $request->input('NamaIndikator'),            
                     'Descr' => $request->input('Descr'),
-                    'TA' => config('globalsettings.tahun_perencanaan'),
+                    'TA' => config('eplanning.tahun_perencanaan'),
                     'EntryLvl'=>1
                 ];
             break;
@@ -929,7 +929,7 @@ class UsulanRenjaController extends Controller
                     'NilaiSetelah' => $request->input('NilaiSetelah'),
                     'NamaIndikator' => $request->input('NamaIndikator'),            
                     'Descr' => $request->input('Descr'),
-                    'TA' => config('globalsettings.tahun_perencanaan'),
+                    'TA' => config('eplanning.tahun_perencanaan'),
                     'EntryLvl'=>2
                 ];
             break;
@@ -949,7 +949,7 @@ class UsulanRenjaController extends Controller
                     'NilaiSetelah' => $request->input('NilaiSetelah'),
                     'NamaIndikator' => $request->input('NamaIndikator'),            
                     'Descr' => $request->input('Descr'),
-                    'TA' => config('globalsettings.tahun_perencanaan'),
+                    'TA' => config('eplanning.tahun_perencanaan'),
                     'EntryLvl'=>3
                 ];
             break;
@@ -989,9 +989,9 @@ class UsulanRenjaController extends Controller
             'IndikatorKinerjaID' => $request->input('IndikatorKinerjaID'),           
             'Target_Angka' => $request->input('Target_Angka'),
             'Target_Uraian' => $request->input('Target_Uraian'),                       
-            'Tahun' => (config('globalsettings.tahun_perencanaan')-config('globalsettings.rpjmd_tahun_mulai'))+1,                       
+            'Tahun' => (config('eplanning.tahun_perencanaan')-config('eplanning.rpjmd_tahun_mulai'))+1,                       
             'Descr' => $request->input('Descr'),
-            'TA' => config('globalsettings.tahun_perencanaan')
+            'TA' => config('eplanning.tahun_perencanaan')
         ];
 
         $indikatorkinerja = RenjaIndikatorModel::create($data);
@@ -1052,7 +1052,7 @@ class UsulanRenjaController extends Controller
                         'Prioritas' => $request->input('Prioritas'),              
                         'Status' => 0,                                         
                         'Descr' => $request->input('Descr'),
-                        'TA' => config('globalsettings.tahun_perencanaan')
+                        'TA' => config('eplanning.tahun_perencanaan')
                     ];
 
                     $rinciankegiatan= RenjaRincianModel::create($data);
@@ -1079,7 +1079,7 @@ class UsulanRenjaController extends Controller
                         'Status' => 0,  
                         'EntryLvl' => 1,                                       
                         'Descr' => $request->input('Descr'),
-                        'TA' => config('globalsettings.tahun_perencanaan')
+                        'TA' => config('eplanning.tahun_perencanaan')
                     ];
 
                     $rinciankegiatan= RenjaRincianModel::create($data);
@@ -1106,7 +1106,7 @@ class UsulanRenjaController extends Controller
                         'Status' => 0,  
                         'EntryLvl' => 2,                                       
                         'Descr' => $request->input('Descr'),
-                        'TA' => config('globalsettings.tahun_perencanaan')
+                        'TA' => config('eplanning.tahun_perencanaan')
                     ];
 
                     $rinciankegiatan= RenjaRincianModel::create($data);
@@ -1133,7 +1133,7 @@ class UsulanRenjaController extends Controller
                         'Status' => 0,  
                         'EntryLvl' => 3,                                       
                         'Descr' => $request->input('Descr'),
-                        'TA' => config('globalsettings.tahun_perencanaan')
+                        'TA' => config('eplanning.tahun_perencanaan')
                     ];
                     
                     $rinciankegiatan= RenjaRincianModel::create($data);
@@ -1205,7 +1205,7 @@ class UsulanRenjaController extends Controller
                         'Status' => 0,        
                         'EntryLvl' => 0,                                     
                         'Descr' => $request->input('Descr'),
-                        'TA' => config('globalsettings.tahun_perencanaan')
+                        'TA' => config('eplanning.tahun_perencanaan')
                     ];
 
                     $rinciankegiatan= RenjaRincianModel::create($data);
@@ -1234,7 +1234,7 @@ class UsulanRenjaController extends Controller
                         'Status' => 0,                             
                         'EntryLvl' => 1,             
                         'Descr' => $request->input('Descr'),
-                        'TA' => config('globalsettings.tahun_perencanaan')
+                        'TA' => config('eplanning.tahun_perencanaan')
                     ];
 
                     $rinciankegiatan= RenjaRincianModel::create($data);
@@ -1263,7 +1263,7 @@ class UsulanRenjaController extends Controller
                         'Status' => 0,                             
                         'EntryLvl' => 2,             
                         'Descr' => $request->input('Descr'),
-                        'TA' => config('globalsettings.tahun_perencanaan')
+                        'TA' => config('eplanning.tahun_perencanaan')
                     ];
 
                     $rinciankegiatan= RenjaRincianModel::create($data);
@@ -1292,7 +1292,7 @@ class UsulanRenjaController extends Controller
                         'Status' => 0,                             
                         'EntryLvl' => 3,             
                         'Descr' => $request->input('Descr'),
-                        'TA' => config('globalsettings.tahun_perencanaan')
+                        'TA' => config('eplanning.tahun_perencanaan')
                     ];
 
                     $rinciankegiatan= RenjaRincianModel::create($data);
@@ -1358,7 +1358,7 @@ class UsulanRenjaController extends Controller
                         'Status' => 0,        
                         'EntryLvl' => 0,                                 
                         'Descr' => $request->input('Descr'),
-                        'TA' => config('globalsettings.tahun_perencanaan')
+                        'TA' => config('eplanning.tahun_perencanaan')
                     ];
                     $rinciankegiatan= RenjaRincianModel::create($data);
                     $renja = $rinciankegiatan->renja;            
@@ -1384,7 +1384,7 @@ class UsulanRenjaController extends Controller
                         'Status' => 0,                               
                         'EntryLvl' => 1,           
                         'Descr' => $request->input('Descr'),
-                        'TA' => config('globalsettings.tahun_perencanaan')
+                        'TA' => config('eplanning.tahun_perencanaan')
                     ];
 
                     $rinciankegiatan= RenjaRincianModel::create($data);
@@ -1411,7 +1411,7 @@ class UsulanRenjaController extends Controller
                         'Status' => 0,                               
                         'EntryLvl' => 2,           
                         'Descr' => $request->input('Descr'),
-                        'TA' => config('globalsettings.tahun_perencanaan')
+                        'TA' => config('eplanning.tahun_perencanaan')
                     ];
 
                     $rinciankegiatan= RenjaRincianModel::create($data);
@@ -1438,7 +1438,7 @@ class UsulanRenjaController extends Controller
                         'Status' => 0,                               
                         'EntryLvl' => 3,           
                         'Descr' => $request->input('Descr'),
-                        'TA' => config('globalsettings.tahun_perencanaan')
+                        'TA' => config('eplanning.tahun_perencanaan')
                     ];
 
                     $rinciankegiatan= RenjaRincianModel::create($data);
@@ -1754,7 +1754,7 @@ class UsulanRenjaController extends Controller
         
         if (!is_null($renja) ) 
         {
-            $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(config('globalsettings.tahun_perencanaan'),false);     
+            $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(config('eplanning.tahun_perencanaan'),false);     
             return view("pages.$theme.rkpd.usulanrenja.edit")->with(['page_active'=>$this->NameOfPage,
                                                                 'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                 'renja'=>$renja,
@@ -2695,8 +2695,8 @@ class UsulanRenjaController extends Controller
             //lokasi
             $daftar_provinsi = ['uidF1847004D8F547BF'=>'KEPULAUAN RIAU'];
             $daftar_kota_kab = ['uidE4829D1F21F44ECA'=>'BINTAN'];        
-            $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(config('globalsettings.tahun_perencanaan'),$renja->PmKotaID,false);
-            $daftar_desa=\App\Models\DMaster\DesaModel::getDaftarDesa(config('globalsettings.tahun_perencanaan'),$renja->PmKecamatanID,false);
+            $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(config('eplanning.tahun_perencanaan'),$renja->PmKotaID,false);
+            $daftar_desa=\App\Models\DMaster\DesaModel::getDaftarDesa(config('eplanning.tahun_perencanaan'),$renja->PmKecamatanID,false);
             return view("pages.$theme.rkpd.usulanrenja.edit4")->with(['page_active'=>$this->NameOfPage,
                                                                 'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                 'renja'=>$renja,

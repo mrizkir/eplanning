@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold">
-        RPJMD TUJUAN  TAHUN {{config('globalsettings.rpjmd_tahun_mulai')}} - {{config('globalsettings.rpjmd_tahun_akhir')}}
+        RPJMD TUJUAN  TAHUN {{config('eplanning.rpjmd_tahun_mulai')}} - {{config('eplanning.rpjmd_tahun_akhir')}}
     </span>
 @endsection
 @section('page_info')

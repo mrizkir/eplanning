@@ -24,7 +24,7 @@ class ProgramController extends Controller {
      */
     public function index(Request $request)
     {   
-        $ta=config('globalsettings.tahun_perencanaan');
+        $ta=config('eplanning.tahun_perencanaan');
         
         $data = \DB::table('tmPrg AS a')
                     ->select(\DB::raw('

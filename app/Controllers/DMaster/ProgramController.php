@@ -54,13 +54,13 @@ class ProgramController extends Controller {
             {
                 case 'kode_program' :
                     $data = \DB::table('v_urusan_program')
-                                ->where('TA',config('globalsettings.tahun_perencanaan'))
+                                ->where('TA',config('eplanning.tahun_perencanaan'))
                                 ->where(['kode_program'=>$search['isikriteria']])
                                 ->orderBy($column_order,$direction); 
                 break;
                 case 'PrgNm' :
                     $data = \DB::table('v_urusan_program')
-                            ->where('TA',config('globalsettings.tahun_perencanaan'))
+                            ->where('TA',config('eplanning.tahun_perencanaan'))
                             ->where('PrgNm', SQL::like(), '%' . $search['isikriteria'] . '%')
                             ->orderBy($column_order,$direction);                                        
                 break;
@@ -71,12 +71,12 @@ class ProgramController extends Controller {
         {
             $data =$filter_ursid == 'none' || $filter_ursid == null ? 
                                             \DB::table('v_urusan_program')
-                                                        ->where('TA',config('globalsettings.tahun_perencanaan'))
+                                                        ->where('TA',config('eplanning.tahun_perencanaan'))
                                                         ->orderBy($column_order,$direction)                                                        
                                                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage)
                                             :
                                             \DB::table('v_urusan_program')
-                                                        ->where('TA',config('globalsettings.tahun_perencanaan'))
+                                                        ->where('TA',config('eplanning.tahun_perencanaan'))
                                                         ->orderBy($column_order,$direction)                                                        
                                                         ->where('UrsID',$filter_ursid)
                                                         ->orWhereNull('UrsID')
@@ -93,7 +93,7 @@ class ProgramController extends Controller {
     public function changenumberrecordperpage (Request $request) 
     {
         $theme = \Auth::user()->theme;
-        $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'));
+        $daftar_urusan=UrusanModel::getDaftarUrusan(config('eplanning.tahun_perencanaan'));
         $daftar_urusan['none']='SELURUH URUSAN';
         $filter_kode_urusan_selected=UrusanModel::getKodeUrusanByUrsID($this->getControllerStateSession('program.filters','UrsID'));
         
@@ -122,7 +122,7 @@ class ProgramController extends Controller {
     public function orderby (Request $request) 
     {
         $theme = \Auth::user()->theme;
-        $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'));
+        $daftar_urusan=UrusanModel::getDaftarUrusan(config('eplanning.tahun_perencanaan'));
         $daftar_urusan['none']='SELURUH URUSAN';
         $filter_kode_urusan_selected=UrusanModel::getKodeUrusanByUrsID($this->getControllerStateSession('program.filters','UrsID'));
 
@@ -172,7 +172,7 @@ class ProgramController extends Controller {
     public function paginate ($id) 
     {
         $theme = \Auth::user()->theme;
-        $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'));
+        $daftar_urusan=UrusanModel::getDaftarUrusan(config('eplanning.tahun_perencanaan'));
         $daftar_urusan['none']='SELURUH URUSAN';
         $filter_kode_urusan_selected=UrusanModel::getKodeUrusanByUrsID($this->getControllerStateSession('program.filters','UrsID'));
 
@@ -199,7 +199,7 @@ class ProgramController extends Controller {
     public function search (Request $request) 
     {
         $theme = \Auth::user()->theme;
-        $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'));
+        $daftar_urusan=UrusanModel::getDaftarUrusan(config('eplanning.tahun_perencanaan'));
         $daftar_urusan['none']='SELURUH URUSAN';
         $filter_kode_urusan_selected=UrusanModel::getKodeUrusanByUrsID($this->getControllerStateSession('program.filters','UrsID'));
 
@@ -243,7 +243,7 @@ class ProgramController extends Controller {
         $UrsID = $request->input('UrsID');
         $this->putControllerStateSession('program','filters',['UrsID'=>$UrsID]);
 
-        $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'));
+        $daftar_urusan=UrusanModel::getDaftarUrusan(config('eplanning.tahun_perencanaan'));
         $daftar_urusan['none']='SELURUH URUSAN';
         $filter_kode_urusan_selected=UrusanModel::getKodeUrusanByUrsID($this->getControllerStateSession('program.filters','UrsID'));
 
@@ -272,7 +272,7 @@ class ProgramController extends Controller {
     {                
         $theme = \Auth::user()->theme;
         
-        $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'));
+        $daftar_urusan=UrusanModel::getDaftarUrusan(config('eplanning.tahun_perencanaan'));
         $daftar_urusan['none']='SELURUH URUSAN';       
 
         $search=$this->getControllerStateSession('program','search');
@@ -303,7 +303,7 @@ class ProgramController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'),false);
+        $daftar_urusan=UrusanModel::getDaftarUrusan(config('eplanning.tahun_perencanaan'),false);
         return view("pages.$theme.dmaster.program.create")->with(['page_active'=>'program',
                                                                     'daftar_urusan'=>$daftar_urusan
                                                                 ]);  
@@ -330,7 +330,7 @@ class ProgramController extends Controller {
             'PrgNm' => $request->input('PrgNm'),
             'Descr' => $request->input('Descr'),
             'Jns' =>$jns,
-            'TA'=>config('globalsettings.tahun_perencanaan'),
+            'TA'=>config('eplanning.tahun_perencanaan'),
         ]);        
        
         if ($jns == 1)  // per urusan
@@ -394,7 +394,7 @@ class ProgramController extends Controller {
                             ->firstOrFail(['tmPrg.PrgID','trUrsPrg.UrsID','tmPrg.Kd_Prog','tmPrg.PrgNm','tmPrg.Descr','tmPrg.Jns']);
         if (!is_null($data) ) 
         {           
-            $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'),false);
+            $daftar_urusan=UrusanModel::getDaftarUrusan(config('eplanning.tahun_perencanaan'),false);
             return view("pages.$theme.dmaster.program.edit")->with(['page_active'=>'program',
                                                                     'daftar_urusan'=>$daftar_urusan,
                                                                     'data'=>$data
@@ -461,7 +461,7 @@ class ProgramController extends Controller {
     public function destroy(Request $request,$id)
     {
         $theme = \Auth::user()->theme;
-        $daftar_urusan=UrusanModel::getDaftarUrusan(config('globalsettings.tahun_perencanaan'));
+        $daftar_urusan=UrusanModel::getDaftarUrusan(config('eplanning.tahun_perencanaan'));
         $daftar_urusan['none']='SELURUH URUSAN';
 
         $program = ProgramModel::find($id);

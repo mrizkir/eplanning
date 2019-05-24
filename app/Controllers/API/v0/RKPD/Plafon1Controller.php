@@ -24,7 +24,7 @@ class Plafon1Controller extends Controller {
     public function index(Request $request)
     {               
         
-        $ta=config('globalsettings.tahun_perencanaan');
+        $ta=config('eplanning.tahun_perencanaan');
    
         $data = \DB::table('v_plafon1')   
                     ->where('TA',$ta)

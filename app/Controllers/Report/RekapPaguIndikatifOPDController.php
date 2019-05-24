@@ -32,7 +32,7 @@ class RekapPaguIndikatifOPDController extends Controller {
         $column_order=$this->getControllerStateSession('rekappaguindikatifopd.orderby','column_name'); 
         $direction=$this->getControllerStateSession('rekappaguindikatifopd.orderby','order'); 
 
-        $data = RekapPaguIndikatifOPDModel::where('TA',config('globalsettings.tahun_perencanaan'))
+        $data = RekapPaguIndikatifOPDModel::where('TA',config('eplanning.tahun_perencanaan'))
                                         ->orderBy($column_order,$direction)
                                         ->get();       
         
@@ -154,7 +154,7 @@ class RekapPaguIndikatifOPDController extends Controller {
      */
     public function store(Request $request)
     {        
-        RekapPaguIndikatifOPDModel::where('TA',config('globalsettings.tahun_perencanaan'))->delete();
+        RekapPaguIndikatifOPDModel::where('TA',config('eplanning.tahun_perencanaan'))->delete();
 
         $str_rincianrenja = '
             INSERT INTO "trRekapPaguIndikatifOPD" (
@@ -215,7 +215,7 @@ class RekapPaguIndikatifOPDController extends Controller {
                 JOIN "tmKUrs" C ON B."KUrsID"=C."KUrsID"		
                 LEFT JOIN "tmPaguAnggaranOPD" D  ON A."OrgID"=D."OrgID"
             WHERE 
-                A."TA"='.config('globalsettings.tahun_perencanaan').' 
+                A."TA"='.config('eplanning.tahun_perencanaan').' 
             ORDER BY
                 kode_organisasi ASC
             
@@ -246,7 +246,7 @@ class RekapPaguIndikatifOPDController extends Controller {
     public function update(Request $request, $id)
     {
         $theme = \Auth::user()->theme;
-        $ta = config('globalsettings.tahun_perencanaan');
+        $ta = config('eplanning.tahun_perencanaan');
         switch($id)
         {
             case 'uidPrarenja' :
