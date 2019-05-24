@@ -12,6 +12,8 @@
     @include('pages.limitless.pokir.pemilikpokokpikiran.info')
 @endsection
 @section('page_breadcrumb')
+    <li><a href="#">PERENCANAAN</a></li>
+    <li><a href="#">POKIR</a></li>
     <li class="active">PEMILIK POKOK PIKIRAN</li>
 @endsection
 @section('page_content')
