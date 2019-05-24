@@ -8,6 +8,7 @@ use App\Controllers\Controller;
 use App\Models\RKPD\RenjaIndikatorModel;
 use App\Models\RKPD\RenjaModel;
 use App\Models\RKPD\RenjaRincianModel;
+use App\Models\RKPD\RKPDModel;
 
 class PembahasanRenjaController extends Controller {    
     /**
@@ -447,12 +448,30 @@ class PembahasanRenjaController extends Controller {
                                                             "trRenjaRinc"."updated_at"'))    
                                             ->findOrFail($id);
             break;                
+            case 'verifikasirenja' :
+                $data = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",                                                            
+                                                            "trRenjaRinc"."RenjaID",
+                                                            "trRenjaRinc"."No",
+                                                            "trRenjaRinc"."Uraian",
+                                                            "trRenjaRinc"."Sasaran_Angka5" AS "Sasaran_Angka",
+                                                            "trRenjaRinc"."Sasaran_Uraian5" AS "Sasaran_Uraian",
+                                                            "trRenjaRinc"."Target5" AS "Target",
+                                                            "trRenjaRinc"."Jumlah5" AS "Jumlah",
+                                                            "trRenjaRinc"."Prioritas",
+                                                            "trRenjaRinc"."Status",
+                                                            "trRenjaRinc"."Descr",
+                                                            "trRenjaRinc"."Privilege",
+                                                            "trRenjaRinc"."created_at",
+                                                            "trRenjaRinc"."updated_at"'))    
+                                            ->findOrFail($id);
+            break;                
         }        
        
         if (!is_null($data) )  
         {            
             return view("pages.$theme.rkpd.pembahasanrenja.showrincian")->with(['page_active'=>$this->NameOfPage,
                                                                                 'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
+                                                                                'label_transfer'=>$this->LabelTransfer,
                                                                                 'renja'=>$data,
                                                                                 'item'=>$data
                                                                             ]);
@@ -727,16 +746,16 @@ class PembahasanRenjaController extends Controller {
             $RenjaRincID=$request->input('RenjaRincID');                                    
             $rincian_kegiatan=\DB::transaction(function () use ($RenjaRincID) {
                 $rincian_kegiatan = RenjaRincianModel::find($RenjaRincID);               
-
-                //check renja id sudah ada belum di RenjaID_Old
-                $old_renja = RenjaModel::select('RenjaID')
+                
+                switch ($this->NameOfPage) 
+                {            
+                    case 'pembahasanprarenjaopd' :
+                        //check renja id sudah ada belum di RenjaID_Old
+                        $old_renja = RenjaModel::select('RenjaID')
                                         ->where('RenjaID_Src',$rincian_kegiatan->RenjaID)
                                         ->get()
                                         ->pluck('RenjaID')->toArray();
 
-               switch ($this->NameOfPage) 
-                {            
-                    case 'pembahasanprarenjaopd' :
                         if (count($old_renja) > 0)
                         {
                             $RenjaID=$old_renja[0];
@@ -877,6 +896,12 @@ class PembahasanRenjaController extends Controller {
 
                     break; //end pembahasanprarenjaopd
                     case 'pembahasanrakorbidang' :
+                                //check renja id sudah ada belum di RenjaID_Old
+                        $old_renja = RenjaModel::select('RenjaID')
+                                        ->where('RenjaID_Src',$rincian_kegiatan->RenjaID)
+                                        ->get()
+                                        ->pluck('RenjaID')->toArray();
+
                         if (count($old_renja) > 0)
                         {
                             $RenjaID=$old_renja[0];
@@ -1024,6 +1049,12 @@ class PembahasanRenjaController extends Controller {
                                             ->update(['Privilege'=>1]);
                     break;
                     case 'pembahasanforumopd' :
+                        //check renja id sudah ada belum di RenjaID_Old
+                        $old_renja = RenjaModel::select('RenjaID')
+                                        ->where('RenjaID_Src',$rincian_kegiatan->RenjaID)
+                                        ->get()
+                                        ->pluck('RenjaID')->toArray();
+
                         if (count($old_renja) > 0)
                         {
                             $RenjaID=$old_renja[0];
@@ -1181,6 +1212,12 @@ class PembahasanRenjaController extends Controller {
                         
                     break; //end pembahasanforumopd
                     case 'pembahasanmusrenkab' :
+                        //check renja id sudah ada belum di RenjaID_Old
+                        $old_renja = RenjaModel::select('RenjaID')
+                                        ->where('RenjaID_Src',$rincian_kegiatan->RenjaID)
+                                        ->get()
+                                        ->pluck('RenjaID')->toArray();
+
                         if (count($old_renja) > 0)
                         {
                             $RenjaID=$old_renja[0];
@@ -1344,7 +1381,156 @@ class PembahasanRenjaController extends Controller {
                         RenjaIndikatorModel::where('RenjaID',$RenjaID)
                                             ->update(['Privilege'=>1]);
 
-                    break; //end pembahasanmusrenkab              
+                    break; //end pembahasanmusrenkab       
+                    case 'verifikasirenja' :
+                        $tanggal_posting=\Carbon\Carbon::now();
+                         #new rkpd
+                        $renja=$rincian_kegiatan->renja;  
+                        $RKPDID=$renja->RenjaID;
+
+                        $rkpd=RKPDModel::find($RKPDID);
+                        if ($rkpd == null)
+                        {                    
+                            RKPDModel::Create([
+                                'RKPDID'=>$RKPDID,   
+                                'OrgID'=>$renja->OrgID,
+                                'SOrgID'=>$renja->SOrgID,
+                                'KgtID'=>$renja->KgtID,
+                                'SumberDanaID'=>$renja->SumberDanaID,
+                                'NamaIndikator'=>$renja->NamaIndikator,
+                                'Sasaran_Uraian1'=>$renja->Sasaran_Uraian5,                    
+                                'Sasaran_Angka1'=>$renja->Sasaran_Angka5,                    
+                                'NilaiUsulan1'=>$rincian_kegiatan->Jumlah5,                    
+                                'Target1'=>$renja->Target5,                    
+                                'Sasaran_AngkaSetelah'=>$renja->Sasaran_AngkaSetelah,
+                                'Sasaran_UraianSetelah'=>$renja->Sasaran_UraianSetelah,
+                                'NilaiSetelah'=>$renja->NilaiSetelah,
+                                'NilaiSebelum'=>$renja->NilaiSebelum,
+                                'Tgl_Posting'=>$tanggal_posting,
+                                'Descr'=>$renja->Descr,
+                                'TA'=>$renja->TA,
+                                'Status'=>1, //artinya sudah disetujui di rkpd murni
+                                'Status_Indikator'=>$renja->Status_Indikator,
+                                'EntryLvl'=>4,//artinya di level RKPD
+                                'Privilege'=>1,//artinya dianggap sudah diproses                                    
+                            ]);
+                        } 
+                        else
+                        {
+                            $NilaiUsulan1=(RKPDRincianModel::where('RKPDID',$RKPDID)->sum('NilaiUsulan1'))+$rincian_kegiatan->Jumlah5;
+                            $rkpd->NilaiUsulan1=$NilaiUsulan1;
+                            $rkpd->save();
+                        }       
+
+                        //kondisi awal saat di transfer ke RKPD adalah entrillvl = 4 (RKPD)
+                        $str_rincianrenja = '
+                            INSERT INTO "trRKPDRinc" (
+                                "RKPDRincID",
+                                "RKPDID", 
+                                "PMProvID",
+                                "PmKotaID",
+                                "PmKecamatanID",
+                                "PmDesaID",
+                                "UsulanKecID",
+                                "PokPirID",
+                                "Uraian",
+                                "No",
+                                "Sasaran_Uraian1",
+                                "Sasaran_Angka1",                        
+                                "NilaiUsulan1",                        
+                                "Target1",                        
+                                "Tgl_Posting",                         
+                                "isReses",
+                                "isReses_Uraian",
+                                "isSKPD",
+                                "Descr",
+                                "TA",
+                                "Status",
+                                "EntryLvl",
+                                "Privilege",                   
+                                "created_at", 
+                                "updated_at"
+                            ) 
+                            SELECT 
+                                "RenjaRincID" AS "RKPDRincID",
+                                \''.$RKPDID.'\' AS "RKPDID",
+                                "PMProvID",
+                                "PmKotaID",
+                                "PmKecamatanID",
+                                "PmDesaID",
+                                "UsulanKecID",
+                                "PokPirID",
+                                "Uraian",
+                                "No",
+                                "Sasaran_Uraian5" AS "Sasaran_Uraian1",
+                                "Sasaran_Angka5" AS "Sasaran_Angka1",        
+                                "Jumlah5" AS "NilaiUsulan1",        
+                                "Target5" AS "Target1",                                              
+                                \''.$tanggal_posting.'\' AS Tgl_Posting,
+                                "isReses",
+                                "isReses_Uraian",
+                                "isSKPD",
+                                "Descr",
+                                "TA",
+                                1 AS "Status", 
+                                4 AS "EntryLvl",
+                                1 AS "Privilege",                        
+                                NOW() AS created_at,
+                                NOW() AS updated_at
+                            FROM 
+                                "trRenjaRinc" 
+                            WHERE "RenjaRincID"=\''.$rincian_kegiatan->RenjaRincID.'\' AND
+                                ("Status"=1 OR "Status"=2) AND
+                                "Privilege"=0  
+                        ';
+
+                        \DB::statement($str_rincianrenja); 
+                        
+                        $str_kinerja='
+                            INSERT INTO "trRKPDIndikator" (
+                                "RKPDIndikatorID", 
+                                "RKPDID",
+                                "IndikatorKinerjaID",                        
+                                "Target_Angka",
+                                "Target_Uraian",  
+                                "Tahun",      
+                                "Descr",
+                                "TA",
+                                "Privilege",
+                                "created_at", 
+                                "updated_at"
+                            )
+                            SELECT 
+                                REPLACE(SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16),\'-\',\'\') AS "RKPDIndikatorID",
+                                \''.$RKPDID.'\' AS "RKPDID",
+                                "IndikatorKinerjaID",                        
+                                "Target_Angka",
+                                "Target_Uraian",
+                                "Tahun",
+                                "Descr",
+                                1 AS "Privilege",                        
+                                "TA",
+                                NOW() AS created_at,
+                                NOW() AS updated_at
+                            FROM 
+                                "trRenjaIndikator" 
+                            WHERE 
+                                "RenjaID"=\''.$renja->RenjaID.'\' AND 
+                                "Privilege"=0
+                        ';
+
+                        \DB::statement($str_kinerja);
+                        
+                        //rincian renja finish
+                        $rincian_kegiatan->Privilege=1;
+                        $rincian_kegiatan->save();
+
+                        //renja finish
+                        $renja->Privilege=1;
+                        $renja->Status=1;
+                        $renja->save();
+                        
+                    break; //end verifikasi renja
                 }
                 return $rincian_kegiatan;
             });            

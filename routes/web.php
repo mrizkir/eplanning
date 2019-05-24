@@ -328,15 +328,15 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/workflow/musrenbang/pembahasanmusrenkab/transfer',['uses'=>'RKPD\PembahasanRenjaController@transfer','as'=>'pembahasanmusrenkab.transfer']);
     
     //Workflow- verifikasi renja [pembahasan tapd]
-    Route::resource('/workflow/rkpd/verifikasirenja','RKPD\VerifikasiRenjaController',['parameters'=>['verifikasirenja'=>'uuid'],
+    Route::resource('/workflow/rkpd/verifikasirenja','RKPD\PembahasanRenjaController',['parameters'=>['verifikasirenja'=>'uuid'],
                                                                                                               'only'=>['index','edit','update']]); 
-    Route::get('/workflow/rkpd/verifikasirenja/showrincian/{uuid}',['uses'=>'RKPD\VerifikasiRenjaController@showrincian','as'=>'verifikasirenja.showrincian']); 
-    Route::post('/workflow/rkpd/verifikasirenja/search',['uses'=>'RKPD\VerifikasiRenjaController@search','as'=>'verifikasirenja.search']);  
-    Route::post('/workflow/rkpd/verifikasirenja/filter',['uses'=>'RKPD\VerifikasiRenjaController@filter','as'=>'verifikasirenja.filter']);              
-    Route::get('/workflow/rkpd/verifikasirenja/paginate/{id}',['uses'=>'RKPD\VerifikasiRenjaController@paginate','as'=>'verifikasirenja.paginate']);              
-    Route::post('/workflow/rkpd/verifikasirenja/changenumberrecordperpage',['uses'=>'RKPD\VerifikasiRenjaController@changenumberrecordperpage','as'=>'verifikasirenja.changenumberrecordperpage']);  
-    Route::post('/workflow/rkpd/verifikasirenja/orderby',['uses'=>'RKPD\VerifikasiRenjaController@orderby','as'=>'verifikasirenja.orderby']);  
-    Route::put('/workflow/rkpd/verifikasirenja/transfer/{uuid}',['uses'=>'RKPD\VerifikasiRenjaController@transfer','as'=>'verifikasirenja.transfer']);
+    Route::get('/workflow/rkpd/verifikasirenja/showrincian/{uuid}',['uses'=>'RKPD\PembahasanRenjaController@showrincian','as'=>'verifikasirenja.showrincian']); 
+    Route::post('/workflow/rkpd/verifikasirenja/search',['uses'=>'RKPD\PembahasanRenjaController@search','as'=>'verifikasirenja.search']);  
+    Route::post('/workflow/rkpd/verifikasirenja/filter',['uses'=>'RKPD\PembahasanRenjaController@filter','as'=>'verifikasirenja.filter']);              
+    Route::get('/workflow/rkpd/verifikasirenja/paginate/{id}',['uses'=>'RKPD\PembahasanRenjaController@paginate','as'=>'verifikasirenja.paginate']);              
+    Route::post('/workflow/rkpd/verifikasirenja/changenumberrecordperpage',['uses'=>'RKPD\PembahasanRenjaController@changenumberrecordperpage','as'=>'verifikasirenja.changenumberrecordperpage']);  
+    Route::post('/workflow/rkpd/verifikasirenja/orderby',['uses'=>'RKPD\PembahasanRenjaController@orderby','as'=>'verifikasirenja.orderby']);  
+    Route::post('/workflow/rkpd/verifikasirenja/transfer',['uses'=>'RKPD\PembahasanRenjaController@transfer','as'=>'verifikasirenja.transfer']);
     
     //Workflow- verifikasi renja [pembahasan tapd]
     Route::resource('/workflow/rkpd/rkpdmurni','RKPD\RKPDMurniController',['parameters'=>['rkpdmurni'=>'uuid'],

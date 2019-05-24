@@ -42,8 +42,8 @@ class HelperKegiatan {
     /**
     * digunakan untuk mendapatkan entri level
     */
-    public static function getLevelEntriByName ($level_name) {
-      switch ($level_name) 
+    public static function getLevelEntriByName ($level_name) {        
+        switch ($level_name) 
         {            
             case 'usulanprarenjaopd' :
                 $level = 0;
@@ -68,6 +68,9 @@ class HelperKegiatan {
             break;
             case 'pembahasanmusrenkab' :
                 $level = 3;
+            break;
+            case 'verifikasirenja' :
+                $level = 4;
             break;
             default :
                 $level = null;
@@ -151,6 +154,9 @@ class HelperKegiatan {
             case 'pembahasanmusrenkab' :
                 $pagetitle = 'PEMBAHASAN MUSRENBANG KABUPATEN';                
             break;           
+            case 'verifikasirenja' :
+                $pagetitle = 'VERIFIKASI TAPD';                
+            break;           
             default :
                 $pagetitle = 'WORKFLOW';
         }
@@ -172,6 +178,9 @@ class HelperKegiatan {
             case 'pembahasanmusrenkab' :
                 $pagetitle = 'VERIFIKASI TAPD';                
             break;           
+            case 'verifikasirenja' :
+                $pagetitle = 'RKPD';                
+            break;           
             default :
                 $pagetitle = 'WORKFLOW';
         }
@@ -191,8 +200,9 @@ class HelperKegiatan {
                 return "usulanforumopd.$action";
             break;
             case 'pembahasanmusrenkab' :
+            case 'verifikasirenja' :
                 return "usulanmusrenkab.$action";
-            break;           
+            break;                       
             default :
                 $pagetitle = 'WORKFLOW';
         }
@@ -220,7 +230,10 @@ class HelperKegiatan {
             case 'usulanmusrenkab' :
             case 'pembahasanmusrenkab' :
                 $dbViewName = 'v_usulan_musren_kab';
-            break;               
+            break;  
+            case 'verifikasirenja' :
+                $dbViewName = 'v_verifikasi_renja';
+            break;             
             default :
                 $dbViewName = null;
         }
@@ -316,6 +329,28 @@ class HelperKegiatan {
                                     "Sasaran_Uraian4" AS "Sasaran_Uraian",
                                     "Target4" AS "Target",
                                     "Jumlah4" AS "Jumlah",
+                                    "Prioritas",
+                                    "isSKPD",
+                                    "isReses",
+                                    "isReses_Uraian",
+                                    "Status",
+                                    "Privilege",
+                                    "Status_Indikator",
+                                    "Descr"');
+            break;
+            case 'verifikasirenja' :
+                $rawSql = \DB::raw('"RenjaID",
+                                    "RenjaRincID",
+                                    "UsulanKecID",
+                                    "No",
+                                    "Nm_Kecamatan",
+                                    "kode_kegiatan",
+                                    "KgtNm",
+                                    "Uraian",
+                                    "Sasaran_Angka5" AS "Sasaran_Angka",
+                                    "Sasaran_Uraian5" AS "Sasaran_Uraian",
+                                    "Target5" AS "Target",
+                                    "Jumlah5" AS "Jumlah",
                                     "Prioritas",
                                     "isSKPD",
                                     "isReses",

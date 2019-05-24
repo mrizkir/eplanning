@@ -16,35 +16,7 @@
     <li class="active">RKPD</li>
 @endsection
 @section('page_content')
-<div class="row">
-    <div class="col-sm-6 col-md-3">
-        <div class="panel panel-body bg-blue-400 has-bg-image">
-            <div class="media no-margin">
-                <div class="media-body">
-                    <h3 class="no-margin" id="infopaneljumlahkegiatan">{{$summary['jumlah_kegiatan']}}</h3>
-                    <span class="text-uppercase text-size-mini">Jumlah Kegiatan</span>
-                </div>
-                <div class="media-right media-middle">
-                    <i class="icon-bag icon-3x opacity-75"></i>
-                </div>
-            </div>
-        </div>
-    </div>        
-    <div class="col-sm-6 col-md-3">
-        <div class="panel panel-body bg-indigo-400 has-bg-image">
-            <div class="media no-margin">
-                <div class="media-left media-middle">
-                    <i class="icon-enter6 icon-3x opacity-75"></i>
-                </div>
-
-                <div class="media-body text-right">
-                    <h3 class="no-margin" id="infopanelpagudana">{{$summary['pagu_dana']}}</h3>
-                    <span class="text-uppercase text-size-mini">Jumlah Pagu Dana</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
+<div class="row">    
     <div class="col-md-12" id="divfilter">
         <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
             <div class="panel-heading">

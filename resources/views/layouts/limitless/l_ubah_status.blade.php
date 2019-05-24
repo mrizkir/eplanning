@@ -87,13 +87,7 @@
                     <i class="icon-stop"></i> TRANSFER KE {{$label_transfer}}
                 </a>
             @endif
-        </li> 
-        @else 
-        <li class="active">
-            <a href="#" onclick="event.preventDefault()" title="{{$label_transfer}}">
-                <i class="icon-checkbox-checked2"></i> TRANSFERED
-            </a>        
-        </li>          
+        </li>             
         @endif 
         <li class="text-primary-600">        
             <a class="btnEdit" href="{{route($page_active.'.showrincian',['id'=>$item->RenjaRincID])}}" title="Detail Data Usulan">
