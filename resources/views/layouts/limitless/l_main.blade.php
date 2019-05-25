@@ -201,13 +201,18 @@
                                 </ul>
                             </div>
                             <div class="col-md-3">
-                                <span class="menu-heading underlined"><i class="icon-strategy"></i> POKOK PIKIRAN</span>
+                                <span class="menu-heading underlined"><i class="icon-strategy"></i> POKIR / RESES</span>
                                 <ul class="menu-list">
                                     <li{!!Helper::isMenuActive ($page_active,'pemilikpokokpikiran',' class="active"')!!}>
                                         <a href="{{route('pemilikpokokpikiran.index')}}">
                                             <i class="icon-strategy"></i> PEMILIK POKOK</span>
                                         </a>
                                     </li> 
+                                    <li{!!Helper::isMenuActive ($page_active,'pokokpikiran',' class="active"')!!}>
+                                        <a href="{{route('pokokpikiran.index')}}">
+                                            <i class="icon-strategy"></i> POKOK PIKIRAN</span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>

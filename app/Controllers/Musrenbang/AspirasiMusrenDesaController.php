@@ -263,7 +263,7 @@ class AspirasiMusrenDesaController extends Controller {
             'Target_Angka'=>'required',
             'Prioritas'=>'required|not_in:none'            
         ]);
-        $jeniskeg=$request->has('Jeniskeg')?input('Jeniskeg'):0;
+        $jeniskeg=$request->has('Jeniskeg')?$request->input('Jeniskeg'):0;
         $aspirasimusrendesa = AspirasiMusrenDesaModel::create([
             'UsulanDesaID' => uniqid ('uid'),
             'PmDesaID' => $request->input('PmDesaID'),

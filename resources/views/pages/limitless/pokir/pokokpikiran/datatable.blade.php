@@ -1,19 +1,20 @@
 <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
     <div class="panel-heading">
         <div class="panel-title">
-            <div class="row">
-                <div class="col-md-1">                    		
-					{!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control'])!!}                        
-                </div>
-            </div>
+            <h6 class="panel-title">&nbsp;</h6>
         </div>
         <div class="heading-elements">
-            <div class="heading-btn">
-                <a href="{!!route('pokokpikiran.create')!!}" class="btn btn-info btn-xs" title="Tambah POKOKPIKIRAN">
-                    <i class="icon-googleplus5"></i>
-                </a>
-            </div>            
-        </div>
+            {!! Form::open(['url'=>'#','method'=>'post','class'=>'heading-form','id'=>'frmheading','name'=>'frmheading'])!!} 
+                <div class="form-group">
+                    {!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control','style'=>'width:70px'])!!}                        
+                </div> 
+                <div class="form-group">
+                    <a href="{!!route('pokokpikiran.create')!!}" class="btn btn-info btn-xs" title="Tambah Pokok Pikiran">
+                        <i class="icon-googleplus5"></i>
+                    </a>
+                </div> 
+            {!! Form::close()!!}
+        </div>       
     </div>
     @if (count($data) > 0)
     <div class="table-responsive"> 
@@ -22,11 +23,26 @@
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
                     <th width="100">
-                        <a class="column-sort text-white" id="col-replace_it" data-order="{{$direction}}" href="#">
-                            replace_it  
+                        <a class="column-sort text-white" id="col-NmPk" data-order="{{$direction}}" href="#">
+                            KODE  
                         </a>                                             
                     </th> 
-                    <th width="100">AKSI</th>
+                    <th>
+                        <a class="column-sort text-white" id="col-NmPk" data-order="{{$direction}}" href="#">
+                            PEMILIK  
+                        </a>                                             
+                    </th> 
+                    <th>
+                        <a class="column-sort text-white" id="col-NamaUsulanKegiatan" data-order="{{$direction}}" href="#">
+                            NAMA KEGIATAN  
+                        </a>                                             
+                    </th> 
+                    <th width="100">
+                        <a class="column-sort text-white" id="col-NamaUsulanKegiatan" data-order="{{$direction}}" href="#">
+                            PRIORITAS  
+                        </a>                                             
+                    </th> 
+                    <th width="120">AKSI</th>
                 </tr>
             </thead>
             <tbody>                    
@@ -35,21 +51,28 @@
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>                  
-                    <td>{{$item->replace_it}}</td>
+                    <td>{{$item->Kd_PK}}</td>
+                    <td>{{$item->NmPk}}</td>
+                    <td>{{$item->NamaUsulanKegiatan}}</td>
+                    <td>
+                        <span class="label label-flat border-pink text-pink-600">
+                            {{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}
+                        </span>
+                    </td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('pokokpikiran.show',['id'=>$item->pokokpikiran_id])}}" title="Detail Data PokokPikiran">
+                                <a class="btnShow" href="{{route('pokokpikiran.show',['id'=>$item->PokPirID])}}" title="Detail Data Pokok Pikiran">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('pokokpikiran.edit',['id'=>$item->pokokpikiran_id])}}" title="Ubah Data PokokPikiran">
+                                <a class="btnEdit" href="{{route('pokokpikiran.edit',['id'=>$item->PokPirID])}}" title="Ubah Data Pokok Pikiran">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data PokokPikiran" data-id="{{$item->pokokpikiran_id}}" data-url="{{route('pokokpikiran.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data Pokok Pikiran" data-id="{{$item->PokPirID}}" data-url="{{route('pokokpikiran.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>

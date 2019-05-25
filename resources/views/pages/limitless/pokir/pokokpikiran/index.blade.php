@@ -1,18 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    POKOKPIKIRAN
+    POKOK PIKIRAN
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold">
-        POKOKPIKIRAN TAHUN PERENCANAAN {{config('eplanning.tahun_perencanaan')}}  
+        POKOK PIKIRAN TAHUN PERENCANAAN {{config('eplanning.tahun_perencanaan')}}  
     </span>
 @endsection
 @section('page_info')
     @include('pages.limitless.pokir.pokokpikiran.info')
 @endsection
 @section('page_breadcrumb')
-    <li class="active">POKOKPIKIRAN</li>
+    <li><a href="#">PERENCANAAN</a></li>
+    <li><a href="#">POKIR / RESES</a></li>
+    <li class="active">POKOK PIKIRAN</li>
 @endsection
 @section('page_content')
 <div class="row">
@@ -59,7 +61,7 @@
 <script type="text/javascript">
 $(document).ready(function () {  
     $("#divdatatable").on("click",".btnDelete", function(){
-        if (confirm('Apakah Anda ingin menghapus Data PokokPikiran ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data Pokok Pikiran ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             $.ajax({            
@@ -75,7 +77,7 @@ $(document).ready(function () {
                     if (result.success==1){
                         $('#divdatatable').html(result.datatable);                        
                     }else{
-                        console.log("Gagal menghapus data PokokPikiran dengan id "+id);
+                        console.log("Gagal menghapus data Pokok Pikiran dengan id "+id);
                     }                    
                 },
                 error:function(xhr, status, error){

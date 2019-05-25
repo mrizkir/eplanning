@@ -136,6 +136,15 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::get('/perencanaan/pokir/pemilikpokokpikiran/paginate/{id}',['uses'=>'Pokir\PemilikPokokPikiranController@paginate','as'=>'pemilikpokokpikiran.paginate']);              
     Route::post('/perencanaan/pokir/pemilikpokokpikiran/changenumberrecordperpage',['uses'=>'Pokir\PemilikPokokPikiranController@changenumberrecordperpage','as'=>'pemilikpokokpikiran.changenumberrecordperpage']);  
     Route::post('/perencanaan/pokir/pemilikpokokpikiran/orderby',['uses'=>'Pokir\PemilikPokokPikiranController@orderby','as'=>'pemilikpokokpikiran.orderby']); 
+
+    //POKIR - Pokok Pikiran
+    Route::resource('/perencanaan/pokokpikiran','Pokir\PokokPikiranController',['parameters'=>['pokir'=>'uuid']]);        
+    Route::post('/perencanaan/pokokpikiran/search',['uses'=>'Pokir\PokokPikiranController@search','as'=>'pokokpikiran.search']); 
+    Route::post('/perencanaan/pokokpikiran/filter',['uses'=>'Pokir\PokokPikiranController@filter','as'=>'pokokpikiran.filter']);                  
+    Route::get('/perencanaan/pokokpikiran/paginate/{id}',['uses'=>'Pokir\PokokPikiranController@paginate','as'=>'pokokpikiran.paginate']);              
+    Route::post('/perencanaan/pokokpikiran/changenumberrecordperpage',['uses'=>'Pokir\PokokPikiranController@changenumberrecordperpage','as'=>'pokokpikiran.changenumberrecordperpage']);  
+    Route::post('/perencanaan/pokokpikiran/orderby',['uses'=>'Pokir\PokokPikiranController@orderby','as'=>'pokokpikiran.orderby']); 
+
     //workflow - Aspirasi Musrenbang Desa
     Route::resource('/workflow/musrenbang/aspirasimusrendesa','Musrenbang\AspirasiMusrenDesaController',['parameters'=>['aspirasimusrendesa'=>'uuid']]);        
     Route::post('/workflow/musrenbang/aspirasimusrendesa/search',['uses'=>'Musrenbang\AspirasiMusrenDesaController@search','as'=>'aspirasimusrendesa.search']);  

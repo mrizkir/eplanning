@@ -1,18 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    POKOKPIKIRAN
+    POKOK PIKIRAN
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        POKOKPIKIRAN TAHUN PERENCANAAN {{config('eplanning.tahun_perencanaan')}}
+        POKOK PIKIRAN TAHUN PERENCANAAN {{config('eplanning.tahun_perencanaan')}}
     </span>     
 @endsection
 @section('page_info')
     @include('pages.limitless.pokir.pokokpikiran.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('pokokpikiran.index')!!}">POKOKPIKIRAN</a></li>
+    <li><a href="#">PERENCANAAN</a></li>
+    <li><a href="#">POKIR / RESES</a></li>
+    <li><a href="{!!route('pokokpikiran.index')!!}">POKOK PIKIRAN</a></li>
     <li class="active">DETAIL DATA</li>
 @endsection
 @section('page_content')
@@ -21,7 +23,7 @@
         <div class="panel panel-flat border-top-info border-bottom-info">
             <div class="panel-heading">
                 <h5 class="panel-title"> 
-                    <i class="icon-eye"></i>  DATA POKOKPIKIRAN
+                    <i class="icon-eye"></i>  DATA POKOK PIKIRAN
                 </h5>
                 <div class="heading-elements">   
                     <a href="{{route('pokokpikiran.edit',['id'=>$data->pokokpikiran_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data PokokPikiran">

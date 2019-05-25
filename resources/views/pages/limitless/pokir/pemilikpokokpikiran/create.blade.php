@@ -13,7 +13,7 @@
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">PERENCANAAN</a></li>
-    <li><a href="#">POKIR</a></li>
+    <li><a href="#">POKIR / RESES</a></li>
     <li><a href="{!!route('pemilikpokokpikiran.index')!!}">PEMILIK POKOK PIKIRAN</a></li>
     <li class="active">TAMBAH DATA</li>
 @endsection
