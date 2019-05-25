@@ -56,12 +56,12 @@
             </tr>
             <tr class="text-center info">
                 <td colspan="10">
-                    <span class="label label-warning label-rounded">
+                    <span class="label label-warning label-rounded" style="text-transform: none">
                         <strong>RKPDID:</strong>
                         {{$item->RKPDID}}
                     </span>
-                    <span class="label label-warning label-rounded">
-                        <strong>RKPDRincID:</strong>
+                    <span class="label label-warning label-rounded" style="text-transform: none">
+                        <strong>RKPDRINCID:</strong>
                         {{$item->RKPDRincID}}
                     </span>
                     <span class="label label-warning label-rounded">

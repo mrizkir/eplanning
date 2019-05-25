@@ -23,7 +23,7 @@
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
                     <th width="100">
-                        <a class="column-sort text-white" id="col-NmPk" data-order="{{$direction}}" href="#">
+                        <a class="column-sort text-white" id="col-KdPK" data-order="{{$direction}}" href="#">
                             KODE  
                         </a>                                             
                     </th> 
@@ -38,7 +38,7 @@
                         </a>                                             
                     </th> 
                     <th width="100">
-                        <a class="column-sort text-white" id="col-NamaUsulanKegiatan" data-order="{{$direction}}" href="#">
+                        <a class="column-sort text-white" id="col-Prioritas" data-order="{{$direction}}" href="#">
                             PRIORITAS  
                         </a>                                             
                     </th> 
@@ -77,6 +77,18 @@
                                 </a> 
                             </li>
                         </ul>
+                    </td>
+                </tr>
+                <tr class="text-center info">
+                    <td colspan="11">
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>POKPIRID:</strong>
+                            {{$item->PokPirID}}
+                        </span>                        
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>KET:</strong>
+                            {{empty($item->Descr)?'-':$item->Descr}}
+                        </span>
                     </td>
                 </tr>
             @endforeach                    

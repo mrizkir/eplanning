@@ -207,12 +207,12 @@
                 </tr>
                 <tr class="text-center info">
                     <td colspan="11">
-                        <span class="label label-warning label-rounded">
-                            <strong>RenjaID:</strong>
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>RENJAID:</strong>
                             {{$item->RenjaID}}
                         </span>
-                        <span class="label label-warning label-rounded">
-                            <strong>RenjaRincID:</strong>
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>RENJARINCID:</strong>
                             {{$item->RenjaRincID}}
                         </span>
                         <span class="label label-warning label-rounded">

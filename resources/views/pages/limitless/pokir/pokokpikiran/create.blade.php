@@ -38,7 +38,7 @@
             <div class="form-group">
                 {{Form::label('PemilikPokokID','NAMA PEMILIK',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
-                    {{Form::select('PemilikPokokID', $daftar_pemilik,config('eplanning.default_provinsi'),['class'=>'form-control','id'=>'PemilikPokokID'])}}
+                    {{Form::select('PemilikPokokID', $daftar_pemilik,'none',['class'=>'form-control','id'=>'PemilikPokokID'])}}
                 </div>
             </div>                               
         </div>        
@@ -97,7 +97,7 @@
                         <select name="OrgID" id="OrgID" class="select">
                             <option></option>
                             @foreach ($daftar_opd as $k=>$item)
-                                <option value="{{$k}}"{{$k==$filters['OrgID']?' selected':''}}>{{$item}}</option>
+                                <option value="{{$k}}"">{{$item}}</option>
                             @endforeach
                         </select>                                
                     </div>
@@ -112,7 +112,7 @@
                         <select name="PmKecamatanID" id="PmKecamatanID" class="select">
                             <option></option>
                             @foreach ($daftar_kecamatan as $k=>$item)
-                                <option value="{{$k}}"{{$k==$filters['PmKecamatanID']?' selected':''}}>{{$item}}</option>
+                                <option value="{{$k}}">{{$item}}</option>
                             @endforeach
                         </select>                              
                     </div>

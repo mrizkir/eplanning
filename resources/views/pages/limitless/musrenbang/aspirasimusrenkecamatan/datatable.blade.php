@@ -127,8 +127,8 @@
             </tr>
             <tr class="text-center info">
                 <td colspan="10">
-                    <span class="label label-warning label-rounded">
-                        <strong>UsulanKecID:</strong>
+                    <span class="label label-warning label-rounded" style="text-transform: none">
+                        <strong>USULANKECID:</strong>
                         {{$item->UsulanKecID}}
                     </span>
                     <span class="label label-warning label-rounded">
