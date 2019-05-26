@@ -40,27 +40,39 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>rpjmdmisi id: </strong></label>
+                                <label class="col-md-4 control-label"><strong>RPJMD MISI ID: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->rpjmdmisi_id}}</p>
+                                    <p class="form-control-static">{{$data->PrioritasKabID}}</p>
+                                </div>                            
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>KODE MISI: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->Kd_PrioritasKab}}</p>
                                 </div>                            
                             </div>                            
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>NAMA MISI: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->Nm_PrioritasKab}}</p>
+                                </div>                            
+                            </div>  
+                        </div>                        
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>KETERANGAN: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->Descr}}</p>
+                                </div>                            
+                            </div>    
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
                                 <div class="col-md-8">
                                     <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}}</p>
                                 </div>                            
                             </div>
-                        </div>                        
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-horizontal">
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>replaceit: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">replaceit</p>
-                                </div>                            
-                            </div>    
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>TGL. UBAH: </strong></label>
                                 <div class="col-md-8">

@@ -1,19 +1,20 @@
 <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
     <div class="panel-heading">
         <div class="panel-title">
-            <div class="row">
-                <div class="col-md-1">                    		
-					{!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control'])!!}                        
-                </div>
-            </div>
+            <h6 class="panel-title">&nbsp;</h6>
         </div>
         <div class="heading-elements">
-            <div class="heading-btn">
-                <a href="{!!route('rpjmdmisi.create')!!}" class="btn btn-info btn-xs" title="Tambah RPJMD MISI">
-                    <i class="icon-googleplus5"></i>
-                </a>
-            </div>            
-        </div>
+            {!! Form::open(['url'=>'#','method'=>'post','class'=>'heading-form','id'=>'frmheading','name'=>'frmheading'])!!} 
+                <div class="form-group">
+                    {!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control','style'=>'width:70px'])!!}                        
+                </div> 
+                <div class="form-group">
+                    <a href="{!!route('rpjmdmisi.create')!!}" class="btn btn-info btn-xs" title="Tambah RPJMD Misi">
+                        <i class="icon-googleplus5"></i>
+                    </a>
+                </div> 
+            {!! Form::close()!!}
+        </div>       
     </div>
     @if (count($data) > 0)
     <div class="table-responsive"> 
@@ -45,17 +46,17 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('rpjmdmisi.show',['id'=>$item->rpjmdmisi_id])}}" title="Detail Data RpjmdVisi">
+                                <a class="btnShow" href="{{route('rpjmdmisi.show',['id'=>$item->PrioritasKabID])}}" title="Detail Data RPJMD Misi">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('rpjmdmisi.edit',['id'=>$item->rpjmdmisi_id])}}" title="Ubah Data RpjmdVisi">
+                                <a class="btnEdit" href="{{route('rpjmdmisi.edit',['id'=>$item->PrioritasKabID])}}" title="Ubah Data RPJMD Misi">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data RpjmdVisi" data-id="{{$item->rpjmdmisi_id}}" data-url="{{route('rpjmdmisi.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data RPJMD Misi" data-id="{{$item->PrioritasKabID}}" data-url="{{route('rpjmdmisi.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>

@@ -17,7 +17,7 @@
 @endsection
 @section('page_content')
 <div class="alert alert-danger alert-styled-left alert-bordered">
-    <button type="button" class="close" onclick="location.href='{{route('kelompokurusan.index')}}'">×</button>
+    <button type="button" class="close" onclick="location.href='{{route('rpjmdmisi.index')}}'">×</button>
     {{$errormessage}}
 </div>
 @endsection

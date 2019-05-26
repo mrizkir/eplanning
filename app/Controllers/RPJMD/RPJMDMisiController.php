@@ -5,6 +5,8 @@ namespace App\Controllers\RPJMD;
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Models\RPJMD\RPJMDMisiModel;
+use App\Rules\CheckRecordIsExistValidation;
+use App\Rules\IgnoreIfDataIsEqualValidation;
 
 class RPJMDMisiController extends Controller {
      /**
@@ -215,11 +217,19 @@ class RPJMDMisiController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'replaceit'=>'required',
+            'Kd_PrioritasKab'=>[new CheckRecordIsExistValidation('tmPrioritasKab',['where'=>['TA','=',config('eplanning.tahun_perencanaan')]]),
+                        'required',
+                        'min:2'
+                    ],
+            'Nm_PrioritasKab'=>'required',
         ]);
         
         $rpjmdmisi = RPJMDMisiModel::create([
-            'replaceit' => $request->input('replaceit'),
+            'PrioritasKabID'=> uniqid ('uid'),
+            'Kd_PrioritasKab' => $request->input('Kd_PrioritasKab'),
+            'Nm_PrioritasKab' => $request->input('Nm_PrioritasKab'),
+            'Descr' => $request->input('Descr'),
+            'TA' => config('eplanning.tahun_perencanaan')
         ]);        
         
         if ($request->ajax()) 
@@ -231,7 +241,7 @@ class RPJMDMisiController extends Controller {
         }
         else
         {
-            return redirect(route('rpjmdmisi.index'))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rpjmdmisi.show',['id'=>$rpjmdmisi->PrioritasKabID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -250,8 +260,8 @@ class RPJMDMisiController extends Controller {
         if (!is_null($data) )  
         {
             return view("pages.$theme.rpjmd.rpjmdmisi.show")->with(['page_active'=>'rpjmdmisi',
-                                                    'data'=>$data
-                                                    ]);
+                                                                    'data'=>$data
+                                                                ]);
         }        
     }
 
@@ -269,8 +279,8 @@ class RPJMDMisiController extends Controller {
         if (!is_null($data) ) 
         {
             return view("pages.$theme.rpjmd.rpjmdmisi.edit")->with(['page_active'=>'rpjmdmisi',
-                                                    'data'=>$data
-                                                    ]);
+                                                                    'data'=>$data
+                                                                ]);
         }        
     }
 
@@ -286,10 +296,16 @@ class RPJMDMisiController extends Controller {
         $rpjmdmisi = RPJMDMisiModel::find($id);
         
         $this->validate($request, [
-            'replaceit'=>'required',
+            'Kd_PrioritasKab'=>[new IgnoreIfDataIsEqualValidation('tmPrioritasKab',$rpjmdmisi->Kd_PK,['where'=>['TA','=',config('eplanning.tahun_perencanaan')]]),
+                        'required',
+                        'min:2'
+                    ],
+            'Nm_PrioritasKab'=>'required|min:2'
         ]);
         
-        $rpjmdmisi->replaceit = $request->input('replaceit');
+        $rpjmdmisi->Kd_PrioritasKab = $request->input('Kd_PrioritasKab');
+        $rpjmdmisi->Nm_PrioritasKab = $request->input('Nm_PrioritasKab');
+        $rpjmdmisi->Descr = $request->input('Descr');
         $rpjmdmisi->save();
 
         if ($request->ajax()) 
@@ -301,7 +317,7 @@ class RPJMDMisiController extends Controller {
         }
         else
         {
-            return redirect(route('rpjmdmisi.index'))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('rpjmdmisi.show',['id'=>$rpjmdmisi->PrioritasKabID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 

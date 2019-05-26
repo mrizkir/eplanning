@@ -34,9 +34,21 @@
         <div class="panel-body">
             {!! Form::open(['action'=>'RPJMD\RPJMDMisiController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
                 <div class="form-group">
-                    {{Form::label('replaceit','replaceit',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('Kd_PrioritasKab','KODE',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('replaceit','',['class'=>'form-control','placeholder'=>'replaceit'])}}
+                        {{Form::text('Kd_PrioritasKab','',['class'=>'form-control','placeholder'=>'Kode Misi'])}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('Nm_PrioritasKab','NAMA',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('Nm_PrioritasKab','',['class'=>'form-control','placeholder'=>'Nama Misi'])}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::textarea('Descr','',['class'=>'form-control','placeholder'=>'KETERANGAN','rows' => 2, 'cols' => 40])}}
                     </div>
                 </div>
                 <div class="form-group">            
@@ -58,18 +70,26 @@
 $(document).ready(function () {
     $('#frmdata').validate({
         rules: {
-            replaceit : {
+            Kd_PrioritasKab : {
+                required: true,
+                minlength: 2
+            },
+            Nm_PrioritasKab : {
                 required: true,
                 minlength: 2
             }
         },
         messages : {
-            replaceit : {
+            Kd_PrioritasKab : {
+                required: "Mohon untuk di isi karena ini diperlukan.",
+                minlength: "Mohon di isi minimal 2 karakter atau lebih."
+            },
+            Nm_PrioritasKab : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             }
         }      
-    });   
+    });     
 });
 </script>
 @endsection
