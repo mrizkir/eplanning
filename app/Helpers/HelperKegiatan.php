@@ -72,6 +72,9 @@ class HelperKegiatan {
             case 'verifikasirenja' :
                 $level = 4;
             break;
+            case 'rkpdmurni' :
+                $level = 4;
+            break;
             default :
                 $level = null;
         }

@@ -87,7 +87,7 @@ class CreateRpjmdindikatorkinerjaTable extends Migration
                     ->onDelete('set null')
                     ->onUpdate('cascade');
         });
-
+        \DB::statement('ALTER TABLE "trIndikatorKinerja" ALTER COLUMN "OrgID3" DROP NOT NULL');
     }
 
     /**

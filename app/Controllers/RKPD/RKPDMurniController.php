@@ -276,9 +276,21 @@ class RKPDMurniController extends Controller {
                                                                                     'direction'=>$this->getControllerStateSession('rkpdmurni.orderby','order'),
                                                                                     'data'=>$data])->render();
 
+            $totalpaguindikatifopd = RKPDRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('eplanning.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName('rkpdmurni'),$filters['OrgID']);            
+                  
+            $totalpaguindikatifunitkerja[0]=0;
+            $totalpaguindikatifunitkerja[1]=0;
+            $totalpaguindikatifunitkerja[2]=0;
+            $totalpaguindikatifunitkerja[3]=0;  
+
+            $paguanggaranopd=\App\Models\DMaster\PaguAnggaranOPDModel::select('Jumlah1')
+                                                                        ->where('OrgID',$filters['OrgID'])
+                                                                        ->value('Jumlah1');
             $json_data = ['success'=>true,
-                        'summary'=>$summary,
+                        'paguanggaranopd'=>$paguanggaranopd,
                         'daftar_unitkerja'=>$daftar_unitkerja,
+                        'totalpaguindikatifopd'=>$totalpaguindikatifopd,
+                        'totalpaguindikatifunitkerja'=>$totalpaguindikatifunitkerja,
                         'datatable'=>$datatable];
         } 
         //index
@@ -289,17 +301,19 @@ class RKPDMurniController extends Controller {
             $this->putControllerStateSession('rkpdmurni','filters',$filters);
             $this->setCurrentPageInsideSession('rkpdmurni',1);
 
-            $data = $this->populateData();            
-            $summary=$this->populateSummary();
+            $data = $this->populateData();                        
             $datatable = view("pages.$theme.rkpd.rkpdmurni.datatable")->with(['page_active'=>'rkpdmurni',  
-                                                                                    'filters'=>$filters,                                                          
-                                                                                    'search'=>$this->getControllerStateSession('rkpdmurni','search'),
-                                                                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                                    'column_order'=>$this->getControllerStateSession('rkpdmurni.orderby','column_name'),
-                                                                                    'direction'=>$this->getControllerStateSession('rkpdmurni.orderby','order'),
-                                                                                    'data'=>$data])->render();                                                                                       
-                                                                                    
+                                                                            'filters'=>$filters,                                                          
+                                                                            'search'=>$this->getControllerStateSession('rkpdmurni','search'),
+                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                            'column_order'=>$this->getControllerStateSession('rkpdmurni.orderby','column_name'),
+                                                                            'direction'=>$this->getControllerStateSession('rkpdmurni.orderby','order'),
+                                                                            'data'=>$data])->render();                                                                                       
+
+            $totalpaguindikatifunitkerja = RKPDRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('eplanning.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName('rkpdmurni'),$filters['SOrgID']);            
+
             $json_data = ['success'=>true,
+                        'totalpaguindikatifunitkerja'=>$totalpaguindikatifunitkerja,
                         'datatable'=>$datatable];    
         }
         return $json_data;
@@ -352,6 +366,10 @@ class RKPDMurniController extends Controller {
         }
         $this->setCurrentPageInsideSession('rkpdmurni',$data->currentPage());
 
+        $paguanggaranopd=\App\Models\DMaster\PaguAnggaranOPDModel::select('Jumlah1')
+                                                                    ->where('OrgID',$filters['OrgID'])                                                    
+                                                                    ->value('Jumlah1');
+                                                                    
         return view("pages.$theme.rkpd.rkpdmurni.index")->with(['page_active'=>'rkpdmurni',
                                                                 'daftar_opd'=>$daftar_opd,
                                                                 'daftar_unitkerja'=>$daftar_unitkerja,
@@ -360,6 +378,9 @@ class RKPDMurniController extends Controller {
                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                                                 'column_order'=>$this->getControllerStateSession('rkpdmurni.orderby','column_name'),
                                                                 'direction'=>$this->getControllerStateSession('rkpdmurni.orderby','order'),
+                                                                'paguanggaranopd'=>$paguanggaranopd,
+                                                                'totalpaguindikatifopd'=>RKPDRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('eplanning.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName('rkpdmurni'),$filters['OrgID']),
+                                                                'totalpaguindikatifunitkerja' => RKPDRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('eplanning.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName('rkpdmurni'),$filters['SOrgID']),            
                                                                 'data'=>$data]);               
                      
     }

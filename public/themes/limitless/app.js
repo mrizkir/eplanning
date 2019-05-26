@@ -1,3 +1,8 @@
+function checkExistsID(id) {
+    var status = false;
+    if ($(id).length) status = true;
+    return status;
+}
 function formatPaguTotalIndikatifOPD(totalpaguindikatif)
 {
     var optionnumeric =  {
@@ -6,24 +11,38 @@ function formatPaguTotalIndikatifOPD(totalpaguindikatif)
                             digitGroupSeparator: ".",
                             showWarnings:false
                         };
-
-    $('#datastatus #totalstatusopd0').html(totalpaguindikatif[0]);                
-    new AutoNumeric ('#datastatus #totalstatusopd0',optionnumeric); 
-
-    $('#datastatus #totalstatusopd1').html(totalpaguindikatif[1]);                        
-    new AutoNumeric ('#datastatus #totalstatusopd1',optionnumeric); 
-
-    $('#datastatus #totalstatusopd2').html(totalpaguindikatif[2]); 
-    new AutoNumeric ('#datastatus #totalstatusopd2',optionnumeric);        
-
-    $('#datastatus #totalstatusopd12').html(parseFloat(totalpaguindikatif[1])+parseFloat(totalpaguindikatif[2]));        
-    new AutoNumeric ('#datastatus #totalstatusopd12',optionnumeric);        
-
-    $('#datastatus #totalstatusopd3').html(totalpaguindikatif[3]);        
-    new AutoNumeric ('#datastatus #totalstatusopd3',optionnumeric);        
     
-    $('#datastatus #totalstatusopd').html(totalpaguindikatif.total);                
-    new AutoNumeric ('#datastatus #totalstatusopd',optionnumeric);        
+    if (checkExistsID('#datastatus #totalstatusopd0'))
+    {
+        $('#datastatus #totalstatusopd0').html(totalpaguindikatif[0]);                
+        new AutoNumeric ('#datastatus #totalstatusopd0',optionnumeric); 
+    }    
+    if (checkExistsID('#datastatus #totalstatusopd1'))
+    {
+        $('#datastatus #totalstatusopd1').html(totalpaguindikatif[1]);                        
+        new AutoNumeric ('#datastatus #totalstatusopd1',optionnumeric); 
+    }    
+    if (checkExistsID('#datastatus #totalstatusopd2'))
+    {
+        $('#datastatus #totalstatusopd2').html(totalpaguindikatif[2]); 
+        new AutoNumeric ('#datastatus #totalstatusopd2',optionnumeric);        
+    }
+    if (checkExistsID('#datastatus #totalstatusopd12'))
+    {
+        $('#datastatus #totalstatusopd12').html(parseFloat(totalpaguindikatif[1])+parseFloat(totalpaguindikatif[2]));        
+        new AutoNumeric ('#datastatus #totalstatusopd12',optionnumeric);        
+    }
+    if (checkExistsID('#datastatus #totalstatusopd3'))
+    {
+        $('#datastatus #totalstatusopd3').html(totalpaguindikatif[3]);        
+        new AutoNumeric ('#datastatus #totalstatusopd3',optionnumeric); 
+    }
+    if (checkExistsID('#datastatus #totalstatusopd'))
+    {
+        $('#datastatus #totalstatusopd').html(totalpaguindikatif.total);                
+        new AutoNumeric ('#datastatus #totalstatusopd',optionnumeric);        
+    }
+    
 }
 function formatPaguTotalIndikatifUnitKerja(totalpaguindikatif)
 {
@@ -34,23 +53,36 @@ function formatPaguTotalIndikatifUnitKerja(totalpaguindikatif)
                             showWarnings:false
                         };
 
-    $('#datastatus #totalstatusunitkerja0').html(totalpaguindikatif[0]);                
-    new AutoNumeric ('#datastatus #totalstatusunitkerja0',optionnumeric); 
-
-    $('#datastatus #totalstatusunitkerja1').html(totalpaguindikatif[1]);                        
-    new AutoNumeric ('#datastatus #totalstatusunitkerja1',optionnumeric); 
-
-    $('#datastatus #totalstatusunitkerja2').html(totalpaguindikatif[2]); 
-    new AutoNumeric ('#datastatus #totalstatusunitkerja2',optionnumeric);        
-
-    $('#datastatus #totalstatusunitkerja12').html(parseFloat(totalpaguindikatif[1])+parseFloat(totalpaguindikatif[2]));        
-    new AutoNumeric ('#datastatus #totalstatusunitkerja12',optionnumeric);        
-
-    $('#datastatus #totalstatusunitkerja3').html(totalpaguindikatif[3]);        
-    new AutoNumeric ('#datastatus #totalstatusunitkerja3',optionnumeric);        
-    
-    $('#datastatus #totalstatusunitkerja').html(totalpaguindikatif.total);                
-    new AutoNumeric ('#datastatus #totalstatusunitkerja',optionnumeric);        
+    if (checkExistsID('#datastatus #totalstatusunitkerja0'))
+    {
+        $('#datastatus #totalstatusunitkerja0').html(totalpaguindikatif[0]);                
+        new AutoNumeric ('#datastatus #totalstatusunitkerja0',optionnumeric); 
+    }    
+    if (checkExistsID('#datastatus #totalstatusunitkerja1'))
+    {
+        $('#datastatus #totalstatusunitkerja1').html(totalpaguindikatif[1]);                        
+        new AutoNumeric ('#datastatus #totalstatusunitkerja1',optionnumeric); 
+    }    
+    if (checkExistsID('#datastatus #totalstatusunitkerja2'))
+    {
+        $('#datastatus #totalstatusunitkerja2').html(totalpaguindikatif[2]); 
+        new AutoNumeric ('#datastatus #totalstatusunitkerja2',optionnumeric);        
+    }
+    if (checkExistsID('#datastatus #totalstatusunitkerja12'))
+    {
+        $('#datastatus #totalstatusunitkerja12').html(parseFloat(totalpaguindikatif[1])+parseFloat(totalpaguindikatif[2]));        
+        new AutoNumeric ('#datastatus #totalstatusunitkerja12',optionnumeric);        
+    }
+    if (checkExistsID('#datastatus #totalstatusunitkerja3'))
+    {
+        $('#datastatus #totalstatusunitkerja3').html(totalpaguindikatif[3]);        
+        new AutoNumeric ('#datastatus #totalstatusunitkerja3',optionnumeric); 
+    }
+    if (checkExistsID('#datastatus #totalstatusunitkerja'))
+    {
+        $('#datastatus #totalstatusunitkerja').html(totalpaguindikatif.total);                
+        new AutoNumeric ('#datastatus #totalstatusunitkerja',optionnumeric);        
+    }   
 }
 //checking data type is json
 function isJSON (data) 

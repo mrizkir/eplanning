@@ -90,4 +90,74 @@ class RKPDRincianModel extends Model {
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
+
+    /**
+     * digunakan untuk mendapatkan total pagu indikatif berdasarkan status dan opd
+     */
+    public static function getTotalPaguIndikatifByStatusAndOPD ($tahun_perencanaan,$EntryLvl,string $OrgID=null)
+    {
+        switch($EntryLvl)
+        {
+            case 4 :
+                $field=1;
+            break;
+            case 5 :
+                $field=2;
+            break;
+        }              
+        $data=\DB::table('trRKPDRinc')
+                ->select(\DB::raw('"trRKPDRinc"."Status",SUM("trRKPDRinc"."NilaiUsulan'.$field.'") AS "Jumlah"'))
+                ->join('trRKPD','trRKPDRinc.RKPDID','trRKPD.RKPDID')
+                ->where('trRKPDRinc.TA',$tahun_perencanaan)
+                ->where('trRKPD.OrgID',$OrgID)
+                ->where('trRKPDRinc.EntryLvl',$EntryLvl)
+                ->groupBy('trRKPDRinc.Status')
+                ->orderBy('trRKPDRinc.Status')
+                ->get()
+                ->pluck('Jumlah','Status')
+                ->toArray();
+        $totalpagustatus = \HelperKegiatan::getStatusKegiatan();
+        
+        $totalpagustatus[0]=isset($data[0])?$data[0]:0;
+        $totalpagustatus[1]=isset($data[1])?$data[1]:0;
+        $totalpagustatus[2]=isset($data[2])?$data[2]:0;
+        $totalpagustatus[3]=isset($data[3])?$data[3]:0;
+        $totalpagustatus['total']=$totalpagustatus[0]+$totalpagustatus[1]+$totalpagustatus[2]+$totalpagustatus[3];        
+        return $totalpagustatus;
+    }
+    /**
+     * digunakan untuk mendapatkan total pagu indikatif berdasarkan status dan opd
+     */
+    public static function getTotalPaguIndikatifByStatusAndUnitKerja ($tahun_perencanaan,$EntryLvl,string $SOrgID=null)
+    {
+        switch($EntryLvl)
+        {
+            case 4 :
+                $field=1;
+            break;
+            case 5 :
+                $field=2;
+            break;
+        }        
+        $data=\DB::table('trRKPDRinc')
+                ->select(\DB::raw('"trRKPDRinc"."Status",SUM("trRKPDRinc"."NilaiUsulan'.$field.'") AS "Jumlah"'))
+                ->join('trRKPD','trRKPDRinc.RKPDID','trRKPD.RKPDID')
+                ->where('trRKPDRinc.TA',$tahun_perencanaan)
+                ->where('trRKPD.SOrgID',$SOrgID)
+                ->where('trRKPDRinc.EntryLvl',$EntryLvl)
+                ->groupBy('trRKPDRinc.Status')
+                ->orderBy('trRKPDRinc.Status')
+                ->get()
+                ->pluck('Jumlah','Status')
+                ->toArray();
+        $totalpagustatus = \HelperKegiatan::getStatusKegiatan();
+        
+        $totalpagustatus[0]=isset($data[0])?$data[0]:0;
+        $totalpagustatus[1]=isset($data[1])?$data[1]:0;
+        $totalpagustatus[2]=isset($data[2])?$data[2]:0;
+        $totalpagustatus[3]=isset($data[3])?$data[3]:0;
+        $totalpagustatus['total']=$totalpagustatus[0]+$totalpagustatus[1]+$totalpagustatus[2]+$totalpagustatus[3];       
+                
+        return $totalpagustatus;
+    }
 }

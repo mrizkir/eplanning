@@ -238,10 +238,6 @@ $(document).ready(function () {
                 required: true,
                 valueNotEquals: 'none'
             },
-            PmDesaID : {
-                required: true,
-                valueNotEquals: 'none'
-            },
             Lokasi : {
                 required: true                
             }
@@ -274,10 +270,6 @@ $(document).ready(function () {
             PmKecamatanID : {
                 required: "Mohon untuk di pilih kecamatan kegiatan ini dilaksanakan.",                
                 valueNotEquals: "Mohon untuk di pilih kecamatan kegiatan ini dilaksanakan.",                
-            },
-            PmDesaID : {
-                required: "Mohon untuk di pilih desa kegiatan ini dilaksanakan.",                
-                valueNotEquals: "Mohon untuk di pilih desa kegiatan ini dilaksanakan.",                
             },
             Lokasi : {
                 required: "Mohon untuk di isi lokasi detaik kegiatan.", 
