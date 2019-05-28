@@ -32,11 +32,34 @@
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>'RPJMD\RPJMDTujuanController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
+            {!! Form::open(['action'=>'RPJMD\RPJMDTujuanController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                            
                 <div class="form-group">
-                    {{Form::label('replaceit','replaceit',['class'=>'control-label col-md-2'])}}
+                    <label class="col-md-2 control-label">MISI :</label> 
                     <div class="col-md-10">
-                        {{Form::text('replaceit','',['class'=>'form-control','placeholder'=>'replaceit'])}}
+                        <select name="PrioritasKabID" id="PrioritasKabID" class="select">
+                            <option></option>
+                            @foreach ($daftar_misi as $k=>$item)
+                                <option value="{{$k}}"">{{$item}}</option>
+                            @endforeach
+                        </select>                                
+                    </div>
+                </div>   
+                <div class="form-group">
+                    {{Form::label('Kd_Tujuan','KODE TUJUAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('Kd_Tujuan','',['class'=>'form-control','placeholder'=>'Kode Tujuan','maxlength'=>'4'])}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('Nm_Tujuan','NAMA TUJUAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('Nm_Tujuan','',['class'=>'form-control','placeholder'=>'Nama Tujuan'])}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::textarea('Descr','',['class'=>'form-control','placeholder'=>'KETERANGAN','rows' => 2, 'cols' => 40])}}
                     </div>
                 </div>
                 <div class="form-group">            
@@ -52,19 +75,51 @@
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/autoNumeric.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
+    AutoNumeric.multiple(['#Kd_Tujuan'], {
+                                        allowDecimalPadding: false,
+                                        minimumValue:0,
+                                        maximumValue:9999,
+                                        numericPos:true,
+                                        decimalPlaces : 0,
+                                        digitGroupSeparator : '',
+                                        showWarnings:false,
+                                        unformatOnSubmit: true,
+                                        modifyValueOnWheel:false
+                                    });
+    $('#PrioritasKabID.select').select2({
+        placeholder: "PILIH MISI",
+        allowClear:true
+    });
     $('#frmdata').validate({
+        ignore: [],
         rules: {
-            replaceit : {
+            PrioritasKabID : {
+                required: true,
+                valueNotEquals: 'none'
+            },
+            Kd_Tujuan : {
+                required: true,
+            },
+            Nm_Tujuan : {
                 required: true,
                 minlength: 2
             }
         },
         messages : {
-            replaceit : {
+            PrioritasKabID : {
+                required: "Mohon untuk di pilih karena ini diperlukan.",
+                valueNotEquals: "Mohon untuk di pilih karena ini diperlukan.",      
+            },
+            Kd_Tujuan : {
+                required: "Mohon untuk di isi karena ini diperlukan.",
+            },
+            Nm_Tujuan : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             }

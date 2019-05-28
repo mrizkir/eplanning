@@ -5,6 +5,8 @@ namespace App\Controllers\RPJMD;
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Models\RPJMD\RPJMDTujuanModel;
+use App\Rules\CheckRecordIsExistValidation;
+use App\Rules\IgnoreIfDataIsEqualValidation;
 
 class RPJMDTujuanController extends Controller {
      /**
@@ -94,9 +96,12 @@ class RPJMDTujuanController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
+            case 'col-Kd_Tujuan' :
+                $column_name = 'Kd_Tujuan';
+            break;      
             case 'col-Nm_Tujuan' :
                 $column_name = 'Nm_Tujuan';
-            break;           
+            break;        
             default :
                 $column_name = 'Nm_Tujuan';
         }
@@ -200,10 +205,17 @@ class RPJMDTujuanController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
+        $daftar_misi=\App\Models\RPJMD\RPJMDMisiModel::select(\DB::raw('"PrioritasKabID",CONCAT(\'[\',"Kd_PrioritasKab",\']. \',"Nm_PrioritasKab") AS "Nm_PrioritasKab"'))
+                                                    ->where('TA',config('eplanning.tahun_perencanaan'))
+                                                    ->orderBy('Kd_PrioritasKab','ASC')
+                                                    ->get()
+                                                    ->pluck('Nm_PrioritasKab','PrioritasKabID')
+                                                    ->toArray();
 
+        
         return view("pages.$theme.rpjmd.rpjmdtujuan.create")->with(['page_active'=>'rpjmdtujuan',
-                                                                    
-                                                ]);  
+                                                                    'daftar_misi'=>$daftar_misi
+                                                                    ]);  
     }
     
     /**
@@ -215,11 +227,20 @@ class RPJMDTujuanController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'replaceit'=>'required',
+            'Kd_Tujuan'=>[new CheckRecordIsExistValidation('tmPrioritasTujuanKab',['where'=>['TA','=',config('eplanning.tahun_perencanaan')]]),
+                            'required'
+                        ],
+            'PrioritasKabID'=>'required',
+            'Nm_Tujuan'=>'required',
         ]);
         
         $rpjmdtujuan = RPJMDTujuanModel::create([
-            'replaceit' => $request->input('replaceit'),
+            'PrioritasTujuanKabID'=> uniqid ('uid'),
+            'PrioritasKabID' => $request->input('PrioritasKabID'),
+            'Kd_Tujuan' => $request->input('Kd_Tujuan'),
+            'Nm_Tujuan' => $request->input('Nm_Tujuan'),
+            'Descr' => $request->input('Descr'),
+            'TA' => config('eplanning.tahun_perencanaan')
         ]);        
         
         if ($request->ajax()) 
@@ -231,7 +252,7 @@ class RPJMDTujuanController extends Controller {
         }
         else
         {
-            return redirect(route('rpjmdtujuan.index'))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rpjmdtujuan.show',['id'=>$rpjmdtujuan->PrioritasTujuanKabID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -246,12 +267,22 @@ class RPJMDTujuanController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = RPJMDTujuanModel::findOrFail($id);
+        $data = RPJMDTujuanModel::select(\DB::raw('"tmPrioritasTujuanKab"."PrioritasTujuanKabID",
+                                                    "tmPrioritasKab"."Kd_PrioritasKab",
+                                                    "tmPrioritasKab"."Nm_PrioritasKab",
+                                                    "tmPrioritasTujuanKab"."Kd_Tujuan",
+                                                    "tmPrioritasTujuanKab"."Nm_Tujuan",
+                                                    "tmPrioritasTujuanKab"."Descr",
+                                                    "tmPrioritasTujuanKab"."PrioritasTujuanKabID_Src",
+                                                    "tmPrioritasTujuanKab"."created_at",
+                                                    "tmPrioritasTujuanKab"."updated_at"'))
+                                ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmPrioritasTujuanKab.PrioritasKabID')
+                                ->findOrFail($id);
         if (!is_null($data) )  
         {
             return view("pages.$theme.rpjmd.rpjmdtujuan.show")->with(['page_active'=>'rpjmdtujuan',
-                                                    'data'=>$data
-                                                    ]);
+                                                                        'data'=>$data
+                                                                    ]);
         }        
     }
 
@@ -268,9 +299,17 @@ class RPJMDTujuanController extends Controller {
         $data = RPJMDTujuanModel::findOrFail($id);
         if (!is_null($data) ) 
         {
+            $daftar_misi=\App\Models\RPJMD\RPJMDMisiModel::select(\DB::raw('"PrioritasKabID",CONCAT(\'[\',"Kd_PrioritasKab",\']. \',"Nm_PrioritasKab") AS "Nm_PrioritasKab"'))
+                                                            ->where('TA',config('eplanning.tahun_perencanaan'))
+                                                            ->orderBy('Kd_PrioritasKab','ASC')
+                                                            ->get()
+                                                            ->pluck('Nm_PrioritasKab','PrioritasKabID')
+                                                            ->toArray();
+
             return view("pages.$theme.rpjmd.rpjmdtujuan.edit")->with(['page_active'=>'rpjmdtujuan',
-                                                    'data'=>$data
-                                                    ]);
+                                                                        'daftar_misi'=>$daftar_misi,
+                                                                        'data'=>$data
+                                                                    ]);
         }        
     }
 

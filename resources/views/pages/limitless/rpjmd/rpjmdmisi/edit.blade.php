@@ -36,7 +36,7 @@
                 <div class="form-group">
                     {{Form::label('Kd_PrioritasKab','KODE',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('Kd_PrioritasKab',$data->Kd_PrioritasKab,['class'=>'form-control','placeholder'=>'Kode Misi'])}}
+                        {{Form::text('Kd_PrioritasKab',$data->Kd_PrioritasKab,['class'=>'form-control','placeholder'=>'Kode Misi','maxlength'=>'4'])}}
                     </div>
                 </div>
                 <div class="form-group">
@@ -64,24 +64,44 @@
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/autoNumeric.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
+    AutoNumeric.multiple(['#Kd_PrioritasKab'], {
+                                        allowDecimalPadding: false,
+                                        minimumValue:0,
+                                        maximumValue:9999,
+                                        numericPos:true,
+                                        decimalPlaces : 0,
+                                        digitGroupSeparator : '',
+                                        showWarnings:false,
+                                        unformatOnSubmit: true,
+                                        modifyValueOnWheel:false
+                                    });
     $('#frmdata').validate({
         rules: {
-            replaceit : {
+            Kd_PrioritasKab : {
+                required: true,
+                minlength: 2
+            },
+            Nm_PrioritasKab : {
                 required: true,
                 minlength: 2
             }
         },
         messages : {
-            replaceit : {
+            Kd_PrioritasKab : {
+                required: "Mohon untuk di isi karena ini diperlukan.",
+                minlength: "Mohon di isi minimal 2 karakter atau lebih."
+            },
+            Nm_PrioritasKab : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             }
-        }     
-    });   
+        }      
+    });     
 });
 </script>
 @endsection

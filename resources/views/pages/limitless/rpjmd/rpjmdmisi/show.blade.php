@@ -30,6 +30,9 @@
                     <a href="javascript:;" title="Hapus Data RPJMD Misi" data-id="{{$data->PrioritasKabID}}" data-url="{{route('rpjmdmisi.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
                     </a>
+                    <a href="{!!route('rpjmdmisi.create')!!}" class="btn btn-primary btn-info heading-btn btnEdit" title="Tambah RPJMD Misi">
+                        <i class="icon-googleplus5"></i>
+                    </a>
                     <a href="{!!route('rpjmdmisi.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
                         <i class="icon-close2"></i>
                     </a>            

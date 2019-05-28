@@ -6,6 +6,7 @@
 /storage/logs
 /storage/framework
 /vendor
+.env
 /.idea
 /.vscode
 /.vagrant

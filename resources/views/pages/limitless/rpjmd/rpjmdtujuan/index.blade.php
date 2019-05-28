@@ -59,7 +59,7 @@
 <script type="text/javascript">
 $(document).ready(function () {  
     $("#divdatatable").on("click",".btnDelete", function(){
-        if (confirm('Apakah Anda ingin menghapus Data RpjmdTujuan ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data RPJMD Tujuan ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             $.ajax({            
@@ -75,7 +75,7 @@ $(document).ready(function () {
                     if (result.success==1){
                         $('#divdatatable').html(result.datatable);                        
                     }else{
-                        console.log("Gagal menghapus data RpjmdTujuan dengan id "+id);
+                        console.log("Gagal menghapus data RPJMD Tujuan dengan id "+id);
                     }                    
                 },
                 error:function(xhr, status, error){
