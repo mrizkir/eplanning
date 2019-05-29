@@ -347,8 +347,7 @@ class UrusanController extends Controller {
             'Kd_Bidang'=>'required|min:1|max:4|regex:/^[0-9]+$/', 
             'Kode_Bidang'=>['required',new IgnoreIfDataIsEqualValidation('v_urusan',
                                                                         $urusan->kelompokurusan->Kd_Urusan.'.'.$urusan->Kd_Bidang,
-                                                                        ['where'=>['TA','=',config('eplanning.tahun_perencanaan')]                                                                                
-                                                                        ],
+                                                                        ['where'=>['TA','=',config('eplanning.tahun_perencanaan')]],
                                                                         'Kode Urusan')],   
             'KUrsID'=>'required|not_in:none', 
             'Nm_Bidang'=>'required|min:5', 

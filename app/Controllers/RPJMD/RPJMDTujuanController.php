@@ -325,10 +325,18 @@ class RPJMDTujuanController extends Controller {
         $rpjmdtujuan = RPJMDTujuanModel::find($id);
         
         $this->validate($request, [
-            'replaceit'=>'required',
+            'Kd_Tujuan'=>['required',new IgnoreIfDataIsEqualValidation('tmPrioritasTujuanKab',
+                                                                        $rpjmdtujuan->Kd_Tujuan,
+                                                                        ['where'=>['TA','=',config('eplanning.tahun_perencanaan')]],
+                                                                        'Kode Tujuan')],
+            'PrioritasKabID'=>'required',
+            'Nm_Tujuan'=>'required',
         ]);
-        
-        $rpjmdtujuan->replaceit = $request->input('replaceit');
+               
+        $rpjmdtujuan->PrioritasKabID = $request->input('PrioritasKabID');
+        $rpjmdtujuan->Kd_Tujuan = $request->input('Kd_Tujuan');
+        $rpjmdtujuan->Nm_Tujuan = $request->input('Nm_Tujuan');
+        $rpjmdtujuan->Descr = $request->input('Descr');
         $rpjmdtujuan->save();
 
         if ($request->ajax()) 
@@ -340,7 +348,7 @@ class RPJMDTujuanController extends Controller {
         }
         else
         {
-            return redirect(route('rpjmdtujuan.index'))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('rpjmdtujuan.show',['id'=>$rpjmdtujuan->PrioritasTujuanKabID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 
