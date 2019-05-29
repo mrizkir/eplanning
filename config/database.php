@@ -56,7 +56,8 @@ return [
     |
     */
     'migrations' => 'migrations',
-     /*
+    
+    /*
     |--------------------------------------------------------------------------
     | Redis Databases
     |--------------------------------------------------------------------------
@@ -67,9 +68,9 @@ return [
     |
     */
     'redis' => [
-        'client' => env('REDIS_CLIENT', 'predis'),
+        'client' => env('REDIS_CLIENT', 'phpredis'),
         'options' => [
-            'cluster' => env('REDIS_CLUSTER', 'predis'),
+            'cluster' => env('REDIS_CLUSTER', 'phpredis'),
             'prefix' => Str::slug(env('APP_NAME', 'eplanning'), '_').'_database_',
         ],
         'default' => [
