@@ -409,7 +409,6 @@ class PokokPikiranController extends Controller {
         $pokokpikiran->Jeniskeg = $request->input('Jeniskeg');
         $pokokpikiran->Prioritas = $request->input('Prioritas');
         $pokokpikiran->Descr = $request->input('Descr');
-
        
         $pokokpikiran->save();
 
