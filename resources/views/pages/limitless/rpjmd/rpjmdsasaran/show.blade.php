@@ -24,11 +24,14 @@
                     <i class="icon-eye"></i>  DATA RPJMD SASARAN
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('rpjmdsasaran.edit',['id'=>$data->rpjmdsasaran_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RpjmdSasaran">
+                    <a href="{{route('rpjmdsasaran.edit',['id'=>$data->PrioritasSasaranKabID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RpjmdSasaran">
                         <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data RpjmdSasaran" data-id="{{$data->rpjmdsasaran_id}}" data-url="{{route('rpjmdsasaran.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
+                    <a href="javascript:;" title="Hapus Data RpjmdSasaran" data-id="{{$data->PrioritasSasaranKabID}}" data-url="{{route('rpjmdsasaran.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
+                    </a>
+                    <a href="{!!route('rpjmdsasaran.create')!!}" class="btn btn-primary btn-info heading-btn btnEdit" title="Tambah RPJMD Tujuan">
+                        <i class="icon-googleplus5"></i>
                     </a>
                     <a href="{!!route('rpjmdsasaran.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
                         <i class="icon-close2"></i>
@@ -40,31 +43,43 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>rpjmdsasaran id: </strong></label>
+                                <label class="col-md-4 control-label"><strong>PrioritasSasaranKabID: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->rpjmdsasaran_id}}</p>
+                                    <p class="form-control-static">{{$data->PrioritasSasaranKabID}}</p>
+                                </div>                            
+                            </div>                        
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>KODE SASARAN : </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->Kd_Sasaran}}</p>
                                 </div>                            
                             </div>                            
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
+                                <label class="col-md-4 control-label"><strong>NAMA SASARAN: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}}</p>
+                                    <p class="form-control-static">{{$data->Nm_Sasaran}}</p>
                                 </div>                            
-                            </div>
+                            </div>  
                         </div>                        
                     </div>
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>replaceit: </strong></label>
+                                <label class="col-md-4 control-label"><strong>KODE TUJUAN : </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">replaceit</p>
+                                    <p class="form-control-static">{{$data->Kd_Tujuan}}</p>
                                 </div>                            
-                            </div>    
+                            </div>                            
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>TGL. UBAH: </strong></label>
+                                <label class="col-md-4 control-label"><strong>NAMA TUJUAN: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->updated_at)}}</p>
+                                    <p class="form-control-static">{{$data->Nm_Tujuan}}</p>
+                                </div>                            
+                            </div>     
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>TGL. BUAT / TGL. UBAH: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}} / {{Helper::tanggal('d/m/Y H:m',$data->updated_at)}}</p>
                                 </div>                            
                             </div>                         
                         </div>
