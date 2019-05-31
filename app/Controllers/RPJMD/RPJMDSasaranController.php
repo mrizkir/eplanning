@@ -276,8 +276,8 @@ class RPJMDSasaranController extends Controller {
         if (!is_null($data) )  
         {
             return view("pages.$theme.rpjmd.rpjmdsasaran.show")->with(['page_active'=>'rpjmdsasaran',
-                                                    'data'=>$data
-                                                    ]);
+                                                                        'data'=>$data
+                                                                    ]);
         }        
     }
 

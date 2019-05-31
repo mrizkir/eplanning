@@ -1,18 +1,18 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RPJMDSTRATEGI
+    RPJMD STRATEGI
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        RPJMDSTRATEGI TAHUN PERENCANAAN {{config('eplanning.tahun_perencanaan')}}
+        RPJMD STRATEGI TAHUN PERENCANAAN {{config('eplanning.tahun_perencanaan')}}
     </span>
 @endsection
 @section('page_info')
     @include('pages.limitless.rpjmd.rpjmdstrategi.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('rpjmdstrategi.index')!!}">RPJMDSTRATEGI</a></li>
+    <li><a href="{!!route('rpjmdstrategi.index')!!}">RPJMD STRATEGI</a></li>
     <li class="active">TAMBAH DATA</li>
 @endsection
 @section('page_content')
@@ -32,11 +32,34 @@
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>'RPJMD\RpjmdStrategiController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
+            {!! Form::open(['action'=>'RPJMD\RPJMDStrategiController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
                 <div class="form-group">
-                    {{Form::label('replaceit','replaceit',['class'=>'control-label col-md-2'])}}
+                    <label class="col-md-2 control-label">MISI :</label> 
                     <div class="col-md-10">
-                        {{Form::text('replaceit','',['class'=>'form-control','placeholder'=>'replaceit'])}}
+                        <select name="PrioritasSasaranKabID" id="PrioritasSasaranKabID" class="select">
+                            <option></option>
+                            @foreach ($daftar_sasaran as $k=>$item)
+                                <option value="{{$k}}"">{{$item}}</option>
+                            @endforeach
+                        </select>                                
+                    </div>
+                </div>  
+                <div class="form-group">
+                    {{Form::label('Kd_Strategi','KODE STRATEGI',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('Kd_Strategi','',['class'=>'form-control','placeholder'=>'Kode Strategi','maxlength'=>'4'])}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('Nm_Strategi','NAMA STRATEGI',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('Nm_Strategi','',['class'=>'form-control','placeholder'=>'Nama Strategi'])}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::textarea('Descr','',['class'=>'form-control','placeholder'=>'KETERANGAN','rows' => 2, 'cols' => 40])}}
                     </div>
                 </div>
                 <div class="form-group">            
@@ -52,19 +75,51 @@
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/autoNumeric.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
+    AutoNumeric.multiple(['#Kd_Strategi'], {
+                                        allowDecimalPadding: false,
+                                        minimumValue:0,
+                                        maximumValue:9999,
+                                        numericPos:true,
+                                        decimalPlaces : 0,
+                                        digitGroupSeparator : '',
+                                        showWarnings:false,
+                                        unformatOnSubmit: true,
+                                        modifyValueOnWheel:false
+                                    });
+    $('#PrioritasSasaranKabID.select').select2({
+        placeholder: "PILIH SASARAN RPJMD",
+        allowClear:true
+    });
     $('#frmdata').validate({
+        ignore: [],
         rules: {
-            replaceit : {
+            PrioritasSasaranKabID : {
+                required: true,
+                valueNotEquals: 'none'
+            },
+            Kd_Strategi : {
+                required: true,
+            },
+            Nm_Strategi : {
                 required: true,
                 minlength: 2
             }
         },
         messages : {
-            replaceit : {
+            PrioritasSasaranKabID : {
+                required: "Mohon untuk di pilih karena ini diperlukan.",
+                valueNotEquals: "Mohon untuk di pilih karena ini diperlukan.",      
+            },
+            Kd_Strategi : {
+                required: "Mohon untuk di isi karena ini diperlukan.",
+            },
+            Nm_Strategi : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             }

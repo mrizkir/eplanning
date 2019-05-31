@@ -5,6 +5,8 @@ namespace App\Controllers\RPJMD;
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Models\RPJMD\RPJMDStrategiModel;
+use App\Rules\CheckRecordIsExistValidation;
+use App\Rules\IgnoreIfDataIsEqualValidation;
 
 class RPJMDStrategiController extends Controller {
      /**
@@ -201,9 +203,16 @@ class RPJMDStrategiController extends Controller {
     {        
         $theme = \Auth::user()->theme;
 
+        $daftar_sasaran=\App\Models\RPJMD\RPJMDSasaranModel::select(\DB::raw('"PrioritasSasaranKabID",CONCAT(\'[\',"Kd_Sasaran",\']. \',"Nm_Sasaran") AS "Nm_Sasaran"'))
+                                                            ->where('TA',config('eplanning.tahun_perencanaan'))
+                                                            ->orderBy('Kd_Sasaran','ASC')
+                                                            ->get()
+                                                            ->pluck('Nm_Sasaran','PrioritasSasaranKabID')
+                                                            ->toArray();
+
         return view("pages.$theme.rpjmd.rpjmdstrategi.create")->with(['page_active'=>'rpjmdstrategi',
-                                                                    
-                                                            ]);  
+                                                                    'daftar_sasaran'=>$daftar_sasaran
+                                                                ]);  
     }
     
     /**
@@ -215,11 +224,20 @@ class RPJMDStrategiController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'replaceit'=>'required',
+            'Kd_Strategi'=>[new CheckRecordIsExistValidation('tmPrioritasStrategiKab',['where'=>['TA','=',config('eplanning.tahun_perencanaan')]]),
+                            'required'
+                        ],
+            'PrioritasSasaranKabID'=>'required',
+            'Nm_Strategi'=>'required',
         ]);
         
         $rpjmdstrategi = RPJMDStrategiModel::create([
-            'replaceit' => $request->input('replaceit'),
+            'PrioritasStrategiKabID'=> uniqid ('uid'),
+            'PrioritasSasaranKabID' => $request->input('PrioritasSasaranKabID'),
+            'Kd_Strategi' => $request->input('Kd_Strategi'),
+            'Nm_Strategi' => $request->input('Nm_Strategi'),
+            'Descr' => $request->input('Descr'),
+            'TA' => config('eplanning.tahun_perencanaan')
         ]);        
         
         if ($request->ajax()) 
@@ -231,7 +249,7 @@ class RPJMDStrategiController extends Controller {
         }
         else
         {
-            return redirect(route('rpjmdstrategi.index'))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rpjmdstrategi.show',['id'=>$rpjmdstrategi->PrioritasStrategiKabID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -246,12 +264,23 @@ class RPJMDStrategiController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = RPJMDStrategiModel::findOrFail($id);
+        $data = RPJMDStrategiModel::select(\DB::raw('"tmPrioritasStrategiKab"."PrioritasStrategiKabID",
+                                                    "tmPrioritasSasaranKab"."Kd_Sasaran",
+                                                    "tmPrioritasSasaranKab"."Nm_Sasaran",
+                                                    "tmPrioritasStrategiKab"."Kd_Strategi",
+                                                    "tmPrioritasStrategiKab"."Nm_Strategi",
+                                                    "tmPrioritasStrategiKab"."Descr",
+                                                    "tmPrioritasStrategiKab"."PrioritasStrategiKabID_Src",
+                                                    "tmPrioritasStrategiKab"."created_at",
+                                                    "tmPrioritasStrategiKab"."updated_at"'))
+                                ->join('tmPrioritasSasaranKab','tmPrioritasSasaranKab.PrioritasSasaranKabID','tmPrioritasStrategiKab.PrioritasSasaranKabID')
+                                ->findOrFail($id);
+
         if (!is_null($data) )  
         {
             return view("pages.$theme.rpjmd.rpjmdstrategi.show")->with(['page_active'=>'rpjmdstrategi',
-                                                    'data'=>$data
-                                                    ]);
+                                                                        'data'=>$data
+                                                                    ]);
         }        
     }
 
@@ -268,9 +297,17 @@ class RPJMDStrategiController extends Controller {
         $data = RPJMDStrategiModel::findOrFail($id);
         if (!is_null($data) ) 
         {
+            $daftar_sasaran=\App\Models\RPJMD\RPJMDSasaranModel::select(\DB::raw('"PrioritasSasaranKabID",CONCAT(\'[\',"Kd_Sasaran",\']. \',"Nm_Sasaran") AS "Nm_Sasaran"'))
+                                                                ->where('TA',config('eplanning.tahun_perencanaan'))
+                                                                ->orderBy('Kd_Sasaran','ASC')
+                                                                ->get()
+                                                                ->pluck('Nm_Sasaran','PrioritasSasaranKabID')
+                                                                ->toArray();
+
             return view("pages.$theme.rpjmd.rpjmdstrategi.edit")->with(['page_active'=>'rpjmdstrategi',
-                                                    'data'=>$data
-                                                    ]);
+                                                                    'data'=>$data,
+                                                                    'daftar_sasaran'=>$daftar_sasaran
+                                                                ]);
         }        
     }
 
@@ -286,10 +323,18 @@ class RPJMDStrategiController extends Controller {
         $rpjmdstrategi = RPJMDStrategiModel::find($id);
         
         $this->validate($request, [
-            'replaceit'=>'required',
+            'Kd_Strategi'=>['required',new IgnoreIfDataIsEqualValidation('tmPrioritasStrategiKab',
+                                                                        $rpjmdstrategi->Kd_Strategi,
+                                                                        ['where'=>['TA','=',config('eplanning.tahun_perencanaan')]],
+                                                                        'Kode Strategi')],
+            'PrioritasSasaranKabID'=>'required',
+            'Nm_Strategi'=>'required',
         ]);
-        
-        $rpjmdstrategi->replaceit = $request->input('replaceit');
+               
+        $rpjmdstrategi->PrioritasSasaranKabID = $request->input('PrioritasSasaranKabID');
+        $rpjmdstrategi->Kd_Strategi = $request->input('Kd_Strategi');
+        $rpjmdstrategi->Nm_Strategi = $request->input('Nm_Strategi');
+        $rpjmdstrategi->Descr = $request->input('Descr');
         $rpjmdstrategi->save();
 
         if ($request->ajax()) 
@@ -301,7 +346,7 @@ class RPJMDStrategiController extends Controller {
         }
         else
         {
-            return redirect(route('rpjmdstrategi.index'))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('rpjmdstrategi.show',['id'=>$rpjmdstrategi->PrioritasStrategiKabID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 

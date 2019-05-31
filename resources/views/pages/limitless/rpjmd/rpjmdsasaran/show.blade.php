@@ -24,13 +24,13 @@
                     <i class="icon-eye"></i>  DATA RPJMD SASARAN
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('rpjmdsasaran.edit',['id'=>$data->PrioritasSasaranKabID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RpjmdSasaran">
+                    <a href="{{route('rpjmdsasaran.edit',['id'=>$data->PrioritasSasaranKabID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RPJMD Sasaran">
                         <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data RpjmdSasaran" data-id="{{$data->PrioritasSasaranKabID}}" data-url="{{route('rpjmdsasaran.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
+                    <a href="javascript:;" title="Hapus Data RPJMD Sasaran" data-id="{{$data->PrioritasSasaranKabID}}" data-url="{{route('rpjmdsasaran.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
                     </a>
-                    <a href="{!!route('rpjmdsasaran.create')!!}" class="btn btn-primary btn-info heading-btn btnEdit" title="Tambah RPJMD Tujuan">
+                    <a href="{!!route('rpjmdsasaran.create')!!}" class="btn btn-primary btn-info heading-btn btnEdit" title="Tambah RPJMD Sasaran">
                         <i class="icon-googleplus5"></i>
                     </a>
                     <a href="{!!route('rpjmdsasaran.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
@@ -94,7 +94,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
     $(".btnDelete").click(function(ev) {
-        if (confirm('Apakah Anda ingin menghapus Data RpjmdSasaran ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data RPJMD Sasaran ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             let token = $('meta[name="csrf-token"]').attr('content');
