@@ -35,9 +35,14 @@
         <div class="panel-body">
             {!! Form::open(['action'=>'RPJMD\RPJMDIndikatorKinerjaController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
                 <div class="form-group">
-                    {{Form::label('replaceit','replaceit',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('PrioritasKebijakanKabID','KEBIJAKAN RPJMD',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('replaceit','',['class'=>'form-control','placeholder'=>'replaceit'])}}
+                        <select name="PrioritasKebijakanKabID" id="PrioritasKebijakanKabID" class="select">
+                            <option></option>
+                            @foreach ($daftar_kebijakan as $k=>$item)
+                                <option value="{{$k}}"">{{$item}}</option>
+                            @endforeach
+                        </select>  
                     </div>
                 </div>
                 <div class="form-group">            
@@ -53,24 +58,16 @@
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/autoNumeric.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
-    $('#frmdata').validate({
-        rules: {
-            replaceit : {
-                required: true,
-                minlength: 2
-            }
-        },
-        messages : {
-            replaceit : {
-                required: "Mohon untuk di isi karena ini diperlukan.",
-                minlength: "Mohon di isi minimal 2 karakter atau lebih."
-            }
-        }      
-    });   
+    $('#PrioritasKebijakanKabID.select').select2({
+        placeholder: "PILIH KEBIJAKAN RPJMD",
+        allowClear:true
+    });
 });
 </script>
 @endsection

@@ -58,8 +58,44 @@ class RPJMDKebijakanModel extends Model {
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
 
-    public static function getDaftarIndikatorKinerja()
+    public static function getDaftarKebijakan($ta,$prepend=true)
     {
-        
+        $r=RPJMDKebijakanModel::select(\DB::raw('
+                                "PrioritasKebijakanKabID",
+                                CONCAT(
+                                \'[\',
+                                "Kd_PrioritasKab",
+                                \'.\',
+                                "Kd_Tujuan",
+                                \'.\',
+                                "Kd_Sasaran",
+                                \'.\',
+                                "Kd_Strategi",
+                                \'.\',
+                                "Kd_Kebijakan",
+                                \'] \',
+                                "Nm_Kebijakan"
+                                ) AS "Nm_Kebijakan"'))
+                                ->join('tmPrioritasStrategiKab','tmPrioritasKebijakanKab.PrioritasStrategiKabID','tmPrioritasStrategiKab.PrioritasStrategiKabID')
+                                ->join('tmPrioritasSasaranKab','tmPrioritasSasaranKab.PrioritasSasaranKabID','tmPrioritasStrategiKab.PrioritasSasaranKabID')
+                                ->join('tmPrioritasTujuanKab','tmPrioritasTujuanKab.PrioritasTujuanKabID','tmPrioritasSasaranKab.PrioritasTujuanKabID')
+                                ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmPrioritasTujuanKab.PrioritasKabID')
+                                ->where('tmPrioritasStrategiKab.TA',$ta)
+                                ->orderBy('Kd_PrioritasKab')
+                                ->orderBy('Kd_Tujuan')
+                                ->orderBy('Kd_Sasaran')
+                                ->orderBy('Kd_Strategi')
+                                ->get();
+
+        $daftar_kebijakan=$prepend == true 
+                                        ?
+                                            $r->pluck('Nm_Kebijakan','PrioritasKebijakanKabID')
+                                            ->prepend('DAFTAR KEBIJAKAN RPJMD')
+                                            ->toArray()
+                                        :
+                                        $r->pluck('Nm_Kebijakan','PrioritasKebijakanKabID')
+                                            ->toArray();
+       
+        return $daftar_kebijakan;
     }
 }

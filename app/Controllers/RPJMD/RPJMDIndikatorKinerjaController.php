@@ -5,6 +5,9 @@ namespace App\Controllers\RPJMD;
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Models\RPJMD\RPJMDIndikatorKinerjaModel;
+use App\Models\RPJMD\RPJMDKebijakanModel;
+use App\Rules\CheckRecordIsExistValidation;
+use App\Rules\IgnoreIfDataIsEqualValidation;
 
 class RPJMDIndikatorKinerjaController extends Controller {
      /**
@@ -203,10 +206,10 @@ class RPJMDIndikatorKinerjaController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-
+        $daftar_kebijakan = RPJMDKebijakanModel::getDaftarKebijakan(config('eplanning.tahun_perencanaan'),false);
         return view("pages.$theme.rpjmd.rpjmdindikatorkinerja.create")->with(['page_active'=>'rpjmdindikatorkinerja',
-                                                                    
-                                                ]);  
+                                                                                'daftar_kebijakan'=>$daftar_kebijakan
+                                                                            ]);  
     }
     
     /**
