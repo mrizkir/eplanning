@@ -12,7 +12,9 @@
     @include('pages.limitless.rpjmd.rpjmdtujuan.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('rpjmdtujuan.index')!!}">RPJMD TUJUAN</a></li>
+    <li><a href="#">PERENCANAAN</a></li>
+    <li><a href="#">RPJMD</a></li>
+    <li><a href="{!!route('rpjmdtujuan.index')!!}">TUJUAN</a></li>
     <li class="active">ERROR</li>
 @endsection
 @section('page_content')

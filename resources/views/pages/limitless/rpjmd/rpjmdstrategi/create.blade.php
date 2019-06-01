@@ -12,7 +12,9 @@
     @include('pages.limitless.rpjmd.rpjmdstrategi.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('rpjmdstrategi.index')!!}">RPJMD STRATEGI</a></li>
+    <li><a href="#">PERENCANAAN</a></li>
+    <li><a href="#">RPJMD</a></li>
+    <li><a href="{!!route('rpjmdstrategi.index')!!}">STRATEGI</a></li>
     <li class="active">TAMBAH DATA</li>
 @endsection
 @section('page_content')

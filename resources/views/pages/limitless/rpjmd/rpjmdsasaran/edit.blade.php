@@ -12,7 +12,9 @@
     @include('pages.limitless.rpjmd.rpjmdsasaran.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('rpjmdsasaran.index')!!}">RPJMD SASARAN</a></li>
+    <li><a href="#">PERENCANAAN</a></li>
+    <li><a href="#">RPJMD</a></li>
+    <li><a href="{!!route('rpjmdstrategi.index')!!}">SASARAN</a></li>
     <li class="active">UBAH DATA</li>
 @endsection
 @section('page_content')

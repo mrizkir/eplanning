@@ -184,7 +184,7 @@
                                     </li>           
                                     <li{!!Helper::isMenuActive ($page_active,'rpjmdkebijakan',' class="active"')!!}>
                                         <a href="{{route('rpjmdkebijakan.index')}}">
-                                            <i class="icon-strategy"></i> PRIORITAS KEBIJAKAN <span class="text-violet"><strong>[5]</strong></span>
+                                            <i class="icon-strategy"></i> PRIORITAS / ARAH KEBIJAKAN <span class="text-violet"><strong>[5]</strong></span>
                                         </a>
                                     </li>  
                                     <li{!!Helper::isMenuActive ($page_active,'rpjmdindikatorkinerja',' class="active"')!!}>

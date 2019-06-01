@@ -12,8 +12,9 @@
     @include('pages.limitless.rpjmd.rpjmdkebijakan.info')
 @endsection
 @section('page_breadcrumb')
+    <li><a href="#">PERENCANAAN</a></li>
     <li><a href="#">RPJMD</a></li>
-    <li><a href="{!!route('rpjmdkebijakan.index')!!}">KEBIJAKAN</a></li>
+    <li><a href="{!!route('rpjmdkebijakan.index')!!}">PRIORITAS / ARAH KEBIJAKAN</a></li>
     <li class="active">UBAH DATA</li>
 @endsection
 @section('page_content')

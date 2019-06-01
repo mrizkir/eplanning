@@ -12,7 +12,9 @@
     @include('pages.limitless.rpjmd.rpjmdmisi.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('rpjmdmisi.index')!!}">RPJMD MISI TAHUN {{config('eplanning.rpjmd_tahun_mulai')}} - {{config('eplanning.rpjmd_tahun_akhir')}}</a></li>
+    <li><a href="#">PERENCANAAN</a></li>
+    <li><a href="#">RPJMD</a></li>
+    <li><a href="{!!route('rpjmdmisi.index')!!}">MISI</a></li>    
     <li class="active">TAMBAH DATA</li>
 @endsection
 @section('page_content')

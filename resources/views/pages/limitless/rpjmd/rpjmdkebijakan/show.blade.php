@@ -1,19 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    KEBIJAKAN
+    RPJMD PRIORITAS / ARAH KEBIJAKAN
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        KEBIJAKAN [RPJMD {{config('eplanning.rpjmd_tahun_mulai')}}-{{config('eplanning.rpjmd_tahun_akhir')}}]
+        RPJMD PRIORITAS / ARAH KEBIJAKAN TAHUN {{config('eplanning.rpjmd_tahun_mulai')}}-{{config('eplanning.rpjmd_tahun_akhir')}}
     </span>     
 @endsection
 @section('page_info')
     @include('pages.limitless.rpjmd.rpjmdkebijakan.info')
 @endsection
 @section('page_breadcrumb')
+    <li><a href="#">PERENCANAAN</a></li>
     <li><a href="#">RPJMD</a></li>
-    <li><a href="{!!route('rpjmdkebijakan.index')!!}">KEBIJAKAN</a></li>
+    <li><a href="{!!route('rpjmdkebijakan.index')!!}">PRIORITAS / ARAH KEBIJAKAN</a></li>
     <li class="active">DETAIL DATA</li>
 @endsection
 @section('page_content')
@@ -25,10 +26,10 @@
                     <i class="icon-eye"></i>  DATA KEBIJAKAN
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('rpjmdkebijakan.edit',['id'=>$data->rpjmdkebijakan_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RpjmdKebijakan">
+                    <a href="{{route('rpjmdkebijakan.edit',['id'=>$data->PrioritasKebijakanKabID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RpjmdKebijakan">
                         <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data RpjmdKebijakan" data-id="{{$data->rpjmdkebijakan_id}}" data-url="{{route('rpjmdkebijakan.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
+                    <a href="javascript:;" title="Hapus Data RpjmdKebijakan" data-id="{{$data->PrioritasKebijakanKabID}}" data-url="{{route('rpjmdkebijakan.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
                     </a>
                     <a href="{!!route('rpjmdkebijakan.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
@@ -43,7 +44,7 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>rpjmdkebijakan id: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->rpjmdkebijakan_id}}</p>
+                                    <p class="form-control-static">{{$data->PrioritasKebijakanKabID}}</p>
                                 </div>                            
                             </div>                            
                             <div class="form-group">

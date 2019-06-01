@@ -12,7 +12,9 @@
     @include('pages.limitless.rpjmd.rpjmdtujuan.info')
 @endsection
 @section('page_breadcrumb')
-    <li class="active">RPJMD TUJUAN TAHUN {{config('eplanning.rpjmd_tahun_mulai')}} - {{config('eplanning.rpjmd_tahun_akhir')}}</li>
+    <li><a href="#">PERENCANAAN</a></li>
+    <li><a href="#">RPJMD</a></li>
+    <li><a href="{!!route('rpjmdtujuan.index')!!}">TUJUAN</a></li>    
 @endsection
 @section('page_content')
 <div class="row">

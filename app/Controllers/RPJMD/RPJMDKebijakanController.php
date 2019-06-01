@@ -4,7 +4,7 @@ namespace App\Controllers\RPJMD;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
-use App\Models\RPJMD\RpjmdStrategiModel;
+use App\Models\RPJMD\RPJMDStrategiModel;
 use App\Models\RPJMD\RPJMDKebijakanModel;
 
 class RPJMDKebijakanController extends Controller {
@@ -201,7 +201,7 @@ class RPJMDKebijakanController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $rpjmd_strategi=RpjmdStrategiModel::getRPJDMStrategi(config('eplanning.tahun_perencanaan'));
+        $rpjmd_strategi=RPJMDStrategiModel::getRPJDMStrategi(config('eplanning.tahun_perencanaan'));
         return view("pages.$theme.rpjmd.rpjmdkebijakan.create")->with(['page_active'=>'rpjmdkebijakan',
                                                                     'rpjmd_strategi'=>$rpjmd_strategi
                                                                     ]);  
