@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Models\RPJMD\RPJMDStrategiModel;
 use App\Models\RPJMD\RPJMDKebijakanModel;
+use App\Rules\CheckRecordIsExistValidation;
+use App\Rules\IgnoreIfDataIsEqualValidation;
 
 class RPJMDKebijakanController extends Controller {
      /**
@@ -201,9 +203,9 @@ class RPJMDKebijakanController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $rpjmd_strategi=RPJMDStrategiModel::getRPJDMStrategi(config('eplanning.tahun_perencanaan'));
+        $daftar_strategi=RPJMDStrategiModel::getRPJDMStrategi(config('eplanning.tahun_perencanaan'),false);
         return view("pages.$theme.rpjmd.rpjmdkebijakan.create")->with(['page_active'=>'rpjmdkebijakan',
-                                                                    'rpjmd_strategi'=>$rpjmd_strategi
+                                                                    'daftar_strategi'=>$daftar_strategi
                                                                     ]);  
     }
     
@@ -215,25 +217,34 @@ class RPJMDKebijakanController extends Controller {
      */
     public function store(Request $request)
     {
-        // $this->validate($request, [
-        //     'replaceit'=>'required',
-        // ]);
+        $this->validate($request, [
+            'Kd_Kebijakan'=>[new CheckRecordIsExistValidation('tmPrioritasKebijakanKab',['where'=>['TA','=',config('eplanning.tahun_perencanaan')]]),
+                            'required'
+                        ],
+            'PrioritasStrategiKabID'=>'required',
+            'Nm_Kebijakan'=>'required',
+        ]);
         
-        // $rpjmdkebijakan = RPJMDKebijakanModel::create([
-        //     'replaceit' => $request->input('replaceit'),
-        // ]);        
-        
-        // if ($request->ajax()) 
-        // {
-        //     return response()->json([
-        //         'success'=>true,
-        //         'message'=>'Data ini telah berhasil disimpan.'
-        //     ]);
-        // }
-        // else
-        // {
-        //     return redirect(route('rpjmdkebijakan.show',['id'=>$rpjmdkebijakan->PrioritasKebijakanKabID]))->with('success','Data ini telah berhasil disimpan.');
-        // }
+        $rpjmdkebijakan = RPJMDKebijakanModel::create([
+            'PrioritasKebijakanKabID'=> uniqid ('uid'),
+            'PrioritasStrategiKabID' => $request->input('PrioritasStrategiKabID'),
+            'Kd_Kebijakan' => $request->input('Kd_Kebijakan'),
+            'Nm_Kebijakan' => $request->input('Nm_Kebijakan'),
+            'Descr' => $request->input('Descr'),
+            'TA' => config('eplanning.tahun_perencanaan')
+        ]);        
+
+        if ($request->ajax()) 
+        {
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data ini telah berhasil disimpan.'
+            ]);
+        }
+        else
+        {
+            return redirect(route('rpjmdkebijakan.show',['id'=>$rpjmdkebijakan->PrioritasKebijakanKabID]))->with('success','Data ini telah berhasil disimpan.');
+        }
 
     }
     
@@ -248,6 +259,19 @@ class RPJMDKebijakanController extends Controller {
         $theme = \Auth::user()->theme;
 
         $data = RPJMDKebijakanModel::findOrFail($id);
+
+         $data = RPJMDKebijakanModel::select(\DB::raw('"tmPrioritasKebijakanKab"."PrioritasKebijakanKabID",
+                                                    "tmPrioritasStrategiKab"."Kd_Strategi",
+                                                    "tmPrioritasStrategiKab"."Nm_Strategi",
+                                                    "tmPrioritasKebijakanKab"."Kd_Kebijakan",
+                                                    "tmPrioritasKebijakanKab"."Nm_Kebijakan",
+                                                    "tmPrioritasKebijakanKab"."Descr",
+                                                    "tmPrioritasKebijakanKab"."PrioritasKebijakanKabID_Src",
+                                                    "tmPrioritasKebijakanKab"."created_at",
+                                                    "tmPrioritasKebijakanKab"."updated_at"'))
+                                ->join('tmPrioritasStrategiKab','tmPrioritasStrategiKab.PrioritasStrategiKabID','tmPrioritasKebijakanKab.PrioritasStrategiKabID')
+                                ->findOrFail($id);
+
         if (!is_null($data) )  
         {
             return view("pages.$theme.rpjmd.rpjmdkebijakan.show")->with(['page_active'=>'rpjmdkebijakan',
@@ -266,12 +290,14 @@ class RPJMDKebijakanController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $data = RPJMDKebijakanModel::findOrFail($id);
+        $data = RPJMDKebijakanModel::findOrFail($id);                
         if (!is_null($data) ) 
         {
+            $daftar_strategi=RPJMDStrategiModel::getRPJDMStrategi(config('eplanning.tahun_perencanaan'),false);
             return view("pages.$theme.rpjmd.rpjmdkebijakan.edit")->with(['page_active'=>'rpjmdkebijakan',
-                                                    'data'=>$data
-                                                    ]);
+                                                                            'data'=>$data,
+                                                                            'daftar_strategi'=>$daftar_strategi
+                                                                        ]);
         }        
     }
 
@@ -286,24 +312,32 @@ class RPJMDKebijakanController extends Controller {
     {
         $rpjmdkebijakan = RPJMDKebijakanModel::find($id);
         
-        // $this->validate($request, [
-        //     'replaceit'=>'required',
-        // ]);
-        
-        // $rpjmdkebijakan->replaceit = $request->input('replaceit');
-        // $rpjmdkebijakan->save();
+        $this->validate($request, [
+            'Kd_Kebijakan'=>['required',new IgnoreIfDataIsEqualValidation('tmPrioritasKebijakanKab',
+                                                                        $rpjmdkebijakan->Kd_Kebijakan,
+                                                                        ['where'=>['TA','=',config('eplanning.tahun_perencanaan')]],
+                                                                        'Kode Strategi')],
+            'PrioritasStrategiKabID'=>'required',
+            'Nm_Kebijakan'=>'required',
+        ]);
+               
+        $rpjmdkebijakan->PrioritasStrategiKabID = $request->input('PrioritasStrategiKabID');
+        $rpjmdkebijakan->Kd_Kebijakan = $request->input('Kd_Kebijakan');
+        $rpjmdkebijakan->Nm_Kebijakan = $request->input('Nm_Kebijakan');
+        $rpjmdkebijakan->Descr = $request->input('Descr');
+        $rpjmdkebijakan->save();
 
-        // if ($request->ajax()) 
-        // {
-        //     return response()->json([
-        //         'success'=>true,
-        //         'message'=>'Data ini telah berhasil diubah.'
-        //     ]);
-        // }
-        // else
-        // {
+        if ($request->ajax()) 
+        {
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data ini telah berhasil diubah.'
+            ]);
+        }
+        else
+        {
             return redirect(route('rpjmdkebijakan.show',['id'=>$rpjmdkebijakan->PrioritasKebijakanKabID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
-        // }
+        }
     }
 
      /**

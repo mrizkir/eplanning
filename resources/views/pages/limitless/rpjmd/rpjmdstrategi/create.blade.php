@@ -36,7 +36,7 @@
         <div class="panel-body">
             {!! Form::open(['action'=>'RPJMD\RPJMDStrategiController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
                 <div class="form-group">
-                    <label class="col-md-2 control-label">MISI :</label> 
+                    <label class="col-md-2 control-label">SASARAN RPJMD :</label> 
                     <div class="col-md-10">
                         <select name="PrioritasSasaranKabID" id="PrioritasSasaranKabID" class="select">
                             <option></option>

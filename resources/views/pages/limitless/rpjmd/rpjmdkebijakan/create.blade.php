@@ -38,8 +38,12 @@
                 <div class="form-group">
                     {{Form::label('PrioritasStrategiKabID','STRATEGI',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::select('PrioritasStrategiKabID', $rpjmd_strategi, '',['class'=>'form-control','id'=>'PrioritasStrategiKabID'])}}
-                        {{Form::hidden('Kode_Kebijakan','none',['id'=>'Kode_Kebijakan'])}}
+                        <select name="PrioritasStrategiKabID" id="PrioritasStrategiKabID" class="select">
+                            <option></option>
+                            @foreach ($daftar_strategi as $k=>$item)
+                                <option value="{{$k}}"">{{$item}}</option>
+                            @endforeach
+                        </select>  
                     </div>
                 </div>
                 <div class="form-group">
@@ -60,6 +64,11 @@
                         {{Form::textarea('Descr','',['class'=>'form-control','placeholder'=>'KETERANGAN','rows' => 2, 'cols' => 40])}}
                     </div>
                 </div>
+                <div class="form-group">            
+                    <div class="col-md-10 col-md-offset-2">                        
+                        {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}
+                    </div>
+                </div>
             {!! Form::close()!!}
         </div>
     </div>
@@ -68,13 +77,32 @@
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/autoNumeric.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
+    AutoNumeric.multiple(['#Kd_Kebijakan'], {
+                                        allowDecimalPadding: false,
+                                        minimumValue:0,
+                                        maximumValue:9999,
+                                        numericPos:true,
+                                        decimalPlaces : 0,
+                                        digitGroupSeparator : '',
+                                        showWarnings:false,
+                                        unformatOnSubmit: true,
+                                        modifyValueOnWheel:false
+                                    });
+    $('#PrioritasStrategiKabID.select').select2({
+        placeholder: "PILIH STRATEGI RPJMD",
+        allowClear:true
+    });
     $('#frmdata').validate({
+        ignore: [],
         rules: {
             PrioritasStrategiKabID : {
+                required: true,  
                 valueNotEquals : 'none'
             },
             Kd_Kebijakan : {
@@ -93,6 +121,7 @@ $(document).ready(function () {
         },
         messages : {
             PrioritasStrategiKabID : {
+                required: "Mohon dipilih Strategi RPJMD !",  
                 valueNotEquals: "Mohon dipilih Strategi RPJMD !"
             },
             Kd_Kebijakan : {
@@ -109,34 +138,8 @@ $(document).ready(function () {
                 minlength: "Mohon di isi minimal 5 karakter atau lebih."
             }
         }        
-    });   
-    $("#frmdata :input").not('[name=PrioritasStrategiKabID]').prop("disabled", true);
-    $(document).on('change','#PrioritasStrategiKabID',function(ev) {
-        ev.preventDefault();  
-        PrioritasStrategiKabID=$(this).val();
-        if (PrioritasStrategiKabID == 'none')
-        {
-            $("#frmdata :input").not('[name=PrioritasStrategiKabID]').prop("disabled", true);
-            $("#Kode_Kebijakan").val('none');  
-        }
-        else
-        {
-            $("#frmdata *").prop("disabled", false);
-            $.ajax({
-                type:'get',
-                url: '{{route('kelompokurusan.index')}}/getkodekelompokurusan/'+PrioritasStrategiKabID,
-                dataType: 'json',
-                success:function(result)
-                {          
-                    $("#Kode_Kebijakan").val(result.kodekelompokurusan);  
-                },
-                error:function(xhr, status, error)
-                {   
-                    console.log(parseMessageAjaxEror(xhr, status, error));                           
-                },
-            });            
-        }
-    });
+    });      
+   
 });
 </script>
 @endsection

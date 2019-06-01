@@ -34,13 +34,36 @@
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>['RPJMD\RpjmdKebijakanController@update',$data->rpjmdkebijakan_id],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
+            {!! Form::open(['action'=>['RPJMD\RPJMDKebijakanController@update',$data->PrioritasKebijakanKabID],'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
                 {{Form::hidden('_method','PUT')}}
                 <div class="form-group">
-                    {{Form::label('replaceit','replaceit',['class'=>'control-label col-md-2'])}}
+                    <label class="col-md-2 control-label">SASARAN RPJMD :</label> 
                     <div class="col-md-10">
-                        {{Form::text('replaceit',$data[''],['class'=>'form-control','placeholder'=>'replaceit'])}}
-                    </div>                
+                        <select name="PrioritasStrategiKabID" id="PrioritasStrategiKabID" class="select">
+                            <option></option>
+                            @foreach ($daftar_strategi as $k=>$item)
+                                <option value="{{$k}}""{{$k==$data->PrioritasStrategiKabID ?' selected':''}}>{{$item}}</option>
+                            @endforeach
+                        </select>                                
+                    </div>
+                </div>   
+                <div class="form-group">
+                    {{Form::label('Kd_Kebijakan','KODE STRATEGI',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('Kd_Kebijakan',$data->Kd_Kebijakan,['class'=>'form-control','placeholder'=>'Kode Kebijakan','maxlength'=>'4'])}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('Nm_Kebijakan','NAMA STRATEGI',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('Nm_Kebijakan',$data->Nm_Kebijakan,['class'=>'form-control','placeholder'=>'Nama Kebijakan'])}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::textarea('Descr',$data->Descr,['class'=>'form-control','placeholder'=>'KETERANGAN','rows' => 2, 'cols' => 40])}}
+                    </div>
                 </div>
                 <div class="form-group">            
                     <div class="col-md-10 col-md-offset-2">                        
@@ -55,24 +78,68 @@
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/autoNumeric.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
+    AutoNumeric.multiple(['#Kd_Kebijakan'], {
+                                        allowDecimalPadding: false,
+                                        minimumValue:0,
+                                        maximumValue:9999,
+                                        numericPos:true,
+                                        decimalPlaces : 0,
+                                        digitGroupSeparator : '',
+                                        showWarnings:false,
+                                        unformatOnSubmit: true,
+                                        modifyValueOnWheel:false
+                                    });
+    $('#PrioritasStrategiKabID.select').select2({
+        placeholder: "PILIH STRATEGI RPJMD",
+        allowClear:true
+    });
     $('#frmdata').validate({
+        ignore: [],
         rules: {
-            replaceit : {
+            PrioritasStrategiKabID : {
+                required: true,  
+                valueNotEquals : 'none'
+            },
+            Kd_Kebijakan : {
+                required: true,  
+                number: true,
+                maxlength: 4              
+            },
+            Kode_Kebijakan : {
+                required: true,  
+                valueNotEquals : 'none'           
+            },
+            Nm_Kebijakan : {
                 required: true,
-                minlength: 2
+                minlength: 5
             }
         },
         messages : {
-            replaceit : {
+            PrioritasStrategiKabID : {
+                required: "Mohon dipilih Strategi RPJMD !",  
+                valueNotEquals: "Mohon dipilih Strategi RPJMD !"
+            },
+            Kd_Kebijakan : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
-                minlength: "Mohon di isi minimal 2 karakter atau lebih."
+                number: "Mohon input dengan tipe data bilangan bulat",
+                maxlength: "Nilai untuk Kode Urusan maksimal 4 digit"
+            },
+            Kode_Kebijakan : {
+                required: "Mohon dipilih Strategi RPJMD !",
+                valueNotEquals: "Mohon dipilih Strategi RPJMD !"
+            },
+            Nm_Kebijakan : {
+                required: "Mohon untuk di isi karena ini diperlukan.",
+                minlength: "Mohon di isi minimal 5 karakter atau lebih."
             }
-        }     
-    });   
+        }        
+    });       
 });
 </script>
 @endsection
