@@ -31,7 +31,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">
-                            {{Form::select('cmbKriteria', ['Kd_Tujuan'=>'KODE','Nm_Tujuan'=>'NAMA'], isset($search['kriteria'])?$search['kriteria']:'Kd_Tujuan',['class'=>'form-control'])}}
+                            {{Form::select('cmbKriteria', ['Kd_Strategi'=>'KODE','Nm_Strategi'=>'NAMA'], isset($search['kriteria'])?$search['kriteria']:'Kd_Strategi',['class'=>'form-control'])}}
                         </div>
                     </div>
                     <div class="form-group" id="divKriteria">

@@ -30,8 +30,8 @@
                 {!! Form::open(['action'=>'RPJMD\RPJMDKebijakanController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
-                        <div class="col-md-10">
-                            {{Form::select('cmbKriteria', ['replaceit'=>'replaceit','nama'=>'replaceit'], isset($search['kriteria'])?$search['kriteria']:'replaceit',['class'=>'form-control'])}}
+                        <div class="col-md-10">                            
+                            {{Form::select('cmbKriteria', ['Kd_Kebijakan'=>'KODE','Nm_Kebijakan'=>'NAMA'], isset($search['kriteria'])?$search['kriteria']:'Kd_Kebijakan',['class'=>'form-control'])}}
                         </div>
                     </div>
                     <div class="form-group" id="divKriteria">

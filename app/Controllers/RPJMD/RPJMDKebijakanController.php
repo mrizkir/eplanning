@@ -45,11 +45,11 @@ class RPJMDKebijakanController extends Controller {
             $search=$this->getControllerStateSession('rpjmdkebijakan','search');
             switch ($search['kriteria']) 
             {
-                case 'replaceit' :
-                    $data = RPJMDKebijakanModel::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                case 'Kd_Kebijakan' :
+                    $data = RPJMDKebijakanModel::where(['Kd_Kebijakan'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
-                case 'replaceit' :
-                    $data = RPJMDKebijakanModel::where('replaceit', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                case 'Nm_Kebijakan' :
+                    $data = RPJMDKebijakanModel::where('Nm_Kebijakan', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
@@ -97,11 +97,14 @@ class RPJMDKebijakanController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'replace_it' :
-                $column_name = 'replace_it';
+            case 'col-Kd_Kebijakan' :
+                $column_name = 'Kd_Kebijakan';
+            break;           
+            case 'col-Nm_Kebijakan' :
+                $column_name = 'Nm_Kebijakan';
             break;           
             default :
-                $column_name = 'replace_it';
+                $column_name = 'Nm_Kebijakan';
         }
         $this->putControllerStateSession('rpjmdkebijakan','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 

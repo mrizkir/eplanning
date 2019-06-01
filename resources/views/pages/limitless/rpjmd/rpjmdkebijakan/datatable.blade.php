@@ -22,7 +22,7 @@
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
                     <th width="100">
-                        <a class="column-sort text-white" id="col-Kode_Kebijakan" data-order="{{$direction}}" href="#">
+                        <a class="column-sort text-white" id="col-Kd_Kebijakan" data-order="{{$direction}}" href="#">
                             KODE KEBIJAKAN  
                         </a>                                             
                     </th> 

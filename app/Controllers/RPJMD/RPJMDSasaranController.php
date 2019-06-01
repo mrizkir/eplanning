@@ -96,7 +96,10 @@ class RPJMDSasaranController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'Nm_Sasaran' :
+            case 'col-Kd_Sasaran' :
+                $column_name = 'Kd_Sasaran';
+            break;           
+            case 'col-Nm_Sasaran' :
                 $column_name = 'Nm_Sasaran';
             break;           
             default :

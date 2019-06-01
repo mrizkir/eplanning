@@ -1,3 +1,3 @@
 <small class="display-block">          
-    <code>info halaman</code>
+    <code>Digunakan untuk mengelola data Prioritas / Arah Kebijakan RPJMD</code>
 </small>
