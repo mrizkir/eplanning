@@ -207,8 +207,10 @@ class RPJMDIndikatorKinerjaController extends Controller {
     {        
         $theme = \Auth::user()->theme;
         $daftar_kebijakan = RPJMDKebijakanModel::getDaftarKebijakan(config('eplanning.tahun_perencanaan'),false);
+        $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusan(config('eplanning.tahun_perencanaan'),false);
         return view("pages.$theme.rpjmd.rpjmdindikatorkinerja.create")->with(['page_active'=>'rpjmdindikatorkinerja',
-                                                                                'daftar_kebijakan'=>$daftar_kebijakan
+                                                                                'daftar_kebijakan'=>$daftar_kebijakan,
+                                                                                'daftar_urusan'=>$daftar_urusan
                                                                             ]);  
     }
     

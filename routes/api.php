@@ -52,6 +52,9 @@ Route::group (['prefix'=>'v0'],function() {
     Route::resource('/master/program','API\v0\DMaster\ProgramController',['names'=>'api-v0-master-program',
                                                                     'parameters'=>['program'=>'uuid'],
                                                                     'only'=>['index','show']]);
+                                                                    
+    Route::get('/master/program/byurusan/{id}',['uses'=>'API\v0\DMaster\ProgramController@byurusan','as'=>'api-v0-master-program-byurusan']);
+
 
     Route::resource('/master/kegiatan','API\v0\DMaster\KegiatanController',['names'=>'api-v0-master-kegiatan',
                                                                     'parameters'=>['kegiatan'=>'uuid'],

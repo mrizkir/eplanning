@@ -93,4 +93,15 @@ class ProgramController extends Controller {
         
         return response()->json($data,200); 
     }   
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function byurusan ($id)
+    {
+        $data=ProgramModel::getDaftarProgram(config('eplanning.tahun_perencanaan'),false,$id);
+        return response()->json($data,200); 
+    }
 }
