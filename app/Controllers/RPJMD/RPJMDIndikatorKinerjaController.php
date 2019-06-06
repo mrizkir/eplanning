@@ -95,11 +95,11 @@ class RPJMDIndikatorKinerjaController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'replace_it' :
-                $column_name = 'replace_it';
+            case 'col-NamaIndikator' :
+                $column_name = 'NamaIndikator';
             break;           
             default :
-                $column_name = 'replace_it';
+                $column_name = 'NamaIndikator';
         }
         $this->putControllerStateSession('rpjmdindikatorkinerja','orderby',['column_name'=>$column_name,'order'=>$orderby]);      
 
@@ -174,6 +174,25 @@ class RPJMDIndikatorKinerjaController extends Controller {
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
     }
     /**
+     * filter resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function filter(Request $request) 
+    {        
+        $json_data = [];
+        //create
+        if ($request->exists('UrsID') && $request->exists('create') )
+        {
+            $UrsID = $request->input('UrsID')==''?'none':$request->input('UrsID');            
+            $daftar_program=\App\Models\DMaster\ProgramModel::getDaftarProgram(config('eplanning.tahun_perencanaan'),false,$UrsID);
+            $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false,$UrsID);
+            $json_data = ['success'=>true,'daftar_program'=>$daftar_program,'daftar_opd'=>$daftar_opd];
+        } 
+        return response()->json($json_data,200);  
+    }
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -223,11 +242,47 @@ class RPJMDIndikatorKinerjaController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'replaceit'=>'required',
+            'PrioritasKebijakanKabID'=>'required',
+            'UrsID'=>'required',
+            'PrgID'=>'required',
+            'NamaIndikator'=>'required',
+            'OrgID'=>'required',
+            'OrgID2'=>'required',
+            'TargetAwal'=>'required',
+            'PaguDanaN1'=>'required',
+            'PaguDanaN2'=>'required',
+            'PaguDanaN3'=>'required',
+            'PaguDanaN4'=>'required',
+            'PaguDanaN5'=>'required',
+            'TargetN1'=>'required',
+            'TargetN2'=>'required',
+            'TargetN3'=>'required',
+            'TargetN4'=>'required',
+            'TargetN5'=>'required'
         ]);
         
         $rpjmdindikatorkinerja = RPJMDIndikatorKinerjaModel::create([
-            'replaceit' => $request->input('replaceit'),
+            'IndikatorKinerjaID' => uniqid ('uid'),
+            'PrioritasKebijakanKabID' => $request->input('PrioritasKebijakanKabID'),
+            'UrsID' => $request->input('UrsID'),
+            'PrgID' => $request->input('PrgID'),
+            'NamaIndikator' => $request->input('NamaIndikator'),
+            'TA_N'=>config('eplanning.rpjmd_tahun_mulai'),
+            'OrgID' => $request->input('OrgID'),
+            'OrgID2' => $request->input('OrgID2'),
+            'TargetAwal' => $request->input('TargetAwal'),
+            'PaguDanaN1' => $request->input('PaguDanaN1'),
+            'PaguDanaN2' => $request->input('PaguDanaN2'),
+            'PaguDanaN3' => $request->input('PaguDanaN3'),
+            'PaguDanaN4' => $request->input('PaguDanaN4'),
+            'PaguDanaN5' => $request->input('PaguDanaN5'),
+            'TargetN1' => $request->input('TargetN1'),
+            'TargetN2' => $request->input('TargetN2'),
+            'TargetN3' => $request->input('TargetN3'),
+            'TargetN4' => $request->input('TargetN4'),
+            'TargetN5' => $request->input('TargetN5'),
+            'Descr' => $request->input('Descr'),
+            'TA' => config('eplanning.tahun_perencanaan')            
         ]);        
         
         if ($request->ajax()) 
@@ -239,7 +294,7 @@ class RPJMDIndikatorKinerjaController extends Controller {
         }
         else
         {
-            return redirect(route('rpjmdindikatorkinerja.show',['id'=>$rpjmdindikatorkinerja->replaceit]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rpjmdindikatorkinerja.show',['id'=>$rpjmdindikatorkinerja->IndikatorKinerjaID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -258,8 +313,8 @@ class RPJMDIndikatorKinerjaController extends Controller {
         if (!is_null($data) )  
         {
             return view("pages.$theme.rpjmd.rpjmdindikatorkinerja.show")->with(['page_active'=>'rpjmdindikatorkinerja',
-                                                    'data'=>$data
-                                                    ]);
+                                                                                'data'=>$data
+                                                                                ]);
         }        
     }
 
@@ -276,10 +331,14 @@ class RPJMDIndikatorKinerjaController extends Controller {
         $data = RPJMDIndikatorKinerjaModel::findOrFail($id);
         if (!is_null($data) ) 
         {
+            $daftar_kebijakan = RPJMDKebijakanModel::getDaftarKebijakan(config('eplanning.tahun_perencanaan'),false);
+            $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusan(config('eplanning.tahun_perencanaan'),false);
             return view("pages.$theme.rpjmd.rpjmdindikatorkinerja.edit")->with(['page_active'=>'rpjmdindikatorkinerja',
-                                                    'data'=>$data
-                                                    ]);
-        }        
+                                                                                'data'=>$data,
+                                                                                'daftar_kebijakan'=>$daftar_kebijakan,
+                                                                                'daftar_urusan'=>$daftar_urusan
+                                                                                ]);
+                                    }        
     }
 
     /**

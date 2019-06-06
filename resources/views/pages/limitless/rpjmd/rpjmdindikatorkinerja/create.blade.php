@@ -171,7 +171,7 @@
                     <div class="form-group">
                         {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
                         <div class="col-md-10">
-                            {{Form::textarea('Descr','',['class'=>'form-control','placeholder'=>'NAMA INDIKATOR','rows' => 2, 'cols' => 40])}}
+                            {{Form::textarea('Descr','',['class'=>'form-control','placeholder'=>'KETERANGAN','rows' => 2, 'cols' => 40])}}
                         </div>
                     </div>
                 </div>
@@ -197,6 +197,14 @@
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
+    AutoNumeric.multiple(['#PaguDanaN1','#PaguDanaN2','#PaguDanaN3','#PaguDanaN4','#PaguDanaN5'],{
+                                            allowDecimalPadding: false,
+                                            decimalCharacter: ",",
+                                            digitGroupSeparator: ".",
+                                            unformatOnSubmit: true,
+                                            showWarnings:false,
+                                            modifyValueOnWheel:false
+                                        });
     $('#PrioritasKebijakanKabID.select').select2({
         placeholder: "PILIH KEBIJAKAN RPJMD",
         allowClear:true
@@ -218,7 +226,158 @@ $(document).ready(function () {
         allowClear:true
     });
     $(document).on('change','#UrsID',function(ev) {
-        alert('test');
+        ev.preventDefault();   
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/filter',
+            dataType: 'json',
+            data: {              
+                "_token": token,  
+                "UrsID": $('#UrsID').val(),
+                "create":true
+            },
+            success:function(result)
+            { 
+                console.log(result);
+                var daftar_program = result.daftar_program;
+                var daftar_opd = result.daftar_opd;
+
+                var listitems='<option></option>';
+                $.each(daftar_program,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
+                $('#PrgID').html(listitems);
+
+                var listitems='<option></option>';
+                $.each(daftar_opd,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
+                $('#OrgID').html(listitems);
+                $('#OrgID2').html(listitems);
+
+
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    });
+    $('#frmdata').validate({
+        ignore:[],
+        rules: {
+            PrioritasKebijakanKabID : {
+                required: true
+            },  
+            UrsID : {
+                required: true
+            },
+            PrgID : {
+                required: true
+            },         
+            NamaIndikator : {
+                required: true,
+            },
+            OrgID : {
+                required: true
+            },
+            OrgID2 : {
+                required: true
+            },
+            PaguDanaN1 : {
+                required: true
+            },
+            PaguDanaN2 : {
+                required: true
+            },
+            PaguDanaN3 : {
+                required: true
+            },
+            PaguDanaN4 : {
+                required: true
+            },
+            PaguDanaN5 : {
+                required: true
+            },
+            TargetAwal : {
+                required: true,                
+            },
+            TargetN1 : {
+                required: true
+            },         
+            TargetN1 : {
+                required: true
+            },         
+            TargetN1 : {
+                required: true
+            },         
+            TargetN2 : {
+                required: true
+            },         
+            TargetN3 : {
+                required: true
+            },         
+            TargetN4 : {
+                required: true
+            },   
+            TargetN5 : {
+                required: true
+            }
+        },
+        messages : {
+            PrioritasKebijakanKabID : {
+                required: "Mohon untuk di pilih RPJMD Kebijakan untuk indiaktor ini."                
+            },            
+            UrsID : {
+                required: "Mohon untuk di pilih Urusan untuk indikator ini."                
+            },
+            PrgID : {
+                required: "Mohon untuk di pilih Program Pembangunan untuk indikator ini."             
+            },
+            NamaIndikator : {
+                required: "Mohon untuk di isi nama indikator."              
+            },
+            OrgID : {
+                required: "Mohon untuk di pilih OPD / SKPD untuk indikator ini."                
+            },
+            OrgID2 : {
+                required: "Mohon untuk di pilih OPD / SKPD untuk indikator ini."                
+            },
+            PaguDanaN1 : {
+                required: "Mohon untuk di isi pagu dana tahun N1."                
+            },
+            PaguDanaN2 : {
+                required: "Mohon untuk di isi pagu dana tahun N2."                    
+            },
+            PaguDanaN3 : {
+                required: "Mohon untuk di isi pagu dana tahun N3."                            
+            },
+            PaguDanaN4 : {
+                required: "Mohon untuk di isi pagu dana tahun N4."                                        
+            },
+            PaguDanaN5 : {
+                required: "Mohon untuk di isi pagu dana tahun N5."                                        
+            },
+            TargetAwal : {
+                required: "Mohon untuk di isi target awal RPJMD"                                      
+            },
+            TargetN1 : {
+                required: "Mohon untuk di isi target N1 RPJMD",                                       
+            },
+            TargetN2 : {
+                required: "Mohon untuk di isi target N2 RPJMD",                                                      
+            },
+            TargetN3 : {
+                required: "Mohon untuk di isi target N3 RPJMD",                                       
+            },
+            TargetN4 : {
+                required: "Mohon untuk di isi target N4 RPJMD",                                       
+            },
+            TargetN5 : {
+                required: "Mohon untuk di isi target N5 RPJMD",                                       
+            }          
+
+        }      
     });
 });
 </script>
