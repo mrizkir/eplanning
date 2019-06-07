@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Controllers\Renstra;
+namespace App\Controllers\RENSTRA;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
-use App\Models\Renstra\RenstraMisiModel;
+use App\Models\RENSTRA\RENSTRAMisiModel;
+use App\Rules\CheckRecordIsExistValidation;
+use App\Rules\IgnoreIfDataIsEqualValidation;
 
-class RenstraMisiController extends Controller {
+class RENSTRAMisiController extends Controller {
      /**
      * Membuat sebuah objek
      *
@@ -25,12 +27,12 @@ class RenstraMisiController extends Controller {
     public function populateData ($currentpage=1) 
     {        
         $columns=['*'];       
-        //if (!$this->checkStateIsExistSession('renstramisi','orderby')) 
-        //{            
-        //    $this->putControllerStateSession('renstramisi','orderby',['column_name'=>'replace_it','order'=>'asc']);
-        //}
-        //$column_order=$this->getControllerStateSession('renstramisi.orderby','column_name'); 
-        //$direction=$this->getControllerStateSession('renstramisi.orderby','order'); 
+        if (!$this->checkStateIsExistSession('renstramisi','Nm_PrioritasKab')) 
+        {            
+           $this->putControllerStateSession('renstramisi','orderby',['column_name'=>'Nm_PrioritasKab','order'=>'asc']);
+        }
+        $column_order=$this->getControllerStateSession('renstramisi.orderby','column_name'); 
+        $direction=$this->getControllerStateSession('renstramisi.orderby','order'); 
 
         if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
         {            
@@ -42,18 +44,18 @@ class RenstraMisiController extends Controller {
             $search=$this->getControllerStateSession('renstramisi','search');
             switch ($search['kriteria']) 
             {
-                case 'replaceit' :
-                    $data = RenstraMisiModel::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                case 'Kd_PrioritasKab' :
+                    $data = RENSTRAMisiModel::where(['Kd_PrioritasKab'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
-                case 'replaceit' :
-                    $data = RenstraMisiModel::where('replaceit', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                case 'Nm_PrioritasKab' :
+                    $data = RENSTRAMisiModel::where('Nm_PrioritasKab', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = RenstraMisiModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data = RENSTRAMisiModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('renstramisi.index'));
         return $data;
@@ -94,11 +96,11 @@ class RenstraMisiController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'replace_it' :
-                $column_name = 'replace_it';
+            case 'col-Nm_PrioritasKab' :
+                $column_name = 'Nm_PrioritasKab';
             break;           
             default :
-                $column_name = 'replace_it';
+                $column_name = 'Nm_PrioritasKab';
         }
         $this->putControllerStateSession('renstramisi','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
@@ -215,11 +217,19 @@ class RenstraMisiController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'replaceit'=>'required',
+            'Kd_PrioritasKab'=>[new CheckRecordIsExistValidation('tmPrioritasKab',['where'=>['TA','=',config('eplanning.tahun_perencanaan')]]),
+                        'required',
+                        'min:2'
+                    ],
+            'Nm_PrioritasKab'=>'required',
         ]);
         
-        $renstramisi = RenstraMisiModel::create([
-            'replaceit' => $request->input('replaceit'),
+        $renstramisi = RENSTRAMisiModel::create([
+            'PrioritasKabID'=> uniqid ('uid'),
+            'Kd_PrioritasKab' => $request->input('Kd_PrioritasKab'),
+            'Nm_PrioritasKab' => $request->input('Nm_PrioritasKab'),
+            'Descr' => $request->input('Descr'),
+            'TA' => config('eplanning.tahun_perencanaan')
         ]);        
         
         if ($request->ajax()) 
@@ -231,7 +241,7 @@ class RenstraMisiController extends Controller {
         }
         else
         {
-            return redirect(route('renstramisi.index'))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('renstramisi.show',['id'=>$renstramisi->PrioritasKabID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -246,12 +256,12 @@ class RenstraMisiController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = RenstraMisiModel::findOrFail($id);
+        $data = RENSTRAMisiModel::findOrFail($id);
         if (!is_null($data) )  
         {
             return view("pages.$theme.renstra.renstramisi.show")->with(['page_active'=>'renstramisi',
-                                                    'data'=>$data
-                                                    ]);
+                                                                    'data'=>$data
+                                                                ]);
         }        
     }
 
@@ -265,12 +275,12 @@ class RenstraMisiController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $data = RenstraMisiModel::findOrFail($id);
+        $data = RENSTRAMisiModel::findOrFail($id);
         if (!is_null($data) ) 
         {
             return view("pages.$theme.renstra.renstramisi.edit")->with(['page_active'=>'renstramisi',
-                                                    'data'=>$data
-                                                    ]);
+                                                                    'data'=>$data
+                                                                ]);
         }        
     }
 
@@ -283,13 +293,19 @@ class RenstraMisiController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $renstramisi = RenstraMisiModel::find($id);
+        $renstramisi = RENSTRAMisiModel::find($id);
         
         $this->validate($request, [
-            'replaceit'=>'required',
+            'Kd_PrioritasKab'=>[new IgnoreIfDataIsEqualValidation('tmPrioritasKab',$renstramisi->Kd_PK,['where'=>['TA','=',config('eplanning.tahun_perencanaan')]]),
+                        'required',
+                        'min:2'
+                    ],
+            'Nm_PrioritasKab'=>'required|min:2'
         ]);
         
-        $renstramisi->replaceit = $request->input('replaceit');
+        $renstramisi->Kd_PrioritasKab = $request->input('Kd_PrioritasKab');
+        $renstramisi->Nm_PrioritasKab = $request->input('Nm_PrioritasKab');
+        $renstramisi->Descr = $request->input('Descr');
         $renstramisi->save();
 
         if ($request->ajax()) 
@@ -301,7 +317,7 @@ class RenstraMisiController extends Controller {
         }
         else
         {
-            return redirect(route('renstramisi.index'))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('renstramisi.show',['id'=>$renstramisi->PrioritasKabID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 
@@ -315,7 +331,7 @@ class RenstraMisiController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $renstramisi = RenstraMisiModel::find($id);
+        $renstramisi = RENSTRAMisiModel::find($id);
         $result=$renstramisi->delete();
         if ($request->ajax()) 
         {

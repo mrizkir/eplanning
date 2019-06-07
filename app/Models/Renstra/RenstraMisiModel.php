@@ -1,38 +1,38 @@
 <?php
 
-namespace App\Models\Renstra;
+namespace App\Models\RENSTRA;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class RenstraMisiModel extends Model {
+class RENSTRAMisiModel extends Model {
     use LogsActivity;
      /**
      * nama tabel model ini.
      *
      * @var string
      */
-    protected $table = 'renstramisi';
+    protected $table = 'tmRenstraMisi';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'replace_it', 'replace_it'
+        'RenstraMisiID', 'RenstraVisiID', 'Kd_RenstraMisi', 'Nm_RenstraMisi', 'Descr', 'TA'
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'renstramisi_id';
+    protected $primaryKey = 'RenstraMisiID';
     /**
      * enable auto_increment.
      *
      * @var string
      */
-    public $incrementing = true;
+    public $incrementing = false;
     /**
      * activated timestamps.
      *
@@ -45,11 +45,11 @@ class RenstraMisiModel extends Model {
      *
      * @var string
      */
-    // protected static $logName = 'RenstraMisiController';
+    protected static $logName = 'RENSTRAMisiController';
     /**
      * log the changed attributes for all these events 
      */
-    // protected static $logAttributes = ['replace_it', 'replace_it'];
+    protected static $logAttributes = ['RenstraMisiID', 'Nm_RenstraMisi'];
     /**
      * log changes to all the $fillable attributes of the model
      */

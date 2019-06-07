@@ -11,6 +11,8 @@ return [
     //setting rpjmd
     'rpjmd_tahun_mulai'=>2016,
     'rpjmd_tahun_akhir'=>2021,
+    'renstra_tahun_mulai'=>2016,
+    'renstra_tahun_akhir'=>2021,
 
     /**
      * Saat mengekspor dan mingimpor file, e-Planning membutuhkan lokasi tempat penyimpanan sementara

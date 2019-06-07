@@ -1,18 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RENSTRAMISI
+    RENSTRA MISI TAHUN {{config('eplanning.renstra_tahun_mulai')}} - {{config('eplanning.renstra_tahun_akhir')}}
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold">
-        RENSTRAMISI TAHUN PERENCANAAN {{config('eplanning.tahun_perencanaan')}}  
+        RENSTRA MISI TAHUN {{config('eplanning.renstra_tahun_mulai')}} - {{config('eplanning.renstra_tahun_akhir')}}
     </span>
 @endsection
 @section('page_info')
     @include('pages.limitless.renstra.renstramisi.info')
 @endsection
 @section('page_breadcrumb')
-    <li class="active">RENSTRAMISI</li>
+    <li><a href="#">PERENCANAAN</a></li>
+    <li><a href="#">RENSTRA</a></li>
+    <li><a href="{!!route('renstramisi.index')!!}">MISI</a></li>
 @endsection
 @section('page_content')
 <div class="row">
@@ -25,11 +27,11 @@
                 </h5>
             </div>
             <div class="panel-body">
-                {!! Form::open(['action'=>'Renstra\RenstraMisiController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
+                {!! Form::open(['action'=>'RENSTRA\RENSTRAMisiController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">
-                            {{Form::select('cmbKriteria', ['replaceit'=>'replaceit','nama'=>'replaceit'], isset($search['kriteria'])?$search['kriteria']:'replaceit',['class'=>'form-control'])}}
+                            {{Form::select('cmbKriteria', ['Kd_PrioritasKab'=>'KODE MISI','Nm_PrioritasKab'=>'NAMA MISI'], isset($search['kriteria'])?$search['kriteria']:'Kd_PrioritasKab',['class'=>'form-control'])}}
                         </div>
                     </div>
                     <div class="form-group" id="divKriteria">
@@ -59,7 +61,7 @@
 <script type="text/javascript">
 $(document).ready(function () {  
     $("#divdatatable").on("click",".btnDelete", function(){
-        if (confirm('Apakah Anda ingin menghapus Data RenstraMisi ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data RENSTRA Misi ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             $.ajax({            
@@ -75,7 +77,7 @@ $(document).ready(function () {
                     if (result.success==1){
                         $('#divdatatable').html(result.datatable);                        
                     }else{
-                        console.log("Gagal menghapus data RenstraMisi dengan id "+id);
+                        console.log("Gagal menghapus data RENSTRA Misi dengan id "+id);
                     }                    
                 },
                 error:function(xhr, status, error){

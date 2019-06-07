@@ -45,7 +45,7 @@ class RPJMDMisiModel extends Model {
      *
      * @var string
      */
-    protected static $logName = 'RpjmdVisiController';
+    protected static $logName = 'RPJMDMisiController';
     /**
      * log the changed attributes for all these events 
      */
