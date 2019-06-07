@@ -309,13 +309,22 @@ class RPJMDIndikatorKinerjaController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = RPJMDIndikatorKinerjaModel::findOrFail($id);
+        $data = \DB::table('v_indikator_kinerja2')
+                    ->where('IndikatorKinerjaID',$id)
+                    ->first();
+
         if (!is_null($data) )  
         {
             return view("pages.$theme.rpjmd.rpjmdindikatorkinerja.show")->with(['page_active'=>'rpjmdindikatorkinerja',
                                                                                 'data'=>$data
                                                                                 ]);
-        }        
+        }
+        else
+        {
+            return view("pages.$theme.rpjmd.rpjmdindikatorkinerja.error")->with(['page_active'=>'rpjmdindikatorkinerja',
+                                                                                'errormessage'=>"ID Indikator Kinerja ($id) tidak ditemukan."
+                                                                                ]);
+        }
     }
 
     /**
@@ -333,10 +342,14 @@ class RPJMDIndikatorKinerjaController extends Controller {
         {
             $daftar_kebijakan = RPJMDKebijakanModel::getDaftarKebijakan(config('eplanning.tahun_perencanaan'),false);
             $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusan(config('eplanning.tahun_perencanaan'),false);
+            $daftar_program=\App\Models\DMaster\ProgramModel::getDaftarProgram(config('eplanning.tahun_perencanaan'),false,$data['UrsID']);
+            $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false,$data['UrsID']);
             return view("pages.$theme.rpjmd.rpjmdindikatorkinerja.edit")->with(['page_active'=>'rpjmdindikatorkinerja',
                                                                                 'data'=>$data,
                                                                                 'daftar_kebijakan'=>$daftar_kebijakan,
-                                                                                'daftar_urusan'=>$daftar_urusan
+                                                                                'daftar_urusan'=>$daftar_urusan,
+                                                                                'daftar_program'=>$daftar_program,
+                                                                                'daftar_opd'=>$daftar_opd
                                                                                 ]);
                                     }        
     }
@@ -353,10 +366,44 @@ class RPJMDIndikatorKinerjaController extends Controller {
         $rpjmdindikatorkinerja = RPJMDIndikatorKinerjaModel::find($id);
         
         $this->validate($request, [
-            'replaceit'=>'required',
+            'PrioritasKebijakanKabID'=>'required',
+            'UrsID'=>'required',
+            'PrgID'=>'required',
+            'NamaIndikator'=>'required',
+            'OrgID'=>'required',
+            'OrgID2'=>'required',
+            'TargetAwal'=>'required',
+            'PaguDanaN1'=>'required',
+            'PaguDanaN2'=>'required',
+            'PaguDanaN3'=>'required',
+            'PaguDanaN4'=>'required',
+            'PaguDanaN5'=>'required',
+            'TargetN1'=>'required',
+            'TargetN2'=>'required',
+            'TargetN3'=>'required',
+            'TargetN4'=>'required',
+            'TargetN5'=>'required'
         ]);
         
-        $rpjmdindikatorkinerja->replaceit = $request->input('replaceit');
+        $rpjmdindikatorkinerja->PrioritasKebijakanKabID = $request->input('PrioritasKebijakanKabID');
+        $rpjmdindikatorkinerja->UrsID = $request->input('UrsID');
+        $rpjmdindikatorkinerja->PrgID = $request->input('PrgID');
+        $rpjmdindikatorkinerja->NamaIndikator = $request->input('NamaIndikator');
+        $rpjmdindikatorkinerja->TargetAwal = $request->input('TargetAwal');
+        $rpjmdindikatorkinerja->OrgID = $request->input('OrgID');
+        $rpjmdindikatorkinerja->OrgID2 = $request->input('OrgID2');
+        $rpjmdindikatorkinerja->PaguDanaN1 = $request->input('PaguDanaN1');
+        $rpjmdindikatorkinerja->PaguDanaN2 = $request->input('PaguDanaN2');
+        $rpjmdindikatorkinerja->PaguDanaN3 = $request->input('PaguDanaN3');
+        $rpjmdindikatorkinerja->PaguDanaN4 = $request->input('PaguDanaN4');
+        $rpjmdindikatorkinerja->PaguDanaN5 = $request->input('PaguDanaN5');
+        $rpjmdindikatorkinerja->TargetN1 = $request->input('TargetN1');
+        $rpjmdindikatorkinerja->TargetN2 = $request->input('TargetN2');
+        $rpjmdindikatorkinerja->TargetN3 = $request->input('TargetN3');
+        $rpjmdindikatorkinerja->TargetN4 = $request->input('TargetN4');
+        $rpjmdindikatorkinerja->TargetN5 = $request->input('TargetN5');
+        $rpjmdindikatorkinerja->Descr = $request->input('Descr');
+
         $rpjmdindikatorkinerja->save();
 
         if ($request->ajax()) 
@@ -368,7 +415,7 @@ class RPJMDIndikatorKinerjaController extends Controller {
         }
         else
         {
-            return redirect(route('rpjmdindikatorkinerja.show',['id'=>$rpjmdindikatorkinerja->replaceit]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rpjmdindikatorkinerja.show',['id'=>$id]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
 

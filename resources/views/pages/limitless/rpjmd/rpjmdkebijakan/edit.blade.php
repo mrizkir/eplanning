@@ -42,7 +42,7 @@
                         <select name="PrioritasStrategiKabID" id="PrioritasStrategiKabID" class="select">
                             <option></option>
                             @foreach ($daftar_strategi as $k=>$item)
-                                <option value="{{$k}}""{{$k==$data->PrioritasStrategiKabID ?' selected':''}}>{{$item}}</option>
+                                <option value="{{$k}}"{{$k==$data->PrioritasStrategiKabID ?' selected':''}}>{{$item}}</option>
                             @endforeach
                         </select>                                
                     </div>

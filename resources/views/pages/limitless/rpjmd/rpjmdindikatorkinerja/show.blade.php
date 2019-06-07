@@ -28,10 +28,10 @@
                     <a href="{!!route('rpjmdindikatorkinerja.create')!!}" class="btn btn-info btn-icon heading-btn btnAdd" title="Tambah Indikasi">
                         <i class="icon-googleplus5"></i>
                     </a>
-                    <a href="{{route('rpjmdindikatorkinerja.edit',['id'=>$data->rpjmdindikatorkinerja_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RpjmdIndikatorKinerja">
+                    <a href="{{route('rpjmdindikatorkinerja.edit',['id'=>$data->IndikatorKinerjaID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RpjmdIndikatorKinerja">
                         <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data RpjmdIndikatorKinerja" data-id="{{$data->rpjmdindikatorkinerja_id}}" data-url="{{route('rpjmdindikatorkinerja.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
+                    <a href="javascript:;" title="Hapus Data RpjmdIndikatorKinerja" data-id="{{$data->IndikatorKinerjaID}}" data-url="{{route('rpjmdindikatorkinerja.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
                     </a>
                     <a href="{!!route('rpjmdindikatorkinerja.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
@@ -44,25 +44,97 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>rpjmdindikatorkinerja id: </strong></label>
+                                <label class="col-md-4 control-label"><strong>IndikatorKinerjaID: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->rpjmdindikatorkinerja_id}}</p>
+                                    <p class="form-control-static">{{$data->IndikatorKinerjaID}}</p>
                                 </div>                            
                             </div>                            
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
+                                <label class="col-md-4 control-label"><strong>NAMA INDIKATOR: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}}</p>
+                                    <p class="form-control-static">{{$data->NamaIndikator}}</p>
                                 </div>                            
-                            </div>
+                            </div>                            
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>KEBIJAKAN: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->Nm_Kebijakan}}</p>
+                                </div>                            
+                            </div>                            
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>KELOMPOK URUSAN: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->Nm_Urusan}}</p>
+                                </div>                            
+                            </div>                            
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>URUSAN: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->Nm_Bidang}}</p>
+                                </div>                            
+                            </div> 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>PROGRAM: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->PrgNm}}</p>
+                                </div>                            
+                            </div>                           
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>OPD / SKPD 1: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->OrgNm}}</p>
+                                </div>                            
+                            </div>  
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>OPD / SKPD 2: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->OrgNm2}}</p>
+                                </div>                            
+                            </div>  
                         </div>                        
                     </div>
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>replaceit: </strong></label>
+                                <label class="col-md-4 control-label"><strong>TARGET AWAL: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">replaceit</p>
+                                    <p class="form-control-static">{{$data->TargetAwal}}</p>
+                                </div>                            
+                            </div>    
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>PAGU DANA / TARGET N1: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{Helper::formatUang($data->PaguDanaN1)}} / {{$data->TargetN1}}</p>
+                                </div>                            
+                            </div>    
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>PAGU DANA / TARGET N1: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{Helper::formatUang($data->PaguDanaN1)}} / {{$data->TargetN1}}</p>
+                                </div>                            
+                            </div>    
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>PAGU DANA / TARGET N2: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{Helper::formatUang($data->PaguDanaN2)}} / {{$data->TargetN2}}</p>
+                                </div>                            
+                            </div>    
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>PAGU DANA / TARGET N3: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{Helper::formatUang($data->PaguDanaN3)}} / {{$data->TargetN3}}</p>
+                                </div>                            
+                            </div>    
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>PAGU DANA / TARGET N4: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{Helper::formatUang($data->PaguDanaN4)}} / {{$data->TargetN4}}</p>
+                                </div>                            
+                            </div>    
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>PAGU DANA / TARGET N5: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{Helper::formatUang($data->PaguDanaN5)}} / {{$data->TargetN5}}</p>
                                 </div>                            
                             </div>    
                             <div class="form-group">
@@ -70,7 +142,13 @@
                                 <div class="col-md-8">
                                     <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->updated_at)}}</p>
                                 </div>                            
-                            </div>                         
+                            </div>              
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}}</p>
+                                </div>                            
+                            </div>          
                         </div>
                     </div>
                 </div>
@@ -83,7 +161,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
     $(".btnDelete").click(function(ev) {
-        if (confirm('Apakah Anda ingin menghapus Data RpjmdIndikatorKinerja ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data Indikasi Rencana Program ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             let token = $('meta[name="csrf-token"]').attr('content');

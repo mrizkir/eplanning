@@ -1,3 +1,13 @@
+let format_uang_options = {
+    formatOnPageLoad: true,
+    allowDecimalPadding: false,
+    decimalCharacter: ",",
+    digitGroupSeparator: ".",
+    unformatOnSubmit: true,
+    showWarnings:false,
+    modifyValueOnWheel:false
+}
+
 function checkExistsID(id) {
     var status = false;
     if ($(id).length) status = true;
