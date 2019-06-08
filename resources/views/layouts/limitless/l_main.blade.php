@@ -197,29 +197,34 @@
                             <div class="col-md-3">
                                 <span class="menu-heading underlined"><i class="icon-strategy"></i> RENSTRA OPD / SKPD</span>
                                 <ul class="menu-list">
+                                    <li{!!Helper::isMenuActive ($page_active,'renstravisi',' class="active"')!!}>
+                                        <a href="{{route('renstravisi.index')}}">
+                                            <i class="icon-strategy"></i> VISI <span class="text-violet"><strong>[1]</strong></span>
+                                        </a>
+                                    </li>     
                                     <li{!!Helper::isMenuActive ($page_active,'renstramisi',' class="active"')!!}>
                                         <a href="{{route('renstramisi.index')}}">
-                                            <i class="icon-strategy"></i> MISI <span class="text-violet"><strong>[1]</strong></span>
+                                            <i class="icon-strategy"></i> MISI <span class="text-violet"><strong>[2]</strong></span>
                                         </a>
                                     </li>     
                                     <li{!!Helper::isMenuActive ($page_active,'renstratujuan',' class="active"')!!}>
                                         <a href="{{route('renstratujuan.index')}}">
-                                            <i class="icon-strategy"></i> TUJUAN <span class="text-violet"><strong>[2]</strong></span>
+                                            <i class="icon-strategy"></i> TUJUAN <span class="text-violet"><strong>[3]</strong></span>
                                         </a>
                                     </li>  
                                     <li{!!Helper::isMenuActive ($page_active,'renstrasasaran',' class="active"')!!}>
                                         <a href="{{route('renstrasasaran.index')}}">
-                                            <i class="icon-strategy"></i> SASARAN <span class="text-violet"><strong>[3]</strong></span>
+                                            <i class="icon-strategy"></i> SASARAN <span class="text-violet"><strong>[4]</strong></span>
                                         </a>
                                     </li>   
                                     <li{!!Helper::isMenuActive ($page_active,'renstrastrategi',' class="active"')!!}>
                                         <a href="{{route('renstrastrategi.index')}}">
-                                            <i class="icon-strategy"></i> STRATEGI <span class="text-violet"><strong>[4]</strong></span>
+                                            <i class="icon-strategy"></i> STRATEGI <span class="text-violet"><strong>[5]</strong></span>
                                         </a>
                                     </li>           
                                     <li{!!Helper::isMenuActive ($page_active,'renstrakebijakan',' class="active"')!!}>
                                         <a href="{{route('renstrakebijakan.index')}}">
-                                            <i class="icon-strategy"></i> PRIORITAS / ARAH KEBIJAKAN <span class="text-violet"><strong>[5]</strong></span>
+                                            <i class="icon-strategy"></i> PRIORITAS / ARAH KEBIJAKAN <span class="text-violet"><strong>[6]</strong></span>
                                         </a>
                                     </li>
                                 </ul>

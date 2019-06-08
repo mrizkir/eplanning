@@ -19,7 +19,7 @@ class RENSTRAMisiModel extends Model {
      * @var array
      */
     protected $fillable = [
-        'RenstraMisiID', 'RenstraVisiID', 'Kd_RenstraMisi', 'Nm_RenstraMisi', 'Descr', 'TA'
+        'RenstraMisiID', 'RenstraVisiID', 'Kd_RenstraMisi', 'OrgID', 'Nm_RenstraMisi', 'Descr', 'TA'
     ];
     /**
      * primary key tabel ini.

@@ -130,16 +130,18 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::get('/perencanaan/rpjmd/rpjmdindikatorkinerja/paginate/{id}',['uses'=>'RPJMD\RPJMDIndikatorKinerjaController@paginate','as'=>'rpjmdindikatorkinerja.paginate']);              
     Route::post('/perencanaan/rpjmd/rpjmdindikatorkinerja/changenumberrecordperpage',['uses'=>'RPJMD\RPJMDIndikatorKinerjaController@changenumberrecordperpage','as'=>'rpjmdindikatorkinerja.changenumberrecordperpage']);  
     Route::post('/perencanaan/rpjmd/rpjmdindikatorkinerja/orderby',['uses'=>'RPJMD\RPJMDIndikatorKinerjaController@orderby','as'=>'rpjmdindikatorkinerja.orderby']);
-    
+   
     //RENSTRA - Visi
     Route::resource('/perencanaan/renstra/renstravisi','RENSTRA\RENSTRAVisiController',['parameters'=>['renstravisi'=>'uuid']]); 
+    Route::post('/perencanaan/renstra/renstravisi/filter',['uses'=>'RENSTRA\RENSTRAVisiController@filter','as'=>'renstravisi.filter']);   
     Route::post('/perencanaan/renstra/renstravisi/search',['uses'=>'RENSTRA\RENSTRAVisiController@search','as'=>'renstravisi.search']); 
     Route::get('/perencanaan/renstra/renstravisi/paginate/{id}',['uses'=>'RENSTRA\RENSTRAVisiController@paginate','as'=>'renstravisi.paginate']);              
     Route::post('/perencanaan/renstra/renstravisi/changenumberrecordperpage',['uses'=>'RENSTRA\RENSTRAVisiController@changenumberrecordperpage','as'=>'renstravisi.changenumberrecordperpage']);  
     Route::post('/perencanaan/renstra/renstravisi/orderby',['uses'=>'RENSTRA\RENSTRAVisiController@orderby','as'=>'renstravisi.orderby']); 
-
+   
     //RENSTRA - Misi
     Route::resource('/perencanaan/renstra/renstramisi','RENSTRA\RENSTRAMisiController',['parameters'=>['renstramisi'=>'uuid']]); 
+    Route::post('/perencanaan/renstra/renstramisi/filter',['uses'=>'RENSTRA\RENSTRAMisiController@filter','as'=>'renstramisi.filter']);   
     Route::post('/perencanaan/renstra/renstramisi/search',['uses'=>'RENSTRA\RENSTRAMisiController@search','as'=>'renstramisi.search']); 
     Route::get('/perencanaan/renstra/renstramisi/paginate/{id}',['uses'=>'RENSTRA\RENSTRAMisiController@paginate','as'=>'renstramisi.paginate']);              
     Route::post('/perencanaan/renstra/renstramisi/changenumberrecordperpage',['uses'=>'RENSTRA\RENSTRAMisiController@changenumberrecordperpage','as'=>'renstramisi.changenumberrecordperpage']);  

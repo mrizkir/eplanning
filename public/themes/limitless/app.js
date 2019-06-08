@@ -8,6 +8,19 @@ let format_uang_options = {
     modifyValueOnWheel:false
 }
 
+let format_angkat_options = {
+    allowDecimalPadding: false,
+    formatOnPageLoad: true,
+    minimumValue:0,
+    maximumValue:9999,
+    numericPos:true,
+    decimalPlaces : 0,
+    digitGroupSeparator : '',
+    showWarnings:false,
+    unformatOnSubmit: true,
+    modifyValueOnWheel:false
+}
+
 function checkExistsID(id) {
     var status = false;
     if ($(id).length) status = true;

@@ -19,7 +19,7 @@ class RENSTRAStrategiModel extends Model {
      * @var array
      */
     protected $fillable = [
-        'PrioritasStrategiKabID', 'PrioritasSasaranKabID', 'Kd_Strategi', 'Nm_Strategi', 'Descr', 'TA','PrioritasStrategiKabID_Src'
+        'PrioritasStrategiKabID', 'PrioritasSasaranKabID', 'OrgID', 'Kd_Strategi', 'Nm_Strategi', 'Descr', 'TA','PrioritasStrategiKabID_Src'
     ];
     /**
      * primary key tabel ini.

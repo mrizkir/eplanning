@@ -1,19 +1,20 @@
 <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
     <div class="panel-heading">
         <div class="panel-title">
-            <div class="row">
-                <div class="col-md-1">                    		
-					{!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control'])!!}                        
-                </div>
-            </div>
+            <h6 class="panel-title">&nbsp;</h6>
         </div>
         <div class="heading-elements">
-            <div class="heading-btn">
-                <a href="{!!route('renstravisi.create')!!}" class="btn btn-info btn-xs" title="Tambah RENSTRAVISI">
-                    <i class="icon-googleplus5"></i>
-                </a>
-            </div>            
-        </div>
+            {!! Form::open(['url'=>'#','method'=>'post','class'=>'heading-form','id'=>'frmheading','name'=>'frmheading'])!!} 
+                <div class="form-group">
+                    {!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control','style'=>'width:70px'])!!}                        
+                </div> 
+                <div class="form-group">
+                    <a href="{!!route('renstravisi.create')!!}" class="btn btn-info btn-xs" title="Tambah RENSTRA Visi">
+                        <i class="icon-googleplus5"></i>
+                    </a>
+                </div> 
+            {!! Form::close()!!}
+        </div>       
     </div>
     @if (count($data) > 0)
     <div class="table-responsive"> 
@@ -21,9 +22,14 @@
             <thead>
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
-                    <th width="100">
-                        <a class="column-sort text-white" id="col-replace_it" data-order="{{$direction}}" href="#">
-                            replace_it  
+                    <th width="200">
+                        <a class="column-sort text-white" id="col-Kd_RenstraVisi" data-order="{{$direction}}" href="#">
+                            KODE VISI 
+                        </a>                                             
+                    </th> 
+                    <th>
+                        <a class="column-sort text-white" id="col-Nm_RenstraVisi" data-order="{{$direction}}" href="#">
+                            NAMA VISI  
                         </a>                                             
                     </th> 
                     <th width="100">AKSI</th>
@@ -35,21 +41,22 @@
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>                  
-                    <td>{{$item->replace_it}}</td>
+                    <td>{{$item->Kd_RenstraVisi}}</td>
+                    <td>{{$item->Nm_RenstraVisi}}</td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('renstravisi.show',['id'=>$item->renstravisi_id])}}" title="Detail Data RpjmdVisi">
+                                <a class="btnShow" href="{{route('renstravisi.show',['id'=>$item->RenstraVisiID])}}" title="Detail Data RENSTRA Visi">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('renstravisi.edit',['id'=>$item->renstravisi_id])}}" title="Ubah Data RpjmdVisi">
+                                <a class="btnEdit" href="{{route('renstravisi.edit',['id'=>$item->RenstraVisiID])}}" title="Ubah Data RENSTRA Visi">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data RpjmdVisi" data-id="{{$item->renstravisi_id}}" data-url="{{route('renstravisi.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data RENSTRA Visi" data-id="{{$item->RenstraVisiID}}" data-url="{{route('renstravisi.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>

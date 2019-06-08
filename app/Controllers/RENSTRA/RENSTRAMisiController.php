@@ -44,11 +44,10 @@ class RENSTRAMisiController extends Controller {
         if (!$this->checkStateIsExistSession('renstramisi','filters')) 
         {            
             $this->putControllerStateSession('renstramisi','filters',[
-                                                                    'OrgID'=>'none',
-                                                                    'SOrgID'=>'none',
+                                                                    'OrgID'=>'none'
                                                                     ]);
         }        
-        $SOrgID= $this->getControllerStateSession(\Helper::getNameOfPage('filters'),'SOrgID');        
+        $OrgID= $this->getControllerStateSession(\Helper::getNameOfPage('filters'),'OrgID');        
 
         if ($this->checkStateIsExistSession('renstramisi','search')) 
         {
@@ -56,17 +55,23 @@ class RENSTRAMisiController extends Controller {
             switch ($search['kriteria']) 
             {
                 case 'Kd_RenstraMisi' :
-                    $data = RENSTRAMisiModel::where(['Kd_RenstraMisi'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                    $data = RENSTRAMisiModel::where('OrgID',$OrgID)
+                                            ->where(['Kd_RenstraMisi'=>$search['isikriteria']])
+                                            ->orderBy($column_order,$direction); 
                 break;
                 case 'Nm_RenstraMisi' :
-                    $data = RENSTRAMisiModel::where('Nm_RenstraMisi', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = RENSTRAMisiModel::where('OrgID',$OrgID)
+                                            ->where('Nm_RenstraMisi', 'ilike', '%' . $search['isikriteria'] . '%')
+                                            ->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = RENSTRAMisiModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data = RENSTRAMisiModel::where('OrgID',$OrgID)
+                                    ->orderBy($column_order,$direction)
+                                    ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('renstramisi.index'));
         return $data;
@@ -181,6 +186,42 @@ class RENSTRAMisiController extends Controller {
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
     }
     /**
+     * filter resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function filter(Request $request) 
+    {
+        $auth = \Auth::user();    
+        $theme = $auth->theme;
+
+        $filters=$this->getControllerStateSession('renstramisi','filters');
+        $daftar_unitkerja=[];
+        $json_data = [];
+
+        //index
+        if ($request->exists('OrgID'))
+        {
+            $OrgID = $request->input('OrgID')==''?'none':$request->input('OrgID');
+            $filters['OrgID']=$OrgID;            
+            $this->putControllerStateSession('renstramisi','filters',$filters);
+            
+            $data = $this->populateData();
+
+            $datatable = view("pages.$theme.renstra.renstramisi.datatable")->with(['page_active'=>'renstramisi',                                                                               
+                                                                            'search'=>$this->getControllerStateSession('renstramisi','search'),
+                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                            'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                                            'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
+                                                                            'data'=>$data])->render();
+
+            
+            $json_data = ['success'=>true,'datatable'=>$datatable];
+        } 
+        return response()->json($json_data,200);
+    }
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -217,10 +258,19 @@ class RENSTRAMisiController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-
-        return view("pages.$theme.renstra.renstramisi.create")->with(['page_active'=>'renstramisi',
-                                                                    
-                                                ]);  
+        $filters=$this->getControllerStateSession('renstramisi','filters');       
+        if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
+        {
+            return view("pages.$theme.renstra.renstramisi.create")->with(['page_active'=>'renstramisi',
+                                                                        
+                                                    ]);  
+        }
+        else
+        {
+            return view("pages.$theme.renstra.renstramisi.error")->with(['page_active'=>'renstramisi',
+                                                                    'errormessage'=>'Mohon OPD / SKPD untuk di pilih terlebih dahulu.'
+                                                                ]);  
+        }
     }
     
     /**

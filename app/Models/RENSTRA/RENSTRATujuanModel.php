@@ -19,7 +19,7 @@ class RENSTRATujuanModel extends Model {
      * @var array
      */
     protected $fillable = [
-        'PrioritasTujuanKabID', 'PrioritasKabID', 'Kd_Tujuan', 'Nm_Tujuan', 'Descr', 'TA'
+        'PrioritasTujuanKabID', 'PrioritasKabID', 'OrgID', 'Kd_Tujuan', 'Nm_Tujuan', 'Descr', 'TA'
     ];
     /**
      * primary key tabel ini.

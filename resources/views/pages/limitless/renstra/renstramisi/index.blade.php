@@ -95,6 +95,26 @@ $(document).ready(function () {
         placeholder: "PILIH OPD / SKPD",
         allowClear:true
     }); 
+    $(document).on('change','#OrgID',function(ev) {
+        ev.preventDefault();   
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/filter',
+            dataType: 'json',
+            data: {                
+                "_token": token,
+                "OrgID": $('#OrgID').val(),
+            },
+            success:function(result)
+            { 
+                $('#divdatatable').html(result.datatable);
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });     
+    });
     $("#divdatatable").on("click",".btnDelete", function(){
         if (confirm('Apakah Anda ingin menghapus Data RENSTRA Misi ini ?')) {
             let url_ = $(this).attr("data-url");
