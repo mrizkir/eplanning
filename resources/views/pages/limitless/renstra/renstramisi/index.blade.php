@@ -1,23 +1,50 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RPJMD MISI TAHUN {{config('eplanning.rpjmd_tahun_mulai')}} - {{config('eplanning.rpjmd_tahun_akhir')}}
+    RENSTRA MISI TAHUN {{config('eplanning.renstra_tahun_mulai')}} - {{config('eplanning.renstra_tahun_akhir')}}
 @endsection
 @section('page_header')
-    <i class="icon-price-tag position-left"></i>
+    <i class="icon-strategy position-left"></i>
     <span class="text-semibold">
-        RPJMD MISI TAHUN {{config('eplanning.rpjmd_tahun_mulai')}} - {{config('eplanning.rpjmd_tahun_akhir')}}
+        RENSTRA MISI TAHUN {{config('eplanning.renstra_tahun_mulai')}} - {{config('eplanning.renstra_tahun_akhir')}}
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.rpjmd.rpjmdmisi.info')
+    @include('pages.limitless.renstra.renstramisi.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">PERENCANAAN</a></li>
-    <li><a href="#">RPJMD</a></li>
-    <li><a href="{!!route('rpjmdmisi.index')!!}">MISI</a></li>
+    <li><a href="#">RENSTRA</a></li>
+    <li><a href="{!!route('renstramisi.index')!!}">MISI</a></li>
 @endsection
 @section('page_content')
 <div class="row">
+    <div class="col-md-12" id="divfilter">
+        <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
+            <div class="panel-heading">
+                <h5 class="panel-title"><i class="icon-bookmark2 position-left"></i> Filter Data</h5>
+                <div class="heading-elements">                       
+                    <ul class="icons-list">
+                        <li><a data-action="collapse"></a></li> 
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">OPD / SKPD :</label> 
+                        <div class="col-md-10">
+                            <select name="OrgID" id="OrgID" class="select">
+                                <option></option>
+                                @foreach ($daftar_opd as $k=>$item)
+                                    <option value="{{$k}}"{{$k==$filters['OrgID']?' selected':''}}>{{$item}}</option>
+                                @endforeach
+                            </select>                              
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="col-md-12">
         <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
             <div class="panel-heading">
@@ -27,7 +54,7 @@
                 </h5>
             </div>
             <div class="panel-body">
-                {!! Form::open(['action'=>'RPJMD\RPJMDMisiController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
+                {!! Form::open(['action'=>'RENSTRA\RENSTRAMisiController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">
@@ -53,15 +80,23 @@
         </div>
     </div>       
     <div class="col-md-12" id="divdatatable">
-        @include('pages.limitless.rpjmd.rpjmdmisi.datatable')
+        @include('pages.limitless.renstra.renstramisi.datatable')
     </div>
 </div>
+@endsection
+@section('page_asset_js')
+<script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {  
+    //styling select
+    $('#OrgID.select').select2({
+        placeholder: "PILIH OPD / SKPD",
+        allowClear:true
+    }); 
     $("#divdatatable").on("click",".btnDelete", function(){
-        if (confirm('Apakah Anda ingin menghapus Data RPJMD Misi ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data RENSTRA Misi ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             $.ajax({            
@@ -77,7 +112,7 @@ $(document).ready(function () {
                     if (result.success==1){
                         $('#divdatatable').html(result.datatable);                        
                     }else{
-                        console.log("Gagal menghapus data RPJMD Misi dengan id "+id);
+                        console.log("Gagal menghapus data RENSTRA Misi dengan id "+id);
                     }                    
                 },
                 error:function(xhr, status, error){

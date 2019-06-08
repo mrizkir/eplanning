@@ -1,20 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RPJMD PRIORITAS / ARAH KEBIJAKAN TAHUN {{config('eplanning.rpjmd_tahun_mulai')}} - {{config('eplanning.rpjmd_tahun_akhir')}}
+    RENSTRA PRIORITAS / ARAH KEBIJAKAN TAHUN {{config('eplanning.renstra_tahun_mulai')}} - {{config('eplanning.renstra_tahun_akhir')}}
 @endsection
 @section('page_header')
-    <i class="icon-price-tag position-left"></i>
+    <i class="icon-strategy position-left"></i>
     <span class="text-semibold">
-        RPJMD PRIORITAS / ARAH KEBIJAKAN TAHUN {{config('eplanning.rpjmd_tahun_mulai')}} - {{config('eplanning.rpjmd_tahun_akhir')}}
+        RENSTRA PRIORITAS / ARAH KEBIJAKAN TAHUN {{config('eplanning.renstra_tahun_mulai')}} - {{config('eplanning.renstra_tahun_akhir')}}
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.rpjmd.rpjmdkebijakan.info')
+    @include('pages.limitless.renstra.renstrakebijakan.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">PERENCANAAN</a></li>
-    <li><a href="#">RPJMD</a></li>
-    <li><a href="{!!route('rpjmdkebijakan.index')!!}">PRIORITAS / ARAH KEBIJAKAN</a></li>
+    <li><a href="#">RENSTRA</a></li>
+    <li><a href="{!!route('renstrakebijakan.index')!!}">PRIORITAS / ARAH KEBIJAKAN</a></li>
 @endsection
 @section('page_content')
 <div class="row">
@@ -27,7 +27,7 @@
                 </h5>
             </div>
             <div class="panel-body">
-                {!! Form::open(['action'=>'RPJMD\RPJMDKebijakanController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
+                {!! Form::open(['action'=>'RENSTRA\RENSTRAKebijakanController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">                            
@@ -53,7 +53,7 @@
         </div>
     </div>       
     <div class="col-md-12" id="divdatatable">
-        @include('pages.limitless.rpjmd.rpjmdkebijakan.datatable')
+        @include('pages.limitless.renstra.renstrakebijakan.datatable')
     </div>
 </div>
 @endsection
@@ -61,7 +61,7 @@
 <script type="text/javascript">
 $(document).ready(function () {  
     $("#divdatatable").on("click",".btnDelete", function(){
-        if (confirm('Apakah Anda ingin menghapus Data RPJMD Kebijakan ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data RENSTRA Kebijakan ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             $.ajax({            
@@ -77,7 +77,7 @@ $(document).ready(function () {
                     if (result.success==1){
                         $('#divdatatable').html(result.datatable);                        
                     }else{
-                        console.log("Gagal menghapus data RPJMD Kebijakan dengan id "+id);
+                        console.log("Gagal menghapus data RENSTRA Kebijakan dengan id "+id);
                     }                    
                 },
                 error:function(xhr, status, error){

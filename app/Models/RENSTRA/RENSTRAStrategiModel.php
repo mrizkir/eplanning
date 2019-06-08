@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models\RPJMD;
+namespace App\Models\RENSTRA;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class RPJMDStrategiModel extends Model {
+class RENSTRAStrategiModel extends Model {
     use LogsActivity;
      /**
      * nama tabel model ini.
@@ -45,7 +45,7 @@ class RPJMDStrategiModel extends Model {
      *
      * @var string
      */
-    protected static $logName = 'RPJMDStrategiController';
+    protected static $logName = 'RENSTRAStrategiController';
     /**
      * log the changed attributes for all these events 
      */
@@ -59,7 +59,7 @@ class RPJMDStrategiModel extends Model {
     // protected static $recordEvents = ['deleted'];
     public static function getRPJDMStrategi ($ta,$prepend=true) 
     {
-        $r=RPJMDStrategiModel::join('tmPrioritasSasaranKab','tmPrioritasSasaranKab.PrioritasSasaranKabID','tmPrioritasStrategiKab.PrioritasSasaranKabID')
+        $r=RENSTRAStrategiModel::join('tmPrioritasSasaranKab','tmPrioritasSasaranKab.PrioritasSasaranKabID','tmPrioritasStrategiKab.PrioritasSasaranKabID')
                             ->join('tmPrioritasTujuanKab','tmPrioritasTujuanKab.PrioritasTujuanKabID','tmPrioritasSasaranKab.PrioritasTujuanKabID')
                             ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmPrioritasTujuanKab.PrioritasKabID')
                             ->where('tmPrioritasStrategiKab.TA',$ta)
@@ -67,7 +67,7 @@ class RPJMDStrategiModel extends Model {
                             ->orderBy('Kd_Tujuan')
                             ->orderBy('Kd_Sasaran')
                             ->orderBy('Kd_Strategi')->get();
-        $strategi_rpjmd=($prepend==true)?['none'=>'DAFTAR RPJMD STRATEGI']:[];        
+        $strategi_rpjmd=($prepend==true)?['none'=>'DAFTAR RENSTRA STRATEGI']:[];        
         foreach ($r as $k=>$v)
         {
             $strategi_rpjmd[$v->PrioritasStrategiKabID]=$v->Kd_PrioritasKab.'.'.

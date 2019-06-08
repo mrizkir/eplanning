@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models\RPJMD;
+namespace App\Models\RENSTRA;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class RPJMDVisiModel extends Model {
+class RENSTRAVisiModel extends Model {
     use LogsActivity;
 
      /**
@@ -46,7 +46,7 @@ class RPJMDVisiModel extends Model {
      *
      * @var string
      */
-    // protected static $logName = 'RPJMDVisiController';
+    // protected static $logName = 'RENSTRAVisiController';
     /**
      * log the changed attributes for all these events 
      */

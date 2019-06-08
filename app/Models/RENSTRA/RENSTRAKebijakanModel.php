@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models\RPJMD;
+namespace App\Models\RENSTRA;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class RPJMDKebijakanModel extends Model {
+class RENSTRAKebijakanModel extends Model {
     use LogsActivity;
     /**
      * nama tabel model ini.
@@ -45,7 +45,7 @@ class RPJMDKebijakanModel extends Model {
      *
      * @var string
      */
-    // protected static $logName = 'RPJMDKebijakanController';
+    // protected static $logName = 'RENSTRAKebijakanController';
     /**
      * log the changed attributes for all these events 
      */
@@ -60,7 +60,7 @@ class RPJMDKebijakanModel extends Model {
 
     public static function getDaftarKebijakan($ta,$prepend=true)
     {
-        $r=RPJMDKebijakanModel::select(\DB::raw('
+        $r=RENSTRAKebijakanModel::select(\DB::raw('
                                 "PrioritasKebijakanKabID",
                                 CONCAT(
                                 \'[\',
@@ -90,7 +90,7 @@ class RPJMDKebijakanModel extends Model {
         $daftar_kebijakan=$prepend == true 
                                         ?
                                             $r->pluck('Nm_Kebijakan','PrioritasKebijakanKabID')
-                                            ->prepend('DAFTAR KEBIJAKAN RPJMD')
+                                            ->prepend('DAFTAR KEBIJAKAN RENSTRA')
                                             ->toArray()
                                         :
                                         $r->pluck('Nm_Kebijakan','PrioritasKebijakanKabID')

@@ -9,7 +9,7 @@
                     {!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control','style'=>'width:70px'])!!}                        
                 </div> 
                 <div class="form-group">
-                    <a href="{!!route('rpjmdmisi.create')!!}" class="btn btn-info btn-xs" title="Tambah RPJMD Misi">
+                    <a href="{!!route('renstramisi.create')!!}" class="btn btn-info btn-xs" title="Tambah RENSTRA Misi">
                         <i class="icon-googleplus5"></i>
                     </a>
                 </div> 
@@ -46,17 +46,17 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('rpjmdmisi.show',['id'=>$item->PrioritasKabID])}}" title="Detail Data RPJMD Misi">
+                                <a class="btnShow" href="{{route('renstramisi.show',['id'=>$item->PrioritasKabID])}}" title="Detail Data RENSTRA Misi">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('rpjmdmisi.edit',['id'=>$item->PrioritasKabID])}}" title="Ubah Data RPJMD Misi">
+                                <a class="btnEdit" href="{{route('renstramisi.edit',['id'=>$item->PrioritasKabID])}}" title="Ubah Data RENSTRA Misi">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data RPJMD Misi" data-id="{{$item->PrioritasKabID}}" data-url="{{route('rpjmdmisi.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data RENSTRA Misi" data-id="{{$item->PrioritasKabID}}" data-url="{{route('renstramisi.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>

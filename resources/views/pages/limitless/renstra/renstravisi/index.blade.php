@@ -1,18 +1,18 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RPJMDVISI
+    RENSTRAVISI
 @endsection
 @section('page_header')
-    <i class="icon-price-tag position-left"></i>
+    <i class="icon-strategy position-left"></i>
     <span class="text-semibold">
-        RPJMDVISI TAHUN {{config('eplanning.rpjmd_tahun_mulai')}} - {{config('eplanning.rpjmd_tahun_akhir')}}  
+        RENSTRAVISI TAHUN {{config('eplanning.renstra_tahun_mulai')}} - {{config('eplanning.renstra_tahun_akhir')}}  
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.rpjmd.rpjmdvisi.info')
+    @include('pages.limitless.renstra.renstravisi.info')
 @endsection
 @section('page_breadcrumb')
-    <li class="active">RPJMDVISI</li>
+    <li class="active">RENSTRAVISI</li>
 @endsection
 @section('page_content')
 <div class="row">
@@ -25,7 +25,7 @@
                 </h5>
             </div>
             <div class="panel-body">
-                {!! Form::open(['action'=>'RPJMD\RPJMDVisiController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
+                {!! Form::open(['action'=>'RENSTRA\RENSTRAVisiController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">
@@ -51,7 +51,7 @@
         </div>
     </div>       
     <div class="col-md-12" id="divdatatable">
-        @include('pages.limitless.rpjmd.rpjmdvisi.datatable')
+        @include('pages.limitless.renstra.renstravisi.datatable')
     </div>
 </div>
 @endsection

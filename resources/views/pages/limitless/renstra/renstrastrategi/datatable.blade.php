@@ -9,7 +9,7 @@
                     {!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control','style'=>'width:70px'])!!}                        
                 </div> 
                 <div class="form-group">
-                    <a href="{!!route('rpjmdstrategi.create')!!}" class="btn btn-info btn-xs" title="Tambah RPJMD TUJUAN">
+                    <a href="{!!route('renstrastrategi.create')!!}" class="btn btn-info btn-xs" title="Tambah RENSTRA TUJUAN">
                         <i class="icon-googleplus5"></i>
                     </a>
                 </div> 
@@ -46,17 +46,17 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('rpjmdstrategi.show',['id'=>$item->PrioritasStrategiKabID])}}" title="Detail Data RPJMD Strategi">
+                                <a class="btnShow" href="{{route('renstrastrategi.show',['id'=>$item->PrioritasStrategiKabID])}}" title="Detail Data RENSTRA Strategi">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('rpjmdstrategi.edit',['id'=>$item->PrioritasStrategiKabID])}}" title="Ubah Data RPJMD Strategi">
+                                <a class="btnEdit" href="{{route('renstrastrategi.edit',['id'=>$item->PrioritasStrategiKabID])}}" title="Ubah Data RENSTRA Strategi">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data RPJMD Strategi" data-id="{{$item->PrioritasStrategiKabID}}" data-url="{{route('rpjmdstrategi.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data RENSTRA Strategi" data-id="{{$item->PrioritasStrategiKabID}}" data-url="{{route('renstrastrategi.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>

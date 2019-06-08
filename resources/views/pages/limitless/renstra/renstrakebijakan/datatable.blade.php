@@ -9,7 +9,7 @@
                     {!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control','style'=>'width:70px'])!!}                        
                 </div> 
                 <div class="form-group">
-                    <a href="{!!route('rpjmdkebijakan.create')!!}" class="btn btn-info btn-xs" title="Tambah RPJMD Misi">
+                    <a href="{!!route('renstrakebijakan.create')!!}" class="btn btn-info btn-xs" title="Tambah RENSTRA Misi">
                         <i class="icon-googleplus5"></i>
                     </a>
                 </div> 
@@ -46,17 +46,17 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('rpjmdkebijakan.show',['id'=>$item->PrioritasKebijakanKabID])}}" title="Detail Data RPJMD Kebijakan">
+                                <a class="btnShow" href="{{route('renstrakebijakan.show',['id'=>$item->PrioritasKebijakanKabID])}}" title="Detail Data RENSTRA Kebijakan">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('rpjmdkebijakan.edit',['id'=>$item->PrioritasKebijakanKabID])}}" title="Ubah Data RPJMD Kebijakan">
+                                <a class="btnEdit" href="{{route('renstrakebijakan.edit',['id'=>$item->PrioritasKebijakanKabID])}}" title="Ubah Data RENSTRA Kebijakan">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data RPJMD Kebijakan" data-id="{{$item->PrioritasKebijakanKabID}}" data-url="{{route('rpjmdkebijakan.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data RENSTRA Kebijakan" data-id="{{$item->PrioritasKebijakanKabID}}" data-url="{{route('renstrakebijakan.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>

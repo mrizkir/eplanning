@@ -1,18 +1,18 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RPJMDVISI
+    RENSTRAVISI
 @endsection
 @section('page_header')
-    <i class="icon-price-tag position-left"></i>
+    <i class="icon-strategy position-left"></i>
     <span class="text-semibold"> 
-        RPJMDVISI TAHUN {{config('eplanning.rpjmd_tahun_mulai')}} - {{config('eplanning.rpjmd_tahun_akhir')}}  
+        RENSTRAVISI TAHUN {{config('eplanning.renstra_tahun_mulai')}} - {{config('eplanning.renstra_tahun_akhir')}}  
     </span>     
 @endsection
 @section('page_info')
-    @include('pages.limitless.rpjmd.rpjmdvisi.info')
+    @include('pages.limitless.renstra.renstravisi.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('rpjmdvisi.index')!!}">RPJMDVISI</a></li>
+    <li><a href="{!!route('renstravisi.index')!!}">RENSTRAVISI</a></li>
     <li class="active">DETAIL DATA</li>
 @endsection
 @section('page_content')
@@ -21,19 +21,19 @@
         <div class="panel panel-flat border-top-info border-bottom-info">
             <div class="panel-heading">
                 <h5 class="panel-title"> 
-                    <i class="icon-eye"></i>  DATA RPJMDVISI
+                    <i class="icon-eye"></i>  DATA RENSTRAVISI
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{!!route('rpjmdvisi.create')!!}" class="btn btn-info btn-icon heading-btn btnAdd" title="Tambah RPJMDVISI">
+                    <a href="{!!route('renstravisi.create')!!}" class="btn btn-info btn-icon heading-btn btnAdd" title="Tambah RENSTRAVISI">
                         <i class="icon-googleplus5"></i>
                     </a>
-                    <a href="{{route('rpjmdvisi.edit',['id'=>$data->rpjmdvisi_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RpjmdVisi">
+                    <a href="{{route('renstravisi.edit',['id'=>$data->renstravisi_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RpjmdVisi">
                         <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data RpjmdVisi" data-id="{{$data->rpjmdvisi_id}}" data-url="{{route('rpjmdvisi.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
+                    <a href="javascript:;" title="Hapus Data RpjmdVisi" data-id="{{$data->renstravisi_id}}" data-url="{{route('renstravisi.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
                     </a>
-                    <a href="{!!route('rpjmdvisi.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
+                    <a href="{!!route('renstravisi.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
                         <i class="icon-close2"></i>
                     </a>            
                 </div>
@@ -43,9 +43,9 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>rpjmdvisi id: </strong></label>
+                                <label class="col-md-4 control-label"><strong>renstravisi id: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->rpjmdvisi_id}}</p>
+                                    <p class="form-control-static">{{$data->renstravisi_id}}</p>
                                 </div>                            
                             </div>                            
                             <div class="form-group">

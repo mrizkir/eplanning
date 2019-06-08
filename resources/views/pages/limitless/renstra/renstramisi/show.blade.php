@@ -1,20 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RPJMD MISI TAHUN {{config('eplanning.rpjmd_tahun_mulai')}} - {{config('eplanning.rpjmd_tahun_akhir')}}
+    RENSTRA MISI TAHUN {{config('eplanning.renstra_tahun_mulai')}} - {{config('eplanning.renstra_tahun_akhir')}}
 @endsection
 @section('page_header')
-    <i class="icon-price-tag position-left"></i>
+    <i class="icon-strategy position-left"></i>
     <span class="text-semibold"> 
-        RPJMD MISI TAHUN {{config('eplanning.rpjmd_tahun_mulai')}} - {{config('eplanning.rpjmd_tahun_akhir')}}
+        RENSTRA MISI TAHUN {{config('eplanning.renstra_tahun_mulai')}} - {{config('eplanning.renstra_tahun_akhir')}}
     </span>     
 @endsection
 @section('page_info')
-    @include('pages.limitless.rpjmd.rpjmdmisi.info')
+    @include('pages.limitless.renstra.renstramisi.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">PERENCANAAN</a></li>
-    <li><a href="#">RPJMD</a></li>
-    <li><a href="{!!route('rpjmdmisi.index')!!}">MISI</a></li>
+    <li><a href="#">RENSTRA</a></li>
+    <li><a href="{!!route('renstramisi.index')!!}">MISI</a></li>
     <li class="active">DETAIL DATA</li>
 @endsection
 @section('page_content')
@@ -23,19 +23,19 @@
         <div class="panel panel-flat border-top-info border-bottom-info">
             <div class="panel-heading">
                 <h5 class="panel-title"> 
-                    <i class="icon-eye"></i>  DATA RPJMD MISI
+                    <i class="icon-eye"></i>  DATA RENSTRA MISI
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('rpjmdmisi.edit',['id'=>$data->PrioritasKabID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RPJMD Misi">
+                    <a href="{{route('renstramisi.edit',['id'=>$data->PrioritasKabID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RENSTRA Misi">
                         <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data RPJMD Misi" data-id="{{$data->PrioritasKabID}}" data-url="{{route('rpjmdmisi.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
+                    <a href="javascript:;" title="Hapus Data RENSTRA Misi" data-id="{{$data->PrioritasKabID}}" data-url="{{route('renstramisi.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
                     </a>
-                    <a href="{!!route('rpjmdmisi.create')!!}" class="btn btn-primary btn-info heading-btn btnEdit" title="Tambah RPJMD Misi">
+                    <a href="{!!route('renstramisi.create')!!}" class="btn btn-primary btn-info heading-btn btnEdit" title="Tambah RENSTRA Misi">
                         <i class="icon-googleplus5"></i>
                     </a>
-                    <a href="{!!route('rpjmdmisi.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
+                    <a href="{!!route('renstramisi.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
                         <i class="icon-close2"></i>
                     </a>            
                 </div>
@@ -45,7 +45,7 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>RPJMD MISI ID: </strong></label>
+                                <label class="col-md-4 control-label"><strong>RENSTRA MISI ID: </strong></label>
                                 <div class="col-md-8">
                                     <p class="form-control-static">{{$data->PrioritasKabID}}</p>
                                 </div>                            
@@ -96,7 +96,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
     $(".btnDelete").click(function(ev) {
-        if (confirm('Apakah Anda ingin menghapus Data RPJMD Misi ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data RENSTRA Misi ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             let token = $('meta[name="csrf-token"]').attr('content');

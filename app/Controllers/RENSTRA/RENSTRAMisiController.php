@@ -27,9 +27,9 @@ class RENSTRAMisiController extends Controller {
     public function populateData ($currentpage=1) 
     {        
         $columns=['*'];       
-        if (!$this->checkStateIsExistSession('renstramisi','Nm_PrioritasKab')) 
+        if (!$this->checkStateIsExistSession('renstramisi','Nm_RenstraMisi')) 
         {            
-           $this->putControllerStateSession('renstramisi','orderby',['column_name'=>'Nm_PrioritasKab','order'=>'asc']);
+           $this->putControllerStateSession('renstramisi','orderby',['column_name'=>'Nm_RenstraMisi','order'=>'asc']);
         }
         $column_order=$this->getControllerStateSession('renstramisi.orderby','column_name'); 
         $direction=$this->getControllerStateSession('renstramisi.orderby','order'); 
@@ -38,17 +38,28 @@ class RENSTRAMisiController extends Controller {
         {            
             $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
         }
-        $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
+        $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');       
+        
+        //filter
+        if (!$this->checkStateIsExistSession('renstramisi','filters')) 
+        {            
+            $this->putControllerStateSession('renstramisi','filters',[
+                                                                    'OrgID'=>'none',
+                                                                    'SOrgID'=>'none',
+                                                                    ]);
+        }        
+        $SOrgID= $this->getControllerStateSession(\Helper::getNameOfPage('filters'),'SOrgID');        
+
         if ($this->checkStateIsExistSession('renstramisi','search')) 
         {
             $search=$this->getControllerStateSession('renstramisi','search');
             switch ($search['kriteria']) 
             {
-                case 'Kd_PrioritasKab' :
-                    $data = RENSTRAMisiModel::where(['Kd_PrioritasKab'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                case 'Kd_RenstraMisi' :
+                    $data = RENSTRAMisiModel::where(['Kd_RenstraMisi'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
-                case 'Nm_PrioritasKab' :
-                    $data = RENSTRAMisiModel::where('Nm_PrioritasKab', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                case 'Nm_RenstraMisi' :
+                    $data = RENSTRAMisiModel::where('Nm_RenstraMisi', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
@@ -96,11 +107,11 @@ class RENSTRAMisiController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'col-Nm_PrioritasKab' :
-                $column_name = 'Nm_PrioritasKab';
+            case 'col-Nm_RenstraMisi' :
+                $column_name = 'Nm_RenstraMisi';
             break;           
             default :
-                $column_name = 'Nm_PrioritasKab';
+                $column_name = 'Nm_RenstraMisi';
         }
         $this->putControllerStateSession('renstramisi','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
@@ -177,6 +188,7 @@ class RENSTRAMisiController extends Controller {
     public function index(Request $request)
     {                
         $theme = \Auth::user()->theme;
+        $filters=$this->getControllerStateSession('renstramisi','filters');
 
         $search=$this->getControllerStateSession('renstramisi','search');
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('renstramisi'); 
@@ -187,12 +199,15 @@ class RENSTRAMisiController extends Controller {
         }
         $this->setCurrentPageInsideSession('renstramisi',$data->currentPage());
         
+        $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false);  
         return view("pages.$theme.renstra.renstramisi.index")->with(['page_active'=>'renstramisi',
-                                                'search'=>$this->getControllerStateSession('renstramisi','search'),
-                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                'column_order'=>$this->getControllerStateSession('renstramisi.orderby','column_name'),
-                                                'direction'=>$this->getControllerStateSession('renstramisi.orderby','order'),
-                                                'data'=>$data]);               
+                                                                    'search'=>$this->getControllerStateSession('renstramisi','search'),
+                                                                    'filters'=>$filters,
+                                                                    'daftar_opd'=>$daftar_opd,
+                                                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                    'column_order'=>$this->getControllerStateSession('renstramisi.orderby','column_name'),
+                                                                    'direction'=>$this->getControllerStateSession('renstramisi.orderby','order'),
+                                                                    'data'=>$data]);               
     }
     /**
      * Show the form for creating a new resource.
@@ -217,17 +232,17 @@ class RENSTRAMisiController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_PrioritasKab'=>[new CheckRecordIsExistValidation('tmPrioritasKab',['where'=>['TA','=',config('eplanning.tahun_perencanaan')]]),
+            'Kd_RenstraMisi'=>[new CheckRecordIsExistValidation('tnRenstraMisi',['where'=>['TA','=',config('eplanning.tahun_perencanaan')]]),
                         'required',
                         'min:2'
                     ],
-            'Nm_PrioritasKab'=>'required',
+            'Nm_RenstraMisi'=>'required',
         ]);
         
         $renstramisi = RENSTRAMisiModel::create([
             'PrioritasKabID'=> uniqid ('uid'),
-            'Kd_PrioritasKab' => $request->input('Kd_PrioritasKab'),
-            'Nm_PrioritasKab' => $request->input('Nm_PrioritasKab'),
+            'Kd_RenstraMisi' => $request->input('Kd_RenstraMisi'),
+            'Nm_RenstraMisi' => $request->input('Nm_RenstraMisi'),
             'Descr' => $request->input('Descr'),
             'TA' => config('eplanning.tahun_perencanaan')
         ]);        
@@ -296,15 +311,15 @@ class RENSTRAMisiController extends Controller {
         $renstramisi = RENSTRAMisiModel::find($id);
         
         $this->validate($request, [
-            'Kd_PrioritasKab'=>[new IgnoreIfDataIsEqualValidation('tmPrioritasKab',$renstramisi->Kd_PK,['where'=>['TA','=',config('eplanning.tahun_perencanaan')]]),
+            'Kd_RenstraMisi'=>[new IgnoreIfDataIsEqualValidation('tnRenstraMisi',$renstramisi->Kd_PK,['where'=>['TA','=',config('eplanning.tahun_perencanaan')]]),
                         'required',
                         'min:2'
                     ],
-            'Nm_PrioritasKab'=>'required|min:2'
+            'Nm_RenstraMisi'=>'required|min:2'
         ]);
         
-        $renstramisi->Kd_PrioritasKab = $request->input('Kd_PrioritasKab');
-        $renstramisi->Nm_PrioritasKab = $request->input('Nm_PrioritasKab');
+        $renstramisi->Kd_RenstraMisi = $request->input('Kd_RenstraMisi');
+        $renstramisi->Nm_RenstraMisi = $request->input('Nm_RenstraMisi');
         $renstramisi->Descr = $request->input('Descr');
         $renstramisi->save();
 

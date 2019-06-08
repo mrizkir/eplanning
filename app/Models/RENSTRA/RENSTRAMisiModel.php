@@ -1,32 +1,32 @@
 <?php
 
-namespace App\Models\RPJMD;
+namespace App\Models\RENSTRA;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class RPJMDMisiModel extends Model {
+class RENSTRAMisiModel extends Model {
     use LogsActivity;
      /**
      * nama tabel model ini.
      *
      * @var string
      */
-    protected $table = 'tmPrioritasKab';
+    protected $table = 'tmRenstraMisi';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'PrioritasKabID', 'Kd_PrioritasKab', 'Nm_PrioritasKab', 'Descr', 'TA'
+        'RenstraMisiID', 'RenstraVisiID', 'Kd_RenstraMisi', 'Nm_RenstraMisi', 'Descr', 'TA'
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'PrioritasKabID';
+    protected $primaryKey = 'RenstraMisiID';
     /**
      * enable auto_increment.
      *
@@ -45,11 +45,11 @@ class RPJMDMisiModel extends Model {
      *
      * @var string
      */
-    protected static $logName = 'RPJMDMisiController';
+    protected static $logName = 'RENSTRAMisiController';
     /**
      * log the changed attributes for all these events 
      */
-    protected static $logAttributes = ['PrioritasKabID', 'Kd_PrioritasKab'];
+    protected static $logAttributes = ['RenstraMisiID', 'Nm_RenstraMisi'];
     /**
      * log changes to all the $fillable attributes of the model
      */

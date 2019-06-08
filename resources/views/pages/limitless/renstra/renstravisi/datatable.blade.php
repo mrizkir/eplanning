@@ -9,7 +9,7 @@
         </div>
         <div class="heading-elements">
             <div class="heading-btn">
-                <a href="{!!route('rpjmdvisi.create')!!}" class="btn btn-info btn-xs" title="Tambah RPJMDVISI">
+                <a href="{!!route('renstravisi.create')!!}" class="btn btn-info btn-xs" title="Tambah RENSTRAVISI">
                     <i class="icon-googleplus5"></i>
                 </a>
             </div>            
@@ -39,17 +39,17 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('rpjmdvisi.show',['id'=>$item->rpjmdvisi_id])}}" title="Detail Data RpjmdVisi">
+                                <a class="btnShow" href="{{route('renstravisi.show',['id'=>$item->renstravisi_id])}}" title="Detail Data RpjmdVisi">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('rpjmdvisi.edit',['id'=>$item->rpjmdvisi_id])}}" title="Ubah Data RpjmdVisi">
+                                <a class="btnEdit" href="{{route('renstravisi.edit',['id'=>$item->renstravisi_id])}}" title="Ubah Data RpjmdVisi">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data RpjmdVisi" data-id="{{$item->rpjmdvisi_id}}" data-url="{{route('rpjmdvisi.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data RpjmdVisi" data-id="{{$item->renstravisi_id}}" data-url="{{route('renstravisi.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>

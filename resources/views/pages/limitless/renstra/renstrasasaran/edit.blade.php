@@ -1,20 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RPJMD SASARAN
+    RENSTRA SASARAN
 @endsection
 @section('page_header')
-    <i class="icon-price-tag position-left"></i>
+    <i class="icon-strategy position-left"></i>
     <span class="text-semibold"> 
-        RPJMD SASARAN TAHUN {{config('eplanning.rpjmd_tahun_mulai')}} - {{config('eplanning.rpjmd_tahun_akhir')}}  
+        RENSTRA SASARAN TAHUN {{config('eplanning.renstra_tahun_mulai')}} - {{config('eplanning.renstra_tahun_akhir')}}  
     </span>     
 @endsection
 @section('page_info')
-    @include('pages.limitless.rpjmd.rpjmdsasaran.info')
+    @include('pages.limitless.renstra.renstrasasaran.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">PERENCANAAN</a></li>
-    <li><a href="#">RPJMD</a></li>
-    <li><a href="{!!route('rpjmdstrategi.index')!!}">SASARAN</a></li>
+    <li><a href="#">RENSTRA</a></li>
+    <li><a href="{!!route('renstrastrategi.index')!!}">SASARAN</a></li>
     <li class="active">UBAH DATA</li>
 @endsection
 @section('page_content')
@@ -28,15 +28,15 @@
             <div class="heading-elements">
                 <ul class="icons-list">                    
                     <li>
-                        <a href="{!!route('rpjmdsasaran.index')!!}" data-action="closeredirect" title="keluar"></a>
+                        <a href="{!!route('renstrasasaran.index')!!}" data-action="closeredirect" title="keluar"></a>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>['RPJMD\RPJMDSasaranController@update',$data->PrioritasSasaranKabID],'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
+            {!! Form::open(['action'=>['RENSTRA\RENSTRASasaranController@update',$data->PrioritasSasaranKabID],'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
                 <div class="form-group">
-                    <label class="col-md-2 control-label">TUJUAN RPJMD :</label> 
+                    <label class="col-md-2 control-label">TUJUAN RENSTRA :</label> 
                     <div class="col-md-10">
                         <select name="PrioritasTujuanKabID" id="PrioritasTujuanKabID" class="select">
                             <option></option>
@@ -95,7 +95,7 @@ $(document).ready(function () {
                                         modifyValueOnWheel:false
                                     });
     $('#PrioritasTujuanKabID.select').select2({
-        placeholder: "PILIH TUJUAN RPJMD",
+        placeholder: "PILIH TUJUAN RENSTRA",
         allowClear:true
     });
     $('#frmdata').validate({

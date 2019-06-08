@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models\RPJMD;
+namespace App\Models\RENSTRA;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class RPJMDSasaranModel extends Model {
+class RENSTRASasaranModel extends Model {
     use LogsActivity;
      /**
      * nama tabel model ini.
@@ -45,7 +45,7 @@ class RPJMDSasaranModel extends Model {
      *
      * @var string
      */
-    protected static $logName = 'RPJMDSasaranController';
+    protected static $logName = 'RENSTRASasaranController';
     /**
      * log the changed attributes for all these events 
      */

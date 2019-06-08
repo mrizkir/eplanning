@@ -16,6 +16,7 @@ class CreateRenstramisiTable extends Migration
         Schema::create('tmRenstraMisi', function (Blueprint $table) {
             $table->string('RenstraMisiID',19);
             $table->string('RenstraVisiID',19);
+            $table->string('OrgID',19);
             $table->string('Kd_RenstraMisi',4);
             $table->string('Nm_RenstraMisi');           
             $table->string('Descr')->nullable();
@@ -27,10 +28,17 @@ class CreateRenstramisiTable extends Migration
             $table->primary('RenstraMisiID');
 
             $table->index('RenstraVisiID');
+            $table->index('OrgID');
 
             $table->foreign('RenstraVisiID')
                     ->references('RenstraVisiID')
                     ->on('tmRenstraVisi')
+                    ->onDelete('cascade')
+                    ->onUpdate('cascade');                   
+
+            $table->foreign('OrgID')
+                    ->references('OrgID')
+                    ->on('tmOrg')
                     ->onDelete('cascade')
                     ->onUpdate('cascade');
                     

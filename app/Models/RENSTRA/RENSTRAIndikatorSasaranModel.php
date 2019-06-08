@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models\RPJMD;
+namespace App\Models\RENSTRA;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class RPJMDIndikatorSasaranModel extends Model {
+class RENSTRAIndikatorSasaranModel extends Model {
     use LogsActivity;
 
      /**
@@ -68,7 +68,7 @@ class RPJMDIndikatorSasaranModel extends Model {
      *
      * @var string
      */
-    protected static $logName = 'RPJMDIndikatorSasaranController';
+    protected static $logName = 'RENSTRAIndikatorSasaranController';
     /**
      * log the changed attributes for all these events 
      */
@@ -83,7 +83,7 @@ class RPJMDIndikatorSasaranModel extends Model {
 
     public static function getDaftarIndikatorSasaran($UrsID,$PrgID=null,$OrgID=null,$prepend=true)
     {   
-        $data = RPJMDIndikatorSasaranModel::where('UrsID',$UrsID)
+        $data = RENSTRAIndikatorSasaranModel::where('UrsID',$UrsID)
                                             ->where('TA_N',config('eplanning.rpjmd_tahun_mulai'));
 
         if ($PrgID != null)
@@ -108,7 +108,7 @@ class RPJMDIndikatorSasaranModel extends Model {
     }
     public static function getIndikatorSasaranByID($IndikatorSasaranID,$ta)
     {
-        $data = RPJMDIndikatorSasaranModel::find($IndikatorSasaranID);
+        $data = RENSTRAIndikatorSasaranModel::find($IndikatorSasaranID);
         $data_indikator=null;
         if (!is_null($data) )  
         {   

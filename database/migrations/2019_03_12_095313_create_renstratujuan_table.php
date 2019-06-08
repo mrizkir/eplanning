@@ -16,6 +16,7 @@ class CreateRenstratujuanTable extends Migration
         Schema::create('tmRenstraTujuan', function (Blueprint $table) {
             $table->string('RenstraTujuanID',19);
             $table->string('RenstraMisiID',19);
+            $table->string('OrgID',19);
             $table->string('Kd_RenstraTujuan',4);
             $table->string('Nm_RenstraTujuan');           
             $table->string('Descr')->nullable();
@@ -27,10 +28,17 @@ class CreateRenstratujuanTable extends Migration
             $table->primary('RenstraTujuanID');
 
             $table->index('RenstraMisiID');
-
+            $table->index('OrgID');
+            
             $table->foreign('RenstraMisiID')
                     ->references('RenstraMisiID')
                     ->on('tmRenstraMisi')
+                    ->onDelete('cascade')
+                    ->onUpdate('cascade');
+
+            $table->foreign('OrgID')
+                    ->references('OrgID')
+                    ->on('tmOrg')
                     ->onDelete('cascade')
                     ->onUpdate('cascade');
                     

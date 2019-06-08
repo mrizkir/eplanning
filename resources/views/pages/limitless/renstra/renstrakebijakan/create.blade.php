@@ -1,20 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RPJMD PRIORITAS / ARAH KEBIJAKAN
+    RENSTRA PRIORITAS / ARAH KEBIJAKAN
 @endsection
 @section('page_header')
-    <i class="icon-price-tag position-left"></i>
+    <i class="icon-strategy position-left"></i>
     <span class="text-semibold"> 
-        RPJMD PRIORITAS / ARAH KEBIJAKAN TAHUN {{config('eplanning.rpjmd_tahun_mulai')}}-{{config('eplanning.rpjmd_tahun_akhir')}}
+        RENSTRA PRIORITAS / ARAH KEBIJAKAN TAHUN {{config('eplanning.renstra_tahun_mulai')}}-{{config('eplanning.renstra_tahun_akhir')}}
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.rpjmd.rpjmdkebijakan.info')
+    @include('pages.limitless.renstra.renstrakebijakan.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">PERENCANAAN</a></li>
-    <li><a href="#">RPJMD</a></li>
-    <li><a href="{!!route('rpjmdkebijakan.index')!!}">PRIORITAS / ARAH KEBIJAKAN</a></li>
+    <li><a href="#">RENSTRA</a></li>
+    <li><a href="{!!route('renstrakebijakan.index')!!}">PRIORITAS / ARAH KEBIJAKAN</a></li>
     <li class="active">TAMBAH DATA</li>
 @endsection
 @section('page_content')
@@ -28,13 +28,13 @@
             <div class="heading-elements">
                 <ul class="icons-list">                    
                     <li>               
-                        <a href="{!!route('rpjmdkebijakan.index')!!}" data-action="closeredirect" title="keluar"></a>
+                        <a href="{!!route('renstrakebijakan.index')!!}" data-action="closeredirect" title="keluar"></a>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>'RPJMD\RPJMDKebijakanController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
+            {!! Form::open(['action'=>'RENSTRA\RENSTRAKebijakanController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
                 <div class="form-group">
                     {{Form::label('PrioritasStrategiKabID','STRATEGI',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
@@ -49,13 +49,13 @@
                 <div class="form-group">
                     {{Form::label('Kd_Kebijakan','KODE KEBIJAKAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('Kd_Kebijakan','',['class'=>'form-control','placeholder'=>'KODE KEBIJAKAN RPJMD','maxlength'=>4])}}
+                        {{Form::text('Kd_Kebijakan','',['class'=>'form-control','placeholder'=>'KODE KEBIJAKAN RENSTRA','maxlength'=>4])}}
                     </div>
                 </div>  
                 <div class="form-group">
                     {{Form::label('Nm_Kebijakan','NAMA KEBIJAKAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('Nm_Kebijakan','',['class'=>'form-control','placeholder'=>'NAMA KEBIJAKAN RPJMD'])}}
+                        {{Form::text('Nm_Kebijakan','',['class'=>'form-control','placeholder'=>'NAMA KEBIJAKAN RENSTRA'])}}
                     </div>
                 </div>
                 <div class="form-group">
@@ -95,7 +95,7 @@ $(document).ready(function () {
                                         modifyValueOnWheel:false
                                     });
     $('#PrioritasStrategiKabID.select').select2({
-        placeholder: "PILIH STRATEGI RPJMD",
+        placeholder: "PILIH STRATEGI RENSTRA",
         allowClear:true
     });
     $('#frmdata').validate({
@@ -121,8 +121,8 @@ $(document).ready(function () {
         },
         messages : {
             PrioritasStrategiKabID : {
-                required: "Mohon dipilih Strategi RPJMD !",  
-                valueNotEquals: "Mohon dipilih Strategi RPJMD !"
+                required: "Mohon dipilih Strategi RENSTRA !",  
+                valueNotEquals: "Mohon dipilih Strategi RENSTRA !"
             },
             Kd_Kebijakan : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
@@ -130,8 +130,8 @@ $(document).ready(function () {
                 maxlength: "Nilai untuk Kode Urusan maksimal 4 digit"
             },
             Kode_Kebijakan : {
-                required: "Mohon dipilih Strategi RPJMD !",
-                valueNotEquals: "Mohon dipilih Strategi RPJMD !"
+                required: "Mohon dipilih Strategi RENSTRA !",
+                valueNotEquals: "Mohon dipilih Strategi RENSTRA !"
             },
             Nm_Kebijakan : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
