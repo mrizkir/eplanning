@@ -240,7 +240,7 @@ class RENSTRAMisiController extends Controller {
         }
         $this->setCurrentPageInsideSession('renstramisi',$data->currentPage());
         
-        $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false);  
+        $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.renstra_tahun_mulai'),false);  
         return view("pages.$theme.renstra.renstramisi.index")->with(['page_active'=>'renstramisi',
                                                                     'search'=>$this->getControllerStateSession('renstramisi','search'),
                                                                     'filters'=>$filters,
@@ -261,9 +261,14 @@ class RENSTRAMisiController extends Controller {
         $filters=$this->getControllerStateSession('renstramisi','filters');       
         if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
         {
+            $daftar_visi = \App\Models\RENSTRA\RENSTRAVisiModel::select(\DB::raw('"Kd_Visi","Nm_Visi"'))
+                                                                ->where()
+                                                                ->get()
+                                                                ->pluck('Nm_Visi','Kd_Visi')
+                                                                ->toArray();
             return view("pages.$theme.renstra.renstramisi.create")->with(['page_active'=>'renstramisi',
-                                                                        
-                                                    ]);  
+                                                                            'daftar_visi'=>$daftar_visi
+                                                                        ]);  
         }
         else
         {
@@ -282,19 +287,19 @@ class RENSTRAMisiController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_RenstraMisi'=>[new CheckRecordIsExistValidation('tnRenstraMisi',['where'=>['TA','=',config('eplanning.tahun_perencanaan')]]),
-                        'required',
-                        'min:2'
+            'Kd_RenstraMisi'=>[new CheckRecordIsExistValidation('tmRenstraMisi',['where'=>['TA','=',config('eplanning.renstra_tahun_mulai')]]),
+                        'required'
                     ],
             'Nm_RenstraMisi'=>'required',
         ]);
         
         $renstramisi = RENSTRAMisiModel::create([
-            'PrioritasKabID'=> uniqid ('uid'),
+            'RenstraMisiID'=> uniqid ('uid'),
+            'OrgID' => $this->getControllerStateSession('renstramisi','filters.OrgID'),
             'Kd_RenstraMisi' => $request->input('Kd_RenstraMisi'),
             'Nm_RenstraMisi' => $request->input('Nm_RenstraMisi'),
             'Descr' => $request->input('Descr'),
-            'TA' => config('eplanning.tahun_perencanaan')
+            'TA' => config('eplanning.renstra_tahun_mulai')
         ]);        
         
         if ($request->ajax()) 
@@ -306,7 +311,7 @@ class RENSTRAMisiController extends Controller {
         }
         else
         {
-            return redirect(route('renstramisi.show',['id'=>$renstramisi->PrioritasKabID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('renstramisi.show',['id'=>$renstramisi->RenstraMisiID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -361,9 +366,8 @@ class RENSTRAMisiController extends Controller {
         $renstramisi = RENSTRAMisiModel::find($id);
         
         $this->validate($request, [
-            'Kd_RenstraMisi'=>[new IgnoreIfDataIsEqualValidation('tnRenstraMisi',$renstramisi->Kd_PK,['where'=>['TA','=',config('eplanning.tahun_perencanaan')]]),
-                        'required',
-                        'min:2'
+            'Kd_RenstraMisi'=>[new IgnoreIfDataIsEqualValidation('tmRenstraMisi',$renstramisi->Kd_PK,['where'=>['TA','=',config('eplanning.renstra_tahun_mulai')]]),
+                        'required'
                     ],
             'Nm_RenstraMisi'=>'required|min:2'
         ]);
@@ -382,7 +386,7 @@ class RENSTRAMisiController extends Controller {
         }
         else
         {
-            return redirect(route('renstramisi.show',['id'=>$renstramisi->PrioritasKabID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('renstramisi.show',['id'=>$renstramisi->RenstraMisiID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 

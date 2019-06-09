@@ -383,9 +383,21 @@
                                     </ul>
                                 </div>
                                 <div class="col-md-3">
-                                    <span class="menu-heading underlined"><i class="icon-wrench"></i> CACHE & LOG</span>
+                                    <span class="menu-heading underlined"><i class="icon-database4"></i> PENYIMPANAN</span>
                                     <ul class="menu-list">
-                                        @hasrole('superadmin')     
+                                        @hasrole('superadmin')    
+                                        <li class="dropdown-header">DATA EPLANNING</li>                
+                                        <li{!!Helper::isMenuActive ($page_active,'copydata',' class="active"')!!}>
+                                            <a href="{!!route('copydata.index')!!}">
+                                                <i class="icon-copy3"></i> COPY DATA
+                                            </a>
+                                        </li>  
+                                        <li class="dropdown-header">CACHE</li>                
+                                        <li{!!Helper::isMenuActive ($page_active,'clearcache',' class="active"')!!}>
+                                            <a href="{!!route('clearcache.index')!!}">
+                                                <i class="icon-database-refresh"></i> CLEAR CACHE
+                                            </a>
+                                        </li> 
                                         <li class="dropdown-header">LOG</li>                
                                         <li{!!Helper::isMenuActive ($page_active,'logviewer',' class="active"')!!}>
                                             <a href="{!!route('logviewer.index')!!}">

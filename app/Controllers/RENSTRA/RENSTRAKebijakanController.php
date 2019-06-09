@@ -206,7 +206,7 @@ class RENSTRAKebijakanController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $daftar_strategi=RENSTRAStrategiModel::getRPJDMStrategi(config('eplanning.tahun_perencanaan'),false);
+        $daftar_strategi=RENSTRAStrategiModel::getRPJDMStrategi(config('eplanning.renstra_tahun_mulai'),false);
         return view("pages.$theme.renstra.renstrakebijakan.create")->with(['page_active'=>'renstrakebijakan',
                                                                     'daftar_strategi'=>$daftar_strategi
                                                                     ]);  
@@ -221,7 +221,7 @@ class RENSTRAKebijakanController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_Kebijakan'=>[new CheckRecordIsExistValidation('tmPrioritasKebijakanKab',['where'=>['TA','=',config('eplanning.tahun_perencanaan')]]),
+            'Kd_Kebijakan'=>[new CheckRecordIsExistValidation('tmPrioritasKebijakanKab',['where'=>['TA','=',config('eplanning.renstra_tahun_mulai')]]),
                             'required'
                         ],
             'PrioritasStrategiKabID'=>'required',
@@ -234,7 +234,7 @@ class RENSTRAKebijakanController extends Controller {
             'Kd_Kebijakan' => $request->input('Kd_Kebijakan'),
             'Nm_Kebijakan' => $request->input('Nm_Kebijakan'),
             'Descr' => $request->input('Descr'),
-            'TA' => config('eplanning.tahun_perencanaan')
+            'TA' => config('eplanning.renstra_tahun_mulai')
         ]);        
 
         if ($request->ajax()) 
@@ -296,7 +296,7 @@ class RENSTRAKebijakanController extends Controller {
         $data = RENSTRAKebijakanModel::findOrFail($id);                
         if (!is_null($data) ) 
         {
-            $daftar_strategi=RENSTRAStrategiModel::getRPJDMStrategi(config('eplanning.tahun_perencanaan'),false);
+            $daftar_strategi=RENSTRAStrategiModel::getRPJDMStrategi(config('eplanning.renstra_tahun_mulai'),false);
             return view("pages.$theme.renstra.renstrakebijakan.edit")->with(['page_active'=>'renstrakebijakan',
                                                                             'data'=>$data,
                                                                             'daftar_strategi'=>$daftar_strategi
@@ -318,7 +318,7 @@ class RENSTRAKebijakanController extends Controller {
         $this->validate($request, [
             'Kd_Kebijakan'=>['required',new IgnoreIfDataIsEqualValidation('tmPrioritasKebijakanKab',
                                                                         $renstrakebijakan->Kd_Kebijakan,
-                                                                        ['where'=>['TA','=',config('eplanning.tahun_perencanaan')]],
+                                                                        ['where'=>['TA','=',config('eplanning.renstra_tahun_mulai')]],
                                                                         'Kode Strategi')],
             'PrioritasStrategiKabID'=>'required',
             'Nm_Kebijakan'=>'required',

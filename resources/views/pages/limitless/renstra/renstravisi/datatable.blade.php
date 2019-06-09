@@ -22,7 +22,7 @@
             <thead>
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
-                    <th width="200">
+                    <th width="120">
                         <a class="column-sort text-white" id="col-Kd_RenstraVisi" data-order="{{$direction}}" href="#">
                             KODE VISI 
                         </a>                                             
@@ -32,7 +32,10 @@
                             NAMA VISI  
                         </a>                                             
                     </th> 
-                    <th width="100">AKSI</th>
+                    <th width="70">                        
+                        TA                          
+                    </th>
+                    <th width="150">AKSI</th>
                 </tr>
             </thead>
             <tbody>                    
@@ -43,6 +46,7 @@
                     </td>                  
                     <td>{{$item->Kd_RenstraVisi}}</td>
                     <td>{{$item->Nm_RenstraVisi}}</td>
+                    <td>{{$item->TA}}</td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">

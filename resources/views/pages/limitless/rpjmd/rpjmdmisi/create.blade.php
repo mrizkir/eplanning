@@ -85,8 +85,7 @@ $(document).ready(function () {
     $('#frmdata').validate({
         rules: {
             Kd_PrioritasKab : {
-                required: true,
-                minlength: 2
+                required: true
             },
             Nm_PrioritasKab : {
                 required: true,

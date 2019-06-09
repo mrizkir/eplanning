@@ -36,15 +36,21 @@
         <div class="panel-body">
             {!! Form::open(['action'=>'RENSTRA\RENSTRAMisiController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
                 <div class="form-group">
-                    {{Form::label('Kd_PrioritasKab','KODE',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('RenstraVisiID','VISI',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('Kd_PrioritasKab','',['class'=>'form-control','placeholder'=>'Kode Misi','maxlength'=>'4'])}}
+                        {{Form::select('RenstraVisiID', $daftar_visi, '',['class'=>'form-control','id'=>'RenstraVisiID'])}}
                     </div>
                 </div>
                 <div class="form-group">
-                    {{Form::label('Nm_PrioritasKab','NAMA',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('Kd_RenstraMisi','KODE',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('Nm_PrioritasKab','',['class'=>'form-control','placeholder'=>'Nama Misi'])}}
+                        {{Form::text('Kd_RenstraMisi','',['class'=>'form-control','placeholder'=>'Kode Misi','maxlength'=>'4'])}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('Nm_RenstraMisi','NAMA',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('Nm_RenstraMisi','',['class'=>'form-control','placeholder'=>'Nama Misi'])}}
                     </div>
                 </div>
                 <div class="form-group">
@@ -71,7 +77,7 @@
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () { 
-    AutoNumeric.multiple(['#Kd_PrioritasKab'], {
+    AutoNumeric.multiple(['#Kd_RenstraMisi'], {
                                         allowDecimalPadding: false,
                                         minimumValue:0,
                                         maximumValue:9999,
@@ -84,21 +90,26 @@ $(document).ready(function () {
                                     });
     $('#frmdata').validate({
         rules: {
-            Kd_PrioritasKab : {
-                required: true,
-                minlength: 2
+            RenstraVisiID : {
+                valueNotEquals : 'none'
             },
-            Nm_PrioritasKab : {
+            Kd_RenstraMisi : {
+                required: true
+            },
+            Nm_RenstraMisi : {
                 required: true,
                 minlength: 2
             }
         },
         messages : {
-            Kd_PrioritasKab : {
+            RenstraVisiID : {
+                valueNotEquals: "Mohon dipilih Kelompok Urusan !"
+            },
+            Kd_RenstraMisi : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             },
-            Nm_PrioritasKab : {
+            Nm_RenstraMisi : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             }

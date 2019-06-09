@@ -75,8 +75,7 @@ $(document).ready(function () {
     $('#frmdata').validate({
         rules: {
             Kd_RenstraVisi : {
-                required: true,
-                minlength: 2
+                required: true
             },
             Nm_RenstraVisi : {
                 required: true,

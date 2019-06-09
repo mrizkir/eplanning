@@ -206,7 +206,7 @@ class RENSTRASasaranController extends Controller {
     {        
         $theme = \Auth::user()->theme;
         $daftar_tujuan=\App\Models\RENSTRA\RENSTRATujuanModel::select(\DB::raw('"PrioritasTujuanKabID",CONCAT(\'[\',"Kd_Tujuan",\']. \',"Nm_Tujuan") AS "Nm_Tujuan"'))
-                                                            ->where('TA',config('eplanning.tahun_perencanaan'))
+                                                            ->where('TA',config('eplanning.renstra_tahun_mulai'))
                                                             ->orderBy('Kd_Tujuan','ASC')
                                                             ->get()
                                                             ->pluck('Nm_Tujuan','PrioritasTujuanKabID')
@@ -226,7 +226,7 @@ class RENSTRASasaranController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_Sasaran'=>[new CheckRecordIsExistValidation('tmPrioritasSasaranKab',['where'=>['TA','=',config('eplanning.tahun_perencanaan')]]),
+            'Kd_Sasaran'=>[new CheckRecordIsExistValidation('tmPrioritasSasaranKab',['where'=>['TA','=',config('eplanning.renstra_tahun_mulai')]]),
                             'required'
                         ],
             'PrioritasTujuanKabID'=>'required',
@@ -239,7 +239,7 @@ class RENSTRASasaranController extends Controller {
             'Kd_Sasaran' => $request->input('Kd_Sasaran'),
             'Nm_Sasaran' => $request->input('Nm_Sasaran'),
             'Descr' => $request->input('Descr'),
-            'TA' => config('eplanning.tahun_perencanaan')
+            'TA' => config('eplanning.renstra_tahun_mulai')
         ]);        
         
         if ($request->ajax()) 
@@ -298,7 +298,7 @@ class RENSTRASasaranController extends Controller {
         if (!is_null($data) ) 
         {
             $daftar_tujuan=\App\Models\RENSTRA\RENSTRATujuanModel::select(\DB::raw('"PrioritasTujuanKabID",CONCAT(\'[\',"Kd_Tujuan",\']. \',"Nm_Tujuan") AS "Nm_Tujuan"'))
-                                                            ->where('TA',config('eplanning.tahun_perencanaan'))
+                                                            ->where('TA',config('eplanning.renstra_tahun_mulai'))
                                                             ->orderBy('Kd_Tujuan','ASC')
                                                             ->get()
                                                             ->pluck('Nm_Tujuan','PrioritasTujuanKabID')
@@ -324,7 +324,7 @@ class RENSTRASasaranController extends Controller {
         $this->validate($request, [
             'Kd_Sasaran'=>['required',new IgnoreIfDataIsEqualValidation('tmPrioritasSasaranKab',
                                                                         $renstrasasaran->Kd_Sasaran,
-                                                                        ['where'=>['TA','=',config('eplanning.tahun_perencanaan')]],
+                                                                        ['where'=>['TA','=',config('eplanning.renstra_tahun_mulai')]],
                                                                         'Kode Sasaran')],
             'PrioritasTujuanKabID'=>'required',
             'Nm_Sasaran'=>'required',

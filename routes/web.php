@@ -149,6 +149,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
    
     //RENSTRA - Tujuan
     Route::resource('/perencanaan/renstra/renstratujuan','RENSTRA\RENSTRATujuanController',['parameters'=>['renstratujuan'=>'uuid']]); 
+    Route::post('/perencanaan/renstra/renstratujuan/filter',['uses'=>'RENSTRA\RENSTRATujuanController@filter','as'=>'renstratujuan.filter']); 
     Route::post('/perencanaan/renstra/renstratujuan/search',['uses'=>'RENSTRA\RENSTRATujuanController@search','as'=>'renstratujuan.search']); 
     Route::get('/perencanaan/renstra/renstratujuan/paginate/{id}',['uses'=>'RENSTRA\RENSTRATujuanController@paginate','as'=>'renstratujuan.paginate']);              
     Route::post('/perencanaan/renstra/renstratujuan/changenumberrecordperpage',['uses'=>'RENSTRA\RENSTRATujuanController@changenumberrecordperpage','as'=>'renstratujuan.changenumberrecordperpage']);  
@@ -157,6 +158,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     //RENSTRA - Sasaran
     Route::resource('/perencanaan/renstra/renstrasasaran','RENSTRA\RENSTRASasaranController',['parameters'=>['renstrasasaran'=>'uuid']]); 
     Route::post('/perencanaan/renstra/renstrasasaran/search',['uses'=>'RENSTRA\RENSTRASasaranController@search','as'=>'renstrasasaran.search']); 
+    Route::post('/perencanaan/renstra/renstrasasaran/search',['uses'=>'RENSTRA\RENSTRASasaranController@search','as'=>'renstrasasaran.filter']); 
     Route::get('/perencanaan/renstra/renstrasasaran/paginate/{id}',['uses'=>'RENSTRA\RENSTRASasaranController@paginate','as'=>'renstrasasaran.paginate']);              
     Route::post('/perencanaan/renstra/renstrasasaran/changenumberrecordperpage',['uses'=>'RENSTRA\RENSTRASasaranController@changenumberrecordperpage','as'=>'renstrasasaran.changenumberrecordperpage']);  
     Route::post('/perencanaan/renstra/renstrasasaran/orderby',['uses'=>'RENSTRA\RENSTRASasaranController@orderby','as'=>'renstrasasaran.orderby']); 
@@ -164,6 +166,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     //RENSTRA - Strategi
     Route::resource('/perencanaan/renstra/renstrastrategi','RENSTRA\RENSTRAStrategiController',['parameters'=>['renstrastrategi'=>'uuid']]); 
     Route::post('/perencanaan/renstra/renstrastrategi/search',['uses'=>'RENSTRA\RENSTRAStrategiController@search','as'=>'renstrastrategi.search']); 
+    Route::post('/perencanaan/renstra/renstrastrategi/filter',['uses'=>'RENSTRA\RENSTRAStrategiController@filter','as'=>'renstrastrategi.filter']); 
     Route::get('/perencanaan/renstra/renstrastrategi/paginate/{id}',['uses'=>'RENSTRA\RENSTRAStrategiController@paginate','as'=>'renstrastrategi.paginate']);              
     Route::post('/perencanaan/renstra/renstrastrategi/changenumberrecordperpage',['uses'=>'RENSTRA\RENSTRAStrategiController@changenumberrecordperpage','as'=>'renstrastrategi.changenumberrecordperpage']);  
     Route::post('/perencanaan/renstra/renstrastrategi/orderby',['uses'=>'RENSTRA\RENSTRAStrategiController@orderby','as'=>'renstrastrategi.orderby']); 
@@ -171,6 +174,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     //RENSTRA - Kebijakan
     Route::resource('/perencanaan/renstra/renstrakebijakan','RENSTRA\RENSTRAKebijakanController',['parameters'=>['renstrakebijakan'=>'uuid']]); 
     Route::post('/perencanaan/renstra/renstrakebijakan/search',['uses'=>'RENSTRA\RENSTRAKebijakanController@search','as'=>'renstrakebijakan.search']); 
+    Route::post('/perencanaan/renstra/renstrakebijakan/filter',['uses'=>'RENSTRA\RENSTRAKebijakanController@filter','as'=>'renstrakebijakan.filter']); 
     Route::get('/perencanaan/renstra/renstrakebijakan/paginate/{id}',['uses'=>'RENSTRA\RENSTRAKebijakanController@paginate','as'=>'renstrakebijakan.paginate']);              
     Route::post('/perencanaan/renstra/renstrakebijakan/changenumberrecordperpage',['uses'=>'RENSTRA\RENSTRAKebijakanController@changenumberrecordperpage','as'=>'renstrakebijakan.changenumberrecordperpage']);  
     Route::post('/perencanaan/renstra/renstrakebijakan/orderby',['uses'=>'RENSTRA\RENSTRAKebijakanController@orderby','as'=>'renstrakebijakan.orderby']); 
@@ -178,7 +182,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     //RENSTRA - Indikator Sasaran
     Route::resource('/perencanaan/renstra/renstraindikatorsasaran','RENSTRA\RENSTRAIndikatorKinerjaController',['parameters'=>['renstraindikatorsasaran'=>'uuid']]); 
     Route::post('/perencanaan/renstra/renstraindikatorsasaran/search',['uses'=>'RENSTRA\RENSTRAIndikatorKinerjaController@search','as'=>'renstraindikatorsasaran.search']); 
-    Route::post('/perencanaan/renstra/renstraindikatorsasaran/filter',['uses'=>'RENSTRA\RENSTRAIndikatorKinerjaController@filter','as'=>'renstraindikatorsasaran.filter']);                  
+    Route::post('/perencanaan/renstra/renstraindikatorsasaran/filter',['uses'=>'RENSTRA\RENSTRAIndikatorKinerjaController@filter','as'=>'renstraindikatorsasaran.filter']); 
     Route::get('/perencanaan/renstra/renstraindikatorsasaran/paginate/{id}',['uses'=>'RENSTRA\RENSTRAIndikatorKinerjaController@paginate','as'=>'renstraindikatorsasaran.paginate']);              
     Route::post('/perencanaan/renstra/renstraindikatorsasaran/changenumberrecordperpage',['uses'=>'RENSTRA\RENSTRAIndikatorKinerjaController@changenumberrecordperpage','as'=>'renstraindikatorsasaran.changenumberrecordperpage']);  
     Route::post('/perencanaan/renstra/renstraindikatorsasaran/orderby',['uses'=>'RENSTRA\RENSTRAIndikatorKinerjaController@orderby','as'=>'renstraindikatorsasaran.orderby']);
@@ -461,6 +465,12 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/setting/usersdesa/filter',['uses'=>'Setting\UsersDesaController@filter','as'=>'usersdesa.filter']);    
     Route::post('/setting/usersdesa/storeuserpermission', ['uses'=>'Setting\UsersDesaController@storeuserpermission','as'=>'usersdesa.storeuserpermission']);
     
+    //setting - data eplanning [copydata]
+    Route::get('/setting/dataeplanning/copydata', ['uses'=>'Setting\CopyDataController@index','as'=>'copydata.index']);
+
+    //setting - cache [clear]
+    Route::get('/setting/cache/clear', ['uses'=>'Setting\ClearCacheController@index','as'=>'clearcache.index']);
+
     //setting - histori renja    
     Route::get('/setting/historirenja/onlypagu/{uuid}',['uses'=>'Setting\HistoriRenjaController@onlypagu','as'=>'historirenja.onlypagu']);          
 

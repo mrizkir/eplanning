@@ -47,7 +47,7 @@ class RENSTRAVisiController extends Controller {
                                                                     'OrgID'=>'none'
                                                                     ]);
         }        
-        $OrgID= $this->getControllerStateSession(\Helper::getNameOfPage('filters'),'OrgID');        
+        $OrgID= $this->getControllerStateSession('renstravisi','filters.OrgID');        
 
         if ($this->checkStateIsExistSession('renstravisi','search')) 
         {
@@ -240,7 +240,7 @@ class RENSTRAVisiController extends Controller {
         }
         $this->setCurrentPageInsideSession('renstravisi',$data->currentPage());
         
-        $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false);  
+        $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.renstra_tahun_mulai'),false);  
         return view("pages.$theme.renstra.renstravisi.index")->with(['page_active'=>'renstravisi',
                                                                     'search'=>$this->getControllerStateSession('renstravisi','search'),
                                                                     'filters'=>$filters,
@@ -282,9 +282,8 @@ class RENSTRAVisiController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_RenstraVisi'=>[new CheckRecordIsExistValidation('tmRenstraVisi',['where'=>['TA','=',config('eplanning.tahun_perencanaan')]]),
-                        'required',
-                        'min:2'
+            'Kd_RenstraVisi'=>[new CheckRecordIsExistValidation('tmRenstraVisi',['where'=>['TA','=',config('eplanning.renstra_tahun_mulai')]]),
+                        'required'
                     ],
             'Nm_RenstraVisi'=>'required',
         ]);
@@ -295,7 +294,7 @@ class RENSTRAVisiController extends Controller {
             'Kd_RenstraVisi' => $request->input('Kd_RenstraVisi'),
             'Nm_RenstraVisi' => $request->input('Nm_RenstraVisi'),
             'Descr' => $request->input('Descr'),
-            'TA' => config('eplanning.tahun_perencanaan')
+            'TA' => config('eplanning.renstra_tahun_mulai')
         ]);        
         
         if ($request->ajax()) 
@@ -362,9 +361,8 @@ class RENSTRAVisiController extends Controller {
         $renstravisi = RENSTRAVisiModel::find($id);
         
         $this->validate($request, [
-            'Kd_RenstraVisi'=>[new IgnoreIfDataIsEqualValidation('tmRenstraVisi',$renstravisi->Kd_PK,['where'=>['TA','=',config('eplanning.tahun_perencanaan')]]),
-                        'required',
-                        'min:2'
+            'Kd_RenstraVisi'=>[new IgnoreIfDataIsEqualValidation('tmRenstraVisi',$renstravisi->Kd_RenstraVisi,['where'=>['TA','=',config('eplanning.renstra_tahun_mulai')]]),
+                        'required'
                     ],
             'Nm_RenstraVisi'=>'required|min:2'
         ]);
