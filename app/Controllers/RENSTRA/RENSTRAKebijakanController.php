@@ -229,7 +229,7 @@ class RENSTRAKebijakanController extends Controller {
         ]);
         
         $renstrakebijakan = RENSTRAKebijakanModel::create([
-            'PrioritasKebijakanKabID'=> uniqid ('uid'),
+            'RenstraKebijakanID'=> uniqid ('uid'),
             'PrioritasStrategiKabID' => $request->input('PrioritasStrategiKabID'),
             'Kd_Kebijakan' => $request->input('Kd_Kebijakan'),
             'Nm_Kebijakan' => $request->input('Nm_Kebijakan'),
@@ -246,7 +246,7 @@ class RENSTRAKebijakanController extends Controller {
         }
         else
         {
-            return redirect(route('renstrakebijakan.show',['id'=>$renstrakebijakan->PrioritasKebijakanKabID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('renstrakebijakan.show',['id'=>$renstrakebijakan->RenstraKebijakanID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -263,13 +263,13 @@ class RENSTRAKebijakanController extends Controller {
 
         $data = RENSTRAKebijakanModel::findOrFail($id);
 
-         $data = RENSTRAKebijakanModel::select(\DB::raw('"tmPrioritasKebijakanKab"."PrioritasKebijakanKabID",
+         $data = RENSTRAKebijakanModel::select(\DB::raw('"tmPrioritasKebijakanKab"."RenstraKebijakanID",
                                                     "tmPrioritasStrategiKab"."Kd_Strategi",
                                                     "tmPrioritasStrategiKab"."Nm_Strategi",
                                                     "tmPrioritasKebijakanKab"."Kd_Kebijakan",
                                                     "tmPrioritasKebijakanKab"."Nm_Kebijakan",
                                                     "tmPrioritasKebijakanKab"."Descr",
-                                                    "tmPrioritasKebijakanKab"."PrioritasKebijakanKabID_Src",
+                                                    "tmPrioritasKebijakanKab"."RenstraKebijakanID_Src",
                                                     "tmPrioritasKebijakanKab"."created_at",
                                                     "tmPrioritasKebijakanKab"."updated_at"'))
                                 ->join('tmPrioritasStrategiKab','tmPrioritasStrategiKab.PrioritasStrategiKabID','tmPrioritasKebijakanKab.PrioritasStrategiKabID')
@@ -339,7 +339,7 @@ class RENSTRAKebijakanController extends Controller {
         }
         else
         {
-            return redirect(route('renstrakebijakan.show',['id'=>$renstrakebijakan->PrioritasKebijakanKabID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('renstrakebijakan.show',['id'=>$renstrakebijakan->RenstraKebijakanID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 
