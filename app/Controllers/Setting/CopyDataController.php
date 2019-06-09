@@ -4,7 +4,6 @@ namespace App\Controllers\Setting;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
-use App\Models\Setting\CopyDataModel;
 
 class CopyDataController extends Controller 
 {

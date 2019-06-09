@@ -407,6 +407,18 @@
                                         @endhasrole	
                                     </ul>
                                 </div>
+                                <div class="col-md-3">
+                                    <span class="menu-heading underlined"><i class="icon-wrench"></i> KONFIGURASI</span>
+                                    <ul class="menu-list">
+                                        @hasrole('superadmin')                  
+                                        <li{!!Helper::isMenuActive ($page_active,'environment',' class="active"')!!}>
+                                            <a href="{!!route('environment.index')!!}">
+                                                <i class="icon-file-text"></i> .env
+                                            </a>
+                                        </li>                                          
+                                        @endhasrole	
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>

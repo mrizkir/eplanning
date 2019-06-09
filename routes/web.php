@@ -470,6 +470,11 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
 
     //setting - cache [clear]
     Route::get('/setting/cache/clear', ['uses'=>'Setting\ClearCacheController@index','as'=>'clearcache.index']);
+    
+    //setting - konfigurasi [environment]    
+    Route::resource('/setting/konfigurasi/environment','Setting\EnvironmentController',['parameters'=>['environment'=>'id'],
+                                                                                        'only'=>['index','store']
+                                                                                    ]);           
 
     //setting - histori renja    
     Route::get('/setting/historirenja/onlypagu/{uuid}',['uses'=>'Setting\HistoriRenjaController@onlypagu','as'=>'historirenja.onlypagu']);          

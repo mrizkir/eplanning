@@ -5,7 +5,7 @@ namespace App\Controllers\Setting;
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
 
-class ClearCacheController extends Controller 
+class EnvironmentController extends Controller 
 {
      /**
      * Membuat sebuah objek
@@ -35,7 +35,7 @@ class ClearCacheController extends Controller
     {                
         $theme = \Auth::user()->theme;
         
-        return view("pages.$theme.setting.clearcache.index")->with(['page_active'=>'clearcache',
+        return view("pages.$theme.setting.environment.index")->with(['page_active'=>'environment',
                                       
                                                                 ]);               
     }
