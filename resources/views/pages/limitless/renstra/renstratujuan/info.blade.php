@@ -1,3 +1,3 @@
 <small class="display-block">          
-    <code>Digunakan untuk mengelola data Tujuan RPJMD</code>
+    <code>Digunakan untuk mengelola data Tujuan RENSTRA</code>
 </small>

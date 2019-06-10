@@ -204,7 +204,7 @@ class RENSTRAStrategiController extends Controller {
         $theme = \Auth::user()->theme;
 
         $daftar_sasaran=\App\Models\RENSTRA\RENSTRASasaranModel::select(\DB::raw('"PrioritasSasaranKabID",CONCAT(\'[\',"Kd_Sasaran",\']. \',"Nm_Sasaran") AS "Nm_Sasaran"'))
-                                                            ->where('TA',config('eplanning.renstra_tahun_mulai'))
+                                                            ->where('TA',config('eplanning.tahun_perencanaan'))
                                                             ->orderBy('Kd_Sasaran','ASC')
                                                             ->get()
                                                             ->pluck('Nm_Sasaran','PrioritasSasaranKabID')
@@ -298,7 +298,7 @@ class RENSTRAStrategiController extends Controller {
         if (!is_null($data) ) 
         {
             $daftar_sasaran=\App\Models\RENSTRA\RENSTRASasaranModel::select(\DB::raw('"PrioritasSasaranKabID",CONCAT(\'[\',"Kd_Sasaran",\']. \',"Nm_Sasaran") AS "Nm_Sasaran"'))
-                                                                ->where('TA',config('eplanning.renstra_tahun_mulai'))
+                                                                ->where('TA',config('eplanning.tahun_perencanaan'))
                                                                 ->orderBy('Kd_Sasaran','ASC')
                                                                 ->get()
                                                                 ->pluck('Nm_Sasaran','PrioritasSasaranKabID')

@@ -258,12 +258,12 @@ class RENSTRAVisiController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $filters=$this->getControllerStateSession('renstravisi','filters');       
+        $filters=$this->getControllerStateSession('renstravisi','filters');               
         if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
         {
             return view("pages.$theme.renstra.renstravisi.create")->with(['page_active'=>'renstravisi',
                                                                         
-                                                    ]);  
+                                                                        ]);  
         }
         else
         {

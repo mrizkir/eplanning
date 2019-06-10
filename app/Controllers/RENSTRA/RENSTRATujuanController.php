@@ -206,11 +206,11 @@ class RENSTRATujuanController extends Controller {
     {        
         $theme = \Auth::user()->theme;
         $daftar_misi=\App\Models\RENSTRA\RENSTRAMisiModel::select(\DB::raw('"PrioritasKabID",CONCAT(\'[\',"Kd_PrioritasKab",\']. \',"Nm_PrioritasKab") AS "Nm_PrioritasKab"'))
-                                                    ->where('TA',config('eplanning.renstra_tahun_mulai'))
-                                                    ->orderBy('Kd_PrioritasKab','ASC')
-                                                    ->get()
-                                                    ->pluck('Nm_PrioritasKab','PrioritasKabID')
-                                                    ->toArray();
+                                                        ->where('TA',config('eplanning.tahun_perencanaan'))
+                                                        ->orderBy('Kd_PrioritasKab','ASC')
+                                                        ->get()
+                                                        ->pluck('Nm_PrioritasKab','PrioritasKabID')
+                                                        ->toArray();
 
         
         return view("pages.$theme.renstra.renstratujuan.create")->with(['page_active'=>'renstratujuan',
@@ -300,7 +300,7 @@ class RENSTRATujuanController extends Controller {
         if (!is_null($data) ) 
         {
             $daftar_misi=\App\Models\RENSTRA\RENSTRAMisiModel::select(\DB::raw('"PrioritasKabID",CONCAT(\'[\',"Kd_PrioritasKab",\']. \',"Nm_PrioritasKab") AS "Nm_PrioritasKab"'))
-                                                            ->where('TA',config('eplanning.renstra_tahun_mulai'))
+                                                            ->where('TA',config('eplanning.tahun_perencanaan'))
                                                             ->orderBy('Kd_PrioritasKab','ASC')
                                                             ->get()
                                                             ->pluck('Nm_PrioritasKab','PrioritasKabID')

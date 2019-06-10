@@ -206,7 +206,7 @@ class RENSTRASasaranController extends Controller {
     {        
         $theme = \Auth::user()->theme;
         $daftar_tujuan=\App\Models\RENSTRA\RENSTRATujuanModel::select(\DB::raw('"PrioritasTujuanKabID",CONCAT(\'[\',"Kd_Tujuan",\']. \',"Nm_Tujuan") AS "Nm_Tujuan"'))
-                                                            ->where('TA',config('eplanning.renstra_tahun_mulai'))
+                                                            ->where('TA',config('eplanning.tahun_perencanaan'))
                                                             ->orderBy('Kd_Tujuan','ASC')
                                                             ->get()
                                                             ->pluck('Nm_Tujuan','PrioritasTujuanKabID')
@@ -298,7 +298,7 @@ class RENSTRASasaranController extends Controller {
         if (!is_null($data) ) 
         {
             $daftar_tujuan=\App\Models\RENSTRA\RENSTRATujuanModel::select(\DB::raw('"PrioritasTujuanKabID",CONCAT(\'[\',"Kd_Tujuan",\']. \',"Nm_Tujuan") AS "Nm_Tujuan"'))
-                                                            ->where('TA',config('eplanning.renstra_tahun_mulai'))
+                                                            ->where('TA',config('eplanning.tahun_perencanaan'))
                                                             ->orderBy('Kd_Tujuan','ASC')
                                                             ->get()
                                                             ->pluck('Nm_Tujuan','PrioritasTujuanKabID')
