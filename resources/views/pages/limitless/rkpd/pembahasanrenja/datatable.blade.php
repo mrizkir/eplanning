@@ -40,7 +40,7 @@
         <table id="data" class="table table-striped table-hover">
             <thead>
                 <tr class="bg-teal-700">
-                    <th width="100">NO</th>     
+                    <th width="120">NO</th>     
                     <th width="150">
                         <a class="column-sort text-white" id="col-kode_kegiatan" data-order="{{$direction}}" href="#">
                             KODE KEGIATAN                                                                       

@@ -114,23 +114,23 @@
         <div class="row">
             <div class="col-lg-4">
                 <div class="testimonial-item mx-auto mb-5 mb-lg-0">            
-                    <img class="img-fluid rounded-circle mb-3" src="{!!asset('/themes/frontend/img/luki.png')!!}" alt="">                                
-                    <h5>Kepala Bapelitbang Bintan</h5>            
-                    <p class="font-weight-light mb-0">"Kata Sambutan "</p>
+                    <img class="img-fluid rounded-circle mb-3" src="{!!asset('/themes/frontend/img/bupati.jpg')!!}" alt="">                                
+                    <h5>Bupati Kab. Bintan</h5>            
+                    <p class="font-weight-light mb-0">H. Apri Sujadi S.Sos.</p>
                 </div>
             </div>
             <div class="col-lg-4">
                 <div class="testimonial-item mx-auto mb-5 mb-lg-0">                        
-                    <img class="img-fluid rounded-circle mb-3" src="{!!asset('/themes/frontend/img/dahlia.png')!!}" alt="">                        
-                    <h5>Sekretaris Bapelitbang Bintan</h5>                        
-                    <p class="font-weight-light mb-0">"Kata Sambutan "</p>
+                    <img class="img-fluid rounded-circle mb-3" src="{!!asset('/themes/frontend/img/wabup.jpg')!!}" alt="">                        
+                    <h5>Wakil Bupati Kab. Bintan</h5>                        
+                    <p class="font-weight-light mb-0">Drs. H. Dalmasri Syam, MM</p>
                 </div>
             </div>
             <div class="col-lg-4">
                 <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                    <img class="img-fluid rounded-circle mb-3" src="{!!asset('/themes/frontend/img/testimonials-3.jpg')!!}" alt="">
-                    <h5>Nama Orang 3</h5>
-                    <p class="font-weight-light mb-0">"Sambutan 3"</p>
+                    <img class="img-fluid rounded-circle mb-3" src="{!!asset('/themes/frontend/img/sekda.jpg')!!}" alt="">
+                    <h5>Sekretaris Daerah Kab. Bintan</h5>
+                    <p class="font-weight-light mb-0">Drs. Adi Prihantara, MM</p>
                 </div>
             </div>
         </div>
