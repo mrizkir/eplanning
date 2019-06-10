@@ -206,7 +206,7 @@ class RPJMDTujuanController extends Controller {
     {        
         $theme = \Auth::user()->theme;
         $daftar_misi=\App\Models\RPJMD\RPJMDMisiModel::select(\DB::raw('"PrioritasKabID",CONCAT(\'[\',"Kd_PrioritasKab",\']. \',"Nm_PrioritasKab") AS "Nm_PrioritasKab"'))
-                                                    ->where('TA',config('eplanning.rpjmd_tahun_mulai'))
+                                                    ->where('TA',config('eplanning.tahun_perencanaan'))
                                                     ->orderBy('Kd_PrioritasKab','ASC')
                                                     ->get()
                                                     ->pluck('Nm_PrioritasKab','PrioritasKabID')
@@ -227,7 +227,7 @@ class RPJMDTujuanController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_Tujuan'=>[new CheckRecordIsExistValidation('tmPrioritasTujuanKab',['where'=>['TA','=',config('eplanning.rpjmd_tahun_mulai')]]),
+            'Kd_Tujuan'=>[new CheckRecordIsExistValidation('tmPrioritasTujuanKab',['where'=>['TA','=',config('eplanning.tahun_perencanaan')]]),
                             'required'
                         ],
             'PrioritasKabID'=>'required',
@@ -240,7 +240,7 @@ class RPJMDTujuanController extends Controller {
             'Kd_Tujuan' => $request->input('Kd_Tujuan'),
             'Nm_Tujuan' => $request->input('Nm_Tujuan'),
             'Descr' => $request->input('Descr'),
-            'TA' => config('eplanning.rpjmd_tahun_mulai')
+            'TA' => config('eplanning.tahun_perencanaan')
         ]);        
         
         if ($request->ajax()) 
@@ -327,7 +327,7 @@ class RPJMDTujuanController extends Controller {
         $this->validate($request, [
             'Kd_Tujuan'=>['required',new IgnoreIfDataIsEqualValidation('tmPrioritasTujuanKab',
                                                                         $rpjmdtujuan->Kd_Tujuan,
-                                                                        ['where'=>['TA','=',config('eplanning.rpjmd_tahun_mulai')]],
+                                                                        ['where'=>['TA','=',config('eplanning.tahun_perencanaan')]],
                                                                         'Kode Tujuan')],
             'PrioritasKabID'=>'required',
             'Nm_Tujuan'=>'required',

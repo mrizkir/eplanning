@@ -206,7 +206,7 @@ class RPJMDSasaranController extends Controller {
     {        
         $theme = \Auth::user()->theme;
         $daftar_tujuan=\App\Models\RPJMD\RPJMDTujuanModel::select(\DB::raw('"PrioritasTujuanKabID",CONCAT(\'[\',"Kd_Tujuan",\']. \',"Nm_Tujuan") AS "Nm_Tujuan"'))
-                                                            ->where('TA',config('eplanning.rpjmd_tahun_mulai'))
+                                                            ->where('TA',config('eplanning.tahun_perencanaan'))
                                                             ->orderBy('Kd_Tujuan','ASC')
                                                             ->get()
                                                             ->pluck('Nm_Tujuan','PrioritasTujuanKabID')
@@ -226,7 +226,7 @@ class RPJMDSasaranController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_Sasaran'=>[new CheckRecordIsExistValidation('tmPrioritasSasaranKab',['where'=>['TA','=',config('eplanning.rpjmd_tahun_mulai')]]),
+            'Kd_Sasaran'=>[new CheckRecordIsExistValidation('tmPrioritasSasaranKab',['where'=>['TA','=',config('eplanning.tahun_perencanaan')]]),
                             'required'
                         ],
             'PrioritasTujuanKabID'=>'required',
@@ -239,7 +239,7 @@ class RPJMDSasaranController extends Controller {
             'Kd_Sasaran' => $request->input('Kd_Sasaran'),
             'Nm_Sasaran' => $request->input('Nm_Sasaran'),
             'Descr' => $request->input('Descr'),
-            'TA' => config('eplanning.rpjmd_tahun_mulai')
+            'TA' => config('eplanning.tahun_perencanaan')
         ]);        
         
         if ($request->ajax()) 
@@ -324,7 +324,7 @@ class RPJMDSasaranController extends Controller {
         $this->validate($request, [
             'Kd_Sasaran'=>['required',new IgnoreIfDataIsEqualValidation('tmPrioritasSasaranKab',
                                                                         $rpjmdsasaran->Kd_Sasaran,
-                                                                        ['where'=>['TA','=',config('eplanning.rpjmd_tahun_mulai')]],
+                                                                        ['where'=>['TA','=',config('eplanning.tahun_perencanaan')]],
                                                                         'Kode Sasaran')],
             'PrioritasTujuanKabID'=>'required',
             'Nm_Sasaran'=>'required',

@@ -206,7 +206,7 @@ class RENSTRAKebijakanController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $daftar_strategi=RENSTRAStrategiModel::getRPJDMStrategi(config('eplanning.renstra_tahun_mulai'),false);
+        $daftar_strategi=RENSTRAStrategiModel::getRPJDMStrategi(config('eplanning.tahun_perencanaan'),false);
         return view("pages.$theme.renstra.renstrakebijakan.create")->with(['page_active'=>'renstrakebijakan',
                                                                     'daftar_strategi'=>$daftar_strategi
                                                                     ]);  
@@ -234,7 +234,7 @@ class RENSTRAKebijakanController extends Controller {
             'Kd_Kebijakan' => $request->input('Kd_Kebijakan'),
             'Nm_Kebijakan' => $request->input('Nm_Kebijakan'),
             'Descr' => $request->input('Descr'),
-            'TA' => config('eplanning.renstra_tahun_mulai')
+            'TA' => config('eplanning.tahun_perencanaan')
         ]);        
 
         if ($request->ajax()) 
@@ -296,7 +296,7 @@ class RENSTRAKebijakanController extends Controller {
         $data = RENSTRAKebijakanModel::findOrFail($id);                
         if (!is_null($data) ) 
         {
-            $daftar_strategi=RENSTRAStrategiModel::getRPJDMStrategi(config('eplanning.renstra_tahun_mulai'),false);
+            $daftar_strategi=RENSTRAStrategiModel::getRPJDMStrategi(config('eplanning.tahun_perencanaan'),false);
             return view("pages.$theme.renstra.renstrakebijakan.edit")->with(['page_active'=>'renstrakebijakan',
                                                                             'data'=>$data,
                                                                             'daftar_strategi'=>$daftar_strategi

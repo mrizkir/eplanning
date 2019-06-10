@@ -239,7 +239,7 @@ class RENSTRASasaranController extends Controller {
             'Kd_Sasaran' => $request->input('Kd_Sasaran'),
             'Nm_Sasaran' => $request->input('Nm_Sasaran'),
             'Descr' => $request->input('Descr'),
-            'TA' => config('eplanning.renstra_tahun_mulai')
+            'TA' => config('eplanning.tahun_perencanaan')
         ]);        
         
         if ($request->ajax()) 

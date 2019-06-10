@@ -237,7 +237,7 @@ class RENSTRAStrategiController extends Controller {
             'Kd_Strategi' => $request->input('Kd_Strategi'),
             'Nm_Strategi' => $request->input('Nm_Strategi'),
             'Descr' => $request->input('Descr'),
-            'TA' => config('eplanning.renstra_tahun_mulai')
+            'TA' => config('eplanning.tahun_perencanaan')
         ]);        
         
         if ($request->ajax()) 

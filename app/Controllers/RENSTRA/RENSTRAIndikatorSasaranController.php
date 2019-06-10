@@ -186,8 +186,8 @@ class RENSTRAIndikatorKinerjaController extends Controller {
         if ($request->exists('UrsID') && $request->exists('create') )
         {
             $UrsID = $request->input('UrsID')==''?'none':$request->input('UrsID');            
-            $daftar_program=\App\Models\DMaster\ProgramModel::getDaftarProgram(config('eplanning.renstra_tahun_mulai'),false,$UrsID);
-            $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.renstra_tahun_mulai'),false,$UrsID);
+            $daftar_program=\App\Models\DMaster\ProgramModel::getDaftarProgram(config('eplanning.tahun_perencanaan'),false,$UrsID);
+            $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false,$UrsID);
             $json_data = ['success'=>true,'daftar_program'=>$daftar_program,'daftar_opd'=>$daftar_opd];
         } 
         return response()->json($json_data,200);  
@@ -225,8 +225,8 @@ class RENSTRAIndikatorKinerjaController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $daftar_kebijakan = RENSTRAKebijakanModel::getDaftarKebijakan(config('eplanning.renstra_tahun_mulai'),false);
-        $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusan(config('eplanning.renstra_tahun_mulai'),false);
+        $daftar_kebijakan = RENSTRAKebijakanModel::getDaftarKebijakan(config('eplanning.tahun_perencanaan'),false);
+        $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusan(config('eplanning.tahun_perencanaan'),false);
         return view("pages.$theme.renstra.renstraindikatorkinerja.create")->with(['page_active'=>'renstraindikatorkinerja',
                                                                                 'daftar_kebijakan'=>$daftar_kebijakan,
                                                                                 'daftar_urusan'=>$daftar_urusan
@@ -282,7 +282,7 @@ class RENSTRAIndikatorKinerjaController extends Controller {
             'TargetN4' => $request->input('TargetN4'),
             'TargetN5' => $request->input('TargetN5'),
             'Descr' => $request->input('Descr'),
-            'TA' => config('eplanning.renstra_tahun_mulai')            
+            'TA' => config('eplanning.tahun_perencanaan')            
         ]);        
         
         if ($request->ajax()) 
@@ -340,10 +340,10 @@ class RENSTRAIndikatorKinerjaController extends Controller {
         $data = RENSTRAIndikatorSasaranModel::findOrFail($id);
         if (!is_null($data) ) 
         {
-            $daftar_kebijakan = RENSTRAKebijakanModel::getDaftarKebijakan(config('eplanning.renstra_tahun_mulai'),false);
-            $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusan(config('eplanning.renstra_tahun_mulai'),false);
-            $daftar_program=\App\Models\DMaster\ProgramModel::getDaftarProgram(config('eplanning.renstra_tahun_mulai'),false,$data['UrsID']);
-            $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.renstra_tahun_mulai'),false,$data['UrsID']);
+            $daftar_kebijakan = RENSTRAKebijakanModel::getDaftarKebijakan(config('eplanning.tahun_perencanaan'),false);
+            $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusan(config('eplanning.tahun_perencanaan'),false);
+            $daftar_program=\App\Models\DMaster\ProgramModel::getDaftarProgram(config('eplanning.tahun_perencanaan'),false,$data['UrsID']);
+            $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false,$data['UrsID']);
             return view("pages.$theme.renstra.renstraindikatorkinerja.edit")->with(['page_active'=>'renstraindikatorkinerja',
                                                                                 'data'=>$data,
                                                                                 'daftar_kebijakan'=>$daftar_kebijakan,
