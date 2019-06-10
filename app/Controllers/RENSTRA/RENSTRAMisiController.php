@@ -261,11 +261,15 @@ class RENSTRAMisiController extends Controller {
         $filters=$this->getControllerStateSession('renstramisi','filters');       
         if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
         {
-            $daftar_visi = \App\Models\RENSTRA\RENSTRAVisiModel::select(\DB::raw('"Kd_Visi","Nm_Visi"'))
-                                                                ->where()
+            $daftar_visi = \App\Models\RENSTRA\RENSTRAVisiModel::select(\DB::raw('"Kd_RenstraVisi","Nm_RenstraVisi"'))
+                                                                ->where('OrgID',$filters['OrgID'])
+                                                                ->where('TA',config('eplanning.renstra_tahun_mulai'))
                                                                 ->get()
-                                                                ->pluck('Nm_Visi','Kd_Visi')
+                                                                ->pluck('Nm_RenstraVisi','Kd_RenstraVisi')
+                                                                ->prepend('','')
                                                                 ->toArray();
+
+            
             return view("pages.$theme.renstra.renstramisi.create")->with(['page_active'=>'renstramisi',
                                                                             'daftar_visi'=>$daftar_visi
                                                                         ]);  

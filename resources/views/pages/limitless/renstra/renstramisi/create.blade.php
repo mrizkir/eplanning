@@ -38,7 +38,7 @@
                 <div class="form-group">
                     {{Form::label('RenstraVisiID','VISI',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::select('RenstraVisiID', $daftar_visi, '',['class'=>'form-control','id'=>'RenstraVisiID'])}}
+                        {{Form::select('RenstraVisiID', $daftar_visi, '',['class'=>'select','id'=>'RenstraVisiID'])}}
                     </div>
                 </div>
                 <div class="form-group">
