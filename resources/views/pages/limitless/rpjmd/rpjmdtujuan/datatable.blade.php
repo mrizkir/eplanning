@@ -22,16 +22,17 @@
             <thead>
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
-                    <th width="100">
+                    <th width="160">
                         <a class="column-sort text-white" id="col-Kd_Tujuan" data-order="{{$direction}}" href="#">
                             KODE TUJUAN 
                         </a>                                             
                     </th> 
-                    <th width="100">
+                    <th>
                         <a class="column-sort text-white" id="col-Nm_Tujuan" data-order="{{$direction}}" href="#">
                             NAMA TUJUAN  
                         </a>                                             
                     </th> 
+                    <th width="100">TA</th>
                     <th width="100">AKSI</th>
                 </tr>
             </thead>
@@ -43,6 +44,7 @@
                     </td>                  
                     <td>{{$item->Kd_Tujuan}}</td>
                     <td>{{$item->Nm_Tujuan}}</td>
+                    <td>{{$item->TA}}</td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">

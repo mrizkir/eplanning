@@ -32,6 +32,7 @@
                             NAMA MISI  
                         </a>                                             
                     </th> 
+                    <th width="100">TA</th>
                     <th width="100">AKSI</th>
                 </tr>
             </thead>
@@ -43,6 +44,7 @@
                     </td>                  
                     <td>{{$item->Kd_PrioritasKab}}</td>
                     <td>{{$item->Nm_PrioritasKab}}</td>
+                    <td>{{$item->TA}}</td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">

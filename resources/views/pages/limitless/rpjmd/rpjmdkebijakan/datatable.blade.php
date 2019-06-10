@@ -22,16 +22,17 @@
             <thead>
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
-                    <th width="100">
+                    <th width="150">
                         <a class="column-sort text-white" id="col-Kd_Kebijakan" data-order="{{$direction}}" href="#">
                             KODE KEBIJAKAN  
                         </a>                                             
                     </th> 
-                    <th width="100">
+                    <th>
                         <a class="column-sort text-white" id="col-Nm_Kebijakan" data-order="{{$direction}}" href="#">
                             NAMA KEBIJAKAN  
                         </a>                                             
                     </th> 
+                    <th width="100">TA</th>
                     <th width="100">AKSI</th>
                 </tr>
             </thead>
@@ -43,6 +44,7 @@
                     </td>                  
                     <td>{{$item->Kd_Kebijakan}}</td>
                     <td>{{$item->Nm_Kebijakan}}</td>
+                    <td>{{$item->TA}}</td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
