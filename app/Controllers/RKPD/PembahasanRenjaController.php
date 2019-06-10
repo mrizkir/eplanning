@@ -487,7 +487,7 @@ class PembahasanRenjaController extends Controller {
     {   
         $auth=\Auth::user();
         $theme = $auth->theme;
-        $roles = $auth->getRoleNames();   
+        $roles = $auth->getRoleNames(); 
         switch ($this->NameOfPage) 
         {            
             case 'pembahasanprarenjaopd' :               
@@ -561,6 +561,24 @@ class PembahasanRenjaController extends Controller {
                                             ->findOrFail($id);        
                   
             break;
+            case 'verifikasirenja' :                  
+                $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
+                                                            "trRenjaRinc"."RenjaID",
+                                                            "trRenjaRinc"."PmKecamatanID",
+                                                            "trRenjaRinc"."PmDesaID",
+                                                            "trRenjaRinc"."No",
+                                                            "trRenjaRinc"."Uraian",
+                                                            "trRenjaRinc"."Sasaran_Angka4" AS "Sasaran_Angka",
+                                                            "trRenjaRinc"."Sasaran_Uraian4" AS "Sasaran_Uraian",
+                                                            "trRenjaRinc"."Target4" AS "Target",
+                                                            "trRenjaRinc"."Jumlah4" AS "Jumlah",
+                                                            "trRenjaRinc"."Prioritas",
+                                                            "trRenjaRinc"."Descr",
+                                                            "trRenjaRinc"."isSKPD",
+                                                            "trRenjaRinc"."isReses"'))                                                                                        
+                                            ->findOrFail($id);        
+                  
+            break;
             default :
                 $dbViewName = null;
         }   
@@ -601,7 +619,8 @@ class PembahasanRenjaController extends Controller {
         {
             $filters=$this->getControllerStateSession($this->SessionName,'filters');
 
-            $data = $this->populateData();
+            $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession($this->SessionName);
+            $data = $this->populateData($currentpage);           
             
             $datatable = view("pages.$theme.rkpd.pembahasanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
                                                                                     'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),                                                                            
@@ -700,6 +719,22 @@ class PembahasanRenjaController extends Controller {
                     $renja->save();
                 break;
                 case 'pembahasanmusrenkab' :
+                    $rinciankegiatan->PmKecamatanID = $request->input('PmKecamatanID');
+                    $rinciankegiatan->PmDesaID = $request->input('PmDesaID');
+                    $rinciankegiatan->Uraian = $request->input('Uraian');
+                    $rinciankegiatan->Sasaran_Angka4 = $request->input('Sasaran_Angka'); 
+                    $rinciankegiatan->Sasaran_Uraian4 = $request->input('Sasaran_Uraian');
+                    $rinciankegiatan->Target4 = $request->input('Target');
+                    $rinciankegiatan->Jumlah4 = $request->input('Jumlah');  
+                    $rinciankegiatan->Prioritas = $request->input('Prioritas');  
+                    $rinciankegiatan->Descr = $request->input('Descr');
+                    $rinciankegiatan->save();
+        
+                    $renja = $rinciankegiatan->renja;            
+                    $renja->NilaiUsulan4=RenjaRincianModel::where('RenjaID',$renja->RenjaID)->sum('Jumlah4');            
+                    $renja->save();
+                break;                
+                case 'verifikasirenja' :
                     $rinciankegiatan->PmKecamatanID = $request->input('PmKecamatanID');
                     $rinciankegiatan->PmDesaID = $request->input('PmDesaID');
                     $rinciankegiatan->Uraian = $request->input('Uraian');
@@ -1537,7 +1572,8 @@ class PembahasanRenjaController extends Controller {
 
             if ($request->ajax()) 
             {
-                $data = $this->populateData();
+                $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession($this->SessionName);
+                $data = $this->populateData($currentpage);                
                 
                 $datatable = view("pages.$theme.rkpd.pembahasanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
                                                                                         'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),                                                                            

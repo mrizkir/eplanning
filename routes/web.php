@@ -405,6 +405,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     //Workflow- verifikasi renja [pembahasan tapd]
     Route::resource('/workflow/rkpd/verifikasirenja','RKPD\PembahasanRenjaController',['parameters'=>['verifikasirenja'=>'uuid'],
                                                                                                               'only'=>['index','edit','update']]); 
+    Route::put('/workflow/rkpd/verifikasirenja/update2/{uuid}',['uses'=>'RKPD\PembahasanRenjaController@update2','as'=>'verifikasirenja.update2']);  
     Route::get('/workflow/rkpd/verifikasirenja/showrincian/{uuid}',['uses'=>'RKPD\PembahasanRenjaController@showrincian','as'=>'verifikasirenja.showrincian']); 
     Route::post('/workflow/rkpd/verifikasirenja/search',['uses'=>'RKPD\PembahasanRenjaController@search','as'=>'verifikasirenja.search']);  
     Route::post('/workflow/rkpd/verifikasirenja/filter',['uses'=>'RKPD\PembahasanRenjaController@filter','as'=>'verifikasirenja.filter']);              
