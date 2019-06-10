@@ -86,7 +86,7 @@ class RKPDRincianModel extends Model {
     /**
      * log changes to all the $fillable attributes of the model
      */
-    // protected static $logFillable = true;
+    protected static $logFillable = true;
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];

@@ -13,6 +13,12 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
                                                                                                 ]); 
     Route::post('/dashboard/rekappaguindikatifopd/orderby',['uses'=>'Report\RekapPaguIndikatifOPDController@orderby','as'=>'rekappaguindikatifopd.orderby']); 
 
+    //masters - tahun perencanaan dan penyerapan anggaran
+    Route::resource('/dmaster/ta','DMaster\TAController',['parameters'=>['ta'=>'uuid']]); 
+    Route::get('/dmaster/ta/paginate/{id}',['uses'=>'DMaster\TAController@paginate','as'=>'ta.paginate']);              
+    Route::post('/dmaster/ta/changenumberrecordperpage',['uses'=>'DMaster\TAController@changenumberrecordperpage','as'=>'ta.changenumberrecordperpage']);  
+    Route::post('/dmaster/ta/orderby',['uses'=>'DMaster\TAController@orderby','as'=>'ta.orderby']); 
+    
     //masters - data kelompok urusan [data]
     Route::resource('/dmaster/kelompokurusan','DMaster\KelompokUrusanController',['parameters'=>['kelompokurusan'=>'uuid']]); 
     Route::get('/dmaster/kelompokurusan/paginate/{id}',['uses'=>'DMaster\KelompokUrusanController@paginate','as'=>'kelompokurusan.paginate']);              

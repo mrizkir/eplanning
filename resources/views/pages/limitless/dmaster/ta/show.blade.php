@@ -1,18 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    TA
+    TAHUN PERENCANAAN / ANGGARAN
 @endsection
 @section('page_header')
-    <i class="icon-price-tag position-left"></i>
-    <span class="text-semibold"> 
-        TA TAHUN PERENCANAAN {{config('eplanning.tahun_perencanaan')}}
-    </span>     
+    <i class="icon-calendar2 position-left"></i>
+    <span class="text-semibold">        
+        TAHUN PERENCANAAN / ANGGARAN
+    </span>
 @endsection
 @section('page_info')
     @include('pages.limitless.dmaster.ta.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('ta.index')!!}">TA</a></li>
+    <li><a href="#">MASTERS</a></li>
+    <li><a href="#">ANEKA DATA</a></li>
+    <li><a href="{!!route('ta.index')!!}">TAHUN PERENCANAAN / ANGGARAN</a></li>
     <li class="active">DETAIL DATA</li>
 @endsection
 @section('page_content')
@@ -21,13 +23,16 @@
         <div class="panel panel-flat border-top-info border-bottom-info">
             <div class="panel-heading">
                 <h5 class="panel-title"> 
-                    <i class="icon-eye"></i>  DATA TA
+                    <i class="icon-eye"></i> DATA TAHUN PERENCANAAN / ANGGARAN
                 </h5>
-                <div class="heading-elements">   
-                    <a href="{{route('ta.edit',['id'=>$data->ta_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data TA">
+                <div class="heading-elements">  
+                    <a href="{{route('ta.create')}}" class="btn btn-info btn-icon heading-btn btnTambah" title="Tambah Data Tahun Perencanaan / Anggaran">
+                        <i class="icon-googleplus5"></i>
+                    </a>
+                    <a href="{{route('ta.edit',['id'=>$data->TAID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Tahun Perencanaan / Anggaran">
                         <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data TA" data-id="{{$data->ta_id}}" data-url="{{route('ta.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
+                    <a href="javascript:;" title="Hapus Data Tahun Perencanaan / Anggaran" data-id="{{$data->TAID}}" data-url="{{route('ta.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
                     </a>
                     <a href="{!!route('ta.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
@@ -40,33 +45,33 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>ta id: </strong></label>
+                                <label class="col-md-4 control-label"><strong>TAHUN: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->ta_id}}</p>
+                                    <p class="form-control-static">{{$data->TACd}}</p>
                                 </div>                            
-                            </div>                            
+                            </div> 
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
+                                <label class="col-md-4 control-label"><strong>NAMA TAHUN: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}}</p>
+                                    <p class="form-control-static">{{$data->TANm}}</p>
                                 </div>                            
-                            </div>
-                        </div>                        
+                            </div>                    
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>replaceit: </strong></label>
+                                <label class="col-md-4 control-label"><strong>KETERANGAN: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">replaceit</p>
+                                    <p class="form-control-static">{{$data->Descr}}</p>
                                 </div>                            
                             </div>    
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>TGL. UBAH: </strong></label>
+                                <label class="col-md-4 control-label"><strong>TGL. BUAT / UBAH: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->updated_at)}}</p>
+                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}} / {{Helper::tanggal('d/m/Y H:m',$data->updated_at)}}</p>
                                 </div>                            
-                            </div>                         
+                            </div>            
                         </div>
                     </div>
                 </div>
@@ -79,7 +84,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
     $(".btnDelete").click(function(ev) {
-        if (confirm('Apakah Anda ingin menghapus Data TA ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data Tahun Perencanaan / Anggaran ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             let token = $('meta[name="csrf-token"]').attr('content');

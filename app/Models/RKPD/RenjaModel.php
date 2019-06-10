@@ -89,4 +89,11 @@ class RenjaModel extends Model {
      * log the changed attributes for all these events 
      */
     protected static $logAttributes = ['RenjaID', 'NamaIndikator', 'NilaiUsulan1'];
+    /**
+     * log changes to all the $fillable attributes of the model
+     */
+    protected static $logFillable = true;
+
+    //only the `deleted` event will get logged automatically
+    // protected static $recordEvents = ['deleted'];
 }

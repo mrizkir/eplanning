@@ -12,27 +12,27 @@ class TAModel extends Model {
      *
      * @var string
      */
-    protected $table = 'ta';
+    protected $table = 'tmTA';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'replace_it', 'replace_it'
+        'TAID', 'TACd', 'TANm', 'Descr'
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'ta_id';
+    protected $primaryKey = 'TAID';
     /**
      * enable auto_increment.
      *
      * @var string
      */
-    public $incrementing = true;
+    public $incrementing = false;
     /**
      * activated timestamps.
      *
@@ -45,11 +45,11 @@ class TAModel extends Model {
      *
      * @var string
      */
-    // protected static $logName = 'TAController';
+    protected static $logName = 'TAController';
     /**
      * log the changed attributes for all these events 
      */
-    // protected static $logAttributes = ['replace_it', 'replace_it'];
+    protected static $logAttributes = ['TAID', 'TANm'];
     /**
      * log changes to all the $fillable attributes of the model
      */

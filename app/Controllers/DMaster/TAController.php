@@ -5,8 +5,10 @@ namespace App\Controllers\DMaster;
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Models\DMaster\TAModel;
+use App\Rules\CheckRecordIsExistValidation;
+use App\Rules\IgnoreIfDataIsEqualValidation;
 
-class TAController extends Controller {
+class TAController extends Controller {    
      /**
      * Membuat sebuah objek
      *
@@ -15,7 +17,7 @@ class TAController extends Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['auth']);
+        $this->middleware(['auth','role:superadmin|opd']);  
     }
     /**
      * collect data from resources for index view
@@ -25,36 +27,22 @@ class TAController extends Controller {
     public function populateData ($currentpage=1) 
     {        
         $columns=['*'];       
-        //if (!$this->checkStateIsExistSession('ta','orderby')) 
-        //{            
-        //    $this->putControllerStateSession('ta','orderby',['column_name'=>'replace_it','order'=>'asc']);
-        //}
-        //$column_order=$this->getControllerStateSession('ta.orderby','column_name'); 
-        //$direction=$this->getControllerStateSession('ta.orderby','order'); 
+        if (!$this->checkStateIsExistSession('ta','orderby')) 
+        {            
+           $this->putControllerStateSession('ta','orderby',['column_name'=>'TACd','order'=>'asc']);
+        }
+        $column_order=$this->getControllerStateSession('ta.orderby','column_name'); 
+        $direction=$this->getControllerStateSession('ta.orderby','order'); 
 
         if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
         {            
             $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
         }
         $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
-        if ($this->checkStateIsExistSession('ta','search')) 
-        {
-            $search=$this->getControllerStateSession('ta','search');
-            switch ($search['kriteria']) 
-            {
-                case 'replaceit' :
-                    $data = TAModel::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
-                break;
-                case 'replaceit' :
-                    $data = TAModel::where('replaceit', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
-                break;
-            }           
-            $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
-        }
-        else
-        {
-            $data = TAModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
-        }        
+  
+        $data = TAModel::orderBy($column_order,$direction)
+                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+        
         $data->setPath(route('ta.index'));
         return $data;
     }
@@ -74,11 +62,11 @@ class TAController extends Controller {
         $data=$this->populateData();
 
         $datatable = view("pages.$theme.dmaster.ta.datatable")->with(['page_active'=>'ta',
-                                                                                'search'=>$this->getControllerStateSession('ta','search'),
-                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                                'column_order'=>$this->getControllerStateSession('ta.orderby','column_name'),
-                                                                                'direction'=>$this->getControllerStateSession('ta.orderby','order'),
-                                                                                'data'=>$data])->render();      
+                                                                                        'search'=>$this->getControllerStateSession('ta','search'),
+                                                                                        'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                        'column_order'=>$this->getControllerStateSession('ta.orderby','column_name'),
+                                                                                        'direction'=>$this->getControllerStateSession('ta.orderby','order'),
+                                                                                        'data'=>$data])->render();      
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
     }
     /**
@@ -94,22 +82,29 @@ class TAController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'replace_it' :
-                $column_name = 'replace_it';
-            break;           
+            case 'col-TACd' :
+                $column_name = 'TACd';
+            break;     
+            case 'col-TANm' :
+                $column_name = 'TANm';
+            break;       
             default :
-                $column_name = 'replace_it';
+                $column_name = 'TACd';
         }
         $this->putControllerStateSession('ta','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
-        $data=$this->populateData();
-
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('ta'); 
+        $data=$this->populateData($currentpage);
+        if ($currentpage > $data->lastPage())
+        {            
+            $data = $this->populateData($data->lastPage());
+        }
         $datatable = view("pages.$theme.dmaster.ta.datatable")->with(['page_active'=>'ta',
-                                                            'search'=>$this->getControllerStateSession('ta','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('ta.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('ta.orderby','order'),
-                                                            'data'=>$data])->render();     
+                                                                                        'search'=>$this->getControllerStateSession('ta','search'),
+                                                                                        'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                        'column_order'=>$this->getControllerStateSession('ta.orderby','column_name'),
+                                                                                        'direction'=>$this->getControllerStateSession('ta.orderby','order'),
+                                                                                        'data'=>$data])->render();     
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
     }
@@ -126,11 +121,11 @@ class TAController extends Controller {
         $this->setCurrentPageInsideSession('ta',$id);
         $data=$this->populateData($id);
         $datatable = view("pages.$theme.dmaster.ta.datatable")->with(['page_active'=>'ta',
-                                                                            'search'=>$this->getControllerStateSession('ta','search'),
-                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                            'column_order'=>$this->getControllerStateSession('ta.orderby','column_name'),
-                                                                            'direction'=>$this->getControllerStateSession('ta.orderby','order'),
-                                                                            'data'=>$data])->render(); 
+                                                                                        'search'=>$this->getControllerStateSession('ta','search'),
+                                                                                        'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                        'column_order'=>$this->getControllerStateSession('ta.orderby','column_name'),
+                                                                                        'direction'=>$this->getControllerStateSession('ta.orderby','order'),
+                                                                                        'data'=>$data])->render(); 
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
     }
@@ -159,11 +154,11 @@ class TAController extends Controller {
         $data=$this->populateData();
 
         $datatable = view("pages.$theme.dmaster.ta.datatable")->with(['page_active'=>'ta',                                                            
-                                                            'search'=>$this->getControllerStateSession('ta','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('ta.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('ta.orderby','order'),
-                                                            'data'=>$data])->render();      
+                                                                                        'search'=>$this->getControllerStateSession('ta','search'),
+                                                                                        'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                        'column_order'=>$this->getControllerStateSession('ta.orderby','column_name'),
+                                                                                        'direction'=>$this->getControllerStateSession('ta.orderby','order'),
+                                                                                        'data'=>$data])->render();      
         
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
     }
@@ -173,8 +168,8 @@ class TAController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {                
-        $theme = \Auth::user()->theme;
+    {                       
+        $theme = \Auth::user()->theme; 
 
         $search=$this->getControllerStateSession('ta','search');
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('ta'); 
@@ -186,11 +181,11 @@ class TAController extends Controller {
         $this->setCurrentPageInsideSession('ta',$data->currentPage());
         
         return view("pages.$theme.dmaster.ta.index")->with(['page_active'=>'ta',
-                                                'search'=>$this->getControllerStateSession('ta','search'),
-                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                'column_order'=>$this->getControllerStateSession('ta.orderby','column_name'),
-                                                'direction'=>$this->getControllerStateSession('ta.orderby','order'),
-                                                'data'=>$data]);               
+                                                                                'search'=>$this->getControllerStateSession('ta','search'),
+                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                                'column_order'=>$this->getControllerStateSession('ta.orderby','column_name'),
+                                                                                'direction'=>$this->getControllerStateSession('ta.orderby','order'),
+                                                                                'data'=>$data]);               
     }
     /**
      * Show the form for creating a new resource.
@@ -203,7 +198,7 @@ class TAController extends Controller {
 
         return view("pages.$theme.dmaster.ta.create")->with(['page_active'=>'ta',
                                                                     
-                                                ]);  
+                                                                    ]);  
     }
     
     /**
@@ -214,14 +209,28 @@ class TAController extends Controller {
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'replaceit'=>'required',
+        $this->validate($request,
+        [
+            'TACd'=>[new CheckRecordIsExistValidation('tmTA'),
+                            'required',
+                            'min:4'
+                        ],   
+            'TANm'=>'required', 
+        ],
+        [
+            'TACd.required'=>'Mohon Kode Kelompok Urusan untuk di isi karena ini diperlukan',
+            'TACd.min'=>'Mohon Kode Kelompok Urusan untuk di isi minimal 4 digit',
+            'TANm.required'=>'Mohon Nama Kelompok Urusan untuk di isi karena ini diperlukan',
+            'TANm.min'=>'Mohon Nama Kelompok Urusan di isi minimal 5 karakter'
+        ]
+        );
+
+        $ta = TAModel::create ([
+            'TAID'=> uniqid ('uid'),
+            'TACd'=>$request->input('TACd'),
+            'TANm'=>$request->input('TANm'),
+            'Descr'=>$request->input('Descr')
         ]);
-        
-        $ta = TAModel::create([
-            'replaceit' => $request->input('replaceit'),
-        ]);        
-        
         if ($request->ajax()) 
         {
             return response()->json([
@@ -231,7 +240,7 @@ class TAController extends Controller {
         }
         else
         {
-            return redirect(route('ta.show',['id'=>$ta->replaceit]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('ta.show',['id'=>$ta->TAID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -246,13 +255,15 @@ class TAController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = TAModel::findOrFail($id);
+        $data = TAModel::where('TAID',$id)
+                        ->firstOrFail();
+
         if (!is_null($data) )  
         {
             return view("pages.$theme.dmaster.ta.show")->with(['page_active'=>'ta',
-                                                    'data'=>$data
-                                                    ]);
-        }        
+                                                                'data'=>$data
+                                                            ]);
+        }
     }
 
     /**
@@ -262,16 +273,18 @@ class TAController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
+    {        
         $theme = \Auth::user()->theme;
         
-        $data = TAModel::findOrFail($id);
+        $data = TAModel::where('TAID',$id)
+                        ->firstOrFail();
+
         if (!is_null($data) ) 
         {
             return view("pages.$theme.dmaster.ta.edit")->with(['page_active'=>'ta',
-                                                    'data'=>$data
-                                                    ]);
-        }        
+                                                                'data'=>$data
+                                                            ]);
+        }
     }
 
     /**
@@ -284,12 +297,24 @@ class TAController extends Controller {
     public function update(Request $request, $id)
     {
         $ta = TAModel::find($id);
+        $this->validate($request, 
+        [
+            'TACd'=>[new IgnoreIfDataIsEqualValidation('tmTA',$ta->TACd),
+                            'required',
+                            'min:4'
+                        ],   
+            'TANm'=>'required|min:5', 
+        ],
+        [
+            'TACd.required'=>'Mohon Kode Kelompok Urusan untuk di isi karena ini diperlukan',
+            'TACd.min'=>'Mohon Kode Kelompok Urusan untuk di isi minimal 1 digit',
+            'TANm.required'=>'Mohon Nama Kelompok Urusan untuk di isi karena ini diperlukan',
+            'TANm.min'=>'Mohon Nama Kelompok Urusan di isi minimal 5 karakter'        
+        ]);        
         
-        $this->validate($request, [
-            'replaceit'=>'required',
-        ]);
-        
-        $ta->replaceit = $request->input('replaceit');
+        $ta->TACd = $request->input('TACd');
+        $ta->TANm = $request->input('TANm');
+        $ta->Descr = $request->input('Descr');
         $ta->save();
 
         if ($request->ajax()) 
@@ -301,7 +326,7 @@ class TAController extends Controller {
         }
         else
         {
-            return redirect(route('ta.show',['id'=>$ta->replaceit]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('ta.show',['id'=>$ta->TAID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 
@@ -313,9 +338,8 @@ class TAController extends Controller {
      */
     public function destroy(Request $request,$id)
     {
-        $theme = \Auth::user()->theme;
-        
-        $ta = TAModel::find($id);
+        $theme = \Auth::user()->theme;        
+        $ta = TAModel::find($id);        
         $result=$ta->delete();
         if ($request->ajax()) 
         {
