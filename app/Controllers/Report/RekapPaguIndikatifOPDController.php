@@ -262,7 +262,8 @@ class RekapPaguIndikatifOPDController extends Controller {
 
                 foreach ($data as $k=>$v)
                 {
-                    \DB::table('trRekapPaguIndikatifOPD')->where('OrgID',$k)->update(['prarenja1'=>$v,'updated_at'=>\Carbon\Carbon::now()]);
+                    $jumlah = empty($v) ? 0 : $v;
+                    \DB::table('trRekapPaguIndikatifOPD')->where('OrgID',$k)->update(['prarenja1'=>$jumlah,'updated_at'=>\Carbon\Carbon::now()]);
                 }
             break;
             case 'uidRakorBidang' :
@@ -278,7 +279,8 @@ class RekapPaguIndikatifOPDController extends Controller {
 
                 foreach ($data as $k=>$v)
                 {
-                    \DB::table('trRekapPaguIndikatifOPD')->where('OrgID',$k)->update(['rakorbidang1'=>$v,'updated_at'=>\Carbon\Carbon::now()]);
+                    $jumlah = empty($v) ? 0 : $v;
+                    \DB::table('trRekapPaguIndikatifOPD')->where('OrgID',$k)->update(['rakorbidang1'=>$jumlah,'updated_at'=>\Carbon\Carbon::now()]);
                 }
             break;
             case 'uidForumOPD' :
@@ -293,7 +295,8 @@ class RekapPaguIndikatifOPDController extends Controller {
                             
                 foreach ($data as $k=>$v)
                 {
-                    \DB::table('trRekapPaguIndikatifOPD')->where('OrgID',$k)->update(['forumopd1'=>$v,'updated_at'=>\Carbon\Carbon::now()]);
+                    $jumlah = empty($v) ? 0 : $v;
+                    \DB::table('trRekapPaguIndikatifOPD')->where('OrgID',$k)->update(['forumopd1'=>$jumlah,'updated_at'=>\Carbon\Carbon::now()]);
                 }
             break;            
             case 'uidMusrenKab' :
@@ -308,7 +311,8 @@ class RekapPaguIndikatifOPDController extends Controller {
 
                 foreach ($data as $k=>$v)
                 {
-                    \DB::table('trRekapPaguIndikatifOPD')->where('OrgID',$k)->update(['musrenkab1'=>$v,'updated_at'=>\Carbon\Carbon::now()]);
+                    $jumlah = empty($v) ? 0 : $v;
+                    \DB::table('trRekapPaguIndikatifOPD')->where('OrgID',$k)->update(['musrenkab1'=>$jumlah,'updated_at'=>\Carbon\Carbon::now()]);
                 }
             break;
             case 'uidRenjaFinal' :
@@ -323,7 +327,8 @@ class RekapPaguIndikatifOPDController extends Controller {
 
                 foreach ($data as $k=>$v)
                 {
-                    \DB::table('trRekapPaguIndikatifOPD')->where('OrgID',$k)->update(['renjafinal1'=>$v,'updated_at'=>\Carbon\Carbon::now()]);
+                    $jumlah = empty($v) ? 0 : $v;
+                    \DB::table('trRekapPaguIndikatifOPD')->where('OrgID',$k)->update(['renjafinal1'=>$jumlah,'updated_at'=>\Carbon\Carbon::now()]);
                 }
             break;
             case 'uidRKPD' :
@@ -338,7 +343,8 @@ class RekapPaguIndikatifOPDController extends Controller {
 
                 foreach ($data as $k=>$v)
                 {
-                    \DB::table('trRekapPaguIndikatifOPD')->where('OrgID',$k)->update(['NilaiUsulan1'=>$v,'updated_at'=>\Carbon\Carbon::now()]);
+                    $jumlah = empty($v) ? 0 : $v;
+                    \DB::table('trRekapPaguIndikatifOPD')->where('OrgID',$k)->update(['NilaiUsulan1'=>$jumlah,'updated_at'=>\Carbon\Carbon::now()]);
                 }
             break;           
         }        

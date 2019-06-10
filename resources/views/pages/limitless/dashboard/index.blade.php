@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-display position-left"></i> 
     <span class="text-semibold"> 
-            RINGKASAN PERENCANAAN DAN REALISASI 
+        RINGKASAN PERENCANAAN DAN REALISASI 
     </span>
 @endsection
 @section('page_breadcrumb')
