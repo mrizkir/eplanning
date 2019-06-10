@@ -72,6 +72,7 @@
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/autoNumeric.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
@@ -88,6 +89,10 @@ $(document).ready(function () {
                                         unformatOnSubmit: true,
                                         modifyValueOnWheel:false
                                     });
+    $('#RenstraVisiID.select').select2({
+        placeholder: "PILIH VISI OPD / SKPD",
+        allowClear:true
+    });
     $('#frmdata').validate({
         rules: {
             RenstraVisiID : {

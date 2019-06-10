@@ -26,10 +26,10 @@
                     <i class="icon-eye"></i>  DATA RENSTRA MISI
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('renstramisi.edit',['id'=>$data->PrioritasKabID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RENSTRA Misi">
+                    <a href="{{route('renstramisi.edit',['id'=>$data->RenstraMisiID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RENSTRA Misi">
                         <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data RENSTRA Misi" data-id="{{$data->PrioritasKabID}}" data-url="{{route('renstramisi.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
+                    <a href="javascript:;" title="Hapus Data RENSTRA Misi" data-id="{{$data->RenstraMisiID}}" data-url="{{route('renstramisi.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
                     </a>
                     <a href="{!!route('renstramisi.create')!!}" class="btn btn-primary btn-info heading-btn btnEdit" title="Tambah RENSTRA Misi">
@@ -42,42 +42,54 @@
             </div>
             <div class="panel-body">
                 <div class="row">                                      
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>RENSTRA MISI ID: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->PrioritasKabID}}</p>
+                                <label class="col-md-3 control-label"><strong>RENSTRA MISI ID: </strong></label>
+                                <div class="col-md-9">
+                                    <p class="form-control-static">{{$data->RenstraMisiID}}</p>
                                 </div>                            
                             </div>
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>KODE MISI: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->Kd_PrioritasKab}}</p>
+                                <label class="col-md-3 control-label"><strong>KODE MISI: </strong></label>
+                                <div class="col-md-9">
+                                    <p class="form-control-static">{{$data->Kd_RenstraMisi}}</p>
                                 </div>                            
                             </div>                            
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>NAMA MISI: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->Nm_PrioritasKab}}</p>
+                                <label class="col-md-3 control-label"><strong>NAMA MISI: </strong></label>
+                                <div class="col-md-9">
+                                    <p class="form-control-static">{{$data->Nm_RenstraMisi}}</p>
+                                </div>                            
+                            </div>  
+                            <div class="form-group">
+                                <label class="col-md-3 control-label"><strong>OPD / SKPD: </strong></label>
+                                <div class="col-md-9">
+                                    <p class="form-control-static">{{$data->OrgNm}}</p>
                                 </div>                            
                             </div>  
                         </div>                        
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-horizontal">
+                    <div class="col-md-5">
+                        <div class="form-horizontal">         
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>TA: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->TA}}</p>
+                                </div>                            
+                            </div>                                
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>KETERANGAN: </strong></label>
                                 <div class="col-md-8">
                                     <p class="form-control-static">{{$data->Descr}}</p>
                                 </div>                            
-                            </div>    
+                            </div>                                
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
                                 <div class="col-md-8">
                                     <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}}</p>
                                 </div>                            
-                            </div>
+                            </div>                         
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>TGL. UBAH: </strong></label>
                                 <div class="col-md-8">

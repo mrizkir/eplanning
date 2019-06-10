@@ -22,16 +22,17 @@
             <thead>
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
-                    <th width="100">
-                        <a class="column-sort text-white" id="col-Kd_PrioritasKab" data-order="{{$direction}}" href="#">
+                    <th width="120">
+                        <a class="column-sort text-white" id="col-Kd_RenstraMisi" data-order="{{$direction}}" href="#">
                             KODE MISI 
                         </a>                                             
                     </th> 
-                    <th width="100">
-                        <a class="column-sort text-white" id="col-Nm_PrioritasKab" data-order="{{$direction}}" href="#">
+                    <th>
+                        <a class="column-sort text-white" id="col-Nm_RenstraMisi" data-order="{{$direction}}" href="#">
                             NAMA MISI  
                         </a>                                             
                     </th> 
+                    <th width="100">TA</th>
                     <th width="100">AKSI</th>
                 </tr>
             </thead>
@@ -41,22 +42,23 @@
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>                  
-                    <td>{{$item->Kd_PrioritasKab}}</td>
-                    <td>{{$item->Nm_PrioritasKab}}</td>
+                    <td>{{$item->Kd_RenstraMisi}}</td>
+                    <td>{{$item->Nm_RenstraMisi}}</td>
+                    <td>{{$item->TA}}</td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('renstramisi.show',['id'=>$item->PrioritasKabID])}}" title="Detail Data RENSTRA Misi">
+                                <a class="btnShow" href="{{route('renstramisi.show',['id'=>$item->RenstraMisiID])}}" title="Detail Data RENSTRA Misi">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('renstramisi.edit',['id'=>$item->PrioritasKabID])}}" title="Ubah Data RENSTRA Misi">
+                                <a class="btnEdit" href="{{route('renstramisi.edit',['id'=>$item->RenstraMisiID])}}" title="Ubah Data RENSTRA Misi">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data RENSTRA Misi" data-id="{{$item->PrioritasKabID}}" data-url="{{route('renstramisi.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data RENSTRA Misi" data-id="{{$item->RenstraMisiID}}" data-url="{{route('renstramisi.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>

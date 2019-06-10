@@ -27,7 +27,7 @@ class RPJMDMisiController extends Controller {
     public function populateData ($currentpage=1) 
     {        
         $columns=['*'];       
-        if (!$this->checkStateIsExistSession('rpjmdmisi','Nm_PrioritasKab')) 
+        if (!$this->checkStateIsExistSession('rpjmdmisi','orderby')) 
         {            
            $this->putControllerStateSession('rpjmdmisi','orderby',['column_name'=>'Nm_PrioritasKab','order'=>'asc']);
         }

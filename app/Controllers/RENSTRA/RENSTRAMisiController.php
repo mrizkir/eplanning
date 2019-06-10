@@ -27,7 +27,7 @@ class RENSTRAMisiController extends Controller {
     public function populateData ($currentpage=1) 
     {        
         $columns=['*'];       
-        if (!$this->checkStateIsExistSession('renstramisi','Nm_RenstraMisi')) 
+        if (!$this->checkStateIsExistSession('renstramisi','orderby')) 
         {            
            $this->putControllerStateSession('renstramisi','orderby',['column_name'=>'Nm_RenstraMisi','order'=>'asc']);
         }
@@ -112,9 +112,12 @@ class RENSTRAMisiController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
+            case 'col-Kd_RenstraMisi' :
+                $column_name = 'Kd_RenstraMisi';
+            break; 
             case 'col-Nm_RenstraMisi' :
                 $column_name = 'Nm_RenstraMisi';
-            break;           
+            break;          
             default :
                 $column_name = 'Nm_RenstraMisi';
         }
@@ -123,13 +126,13 @@ class RENSTRAMisiController extends Controller {
         $data=$this->populateData();
 
         $datatable = view("pages.$theme.renstra.renstramisi.datatable")->with(['page_active'=>'renstramisi',
-                                                            'search'=>$this->getControllerStateSession('renstramisi','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('renstramisi.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('renstramisi.orderby','order'),
-                                                            'data'=>$data])->render();     
+                                                                                'search'=>$this->getControllerStateSession('renstramisi','search'),
+                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                'column_order'=>$this->getControllerStateSession('renstramisi.orderby','column_name'),
+                                                                                'direction'=>$this->getControllerStateSession('renstramisi.orderby','order'),
+                                                                                'data'=>$data])->render();     
 
-        return response()->json(['success'=>true,'datatable'=>$datatable],200);
+        return response()->json(['success'=>true,'datatable'=>$datatable,'column_name'=>$column_name],200);
     }
     /**
      * paginate resource in storage called by ajax
@@ -261,11 +264,11 @@ class RENSTRAMisiController extends Controller {
         $filters=$this->getControllerStateSession('renstramisi','filters');       
         if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
         {
-            $daftar_visi = \App\Models\RENSTRA\RENSTRAVisiModel::select(\DB::raw('"Kd_RenstraVisi","Nm_RenstraVisi"'))
+            $daftar_visi = \App\Models\RENSTRA\RENSTRAVisiModel::select(\DB::raw('"RenstraVisiID",CONCAT("Kd_RenstraVisi",\'.\',"Nm_RenstraVisi") AS "Nm_RenstraVisi"'))
                                                                 ->where('OrgID',$filters['OrgID'])
                                                                 ->where('TA',config('eplanning.renstra_tahun_mulai'))
                                                                 ->get()
-                                                                ->pluck('Nm_RenstraVisi','Kd_RenstraVisi')
+                                                                ->pluck('Nm_RenstraVisi','RenstraVisiID')
                                                                 ->prepend('','')
                                                                 ->toArray();
 
@@ -291,6 +294,7 @@ class RENSTRAMisiController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
+            'RenstraVisiID'=>'required',
             'Kd_RenstraMisi'=>[new CheckRecordIsExistValidation('tmRenstraMisi',['where'=>['TA','=',config('eplanning.renstra_tahun_mulai')]]),
                         'required'
                     ],
@@ -299,6 +303,7 @@ class RENSTRAMisiController extends Controller {
         
         $renstramisi = RENSTRAMisiModel::create([
             'RenstraMisiID'=> uniqid ('uid'),
+            'RenstraVisiID'=> $request->input('RenstraVisiID'),
             'OrgID' => $this->getControllerStateSession('renstramisi','filters.OrgID'),
             'Kd_RenstraMisi' => $request->input('Kd_RenstraMisi'),
             'Nm_RenstraMisi' => $request->input('Nm_RenstraMisi'),
@@ -330,7 +335,8 @@ class RENSTRAMisiController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = RENSTRAMisiModel::findOrFail($id);
+        $data = RENSTRAMisiModel::join('tmOrg','tmRenstraMisi.OrgID','tmOrg.OrgID')
+                                ->findOrFail($id);
         if (!is_null($data) )  
         {
             return view("pages.$theme.renstra.renstramisi.show")->with(['page_active'=>'renstramisi',
@@ -352,8 +358,17 @@ class RENSTRAMisiController extends Controller {
         $data = RENSTRAMisiModel::findOrFail($id);
         if (!is_null($data) ) 
         {
+            $daftar_visi = \App\Models\RENSTRA\RENSTRAVisiModel::select(\DB::raw('"RenstraVisiID",CONCAT("Kd_RenstraVisi",\'.\',"Nm_RenstraVisi") AS "Nm_RenstraVisi"'))
+                                                                ->where('OrgID',$data->OrgID)
+                                                                ->where('TA',$data->TA)
+                                                                ->get()
+                                                                ->pluck('Nm_RenstraVisi','RenstraVisiID')
+                                                                ->prepend('','')
+                                                                ->toArray();
+
             return view("pages.$theme.renstra.renstramisi.edit")->with(['page_active'=>'renstramisi',
-                                                                    'data'=>$data
+                                                                    'data'=>$data,
+                                                                    'daftar_visi'=>$daftar_visi
                                                                 ]);
         }        
     }
@@ -370,9 +385,9 @@ class RENSTRAMisiController extends Controller {
         $renstramisi = RENSTRAMisiModel::find($id);
         
         $this->validate($request, [
-            'Kd_RenstraMisi'=>[new IgnoreIfDataIsEqualValidation('tmRenstraMisi',$renstramisi->Kd_PK,['where'=>['TA','=',config('eplanning.renstra_tahun_mulai')]]),
-                        'required'
-                    ],
+            'Kd_RenstraMisi'=>[new IgnoreIfDataIsEqualValidation('tmRenstraMisi',$renstramisi->Kd_RenstraMisi,['where'=>['TA','=',config('eplanning.renstra_tahun_mulai')]]),
+                                    'required'
+                                ],
             'Nm_RenstraMisi'=>'required|min:2'
         ]);
         
