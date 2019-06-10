@@ -300,7 +300,7 @@ class RPJMDTujuanController extends Controller {
         if (!is_null($data) ) 
         {
             $daftar_misi=\App\Models\RPJMD\RPJMDMisiModel::select(\DB::raw('"PrioritasKabID",CONCAT(\'[\',"Kd_PrioritasKab",\']. \',"Nm_PrioritasKab") AS "Nm_PrioritasKab"'))
-                                                            ->where('TA',config('eplanning.rpjmd_tahun_mulai'))
+                                                            ->where('TA',$data->TA)
                                                             ->orderBy('Kd_PrioritasKab','ASC')
                                                             ->get()
                                                             ->pluck('Nm_PrioritasKab','PrioritasKabID')

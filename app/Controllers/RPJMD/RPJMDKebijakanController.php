@@ -296,7 +296,7 @@ class RPJMDKebijakanController extends Controller {
         $data = RPJMDKebijakanModel::findOrFail($id);                
         if (!is_null($data) ) 
         {
-            $daftar_strategi=RPJMDStrategiModel::getRPJDMStrategi(config('eplanning.rpjmd_tahun_mulai'),false);
+            $daftar_strategi=RPJMDStrategiModel::getRPJDMStrategi($data->TA,false);
             return view("pages.$theme.rpjmd.rpjmdkebijakan.edit")->with(['page_active'=>'rpjmdkebijakan',
                                                                             'data'=>$data,
                                                                             'daftar_strategi'=>$daftar_strategi

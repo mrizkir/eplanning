@@ -298,7 +298,7 @@ class RPJMDStrategiController extends Controller {
         if (!is_null($data) ) 
         {
             $daftar_sasaran=\App\Models\RPJMD\RPJMDSasaranModel::select(\DB::raw('"PrioritasSasaranKabID",CONCAT(\'[\',"Kd_Sasaran",\']. \',"Nm_Sasaran") AS "Nm_Sasaran"'))
-                                                                ->where('TA',config('eplanning.rpjmd_tahun_mulai'))
+                                                                ->where('TA',$data->TA)
                                                                 ->orderBy('Kd_Sasaran','ASC')
                                                                 ->get()
                                                                 ->pluck('Nm_Sasaran','PrioritasSasaranKabID')
