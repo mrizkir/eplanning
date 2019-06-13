@@ -1,18 +1,19 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    USERS SUPER ADMIN
+    USERS BAPELITBANG
 @endsection
 @section('page_header')
     <i class="icon-users position-left"></i>
     <span class="text-semibold">
-        USERS SUPER ADMIN
+        USERS BAPELITBANG
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.setting.users.info')
+    @include('pages.limitless.setting.usersbapelitbang.info')
 @endsection
 @section('page_breadcrumb')
-    <li class="active">USERS SUPER ADMIN</li>
+    <li><a href="#">SETTING</a></li>
+    <li class="active">USERS BAPELITBANG</li>
 @endsection
 @section('page_content')
 <div class="row">
@@ -25,7 +26,7 @@
                 </h5>
             </div>
             <div class="panel-body">
-                {!! Form::open(['action'=>'Setting\UsersController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
+                {!! Form::open(['action'=>'Setting\UsersBapelitbangController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">
@@ -51,7 +52,7 @@
         </div>
     </div>       
     <div class="col-md-12" id="divdatatable">
-        @include('pages.limitless.setting.users.datatable')
+        @include('pages.limitless.setting.usersbapelitbang.datatable')
     </div>
 </div>
 @endsection
@@ -59,7 +60,7 @@
 <script type="text/javascript">
 $(document).ready(function () {  
     $("#divdatatable").on("click",".btnDelete", function(){
-        if (confirm('Apakah Anda ingin menghapus Data User ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data User BAPELITBANG ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             $.ajax({            
@@ -75,7 +76,7 @@ $(document).ready(function () {
                     if (result.success==1){
                         $('#divdatatable').html(result.datatable);                        
                     }else{
-                        console.log("Gagal menghapus data Users dengan id "+id);
+                        console.log("Gagal menghapus data User BAPELITBANG dengan id "+id);
                     }                    
                 },
                 error:function(xhr, status, error){

@@ -1,18 +1,18 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    USERS BAPELITBANG (SUPER ADMIN)
+    USERS SUPER ADMIN
 @endsection
 @section('page_header')
     <i class="icon-users position-left"></i>
     <span class="text-semibold"> 
-        USERS BAPELITBANG (SUPER ADMIN)
+        USERS SUPER ADMIN
     </span>     
 @endsection
 @section('page_info')
     @include('pages.limitless.setting.users.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('users.index')!!}">USERS BAPELITBANG (SUPER ADMIN)</a></li>
+    <li><a href="{!!route('users.index')!!}">USERS SUPER ADMIN</a></li>
     <li class="active">UBAH DATA</li>
 @endsection
 @section('page_content')

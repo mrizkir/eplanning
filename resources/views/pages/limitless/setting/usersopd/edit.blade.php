@@ -138,10 +138,6 @@ $(document).ready(function () {
             username : {
                 required: true,
                 minlength: 5,
-            },
-            password : {
-                required: true,
-                minlength: 5,
             },            
             OrgID : {
                 required: true,
@@ -159,11 +155,7 @@ $(document).ready(function () {
             username : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 5 karakter atau lebih."
-            },
-            password : {
-                required: "Mohon untuk di isi karena ini diperlukan.",
-                minlength: "Mohon di isi minimal 5 karakter atau lebih."
-            },            
+            },           
             OrgID : {                
                 required: "Mohon di pilih Unit Kerja / OPD / SKPD untuk user ini",
             }

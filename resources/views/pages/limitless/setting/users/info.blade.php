@@ -1,3 +1,3 @@
 <small class="display-block">          
-    Modul untuk mengatur pengguna role BAPELITBANG (SUPER ADMIN).
+    Modul untuk mengatur pengguna role SUPER ADMIN.
 </small>

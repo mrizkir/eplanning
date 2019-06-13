@@ -452,7 +452,17 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/setting/users/changenumberrecordperpage',['uses'=>'Setting\UsersController@changenumberrecordperpage','as'=>'users.changenumberrecordperpage']);  
     Route::post('/setting/users/orderby',['uses'=>'Setting\UsersController@orderby','as'=>'users.orderby']); 
     Route::post('/setting/users/search',['uses'=>'Setting\UsersController@search','as'=>'users.search']);    
-    Route::post('/setting/users/filter',['uses'=>'Setting\UsersController@filter','as'=>'users.filter']);       
+    Route::post('/setting/users/filter',['uses'=>'Setting\UsersController@filter','as'=>'users.filter']); 
+    
+    //setting - users bapelitbang
+    Route::resource('/setting/usersbapelitbang','Setting\UsersBapelitbangController',['parameters'=>['usersbapelitbang'=>'id']]);           
+    Route::get('/setting/usersbapelitbang/paginatecreate/{id}',['uses'=>'Setting\UsersBapelitbangController@paginate','as'=>'usersbapelitbang.paginate']);    
+    Route::get('/setting/usersbapelitbang/profil',['uses'=>'Setting\UsersBapelitbangController@profil','as'=>'usersbapelitbang.profil']);    
+    Route::put('/setting/usersbapelitbang/updateprofil',['uses'=>'Setting\UsersBapelitbangController@updateprofil','as'=>'usersbapelitbang.updateprofil']);        
+    Route::post('/setting/usersbapelitbang/changenumberrecordperpage',['uses'=>'Setting\UsersBapelitbangController@changenumberrecordperpage','as'=>'usersbapelitbang.changenumberrecordperpage']);  
+    Route::post('/setting/usersbapelitbang/orderby',['uses'=>'Setting\UsersBapelitbangController@orderby','as'=>'usersbapelitbang.orderby']); 
+    Route::post('/setting/usersbapelitbang/search',['uses'=>'Setting\UsersBapelitbangController@search','as'=>'usersbapelitbang.search']);    
+    Route::post('/setting/usersbapelitbang/filter',['uses'=>'Setting\UsersBapelitbangController@filter','as'=>'usersbapelitbang.filter']);
 
     //setting - users OPD
     Route::resource('/setting/usersopd','Setting\UsersOPDController',['parameters'=>['usersopd'=>'id']]);           

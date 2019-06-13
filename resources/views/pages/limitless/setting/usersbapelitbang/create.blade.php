@@ -1,18 +1,19 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    USERS SUPER ADMIN
+    USERS BAPELITBANG
 @endsection
 @section('page_header')
     <i class="icon-users position-left"></i>
     <span class="text-semibold"> 
-        USERS SUPER ADMIN
+        USERS BAPELITBANG
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.setting.users.info')
+    @include('pages.limitless.setting.usersbapelitbang.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('users.index')!!}">USERS SUPER ADMIN</a></li>
+    <li><a href="#">SETTING</a></li>
+    <li><a href="{!!route('usersbapelitbang.index')!!}">USERS BAPELITBANG</a></li>
     <li class="active">TAMBAH DATA</li>
 @endsection
 @section('page_content')
@@ -26,13 +27,13 @@
             <div class="heading-elements">
                 <ul class="icons-list">                    
                     <li>               
-                        <a href="{!!route('users.index')!!}" data-action="closeredirect" title="keluar"></a>
+                        <a href="{!!route('usersbapelitbang.index')!!}" data-action="closeredirect" title="keluar"></a>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>'Setting\UsersController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
+            {!! Form::open(['action'=>'Setting\UsersBapelitbangController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
                 <div class="form-group">
                     {{Form::label('name','NAMA',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
@@ -62,7 +63,15 @@
                     <div class="col-md-10">
                         {{Form::select('theme', $daftar_theme,'default',['class'=>'form-control','id'=>'theme'])}}                                
                     </div>
-                </div>
+                </div>  
+                <div class="form-group">
+                    {{Form::label('do_sync','SYNCING ROLE ?',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        <div class="checkbox checkbox-switch">
+                            {{Form::checkbox('do_sync','1',1,['class'=>'switch','data-on-text'=>'OK','data-off-text'=>'NO'])}}                                     
+                        </div>
+                    </div>
+                </div>                      
                 <div class="form-group">            
                     <div class="col-md-10 col-md-offset-2">                        
                         {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}
@@ -76,10 +85,38 @@
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/switch.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
+    $(".switch").bootstrapSwitch();
+    $(document).on('change','#OrgID',function(ev) {
+        ev.preventDefault();   
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/filter',
+            dataType: 'json',
+            data: {                
+                "_token": token,
+                "OrgID": $('#OrgID').val(),
+            },
+            success:function(result)
+            { 
+                var daftar_unitkerja = result.daftar_unitkerja;
+                var listitems='<option></option>';
+                $.each(daftar_unitkerja,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
+                
+                $('#SOrgID').html(listitems);
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });     
+    });
     $('#frmdata').validate({
         ignore:[],
         rules: {
@@ -118,7 +155,7 @@ $(document).ready(function () {
                 minlength: "Mohon di isi minimal 5 karakter atau lebih."
             }
         },        
-    });    
+    });   
 });
 </script>
 @endsection

@@ -1,6 +1,6 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    USERS BAPELITBANG
+    USERS SUPER ADMIN
 @endsection 
 @section('page_header')
     <i class="icon-users position-left"></i>
