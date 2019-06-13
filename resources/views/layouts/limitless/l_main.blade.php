@@ -358,12 +358,16 @@
                                                 <i class="icon-user"></i> ROLES
                                             </a>
                                         </li>
+                                        @endhasrole	
+                                        @hasrole('superadmin')
                                         <li class="dropdown-header">USERS</li>
                                         <li{!!Helper::isMenuActive ($page_active,'users',' class="active"')!!}>
                                             <a href="{!!route('users.index')!!}">
                                                 <i class="icon-user"></i> SUPER ADMIN
                                             </a>
                                         </li>
+                                        @endhasrole	
+                                        @hasrole('superadmin|bapelitbang')
                                         <li{!!Helper::isMenuActive ($page_active,'usersbapelitbang',' class="active"')!!}>
                                             <a href="{!!route('usersbapelitbang.index')!!}">
                                                 <i class="icon-user"></i> BAPELITBANG

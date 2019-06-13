@@ -16,8 +16,7 @@ class UsersController extends Controller {
      */
     public function __construct()
     {
-        parent::__construct();
-        $this->middleware(['auth','role:superadmin']);         
+        parent::__construct();              
     }
     /**
      * dapatkan daftar roles
@@ -473,7 +472,7 @@ class UsersController extends Controller {
         }
         else
         {
-            return redirect(route('users.profil'))->with('success',"Data profil telah berhasil diubah.");
+            return redirect(route('users.profil',['id'=>$id]))->with('success',"Data profil telah berhasil diubah.");
         }
     }
      /**

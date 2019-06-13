@@ -20,7 +20,7 @@ class UsulanRenjaController extends Controller
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['auth','role:superadmin|opd']);  
+        $this->middleware(['auth','role:superadmin|bapelitbang|opd']);
         //set nama session 
         $this->SessionName=$this->getNameForSession();      
         //set nama halaman saat ini

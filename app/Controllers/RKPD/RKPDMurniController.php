@@ -18,7 +18,7 @@ class RKPDMurniController extends Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['auth','role:superadmin|opd']);
+        $this->middleware(['auth','role:superadmin|bapelitbang|opd']);
     }
     private function populateRincianKegiatan($RKPDID)
     {

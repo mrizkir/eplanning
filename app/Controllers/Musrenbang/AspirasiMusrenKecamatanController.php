@@ -21,7 +21,7 @@ class AspirasiMusrenKecamatanController extends Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['auth','role:superadmin|kecamatan']);
+        $this->middleware(['auth','role:superadmin|bapelitbang|kecamatan']);
     }
     /**
      * collect data from resources for index view

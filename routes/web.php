@@ -445,20 +445,18 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/setting/roles/storerolepermission', ['uses'=>'Setting\RolesController@storerolepermission','as'=>'roles.storerolepermission']);
     
     //setting - users
-    Route::resource('/setting/users','Setting\UsersController',['parameters'=>['users'=>'id']]);           
-    Route::get('/setting/users/paginatecreate/{id}',['uses'=>'Setting\UsersController@paginate','as'=>'users.paginate']);    
-    Route::get('/setting/users/profil',['uses'=>'Setting\UsersController@profil','as'=>'users.profil']);    
-    Route::put('/setting/users/updateprofil',['uses'=>'Setting\UsersController@updateprofil','as'=>'users.updateprofil']);        
-    Route::post('/setting/users/changenumberrecordperpage',['uses'=>'Setting\UsersController@changenumberrecordperpage','as'=>'users.changenumberrecordperpage']);  
-    Route::post('/setting/users/orderby',['uses'=>'Setting\UsersController@orderby','as'=>'users.orderby']); 
-    Route::post('/setting/users/search',['uses'=>'Setting\UsersController@search','as'=>'users.search']);    
-    Route::post('/setting/users/filter',['uses'=>'Setting\UsersController@filter','as'=>'users.filter']); 
+    Route::resource('/setting/users','Setting\UsersController',['parameters'=>['users'=>'id']])->middleware(['auth','role:superadmin']);           
+    Route::get('/setting/users/paginatecreate/{id}',['uses'=>'Setting\UsersController@paginate','as'=>'users.paginate'])->middleware(['auth','role:superadmin']);    
+    Route::get('/setting/users/profil/{id}',['uses'=>'Setting\UsersController@profil','as'=>'users.profil']);    
+    Route::put('/setting/users/updateprofil/{id}',['uses'=>'Setting\UsersController@updateprofil','as'=>'users.updateprofil']);        
+    Route::post('/setting/users/changenumberrecordperpage',['uses'=>'Setting\UsersController@changenumberrecordperpage','as'=>'users.changenumberrecordperpage'])->middleware(['auth','role:superadmin']);  
+    Route::post('/setting/users/orderby',['uses'=>'Setting\UsersController@orderby','as'=>'users.orderby'])->middleware(['auth','role:superadmin']); 
+    Route::post('/setting/users/search',['uses'=>'Setting\UsersController@search','as'=>'users.search'])->middleware(['auth','role:superadmin']);    
+    Route::post('/setting/users/filter',['uses'=>'Setting\UsersController@filter','as'=>'users.filter'])->middleware(['auth','role:superadmin']); 
     
     //setting - users bapelitbang
     Route::resource('/setting/usersbapelitbang','Setting\UsersBapelitbangController',['parameters'=>['usersbapelitbang'=>'id']]);           
-    Route::get('/setting/usersbapelitbang/paginatecreate/{id}',['uses'=>'Setting\UsersBapelitbangController@paginate','as'=>'usersbapelitbang.paginate']);    
-    Route::get('/setting/usersbapelitbang/profil',['uses'=>'Setting\UsersBapelitbangController@profil','as'=>'usersbapelitbang.profil']);    
-    Route::put('/setting/usersbapelitbang/updateprofil',['uses'=>'Setting\UsersBapelitbangController@updateprofil','as'=>'usersbapelitbang.updateprofil']);        
+    Route::get('/setting/usersbapelitbang/paginatecreate/{id}',['uses'=>'Setting\UsersBapelitbangController@paginate','as'=>'usersbapelitbang.paginate']);        
     Route::post('/setting/usersbapelitbang/changenumberrecordperpage',['uses'=>'Setting\UsersBapelitbangController@changenumberrecordperpage','as'=>'usersbapelitbang.changenumberrecordperpage']);  
     Route::post('/setting/usersbapelitbang/orderby',['uses'=>'Setting\UsersBapelitbangController@orderby','as'=>'usersbapelitbang.orderby']); 
     Route::post('/setting/usersbapelitbang/search',['uses'=>'Setting\UsersBapelitbangController@search','as'=>'usersbapelitbang.search']);    

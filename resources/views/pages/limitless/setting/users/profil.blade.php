@@ -1,6 +1,6 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    USERS SUPER ADMIN
+    PROFIL PENGGUNA
 @endsection 
 @section('page_header')
     <i class="icon-users position-left"></i>
@@ -117,8 +117,7 @@
                 </div>
             </div>
             <div class="panel-body">
-                {!! Form::open(['action'=>['Setting\UsersController@updateprofil',$data->id],'method'=>'post','id'=>'frmdata','name'=>'frmdata'])!!}
-                    {{Form::hidden('_method','PUT')}}
+                {!! Form::open(['action'=>['Setting\UsersController@updateprofil',$data->id],'method'=>'put','id'=>'frmdata','name'=>'frmdata'])!!}
                     <div class="form-group">
                         <div class="form-group">
                             <div class="row">
