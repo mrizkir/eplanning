@@ -414,7 +414,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/workflow/rkpd/verifikasirenja/orderby',['uses'=>'RKPD\PembahasanRenjaController@orderby','as'=>'verifikasirenja.orderby']);  
     Route::post('/workflow/rkpd/verifikasirenja/transfer',['uses'=>'RKPD\PembahasanRenjaController@transfer','as'=>'verifikasirenja.transfer']);
     
-    //Workflow- verifikasi renja [pembahasan tapd]
+    //Workflow- RKPD Murni
     Route::resource('/workflow/rkpd/rkpdmurni','RKPD\RKPDMurniController',['parameters'=>['rkpdmurni'=>'uuid'],
                                                                     'only'=>['index','show','edit','update']]);     
     Route::post('/workflow/rkpd/rkpdmurni/search',['uses'=>'RKPD\RKPDMurniController@search','as'=>'rkpdmurni.search']);  
@@ -425,6 +425,18 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::put('/workflow/rkpd/rkpdmurni/transfer/{uuid}',['uses'=>'RKPD\RKPDMurniController@transfer','as'=>'rkpdmurni.transfer']);
     Route::get('/workflow/rkpd/rkpdmurni/printtoexcel',['uses'=>'RKPD\RKPDMurniController@printtoexcel','as'=>'rkpdmurni.printtoexcel']);
     Route::get('/workflow/rkpd/rkpdmurni/printtopdf',['uses'=>'RKPD\RKPDMurniController@printtopdf','as'=>'rkpdmurni.printtopdf']);
+
+    //Workflow- RKPD Perubahan
+    Route::resource('/workflow/rkpd/rkpdperubahan','RKPD\RKPDPerubahanController',['parameters'=>['rkpdperubahan'=>'uuid'],
+                                                                                    'only'=>['index','show','edit','update']]);     
+    Route::post('/workflow/rkpd/rkpdperubahan/search',['uses'=>'RKPD\RKPDPerubahanController@search','as'=>'rkpdperubahan.search']);  
+    Route::post('/workflow/rkpd/rkpdperubahan/filter',['uses'=>'RKPD\RKPDPerubahanController@filter','as'=>'rkpdperubahan.filter']);              
+    Route::get('/workflow/rkpd/rkpdperubahan/paginate/{id}',['uses'=>'RKPD\RKPDPerubahanController@paginate','as'=>'rkpdperubahan.paginate']);              
+    Route::post('/workflow/rkpd/rkpdperubahan/changenumberrecordperpage',['uses'=>'RKPD\RKPDPerubahanController@changenumberrecordperpage','as'=>'rkpdperubahan.changenumberrecordperpage']);  
+    Route::post('/workflow/rkpd/rkpdperubahan/orderby',['uses'=>'RKPD\RKPDPerubahanController@orderby','as'=>'rkpdperubahan.orderby']);  
+    Route::put('/workflow/rkpd/rkpdperubahan/transfer/{uuid}',['uses'=>'RKPD\RKPDPerubahanController@transfer','as'=>'rkpdperubahan.transfer']);
+    Route::get('/workflow/rkpd/rkpdperubahan/printtoexcel',['uses'=>'RKPD\RKPDPerubahanController@printtoexcel','as'=>'rkpdperubahan.printtoexcel']);
+    Route::get('/workflow/rkpd/rkpdperubahan/printtopdf',['uses'=>'RKPD\RKPDPerubahanController@printtopdf','as'=>'rkpdperubahan.printtopdf']);
 
     //setting - permissions    
     Route::resource('/setting/permissions','Setting\PermissionsController',[

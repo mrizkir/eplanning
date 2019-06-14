@@ -39,6 +39,16 @@ class MappingProgramToOPDController extends Controller {
             $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
         }
         $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
+
+        //filter
+        if (!$this->checkStateIsExistSession($this->SessionName,'filters')) 
+        {            
+            $this->putControllerStateSession($this->SessionName,'filters',[
+                                                                            'OrgID'=>'none'
+                                                                            ]);
+        }        
+        $OrgID= $this->getControllerStateSession('mappingprogramtoopd.filters','OrgID');
+
         if ($this->checkStateIsExistSession('mappingprogramtoopd','search')) 
         {
             $search=$this->getControllerStateSession('mappingprogramtoopd','search');
@@ -61,7 +71,7 @@ class MappingProgramToOPDController extends Controller {
                             ->join ('tmUrs','tmOrg.UrsID','tmUrs.UrsID')
                             ->join ('tmKUrs','tmUrs.KUrsID','tmKUrs.KUrsID')
                             ->where('v_organisasi_program.TA',config('eplanning.tahun_perencanaan'))
-                            ->where(['OrgID'=>$search['isikriteria']])
+                            ->where(['kode_program'=>$search['isikriteria']])
                             ->orderBy("v_organisasi_program.$column_order",$direction);
                 break;
                 case 'PrgNm' :
@@ -104,8 +114,17 @@ class MappingProgramToOPDController extends Controller {
                     ->join ('tmUrs','tmOrg.UrsID','tmUrs.UrsID')
                     ->join ('tmKUrs','tmUrs.KUrsID','tmKUrs.KUrsID')
                     ->where('v_organisasi_program.TA',config('eplanning.tahun_perencanaan'))
-                    ->orderBy("v_organisasi_program.$column_order",$direction)
-                    ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
+                    ->orderBy("v_organisasi_program.$column_order",$direction);
+            
+            if ($OrgID=='none'  || $OrgID=='')
+            {
+                $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
+            }
+            else
+            {
+                $data->where('v_organisasi_program.OrgID',$OrgID);
+                $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
+            }
         }        
         $data->setPath(route('mappingprogramtoopd.index'));
         return $data;
@@ -237,6 +256,40 @@ class MappingProgramToOPDController extends Controller {
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
     }
     /**
+     * filter resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function filter(Request $request) 
+    {
+        $auth = \Auth::user();    
+        $theme = $auth->theme;
+
+        $filters=$this->getControllerStateSession('mappingprogramtoopd','filters');
+        $json_data = [];
+
+        //index
+        if ($request->exists('OrgID'))
+        {
+            $OrgID = $request->input('OrgID')==''?'none':$request->input('OrgID');
+            $filters['OrgID']=$OrgID;            
+            $this->putControllerStateSession('mappingprogramtoopd','filters',$filters);
+
+            $data = $this->populateData();
+
+            $datatable = view("pages.$theme.dmaster.mappingprogramtoopd.datatable")->with(['page_active'=>'mappingprogramtoopd',   
+                                                                            'search'=>$this->getControllerStateSession('mappingprogramtoopd','search'),
+                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                            'column_order'=>$this->getControllerStateSession('mappingprogramtoopd.orderby','column_name'),
+                                                                            'direction'=>$this->getControllerStateSession('mappingprogramtoopd.orderby','order'),
+                                                                            'data'=>$data])->render();
+
+            $json_data = ['success'=>true,'datatable'=>$datatable];
+        } 
+        return $json_data;
+    }
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -254,7 +307,11 @@ class MappingProgramToOPDController extends Controller {
         }
         $this->setCurrentPageInsideSession('mappingprogramtoopd',$data->currentPage());
         
+        $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false);
+        $filters=$this->getControllerStateSession('mappingprogramtoopd','filters');
         return view("pages.$theme.dmaster.mappingprogramtoopd.index")->with(['page_active'=>'mappingprogramtoopd',
+                                                                            'daftar_opd'=>$daftar_opd,
+                                                                            'filters'=>$filters,
                                                                             'search'=>$this->getControllerStateSession('mappingprogramtoopd','search'),
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                                                             'column_order'=>$this->getControllerStateSession('mappingprogramtoopd.orderby','column_name'),

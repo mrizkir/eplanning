@@ -75,6 +75,9 @@ class HelperKegiatan {
             case 'rkpdmurni' :
                 $level = 4;
             break;
+            case 'rkpdperubahan' :
+                $level = 5;
+            break;
             default :
                 $level = null;
         }

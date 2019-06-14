@@ -581,8 +581,9 @@ class UsulanRenjaController extends Controller
         if ($request->exists('UrsID'))
         {
             $UrsID = $request->input('UrsID')==''?'none':$request->input('UrsID');
-            $daftar_program = ProgramModel::getDaftarProgram(config('eplanning.tahun_perencanaan'),false,$UrsID);
+            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(config('eplanning.tahun_perencanaan'),false,$UrsID);
             $json_data['success']=true;
+            $json_data['UrsID']=$UrsID;
             $json_data['daftar_program']=$daftar_program;
         }
 

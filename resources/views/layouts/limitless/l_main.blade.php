@@ -333,6 +333,11 @@
                             <i class="icon-arrow-down16"></i>RKPD <span class="text-violet"><strong>[14]</strong></span>
                         </a>                                        
                     </li>
+                    <li{!!Helper::isMenuActive ($page_active,'rkpdperubahan',' class="active"')!!}>
+                        <a href="{{route('rkpdperubahan.index')}}" title="RENCANA KERJA PERANGKAT DAERAH PERUBAHAN">
+                            <i class="icon-arrow-down16"></i>RKPD PERUBAHAN <span class="text-violet"><strong>[15]</strong></span>
+                        </a>                                        
+                    </li>
                     @endhasrole
                 </ul>
             </li>                        
