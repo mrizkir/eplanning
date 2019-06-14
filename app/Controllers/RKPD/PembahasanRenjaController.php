@@ -1463,6 +1463,7 @@ class PembahasanRenjaController extends Controller {
                         {                    
                             RKPDModel::Create([
                                 'RKPDID'=>$RKPDID,   
+                                'RenjaID'=>$RKPDID,   
                                 'OrgID'=>$renja->OrgID,
                                 'SOrgID'=>$renja->SOrgID,
                                 'KgtID'=>$renja->KgtID,

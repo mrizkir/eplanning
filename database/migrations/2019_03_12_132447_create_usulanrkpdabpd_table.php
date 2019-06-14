@@ -17,6 +17,7 @@ class CreateUsulanrkpdabpdTable extends Migration
         
         
             $table->string('RKPDID',19);
+            $table->string('RenjaID',19)->nullable();
             $table->string('OrgID',19);
             $table->string('SOrgID',19);
             $table->string('KgtID',19);
@@ -52,13 +53,14 @@ class CreateUsulanrkpdabpdTable extends Migration
             $table->timestamps();
 
             $table->primary('RKPDID');
+            $table->index('RenjaID');
             $table->index('OrgID');
             $table->index('SOrgID');
             $table->index('KgtID');
             $table->index('SumberDanaID');
             $table->index('RKPDID_Src');
 
-            $table->foreign('RKPDID')
+            $table->foreign('RenjaID')
                         ->references('RenjaID')
                         ->on('trRenja')
                         ->onDelete('cascade')
