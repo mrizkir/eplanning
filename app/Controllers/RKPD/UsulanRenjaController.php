@@ -524,6 +524,8 @@ class UsulanRenjaController extends Controller
         switch ($roles[0])
         {
             case 'superadmin' :     
+            case 'bapelitbang' :     
+            case 'tapd' :     
                 $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false);  
                 $daftar_unitkerja=array();           
                 if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)

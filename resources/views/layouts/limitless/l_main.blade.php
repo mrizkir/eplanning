@@ -258,7 +258,7 @@
                     <i class="icon-sort-amount-desc position-left"></i> WORKFLOW <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu width-450"> 
-                    @hasrole('superadmin|desa')
+                    @hasrole('superadmin|bapelitbang|desa')
                     <li{!!Helper::isMenuActive ($page_active,'aspirasimusrendesa',' class="active"')!!}>
                         <a href="{{route('aspirasimusrendesa.index')}}" title="Aspirasi Musrenbang Desa">
                             <i class="icon-arrow-down16"></i>ASPIRASI MUSRENBANG DESA / KELURAHAN <span class="text-violet"><strong>[1]</strong></span>
@@ -270,7 +270,7 @@
                         </a>
                     </li>
                     @endhasrole
-                    @hasrole('superadmin|kecamatan')
+                    @hasrole('superadmin|bapelitbang|kecamatan')
                     <li{!!Helper::isMenuActive ($page_active,'aspirasimusrenkecamatan',' class="active"')!!}>
                         <a href="{{route('aspirasimusrenkecamatan.index')}}" title="Aspirasi Musrenbang Kecamatan">
                             <i class="icon-arrow-down16"></i>ASPIRASI MUSRENBANG KECAMATAN <span class="text-violet"><strong>[3]</strong></span>
@@ -282,7 +282,7 @@
                         </a>
                     </li>
                     @endhasrole
-                    @hasrole('superadmin|opd')
+                    @hasrole('superadmin|bapelitbang|opd|tapd')
                     <li{!!Helper::isMenuActive ($page_active,'usulanprarenjaopd',' class="active"')!!}>
                         <a href="{{route('usulanprarenjaopd.index')}}" title="Usulan Pra Renja OPD/SKPD">
                             <i class="icon-arrow-down16"></i>USULAN PRA RENJA OPD/SKPD <span class="text-violet"><strong>[5]</strong></span>

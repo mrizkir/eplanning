@@ -19,7 +19,7 @@ class PembahasanRenjaController extends Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['auth','role:superadmin|bapelitbang']);
+        $this->middleware(['auth','role:superadmin|bapelitbang|opd|tapd']);
         //set nama session 
         $this->SessionName=$this->getNameForSession();      
         //set nama halaman saat ini
@@ -334,13 +334,37 @@ class PembahasanRenjaController extends Controller {
         $theme = $auth->theme;
 
         $filters=$this->getControllerStateSession($this->SessionName,'filters');
-        $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false);  
-        $daftar_unitkerja=array();           
-        if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
-        {
-            $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('eplanning.tahun_perencanaan'),false,$filters['OrgID']);        
-        }    
+        $roles=$auth->getRoleNames();
 
+        switch ($roles[0])
+        {
+            case 'superadmin' :     
+            case 'bapelitbang' :
+            case 'tapd' :     
+                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false);  
+                $daftar_unitkerja=array();           
+                if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
+                {
+                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('eplanning.tahun_perencanaan'),false,$filters['OrgID']);        
+                }    
+            break;
+            case 'opd' :
+                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false,NULL,$auth->OrgID);  
+                $filters['OrgID']=$auth->OrgID;                
+                if (empty($auth->SOrgID)) 
+                {
+                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('eplanning.tahun_perencanaan'),false,$auth->OrgID);  
+                    $filters['SOrgID']=empty($filters['SOrgID'])?'':$filters['SOrgID'];                    
+                }   
+                else
+                {
+                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('eplanning.tahun_perencanaan'),false,$auth->OrgID,$auth->SOrgID);
+                    $filters['SOrgID']=$auth->SOrgID;
+                }                
+                $this->putControllerStateSession($this->SessionName,'filters',$filters);
+            break;
+
+        }
         $search=$this->getControllerStateSession($this->SessionName,'search'); 
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession($this->SessionName);
         $data = $this->populateData($currentpage);
@@ -487,7 +511,7 @@ class PembahasanRenjaController extends Controller {
     {   
         $auth=\Auth::user();
         $theme = $auth->theme;
-        $roles = $auth->getRoleNames(); 
+        
         switch ($this->NameOfPage) 
         {            
             case 'pembahasanprarenjaopd' :               
@@ -502,9 +526,11 @@ class PembahasanRenjaController extends Controller {
                                                                 "trRenjaRinc"."Target1" AS "Target",
                                                                 "trRenjaRinc"."Jumlah1" AS "Jumlah",
                                                                 "trRenjaRinc"."Prioritas",
+                                                                "trRenjaRinc"."Status",
                                                                 "trRenjaRinc"."Descr",
                                                                 "trRenjaRinc"."isSKPD",
-                                                                "trRenjaRinc"."isReses"'))                                                                                        
+                                                                "trRenjaRinc"."isReses"'))   
+                                                ->where('Privilege',0)                                                                                     
                                                 ->findOrFail($id);        
                     
             break;
@@ -520,9 +546,11 @@ class PembahasanRenjaController extends Controller {
                                                             "trRenjaRinc"."Target2" AS "Target",
                                                             "trRenjaRinc"."Jumlah2" AS "Jumlah",
                                                             "trRenjaRinc"."Prioritas",
+                                                            "trRenjaRinc"."Status",
                                                             "trRenjaRinc"."Descr",
                                                             "trRenjaRinc"."isSKPD",
-                                                            "trRenjaRinc"."isReses"'))                                                                                        
+                                                            "trRenjaRinc"."isReses"')) 
+                                            ->where('Privilege',0)                                                                                       
                                             ->findOrFail($id);   
             break;
             case 'pembahasanforumopd' :               
@@ -537,9 +565,11 @@ class PembahasanRenjaController extends Controller {
                                                             "trRenjaRinc"."Target3" AS "Target",
                                                             "trRenjaRinc"."Jumlah3" AS "Jumlah",
                                                             "trRenjaRinc"."Prioritas",
+                                                            "trRenjaRinc"."Status",
                                                             "trRenjaRinc"."Descr",
                                                             "trRenjaRinc"."isSKPD",
-                                                            "trRenjaRinc"."isReses"'))                                                                                        
+                                                            "trRenjaRinc"."isReses"'))   
+                                            ->where('Privilege',0)                                                                                     
                                             ->findOrFail($id);        
                   
             break;
@@ -555,9 +585,11 @@ class PembahasanRenjaController extends Controller {
                                                             "trRenjaRinc"."Target4" AS "Target",
                                                             "trRenjaRinc"."Jumlah4" AS "Jumlah",
                                                             "trRenjaRinc"."Prioritas",
+                                                            "trRenjaRinc"."Status",
                                                             "trRenjaRinc"."Descr",
                                                             "trRenjaRinc"."isSKPD",
-                                                            "trRenjaRinc"."isReses"'))                                                                                        
+                                                            "trRenjaRinc"."isReses"'))  
+                                            ->where('Privilege',0)
                                             ->findOrFail($id);        
                   
             break;
@@ -573,9 +605,11 @@ class PembahasanRenjaController extends Controller {
                                                             "trRenjaRinc"."Target4" AS "Target",
                                                             "trRenjaRinc"."Jumlah4" AS "Jumlah",
                                                             "trRenjaRinc"."Prioritas",
+                                                            "trRenjaRinc"."Status",
                                                             "trRenjaRinc"."Descr",
                                                             "trRenjaRinc"."isSKPD",
-                                                            "trRenjaRinc"."isReses"'))                                                                                        
+                                                            "trRenjaRinc"."isReses"'))  
+                                            ->where('Privilege',0)
                                             ->findOrFail($id);        
                   
             break;
@@ -587,6 +621,7 @@ class PembahasanRenjaController extends Controller {
         {  
             return view("pages.$theme.rkpd.pembahasanrenja.edit")->with(['page_active'=>$this->NameOfPage,
                                                                         'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
+                                                                        'label_transfer'=>$this->LabelTransfer,
                                                                         'renja'=>$renja,                                                                   
                                                                     ]);
         }        
@@ -666,13 +701,12 @@ class PembahasanRenjaController extends Controller {
             'Prioritas' => 'required'            
         ]);
 
-        \DB::transaction(function () use ($request,$rinciankegiatan) { 
-
+        \DB::transaction(function () use ($request,$rinciankegiatan) 
+        { 
+            $transfer_ke=$request->input('transfer_ke');
             switch ($this->NameOfPage) 
             {            
-                case 'pembahasanprarenjaopd' :
-                    $rinciankegiatan->PmKecamatanID = $request->input('PmKecamatanID');
-                    $rinciankegiatan->PmDesaID = $request->input('PmDesaID');
+                case 'pembahasanprarenjaopd' :                    
                     $rinciankegiatan->Uraian = $request->input('Uraian');
                     $rinciankegiatan->Sasaran_Angka1 = $request->input('Sasaran_Angka'); 
                     $rinciankegiatan->Sasaran_Uraian1 = $request->input('Sasaran_Uraian');
@@ -680,15 +714,14 @@ class PembahasanRenjaController extends Controller {
                     $rinciankegiatan->Jumlah1 = $request->input('Jumlah');  
                     $rinciankegiatan->Prioritas = $request->input('Prioritas');  
                     $rinciankegiatan->Descr = $request->input('Descr');
+                    $rinciankegiatan->Status = $request->input('Status');
                     $rinciankegiatan->save();
 
                     $renja = $rinciankegiatan->renja;            
                     $renja->NilaiUsulan1=RenjaRincianModel::where('RenjaID',$renja->RenjaID)->sum('Jumlah1');            
-                    $renja->save();
+                    $renja->save();                    
                 break;
-                case 'pembahasanrakorbidang' :
-                    $rinciankegiatan->PmKecamatanID = $request->input('PmKecamatanID');
-                    $rinciankegiatan->PmDesaID = $request->input('PmDesaID');
+                case 'pembahasanrakorbidang' :                    
                     $rinciankegiatan->Uraian = $request->input('Uraian');
                     $rinciankegiatan->Sasaran_Angka2 = $request->input('Sasaran_Angka'); 
                     $rinciankegiatan->Sasaran_Uraian2 = $request->input('Sasaran_Uraian');
@@ -696,15 +729,14 @@ class PembahasanRenjaController extends Controller {
                     $rinciankegiatan->Jumlah2 = $request->input('Jumlah');  
                     $rinciankegiatan->Prioritas = $request->input('Prioritas');  
                     $rinciankegiatan->Descr = $request->input('Descr');
+                    $rinciankegiatan->Status = $request->input('Status');
                     $rinciankegiatan->save();
         
                     $renja = $rinciankegiatan->renja;            
                     $renja->NilaiUsulan2=RenjaRincianModel::where('RenjaID',$renja->RenjaID)->sum('Jumlah2');            
                     $renja->save();
                 break;
-                case 'pembahasanforumopd' :
-                    $rinciankegiatan->PmKecamatanID = $request->input('PmKecamatanID');
-                    $rinciankegiatan->PmDesaID = $request->input('PmDesaID');
+                case 'pembahasanforumopd' :                    
                     $rinciankegiatan->Uraian = $request->input('Uraian');
                     $rinciankegiatan->Sasaran_Angka3 = $request->input('Sasaran_Angka'); 
                     $rinciankegiatan->Sasaran_Uraian3 = $request->input('Sasaran_Uraian');
@@ -712,15 +744,14 @@ class PembahasanRenjaController extends Controller {
                     $rinciankegiatan->Jumlah3 = $request->input('Jumlah');  
                     $rinciankegiatan->Prioritas = $request->input('Prioritas');  
                     $rinciankegiatan->Descr = $request->input('Descr');
+                    $rinciankegiatan->Status = $request->input('Status');
                     $rinciankegiatan->save();
         
                     $renja = $rinciankegiatan->renja;            
                     $renja->NilaiUsulan3=RenjaRincianModel::where('RenjaID',$renja->RenjaID)->sum('Jumlah3');            
                     $renja->save();
                 break;
-                case 'pembahasanmusrenkab' :
-                    $rinciankegiatan->PmKecamatanID = $request->input('PmKecamatanID');
-                    $rinciankegiatan->PmDesaID = $request->input('PmDesaID');
+                case 'pembahasanmusrenkab' :                    
                     $rinciankegiatan->Uraian = $request->input('Uraian');
                     $rinciankegiatan->Sasaran_Angka4 = $request->input('Sasaran_Angka'); 
                     $rinciankegiatan->Sasaran_Uraian4 = $request->input('Sasaran_Uraian');
@@ -728,15 +759,14 @@ class PembahasanRenjaController extends Controller {
                     $rinciankegiatan->Jumlah4 = $request->input('Jumlah');  
                     $rinciankegiatan->Prioritas = $request->input('Prioritas');  
                     $rinciankegiatan->Descr = $request->input('Descr');
+                    $rinciankegiatan->Status = $request->input('Status');
                     $rinciankegiatan->save();
         
                     $renja = $rinciankegiatan->renja;            
                     $renja->NilaiUsulan4=RenjaRincianModel::where('RenjaID',$renja->RenjaID)->sum('Jumlah4');            
                     $renja->save();
                 break;                
-                case 'verifikasirenja' :
-                    $rinciankegiatan->PmKecamatanID = $request->input('PmKecamatanID');
-                    $rinciankegiatan->PmDesaID = $request->input('PmDesaID');
+                case 'verifikasirenja' :                    
                     $rinciankegiatan->Uraian = $request->input('Uraian');
                     $rinciankegiatan->Sasaran_Angka4 = $request->input('Sasaran_Angka'); 
                     $rinciankegiatan->Sasaran_Uraian4 = $request->input('Sasaran_Uraian');
@@ -744,6 +774,7 @@ class PembahasanRenjaController extends Controller {
                     $rinciankegiatan->Jumlah4 = $request->input('Jumlah');  
                     $rinciankegiatan->Prioritas = $request->input('Prioritas');  
                     $rinciankegiatan->Descr = $request->input('Descr');
+                    $rinciankegiatan->Status = $request->input('Status');
                     $rinciankegiatan->save();
         
                     $renja = $rinciankegiatan->renja;            
@@ -751,7 +782,11 @@ class PembahasanRenjaController extends Controller {
                     $renja->save();
                 break;                
             }               
-            
+            if ($transfer_ke=='1')
+            {                
+                $request->replace(['RenjaRincID'=>$rinciankegiatan->RenjaRincID]);                                
+                $this->transfer($request);
+            }
         });
         if ($request->ajax()) 
         {
@@ -776,7 +811,7 @@ class PembahasanRenjaController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        if ($request->exists('RenjaRincID'))
+        if ($request->exists('RenjaRincID') && $request->input('RenjaRincID')!='')
         {
             $RenjaRincID=$request->input('RenjaRincID');                                    
             $rincian_kegiatan=\DB::transaction(function () use ($RenjaRincID) {
@@ -1591,7 +1626,7 @@ class PembahasanRenjaController extends Controller {
             }
             else
             {
-                return redirect(route(\Helper::getNameOfPage('showrincian'),['id'=>$rinciankegiatan->RenjaRincID]))->with('success','Data ini telah berhasil disimpan.');
+                return redirect(route(\Helper::getNameOfPage('showrincian'),['id'=>$rincian_kegiatan->RenjaRincID]))->with('success','Data ini telah berhasil disimpan.');
             }
         }
         else

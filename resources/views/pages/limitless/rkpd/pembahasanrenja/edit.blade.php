@@ -91,6 +91,20 @@
                     {{Form::text('Descr',$renja->Descr,['class'=>'form-control','placeholder'=>'KETERANGAN / CATATAN PENTING'])}}
                 </div>
             </div>
+            <div class="form-group">
+                {{Form::label('Status','STATUS',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    {{Form::select('Status', HelperKegiatan::getStatusKegiatan(),$renja->Status,['class'=>'form-control','id'=>'Prioritas'])}}
+                </div>
+            </div>
+            <div class="form-group">
+                {{Form::label('transfer_ke','TRANSFER KE',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    <div class="checkbox checkbox-switch">
+                        {{Form::checkbox('transfer_ke','1',0,['class'=>'switch','data-on-text'=>$label_transfer,'data-off-text'=>'TIDAK'])}}                                     
+                    </div>
+                </div>
+            </div>      
         </div>        
         <div class="panel-footer">
             <div class="col-md-10 col-md-offset-2">                        
@@ -106,10 +120,12 @@
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/autoNumeric.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/switch.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
+    $(".switch").bootstrapSwitch();
     AutoNumeric.multiple(['#No','#Sasaran_Angka'], {
                                             allowDecimalPadding: false,
                                             minimumValue:0,

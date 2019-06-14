@@ -52,6 +52,12 @@ class RolesTableSeeder extends Seeder
                 'guard_name'=>'web',
                 'created_at'=>Carbon::now(),
                 'updated_at'=>Carbon::now()
+            ],    
+            [
+                'name'=>'tapd',
+                'guard_name'=>'web',
+                'created_at'=>Carbon::now(),
+                'updated_at'=>Carbon::now()
             ]
         ]);
     }

@@ -24,14 +24,19 @@
                 <h5 class="panel-title"> 
                     <i class="icon-eye"></i>  
                     DETAIL RINCIAN RENCANA KEGIATAN 
-                    @if ($renja->Privilege==1))
+                    @if ($renja->Privilege==1)
                         <span class="label label-success label-rounded">SUDAH DI TRANSFER KE {{$label_transfer}}</span>
                     @endif
                 </h5>
-                <div class="heading-elements">                      
+                <div class="heading-elements">     
+                    @if ($renja->Privilege==0)
+                    <a href="{{route(Helper::getNameOfPage('edit'),['id'=>$renja->RenjaRincID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Usulan {{$page_title}}">
+                        <i class="icon-pencil7"></i>
+                    </a> 
+                    @endif
                     <a href="{!!route(Helper::getNameOfPage('index'))!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
                         <i class="icon-close2"></i>
-                    </a>  
+                    </a>                      
                 </div>
             </div>
             <div class="panel-body">

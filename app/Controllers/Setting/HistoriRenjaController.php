@@ -14,7 +14,7 @@ class HistoriRenjaController  extends Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['auth','role:superadmin']);
+        $this->middleware(['auth','role:superadmin|bapelitbang|opd|tapd']);
     }   
     /**
      * collect data from renja for history
