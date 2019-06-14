@@ -19,7 +19,7 @@ class PembahasanRenjaController extends Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['auth','role:superadmin|bapelitbang|opd|tapd']);
+        $this->middleware(['auth','role:superadmin|bapelitbang|tapd']);
         //set nama session 
         $this->SessionName=$this->getNameForSession();      
         //set nama halaman saat ini
