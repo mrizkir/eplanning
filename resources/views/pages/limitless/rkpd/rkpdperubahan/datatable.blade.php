@@ -76,7 +76,7 @@
                         @endif
                     </td>
                     @if ($item->RKPDRincID=='')
-                    <td colspan="7">
+                    <td colspan="6">
                         <span class="label label-flat label-block border-info text-info-600">
                             PROSES INPUT BELUM SELESAI
                         </span>

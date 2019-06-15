@@ -1245,7 +1245,7 @@ class RKPDPerubahanController extends Controller
                         'NilaiUsulan2' => $request->input('Jumlah'),                       
                         'Tgl_Posting' => $tanggal_posting,                       
                         'isSKPD' => true,     
-                        'Status' => 2,                               
+                        'Status' => 3,                               
                         'EntryLvl' => 5,           
                         'Descr' => $request->input('Descr'),
                         'TA' => \HelperKegiatan::getTahunPerencanaan()
