@@ -47,13 +47,13 @@ class UrusanController extends Controller {
             {
                 case 'Kode_Bidang' :
                     $data = UrusanModel::join('v_urusan','v_urusan.UrsID','tmUrs.UrsID')
-                                        ->where('tmUrs.TA',config('eplanning.tahun_perencanaan'))
+                                        ->where('tmUrs.TA',\HelperKegiatan::getTahunPerencanaan())
                                         ->where(['Kode_Bidang'=>$search['isikriteria']])
                                         ->orderBy($column_order,$direction); 
                 break;
                 case 'Nm_Bidang' :
                     $data = UrusanModel::join('v_urusan','v_urusan.UrsID','tmUrs.UrsID')
-                                        ->where('tmUrs.TA',config('eplanning.tahun_perencanaan'))
+                                        ->where('tmUrs.TA',\HelperKegiatan::getTahunPerencanaan())
                                         ->where('tmUrs.Nm_Bidang', SQL::like(), '%' . $search['isikriteria'] . '%')
                                         ->orderBy($column_order,$direction);                                        
                 break;
@@ -63,7 +63,7 @@ class UrusanController extends Controller {
         else
         {
             $data = UrusanModel::join('v_urusan','v_urusan.UrsID','tmUrs.UrsID')
-                                ->where('tmUrs.TA',config('eplanning.tahun_perencanaan'))
+                                ->where('tmUrs.TA',\HelperKegiatan::getTahunPerencanaan())
                                 ->orderBy($column_order,$direction)
                                 ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }
@@ -220,7 +220,7 @@ class UrusanController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $kelompok_urusan=KelompokUrusanModel::getKelompokUrusan(config('eplanning.tahun_perencanaan'));
+        $kelompok_urusan=KelompokUrusanModel::getKelompokUrusan(\HelperKegiatan::getTahunPerencanaan());
         return view("pages.$theme.dmaster.urusan.create")->with(['page_active'=>'urusan',
                                                                 'kelompok_urusan'=>$kelompok_urusan
                                                             ]);  
@@ -243,7 +243,7 @@ class UrusanController extends Controller {
             'Kd_Bidang'=>'required|min:1|max:4|regex:/^[0-9]+$/', 
             'Kode_Bidang'=>['required',new IgnoreIfDataIsEqualValidation('v_urusan',
                                                                         null,
-                                                                        ['where'=>['TA','=',config('eplanning.tahun_perencanaan')]                                                                                
+                                                                        ['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]                                                                                
                                                                         ],
                                                                         'Kode Urusan')],   
             'KUrsID'=>'required|not_in:none', 
@@ -269,7 +269,7 @@ class UrusanController extends Controller {
             'Kd_Bidang'=>$request->input('Kd_Bidang'),        
             'Nm_Bidang'=>$request->input('Nm_Bidang'),
             'Descr'=>$request->input('Descr'),
-            'TA'=>config('eplanning.tahun_perencanaan'),
+            'TA'=>\HelperKegiatan::getTahunPerencanaan(),
         ]);
 
         if ($request->ajax()) 
@@ -319,7 +319,7 @@ class UrusanController extends Controller {
         $data = UrusanModel::with('kelompokurusan')->findOrFail($id);
         if (!is_null($data) ) 
         {   
-            $kelompok_urusan=KelompokUrusanModel::getKelompokUrusan(config('eplanning.tahun_perencanaan'),false);
+            $kelompok_urusan=KelompokUrusanModel::getKelompokUrusan(\HelperKegiatan::getTahunPerencanaan(),false);
             return view("pages.$theme.dmaster.urusan.edit")->with(['page_active'=>'urusan',
                                                                     'kelompok_urusan'=>$kelompok_urusan,
                                                                     'data'=>$data                                                                    
@@ -347,7 +347,7 @@ class UrusanController extends Controller {
             'Kd_Bidang'=>'required|min:1|max:4|regex:/^[0-9]+$/', 
             'Kode_Bidang'=>['required',new IgnoreIfDataIsEqualValidation('v_urusan',
                                                                         $urusan->kelompokurusan->Kd_Urusan.'.'.$urusan->Kd_Bidang,
-                                                                        ['where'=>['TA','=',config('eplanning.tahun_perencanaan')]],
+                                                                        ['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]],
                                                                         'Kode Urusan')],   
             'KUrsID'=>'required|not_in:none', 
             'Nm_Bidang'=>'required|min:5', 

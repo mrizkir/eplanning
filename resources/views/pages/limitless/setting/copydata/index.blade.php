@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-copy3 position-left"></i>
     <span class="text-semibold">
-        COPY DATA  PERENCANAAN KE TAHUN {{config('eplanning.tahun_perencanaan')}}
+        COPY DATA  PERENCANAAN KE TAHUN {{HelperKegiatan::getTahunPerencanaan()}}
     </span>
 @endsection
 @section('page_info')

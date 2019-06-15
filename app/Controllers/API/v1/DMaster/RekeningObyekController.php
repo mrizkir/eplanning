@@ -36,7 +36,7 @@ class RekeningObyekController extends Controller {
         {
             $numberRecordPerPage = $request->input('numberrecordperpage');
         }
-        $ta=config('eplanning.tahun_perencanaan');
+        $ta=\HelperKegiatan::getTahunPerencanaan();
         if ($request->exists('ta'))
         {
             $ta = $request->input('ta');

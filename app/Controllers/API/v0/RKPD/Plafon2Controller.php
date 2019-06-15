@@ -23,7 +23,7 @@ class Plafon2Controller extends Controller {
      */
     public function index(Request $request)
     {  
-        $ta=config('eplanning.tahun_perencanaan');    
+        $ta=\HelperKegiatan::getTahunPerencanaan();    
         $data = \DB::table('v_plafon2')   
                     ->where('TA',$ta)
                     ->get();

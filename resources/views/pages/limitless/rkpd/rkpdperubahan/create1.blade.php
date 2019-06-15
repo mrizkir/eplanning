@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        {{$page_title}} TAHUN PERENCANAAN {{config('eplanning.tahun_penyerapan')}}
+        {{$page_title}} TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}
     </span>
 @endsection
 @section('page_info')
@@ -65,13 +65,13 @@
                         </div>                            
                     </div>  
                     <div class="form-group">
-                        <label class="col-md-2 control-label">TARGET TA {{config('eplanning.tahun_penyerapan')}} (RPJMD): </label>
+                        <label class="col-md-2 control-label">TARGET TA {{HelperKegiatan::getTahunPerencanaan()}} (RPJMD): </label>
                         <div class="col-md-10">
                             <p class="form-control-static" id="pTargetAngka">-</p>
                         </div>                            
                     </div>  
                     <div class="form-group">
-                        <label class="col-md-2 control-label">PAGU DANA TA {{config('eplanning.tahun_penyerapan')}} (RPJMD): </label>
+                        <label class="col-md-2 control-label">PAGU DANA TA {{HelperKegiatan::getTahunPerencanaan()}} (RPJMD): </label>
                         <div class="col-md-10">
                             <p class="form-control-static" id="pPaguDana">-</p>
                         </div>                            

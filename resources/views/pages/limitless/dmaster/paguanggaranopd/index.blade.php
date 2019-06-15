@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold">
-        PAGU ANGGARAN OPD / SKPD TAHUN PERENCANAAN {{config('eplanning.tahun_perencanaan')}}  
+        PAGU ANGGARAN OPD / SKPD TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}  
     </span>
 @endsection
 @section('page_info')

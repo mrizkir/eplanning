@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold">
-        USULAN KECAMATAN TAHUN PERENCANAAN {{config('eplanning.tahun_perencanaan')}}  
+        USULAN KECAMATAN TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}  
     </span>
 @endsection
 @section('page_info')

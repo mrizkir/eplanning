@@ -204,7 +204,7 @@ class RPJMDStrategiController extends Controller {
         $theme = \Auth::user()->theme;
 
         $daftar_sasaran=\App\Models\RPJMD\RPJMDSasaranModel::select(\DB::raw('"PrioritasSasaranKabID",CONCAT(\'[\',"Kd_Sasaran",\']. \',"Nm_Sasaran") AS "Nm_Sasaran"'))
-                                                            ->where('TA',config('eplanning.tahun_perencanaan'))
+                                                            ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                                                             ->orderBy('Kd_Sasaran','ASC')
                                                             ->get()
                                                             ->pluck('Nm_Sasaran','PrioritasSasaranKabID')
@@ -224,7 +224,7 @@ class RPJMDStrategiController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_Strategi'=>[new CheckRecordIsExistValidation('tmPrioritasStrategiKab',['where'=>['TA','=',config('eplanning.tahun_perencanaan')]]),
+            'Kd_Strategi'=>[new CheckRecordIsExistValidation('tmPrioritasStrategiKab',['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]]),
                             'required'
                         ],
             'PrioritasSasaranKabID'=>'required',
@@ -237,7 +237,7 @@ class RPJMDStrategiController extends Controller {
             'Kd_Strategi' => $request->input('Kd_Strategi'),
             'Nm_Strategi' => $request->input('Nm_Strategi'),
             'Descr' => $request->input('Descr'),
-            'TA' => config('eplanning.tahun_perencanaan')
+            'TA' => \HelperKegiatan::getTahunPerencanaan()
         ]);        
         
         if ($request->ajax()) 
@@ -325,7 +325,7 @@ class RPJMDStrategiController extends Controller {
         $this->validate($request, [
             'Kd_Strategi'=>['required',new IgnoreIfDataIsEqualValidation('tmPrioritasStrategiKab',
                                                                         $rpjmdstrategi->Kd_Strategi,
-                                                                        ['where'=>['TA','=',config('eplanning.tahun_perencanaan')]],
+                                                                        ['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]],
                                                                         'Kode Strategi')],
             'PrioritasSasaranKabID'=>'required',
             'Nm_Strategi'=>'required',

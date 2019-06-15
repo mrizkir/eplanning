@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-chess-queen position-left"></i>
     <span class="text-semibold">        
-        KELOMPOK URUSAN TAHUN PERENCANAAN {{config('eplanning.tahun_perencanaan')}}
+        KELOMPOK URUSAN TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}
     </span>
 @endsection
 @section('page_info')

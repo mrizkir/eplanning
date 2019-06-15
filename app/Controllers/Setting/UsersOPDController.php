@@ -204,7 +204,7 @@ class UsersOPDController extends Controller {
         if ($request->exists('OrgID'))
         {
             $OrgID = $request->input('OrgID')==''?'none':$request->input('OrgID');            
-            $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('eplanning.tahun_perencanaan'),false,$OrgID);  
+            $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$OrgID);  
             
             $json_data = ['success'=>true,'daftar_unitkerja'=>$daftar_unitkerja];
         } 
@@ -244,7 +244,7 @@ class UsersOPDController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false);
+        $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);
 
         $daftar_theme = $this->listOfthemes;             
         return view("pages.$theme.setting.usersopd.create")->with(['page_active'=>'usersopd',
@@ -337,8 +337,8 @@ class UsersOPDController extends Controller {
         $data = User::findOrFail($id);
         if (!is_null($data) ) 
         {
-            $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false);
-            $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('eplanning.tahun_perencanaan'),false,$data->OrgID);
+            $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);
+            $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$data->OrgID);
             $daftar_theme = $this->listOfthemes;   
             return view("pages.$theme.setting.usersopd.edit")->with(['page_active'=>'usersopd',
                                                                     'daftar_opd'=>$daftar_opd,

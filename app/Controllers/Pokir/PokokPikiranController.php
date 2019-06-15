@@ -178,7 +178,7 @@ class PokokPikiranController extends Controller {
         if ($request->exists('PmKecamatanID'))
         {
             $PmKecamatanID = $request->input('PmKecamatanID')==''?'none':$request->input('PmKecamatanID');
-            $daftar_desa=\App\Models\DMaster\DesaModel::getDaftarDesa(config('eplanning.tahun_perencanaan'),$PmKecamatanID,false);
+            $daftar_desa=\App\Models\DMaster\DesaModel::getDaftarDesa(\HelperKegiatan::getTahunPerencanaan(),$PmKecamatanID,false);
                                                                                     
             $json_data = ['success'=>true,'daftar_desa'=>$daftar_desa];            
         } 
@@ -251,14 +251,14 @@ class PokokPikiranController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $daftar_pemilik= \App\Models\Pokir\PemilikPokokPikiranModel::where('TA',config('eplanning.tahun_perencanaan')) 
+        $daftar_pemilik= \App\Models\Pokir\PemilikPokokPikiranModel::where('TA',\HelperKegiatan::getTahunPerencanaan()) 
                                                                         ->select(\DB::raw('"PemilikPokokID", CONCAT("NmPk",\' [\',"Kd_PK",\']\') AS "NmPk"'))                                                                       
                                                                         ->get()
                                                                         ->pluck('NmPk','PemilikPokokID')   
                                                                         ->prepend('DAFTAR PEMILIK POKOK PIKIRAN','none')                                                                     
                                                                         ->toArray();
-        $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false);  
-        $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(config('eplanning.tahun_perencanaan'),NULL,false);
+        $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);  
+        $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),NULL,false);
         return view("pages.$theme.pokir.pokokpikiran.create")->with(['page_active'=>'pokokpikiran',
                                                                     'daftar_pemilik'=>$daftar_pemilik,
                                                                     'daftar_opd'=>$daftar_opd,
@@ -306,7 +306,7 @@ class PokokPikiranController extends Controller {
             'Prioritas' => $request->input('Prioritas'),
             'Bobot' => 0,
             'Descr' => $request->input('Descr'),
-            'TA' => config('eplanning.tahun_perencanaan'),
+            'TA' => \HelperKegiatan::getTahunPerencanaan(),
         ]);        
         
         if ($request->ajax()) 
@@ -356,15 +356,15 @@ class PokokPikiranController extends Controller {
         $data = PokokPikiranModel::findOrFail($id);        
         if (!is_null($data) ) 
         {
-            $daftar_pemilik= \App\Models\Pokir\PemilikPokokPikiranModel::where('TA',config('eplanning.tahun_perencanaan')) 
+            $daftar_pemilik= \App\Models\Pokir\PemilikPokokPikiranModel::where('TA',\HelperKegiatan::getTahunPerencanaan()) 
                                                                             ->select(\DB::raw('"PemilikPokokID", CONCAT("NmPk",\' [\',"Kd_PK",\']\') AS "NmPk"'))                                                                       
                                                                             ->get()
                                                                             ->pluck('NmPk','PemilikPokokID')   
                                                                             ->prepend('DAFTAR PEMILIK POKOK PIKIRAN','none')                                                                     
                                                                             ->toArray();
-            $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false);  
-            $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(config('eplanning.tahun_perencanaan'),NULL,false);
-            $daftar_desa=\App\Models\DMaster\DesaModel::getDaftarDesa(config('eplanning.tahun_perencanaan'),$data->PmKecamatanID,false);
+            $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);  
+            $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),NULL,false);
+            $daftar_desa=\App\Models\DMaster\DesaModel::getDaftarDesa(\HelperKegiatan::getTahunPerencanaan(),$data->PmKecamatanID,false);
             return view("pages.$theme.pokir.pokokpikiran.edit")->with(['page_active'=>'pokokpikiran',
                                                                         'daftar_pemilik'=>$daftar_pemilik,
                                                                         'daftar_opd'=>$daftar_opd,

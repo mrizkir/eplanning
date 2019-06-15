@@ -24,7 +24,7 @@ class ProgramController extends Controller {
      */
     public function index(Request $request)
     {   
-        $ta=config('eplanning.tahun_perencanaan');
+        $ta=\HelperKegiatan::getTahunPerencanaan();
         
         $data = \DB::table('tmPrg AS a')
                     ->select(\DB::raw('
@@ -101,7 +101,7 @@ class ProgramController extends Controller {
      */
     public function byurusan ($id)
     {
-        $data=ProgramModel::getDaftarProgram(config('eplanning.tahun_perencanaan'),false,$id);
+        $data=ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan(),false,$id);
         return response()->json($data,200); 
     }
 }

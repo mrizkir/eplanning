@@ -25,7 +25,7 @@ class SubOrganisasiController extends Controller {
     public function index(Request $request)
     {               
        
-        $ta=config('eplanning.tahun_perencanaan');
+        $ta=\HelperKegiatan::getTahunPerencanaan();
         $data = \DB::table('v_suborganisasi')
                     ->where('TA',$ta)
                     ->orderBy('kode_suborganisasi','ASC')

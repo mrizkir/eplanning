@@ -52,13 +52,13 @@ class ProgramKegiatanController extends Controller {
             {
                 case 'kode_kegiatan' :
                     $data = \DB::table('v_program_kegiatan')
-                            ->where('TA',config('eplanning.tahun_perencanaan'))
+                            ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                             ->where(['kode_kegiatan'=>$search['isikriteria']])
                             ->orderBy($column_order,$direction); 
                 break;
                 case 'KgtNm' :
                     $data = \DB::table('v_program_kegiatan')
-                            ->where('TA',config('eplanning.tahun_perencanaan'))
+                            ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                             ->where('KgtNm', 'ilike', '%' . $search['isikriteria'] . '%')
                             ->orderBy($column_order,$direction);                                        
                 break;
@@ -70,12 +70,12 @@ class ProgramKegiatanController extends Controller {
             $data =$filter_prgid == 'none' ? 
                                             \DB::table('v_program_kegiatan')
                                                         ->orderBy($column_order,$direction)
-                                                        ->where('TA',config('eplanning.tahun_perencanaan'))
+                                                        ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                                                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage)
                                             :
                                             \DB::table('v_program_kegiatan')
                                                         ->orderBy($column_order,$direction)
-                                                        ->where('TA',config('eplanning.tahun_perencanaan'))
+                                                        ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                                                         ->where('PrgID',$filter_prgid)
                                                         ->orWhereNull('UrsID')
                                                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
@@ -91,7 +91,7 @@ class ProgramKegiatanController extends Controller {
     public function changenumberrecordperpage (Request $request) 
     {
         $theme = \Auth::user()->theme;
-        $daftar_program=ProgramModel::getDaftarProgram(config('eplanning.tahun_perencanaan'));
+        $daftar_program=ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan());
         $daftar_program['none']='SELURUH PROGRAM';
         $filter_kode_program_selected=ProgramModel::getKodeProgramByPrgID($this->getControllerStateSession('programkegiatan.filters','PrgID'));
         
@@ -120,7 +120,7 @@ class ProgramKegiatanController extends Controller {
     public function orderby (Request $request) 
     {
         $theme = \Auth::user()->theme;
-        $daftar_program=ProgramModel::getDaftarProgram(config('eplanning.tahun_perencanaan'));
+        $daftar_program=ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan());
         $daftar_program['none']='SELURUH PROGRAM';
         $filter_kode_program_selected=ProgramModel::getKodeProgramByPrgID($this->getControllerStateSession('programkegiatan.filters','PrgID'));
 
@@ -165,7 +165,7 @@ class ProgramKegiatanController extends Controller {
     public function paginate ($id) 
     {
         $theme = \Auth::user()->theme;
-        $daftar_program=ProgramModel::getDaftarProgram(config('eplanning.tahun_perencanaan'));
+        $daftar_program=ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan());
         $daftar_program['none']='SELURUH PROGRAM';
         $filter_kode_program_selected=ProgramModel::getKodeProgramByPrgID($this->getControllerStateSession('programkegiatan.filters','PrgID'));
 
@@ -192,7 +192,7 @@ class ProgramKegiatanController extends Controller {
     public function search (Request $request) 
     {
         $theme = \Auth::user()->theme;
-        $daftar_program=ProgramModel::getDaftarProgram(config('eplanning.tahun_perencanaan'));
+        $daftar_program=ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan());
         $daftar_program['none']='SELURUH PROGRAM';
         $filter_kode_program_selected=ProgramModel::getKodeProgramByPrgID($this->getControllerStateSession('programkegiatan.filters','PrgID'));
 
@@ -230,7 +230,7 @@ class ProgramKegiatanController extends Controller {
     public function index(Request $request)
     {                
         $theme = \Auth::user()->theme;
-        $daftar_program=ProgramModel::getDaftarProgram(config('eplanning.tahun_perencanaan'));
+        $daftar_program=ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan());
         $daftar_program['none']='SELURUH PROGRAM';
 
         $search=$this->getControllerStateSession('programkegiatan','search');
@@ -261,7 +261,7 @@ class ProgramKegiatanController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $daftar_program=ProgramModel::getDaftarProgram(config('eplanning.tahun_perencanaan'),false);
+        $daftar_program=ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan(),false);
         return view("pages.$theme.dmaster.programkegiatan.create")->with(['page_active'=>'programkegiatan',
                                                                           'daftar_program'=>$daftar_program
                                                                         ]);  
@@ -286,7 +286,7 @@ class ProgramKegiatanController extends Controller {
             'Kd_Keg' => $request->input('Kd_Keg'),
             'KgtNm' => $request->input('KgtNm'),
             'Descr' => $request->input('Descr'),
-            'TA'=>config('eplanning.tahun_perencanaan'),
+            'TA'=>\HelperKegiatan::getTahunPerencanaan(),
         ]);        
         
         if ($request->ajax()) 
@@ -340,7 +340,7 @@ class ProgramKegiatanController extends Controller {
         $data = ProgramKegiatanModel::findOrFail($id);
         if (!is_null($data) ) 
         {
-            $daftar_program=ProgramModel::getDaftarProgram(config('eplanning.tahun_perencanaan'),false);
+            $daftar_program=ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan(),false);
             return view("pages.$theme.dmaster.programkegiatan.edit")->with(['page_active'=>'programkegiatan',
                                                                                 'daftar_program'=>$daftar_program,
                                                                                 'data'=>$data

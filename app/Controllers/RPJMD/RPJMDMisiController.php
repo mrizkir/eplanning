@@ -217,7 +217,7 @@ class RPJMDMisiController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_PrioritasKab'=>[new CheckRecordIsExistValidation('tmPrioritasKab',['where'=>['TA','=',config('eplanning.tahun_perencanaan')]]),
+            'Kd_PrioritasKab'=>[new CheckRecordIsExistValidation('tmPrioritasKab',['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]]),
                         'required'
                     ],
             'Nm_PrioritasKab'=>'required',
@@ -228,7 +228,7 @@ class RPJMDMisiController extends Controller {
             'Kd_PrioritasKab' => $request->input('Kd_PrioritasKab'),
             'Nm_PrioritasKab' => $request->input('Nm_PrioritasKab'),
             'Descr' => $request->input('Descr'),
-            'TA' => config('eplanning.tahun_perencanaan')
+            'TA' => \HelperKegiatan::getTahunPerencanaan()
         ]);        
         
         if ($request->ajax()) 
@@ -295,7 +295,7 @@ class RPJMDMisiController extends Controller {
         $rpjmdmisi = RPJMDMisiModel::find($id);
         
         $this->validate($request, [
-            'Kd_PrioritasKab'=>[new IgnoreIfDataIsEqualValidation('tmPrioritasKab',$rpjmdmisi->Kd_PrioritasKab,['where'=>['TA','=',config('eplanning.tahun_perencanaan')]]),
+            'Kd_PrioritasKab'=>[new IgnoreIfDataIsEqualValidation('tmPrioritasKab',$rpjmdmisi->Kd_PrioritasKab,['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]]),
                         'required'
                     ],
             'Nm_PrioritasKab'=>'required|min:2'

@@ -45,13 +45,13 @@ class SubOrganisasiController extends Controller {
             {
                 case 'kode_suborganisasi' :
                     $data =\DB::table('v_suborganisasi') 
-                                ->where('TA',config('eplanning.tahun_perencanaan'))
+                                ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                                 ->where(['kode_suborganisasi'=>$search['isikriteria']])
                                 ->orderBy($column_order,$direction); 
                 break;
                 case 'SOrgNm' :
                     $data =\DB::table('v_suborganisasi') 
-                                ->where('TA',config('eplanning.tahun_perencanaan'))
+                                ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                                 ->where('SOrgNm', 'ilike', '%' . $search['isikriteria'] . '%')
                                 ->orderBy($column_order,$direction);                                        
                 break;
@@ -61,7 +61,7 @@ class SubOrganisasiController extends Controller {
         else
         {
             $data = \DB::table('v_suborganisasi') 
-                                ->where('TA',config('eplanning.tahun_perencanaan'))
+                                ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                                 ->orderBy($column_order,$direction)
                                 ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
@@ -220,7 +220,7 @@ class SubOrganisasiController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $daftar_opd=OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false);
+        $daftar_opd=OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);
         return view("pages.$theme.dmaster.suborganisasi.create")->with(['page_active'=>'suborganisasi',
                                                                     'daftar_opd'=>$daftar_opd
                                                                     ]);  
@@ -249,7 +249,7 @@ class SubOrganisasiController extends Controller {
             'NamaKepalaSKPD' => '-',
             'NIPKepalaSKPD' => '-',
             'Descr' => $request->input('Descr'),
-            'TA'=>config('eplanning.tahun_perencanaan'),
+            'TA'=>\HelperKegiatan::getTahunPerencanaan(),
         ]);        
 
         if ($request->ajax()) 
@@ -301,7 +301,7 @@ class SubOrganisasiController extends Controller {
         $data = SubOrganisasiModel::findOrFail($id);
         if (!is_null($data) ) 
         {            
-            $daftar_opd=OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false);
+            $daftar_opd=OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);
             return view("pages.$theme.dmaster.suborganisasi.edit")->with(['page_active'=>'suborganisasi',
                                                                     'daftar_opd'=>$daftar_opd,
                                                                     'data'=>$data

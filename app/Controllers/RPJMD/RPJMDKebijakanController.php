@@ -206,7 +206,7 @@ class RPJMDKebijakanController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $daftar_strategi=RPJMDStrategiModel::getRPJDMStrategi(config('eplanning.tahun_perencanaan'),false);
+        $daftar_strategi=RPJMDStrategiModel::getRPJDMStrategi(\HelperKegiatan::getTahunPerencanaan(),false);
         return view("pages.$theme.rpjmd.rpjmdkebijakan.create")->with(['page_active'=>'rpjmdkebijakan',
                                                                     'daftar_strategi'=>$daftar_strategi
                                                                     ]);  
@@ -221,7 +221,7 @@ class RPJMDKebijakanController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_Kebijakan'=>[new CheckRecordIsExistValidation('tmPrioritasKebijakanKab',['where'=>['TA','=',config('eplanning.tahun_perencanaan')]]),
+            'Kd_Kebijakan'=>[new CheckRecordIsExistValidation('tmPrioritasKebijakanKab',['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]]),
                             'required'
                         ],
             'PrioritasStrategiKabID'=>'required',
@@ -234,7 +234,7 @@ class RPJMDKebijakanController extends Controller {
             'Kd_Kebijakan' => $request->input('Kd_Kebijakan'),
             'Nm_Kebijakan' => $request->input('Nm_Kebijakan'),
             'Descr' => $request->input('Descr'),
-            'TA' => config('eplanning.tahun_perencanaan')
+            'TA' => \HelperKegiatan::getTahunPerencanaan()
         ]);        
 
         if ($request->ajax()) 
@@ -318,7 +318,7 @@ class RPJMDKebijakanController extends Controller {
         $this->validate($request, [
             'Kd_Kebijakan'=>['required',new IgnoreIfDataIsEqualValidation('tmPrioritasKebijakanKab',
                                                                         $rpjmdkebijakan->Kd_Kebijakan,
-                                                                        ['where'=>['TA','=',config('eplanning.tahun_perencanaan')]],
+                                                                        ['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]],
                                                                         'Kode Strategi')],
             'PrioritasStrategiKabID'=>'required',
             'Nm_Kebijakan'=>'required',

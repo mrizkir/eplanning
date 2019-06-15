@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-office position-left"></i>
     <span class="text-semibold">
-        UNIT KERJA TAHUN PERENCANAAN {{config('eplanning.tahun_perencanaan')}}
+        UNIT KERJA TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}
     </span>
 @endsection
 @section('page_info')

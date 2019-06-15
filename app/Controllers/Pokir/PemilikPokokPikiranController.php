@@ -220,7 +220,7 @@ class PemilikPokokPikiranController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_PK'=>[new CheckRecordIsExistValidation('tmPemilikPokok',['where'=>['TA','=',config('eplanning.tahun_perencanaan')]]),
+            'Kd_PK'=>[new CheckRecordIsExistValidation('tmPemilikPokok',['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]]),
                         'required',
                         'min:2'
                     ],
@@ -242,7 +242,7 @@ class PemilikPokokPikiranController extends Controller {
             'Jumlah4' => 0,
             'Jumlah5' => 0,
             'Descr' => $request->input('Descr'),
-            'TA'=>config('eplanning.tahun_perencanaan')
+            'TA'=>\HelperKegiatan::getTahunPerencanaan()
         ]);        
         
         if ($request->ajax()) 
@@ -309,7 +309,7 @@ class PemilikPokokPikiranController extends Controller {
         $pemilikpokokpikiran = PemilikPokokPikiranModel::find($id);
         
         $this->validate($request, [
-            'Kd_PK'=>[new IgnoreIfDataIsEqualValidation('tmPemilikPokok',$pemilikpokokpikiran->Kd_PK,['where'=>['TA','=',config('eplanning.tahun_perencanaan')]]),
+            'Kd_PK'=>[new IgnoreIfDataIsEqualValidation('tmPemilikPokok',$pemilikpokokpikiran->Kd_PK,['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]]),
                         'required',
                         'min:2'
                     ],

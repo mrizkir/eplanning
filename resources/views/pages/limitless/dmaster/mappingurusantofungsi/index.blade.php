@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold">
-        MAPPINGURUSANTOFUNGSI TAHUN PERENCANAAN {{config('eplanning.tahun_perencanaan')}}  
+        MAPPINGURUSANTOFUNGSI TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}  
     </span>
 @endsection
 @section('page_info')

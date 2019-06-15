@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold">
-        PEMBAHASAN MUSRENBANG DESA TAHUN PERENCANAAN {{config('eplanning.tahun_perencanaan')}}
+        PEMBAHASAN MUSRENBANG DESA TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}
     </span>
 @endsection
 @section('page_info')

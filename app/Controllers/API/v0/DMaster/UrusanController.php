@@ -24,7 +24,7 @@ class UrusanController extends Controller {
      */
     public function index(Request $request)
     {   
-        $ta=config('eplanning.tahun_perencanaan');
+        $ta=\HelperKegiatan::getTahunPerencanaan();
         
         $data = \DB::table('v_urusan')
                     ->where('TA',$ta)

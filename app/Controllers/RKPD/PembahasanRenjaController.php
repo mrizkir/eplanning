@@ -71,7 +71,7 @@ class PembahasanRenjaController extends Controller {
                                 ->where('kode_kegiatan',$search['isikriteria'])                                                    
                                 ->where('SOrgID',$SOrgID)
                                 ->whereNotNull('RenjaRincID')
-                                ->where('TA', config('eplanning.tahun_perencanaan'))
+                                ->where('TA', \HelperKegiatan::getTahunPerencanaan())
                                 ->orderBy('Prioritas','ASC')
                                 ->orderBy($column_order,$direction); 
                 break;
@@ -81,7 +81,7 @@ class PembahasanRenjaController extends Controller {
                                 ->where('KgtNm', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                 ->where('SOrgID',$SOrgID)
                                 ->whereNotNull('RenjaRincID')
-                                ->where('TA', config('eplanning.tahun_perencanaan'))
+                                ->where('TA', \HelperKegiatan::getTahunPerencanaan())
                                 ->orderBy('Prioritas','ASC')
                                 ->orderBy($column_order,$direction);                                        
                 break;
@@ -91,7 +91,7 @@ class PembahasanRenjaController extends Controller {
                                 ->where('Uraian', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                 ->where('SOrgID',$SOrgID)
                                 ->whereNotNull('RenjaRincID')
-                                ->where('TA', config('eplanning.tahun_perencanaan'))
+                                ->where('TA', \HelperKegiatan::getTahunPerencanaan())
                                 ->orderBy('Prioritas','ASC')
                                 ->orderBy($column_order,$direction);                                        
                 break;
@@ -104,7 +104,7 @@ class PembahasanRenjaController extends Controller {
                         ->select(\HelperKegiatan::getField($this->NameOfPage))
                         ->where('SOrgID',$SOrgID)                                     
                         ->whereNotNull('RenjaRincID')       
-                        ->where('TA', config('eplanning.tahun_perencanaan'))                                            
+                        ->where('TA', \HelperKegiatan::getTahunPerencanaan())                                            
                         ->orderBy('Prioritas','ASC')
                         ->orderBy($column_order,$direction)                                            
                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);             
@@ -270,7 +270,7 @@ class PembahasanRenjaController extends Controller {
             $OrgID = $request->input('OrgID')==''?'none':$request->input('OrgID');
             $filters['OrgID']=$OrgID;
             $filters['SOrgID']='none';
-            $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('eplanning.tahun_perencanaan'),false,$OrgID);  
+            $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$OrgID);  
             
             $this->putControllerStateSession($this->SessionName,'filters',$filters);
 
@@ -285,7 +285,7 @@ class PembahasanRenjaController extends Controller {
                                                                                     'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
                                                                                     'data'=>$data])->render();
             
-            $totalpaguindikatifopd = RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('eplanning.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['OrgID']);            
+            $totalpaguindikatifopd = RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['OrgID']);            
                   
             $totalpaguindikatifunitkerja[0]=0;
             $totalpaguindikatifunitkerja[1]=0;
@@ -317,7 +317,7 @@ class PembahasanRenjaController extends Controller {
                                                                                     'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
                                                                                     'data'=>$data])->render(); 
                                                                                     
-            $totalpaguindikatifunitkerja = RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('eplanning.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['SOrgID']);            
+            $totalpaguindikatifunitkerja = RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['SOrgID']);            
                                                                                     
             $json_data = ['success'=>true,'totalpaguindikatifunitkerja'=>$totalpaguindikatifunitkerja,'datatable'=>$datatable];    
         }
@@ -341,24 +341,24 @@ class PembahasanRenjaController extends Controller {
             case 'superadmin' :     
             case 'bapelitbang' :
             case 'tapd' :     
-                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false);  
+                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);  
                 $daftar_unitkerja=array();           
                 if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
                 {
-                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('eplanning.tahun_perencanaan'),false,$filters['OrgID']);        
+                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$filters['OrgID']);        
                 }    
             break;
             case 'opd' :
-                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false,NULL,$auth->OrgID);  
+                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false,NULL,$auth->OrgID);  
                 $filters['OrgID']=$auth->OrgID;                
                 if (empty($auth->SOrgID)) 
                 {
-                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('eplanning.tahun_perencanaan'),false,$auth->OrgID);  
+                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$auth->OrgID);  
                     $filters['SOrgID']=empty($filters['SOrgID'])?'':$filters['SOrgID'];                    
                 }   
                 else
                 {
-                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('eplanning.tahun_perencanaan'),false,$auth->OrgID,$auth->SOrgID);
+                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$auth->OrgID,$auth->SOrgID);
                     $filters['SOrgID']=$auth->SOrgID;
                 }                
                 $this->putControllerStateSession($this->SessionName,'filters',$filters);
@@ -389,8 +389,8 @@ class PembahasanRenjaController extends Controller {
                                                                         'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
                                                                         'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
                                                                         'paguanggaranopd'=>$paguanggaranopd,
-                                                                        'totalpaguindikatifopd'=>RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('eplanning.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['OrgID']),
-                                                                        'totalpaguindikatifunitkerja' => RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('eplanning.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['SOrgID']),            
+                                                                        'totalpaguindikatifopd'=>RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['OrgID']),
+                                                                        'totalpaguindikatifunitkerja' => RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['SOrgID']),            
                                                                         'data'=>$data]);             
     }
     /**
@@ -667,8 +667,8 @@ class PembahasanRenjaController extends Controller {
                                                                                     'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
                                                                                     'data'=>$data])->render();
             
-            $totalpaguindikatifopd = RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('eplanning.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['OrgID']);                        
-            $totalpaguindikatifunitkerja = RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('eplanning.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['SOrgID']);
+            $totalpaguindikatifopd = RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['OrgID']);                        
+            $totalpaguindikatifunitkerja = RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['SOrgID']);
                         
             return response()->json([
                 'success'=>true,

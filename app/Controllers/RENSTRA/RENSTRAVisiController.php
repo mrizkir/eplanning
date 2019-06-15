@@ -240,7 +240,7 @@ class RENSTRAVisiController extends Controller {
         }
         $this->setCurrentPageInsideSession('renstravisi',$data->currentPage());
         
-        $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false);  
+        $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);  
         return view("pages.$theme.renstra.renstravisi.index")->with(['page_active'=>'renstravisi',
                                                                     'search'=>$this->getControllerStateSession('renstravisi','search'),
                                                                     'filters'=>$filters,
@@ -294,7 +294,7 @@ class RENSTRAVisiController extends Controller {
             'Kd_RenstraVisi' => $request->input('Kd_RenstraVisi'),
             'Nm_RenstraVisi' => $request->input('Nm_RenstraVisi'),
             'Descr' => $request->input('Descr'),
-            'TA' => config('eplanning.tahun_perencanaan')
+            'TA' => \HelperKegiatan::getTahunPerencanaan()
         ]);        
         
         if ($request->ajax()) 

@@ -70,7 +70,7 @@ class MappingProgramToOPDController extends Controller {
                             ->join ('tmOrg','v_organisasi_program.OrgID','tmOrg.OrgID')
                             ->join ('tmUrs','tmOrg.UrsID','tmUrs.UrsID')
                             ->join ('tmKUrs','tmUrs.KUrsID','tmKUrs.KUrsID')
-                            ->where('v_organisasi_program.TA',config('eplanning.tahun_perencanaan'))
+                            ->where('v_organisasi_program.TA',\HelperKegiatan::getTahunPerencanaan())
                             ->where(['kode_program'=>$search['isikriteria']])
                             ->orderBy("v_organisasi_program.$column_order",$direction);
                 break;
@@ -90,7 +90,7 @@ class MappingProgramToOPDController extends Controller {
                             ->join ('tmOrg','v_organisasi_program.OrgID','tmOrg.OrgID')
                             ->join ('tmUrs','tmOrg.UrsID','tmUrs.UrsID')
                             ->join ('tmKUrs','tmUrs.KUrsID','tmKUrs.KUrsID')
-                            ->where('v_organisasi_program.TA',config('eplanning.tahun_perencanaan'))
+                            ->where('v_organisasi_program.TA',\HelperKegiatan::getTahunPerencanaan())
                             ->where('PrgNm', 'ilike', '%' . $search['isikriteria'] . '%')                                        
                             ->orderBy("v_organisasi_program.$column_order",$direction);
                 break;
@@ -113,7 +113,7 @@ class MappingProgramToOPDController extends Controller {
                     ->join ('tmOrg','v_organisasi_program.OrgID','tmOrg.OrgID')
                     ->join ('tmUrs','tmOrg.UrsID','tmUrs.UrsID')
                     ->join ('tmKUrs','tmUrs.KUrsID','tmKUrs.KUrsID')
-                    ->where('v_organisasi_program.TA',config('eplanning.tahun_perencanaan'))
+                    ->where('v_organisasi_program.TA',\HelperKegiatan::getTahunPerencanaan())
                     ->orderBy("v_organisasi_program.$column_order",$direction);
             
             if ($OrgID=='none'  || $OrgID=='')
@@ -307,7 +307,7 @@ class MappingProgramToOPDController extends Controller {
         }
         $this->setCurrentPageInsideSession('mappingprogramtoopd',$data->currentPage());
         
-        $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false);
+        $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);
         $filters=$this->getControllerStateSession('mappingprogramtoopd','filters');
         return view("pages.$theme.dmaster.mappingprogramtoopd.index")->with(['page_active'=>'mappingprogramtoopd',
                                                                             'daftar_opd'=>$daftar_opd,
@@ -327,7 +327,7 @@ class MappingProgramToOPDController extends Controller {
     public function changenumberrecordperpagecreate (Request $request) 
     {
         $theme = \Auth::user()->theme;
-        $daftar_urusan=UrusanModel::getDaftarUrusan(config('eplanning.tahun_perencanaan'));
+        $daftar_urusan=UrusanModel::getDaftarUrusan(\HelperKegiatan::getTahunPerencanaan());
         $daftar_urusan['none']='SELURUH URUSAN';    
         $filter_kode_urusan_selected=UrusanModel::getKodeUrusanByUrsID($this->getControllerStateSession('mappingprogramtoopd.filters','UrsID'));
 
@@ -359,7 +359,7 @@ class MappingProgramToOPDController extends Controller {
     public function paginatecreate ($id) 
     {
         $theme = \Auth::user()->theme;
-        $daftar_urusan=UrusanModel::getDaftarUrusan(config('eplanning.tahun_perencanaan'));
+        $daftar_urusan=UrusanModel::getDaftarUrusan(\HelperKegiatan::getTahunPerencanaan());
         $daftar_urusan['none']='SELURUH URUSAN';    
         $filter_kode_urusan_selected=UrusanModel::getKodeUrusanByUrsID($this->getControllerStateSession('mappingprogramtoopd.filters','UrsID'));
 
@@ -406,7 +406,7 @@ class MappingProgramToOPDController extends Controller {
                                                                             'UrsID'=>$UrsID]);         
         }        
 
-        $daftar_urusan=UrusanModel::getDaftarUrusan(config('eplanning.tahun_perencanaan'));
+        $daftar_urusan=UrusanModel::getDaftarUrusan(\HelperKegiatan::getTahunPerencanaan());
         $daftar_urusan['none']='SELURUH URUSAN';
         $filter_kode_urusan_selected=UrusanModel::getKodeUrusanByUrsID($this->getControllerStateSession('mappingprogramtoopd.filters','UrsID'));
 
@@ -465,9 +465,9 @@ class MappingProgramToOPDController extends Controller {
                                                                 $query->select('PrgID')
                                                                     ->from('trOrgProgram')
                                                                     ->where('OrgID', $filter_orgid)
-                                                                    ->where('TA',config('eplanning.tahun_perencanaan'));
+                                                                    ->where('TA',\HelperKegiatan::getTahunPerencanaan());
                                                             })
-                                                            ->where('TA',config('eplanning.tahun_perencanaan'))
+                                                            ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                                                             ->orderBy($column_order,$direction)                                                        
                                                             ->paginate($numberRecordPerPage, $columns, 'page', $currentpage)
                                                 :
@@ -477,9 +477,9 @@ class MappingProgramToOPDController extends Controller {
                                                                 $query->select('PrgID')
                                                                     ->from('trOrgProgram')
                                                                     ->where('OrgID', $filter_orgid)
-                                                                    ->where('TA',config('eplanning.tahun_perencanaan'));
+                                                                    ->where('TA',\HelperKegiatan::getTahunPerencanaan());
                                                             })
-                                                            ->where('TA',config('eplanning.tahun_perencanaan'))                                                            
+                                                            ->where('TA',\HelperKegiatan::getTahunPerencanaan())                                                            
                                                             ->where('UrsID',$filter_ursid)
                                                             ->orWhereNull('UrsID')
                                                             ->orderBy($column_order,$direction)                                                        
@@ -499,10 +499,10 @@ class MappingProgramToOPDController extends Controller {
     public function create(Request $request)
     {        
         $theme = \Auth::user()->theme;
-        $daftar_urusan=UrusanModel::getDaftarUrusan(config('eplanning.tahun_perencanaan'));
+        $daftar_urusan=UrusanModel::getDaftarUrusan(\HelperKegiatan::getTahunPerencanaan());
         $daftar_urusan['none']='SELURUH URUSAN';           
 
-        $daftar_opd=OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false);
+        $daftar_opd=OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);
 
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('mappingprogramtoopd'); 
         $data = $this->populateDataProgram($currentpage);
@@ -548,7 +548,7 @@ class MappingProgramToOPDController extends Controller {
             $now = \Carbon\Carbon::now('utc')->toDateTimeString();
             foreach ($prgid as $v)
             {
-                $data[] = ['orgProgramID'=>uniqid ('uid'),'OrgID'=>$orgid,'PrgID'=>$v,'Descr'=>'-','TA'=>config('eplanning.tahun_perencanaan'),'created_at'=>$now,'updated_at'=>$now];
+                $data[] = ['orgProgramID'=>uniqid ('uid'),'OrgID'=>$orgid,'PrgID'=>$v,'Descr'=>'-','TA'=>\HelperKegiatan::getTahunPerencanaan(),'created_at'=>$now,'updated_at'=>$now];
             }
             MappingProgramToOPDModel::insert($data);        
         
@@ -598,7 +598,7 @@ class MappingProgramToOPDController extends Controller {
                                             "v_organisasi_program"."Nm_Urusan",
                                             "v_organisasi_program"."Jns"
                                         '))
-                                        ->where('v_organisasi_program.TA',config('eplanning.tahun_perencanaan'))
+                                        ->where('v_organisasi_program.TA',\HelperKegiatan::getTahunPerencanaan())
                                         ->where('v_organisasi_program.orgProgramID',$id)
                                         ->firstOrFail();
         if (!is_null($data) )  

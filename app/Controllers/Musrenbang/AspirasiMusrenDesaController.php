@@ -47,7 +47,7 @@ class AspirasiMusrenDesaController extends Controller {
                 case 'No_usulan' :                    
                     $data = AspirasiMusrenDesaModel::join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanDesa.PmDesaID')
                                                     ->join('tmPmKecamatan','tmPmDesa.PmKecamatanID','tmPmKecamatan.PmKecamatanID')
-                                                    ->where('trUsulanDesa.TA', config('eplanning.tahun_perencanaan'))
+                                                    ->where('trUsulanDesa.TA', \HelperKegiatan::getTahunPerencanaan())
                                                     ->where(['No_usulan'=>(int)$search['isikriteria']])
                                                     ->orderBy('Prioritas','ASC')
                                                     ->orderBy($column_order,$direction);
@@ -55,7 +55,7 @@ class AspirasiMusrenDesaController extends Controller {
                 case 'NamaKegiatan' :
                     $data = AspirasiMusrenDesaModel::join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanDesa.PmDesaID')
                                                     ->join('tmPmKecamatan','tmPmDesa.PmKecamatanID','tmPmKecamatan.PmKecamatanID')
-                                                    ->where('trUsulanDesa.TA', config('eplanning.tahun_perencanaan'))
+                                                    ->where('trUsulanDesa.TA', \HelperKegiatan::getTahunPerencanaan())
                                                     ->where('NamaKegiatan', 'ilike', '%' . $search['isikriteria'] . '%')
                                                     ->orderBy('Prioritas','ASC')                                        
                                                     ->orderBy($column_order,$direction);                                        
@@ -69,7 +69,7 @@ class AspirasiMusrenDesaController extends Controller {
                                             ->leftJoin('trUsulanKec','trUsulanKec.UsulanDesaID','trUsulanDesa.UsulanDesaID')
                                             ->join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanDesa.PmDesaID')
                                             ->join('tmPmKecamatan','tmPmDesa.PmKecamatanID','tmPmKecamatan.PmKecamatanID')
-                                            ->where('trUsulanDesa.TA', config('eplanning.tahun_perencanaan'))
+                                            ->where('trUsulanDesa.TA', \HelperKegiatan::getTahunPerencanaan())
                                             ->orderBy('trUsulanDesa.Prioritas','ASC')
                                             ->orderBy($column_order,$direction)                                            
                                             ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
@@ -237,8 +237,8 @@ class AspirasiMusrenDesaController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $daftar_desa = DesaModel::getDaftarDesa(config('eplanning.tahun_perencanaan'),false);
-        $sumber_dana = SumberDanaModel::getDaftarSumberDana(config('eplanning.tahun_perencanaan'),false);
+        $daftar_desa = DesaModel::getDaftarDesa(\HelperKegiatan::getTahunPerencanaan(),false);
+        $sumber_dana = SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunPerencanaan(),false);
         return view("pages.$theme.musrenbang.aspirasimusrendesa.create")->with(['page_active'=>'aspirasimusrendesa',
                                                                             'daftar_desa'=>$daftar_desa,
                                                                             'sumber_dana'=>$sumber_dana
@@ -278,7 +278,7 @@ class AspirasiMusrenDesaController extends Controller {
             'Jeniskeg' => $jeniskeg,
             'Prioritas' => $request->input('Prioritas'),
             'Descr' => $request->input('Descr'),
-            'TA' => config('eplanning.tahun_perencanaan')
+            'TA' => \HelperKegiatan::getTahunPerencanaan()
         ]);        
         
         if ($request->ajax()) 
@@ -307,7 +307,7 @@ class AspirasiMusrenDesaController extends Controller {
 
         $data = AspirasiMusrenDesaModel::join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanDesa.PmDesaID')
                                         ->join('tmPmKecamatan','tmPmDesa.PmKecamatanID','tmPmKecamatan.PmKecamatanID')
-                                        ->where('trUsulanDesa.TA', config('eplanning.tahun_perencanaan'))
+                                        ->where('trUsulanDesa.TA', \HelperKegiatan::getTahunPerencanaan())
                                         ->findOrFail($id);
         if (!is_null($data) )  
         {            
@@ -332,8 +332,8 @@ class AspirasiMusrenDesaController extends Controller {
                                         ->findOrFail($id);
         if (!is_null($data) ) 
         {
-            $daftar_desa = DesaModel::getDaftarDesa(config('eplanning.tahun_perencanaan'),false);
-            $sumber_dana = SumberDanaModel::getDaftarSumberDana(config('eplanning.tahun_perencanaan'),false);
+            $daftar_desa = DesaModel::getDaftarDesa(\HelperKegiatan::getTahunPerencanaan(),false);
+            $sumber_dana = SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunPerencanaan(),false);
             return view("pages.$theme.musrenbang.aspirasimusrendesa.edit")->with(['page_active'=>'aspirasimusrendesa',
                                                                                     'daftar_desa'=>$daftar_desa,
                                                                                     'sumber_dana'=>$sumber_dana,

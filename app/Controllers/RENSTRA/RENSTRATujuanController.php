@@ -206,7 +206,7 @@ class RENSTRATujuanController extends Controller {
     {        
         $theme = \Auth::user()->theme;
         $daftar_misi=\App\Models\RENSTRA\RENSTRAMisiModel::select(\DB::raw('"PrioritasKabID",CONCAT(\'[\',"Kd_PrioritasKab",\']. \',"Nm_PrioritasKab") AS "Nm_PrioritasKab"'))
-                                                        ->where('TA',config('eplanning.tahun_perencanaan'))
+                                                        ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                                                         ->orderBy('Kd_PrioritasKab','ASC')
                                                         ->get()
                                                         ->pluck('Nm_PrioritasKab','PrioritasKabID')
@@ -240,7 +240,7 @@ class RENSTRATujuanController extends Controller {
             'Kd_Tujuan' => $request->input('Kd_Tujuan'),
             'Nm_Tujuan' => $request->input('Nm_Tujuan'),
             'Descr' => $request->input('Descr'),
-            'TA' => config('eplanning.tahun_perencanaan')
+            'TA' => \HelperKegiatan::getTahunPerencanaan()
         ]);        
         
         if ($request->ajax()) 
@@ -300,7 +300,7 @@ class RENSTRATujuanController extends Controller {
         if (!is_null($data) ) 
         {
             $daftar_misi=\App\Models\RENSTRA\RENSTRAMisiModel::select(\DB::raw('"PrioritasKabID",CONCAT(\'[\',"Kd_PrioritasKab",\']. \',"Nm_PrioritasKab") AS "Nm_PrioritasKab"'))
-                                                            ->where('TA',config('eplanning.tahun_perencanaan'))
+                                                            ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                                                             ->orderBy('Kd_PrioritasKab','ASC')
                                                             ->get()
                                                             ->pluck('Nm_PrioritasKab','PrioritasKabID')

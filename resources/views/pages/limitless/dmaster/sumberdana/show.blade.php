@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        SUMBERDANA TAHUN PERENCANAAN {{config('eplanning.tahun_perencanaan')}}
+        SUMBERDANA TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}
     </span>     
 @endsection
 @section('page_info')

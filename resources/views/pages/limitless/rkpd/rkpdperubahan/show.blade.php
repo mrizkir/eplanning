@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        USULAN {{$page_title}} TAHUN PERENCANAAN {{config('eplanning.tahun_penyerapan')}}
+        USULAN {{$page_title}} TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}
     </span>     
 @endsection
 @section('page_info')

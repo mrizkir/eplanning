@@ -282,7 +282,7 @@ class RPJMDIndikatorKinerjaController extends Controller {
             'TargetN4' => $request->input('TargetN4'),
             'TargetN5' => $request->input('TargetN5'),
             'Descr' => $request->input('Descr'),
-            'TA' => config('eplanning.tahun_perencanaan')            
+            'TA' => \HelperKegiatan::getTahunPerencanaan()            
         ]);        
         
         if ($request->ajax()) 
