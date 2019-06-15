@@ -39,6 +39,20 @@ class HelperKegiatan {
     private static $StatusRKPD =[1=>'MURNI',
                                 2=>'PERUBAHAN'];
     /**
+     * digunakan untuk mendapatkan tahun perencanaan saat user login
+     */ 
+    public static function getTahunPerencanaan ()
+    {
+        return request()->session()->get("global_controller.tahun_perencanaan");
+    }
+    /**
+     * digunakan untuk mendapatkan tahun penyerapan saat user login
+     */ 
+    public static function getTahunPenyerapan ()
+    {
+        return request()->session()->get("global_controller.tahun_penyerapan");
+    }
+    /**
     * digunakan untuk mendapatkan entri level
     */
     public static function getDaftarLevelEntri () {

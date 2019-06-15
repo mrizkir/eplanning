@@ -27,4 +27,10 @@ class LoginController extends Controller
     public function username () {
         return 'username';
     }
+
+    protected function authenticated ()
+    {
+        $this->putControllerStateSession('global_controller','tahun_perencanaan',request()->input('TACd'));
+        $this->putControllerStateSession('global_controller','tahun_penyerapan',request()->input('TACd')-1);
+    }
 }

@@ -12,7 +12,7 @@
         <p class="navbar-text">
             <a href="#">
                 <span class="label bg-success-400">
-                    Saat ini Anda berada di Tahun Perencanaan {{config('eplanning.tahun_perencanaan')}} dan Penyerapan Anggaran Tahun {{config('eplanning.tahun_penyerapan')}}
+                    Saat ini Anda berada di Tahun Perencanaan {{HelperKegiatan::getTahunPerencanaan()}} dan Penyerapan Anggaran Tahun {{HelperKegiatan::getTahunPenyerapan()}}
                 </span>
             </a>
         </p>
