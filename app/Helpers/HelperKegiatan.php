@@ -108,6 +108,19 @@ class HelperKegiatan {
       }      
     }
     /**
+    * digunakan untuk mendapatkan status RKPD
+    */
+    public static function getStatusRKPD ($StatusRKPD=null) {
+        if ($StatusRKPD === null)
+        {
+          return HelperKegiatan::$StatusRKPD;
+        }
+        else
+        {
+          return HelperKegiatan::$StatusRKPD[$StatusRKPD];
+        }      
+      }
+    /**
     * digunakan untuk mendapatkan daftar prioritas
     */
     public static function getDaftarPrioritas () {
@@ -167,6 +180,13 @@ class HelperKegiatan {
             break;           
             case 'verifikasirenja' :
                 $pagetitle = 'VERIFIKASI TAPD';                
+            break;           
+
+            case 'rkpdmurni' :
+                $pagetitle = 'RKPD MURNI';                
+            break;           
+            case 'rkpdperubahan' :
+                $pagetitle = 'RKPD PERUBAHAN';                
             break;           
             default :
                 $pagetitle = 'WORKFLOW';
@@ -244,7 +264,11 @@ class HelperKegiatan {
             break;  
             case 'verifikasirenja' :
                 $dbViewName = 'v_verifikasi_renja';
-            break;             
+            break;    
+            case 'rkpdmurni' :                        
+            case 'rkpdperubahan' :
+                $dbViewName = 'v_rkpd_rinci';
+            break;          
             default :
                 $dbViewName = null;
         }
@@ -369,6 +393,32 @@ class HelperKegiatan {
                                     "Status",
                                     "Privilege",
                                     "Status_Indikator",
+                                    "Descr"');
+            break;
+            case 'rkpdperubahan' :
+                $rawSql = \DB::raw('"RKPDRincID",
+                                    "RKPDID",
+                                    "UsulanKecID",
+                                    "No",
+                                    "Nm_Kecamatan",
+                                    "kode_kegiatan",
+                                    "KgtNm",
+                                    "Uraian",
+                                    "Sasaran_Angka2" AS "Sasaran_Angka",
+                                    "Sasaran_Angka1",
+                                    "Sasaran_Uraian2" AS "Sasaran_Uraian",
+                                    "Sasaran_Uraian1",
+                                    "Target2" AS "Target",
+                                    "Target1",
+                                    "NilaiUsulan2" AS "Jumlah",
+                                    "NilaiUsulan1",
+                                    "isSKPD",
+                                    "isReses",
+                                    "isReses_Uraian",
+                                    "Status",
+                                    "Privilege",
+                                    "Status_Indikator",
+                                    "EntryLvl",
                                     "Descr"');
             break;
             default :

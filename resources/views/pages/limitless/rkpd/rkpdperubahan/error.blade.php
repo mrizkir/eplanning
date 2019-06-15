@@ -1,23 +1,24 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RKPD PERUBAHAN
+    {{$page_title}}
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold">
-        RKPD PERUBAHAN TAHUN PERENCANAAN {{config('eplanning.tahun_penyerapan')}}
+        {{$page_title}} TAHUN PERENCANAAN {{config('eplanning.tahun_penyerapan')}}
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.rkpdperubahan.rkpd.info')
+    @include('pages.limitless.rkpd.rkpdperubahan.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('rkpdperubahan.index')!!}">RKPD PERUBAHAN</a></li>
+    <li><a href="#">WORKFLOW</a></li>
+    <li><a href="{!!route(Helper::getNameOfPage('index'))!!}">{{$page_title}}</a></li>
     <li class="active">ERROR</li>
 @endsection
 @section('page_content')
 <div class="alert alert-danger alert-styled-left alert-bordered">
-    <button type="button" class="close" onclick="location.href='{{route('rkpdperubahan.index')}}'">×</button>
+    <button type="button" class="close" onclick="location.href='{{route(Helper::getNameOfPage('index'))}}'">×</button>
     {{$errormessage}}
 </div>
 @endsection

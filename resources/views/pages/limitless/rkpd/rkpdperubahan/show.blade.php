@@ -1,18 +1,19 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RKPD PERUBAHAN
+    {{$page_title}}
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        RKPD PERUBAHAN TAHUN PERENCANAAN {{config('eplanning.tahun_penyerapan')}}
+        USULAN {{$page_title}} TAHUN PERENCANAAN {{config('eplanning.tahun_penyerapan')}}
     </span>     
 @endsection
 @section('page_info')
     @include('pages.limitless.rkpd.rkpdperubahan.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('rkpdperubahan.index')!!}">RKPD PERUBAHAN</a></li>
+    <li><a href="#">WORKFLOW</a></li>
+    <li><a href="{!!route(Helper::getNameOfPage('index'))!!}">{{$page_title}}</a></li>
     <li class="active">DETAIL DATA</li>
 @endsection
 @section('page_content')
@@ -21,16 +22,18 @@
         <div class="panel panel-flat border-top-info border-bottom-info">
             <div class="panel-heading">
                 <h5 class="panel-title"> 
-                    <i class="icon-eye"></i>  
-                    DATA RENCANA KERJA KEGIATAN                   
+                    <i class="icon-eye"></i>  DATA USULAN {{$page_title}}
                 </h5>
-                <div class="heading-elements"> 
-                    @if (empty($renja->RKPDID))
-                    <a id="btnTransfer" href="#" class="btn btn-primary btn-icon heading-btn btnEdit" title="Transfer RENJA Ke RKPD">
-                        <i class="icon-play4"></i>
+                <div class="heading-elements">
+                    @if ($rkpd->Privilege==0)
+                    <a href="{{route(Helper::getNameOfPage('edit'),['id'=>$rkpd->RKPDID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Usulan {{$page_title}}">
+                        <i class="icon-pencil7"></i>
+                    </a>                       
+                    <a href="javascript:;" title="Hapus Data Usulan {{$page_title}}" data-id="{{$rkpd->RKPDID}}" data-url="{{route(Helper::getNameOfPage('index'))}}" class="btn btn-danger btn-icon heading-btn btnDeleteRenja">
+                        <i class='icon-trash'></i>
                     </a>
-                    @endif                                               
-                    <a href="{!!route('rkpdperubahan.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
+                    @endif
+                    <a href="{!!route(Helper::getNameOfPage('index'))!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
                         <i class="icon-close2"></i>
                     </a>            
                 </div>
@@ -42,37 +45,37 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>RENJA ID: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$renja->RenjaID}}</p>
+                                    <p class="form-control-static">{{$rkpd->RKPDID}}</p>
                                 </div>                            
                             </div> 
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>KELOMPOK URUSAN : </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">[{{$renja->Kd_Urusan}}] {{$renja->Nm_Urusan}}</p>
+                                    <p class="form-control-static">[{{$rkpd->Kd_Urusan}}] {{$rkpd->Nm_Urusan}}</p>
                                 </div>                            
                             </div>  
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>URUSAN : </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">[{{$renja->Kd_Urusan.'.'.$renja->Kd_Bidang}}] {{$renja->Nm_Bidang}}</p>
+                                    <p class="form-control-static">[{{$rkpd->Kd_Urusan.'.'.$rkpd->Kd_Bidang}}] {{$rkpd->Nm_Bidang}}</p>
                                 </div>                            
                             </div> 
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>PROGRAM : </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">[{{$renja->Kd_Urusan.'.'.$renja->Kd_Bidang.'.'.$renja->Kd_Prog}}] {{$renja->PrgNm}}</p>
+                                    <p class="form-control-static">[{{$rkpd->Kd_Urusan.'.'.$rkpd->Kd_Bidang.'.'.$rkpd->Kd_Prog}}] {{$rkpd->PrgNm}}</p>
                                 </div>                            
                             </div> 
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>KEGIATAN : </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">[{{$renja->kode_kegiatan}}] {{$renja->KgtNm}}</p>
+                                    <p class="form-control-static">[{{$rkpd->kode_kegiatan}}] {{$rkpd->KgtNm}}</p>
                                 </div>                            
                             </div> 
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>SASARAN KEGIATAN: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::formatAngka($renja->Sasaran_Angka1)}} {{$renja->Sasaran_Uraian5}}</p>
+                                    <p class="form-control-static">{{Helper::formatAngka($rkpd->Sasaran_Angka)}} {{$rkpd->Sasaran_Uraian}}</p>
                                 </div>                            
                             </div>    
                         </div>                        
@@ -82,37 +85,47 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>SASARAN KEGIATAN (N+1): </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::formatAngka($renja->Sasaran_AngkaSetelah)}} {{$renja->Sasaran_UraianSetelah}}</p>
+                                    <p class="form-control-static">{{Helper::formatAngka($rkpd->Sasaran_AngkaSetelah)}} {{$rkpd->Sasaran_UraianSetelah}}</p>
                                 </div>                            
                             </div>   
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>TARGET (%): </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::formatAngka($renja->Target1)}}</p>
+                                    <p class="form-control-static">{{Helper::formatAngka($rkpd->Target)}}</p>
                                 </div>                            
                             </div>
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>NILAI: </strong></label>
+                                <label class="col-md-4 control-label"><strong>NILAI (TA-1 / TA / TA+1): </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::formatUang($renja->NilaiUsulan1)}}</p>                                
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <p class="form-control-static">{{Helper::formatUang($rkpd->NilaiSebelum)}}</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p class="form-control-static" id="pNilaiUsulan">{{Helper::formatUang($rkpd->NilaiUsulan)}}</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p class="form-control-static">{{Helper::formatUang($rkpd->NilaiSetelah)}}</p>
+                                        </div>
+                                    </div>                                    
                                 </div>                            
                             </div>  
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>INDIKATOR KEGIATAN: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$renja->NamaIndikator}}</p>
+                                    <p class="form-control-static">{{$rkpd->NamaIndikator}}</p>
                                 </div>                            
                             </div>  
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>SUMBER DANA: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$renja->Nm_SumberDana}}</p>
+                                    <p class="form-control-static">{{$rkpd->Nm_SumberDana}}</p>
                                 </div>                            
                             </div>  
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>TGL. BUAT / UBAH: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$renja->created_at)}} / {{Helper::tanggal('d/m/Y H:m',$renja->updated_at)}}</p>
+                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$rkpd->created_at)}} / {{Helper::tanggal('d/m/Y H:m',$rkpd->updated_at)}}</p>
                                 </div>                            
                             </div>                     
                         </div>
@@ -123,15 +136,113 @@
     </div>
     <div class="col-md-12">
         <div class="panel panel-flat border-top-lg border-top-info border-bottom-info" id="divdatatableindikatorkinerja">
-            @include('pages.limitless.rkpd.rkpdperubahan.datatablerinciankegiatan')         
+            @include('pages.limitless.rkpd.rkpdperubahan.datatableindikatorkinerja')         
         </div>
-    </div>    
+    </div>
+    <div class="col-md-12">
+        <div class="panel panel-flat border-top-lg border-top-info border-bottom-info" id="divdatatablerinciankegiatan">
+            @include('pages.limitless.rkpd.rkpdperubahan.datatablerinciankegiatan')
+        </div>
+    </div>
 </div>
+@endsection
+@section('page_asset_js')
+<script src="{!!asset('themes/limitless/assets/js/autoNumeric.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
-    
+    $(document).on('click',".btnDeleteRenja", function(ev) {
+        ev.preventDefault();
+        if (confirm('Apakah Anda ingin menghapus Data Usulan {{$page_title}} ini ?')) {
+            let url_ = $(this).attr("data-url");
+            let id = $(this).attr("data-id");
+            let token = $('meta[name="csrf-token"]').attr('content');            
+            $.ajax({            
+                type:'post',
+                url:url_+'/'+id,
+                dataType: 'json',
+                data: {
+                    "_method": 'DELETE',
+                    "_token": token,
+                    "id": id,
+                    "pid":'renja'
+                },
+                success:function(data){ 
+                    window.location.replace(url_);                        
+                },
+                error:function(xhr, status, error){
+                    console.log('ERROR');
+                    console.log(parseMessageAjaxEror(xhr, status, error));                           
+                },
+            });
+        }
+    });
+    $("#divdatatableindikatorkinerja").on("click",".btnDelete", function(){
+        if (confirm('Apakah Anda ingin menghapus Data Indikator Kegiatan {{$page_title}} ini ?')) {
+            let url_ = $(this).attr("data-url");
+            let id = $(this).attr("data-id");
+            $.ajax({            
+                type:'post',
+                url:url_+'/'+id,
+                dataType: 'json',
+                data: {
+                    "_method": 'DELETE',
+                    "_token": token,
+                    "id": id,
+                    'indikatorkinerja':true
+                },
+                success:function(result){ 
+                    if (result.success==1){
+                        $('#divdatatableindikatorkinerja').html(result.datatable);                        
+                    }else{
+                        console.log("Gagal menghapus data indikator kinerja {{$page_title}} dengan id "+id);
+                    }                    
+                },
+                error:function(xhr, status, error){
+                    console.log('ERROR');
+                    console.log(parseMessageAjaxEror(xhr, status, error));                           
+                },
+            });
+        }        
+    });
+    $("#divdatatablerinciankegiatan").on("click",".btnDelete", function(){
+        if (confirm('Apakah Anda ingin menghapus Data Rincian Kegiatan {{$page_title}} ini ?')) {
+            let url_ = $(this).attr("data-url");
+            let id = $(this).attr("data-id");
+            $.ajax({            
+                type:'post',
+                url:url_+'/'+id,
+                dataType: 'json',
+                data: {
+                    "_method": 'DELETE',
+                    "_token": token,
+                    "id": id,
+                    'rinciankegiatan':true
+                },
+                success:function(result){ 
+                    if (result.success==1){
+                        $('#divdatatablerinciankegiatan').html(result.datatable); 
+                        
+                        $('#pNilaiUsulan').html(result.NilaiUsulan);     
+                        
+                        new AutoNumeric ('#pNilaiUsulan',{
+                                                            allowDecimalPadding: false,
+                                                            decimalCharacter: ",",
+                                                            digitGroupSeparator: ".",
+                                                            showWarnings:false
+                                                        });
+                    }else{
+                        console.log("Gagal menghapus data rincian kegiatan {{$page_title}} dengan id "+id);
+                    }                    
+                },
+                error:function(xhr, status, error){
+                    console.log('ERROR');
+                    console.log(parseMessageAjaxEror(xhr, status, error));                           
+                },
+            });
+        }        
+    });
 });
 </script>
 @endsection

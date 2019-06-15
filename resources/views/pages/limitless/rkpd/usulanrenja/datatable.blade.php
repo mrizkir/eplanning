@@ -103,7 +103,7 @@
                         @endif
                     </td>
                     @if ($item->RenjaRincID=='')
-                    <td colspan="6">
+                    <td colspan="7">
                         <span class="label label-flat label-block border-info text-info-600">
                             PROSES INPUT MUSRENBANG KABUPATEN BELUM SELESAI
                         </span>

@@ -15,8 +15,8 @@ class CreateVRkpdRinciView extends Migration
     {
         \DB::statement('CREATE VIEW v_rkpd_rinci AS
             SELECT 
-                A."RKPDID",
                 B."RKPDRincID",
+                A."RKPDID",                
                 B."PMProvID",
                 I."Nm_Prov",
                 B."PmKotaID",
@@ -25,6 +25,7 @@ class CreateVRkpdRinciView extends Migration
                 K."Nm_Kecamatan",
                 B."PmDesaID",
                 L."Nm_Desa",
+                B."UsulanKecID",
                 B."PokPirID",
                 H."Kd_Urusan",
                 H."Nm_Urusan",

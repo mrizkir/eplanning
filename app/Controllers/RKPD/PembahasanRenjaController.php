@@ -19,7 +19,7 @@ class PembahasanRenjaController extends Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['auth','role:superadmin|bapelitbang|tapd']);
+        $this->middleware(['auth','role:superadmin|bapelitbang|tapd|opd']);
         //set nama session 
         $this->SessionName=$this->getNameForSession();      
         //set nama halaman saat ini
@@ -1487,7 +1487,7 @@ class PembahasanRenjaController extends Controller {
                                 'Status'=>1, //artinya sudah disetujui di rkpd murni
                                 'Status_Indikator'=>$renja->Status_Indikator,
                                 'EntryLvl'=>4,//artinya di level RKPD
-                                'Privilege'=>1,//artinya dianggap sudah diproses                                    
+                                'Privilege'=>0,//artinya dianggap sudah diproses                                    
                             ]);
                         } 
                         else
@@ -1557,7 +1557,7 @@ class PembahasanRenjaController extends Controller {
                                 "TA",
                                 1 AS "Status", 
                                 4 AS "EntryLvl",
-                                1 AS "Privilege",                        
+                                0 AS "Privilege",                        
                                 NOW() AS created_at,
                                 NOW() AS updated_at
                             FROM 
@@ -1591,7 +1591,7 @@ class PembahasanRenjaController extends Controller {
                                 "Target_Uraian",
                                 "Tahun",
                                 "Descr",
-                                1 AS "Privilege",                        
+                                0 AS "Privilege",                        
                                 "TA",
                                 NOW() AS created_at,
                                 NOW() AS updated_at

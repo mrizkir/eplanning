@@ -13,13 +13,13 @@ class RKPDPerubahanModel extends Model {
      *
      * @var string
      */
-    protected $table = 'v_rkpd';    
+    protected $table = 'v_rkpd_rinci';    
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'RKPDID';
+    protected $primaryKey = 'RKPDRincID';
     /**
      * enable auto_increment.
      *

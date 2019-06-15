@@ -1,22 +1,22 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RKPD PERUBAHAN
+    {{$page_title}}
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold">
-        RKPD PERUBAHAN TAHUN PERENCANAAN {{config('eplanning.tahun_penyerapan')}}  
+        {{$page_title}} TAHUN PERENCANAAN {{config('eplanning.tahun_penyerapan')}}  
     </span>
 @endsection
 @section('page_info')
     @include('pages.limitless.rkpd.rkpdperubahan.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="#">WORKFLOW</a></li>        
-    <li class="active">RKPD PERUBAHAN</li>
+    <li><a href="#">WORKFLOW</a></li>
+    <li class="active">{{$page_title}}</li>
 @endsection
 @section('page_content')
-<div class="row">    
+<div class="row">
     <div class="col-md-12" id="divfilter">
         <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
             <div class="panel-heading">
@@ -64,7 +64,7 @@
                 </h5>
             </div>
             <div class="panel-body">
-                {!! Form::open(['action'=>'RKPD\RKPDMurniController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
+                {!! Form::open(['url'=>route(Helper::getNameOfPage('search')),'method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">
@@ -88,10 +88,10 @@
                 {!! Form::close()!!}
             </div>
         </div>
-    </div>   
+    </div> 
     <div class="col-md-12" id="divdatatable">
         @include('pages.limitless.rkpd.rkpdperubahan.datatable')
-    </div>
+    </div>      
     <div class="col-md-12">
         <div class="table-responsive">
             <table id="datastatus" class="table"> 
@@ -157,25 +157,27 @@
                 </tbody>            
             </table>               
         </div>
-    </div> 
+    </div>    
 </div>
 @endsection
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/switch.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/autoNumeric.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
-$(document).ready(function () {      
-     //styling select
-     $('#OrgID.select').select2({
+$(document).ready(function () {  
+    $(".switch").bootstrapSwitch();
+    //styling select
+    $('#OrgID.select').select2({
         placeholder: "PILIH OPD / SKPD",
         allowClear:true
     }); 
     $('#SOrgID.select').select2({
         placeholder: "PILIH UNIT KERJA",
         allowClear:true
-    }); 
+    });  
     $(document).on('change','#OrgID',function(ev) {
         ev.preventDefault();   
         $.ajax({
@@ -192,11 +194,22 @@ $(document).ready(function () {
                 var listitems='<option></option>';
                 $.each(daftar_unitkerja,function(key,value){
                     listitems+='<option value="' + key + '">'+value+'</option>';                    
-                });                
+                });
+                
                 $('#SOrgID').html(listitems);
-                $('#divdatatable').html(result.datatable); 
-                formatPaguTotalIndikatifOPD(result.totalpaguindikatifopd);   
-                formatPaguTotalIndikatifUnitKerja(result.totalpaguindikatifunitkerja);  
+                $('#divdatatable').html(result.datatable);
+                $(".switch").bootstrapSwitch();
+
+                $('#paguanggaranopd').html(result.paguanggaranopd);
+                new AutoNumeric ('#paguanggaranopd',{
+                    allowDecimalPadding: false,
+                    emptyInputBehavior:'zero',
+                    decimalCharacter: ",",
+                    digitGroupSeparator: ".",
+                    showWarnings:false
+                }); 
+                formatPaguTotalIndikatifOPD(result.totalpaguindikatifopd);
+                formatPaguTotalIndikatifUnitKerja(result.totalpaguindikatifunitkerja);
             },
             error:function(xhr, status, error){
                 console.log('ERROR');
@@ -216,15 +229,46 @@ $(document).ready(function () {
             },
             success:function(result)
             { 
-                $('#divdatatable').html(result.datatable);  
-                formatPaguTotalIndikatifUnitKerja(result.totalpaguindikatifunitkerja);                   
+                $('#divdatatable').html(result.datatable);
+                $(".switch").bootstrapSwitch();
+                formatPaguTotalIndikatifUnitKerja(result.totalpaguindikatifunitkerja);
             },
             error:function(xhr, status, error){
                 console.log('ERROR');
                 console.log(parseMessageAjaxEror(xhr, status, error));                           
             },
         });     
-    });    
+    });
+    $("#divdatatable").on("click",".btnDelete", function(){
+        if (confirm('Apakah Anda ingin menghapus Data {{ucwords(strtolower($page_title))}} ini ?')) {
+            let url_ = $(this).attr("data-url");
+            let id = $(this).attr("data-id");
+            let pid = $(this).attr("data-pid");
+            $.ajax({            
+                type:'post',
+                url:url_+'/'+id,
+                dataType: 'json',
+                data: {
+                    "_method": 'DELETE',
+                    "_token": token,
+                    "id": id,
+                    "pid": pid
+                },
+                success:function(result){ 
+                    if (result.success==1){
+                        $('#divdatatable').html(result.datatable);       
+                        $(".switch").bootstrapSwitch();                 
+                    }else{
+                        console.log("Gagal menghapus data {{ucwords(strtolower($page_title))}} dengan id "+id);
+                    }                    
+                },
+                error:function(xhr, status, error){
+                    console.log('ERROR');
+                    console.log(parseMessageAjaxEror(xhr, status, error));                           
+                },
+            });
+        }        
+    });
 });
 </script>
 @endsection

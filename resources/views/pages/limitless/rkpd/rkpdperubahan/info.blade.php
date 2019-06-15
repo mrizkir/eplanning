@@ -1,3 +1,3 @@
 <small class="display-block">          
-    <code>RENCANA KERJA PERANGKAT DAERAH (RKPD) PERUBAHAN</code>
+    <code>Modul ini digunakan untuk pengelolaan {{$page_title}}</code>
 </small>
