@@ -49,7 +49,7 @@ class RKPDRincianModel extends Model {
         'isSKPD',
         'Descr',
         'TA',
-        'status',
+        'Status',
         'EntryLvl',
         'Privilege',        
         'RKPDRincID_Src'        

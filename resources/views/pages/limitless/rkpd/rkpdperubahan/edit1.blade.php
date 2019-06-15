@@ -27,13 +27,13 @@
             <div class="heading-elements">
                 <ul class="icons-list">                    
                     <li>               
-                        <a href="{!!route(Helper::getNameOfPage('show'),['id'=>$rkpd->RenjaID])!!}" data-action="closeredirect" title="keluar"></a>
+                        <a href="{!!route(Helper::getNameOfPage('show'),['id'=>$rkpd->RKPDID])!!}" data-action="closeredirect" title="keluar"></a>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['url'=>route(Helper::getNameOfPage('update1'),['id'=>$rkpd->RenjaIndikatorID]),'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
+            {!! Form::open(['url'=>route(Helper::getNameOfPage('update1'),['id'=>$rkpd->RKPDIndikatorID]),'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
                 <div class="form-group">    
                     <div class="form-group">
                         <label class="col-md-2 control-label">POSISI ENTRI: </label>

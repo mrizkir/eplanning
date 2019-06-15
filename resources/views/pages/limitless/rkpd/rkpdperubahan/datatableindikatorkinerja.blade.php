@@ -5,7 +5,7 @@
     <div class="heading-elements">
         @if ($rkpd->Privilege==0)
         <div class="heading-btn">
-            <a href="{!!route(Helper::getNameOfPage('create1'),['id'=>$rkpd->RenjaID])!!}" class="btn btn-info btn-xs" title="Tambah Indikator Kegiatan">
+            <a href="{!!route(Helper::getNameOfPage('create1'),['id'=>$rkpd->RKPDID])!!}" class="btn btn-info btn-xs" title="Tambah Indikator Kegiatan">
                 <i class="icon-googleplus5"></i>           
             </a>           
         </div>  
@@ -51,12 +51,12 @@
                     @if ($item->Privilege==0)
                     <ul class="icons-list">
                         <li class="text-primary-600">                            
-                            <a class="btnEdit" href="{{route(Helper::getNameOfPage('edit1'),['id'=>$item->RenjaIndikatorID])}}" title="Ubah Data Indikator">
+                            <a class="btnEdit" href="{{route(Helper::getNameOfPage('edit1'),['id'=>$item->RKPDIndikatorID])}}" title="Ubah Data Indikator">
                                 <i class='icon-pencil7'></i>
                             </a> 
                         </li>
                         <li class="text-danger-600">
-                            <a class="btnDelete" href="javascript:;" title="Hapus Data Idikator" data-id="{{$item->RenjaIndikatorID}}" data-url="{{route(Helper::getNameOfPage('index'))}}">
+                            <a class="btnDelete" href="javascript:;" title="Hapus Data Idikator" data-id="{{$item->RKPDIndikatorID}}" data-url="{{route(Helper::getNameOfPage('index'))}}">
                                 <i class='icon-trash'></i>
                             </a> 
                         </li>
@@ -70,7 +70,7 @@
                 <td colspan="10">
                     <span class="label label-warning label-rounded" style="text-transform: none">
                         <strong>RENJAINDIKATORID:</strong>
-                        {{$item->RenjaIndikatorID}}
+                        {{$item->RKPDIndikatorID}}
                     </span>
                     <span class="label label-warning label-rounded">
                         <strong>KET:</strong>

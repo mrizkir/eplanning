@@ -36,7 +36,7 @@
             </div>
         </div>
         {!! Form::open(['url'=>route(Helper::getNameOfPage('store3')),'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}
-        {{Form::hidden('RenjaID',$rkpd->RenjaID,['id'=>'RenjaID'])}}
+        {{Form::hidden('RKPDID',$rkpd->RKPDID,['id'=>'RKPDID'])}}
         {{Form::hidden('PMProvID',$PMProvID)}}
         {{Form::hidden('PmKotaID',$PmKotaID)}}
         <div class="panel-body">
@@ -204,7 +204,7 @@ $(document).ready(function () {
                 data: {                
                     "_token": token,
                     "PemilikPokokID": PemilikPokokID,
-                    "RenjaID": $('#RenjaID').val(),
+                    "RKPDID": $('#RKPDID').val(),
                     "create3":true
                 },
                 success:function(result)

@@ -37,7 +37,7 @@
         </div>
         <div class="panel-body">
             {!! Form::open(['url'=>route(Helper::getNameOfPage('store1')),'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
-            {{Form::hidden('RenjaID',$rkpd->RenjaID)}}
+            {{Form::hidden('RKPDID',$rkpd->RKPDID)}}
                 <div class="form-group">    
                     <div class="form-group">
                         <label class="col-md-2 control-label">POSISI ENTRI: </label>

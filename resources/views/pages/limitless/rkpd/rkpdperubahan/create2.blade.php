@@ -36,7 +36,7 @@
             </div>
         </div>
         {!! Form::open(['url'=>route(Helper::getNameOfPage('store2')),'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
-        {{Form::hidden('RenjaID',$rkpd->RenjaID,['id'=>'RenjaID'])}}
+        {{Form::hidden('RKPDID',$rkpd->RKPDID,['id'=>'RKPDID'])}}
         {{Form::hidden('PmDesaID','',['id'=>'PmDesaID'])}}
         <div class="panel-body">
             <div class="form-group">
@@ -116,13 +116,7 @@
                 <div class="col-md-10">
                     {{Form::text('Jumlah','',['class'=>'form-control','placeholder'=>'NILAI USULAN'])}}
                 </div>
-            </div>
-            <div class="form-group">
-                {{Form::label('Prioritas','PRIORITAS',['class'=>'control-label col-md-2'])}}
-                <div class="col-md-10">
-                    {{Form::select('Prioritas', HelperKegiatan::getDaftarPrioritas(),'none',['class'=>'form-control','id'=>'Prioritas'])}}
-                </div>
-            </div>
+            </div>            
             <div class="form-group">
                 {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
@@ -224,7 +218,7 @@ $(document).ready(function () {
                 data: {                
                     "_token": token,
                     "PmKecamatanID": PmKecamatanID,
-                    "RenjaID": $('#RenjaID').val(),
+                    "RKPDID": $('#RKPDID').val(),
                     "create2":true
                 },
                 success:function(result)
