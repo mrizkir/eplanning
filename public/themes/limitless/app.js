@@ -107,6 +107,57 @@ function formatPaguTotalIndikatifUnitKerja(totalpaguindikatif)
         new AutoNumeric ('#datastatus #totalstatusunitkerja',optionnumeric);        
     }   
 }
+
+function formatPaguRKPDPerubahanOPD(totalpagu)
+{
+    var optionnumeric =  {
+                            allowDecimalPadding: false,
+                            decimalCharacter: ",",
+                            digitGroupSeparator: ".",
+                            showWarnings:false
+                        };
+    
+    if (checkExistsID('#datapagu #totalpagumurniopd'))
+    {
+        $('#datapagu #totalpagumurniopd').html(totalpagu['murni']);                
+        new AutoNumeric ('#datapagu #totalpagumurniopd',optionnumeric); 
+    }    
+    if (checkExistsID('#datapagu #totalpaguperubahanopd'))
+    {
+        $('#datapagu #totalpaguperubahanopd').html(totalpagu['perubahan']);                        
+        new AutoNumeric ('#datapagu #totalpaguperubahanopd',optionnumeric); 
+    }    
+    if (checkExistsID('#datapagu #selisihopd'))
+    {
+        $('#datapagu #selisihopd').html(totalpagu['selisih']);                        
+        new AutoNumeric ('#datapagu #selisihopd',optionnumeric); 
+    }    
+}
+function formatPaguRKPDPerubahanUnitKerja(totalpagu)
+{
+    var optionnumeric =  {
+                            allowDecimalPadding: false,
+                            decimalCharacter: ",",
+                            digitGroupSeparator: ".",
+                            showWarnings:false
+                        };
+    
+    if (checkExistsID('#datapagu #totalpagumurniunitkerja'))
+    {
+        $('#datapagu #totalpagumurniunitkerja').html(totalpagu['murni']);                
+        new AutoNumeric ('#datapagu #totalpagumurniunitkerja',optionnumeric); 
+    }    
+    if (checkExistsID('#datapagu #totalpaguperubahanunitkerja'))
+    {
+        $('#datapagu #totalpaguperubahanunitkerja').html(totalpagu['perubahan']);                        
+        new AutoNumeric ('#datapagu #totalpaguperubahanunitkerja',optionnumeric); 
+    }    
+    if (checkExistsID('#datapagu #selisihunitkerja'))
+    {
+        $('#datapagu #selisihunitkerja').html(totalpagu['selisih']);                        
+        new AutoNumeric ('#datapagu #selisihunitkerja',optionnumeric); 
+    }    
+}
 //checking data type is json
 function isJSON (data) 
 {

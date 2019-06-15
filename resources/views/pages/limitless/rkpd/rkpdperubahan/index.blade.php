@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold">
-        {{$page_title}} TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}  
+        {{$page_title}} TAHUN PERENCANAAN {{config('eplanning.tahun_penyerapan')}}  
     </span>
 @endsection
 @section('page_info')
@@ -94,7 +94,7 @@
     </div>      
     <div class="col-md-12">
         <div class="table-responsive">
-            <table id="datastatus" class="table"> 
+            <table id="datapagu" class="table"> 
                 <thead class="bg-info-300">
                     <tr>
                         <th colspan="2" class="text-center">TOTAL PAGU INDIKATIF OPD / SKPD</th>
@@ -105,53 +105,27 @@
                 </thead>
                 <tbody class="bg-grey-300" style="font-weight:bold">   
                     <tr>
-                        <td class="text-right">STATUS DRAFT [0]</td>
-                        <td id="totalstatusopd0" class="text-right">{{Helper::formatUang($totalpaguindikatifopd[0])}}</td>                     
+                        <td class="text-right">JUMLAH PAGU MURNI</td>
+                        <td id="totalpagumurniopd" class="text-right">{{Helper::formatUang($totalpaguopd['murni'])}}</td>                     
                         <td colspan="2">&nbsp;</td>
-                        <td class="text-right">STATUS DRAFT [0]</td>
-                        <td id="totalstatusunitkerja0" class="text-right">{{Helper::formatUang($totalpaguindikatifunitkerja[0])}}</td>                     
+                        <td class="text-right">JUMLAH PAGU MURNI</td>
+                        <td id="totalpagumurniunitkerja" class="text-right">{{Helper::formatUang($totalpaguunitkerja['murni'])}}</td>                     
                         <td colspan="2">&nbsp;</td>
                     </tr>               
                     <tr>
-                        <td class="text-right">STATUS SETUJU [1]</td>
-                        <td id="totalstatusopd1" class="text-right">{{Helper::formatUang($totalpaguindikatifopd[1])}}</td> 
+                        <td class="text-right">JUMLAH PAGU PERUBAHAN</td>
+                        <td id="totalpaguperubahanopd" class="text-right">{{Helper::formatUang($totalpaguopd['perubahan'])}}</td> 
                         <td colspan="2">&nbsp;</td>
-                        <td class="text-right">STATUS SETUJU [1]</td>
-                        <td id="totalstatusunitkerja1" class="text-right">{{Helper::formatUang($totalpaguindikatifunitkerja[1])}}</td> 
-                        <td colspan="2">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td class="text-right">STATUS SETUJU DENGAN CATATAN [2]</td>
-                        <td id="totalstatusopd2" class="text-right">
-                            {{Helper::formatUang($totalpaguindikatifopd[2])}}                        
-                        </td>
-                        <td width="100">[1+2] = </td> 
-                        <td id="totalstatusopd12">
-                            {{Helper::formatUang($totalpaguindikatifopd[1]+$totalpaguindikatifopd[2])}}
-                        </td>
-                        <td class="text-right">STATUS SETUJU DENGAN CATATAN [2]</td>
-                        <td id="totalstatusunitkerja2" class="text-right">
-                            {{Helper::formatUang($totalpaguindikatifunitkerja[2])}}                        
-                        </td>
-                        <td width="100">[1+2] = </td> 
-                        <td id="totalstatusunitkerja12">
-                            {{Helper::formatUang($totalpaguindikatifunitkerja[1]+$totalpaguindikatifunitkerja[2])}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-right">STATUS PENDING [3]</td>
-                        <td id="totalstatusopd3" class="text-right">{{Helper::formatUang($totalpaguindikatifopd[3])}}</td> 
-                        <td colspan="2">&nbsp;</td>
-                        <td class="text-right">STATUS PENDING [3]</td>
-                        <td id="totalstatusunitkerja3" class="text-right">{{Helper::formatUang($totalpaguindikatifunitkerja[3])}}</td> 
+                        <td class="text-right">JUMLAH PAGU PERUBAHAN</td>
+                        <td id="totalpaguperubahanunitkerja" class="text-right">{{Helper::formatUang($totalpaguunitkerja['perubahan'])}}</td> 
                         <td colspan="2">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td class="text-right">TOTAL KESELURUHAN (0+1+2+3)</td>
-                        <td id="totalstatusopd" class="text-right">{{Helper::formatUang($totalpaguindikatifopd['total'])}}</td> 
+                        <td class="text-right">SELISIH</td>
+                        <td id="selisihopd" class="text-right">{{Helper::formatUang($totalpaguopd['selisih'])}}</td> 
                         <td colspan="2">&nbsp;</td>
-                        <td class="text-right">TOTAL KESELURUHAN (0+1+2+3)</td>
-                        <td id="totalstatusunitkerja" class="text-right">{{Helper::formatUang($totalpaguindikatifunitkerja['total'])}}</td> 
+                        <td class="text-right">SELISIH</td>
+                        <td id="selisihunitkerja" class="text-right">{{Helper::formatUang($totalpaguunitkerja['selisih'])}}</td> 
                         <td colspan="2">&nbsp;</td>
                     </tr>
                 </tbody>            
@@ -208,8 +182,8 @@ $(document).ready(function () {
                     digitGroupSeparator: ".",
                     showWarnings:false
                 }); 
-                formatPaguTotalIndikatifOPD(result.totalpaguindikatifopd);
-                formatPaguTotalIndikatifUnitKerja(result.totalpaguindikatifunitkerja);
+                formatPaguRKPDPerubahanOPD(result.totalpaguopd);
+                formatPaguRKPDPerubahanUnitKerja(result.totalpaguunitkerja);
             },
             error:function(xhr, status, error){
                 console.log('ERROR');
@@ -231,7 +205,7 @@ $(document).ready(function () {
             { 
                 $('#divdatatable').html(result.datatable);
                 $(".switch").bootstrapSwitch();
-                formatPaguTotalIndikatifUnitKerja(result.totalpaguindikatifunitkerja);
+                formatPaguRKPDPerubahanUnitKerja(result.totalpaguunitkerja);
             },
             error:function(xhr, status, error){
                 console.log('ERROR');
@@ -240,7 +214,7 @@ $(document).ready(function () {
         });     
     });
     $("#divdatatable").on("click",".btnDelete", function(){
-        if (confirm('Apakah Anda ingin menghapus Data {{ucwords(strtolower($page_title))}} ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data {{$page_title}} ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             let pid = $(this).attr("data-pid");
@@ -259,7 +233,7 @@ $(document).ready(function () {
                         $('#divdatatable').html(result.datatable);       
                         $(".switch").bootstrapSwitch();                 
                     }else{
-                        console.log("Gagal menghapus data {{ucwords(strtolower($page_title))}} dengan id "+id);
+                        console.log("Gagal menghapus data {{$page_title}} dengan id "+id);
                     }                    
                 },
                 error:function(xhr, status, error){

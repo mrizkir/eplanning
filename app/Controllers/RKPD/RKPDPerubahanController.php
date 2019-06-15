@@ -281,18 +281,17 @@ class RKPDPerubahanController extends Controller
                                                                             'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
                                                                             'data'=>$data])->render();
 
-            $totalpaguindikatifopd = RKPDRincianModel::getTotalPaguIndikatifByStatusAndOPD(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['OrgID']);            
+            $totalpaguopd = RKPDRincianModel::getTotalPaguByOPD(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['OrgID']);            
                   
-            $totalpaguindikatifunitkerja[0]=0;
-            $totalpaguindikatifunitkerja[1]=0;
-            $totalpaguindikatifunitkerja[2]=0;
-            $totalpaguindikatifunitkerja[3]=0;  
+            $totalpaguunitkerja['murni']=0;
+            $totalpaguunitkerja['perubahan']=0;
+            $totalpaguunitkerja['selisih']=0;
             
             $paguanggaranopd=\App\Models\DMaster\PaguAnggaranOPDModel::select('Jumlah1')
                                                                         ->where('OrgID',$filters['OrgID'])
                                                                         ->value('Jumlah1');
 
-            $json_data = ['success'=>true,'paguanggaranopd'=>$paguanggaranopd,'totalpaguindikatifopd'=>$totalpaguindikatifopd,'totalpaguindikatifunitkerja'=>$totalpaguindikatifunitkerja,'daftar_unitkerja'=>$daftar_unitkerja,'datatable'=>$datatable];
+            $json_data = ['success'=>true,'paguanggaranopd'=>$paguanggaranopd,'totalpaguopd'=>$totalpaguopd,'totalpaguunitkerja'=>$totalpaguunitkerja,'daftar_unitkerja'=>$daftar_unitkerja,'datatable'=>$datatable];
         } 
         //index
         if ($request->exists('SOrgID'))
@@ -311,9 +310,9 @@ class RKPDPerubahanController extends Controller
                                                                                 'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
                                                                                 'data'=>$data])->render();                                                                                       
                         
-            $totalpaguindikatifunitkerja = RKPDRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['SOrgID']);            
+            $totalpaguunitkerja = RKPDRincianModel::getTotalPaguByUnitKerja(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['SOrgID']);            
             
-            $json_data = ['success'=>true,'totalpaguindikatifunitkerja'=>$totalpaguindikatifunitkerja,'datatable'=>$datatable];            
+            $json_data = ['success'=>true,'totalpaguunitkerja'=>$totalpaguunitkerja,'datatable'=>$datatable];            
         } 
 
         //create2
@@ -505,8 +504,8 @@ class RKPDPerubahanController extends Controller
                                                                 'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
                                                                 'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
                                                                 'paguanggaranopd'=>$paguanggaranopd,
-                                                                'totalpaguindikatifopd'=>RKPDRincianModel::getTotalPaguIndikatifByStatusAndOPD(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['OrgID']),
-                                                                'totalpaguindikatifunitkerja' => RKPDRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['SOrgID']),            
+                                                                'totalpaguopd'=>RKPDRincianModel::getTotalPaguByOPD(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['OrgID']),
+                                                                'totalpaguunitkerja' => RKPDRincianModel::getTotalPaguByUnitKerja(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['SOrgID']),            
                                                                 'data'=>$data]);
     }   
     public function pilihusulankegiatan(Request $request)
