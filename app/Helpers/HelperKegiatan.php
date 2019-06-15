@@ -34,6 +34,11 @@ class HelperKegiatan {
                                     3=>'PENDING']; 
     
     /**
+     * Daftar Status RKPD
+     */ 
+    private static $StatusRKPD =[1=>'MURNI',
+                                2=>'PERUBAHAN'];
+    /**
     * digunakan untuk mendapatkan entri level
     */
     public static function getDaftarLevelEntri () {

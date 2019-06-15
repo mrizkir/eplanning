@@ -80,19 +80,19 @@ class RKPDPerubahanController extends Controller {
                 case 'kode_kegiatan' :
                     $data = RKPDPerubahanModel::where(['kode_kegiatan'=>$search['isikriteria']])                                                    
                                                     ->where('SOrgID',$SOrgID)
-                                                    ->where('TA', config('eplanning.tahun_perencanaan'))
+                                                    ->where('TA', config('eplanning.tahun_penyerapan'))
                                                     ->orderBy($column_order,$direction); 
                 break;
                 case 'KgtNm' :
                     $data = RKPDPerubahanModel::where('KgtNm', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                                     ->where('SOrgID',$SOrgID)
-                                                    ->where('TA', config('eplanning.tahun_perencanaan'))
+                                                    ->where('TA', config('eplanning.tahun_penyerapan'))
                                                     ->orderBy($column_order,$direction);                                        
                 break;
                 case 'Uraian' :
                     $data = RKPDPerubahanModel::where('Uraian', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                                     ->where('SOrgID',$SOrgID)
-                                                    ->where('TA', config('eplanning.tahun_perencanaan'))
+                                                    ->where('TA', config('eplanning.tahun_penyerapan'))
                                                     ->orderBy($column_order,$direction);                                        
                 break;
             }           
@@ -101,7 +101,7 @@ class RKPDPerubahanController extends Controller {
         else
         {
             $data = RKPDPerubahanModel::where('SOrgID',$SOrgID)                                                                                      
-                                            ->where('TA', config('eplanning.tahun_perencanaan'))                                            
+                                            ->where('TA', config('eplanning.tahun_penyerapan'))                                            
                                             ->orderBy($column_order,$direction)                                            
                                             ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);             
         }        
@@ -263,7 +263,7 @@ class RKPDPerubahanController extends Controller {
             $OrgID = $request->input('OrgID')==''?'none':$request->input('OrgID');
             $filters['OrgID']=$OrgID;
             $filters['SOrgID']='none';
-            $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('eplanning.tahun_perencanaan'),false,$OrgID);  
+            $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('eplanning.tahun_penyerapan'),false,$OrgID);  
             
             $this->putControllerStateSession('rkpdperubahan','filters',$filters);
 
@@ -276,7 +276,7 @@ class RKPDPerubahanController extends Controller {
                                                                                     'direction'=>$this->getControllerStateSession('rkpdperubahan.orderby','order'),
                                                                                     'data'=>$data])->render();
 
-            $totalpaguindikatifopd = RKPDRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('eplanning.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName('rkpdperubahan'),$filters['OrgID']);            
+            $totalpaguindikatifopd = RKPDRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('eplanning.tahun_penyerapan'),\HelperKegiatan::getLevelEntriByName('rkpdperubahan'),$filters['OrgID']);            
                   
             $totalpaguindikatifunitkerja[0]=0;
             $totalpaguindikatifunitkerja[1]=0;
@@ -310,7 +310,7 @@ class RKPDPerubahanController extends Controller {
                                                                             'direction'=>$this->getControllerStateSession('rkpdperubahan.orderby','order'),
                                                                             'data'=>$data])->render();                                                                                       
 
-            $totalpaguindikatifunitkerja = RKPDRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('eplanning.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName('rkpdperubahan'),$filters['SOrgID']);            
+            $totalpaguindikatifunitkerja = RKPDRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('eplanning.tahun_penyerapan'),\HelperKegiatan::getLevelEntriByName('rkpdperubahan'),$filters['SOrgID']);            
 
             $json_data = ['success'=>true,
                         'totalpaguindikatifunitkerja'=>$totalpaguindikatifunitkerja,
@@ -333,24 +333,24 @@ class RKPDPerubahanController extends Controller {
         switch ($roles[0])
         {
             case 'superadmin' :                 
-                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false);  
+                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.tahun_penyerapan'),false);  
                 $daftar_unitkerja=array();           
                 if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
                 {
-                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('eplanning.tahun_perencanaan'),false,$filters['OrgID']);        
+                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('eplanning.tahun_penyerapan'),false,$filters['OrgID']);        
                 }    
             break;
             case 'opd' :
-                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.tahun_perencanaan'),false,NULL,$auth->OrgID);  
+                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.tahun_penyerapan'),false,NULL,$auth->OrgID);  
                 $filters['OrgID']=$auth->OrgID;                
                 if (empty($auth->SOrgID)) 
                 {
-                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('eplanning.tahun_perencanaan'),false,$auth->OrgID);  
+                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('eplanning.tahun_penyerapan'),false,$auth->OrgID);  
                     $filters['SOrgID']=empty($filters['SOrgID'])?'':$filters['SOrgID'];                    
                 }   
                 else
                 {
-                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('eplanning.tahun_perencanaan'),false,$auth->OrgID,$auth->SOrgID);
+                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(config('eplanning.tahun_penyerapan'),false,$auth->OrgID,$auth->SOrgID);
                     $filters['SOrgID']=$auth->SOrgID;
                 }                
                 $this->putControllerStateSession('rkpdperubahan','filters',$filters);
@@ -379,8 +379,8 @@ class RKPDPerubahanController extends Controller {
                                                                 'column_order'=>$this->getControllerStateSession('rkpdperubahan.orderby','column_name'),
                                                                 'direction'=>$this->getControllerStateSession('rkpdperubahan.orderby','order'),
                                                                 'paguanggaranopd'=>$paguanggaranopd,
-                                                                'totalpaguindikatifopd'=>RKPDRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('eplanning.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName('rkpdperubahan'),$filters['OrgID']),
-                                                                'totalpaguindikatifunitkerja' => RKPDRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('eplanning.tahun_perencanaan'),\HelperKegiatan::getLevelEntriByName('rkpdperubahan'),$filters['SOrgID']),            
+                                                                'totalpaguindikatifopd'=>RKPDRincianModel::getTotalPaguIndikatifByStatusAndOPD(config('eplanning.tahun_penyerapan'),\HelperKegiatan::getLevelEntriByName('rkpdperubahan'),$filters['OrgID']),
+                                                                'totalpaguindikatifunitkerja' => RKPDRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(config('eplanning.tahun_penyerapan'),\HelperKegiatan::getLevelEntriByName('rkpdperubahan'),$filters['SOrgID']),            
                                                                 'data'=>$data]);               
                      
     }
@@ -460,6 +460,6 @@ class RKPDPerubahanController extends Controller {
         $data_report['NIPKepalaSKPD']=$opd->NIPKepalaSKPD;
         
         $report= new \App\Models\Report\ReportRKPDPerubahanModel ($data_report);
-        return $report->download("rkpd_$generate_date.xlsx");
+        return $report->download("rkpd_perubahan_$generate_date.xlsx");
     }
 }

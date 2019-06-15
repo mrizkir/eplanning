@@ -24,8 +24,8 @@ class CreateUsulanrkpdabpdTable extends Migration
             $table->string('SumberDanaID',19);                
             $table->string('NamaIndikator');
 
-            $table->string('Sasaran_Uraian1');
-            $table->string('Sasaran_Uraian2')->nullable();
+            $table->text('Sasaran_Uraian1');
+            $table->text('Sasaran_Uraian2')->nullable();
             $table->decimal('Sasaran_Angka1',15,2);
             $table->decimal('Sasaran_Angka2',15,2)->nullable();
 
@@ -36,7 +36,7 @@ class CreateUsulanrkpdabpdTable extends Migration
             $table->decimal('Target2',15,2)->nullable();
 
             $table->decimal('Sasaran_AngkaSetelah',15,2);
-            $table->string('Sasaran_UraianSetelah');
+            $table->text('Sasaran_UraianSetelah');
 
             $table->decimal('NilaiSebelum',15,2)->nullable();
             $table->decimal('NilaiSetelah',15,2)->nullable();
@@ -104,7 +104,7 @@ class CreateUsulanrkpdabpdTable extends Migration
             $table->string('IndikatorKinerjaID',19);
             
             $table->decimal('Target_Angka',15,2);
-            $table->string('Target_Uraian');
+            $table->text('Target_Uraian');
             $table->year('Tahun');
             $table->string('Descr')->nullable();
             $table->year('TA');
@@ -142,6 +142,7 @@ class CreateUsulanrkpdabpdTable extends Migration
         Schema::create('trRKPDRinc', function (Blueprint $table) {
                 $table->string('RKPDRincID',19);
                 $table->string('RKPDID',19);
+                $table->string('RenjaRincID',19)->nullable();
                 $table->string('PMProvID',19)->nullable();
                 $table->string('PmKotaID',19)->nullable();
                 $table->string('PmKecamatanID',19)->nullable();
@@ -151,8 +152,8 @@ class CreateUsulanrkpdabpdTable extends Migration
 
                 $table->text('Uraian');
                 $table->string('No',4);
-                $table->string('Sasaran_Uraian1');
-                $table->string('Sasaran_Uraian2')->nullable();
+                $table->text('Sasaran_Uraian1');
+                $table->text('Sasaran_Uraian2')->nullable();
                 $table->decimal('Sasaran_Angka1',15,2);
                 $table->decimal('Sasaran_Angka2',15,2)->nullable();
 
@@ -176,6 +177,7 @@ class CreateUsulanrkpdabpdTable extends Migration
 
                 $table->primary('RKPDRincID');
                 $table->index('RKPDID');
+                $table->index('RenjaRincID');
                 $table->index('PmKecamatanID');
                 $table->index('PmDesaID');
                 $table->index('UsulanKecID');
@@ -194,7 +196,7 @@ class CreateUsulanrkpdabpdTable extends Migration
                         ->onDelete('cascade')
                         ->onUpdate('cascade');
 
-                $table->foreign('RKPDRincID')
+                $table->foreign('RenjaRincID')
                         ->references('RenjaRincID')
                         ->on('trRenjaRinc')
                         ->onDelete('cascade')

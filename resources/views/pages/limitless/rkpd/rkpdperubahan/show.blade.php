@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        RKPD PERUBAHAN TAHUN PERENCANAAN {{config('eplanning.tahun_perencanaan')}}
+        RKPD PERUBAHAN TAHUN PERENCANAAN {{config('eplanning.tahun_penyerapan')}}
     </span>     
 @endsection
 @section('page_info')
