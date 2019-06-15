@@ -5,6 +5,7 @@
     </span>
     @break
     @case(2)
+    @case(3)
     <span class="label label-danger label-flat border-danger text-danger-600">
         {{HelperKegiatan::getStatusRKPD($item->Status)}}
     </span>

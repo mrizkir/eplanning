@@ -56,7 +56,7 @@
                             </a> 
                         </li>
                         <li class="text-danger-600">
-                            <a class="btnDelete" href="javascript:;" title="Hapus Data Idikator" data-id="{{$item->RenjaIndikatorID}}" data-url="{{route(Helper::getNameOfPage('index'))}}">
+                            <a class="btnDelete" href="javascript:;" title="Hapus Data Indikator" data-id="{{$item->RenjaIndikatorID}}" data-url="{{route(Helper::getNameOfPage('index'))}}">
                                 <i class='icon-trash'></i>
                             </a> 
                         </li>

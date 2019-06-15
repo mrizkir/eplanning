@@ -37,7 +37,9 @@ class HelperKegiatan {
      * Daftar Status RKPD
      */ 
     private static $StatusRKPD =[1=>'MURNI',
-                                2=>'PERUBAHAN'];
+                                2=>'PERUBAHAN',//record perubahan tidak bisa bisa dihapus
+                                3=>'PERUBAHAN' //record perubahan bisa dihapus
+                                ];
     /**
      * digunakan untuk mendapatkan tahun perencanaan saat user login
      */ 

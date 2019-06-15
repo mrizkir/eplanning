@@ -105,7 +105,7 @@
                     @if ($item->RenjaRincID=='')
                     <td colspan="7">
                         <span class="label label-flat label-block border-info text-info-600">
-                            PROSES INPUT MUSRENBANG KABUPATEN BELUM SELESAI
+                            PROSES INPUT BELUM SELESAI
                         </span>
                         <a href="{{route(Helper::getNameOfPage('create1'),['uuid'=>$item->RenjaID])}}">
                             Lanjutkan Input 

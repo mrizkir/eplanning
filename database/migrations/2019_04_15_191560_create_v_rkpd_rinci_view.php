@@ -63,7 +63,7 @@ class CreateVRkpdRinciView extends Migration
                 A."RKPDID_Src",
                 B."RKPDRincID_Src"
             FROM "trRKPD" A
-                INNER JOIN "trRKPDRinc" B ON A."RKPDID"=B."RKPDID" AND A."TA"=B."TA"
+                LEFT JOIN "trRKPDRinc" B ON A."RKPDID"=B."RKPDID" AND A."TA"=B."TA"
                 INNER JOIN "tmOrg" C ON A."OrgID"=C."OrgID" AND A."TA"=C."TA"
                 INNER JOIN "tmSOrg" D ON A."SOrgID"=D."SOrgID" AND A."TA"=D."TA"
                 INNER JOIN "tmKgt" E ON A."KgtID"=E."KgtID" AND A."TA"=E."TA"

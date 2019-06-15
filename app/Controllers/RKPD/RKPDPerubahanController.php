@@ -809,6 +809,7 @@ class RKPDPerubahanController extends Controller
         ]);
         $filters=$this->getControllerStateSession($this->SessionName,'filters');
         $RKPDID=uniqid ('uid');
+        $tanggal_posting=\Carbon\Carbon::now();
         switch ($this->NameOfPage) 
         {  
             case 'rkpdperubahan' :
@@ -818,17 +819,25 @@ class RKPDPerubahanController extends Controller
                     'SOrgID' => $filters['SOrgID'],
                     'KgtID' => $request->input('KgtID'),
                     'SumberDanaID' => $request->input('SumberDanaID'),
+                    'Sasaran_Angka1' => 0,
                     'Sasaran_Angka2' => $request->input('Sasaran_Angka'),
+                    'Sasaran_Uraian1' => '-',
                     'Sasaran_Uraian2' => $request->input('Sasaran_Uraian'),
                     'Sasaran_AngkaSetelah' => $request->input('Sasaran_AngkaSetelah'),
                     'Sasaran_UraianSetelah' => $request->input('Sasaran_UraianSetelah'),
+                    'Target1' => 0,
                     'Target2' => $request->input('Target'),
                     'NilaiSebelum' => $request->input('NilaiSebelum'),            
+                    'NilaiUsulan1' => 0,            
+                    'NilaiUsulan2' => 0,            
                     'NilaiSetelah' => $request->input('NilaiSetelah'),
                     'NamaIndikator' => $request->input('NamaIndikator'),            
+                    'NamaIndikator' => $request->input('NamaIndikator'),            
+                    'Tgl_Posting' => $tanggal_posting,            
                     'Descr' => $request->input('Descr'),
                     'TA' => \HelperKegiatan::getTahunPerencanaan(),
-                    'EntryLvl'=>5
+                    'Status'=>3,
+                    'EntryLvl'=>5,
                 ];
             break;
             
@@ -1296,6 +1305,8 @@ class RKPDPerubahanController extends Controller
                                             "NilaiSetelah",
                                             "Nm_SumberDana",
                                             "trRKPD"."Privilege",
+                                            "trRKPD"."Status",
+                                            "trRKPD"."EntryLvl",
                                             "trRKPD"."created_at",
                                             "trRKPD"."updated_at"
                                             '))
@@ -2494,11 +2505,14 @@ class RKPDPerubahanController extends Controller
                     $rinciankegiatan->Target2 = $request->input('Target');
                     $rinciankegiatan->NilaiUsulan2 = $request->input('Jumlah');  
                     $rinciankegiatan->EntryLvl = 5;
-                    $rinciankegiatan->Status = 2;
+                    $Status=$rinciankegiatan->Status == 1 || $rinciankegiatan->Status==2 ? 2:3;
+                    $rinciankegiatan->Status = $Status;
                     $rinciankegiatan->Descr = $request->input('Descr');
                     $rinciankegiatan->save();
         
-                    $rkpd = $rinciankegiatan->rkpd;            
+                    $rkpd = $rinciankegiatan->rkpd;   
+                    $rkpd->Status=$Status;         
+                    $rkpd->EntryLvl=5;
                     $rkpd->NilaiUsulan2=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('NilaiUsulan2');            
                     $rkpd->save();
                 break;                

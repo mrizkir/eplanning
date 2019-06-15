@@ -28,10 +28,12 @@
                     @if ($rkpd->Privilege==0)
                     <a href="{{route(Helper::getNameOfPage('edit'),['id'=>$rkpd->RKPDID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Usulan {{$page_title}}">
                         <i class="icon-pencil7"></i>
-                    </a>                       
+                    </a>                    
+                    @if ($rkpd->EntryLvl==5 && $rkpd->Status==3)    
                     <a href="javascript:;" title="Hapus Data Usulan {{$page_title}}" data-id="{{$rkpd->RKPDID}}" data-url="{{route(Helper::getNameOfPage('index'))}}" class="btn btn-danger btn-icon heading-btn btnDeleteRenja">
                         <i class='icon-trash'></i>
                     </a>
+                    @endif
                     @endif
                     <a href="{!!route(Helper::getNameOfPage('index'))!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
                         <i class="icon-close2"></i>
@@ -43,7 +45,7 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>RENJA ID: </strong></label>
+                                <label class="col-md-4 control-label"><strong>RKPD ID: </strong></label>
                                 <div class="col-md-8">
                                     <p class="form-control-static">{{$rkpd->RKPDID}}</p>
                                 </div>                            

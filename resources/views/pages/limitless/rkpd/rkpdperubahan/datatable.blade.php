@@ -78,7 +78,7 @@
                     @if ($item->RKPDRincID=='')
                     <td colspan="7">
                         <span class="label label-flat label-block border-info text-info-600">
-                            PROSES INPUT MUSRENBANG KABUPATEN BELUM SELESAI
+                            PROSES INPUT BELUM SELESAI
                         </span>
                         <a href="{{route(Helper::getNameOfPage('create1'),['uuid'=>$item->RKPDID])}}">
                             Lanjutkan Input 
@@ -163,7 +163,7 @@
                                     </a>
                                 @endif
                             </li>      
-                            @if ($item->EntryLvl==5)                  
+                            @if ($item->EntryLvl==5 && $item->Status==3)                  
                             <li class="text-danger-600">
                                 <a class="btnDelete" href="javascript:;" title="Hapus Data Usulan {{$page_title}}" data-id="{{$item->RKPDRincID}}" data-url="{{route(Helper::getNameOfPage('index'))}}" data-pid="rincian">
                                     <i class='icon-trash'></i>
