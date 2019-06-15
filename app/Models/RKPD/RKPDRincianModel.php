@@ -91,6 +91,11 @@ class RKPDRincianModel extends Model {
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
 
+    public function rkpd()
+    {
+        return $this->belongsTo('\App\Models\RKPD\RKPDModel','RKPDID');
+    }
+
     /**
      * digunakan untuk mendapatkan total pagu indikatif berdasarkan status dan opd
      */

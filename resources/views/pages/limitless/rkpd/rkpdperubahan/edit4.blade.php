@@ -27,12 +27,12 @@
             <div class="heading-elements">
                 <ul class="icons-list">                    
                     <li>               
-                        <a href="{!!route(Helper::getNameOfPage('show'),['id'=>$rkpd->RenjaID])!!}" data-action="closeredirect" title="keluar"></a>
+                        <a href="{!!route(Helper::getNameOfPage('show'),['id'=>$rkpd->RKPDID])!!}" data-action="closeredirect" title="keluar"></a>
                     </li>
                 </ul>
             </div>
         </div>
-        {!! Form::open(['url'=>route(Helper::getNameOfPage('update4'),$rkpd->RenjaRincID),'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
+        {!! Form::open(['url'=>route(Helper::getNameOfPage('update4'),$rkpd->RKPDRincID),'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
         <div class="panel-body">     
             <div class="form-group">
                 {{Form::label('No','NOMOR',['class'=>'control-label col-md-2'])}}
@@ -70,13 +70,7 @@
                 <div class="col-md-10">
                     {{Form::text('Jumlah',$rkpd->Jumlah,['class'=>'form-control','placeholder'=>'NILAI USULAN'])}}
                 </div>
-            </div>
-            <div class="form-group">
-                {{Form::label('Prioritas','PRIORITAS',['class'=>'control-label col-md-2'])}}
-                <div class="col-md-10">
-                    {{Form::select('Prioritas', HelperKegiatan::getDaftarPrioritas(),$rkpd->Prioritas,['class'=>'form-control','id'=>'Prioritas'])}}
-                </div>
-            </div>
+            </div>            
             <div class="form-group">
                 {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">

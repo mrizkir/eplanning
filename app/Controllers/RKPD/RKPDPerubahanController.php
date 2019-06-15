@@ -2238,68 +2238,9 @@ class RKPDPerubahanController extends Controller
         $theme = $auth->theme;
         $roles = $auth->getRoleNames();   
         switch ($this->NameOfPage) 
-        {            
-            case 'usulanprarkpdopd' :
-                switch ($roles[0])
-                {
-                    case 'superadmin' :
-                        $rkpd = RKPDRincianModel::select(\DB::raw('"trRKPDRinc"."RKPDRincID",
-                                                                    "trRKPDRinc"."RKPDID",
-                                                                    "trRKPDRinc"."PmKecamatanID",
-                                                                    "trRKPDRinc"."PmDesaID",
-                                                                    "trRKPDRinc"."No",
-                                                                    "trRKPDRinc"."Uraian",
-                                                                    "trRKPDRinc"."Sasaran_Angka1" AS "Sasaran_Angka",
-                                                                    "trRKPDRinc"."Sasaran_Uraian1" AS "Sasaran_Uraian",
-                                                                    "trRKPDRinc"."Target1" AS "Target",
-                                                                    "trRKPDRinc"."Jumlah1" AS "Jumlah",
-                                                                    "trRKPDRinc"."Prioritas",
-                                                                    "trRKPDRinc"."Descr",
-                                                                    "trRKPDRinc"."isSKPD",
-                                                                    "trRKPDRinc"."isReses"'))                                                                                        
-                                                    ->findOrFail($id);        
-                    break;
-                    case 'opd' :
-                        $OrgID = $auth->OrgID;
-                        $SOrgID = empty($auth->SOrgID)? $SOrgID= $this->getControllerStateSession('usulanprarkpdopd.filters','SOrgID'):$auth->SOrgID;
-                        $rkpd = empty($SOrgID)?RKPDRincianModel::select(\DB::raw('"trRKPDRinc"."RKPDRincID",
-                                                                    "trRKPDRinc"."RKPDID",
-                                                                    "trRKPDRinc"."PmKecamatanID",
-                                                                    "trRKPDRinc"."PmDesaID",
-                                                                    "trRKPDRinc"."No",
-                                                                    "trRKPDRinc"."Uraian",
-                                                                    "trRKPDRinc"."Sasaran_Angka1" AS "Sasaran_Angka",
-                                                                    "trRKPDRinc"."Sasaran_Uraian1" AS "Sasaran_Uraian",
-                                                                    "trRKPDRinc"."Target1" AS "Target",
-                                                                    "trRKPDRinc"."Jumlah1" AS "Jumlah",
-                                                                    "trRKPDRinc"."Prioritas",
-                                                                    "trRKPDRinc"."Descr",
-                                                                    "trRKPDRinc"."isSKPD",
-                                                                    "trRKPDRinc"."isReses"'))
-                                                                ->join('trRKPD','trRKPD.RKPDID','trRKPDRinc.RKPDID')                                                        
-                                                                ->where('trRKPD.SOrgID',$SOrgID)->findOrFail($id)
-                                            :RKPDRincianModel::select(\DB::raw('"trRKPDRinc"."RKPDRincID",
-                                                                                "trRKPDRinc"."RKPDID",
-                                                                                "trRKPDRinc"."PmKecamatanID",
-                                                                                "trRKPDRinc"."PmDesaID",
-                                                                                "trRKPDRinc"."No",
-                                                                                "trRKPDRinc"."Uraian",
-                                                                                "trRKPDRinc"."Sasaran_Angka1" AS "Sasaran_Angka",
-                                                                                "trRKPDRinc"."Sasaran_Uraian1" AS "Sasaran_Uraian",
-                                                                                "trRKPDRinc"."Target1" AS "Target",
-                                                                                "trRKPDRinc"."Jumlah1" AS "Jumlah",
-                                                                                "trRKPDRinc"."Prioritas",
-                                                                                "trRKPDRinc"."Descr",
-                                                                                "trRKPDRinc"."isSKPD",
-                                                                                "trRKPDRinc"."isReses"'))
-                                                                ->join('trRKPD','trRKPD.RKPDID','trRKPDRinc.RKPDID')                                                        
-                                                                ->where('trRKPD.OrgID',$OrgID)
-                                                                ->findOrFail($id);        
-                    break;
-                }        
-            break;
-            case 'usulanrakorbidang' :
-                switch ($roles[0])
+        {     
+            case 'rkpdperubahan' :
+                    switch ($roles[0])
                 {
                     case 'superadmin' :
                         $rkpd = RKPDRincianModel::select(\DB::raw('"trRKPDRinc"."RKPDRincID",
@@ -2311,10 +2252,10 @@ class RKPDPerubahanController extends Controller
                                                                     "trRKPDRinc"."Sasaran_Angka2" AS "Sasaran_Angka",
                                                                     "trRKPDRinc"."Sasaran_Uraian2" AS "Sasaran_Uraian",
                                                                     "trRKPDRinc"."Target2" AS "Target",
-                                                                    "trRKPDRinc"."Jumlah2" AS "Jumlah",
-                                                                    "trRKPDRinc"."Prioritas",
+                                                                    "trRKPDRinc"."NilaiUsulan2" AS "Jumlah",
                                                                     "trRKPDRinc"."Descr",
                                                                     "trRKPDRinc"."isSKPD",
+                                                                    "trRKPDRinc"."EntryLvl",
                                                                     "trRKPDRinc"."isReses"'))                                                                                        
                                                     ->findOrFail($id);        
                     break;
@@ -2330,8 +2271,7 @@ class RKPDPerubahanController extends Controller
                                                                     "trRKPDRinc"."Sasaran_Angka2" AS "Sasaran_Angka",
                                                                     "trRKPDRinc"."Sasaran_Uraian2" AS "Sasaran_Uraian",
                                                                     "trRKPDRinc"."Target2" AS "Target",
-                                                                    "trRKPDRinc"."Jumlah2" AS "Jumlah",
-                                                                    "trRKPDRinc"."Prioritas",
+                                                                    "trRKPDRinc"."NilaiUsulan2" AS "Jumlah",
                                                                     "trRKPDRinc"."Descr",
                                                                     "trRKPDRinc"."isSKPD",
                                                                     "trRKPDRinc"."isReses"'))
@@ -2346,128 +2286,7 @@ class RKPDPerubahanController extends Controller
                                                                                 "trRKPDRinc"."Sasaran_Angka2" AS "Sasaran_Angka",
                                                                                 "trRKPDRinc"."Sasaran_Uraian2" AS "Sasaran_Uraian",
                                                                                 "trRKPDRinc"."Target2" AS "Target",
-                                                                                "trRKPDRinc"."Jumlah2" AS "Jumlah",
-                                                                                "trRKPDRinc"."Prioritas",
-                                                                                "trRKPDRinc"."Descr",
-                                                                                "trRKPDRinc"."isSKPD",
-                                                                                "trRKPDRinc"."isReses"'))
-
-                                                                ->join('trRKPD','trRKPD.RKPDID','trRKPDRinc.RKPDID')                                                        
-                                                                ->where('trRKPD.OrgID',$OrgID)
-                                                                ->findOrFail($id);        
-                    break;
-                }       
-            break;
-            case 'usulanforumopd' :
-                switch ($roles[0])
-                {
-                    case 'superadmin' :
-                        $rkpd = RKPDRincianModel::select(\DB::raw('"trRKPDRinc"."RKPDRincID",
-                                                                    "trRKPDRinc"."RKPDID",
-                                                                    "trRKPDRinc"."PmKecamatanID",
-                                                                    "trRKPDRinc"."PmDesaID",
-                                                                    "trRKPDRinc"."No",
-                                                                    "trRKPDRinc"."Uraian",
-                                                                    "trRKPDRinc"."Sasaran_Angka3" AS "Sasaran_Angka",
-                                                                    "trRKPDRinc"."Sasaran_Uraian3" AS "Sasaran_Uraian",
-                                                                    "trRKPDRinc"."Target3" AS "Target",
-                                                                    "trRKPDRinc"."Jumlah3" AS "Jumlah",
-                                                                    "trRKPDRinc"."Prioritas",
-                                                                    "trRKPDRinc"."Descr",
-                                                                    "trRKPDRinc"."isSKPD",
-                                                                    "trRKPDRinc"."isReses"'))                                                                                        
-                                                    ->findOrFail($id);        
-                    break;
-                    case 'opd' :
-                        $OrgID = $auth->OrgID;
-                        $SOrgID = empty($auth->SOrgID)? $SOrgID= $this->getControllerStateSession('usulanprarkpdopd.filters','SOrgID'):$auth->SOrgID;
-                        $rkpd = empty($SOrgID)?RKPDRincianModel::select(\DB::raw('"trRKPDRinc"."RKPDRincID",
-                                                                    "trRKPDRinc"."RKPDID",
-                                                                    "trRKPDRinc"."PmKecamatanID",
-                                                                    "trRKPDRinc"."PmDesaID",
-                                                                    "trRKPDRinc"."No",
-                                                                    "trRKPDRinc"."Uraian",
-                                                                    "trRKPDRinc"."Sasaran_Angka3" AS "Sasaran_Angka",
-                                                                    "trRKPDRinc"."Sasaran_Uraian3" AS "Sasaran_Uraian",
-                                                                    "trRKPDRinc"."Target3" AS "Target",
-                                                                    "trRKPDRinc"."Jumlah3" AS "Jumlah",
-                                                                    "trRKPDRinc"."Prioritas",
-                                                                    "trRKPDRinc"."Descr",
-                                                                    "trRKPDRinc"."isSKPD",
-                                                                    "trRKPDRinc"."isReses"'))
-                                                                ->join('trRKPD','trRKPD.RKPDID','trRKPDRinc.RKPDID')                                                        
-                                                                ->where('trRKPD.SOrgID',$SOrgID)->findOrFail($id)
-                                            :RKPDRincianModel::select(\DB::raw('"trRKPDRinc"."RKPDRincID",
-                                                                                "trRKPDRinc"."RKPDID",
-                                                                                "trRKPDRinc"."PmKecamatanID",
-                                                                                "trRKPDRinc"."PmDesaID",
-                                                                                "trRKPDRinc"."No",
-                                                                                "trRKPDRinc"."Uraian",
-                                                                                "trRKPDRinc"."Sasaran_Angka3" AS "Sasaran_Angka",
-                                                                                "trRKPDRinc"."Sasaran_Uraian3" AS "Sasaran_Uraian",
-                                                                                "trRKPDRinc"."Target3" AS "Target",
-                                                                                "trRKPDRinc"."Jumlah3" AS "Jumlah",
-                                                                                "trRKPDRinc"."Prioritas",
-                                                                                "trRKPDRinc"."Descr",
-                                                                                "trRKPDRinc"."isSKPD",
-                                                                                "trRKPDRinc"."isReses"'))
-
-                                                                ->join('trRKPD','trRKPD.RKPDID','trRKPDRinc.RKPDID')                                                        
-                                                                ->where('trRKPD.OrgID',$OrgID)
-                                                                ->findOrFail($id);        
-                    break;
-                }
-            break;
-            case 'usulanmusrenkab' :
-                    switch ($roles[0])
-                {
-                    case 'superadmin' :
-                        $rkpd = RKPDRincianModel::select(\DB::raw('"trRKPDRinc"."RKPDRincID",
-                                                                    "trRKPDRinc"."RKPDID",
-                                                                    "trRKPDRinc"."PmKecamatanID",
-                                                                    "trRKPDRinc"."PmDesaID",
-                                                                    "trRKPDRinc"."No",
-                                                                    "trRKPDRinc"."Uraian",
-                                                                    "trRKPDRinc"."Sasaran_Angka4" AS "Sasaran_Angka",
-                                                                    "trRKPDRinc"."Sasaran_Uraian4" AS "Sasaran_Uraian",
-                                                                    "trRKPDRinc"."Target4" AS "Target",
-                                                                    "trRKPDRinc"."Jumlah4" AS "Jumlah",
-                                                                    "trRKPDRinc"."Prioritas",
-                                                                    "trRKPDRinc"."Descr",
-                                                                    "trRKPDRinc"."isSKPD",
-                                                                    "trRKPDRinc"."isReses"'))                                                                                        
-                                                    ->findOrFail($id);        
-                    break;
-                    case 'opd' :
-                        $OrgID = $auth->OrgID;
-                        $SOrgID = empty($auth->SOrgID)? $SOrgID= $this->getControllerStateSession('usulanprarkpdopd.filters','SOrgID'):$auth->SOrgID;
-                        $rkpd = empty($SOrgID)?RKPDRincianModel::select(\DB::raw('"trRKPDRinc"."RKPDRincID",
-                                                                    "trRKPDRinc"."RKPDID",
-                                                                    "trRKPDRinc"."PmKecamatanID",
-                                                                    "trRKPDRinc"."PmDesaID",
-                                                                    "trRKPDRinc"."No",
-                                                                    "trRKPDRinc"."Uraian",
-                                                                    "trRKPDRinc"."Sasaran_Angka4" AS "Sasaran_Angka",
-                                                                    "trRKPDRinc"."Sasaran_Uraian4" AS "Sasaran_Uraian",
-                                                                    "trRKPDRinc"."Target4" AS "Target",
-                                                                    "trRKPDRinc"."Jumlah4" AS "Jumlah",
-                                                                    "trRKPDRinc"."Prioritas",
-                                                                    "trRKPDRinc"."Descr",
-                                                                    "trRKPDRinc"."isSKPD",
-                                                                    "trRKPDRinc"."isReses"'))
-                                                                ->join('trRKPD','trRKPD.RKPDID','trRKPDRinc.RKPDID')                                                        
-                                                                ->where('trRKPD.SOrgID',$SOrgID)->findOrFail($id)
-                                            :RKPDRincianModel::select(\DB::raw('"trRKPDRinc"."RKPDRincID",
-                                                                                "trRKPDRinc"."RKPDID",
-                                                                                "trRKPDRinc"."PmKecamatanID",
-                                                                                "trRKPDRinc"."PmDesaID",
-                                                                                "trRKPDRinc"."No",
-                                                                                "trRKPDRinc"."Uraian",
-                                                                                "trRKPDRinc"."Sasaran_Angka4" AS "Sasaran_Angka",
-                                                                                "trRKPDRinc"."Sasaran_Uraian4" AS "Sasaran_Uraian",
-                                                                                "trRKPDRinc"."Target4" AS "Target",
-                                                                                "trRKPDRinc"."Jumlah4" AS "Jumlah",
-                                                                                "trRKPDRinc"."Prioritas",
+                                                                                "trRKPDRinc"."NilaiUsulan2" AS "Jumlah",
                                                                                 "trRKPDRinc"."Descr",
                                                                                 "trRKPDRinc"."isSKPD",
                                                                                 "trRKPDRinc"."isReses"'))
@@ -2734,76 +2553,29 @@ class RKPDPerubahanController extends Controller
             'Sasaran_Angka'=>'required',
             'Sasaran_Uraian'=>'required',
             'Target'=>'required',
-            'Jumlah'=>'required',
-            'Prioritas' => 'required'            
+            'Jumlah'=>'required'            
         ]);
-
+        
         \DB::transaction(function () use ($request,$rinciankegiatan) { 
 
             switch ($this->NameOfPage) 
             {            
-                case 'usulanprarkpdopd' :
-                    $rinciankegiatan->PmKecamatanID = $request->input('PmKecamatanID');
-                    $rinciankegiatan->PmDesaID = $request->input('PmDesaID');
-                    $rinciankegiatan->Uraian = $request->input('Uraian');
-                    $rinciankegiatan->Sasaran_Angka1 = $request->input('Sasaran_Angka'); 
-                    $rinciankegiatan->Sasaran_Uraian1 = $request->input('Sasaran_Uraian');
-                    $rinciankegiatan->Target1 = $request->input('Target');
-                    $rinciankegiatan->Jumlah1 = $request->input('Jumlah');  
-                    $rinciankegiatan->Prioritas = $request->input('Prioritas');  
-                    $rinciankegiatan->Descr = $request->input('Descr');
-                    $rinciankegiatan->save();
-
-                    $rkpd = $rinciankegiatan->rkpd;            
-                    $rkpd->NilaiUsulan1=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('Jumlah1');            
-                    $rkpd->save();
-                break;
-                case 'usulanrakorbidang' :
+                case 'rkpdperubahan' :
+                    dd($rinciankegiatan);
                     $rinciankegiatan->PmKecamatanID = $request->input('PmKecamatanID');
                     $rinciankegiatan->PmDesaID = $request->input('PmDesaID');
                     $rinciankegiatan->Uraian = $request->input('Uraian');
                     $rinciankegiatan->Sasaran_Angka2 = $request->input('Sasaran_Angka'); 
                     $rinciankegiatan->Sasaran_Uraian2 = $request->input('Sasaran_Uraian');
                     $rinciankegiatan->Target2 = $request->input('Target');
-                    $rinciankegiatan->Jumlah2 = $request->input('Jumlah');  
-                    $rinciankegiatan->Prioritas = $request->input('Prioritas');  
+                    $rinciankegiatan->NilaiUsulan2 = $request->input('Jumlah');  
+                    $rinciankegiatan->EntryLvl = 5;
+                    $rinciankegiatan->Status = 2;
                     $rinciankegiatan->Descr = $request->input('Descr');
                     $rinciankegiatan->save();
         
                     $rkpd = $rinciankegiatan->rkpd;            
-                    $rkpd->NilaiUsulan2=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('Jumlah2');            
-                    $rkpd->save();
-                break;
-                case 'usulanforumopd' :
-                    $rinciankegiatan->PmKecamatanID = $request->input('PmKecamatanID');
-                    $rinciankegiatan->PmDesaID = $request->input('PmDesaID');
-                    $rinciankegiatan->Uraian = $request->input('Uraian');
-                    $rinciankegiatan->Sasaran_Angka3 = $request->input('Sasaran_Angka'); 
-                    $rinciankegiatan->Sasaran_Uraian3 = $request->input('Sasaran_Uraian');
-                    $rinciankegiatan->Target3 = $request->input('Target');
-                    $rinciankegiatan->Jumlah3 = $request->input('Jumlah');  
-                    $rinciankegiatan->Prioritas = $request->input('Prioritas');  
-                    $rinciankegiatan->Descr = $request->input('Descr');
-                    $rinciankegiatan->save();
-        
-                    $rkpd = $rinciankegiatan->rkpd;            
-                    $rkpd->NilaiUsulan3=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('Jumlah3');            
-                    $rkpd->save();
-                break;
-                case 'usulanmusrenkab' :
-                    $rinciankegiatan->PmKecamatanID = $request->input('PmKecamatanID');
-                    $rinciankegiatan->PmDesaID = $request->input('PmDesaID');
-                    $rinciankegiatan->Uraian = $request->input('Uraian');
-                    $rinciankegiatan->Sasaran_Angka4 = $request->input('Sasaran_Angka'); 
-                    $rinciankegiatan->Sasaran_Uraian4 = $request->input('Sasaran_Uraian');
-                    $rinciankegiatan->Target4 = $request->input('Target');
-                    $rinciankegiatan->Jumlah4 = $request->input('Jumlah');  
-                    $rinciankegiatan->Prioritas = $request->input('Prioritas');  
-                    $rinciankegiatan->Descr = $request->input('Descr');
-                    $rinciankegiatan->save();
-        
-                    $rkpd = $rinciankegiatan->rkpd;            
-                    $rkpd->NilaiUsulan4=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('Jumlah4');            
+                    $rkpd->NilaiUsulan2=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('NilaiUsulan2');            
                     $rkpd->save();
                 break;                
             }               

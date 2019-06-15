@@ -422,7 +422,8 @@ class PembahasanRenjaController extends Controller {
                                             ->findOrFail($id);
             break;
             case 'pembahasanrakorbidang' :
-                $data = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",                                                            
+                $data = RenjaRincianModel::select(\DB::raw('
+                "trRenjaRinc"."RenjaRincID",                                                            
                                                             "trRenjaRinc"."RenjaID",
                                                             "trRenjaRinc"."No",
                                                             "trRenjaRinc"."Uraian",
@@ -600,10 +601,10 @@ class PembahasanRenjaController extends Controller {
                                                             "trRenjaRinc"."PmDesaID",
                                                             "trRenjaRinc"."No",
                                                             "trRenjaRinc"."Uraian",
-                                                            "trRenjaRinc"."Sasaran_Angka4" AS "Sasaran_Angka",
-                                                            "trRenjaRinc"."Sasaran_Uraian4" AS "Sasaran_Uraian",
-                                                            "trRenjaRinc"."Target4" AS "Target",
-                                                            "trRenjaRinc"."Jumlah4" AS "Jumlah",
+                                                            "trRenjaRinc"."Sasaran_Angka5" AS "Sasaran_Angka",
+                                                            "trRenjaRinc"."Sasaran_Uraian5" AS "Sasaran_Uraian",
+                                                            "trRenjaRinc"."Target5" AS "Target",
+                                                            "trRenjaRinc"."Jumlah5" AS "Jumlah",
                                                             "trRenjaRinc"."Prioritas",
                                                             "trRenjaRinc"."Status",
                                                             "trRenjaRinc"."Descr",
@@ -768,10 +769,10 @@ class PembahasanRenjaController extends Controller {
                 break;                
                 case 'verifikasirenja' :                    
                     $rinciankegiatan->Uraian = $request->input('Uraian');
-                    $rinciankegiatan->Sasaran_Angka4 = $request->input('Sasaran_Angka'); 
-                    $rinciankegiatan->Sasaran_Uraian4 = $request->input('Sasaran_Uraian');
-                    $rinciankegiatan->Target4 = $request->input('Target');
-                    $rinciankegiatan->Jumlah4 = $request->input('Jumlah');  
+                    $rinciankegiatan->Sasaran_Angka5 = $request->input('Sasaran_Angka'); 
+                    $rinciankegiatan->Sasaran_Uraian5 = $request->input('Sasaran_Uraian');
+                    $rinciankegiatan->Target5 = $request->input('Target');
+                    $rinciankegiatan->Jumlah5 = $request->input('Jumlah');  
                     $rinciankegiatan->Prioritas = $request->input('Prioritas');  
                     $rinciankegiatan->Descr = $request->input('Descr');
                     $rinciankegiatan->Status = $request->input('Status');
