@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class UserOPD extends Model
+class UserDewan extends Model
 {
     use LogsActivity;
     /**
@@ -21,14 +21,14 @@ class UserOPD extends Model
      * @var array
      */
     protected $fillable = [
-        'useropd', 'id', 'ta','OrgID','OrgNm','SOrgID','SOrgNm'
+        'useropd', 'id', 'ta','PemilikPokokID','Kd_PK','NmPk'
     ];
     /**
     * primary key tabel ini.
     *
     * @var string
     */
-    protected $primaryKey = 'useropd';
+    protected $primaryKey = 'userdewan';
     /**
     * enable auto_increment.
     *
@@ -46,11 +46,13 @@ class UserOPD extends Model
      *
      * @var string
      */
-    protected static $logName = 'setting\UsersOPDController';
+    protected static $logName = 'setting\UsersDewanController';
     /**
      * log the changed attributes for all these events 
      */
-    protected static $logAttributes = ['useropd', 'id', 'ta','OrgID','OrgNm','SOrgID','SOrgNm'];
+    protected static $logAttributes = [
+        'useropd', 'id', 'ta','PemilikPokokID','Kd_PK','NmPk'
+    ];
     /**
      * log changes to all the $fillable attributes of the model
      */

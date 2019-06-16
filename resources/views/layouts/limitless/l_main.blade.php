@@ -384,12 +384,12 @@
                                             </a>
                                         </li>
                                         <li{!!Helper::isMenuActive ($page_active,'usersdewan',' class="active"')!!}>
-                                            <a href="{!!route('users.index')!!}">
+                                            <a href="{!!route('usersdewan.index')!!}">
                                                 <i class="icon-user"></i> DEWAN
                                             </a>
                                         </li>
                                         <li{!!Helper::isMenuActive ($page_active,'userskecamatan',' class="active"')!!}>
-                                            <a href="{!!route('users.index')!!}">
+                                            <a href="{!!route('userskecamatan.index')!!}">
                                                 <i class="icon-user"></i> KECAMATAN
                                             </a>
                                         </li>

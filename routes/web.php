@@ -498,7 +498,27 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/setting/usersopd/search',['uses'=>'Setting\UsersOPDController@search','as'=>'usersopd.search']);    
     Route::post('/setting/usersopd/filter',['uses'=>'Setting\UsersOPDController@filter','as'=>'usersopd.filter']);    
     Route::post('/setting/usersopd/storeuserpermission', ['uses'=>'Setting\UsersOPDController@storeuserpermission','as'=>'usersopd.storeuserpermission']);
-
+    
+    //setting - users DEWAN
+    Route::resource('/setting/usersdewan','Setting\UsersDewanController',['parameters'=>['usersdewan'=>'id']]);           
+    Route::post('/setting/usersdewan/store1/{id}',['uses'=>'Setting\UsersDewanController@store1','as'=>'usersdewan.store1']);  
+    Route::get('/setting/usersdewan/paginate/{id}',['uses'=>'Setting\UsersDewanController@paginate','as'=>'usersdewan.paginate']);
+    Route::post('/setting/usersdewan/changenumberrecordperpage',['uses'=>'Setting\UsersDewanController@changenumberrecordperpage','as'=>'usersdewan.changenumberrecordperpage']);      
+    Route::post('/setting/usersdewan/orderby',['uses'=>'Setting\UsersDewanController@orderby','as'=>'usersdewan.orderby']); 
+    Route::post('/setting/usersdewan/search',['uses'=>'Setting\UsersDewanController@search','as'=>'usersdewan.search']);    
+    Route::post('/setting/usersdewan/filter',['uses'=>'Setting\UsersDewanController@filter','as'=>'usersdewan.filter']);    
+    Route::post('/setting/usersdewan/storeuserpermission', ['uses'=>'Setting\UsersDewanController@storeuserpermission','as'=>'usersdewan.storeuserpermission']);
+    
+    //setting - users KECAMATAN
+    Route::resource('/setting/userskecamatan','Setting\UsersKecamatanController',['parameters'=>['userskecamatan'=>'id']]);           
+    Route::post('/setting/userskecamatan/store1/{id}',['uses'=>'Setting\UsersKecamatanController@store1','as'=>'userskecamatan.store1']);  
+    Route::get('/setting/userskecamatan/paginate/{id}',['uses'=>'Setting\UsersKecamatanController@paginate','as'=>'userskecamatan.paginate']);
+    Route::post('/setting/userskecamatan/changenumberrecordperpage',['uses'=>'Setting\UsersKecamatanController@changenumberrecordperpage','as'=>'userskecamatan.changenumberrecordperpage']);      
+    Route::post('/setting/userskecamatan/orderby',['uses'=>'Setting\UsersKecamatanController@orderby','as'=>'userskecamatan.orderby']); 
+    Route::post('/setting/userskecamatan/search',['uses'=>'Setting\UsersKecamatanController@search','as'=>'userskecamatan.search']);    
+    Route::post('/setting/userskecamatan/filter',['uses'=>'Setting\UsersKecamatanController@filter','as'=>'userskecamatan.filter']);    
+    Route::post('/setting/userskecamatan/storeuserpermission', ['uses'=>'Setting\UsersKecamatanController@storeuserpermission','as'=>'userskecamatan.storeuserpermission']);
+    
     //setting - users Desa
     Route::resource('/setting/usersdesa','Setting\UsersDesaController',['parameters'=>['usersdesa'=>'id']]);           
     Route::get('/setting/usersdesa/paginate/{id}',['uses'=>'Setting\UsersDesaController@paginate','as'=>'usersdesa.paginate']);
