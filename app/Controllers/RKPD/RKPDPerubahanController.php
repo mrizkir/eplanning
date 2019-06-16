@@ -622,35 +622,37 @@ class RKPDPerubahanController extends Controller
                                 ->findOrFail($rkpdid);
             
             
-            $kegiatan=\App\Models\DMaster\ProgramKegiatanModel::select(\DB::raw('"trUrsPrg"."UrsID","trUrsPrg"."PrgID"'))
-                                                                ->join('trUrsPrg','trUrsPrg.PrgID','tmKgt.PrgID')
-                                                                ->find($rkpd->KgtID);                                            
+            // $kegiatan=\App\Models\DMaster\ProgramKegiatanModel::select(\DB::raw('"trUrsPrg"."UrsID","trUrsPrg"."PrgID"'))
+            //                                                     ->join('trUrsPrg','trUrsPrg.PrgID','tmKgt.PrgID')
+            //                                                     ->find($rkpd->KgtID);                                            
             
-            $UrsID=$kegiatan->UrsID;    
-            $PrgID=$kegiatan->PrgID;          
-            $daftar_indikatorkinerja = \DB::table('trIndikatorKinerja')
-                                        ->where('UrsID',$UrsID)
-                                        ->where('PrgID',$PrgID)
-                                        ->orWhere('OrgID',$OrgID)
-                                        ->orWhere('OrgID2',$OrgID)
-                                        ->orWhere('OrgID3',$OrgID)
-                                        ->where('TA_N',config('eplanning.rpjmd_tahun_mulai'))
-                                        ->WhereNotIn('IndikatorKinerjaID',function($query) use ($rkpdid){
-                                            $query->select('IndikatorKinerjaID')
-                                                    ->from('trRKPDIndikator')
-                                                    ->where('RKPDID', $rkpdid);
-                                        })
-                                        ->get()
-                                        ->pluck('NamaIndikator','IndikatorKinerjaID')
-                                        ->toArray();     
+            // $UrsID=$kegiatan->UrsID;    
+            // $PrgID=$kegiatan->PrgID;          
+            // $daftar_indikatorkinerja = \DB::table('trIndikatorKinerja')
+            //                             ->where('UrsID',$UrsID)
+            //                             ->where('PrgID',$PrgID)
+            //                             ->orWhere('OrgID',$OrgID)
+            //                             ->orWhere('OrgID2',$OrgID)
+            //                             ->orWhere('OrgID3',$OrgID)
+            //                             ->where('TA_N',config('eplanning.rpjmd_tahun_mulai'))
+            //                             ->WhereNotIn('IndikatorKinerjaID',function($query) use ($rkpdid){
+            //                                 $query->select('IndikatorKinerjaID')
+            //                                         ->from('trRKPDIndikator')
+            //                                         ->where('RKPDID', $rkpdid);
+            //                             })
+            //                             ->get()
+            //                             ->pluck('NamaIndikator','IndikatorKinerjaID')
+            //                             ->toArray();     
             
-            $dataindikatorkinerja = $this->populateIndikatorKegiatan($rkpdid);
+            // $dataindikatorkinerja = $this->populateIndikatorKegiatan($rkpdid);
 
             return view("pages.$theme.rkpd.rkpdperubahan.create1")->with(['page_active'=>$this->NameOfPage,
                                                                     'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
-                                                                    'daftar_indikatorkinerja'=>$daftar_indikatorkinerja,
+                                                                    // 'daftar_indikatorkinerja'=>$daftar_indikatorkinerja,
+                                                                    'daftar_indikatorkinerja'=>[],
                                                                     'rkpd'=>$rkpd,
-                                                                    'dataindikatorkinerja'=>$dataindikatorkinerja
+                                                                    // 'dataindikatorkinerja'=>$dataindikatorkinerja
+                                                                    'dataindikatorkinerja'=>[]
                                                                     ]);  
         }
         else
