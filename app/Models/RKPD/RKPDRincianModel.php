@@ -111,7 +111,7 @@ class RKPDRincianModel extends Model {
         
         $totalpagu['murni']=isset($data[0])?$data[0]->NilaiUsulan1:0;        
         $totalpagu['perubahan']=isset($data[0])?$data[0]->NilaiUsulan2:0;  
-        $totalpagu['selisih']=$totalpagu['murni']-$totalpagu['perubahan'];
+        $totalpagu['selisih']=$totalpagu['perubahan']-$totalpagu['murni'];
           
         return $totalpagu;
     }
