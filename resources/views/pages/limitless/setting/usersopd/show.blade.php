@@ -22,7 +22,7 @@
         <div class="panel panel-flat border-top-info border-bottom-info">
             <div class="panel-heading">
                 <h5 class="panel-title"> 
-                    <i class="icon-eye"></i>  DATA USERS OPD
+                    <i class="icon-eye"></i>  DATA USER OPD
                 </h5>
                 <div class="heading-elements">   
                     <a href="{{route('usersopd.edit',['id'=>$data->id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data User OPD">
@@ -57,29 +57,17 @@
                                 <div class="col-md-8">
                                     <p class="form-control-static">{{$data->name}}</p>
                                 </div>                            
-                            </div>          
+                            </div>  
+                        </div>                        
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-horizontal">     
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>EMAIL: </strong></label>
                                 <div class="col-md-8">
                                     <p class="form-control-static">{{$data->email}}</p>
                                 </div>                            
                             </div> 
-                        </div>                        
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-horizontal">     
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>OPD / SKPD: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->OrgNm}}</p>
-                                </div>                            
-                            </div>                        
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>UNIT KERJA: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->SOrgNm}}</p>
-                                </div>                            
-                            </div>    
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
                                 <div class="col-md-8">
@@ -98,11 +86,66 @@
             </div>
         </div>
     </div>
+    <div class="col-md-12">
+        <div class="panel panel-flat">
+            <div class="panel-heading">
+                <h5 class="panel-title">
+                    <i class="icon-pencil7 position-left"></i> 
+                    TAMBAH OPD TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}
+                </h5>                
+            </div>
+            <div class="panel-body">
+                {!! Form::open(['action'=>['Setting\UsersOPDController@store1',$data->id],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                                  
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">OPD / SKPD :</label> 
+                        <div class="col-md-10">
+                            <select name="OrgID" id="OrgID" class="select">
+                                <option></option>
+                                @foreach ($daftar_opd as $k=>$item)
+                                    <option value="{{$k}}">{{$item}}</option>
+                                @endforeach
+                            </select>                              
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">UNIT KERJA :</label> 
+                        <div class="col-md-10">
+                            <select name="SOrgID" id="SOrgID" class="select">
+                                <option></option>                            
+                            </select>                              
+                        </div>
+                    </div>                           
+                    <div class="form-group">            
+                        <div class="col-md-10 col-md-offset-2">                        
+                            {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}
+                        </div>
+                    </div>
+                {!! Form::close()!!}
+            </div>
+        </div>
+    </div>    
+    <div class="col-md-12" id="divdatatable">
+        @include('pages.limitless.setting.usersopd.datatableopd')
+    </div>
 </div>
+@endsection
+@section('page_asset_js')
+<script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
+    //styling select
+    $('#OrgID.select').select2({
+        placeholder: "PILIH OPD / SKPD",
+        allowClear:true
+    }); 
+    $('#SOrgID.select').select2({
+        placeholder: "PILIH UNIT KERJA",
+        allowClear:true
+    });  
     $(".btnDelete").click(function(ev) {
         if (confirm('Apakah Anda ingin menghapus Data User OPD ini ?')) {
             let url_ = $(this).attr("data-url");
@@ -127,7 +170,45 @@ $(document).ready(function () {
             });
         }
     });
-    
+    $(document).on('change','#OrgID',function(ev) {
+        ev.preventDefault();   
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/filter',
+            dataType: 'json',
+            data: {                
+                "_token": token,
+                "OrgID": $('#OrgID').val(),
+            },
+            success:function(result)
+            { 
+                var daftar_unitkerja = result.daftar_unitkerja;
+                var listitems='<option></option>';
+                $.each(daftar_unitkerja,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
+                
+                $('#SOrgID').html(listitems);
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });     
+    });
+    $('#frmdata').validate({
+        ignore:[],
+        rules: {                      
+            OrgID : {
+                required: true,
+            }
+        },
+        messages : {            
+            OrgID : {                
+                required: "Mohon di pilih Unit Kerja / OPD / SKPD untuk user ini",
+            }
+        },        
+    });   
 });
 </script>
 @endsection

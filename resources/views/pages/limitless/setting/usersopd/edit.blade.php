@@ -58,29 +58,7 @@
                     <div class="col-md-10">
                         {{Form::password('password',['class'=>'form-control','placeholder'=>'PASSWORD'])}}
                     </div>
-                </div>     
-                <div class="form-group">
-                    <label class="col-md-2 control-label">OPD / SKPD :</label> 
-                    <div class="col-md-10">
-                        <select name="OrgID" id="OrgID" class="select">
-                            <option></option>
-                            @foreach ($daftar_opd as $k=>$item)
-                                <option value="{{$k}}"{{$k==$data->OrgID?' selected':''}}>{{$item}}</option>
-                            @endforeach
-                        </select>                              
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-md-2 control-label">UNIT KERJA :</label> 
-                    <div class="col-md-10">
-                        <select name="SOrgID" id="SOrgID" class="select">
-                            <option></option>  
-                            @foreach ($daftar_unitkerja as $k=>$item)
-                                <option value="{{$k}}"{{$k==$data->SOrgID?' selected':''}}>{{$item}}</option>
-                            @endforeach                          
-                        </select>                              
-                    </div>
-                </div>  
+                </div>                     
                 <div class="form-group">
                     {{Form::label('theme','THEME',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
@@ -138,9 +116,6 @@ $(document).ready(function () {
             username : {
                 required: true,
                 minlength: 5,
-            },            
-            OrgID : {
-                required: true,
             }
         },
         messages : {
@@ -155,9 +130,6 @@ $(document).ready(function () {
             username : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 5 karakter atau lebih."
-            },           
-            OrgID : {                
-                required: "Mohon di pilih Unit Kerja / OPD / SKPD untuk user ini",
             }
         },           
     });   

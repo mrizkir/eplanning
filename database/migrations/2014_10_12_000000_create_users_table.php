@@ -19,17 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();  
-            $table->string('OrgID',19)->nullable();  
-            $table->string('OrgNm')->nullable();
-            $table->string('SOrgID',19)->nullable();  
-            $table->string('SOrgNm')->nullable();  
-            $table->string('PemilikPokokID',19)->nullable();  
-            $table->string('NmPk')->nullable();  
-            $table->string('PmKecamatanID',19)->nullable();  
-            $table->string('Nm_Kecamatan')->nullable(); 
-            $table->string('PmDesaID',19)->nullable();  
-            $table->string('Nm_Desa')->nullable(); 
+            $table->timestamp('email_verified_at')->nullable();        
             $table->string('theme')->default('default');
             $table->string('foto')->default('storage/images/users/no_photo.png');
             $table->boolean('active')->default(1);

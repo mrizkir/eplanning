@@ -47,7 +47,7 @@
                     </th> 
                     <th width="150" class="text-right">
                         <a class="column-sort text-white" id="col-Jumlah" data-order="{{$direction}}" href="#">
-                            NILAI  
+                            NILAI M / <br>NILAI P
                         </a>                                             
                     </th>                     
                     <th width="80">
@@ -97,21 +97,21 @@
                     <td>
                         {{ucwords($item->Uraian)}}
                         @if ($item->isSKPD)
-                            <br />
+                            <br>
                             <span class="label label-flat border-grey text-grey-600">                        
                                 <a href="#">
                                     <strong>Usulan dari: </strong>OPD / SKPD
                                 </a> 
                             </span>
                         @elseif($item->isReses)
-                            <br />
+                            <br>
                             <span class="label label-flat border-grey text-grey-600">                        
                                 <a href="#">
                                     <strong>Usulan dari: </strong>POKIR [{{$item->isReses_Uraian}}]
                                 </a>
                             </span>
                         @elseif(!empty($item->UsulanKecID))
-                            <br />
+                            <br>
                             <span class="label label-flat border-grey text-grey-600">                        
                                 <a href="{{route('aspirasimusrenkecamatan.show',['id'=>$item->UsulanKecID])}}">
                                     <strong>Usulan dari: MUSREN. KEC. {{$item->Nm_Kecamatan}}
@@ -121,7 +121,10 @@
                     </td>
                     <td>{{Helper::formatAngka($item->Sasaran_Angka)}} {{$item->Sasaran_Uraian}}</td>
                     <td>{{$item->Target}}</td>
-                    <td class="text-right">{{Helper::formatuang($item->Jumlah)}}</td>                                    
+                    <td class="text-right">
+                        <span class="text-success">{{Helper::formatuang($item->Jumlah)}}</span><br>
+                        <span class="text-danger">{{Helper::formatuang($item->Jumlah2)}}</span>
+                    </td>                                    
                     <td>
                         @include('layouts.limitless.l_status_rkpd')    
                     </td>

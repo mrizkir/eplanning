@@ -533,22 +533,17 @@ class UsulanRenjaController extends Controller
                     $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$filters['OrgID']);        
                 }    
             break;
-            case 'opd' :
-                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false,NULL,$auth->OrgID);  
-                $filters['OrgID']=$auth->OrgID;                
-                if (empty($auth->SOrgID)) 
+            case 'opd' :               
+                $daftar_opd=\App\Models\UserOPD::where('ta',\HelperKegiatan::getTahunPerencanaan())
+                                                ->where('id',$auth->id)
+                                                ->pluck('OrgNm','OrgID');      
+                $daftar_unitkerja=array();      
+                if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
                 {
-                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$auth->OrgID);  
-                    $filters['SOrgID']=empty($filters['SOrgID'])?'':$filters['SOrgID'];                    
-                }   
-                else
-                {
-                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$auth->OrgID,$auth->SOrgID);
-                    $filters['SOrgID']=$auth->SOrgID;
-                }                
-                $this->putControllerStateSession($this->SessionName,'filters',$filters);
+                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$filters['OrgID']);        
+                }  
             break;
-        }
+        }        
         $search=$this->getControllerStateSession($this->SessionName,'search');        
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession($this->SessionName); 
         $data = $this->populateData($currentpage);
@@ -1838,8 +1833,9 @@ class UsulanRenjaController extends Controller
                                                     ->find($id);        
                     break;
                     case 'opd' :
-                        $OrgID = $auth->OrgID;
-                        $SOrgID = empty($auth->SOrgID)? $SOrgID= $this->getControllerStateSession('usulanprarenjaopd.filters','SOrgID'):$auth->SOrgID;
+                        $filters=$this->getControllerStateSession($this->SessionName,'filters');
+                        $OrgID = $filters['OrgID'];
+                        $SOrgID = $filters['SOrgID'];
                         $renja = empty($SOrgID)?RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                     "tmPMProv"."Nm_Prov",
                                                                     "tmPmKota"."Nm_Kota",
@@ -1915,8 +1911,9 @@ class UsulanRenjaController extends Controller
                                                     ->find($id);        
                     break;
                     case 'opd' :
-                        $OrgID = $auth->OrgID;
-                        $SOrgID = empty($auth->SOrgID)? $SOrgID= $this->getControllerStateSession('usulanprarenjaopd.filters','SOrgID'):$auth->SOrgID;
+                        $filters=$this->getControllerStateSession($this->SessionName,'filters');
+                        $OrgID = $filters['OrgID'];
+                        $SOrgID = $filters['SOrgID'];
                         $renja = empty($SOrgID)?RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                     "tmPMProv"."Nm_Prov",
                                                                     "tmPmKota"."Nm_Kota",
@@ -1992,8 +1989,9 @@ class UsulanRenjaController extends Controller
                                                     ->find($id);        
                     break;
                     case 'opd' :
-                        $OrgID = $auth->OrgID;
-                        $SOrgID = empty($auth->SOrgID)? $SOrgID= $this->getControllerStateSession('usulanprarenjaopd.filters','SOrgID'):$auth->SOrgID;
+                        $filters=$this->getControllerStateSession($this->SessionName,'filters');
+                        $OrgID = $filters['OrgID'];
+                        $SOrgID = $filters['SOrgID'];
                         $renja = empty($SOrgID)?RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                     "tmPMProv"."Nm_Prov",
                                                                     "tmPmKota"."Nm_Kota",
@@ -2069,8 +2067,9 @@ class UsulanRenjaController extends Controller
                                                     ->find($id);        
                     break;
                     case 'opd' :
-                        $OrgID = $auth->OrgID;
-                        $SOrgID = empty($auth->SOrgID)? $SOrgID= $this->getControllerStateSession('usulanprarenjaopd.filters','SOrgID'):$auth->SOrgID;
+                        $filters=$this->getControllerStateSession($this->SessionName,'filters');
+                        $OrgID = $filters['OrgID'];
+                        $SOrgID = $filters['SOrgID'];
                         $renja = empty($SOrgID)?RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                     "tmPMProv"."Nm_Prov",
                                                                     "tmPmKota"."Nm_Kota",
@@ -2173,8 +2172,9 @@ class UsulanRenjaController extends Controller
                                                     ->find($id);        
                     break;
                     case 'opd' :
-                        $OrgID = $auth->OrgID;
-                        $SOrgID = empty($auth->SOrgID)? $SOrgID= $this->getControllerStateSession('usulanprarenjaopd.filters','SOrgID'):$auth->SOrgID;
+                        $filters=$this->getControllerStateSession($this->SessionName,'filters');
+                        $OrgID = $filters['OrgID'];
+                        $SOrgID = $filters['SOrgID'];
                         $renja = empty($SOrgID)?RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                                     "trRenjaRinc"."RenjaID",
                                                                                     "trRenjaRinc"."No",
@@ -2241,8 +2241,9 @@ class UsulanRenjaController extends Controller
                                                     ->find($id);        
                     break;
                     case 'opd' :
-                        $OrgID = $auth->OrgID;
-                        $SOrgID = empty($auth->SOrgID)? $SOrgID= $this->getControllerStateSession('usulanprarenjaopd.filters','SOrgID'):$auth->SOrgID;
+                        $filters=$this->getControllerStateSession($this->SessionName,'filters');
+                        $OrgID = $filters['OrgID'];
+                        $SOrgID = $filters['SOrgID'];
                         $renja = empty($SOrgID)?RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                                     "trRenjaRinc"."RenjaID",
                                                                                     "trRenjaRinc"."No",
@@ -2309,8 +2310,9 @@ class UsulanRenjaController extends Controller
                                                     ->find($id);        
                     break;
                     case 'opd' :
-                        $OrgID = $auth->OrgID;
-                        $SOrgID = empty($auth->SOrgID)? $SOrgID= $this->getControllerStateSession('usulanprarenjaopd.filters','SOrgID'):$auth->SOrgID;
+                        $filters=$this->getControllerStateSession($this->SessionName,'filters');
+                        $OrgID = $filters['OrgID'];
+                        $SOrgID = $filters['SOrgID'];
                         $renja = empty($SOrgID)?RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                                     "trRenjaRinc"."RenjaID",
                                                                                     "trRenjaRinc"."No",
@@ -2377,8 +2379,9 @@ class UsulanRenjaController extends Controller
                                                     ->find($id);        
                     break;
                     case 'opd' :
-                        $OrgID = $auth->OrgID;
-                        $SOrgID = empty($auth->SOrgID)? $SOrgID= $this->getControllerStateSession('usulanprarenjaopd.filters','SOrgID'):$auth->SOrgID;
+                        $filters=$this->getControllerStateSession($this->SessionName,'filters');
+                        $OrgID = $filters['OrgID'];
+                        $SOrgID = $filters['SOrgID'];
                         $renja = empty($SOrgID)?RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                                     "trRenjaRinc"."RenjaID",
                                                                                     "trRenjaRinc"."No",
@@ -2471,8 +2474,9 @@ class UsulanRenjaController extends Controller
                                                     ->findOrFail($id);        
                     break;
                     case 'opd' :
-                        $OrgID = $auth->OrgID;
-                        $SOrgID = empty($auth->SOrgID)? $SOrgID= $this->getControllerStateSession('usulanprarenjaopd.filters','SOrgID'):$auth->SOrgID;
+                        $filters=$this->getControllerStateSession($this->SessionName,'filters');
+                        $OrgID = $filters['OrgID'];
+                        $SOrgID = $filters['SOrgID'];
                         $renja = empty($SOrgID)?RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                     "trRenjaRinc"."RenjaID",
                                                                     "trRenjaRinc"."PmKecamatanID",
@@ -2530,8 +2534,9 @@ class UsulanRenjaController extends Controller
                                                     ->findOrFail($id);        
                     break;
                     case 'opd' :
-                        $OrgID = $auth->OrgID;
-                        $SOrgID = empty($auth->SOrgID)? $SOrgID= $this->getControllerStateSession('usulanprarenjaopd.filters','SOrgID'):$auth->SOrgID;
+                        $filters=$this->getControllerStateSession($this->SessionName,'filters');
+                        $OrgID = $filters['OrgID'];
+                        $SOrgID = $filters['SOrgID'];
                         $renja = empty($SOrgID)?RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                     "trRenjaRinc"."RenjaID",
                                                                     "trRenjaRinc"."PmKecamatanID",
@@ -2590,8 +2595,9 @@ class UsulanRenjaController extends Controller
                                                     ->findOrFail($id);        
                     break;
                     case 'opd' :
-                        $OrgID = $auth->OrgID;
-                        $SOrgID = empty($auth->SOrgID)? $SOrgID= $this->getControllerStateSession('usulanprarenjaopd.filters','SOrgID'):$auth->SOrgID;
+                        $filters=$this->getControllerStateSession($this->SessionName,'filters');
+                        $OrgID = $filters['OrgID'];
+                        $SOrgID = $filters['SOrgID'];
                         $renja = empty($SOrgID)?RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                     "trRenjaRinc"."RenjaID",
                                                                     "trRenjaRinc"."PmKecamatanID",
@@ -2650,8 +2656,9 @@ class UsulanRenjaController extends Controller
                                                     ->findOrFail($id);        
                     break;
                     case 'opd' :
-                        $OrgID = $auth->OrgID;
-                        $SOrgID = empty($auth->SOrgID)? $SOrgID= $this->getControllerStateSession('usulanprarenjaopd.filters','SOrgID'):$auth->SOrgID;
+                        $filters=$this->getControllerStateSession($this->SessionName,'filters');
+                        $OrgID = $filters['OrgID'];
+                        $SOrgID = $filters['SOrgID'];
                         $renja = empty($SOrgID)?RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                     "trRenjaRinc"."RenjaID",
                                                                     "trRenjaRinc"."PmKecamatanID",

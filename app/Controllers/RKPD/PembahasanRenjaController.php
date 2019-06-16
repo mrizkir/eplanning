@@ -349,19 +349,14 @@ class PembahasanRenjaController extends Controller {
                 }    
             break;
             case 'opd' :
-                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false,NULL,$auth->OrgID);  
-                $filters['OrgID']=$auth->OrgID;                
-                if (empty($auth->SOrgID)) 
+                $daftar_opd=\App\Models\UserOPD::where('ta',\HelperKegiatan::getTahunPerencanaan())
+                                                ->where('id',$auth->id)
+                                                ->pluck('OrgNm','OrgID');      
+                $daftar_unitkerja=array();      
+                if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
                 {
-                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$auth->OrgID);  
-                    $filters['SOrgID']=empty($filters['SOrgID'])?'':$filters['SOrgID'];                    
-                }   
-                else
-                {
-                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$auth->OrgID,$auth->SOrgID);
-                    $filters['SOrgID']=$auth->SOrgID;
-                }                
-                $this->putControllerStateSession($this->SessionName,'filters',$filters);
+                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$filters['OrgID']);        
+                }  
             break;
 
         }

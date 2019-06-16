@@ -41,7 +41,8 @@ class RKPDPerubahanController extends Controller
                                                             "trRKPDRinc"."Sasaran_Angka2" AS "Sasaran_Angka",
                                                             "trRKPDRinc"."Sasaran_Uraian2" AS "Sasaran_Uraian",
                                                             "trRKPDRinc"."Target2" AS "Target",
-                                                            "trRKPDRinc"."NilaiUsulan2" AS "Jumlah",
+                                                            "trRKPDRinc"."NilaiUsulan1" AS "Jumlah",
+                                                            "trRKPDRinc"."NilaiUsulan2" AS "Jumlah2",
                                                             "trRKPDRinc"."Status",
                                                             "trRKPDRinc"."Privilege",
                                                             "trRKPDRinc"."EntryLvl",
@@ -466,20 +467,15 @@ class RKPDPerubahanController extends Controller
                     $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$filters['OrgID']);        
                 }    
             break;
-            case 'opd' :
-                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false,NULL,$auth->OrgID);  
-                $filters['OrgID']=$auth->OrgID;                
-                if (empty($auth->SOrgID)) 
+            case 'opd' :               
+                $daftar_opd=\App\Models\UserOPD::where('ta',\HelperKegiatan::getTahunPerencanaan())
+                                                ->where('id',$auth->id)
+                                                ->pluck('OrgNm','OrgID');      
+                $daftar_unitkerja=array();      
+                if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
                 {
-                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$auth->OrgID);  
-                    $filters['SOrgID']=empty($filters['SOrgID'])?'':$filters['SOrgID'];                    
-                }   
-                else
-                {
-                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$auth->OrgID,$auth->SOrgID);
-                    $filters['SOrgID']=$auth->SOrgID;
-                }                
-                $this->putControllerStateSession($this->SessionName,'filters',$filters);
+                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$filters['OrgID']);        
+                }  
             break;
         }
         $search=$this->getControllerStateSession($this->SessionName,'search');        
@@ -2195,8 +2191,9 @@ class RKPDPerubahanController extends Controller
                                                     ->findOrFail($id);        
                     break;
                     case 'opd' :
-                        $OrgID = $auth->OrgID;
-                        $SOrgID = empty($auth->SOrgID)? $SOrgID= $this->getControllerStateSession('usulanprarkpdopd.filters','SOrgID'):$auth->SOrgID;
+                        $filters=$this->getControllerStateSession($this->SessionName,'filters');
+                        $OrgID = $filters['OrgID'];
+                        $SOrgID = $filters['SOrgID'];
                         $rkpd = empty($SOrgID)?RKPDRincianModel::select(\DB::raw('"trRKPDRinc"."RKPDRincID",
                                                                     "trRKPDRinc"."RKPDID",
                                                                     "trRKPDRinc"."PmKecamatanID",

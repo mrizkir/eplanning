@@ -43,16 +43,6 @@
                             EMAIL  
                         </a>                                             
                     </th>
-                    <th>
-                        <a class="column-sort text-white" id="col-OrgNm" data-order="{{$direction}}" href="#">
-                            OPD / SKPD
-                        </a>
-                    </th>
-                    <th>
-                        <a class="column-sort text-white" id="col-SOrgNm" data-order="{{$direction}}" href="#">
-                            UNIT KERJA
-                        </a>
-                    </th>
                     <th width="70">THEME</th>
                     <th width="100">AKSI</th>
                 </tr>
@@ -68,8 +58,6 @@
                     <td>{{$item->username}}</td> 
                     <td>{{$item->name}}</td> 
                     <td>{{$item->email}}</td> 
-                    <td>{{$item->OrgNm}}</td> 
-                    <td>{{$item->SOrgNm}}</td> 
                     <td>{{$item->theme}}</td> 
                     <td>
                         <ul class="icons-list">
