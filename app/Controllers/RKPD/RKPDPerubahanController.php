@@ -522,11 +522,11 @@ class RKPDPerubahanController extends Controller
             $r=\DB::table('v_program_kegiatan')
                     ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                     ->where('PrgID',$PrgID)
-                    ->WhereNotIn('KgtID',function($query) {
-                        $query->select('KgtID')
-                                ->from('trRKPD')
-                                ->where('TA', \HelperKegiatan::getTahunPerencanaan());
-                    }) 
+                    // ->WhereNotIn('KgtID',function($query) {
+                    //     $query->select('KgtID')
+                    //             ->from('trRKPD')
+                    //             ->where('TA', \HelperKegiatan::getTahunPerencanaan());
+                    // }) 
                     ->orderBy('Kd_Keg')
                     ->orderBy('kode_kegiatan')
                     ->get();
