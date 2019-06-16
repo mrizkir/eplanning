@@ -774,7 +774,7 @@ class PembahasanRenjaController extends Controller {
                     $rinciankegiatan->save();
         
                     $renja = $rinciankegiatan->renja;            
-                    $renja->NilaiUsulan4=RenjaRincianModel::where('RenjaID',$renja->RenjaID)->sum('Jumlah4');            
+                    $renja->NilaiUsulan5=RenjaRincianModel::where('RenjaID',$renja->RenjaID)->sum('Jumlah5');            
                     $renja->save();
                 break;                
             }               

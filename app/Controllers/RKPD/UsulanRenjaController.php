@@ -588,11 +588,13 @@ class UsulanRenjaController extends Controller
             $r=\DB::table('v_program_kegiatan')
                     ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                     ->where('PrgID',$PrgID)
-                    // ->WhereNotIn('KgtID',function($query) {
-                    //     $query->select('KgtID')
-                    //             ->from('trRenja')
-                    //             ->where('TA', \HelperKegiatan::getTahunPerencanaan());
-                    // }) 
+                    ->WhereNotIn('KgtID',function($query) {
+                        $OrgID=$this->getControllerStateSession($this->SessionName,'filters.OrgID');
+                        $query->select('KgtID')
+                                ->from('trRenja')
+                                ->where('TA', \HelperKegiatan::getTahunPerencanaan())
+                                ->where('OrgID', $OrgID);
+                    }) 
                     ->orderBy('Kd_Keg')
                     ->orderBy('kode_kegiatan')
                     ->get();
@@ -647,6 +649,7 @@ class UsulanRenjaController extends Controller
             $UrsID=$organisasi->UrsID;
 
             $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusan(\HelperKegiatan::getTahunPerencanaan(),false);   
+            $daftar_urusan['all']='SEMUA URUSAN';
             $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan(),false,$UrsID);
             $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunPerencanaan(),false);     
             
@@ -688,25 +691,32 @@ class UsulanRenjaController extends Controller
             
             
             $kegiatan=\App\Models\DMaster\ProgramKegiatanModel::select(\DB::raw('"trUrsPrg"."UrsID","trUrsPrg"."PrgID"'))
-                                            ->join('trUrsPrg','trUrsPrg.PrgID','tmKgt.PrgID')
-                                            ->find($renja->KgtID);                                            
-            $UrsID=$kegiatan->UrsID;    
-            $PrgID=$kegiatan->PrgID;          
-            $daftar_indikatorkinerja = \DB::table('trIndikatorKinerja')
-                                        ->where('UrsID',$UrsID)
-                                        ->where('PrgID',$PrgID)
-                                        ->orWhere('OrgID',$OrgID)
-                                        ->orWhere('OrgID2',$OrgID)
-                                        ->orWhere('OrgID3',$OrgID)
-                                        ->where('TA_N',config('eplanning.rpjmd_tahun_mulai'))
-                                        ->WhereNotIn('IndikatorKinerjaID',function($query) use ($renjaid){
-                                            $query->select('IndikatorKinerjaID')
-                                                    ->from('trRenjaIndikator')
-                                                    ->where('RenjaID', $renjaid);
-                                        })
-                                        ->get()
-                                        ->pluck('NamaIndikator','IndikatorKinerjaID')
-                                        ->toArray();     
+                                                                                ->join('trUrsPrg','trUrsPrg.PrgID','tmKgt.PrgID')
+                                                                                ->find($renja->KgtID);  
+            if ($kegiatan == null)
+            {
+                $daftar_indikatorkinerja=[];
+            }
+            else
+            {
+                $UrsID=$kegiatan->UrsID;    
+                $PrgID=$kegiatan->PrgID;          
+                $daftar_indikatorkinerja = \DB::table('trIndikatorKinerja')
+                                            ->where('UrsID',$UrsID)
+                                            ->where('PrgID',$PrgID)
+                                            ->orWhere('OrgID',$OrgID)
+                                            ->orWhere('OrgID2',$OrgID)
+                                            ->orWhere('OrgID3',$OrgID)
+                                            ->where('TA_N',config('eplanning.rpjmd_tahun_mulai'))
+                                            ->WhereNotIn('IndikatorKinerjaID',function($query) use ($renjaid){
+                                                $query->select('IndikatorKinerjaID')
+                                                        ->from('trRenjaIndikator')
+                                                        ->where('RenjaID', $renjaid);
+                                            })
+                                            ->get()
+                                            ->pluck('NamaIndikator','IndikatorKinerjaID')
+                                            ->toArray(); 
+            }    
             
             $dataindikatorkinerja = $this->populateIndikatorKegiatan($renjaid);
 
@@ -1480,6 +1490,7 @@ class UsulanRenjaController extends Controller
                                             "Nm_Bidang",
                                             "Kd_Prog",
                                             "PrgNm",
+                                            "Kd_Keg",
                                             "kode_kegiatan",
                                             "KgtNm",
                                             "NamaIndikator",
@@ -1508,6 +1519,7 @@ class UsulanRenjaController extends Controller
                                             "Nm_Bidang",
                                             "Kd_Prog",
                                             "PrgNm",
+                                            "Kd_Keg",
                                             "kode_kegiatan",
                                             "KgtNm",
                                             "NamaIndikator",
@@ -1536,6 +1548,7 @@ class UsulanRenjaController extends Controller
                                                     "Nm_Bidang",
                                                     "Kd_Prog",
                                                     "PrgNm",
+                                                    "Kd_Keg",
                                                     "kode_kegiatan",
                                                     "KgtNm",
                                                     "NamaIndikator",
@@ -1564,6 +1577,7 @@ class UsulanRenjaController extends Controller
                                             "Nm_Bidang",
                                             "Kd_Prog",
                                             "PrgNm",
+                                            "Kd_Keg",
                                             "kode_kegiatan",
                                             "KgtNm",
                                             "NamaIndikator",

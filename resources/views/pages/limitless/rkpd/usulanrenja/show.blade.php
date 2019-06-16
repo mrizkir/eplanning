@@ -51,25 +51,49 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>KELOMPOK URUSAN : </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">[{{$renja->Kd_Urusan}}] {{$renja->Nm_Urusan}}</p>
+                                    <p class="form-control-static">
+                                        @if ($renja->Kd_Urusan==null)
+                                            SEMUA URUSAN
+                                        @else
+                                             [{{$renja->Kd_Urusan}}] {{$renja->Nm_Urusan}}
+                                        @endif                                       
+                                    </p>
                                 </div>                            
                             </div>  
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>URUSAN : </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">[{{$renja->Kd_Urusan.'.'.$renja->Kd_Bidang}}] {{$renja->Nm_Bidang}}</p>
+                                    <p class="form-control-static">
+                                        @if ($renja->Kd_Urusan==null)
+                                            SEMUA URUSAN
+                                        @else
+                                            [{{$renja->Kd_Urusan.'.'.$renja->Kd_Bidang}}] {{$renja->Nm_Bidang}}
+                                        @endif                                         
+                                    </p>
                                 </div>                            
                             </div> 
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>PROGRAM : </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">[{{$renja->Kd_Urusan.'.'.$renja->Kd_Bidang.'.'.$renja->Kd_Prog}}] {{$renja->PrgNm}}</p>
+                                    <p class="form-control-static">
+                                        @if ($renja->Kd_Urusan==null)
+                                        [{{$renja->Kd_Prog}}] {{$renja->PrgNm}}
+                                        @else
+                                            [{{$renja->Kd_Urusan.'.'.$renja->Kd_Bidang.'.'.$renja->Kd_Prog}}] {{$renja->PrgNm}}
+                                        @endif                                         
+                                    </p>                                    
                                 </div>                            
                             </div> 
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>KEGIATAN : </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">[{{$renja->kode_kegiatan}}] {{$renja->KgtNm}}</p>
+                                    <p class="form-control-static">
+                                        @if ($renja->Kd_Urusan==null)
+                                            [{{$renja->Kd_Prog.'.'.$renja->Kd_Keg}}] {{$renja->PrgNm}}
+                                        @else
+                                            [{{$renja->kode_kegiatan}}] {{$renja->KgtNm}}
+                                        @endif                                         
+                                    </p>  
                                 </div>                            
                             </div> 
                             <div class="form-group">

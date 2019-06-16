@@ -36,6 +36,7 @@
             </div>
         </div>
         <div class="panel-body">
+            @if (count($daftar_indikatorkinerja) > 0)
             {!! Form::open(['url'=>route(Helper::getNameOfPage('store1')),'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
             {{Form::hidden('RenjaID',$renja->RenjaID)}}
                 <div class="form-group">    
@@ -93,6 +94,12 @@
                     </div>
                 </div>
             {!! Form::close()!!}
+            @else            
+                <div class="alert alert-warning alert-styled-left alert-bordered">
+                    <span class="text-semibold">Warning!</span>
+                    Tidak ada Indikator Kinerja RPJMD. Biasanya dari terjadi pada program kegiatan dari SEMUA URUSAN 
+                </div>               
+            @endif
         </div>
     </div>
     <div class="panel panel-flat border-top-lg border-top-info border-bottom-info" id="divdatatableindikatorkinerja">
