@@ -340,18 +340,17 @@ class UsersDewanController extends Controller {
     public function store1(Request $request, $id)
     {
         $this->validate($request, [              
-            'OrgID'=>'required',
+            'PemilikPokokID'=>'required',
         ]);
-        $OrgID=$request->input('OrgID');
-        $SOrgID=$request->input('SOrgID');
+        $PemilikPokokID=$request->input('PemilikPokokID');
+        $anggota_dewan=\App\Models\Pokir\PemilikPokokPikiranModel::find($PemilikPokokID);        
         $now = \Carbon\Carbon::now()->toDateTimeString();        
         $user=\App\Models\UserDewan::create([
             'id'=>$id,            
             'ta'=>\HelperKegiatan::getTahunPerencanaan(),            
-            'OrgID'=> $OrgID,
-            'OrgNm'=> \App\Models\DMaster\OrganisasiModel::find($OrgID)->OrgNm,
-            'SOrgID'=> $SOrgID,
-            'SOrgNm'=> \App\Models\DMaster\SubOrganisasiModel::getNamaUnitKerjaByID($request->input('SOrgID')),            
+            'PemilikPokokID'=> $PemilikPokokID,
+            'Kd_PK'=> $anggota_dewan->Kd_PK,
+            'NmPk'=> $anggota_dewan->NmPk,
             'created_at'=>$now, 
             'updated_at'=>$now
         ]); 

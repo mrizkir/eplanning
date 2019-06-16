@@ -1,7 +1,7 @@
 <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
     <div class="panel-heading">       
         <div class="panel-title">
-            <h6 class="panel-title">DAFTAR Dewan</h6>
+            <h6 class="panel-title">DAFTAR ANGGOTA DEWAN</h6>
         </div>        
     </div>
     @if (count($datadewan) > 0)

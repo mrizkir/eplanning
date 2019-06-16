@@ -163,7 +163,8 @@
                 </a>
                 <div class="dropdown-menu dropdown-content">
                     <div class="dropdown-content-body">
-                        <div class="row">                            
+                        <div class="row">         
+                            @hasrole('superadmin|bapelitbang')                   
                             <div class="col-md-3">
                                 <span class="menu-heading underlined"><i class="icon-strategy"></i> RPJMD</span>
                                 <ul class="menu-list">
@@ -199,6 +200,8 @@
                                     </li> 
                                 </ul>
                             </div>
+                            @endhasrole
+                            @hasrole('superadmin|bapelitbang|opd')
                             <div class="col-md-3">
                                 <span class="menu-heading underlined"><i class="icon-strategy"></i> RENSTRA OPD / SKPD</span>
                                 <ul class="menu-list">
@@ -234,19 +237,24 @@
                                     </li>
                                 </ul>
                             </div>
+                            @endhasrole                            
                             <div class="col-md-3">
                                 <span class="menu-heading underlined"><i class="icon-strategy"></i> POKIR / RESES</span>
                                 <ul class="menu-list">
+                                    @hasrole('superadmin|bapelitbang')
                                     <li{!!Helper::isMenuActive ($page_active,'pemilikpokokpikiran',' class="active"')!!}>
                                         <a href="{{route('pemilikpokokpikiran.index')}}">
                                             <i class="icon-strategy"></i> PEMILIK POKOK</span>
                                         </a>
                                     </li> 
+                                    @endhasrole
+                                    @hasrole('superadmin|bapelitbang|dewan')
                                     <li{!!Helper::isMenuActive ($page_active,'pokokpikiran',' class="active"')!!}>
                                         <a href="{{route('pokokpikiran.index')}}">
                                             <i class="icon-strategy"></i> POKOK PIKIRAN</span>
                                         </a>
                                     </li>
+                                    @endhasrole
                                 </ul>
                             </div>
                         </div>

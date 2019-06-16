@@ -13,7 +13,7 @@ class UserDewan extends Model
      *
      * @var string
      */
-    protected $table = 'usersopd';   
+    protected $table = 'usersdewan';   
 
     /**
      * The attributes that are mass assignable.

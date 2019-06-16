@@ -22,7 +22,7 @@
         <div class="panel panel-flat border-top-info border-bottom-info">
             <div class="panel-heading">
                 <h5 class="panel-title"> 
-                    <i class="icon-eye"></i>  DATA USER Dewan
+                    <i class="icon-eye"></i>  DATA USER DEWAN
                 </h5>
                 <div class="heading-elements">   
                     <a href="{{route('usersdewan.edit',['id'=>$data->id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data User Dewan">
@@ -91,7 +91,7 @@
             <div class="panel-heading">
                 <h5 class="panel-title">
                     <i class="icon-pencil7 position-left"></i> 
-                    TAMBAH Dewan TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}
+                    TAMBAH ANGGOTA DEWAN TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}
                 </h5>                
             </div>
             <div class="panel-body">

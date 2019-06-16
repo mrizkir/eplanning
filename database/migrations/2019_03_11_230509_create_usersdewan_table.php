@@ -14,7 +14,7 @@ class CreateUsersdewanTable extends Migration
     public function up()
     {
         Schema::create('usersdewan', function (Blueprint $table) {
-            $table->increments('useropd');            
+            $table->increments('userdewan');            
             $table->integer('id');            
             $table->year('ta');          
             $table->string('PemilikPokokID',19);  

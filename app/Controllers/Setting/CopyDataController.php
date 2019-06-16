@@ -34,7 +34,7 @@ class CopyDataController extends Controller
     public function index(Request $request)
     {                
         $theme = \Auth::user()->theme;
-        
+        // $tables = \DB::connection()->getDoctrineSchemaManager()->listTableNames();        
         return view("pages.$theme.setting.copydata.index")->with(['page_active'=>'copydata',
                                       
                                                                 ]);               
