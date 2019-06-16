@@ -24,9 +24,10 @@ class UsersOPDController extends Controller {
      *
      * @return resources
      */
-    public function populateDataOPD () 
+    public function populateDataOPD ($userid) 
     {        
-        $data = \App\Models\UserOPD::where('ta',\HelperKegiatan::getTahunPerencanaan())
+        $data = \App\Models\UserOPD::where('id',$userid)
+                                    ->where('ta',\HelperKegiatan::getTahunPerencanaan())
                                     ->get();
         return $data;
     }
@@ -315,7 +316,7 @@ class UsersOPDController extends Controller {
         $data = User::findOrFail($id);
         if (!is_null($data) )  
         {
-            $dataopd=$this->populateDataOPD();
+            $dataopd=$this->populateDataOPD($data->id);
             $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);
             return view("pages.$theme.setting.usersopd.show")->with(['page_active'=>'usersopd',
                                                                     'daftar_opd'=>$daftar_opd,
