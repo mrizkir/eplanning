@@ -581,7 +581,8 @@ class RKPDPerubahanController extends Controller
             $UrsID=$organisasi->UrsID;
 
             $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusan(\HelperKegiatan::getTahunPerencanaan(),false);   
-            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan(),false,$UrsID);
+            $daftar_urusan['all']='SEMUA URUSAN';
+            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan(),false,$UrsID);            
             $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunPerencanaan(),false);     
             
             return view("pages.$theme.rkpd.rkpdperubahan.create")->with(['page_active'=>$this->NameOfPage,
@@ -1421,31 +1422,10 @@ class RKPDPerubahanController extends Controller
     public function edit($id)
     {
         $theme = \Auth::user()->theme;
+        
         switch ($this->NameOfPage) 
-        {            
-            case 'usulanprarkpdopd' :
-                $rkpd = RKPDModel::select(\DB::raw('"trRKPD"."RKPDID",
-                                                    "tmUrs"."Nm_Bidang",
-                                                    "tmPrg"."PrgNm",
-                                                    "tmKgt"."KgtNm",
-                                                    "trRKPD"."Sasaran_Angka1" AS "Sasaran_Angka",
-                                                    "trRKPD"."Sasaran_Uraian1" AS "Sasaran_Uraian",
-                                                    "trRKPD"."Sasaran_AngkaSetelah",
-                                                    "trRKPD"."Sasaran_UraianSetelah",
-                                                    "trRKPD"."Target1" AS "Target",
-                                                    "trRKPD"."NilaiSebelum",
-                                                    "trRKPD"."NilaiUsulan1" AS "NilaiUsulan",
-                                                    "trRKPD"."NilaiSetelah",
-                                                    "trRKPD"."NamaIndikator",
-                                                    "trRKPD"."SumberDanaID",
-                                                    "trRKPD"."Descr"'))
-                            ->join('tmKgt','tmKgt.KgtID','trRKPD.KgtID')
-                            ->join('tmPrg','tmPrg.PrgID','tmKgt.PrgID')
-                            ->join('trUrsPrg','trUrsPrg.PrgID','tmPrg.PrgID')
-                            ->join('tmUrs','tmUrs.UrsID','trUrsPrg.UrsID')
-                            ->findOrFail($id);        
-            break;
-            case 'usulanrakorbidang' :
+        {   
+            case 'rkpdperubahan' :                
                 $rkpd = RKPDModel::select(\DB::raw('"trRKPD"."RKPDID",
                                                     "tmUrs"."Nm_Bidang",
                                                     "tmPrg"."PrgNm",
@@ -1461,18 +1441,13 @@ class RKPDPerubahanController extends Controller
                                                     "trRKPD"."NamaIndikator",
                                                     "trRKPD"."SumberDanaID",
                                                     "trRKPD"."Descr"'))
-                            ->join('tmKgt','tmKgt.KgtID','trRKPD.KgtID')
-                            ->join('tmPrg','tmPrg.PrgID','tmKgt.PrgID')
-                            ->join('trUrsPrg','trUrsPrg.PrgID','tmPrg.PrgID')
-                            ->join('tmUrs','tmUrs.UrsID','trUrsPrg.UrsID')
-                            ->findOrFail($id);        
-            break;
-            case 'usulanforumopd' :
-            
-            break;
-            case 'usulanmusrenkab' :
-            
-            break;                
+                            // ->join('tmKgt','tmKgt.KgtID','trRKPD.KgtID')
+                            // ->join('tmPrg','tmPrg.PrgID','tmKgt.PrgID')
+                            // ->join('trUrsPrg','trUrsPrg.PrgID','tmPrg.PrgID')
+                            // ->join('tmUrs','tmUrs.UrsID','trUrsPrg.UrsID')
+                            ->findOrFail($id);      
+                dd($rkpd);
+            break;                     
         }   
         
         if (!is_null($rkpd) ) 

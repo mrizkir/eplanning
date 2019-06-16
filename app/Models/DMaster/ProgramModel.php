@@ -60,12 +60,34 @@ class ProgramModel extends Model {
 
     public static function getDaftarProgram ($ta,$prepend=true,$UrsID=null) 
     {
-        $r=\DB::table('v_urusan_program')
+
+        if ($UrsID==null)
+        {
+            $r=\DB::table('v_urusan_program')
+                ->where('TA',$ta)                
+                ->orderBy('Kd_Prog')
+                ->orderBy('kode_program')
+                ->get();
+        }
+        else if($UrsID == 'all')
+        {
+            $r=\DB::table('v_urusan_program')
                 ->where('TA',$ta)
                 ->orderBy('Kd_Prog')
-                ->orderBy('kode_program');
-
-        $r = $UrsID == null ? $r->get():  $r->where('UrsID',$UrsID)->get();                 
+                ->where('Jns','f')
+                ->orderBy('kode_program')
+                ->get();
+        }
+        else
+        {
+            $r=\DB::table('v_urusan_program')
+                ->where('TA',$ta)
+                ->orderBy('Kd_Prog')
+                ->where('UrsID',$UrsID)
+                ->orderBy('kode_program')
+                ->get();
+            
+        }        
         
         $daftar_program=($prepend==true)?['none'=>'DAFTAR PROGRAM']:[];        
         foreach ($r as $k=>$v)
