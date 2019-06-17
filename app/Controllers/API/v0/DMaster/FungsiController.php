@@ -24,7 +24,7 @@ class FungsiController extends Controller {
      */
     public function index(Request $request)
     {        
-        $ta=\HelperKegiatan::getTahunPerencanaan();   
+        $ta=config('eplanning.tahun_perencanaan');   
         $data = \DB::table('tmFungsi AS a')
                     ->select(\DB::raw('
                         a."FungsiID",

@@ -24,7 +24,7 @@ class RekeningKelompokController extends Controller {
      */
     public function index(Request $request)
     {               
-        $ta=\HelperKegiatan::getTahunPerencanaan();
+        $ta=config('eplanning.tahun_perencanaan');
         $data=RekeningKelompokModel::join('tmStr','tmStr.StrID','tmKlp.StrID')
                                     ->where('tmKlp.TA',$ta)
                                     ->orderBy('Kd_Rek_2','ASC')

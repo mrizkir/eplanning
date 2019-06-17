@@ -23,7 +23,7 @@ class IndikatorKinerjaController extends Controller {
      */
     public function index(Request $request)
     {  
-        $ta=\HelperKegiatan::getTahunPerencanaan();    
+        $ta=config('eplanning.tahun_perencanaan');    
         $data = \DB::table('v_indikator_kinerja')                     
                     ->where('TA',$ta)                    
                     ->get();

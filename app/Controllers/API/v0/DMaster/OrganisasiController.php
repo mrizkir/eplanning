@@ -24,7 +24,7 @@ class OrganisasiController extends Controller {
      */
     public function index(Request $request)
     {  
-        $ta=\HelperKegiatan::getTahunPerencanaan();
+        $ta=config('eplanning.tahun_perencanaan');
         $data = \DB::table('v_urusan_organisasi')
                     ->where('TA',$ta)
                     ->orderBy('kode_organisasi','ASC')
