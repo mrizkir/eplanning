@@ -19,11 +19,19 @@ class PembahasanRenjaController extends Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['auth','role:superadmin|bapelitbang|tapd|opd']);
-        //set nama session 
-        $this->SessionName=$this->getNameForSession();      
         //set nama halaman saat ini
         $this->NameOfPage = \Helper::getNameOfPage();
+        if ($this->NameOfPage == 'verifikasirenja')
+        {
+            $this->middleware(['auth','role:superadmin|bapelitbang|tapd']);
+        }
+        else
+        {
+            $this->middleware(['auth','role:superadmin|bapelitbang|tapd|opd']);
+        }
+        //set nama session 
+        $this->SessionName=$this->getNameForSession();      
+        
 
         //set nama halaman saat ini
         $this->LabelTransfer = \HelperKegiatan::getLabelTransfer($this->NameOfPage);
