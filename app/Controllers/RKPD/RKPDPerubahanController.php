@@ -2548,22 +2548,10 @@ class RKPDPerubahanController extends Controller
                 $rinciankegiatan->delete();
                 switch ($this->NameOfPage) 
                 {            
-                    case 'usulanprarkpdopd' :
-                        $rkpd->NilaiUsulan1=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('Jumlah1');  
-                        $NilaiUsulan=$rkpd->NilaiUsulan1;          
-                    break;
-                    case 'usulanrakorbidang' :
-                        $rkpd->NilaiUsulan2=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('Jumlah2');    
-                        $NilaiUsulan=$rkpd->NilaiUsulan2;        
-                    break;
-                    case 'usulanforumopd' :
-                        $rkpd->NilaiUsulan3=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('Jumlah3');            
-                        $NilaiUsulan=$rkpd->NilaiUsulan3;
-                    break;
-                    case 'usulanmusrenkab' :
-                        $rkpd->NilaiUsulan4=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('Jumlah4');            
-                        $NilaiUsulan=$rkpd->NilaiUsulan4;
-                    break;                
+                    case 'rkpdperubahan' :
+                        $rkpd->NilaiUsulan2=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('NilaiUsulan2');  
+                        $NilaiUsulan=$rkpd->NilaiUsulan2;          
+                    break;                    
                 }   
                 $rkpd->save();
                 return $NilaiUsulan;
@@ -2580,7 +2568,7 @@ class RKPDPerubahanController extends Controller
                                     'datarinciankegiatan'=>$data])
                                 ->render();     
                 
-                return response()->json(['success'=>true,'NilaiUsulan'=>$NilaiUsulan,'datatable'=>$datatable],200); 
+                return response()->json(['success'=>true,'NilaiUsulan2'=>$NilaiUsulan,'datatable'=>$datatable],200); 
             }
             else
             {
