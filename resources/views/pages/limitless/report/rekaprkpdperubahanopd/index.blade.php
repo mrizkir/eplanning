@@ -7,7 +7,7 @@
     <div class="col-md-12" id="divfilter">
         <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
             <div class="panel-heading">
-                <h5 class="panel-title"><i class="icon-file-empty position-left"></i> REKAP RKPD PERUBAHAN OPD TAHUN PERENCANAAN {{config('eplanning.tahun_perencanaan')}}</h5>
+                <h5 class="panel-title"><i class="icon-file-empty position-left"></i> REKAP RKPD PERUBAHAN OPD TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}</h5>
                 <div class="heading-elements">                       
                     <ul class="icons-list">
                         <li><a data-action="collapse"></a></li> 
