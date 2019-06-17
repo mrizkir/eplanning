@@ -1,73 +1,81 @@
-<div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
-    <div class="panel-heading">
-        <div class="panel-title">
-            <h6 class="panel-title">&nbsp;</h6>
-        </div>
-        <div class="heading-elements">
-            {!! Form::open(['url'=>'#','method'=>'post','class'=>'heading-form','id'=>'frmheading','name'=>'frmheading'])!!}   
-                <div class="form-group">
-                    {!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control','style'=>'width:70px'])!!}                        
-                </div>   
-            {!! Form::close()!!}
-            <a href="{!!route('rekaprkpdperubahanopd.create')!!}" class="btn btn-info btn-xs heading-btn" title="Tambah REKAPRKPDPERUBAHANOPD">
-                <i class="icon-googleplus5"></i>
-            </a>        
-        </div>
-    </div>
-    @if (count($data) > 0)
-    <div class="table-responsive"> 
-        <table id="data" class="table table-striped table-hover">
-            <thead>
-                <tr class="bg-teal-700">
-                    <th width="55">NO</th>
-                    <th width="100">
-                        <a class="column-sort text-white" id="col-replace_it" data-order="{{$direction}}" href="#">
-                            replace_it  
-                        </a>                                             
-                    </th> 
-                    <th width="100">AKSI</th>
-                </tr>
-            </thead>
-            <tbody>                    
-            @foreach ($data as $key=>$item)
-                <tr>
-                    <td>
-                        {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
-                    </td>                  
-                    <td>{{$item->replace_it}}</td>
-                    <td>
-                        <ul class="icons-list">
-                            <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('rekaprkpdperubahanopd.show',['id'=>$item->rekaprkpdperubahanopd_id])}}" title="Detail Data RekapRKPDPerubahanOPD">
-                                    <i class='icon-eye'></i>
-                                </a>  
-                            </li>
-                            <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('rekaprkpdperubahanopd.edit',['id'=>$item->rekaprkpdperubahanopd_id])}}" title="Ubah Data RekapRKPDPerubahanOPD">
-                                    <i class='icon-pencil7'></i>
-                                </a>  
-                            </li>
-                            <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data RekapRKPDPerubahanOPD" data-id="{{$item->rekaprkpdperubahanopd_id}}" data-url="{{route('rekaprkpdperubahanopd.index')}}">
-                                    <i class='icon-trash'></i>
-                                </a> 
-                            </li>
-                        </ul>
-                    </td>
-                </tr>
-            @endforeach                    
-            </tbody>
-        </table>               
-    </div>
-    <div class="panel-body border-top-info text-center" id="paginations">
-        {{$data->links('layouts.limitless.l_pagination')}}               
-    </div>
-    @else
-    <div class="panel-body">
-        <div class="alert alert-info alert-styled-left alert-bordered">
-            <span class="text-semibold">Info!</span>
-            Belum ada data yang bisa ditampilkan.
-        </div>
-    </div>   
-    @endif            
+@if (count($data) > 0)
+<div class="table-responsive"> 
+    <table id="data" border="1">
+        <thead>
+            <tr>
+                <th colspan="5">                   
+                    KODE            
+                </th>                
+                <th width="400">                    
+                    NAMA KEGIATAN                                                                                           
+                </th> 
+                <th width="300">                    
+                    NAMA URAIAN                                                                                           
+                </th>
+                <th width="200">                    
+                    SASARAN 
+                </th> 
+                <th width="120">                        
+                    TARGET (%)                        
+                </th> 
+                <th width="150" class="text-right">                    
+                    NILAI M / <br>NILAI P                    
+                </th>                     
+                
+            </tr>
+            <tr>
+            </tr>
+        </thead>
+        <tbody>                    
+        @foreach ($data as $key=>$item)
+            <tr>                        
+                <td>{{$item->Kd_Urusan}}</td>
+                <td>{{$item->Kd_Bidang}}</td>
+                <td>{{$item->OrgCd}}</td>
+                <td>{{$item->Kd_Prog}}</td>
+                <td>{{$item->Kd_Keg}}</td>
+                <td>
+                    {{ucwords($item->KgtNm)}}                           
+                </td>                       
+                <td>
+                    {{ucwords($item->Uraian)}}
+                    @if ($item->isSKPD)
+                        <br>
+                        <span class="label label-flat border-grey text-grey-600">                        
+                            <a href="#">
+                                <strong>Usulan dari: </strong>OPD / SKPD
+                            </a> 
+                        </span>
+                    @elseif($item->isReses)
+                        <br>
+                        <span class="label label-flat border-grey text-grey-600">                        
+                            <a href="#">
+                                <strong>Usulan dari: </strong>POKIR [{{$item->isReses_Uraian}}]
+                            </a>
+                        </span>
+                    @elseif(!empty($item->UsulanKecID))
+                        <br>
+                        <span class="label label-flat border-grey text-grey-600">                        
+                            <a href="{{route('aspirasimusrenkecamatan.show',['id'=>$item->UsulanKecID])}}">
+                                <strong>Usulan dari: MUSREN. KEC. {{$item->Nm_Kecamatan}}
+                            </a>
+                        </span>
+                    @endif
+                </td>
+                <td>{{Helper::formatAngka($item->Sasaran_Angka)}} {{$item->Sasaran_Uraian}}</td>
+                <td>{{$item->Target}}</td>
+                <td class="text-right">
+                    <span class="text-success">{{Helper::formatuang($item->Jumlah)}}</span><br>
+                    <span class="text-danger">{{Helper::formatuang($item->Jumlah2)}}</span>
+                </td>                                    
+            </tr>           
+        @endforeach                    
+        </tbody>
+    </table>               
 </div>
+@else       
+<div class="alert alert-info alert-styled-left alert-bordered">
+    <span class="text-semibold">Info!</span>
+    Belum ada data yang bisa ditampilkan. Mohon pilih terlebih dahulu OPD dan Unit Kerja
+</div> 
+@endif            

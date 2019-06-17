@@ -25,7 +25,10 @@
                 <h5 class="panel-title"> 
                     <i class="icon-eye"></i>  DATA KEGIATAN
                 </h5>
-                <div class="heading-elements">   
+                <div class="heading-elements"> 
+                    <a href="{{route('programkegiatan.create')}}" class="btn btn-info btn-icon heading-btn btnTambah" title="Tambah Data Program Kegiatan">
+                        <i class="icon-googleplus5"></i>
+                    </a>  
                     <a href="{{route('programkegiatan.edit',['id'=>$data->KgtID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data ProgramKegiatan">
                         <i class="icon-pencil7"></i>
                     </a>

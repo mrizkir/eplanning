@@ -4,11 +4,16 @@ namespace App\Controllers\Report;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
-use App\Models\Report\RekapRKPDPerubahanOPDModel;
+
+use App\Models\RKPD\RKPDPerubahanModel;
+use App\Models\RKPD\RKPDIndikatorModel;
+use App\Models\RKPD\RKPDModel;
+use App\Models\RKPD\RKPDRincianModel;
+
 
 class RekapRKPDPerubahanOPDController extends Controller 
-{
-     /**
+{    
+    /**
      * Membuat sebuah objek
      *
      * @return void
@@ -16,71 +21,65 @@ class RekapRKPDPerubahanOPDController extends Controller
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['auth']);
-    }
+        $this->middleware(['auth','role:superadmin|bapelitbang|opd']);
+        //set nama session 
+        $this->SessionName=$this->getNameForSession();      
+        //set nama halaman saat ini
+        $this->NameOfPage = \Helper::getNameOfPage();        
+    }     
     /**
      * collect data from resources for index view
      *
      * @return resources
      */
     public function populateData ($currentpage=1) 
-    {        
-        $columns=['*'];       
-        //if (!$this->checkStateIsExistSession('rekaprkpdperubahanopd','orderby')) 
-        //{            
-        //    $this->putControllerStateSession('rekaprkpdperubahanopd','orderby',['column_name'=>'replace_it','order'=>'asc']);
-        //}
-        //$column_order=$this->getControllerStateSession('rekaprkpdperubahanopd.orderby','column_name'); 
-        //$direction=$this->getControllerStateSession('rekaprkpdperubahanopd.orderby','order'); 
-
-        if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
+    { 
+          //filter
+        if (!$this->checkStateIsExistSession($this->SessionName,'filters')) 
         {            
-            $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
-        }
-        $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
-        if ($this->checkStateIsExistSession('rekaprkpdperubahanopd','search')) 
-        {
-            $search=$this->getControllerStateSession('rekaprkpdperubahanopd','search');
-            switch ($search['kriteria']) 
-            {
-                case 'replaceit' :
-                    $data = RekapRKPDPerubahanOPDModel::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
-                break;
-                case 'replaceit' :
-                    $data = RekapRKPDPerubahanOPDModel::where('replaceit', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
-                break;
-            }           
-            $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
-        }
-        else
-        {
-            $data = RekapRKPDPerubahanOPDModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $this->putControllerStateSession($this->SessionName,'filters',[
+                                                                            'OrgID'=>'none',
+                                                                            'SOrgID'=>'none',
+                                                                            ]);
         }        
-        $data->setPath(route('rekaprkpdperubahanopd.index'));
-        return $data;
-    }
-    /**
-     * digunakan untuk mengganti jumlah record per halaman
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function changenumberrecordperpage (Request $request) 
-    {
-        $theme = \Auth::user()->theme;
+        $SOrgID= $this->getControllerStateSession(\Helper::getNameOfPage('filters'),'SOrgID');        
 
-        $numberRecordPerPage = $request->input('numberRecordPerPage');
-        $this->putControllerStateSession('global_controller','numberRecordPerPage',$numberRecordPerPage);
+    
+        $data = RKPDPerubahanModel::select(\DB::raw('
+                                    "Kd_Urusan",
+                                    "Kd_Bidang",
+                                    "OrgCd",
+                                    "OrgCd",
+                                    "Kd_Prog",
+                                    "Kd_Keg",
+                                    "No",
+                                    "Nm_Kecamatan",
+                                    "kode_kegiatan",
+                                    "KgtNm",
+                                    "Uraian",
+                                    "Sasaran_Angka2" AS "Sasaran_Angka",
+                                    "Sasaran_Angka1",
+                                    "Sasaran_Uraian2" AS "Sasaran_Uraian",
+                                    "Sasaran_Uraian1",
+                                    "Target2" AS "Target",
+                                    "Target1",
+                                    "NilaiUsulan1" AS "Jumlah",
+                                    "NilaiUsulan2" AS "Jumlah2",
+                                    "isSKPD",
+                                    "isReses",
+                                    "isReses_Uraian",
+                                    "Status",
+                                    "Privilege",
+                                    "Status_Indikator",
+                                    "EntryLvl",
+                                    "Descr"'))
+                                    ->where('SOrgID',$SOrgID)   
+                                    ->whereNotNull('RKPDRincID')                                         
+                                    ->where('TA', \HelperKegiatan::getTahunPerencanaan())                                                                                                                     
+                                    ->get();
+                        
         
-        $this->setCurrentPageInsideSession('rekaprkpdperubahanopd',1);
-        $data=$this->populateData();
-
-        $datatable = view("pages.$theme.report.rekaprkpdperubahanopd.datatable")->with(['page_active'=>'rekaprkpdperubahanopd',
-                                                                                'search'=>$this->getControllerStateSession('rekaprkpdperubahanopd','search'),
-                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                                'column_order'=>$this->getControllerStateSession('rekaprkpdperubahanopd.orderby','column_name'),
-                                                                                'direction'=>$this->getControllerStateSession('rekaprkpdperubahanopd.orderby','order'),
-                                                                                'data'=>$data])->render();      
-        return response()->json(['success'=>true,'datatable'=>$datatable],200);
+        return $data;
     }
     /**
      * digunakan untuk mengurutkan record 
@@ -95,83 +94,106 @@ class RekapRKPDPerubahanOPDController extends Controller
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'replace_it' :
-                $column_name = 'replace_it';
-            break;           
+            case 'col-kode_kegiatan' :
+                $column_name = 'kode_kegiatan';
+            break;    
+            case 'col-KgtNm' :
+                $column_name = 'KgtNm';
+            break;    
+            case 'col-Uraian' :
+                $column_name = 'Uraian';
+            break;    
+            case 'col-Sasaran_Angka' :
+                $column_name = 'Sasaran_Angka';
+            break;  
+            case 'col-Jumlah' :
+                $column_name = 'Jumlah';
+            break; 
+            case 'col-status' :
+                $column_name = 'status';
+            break;
+            case 'col-Prioritas' :
+                $column_name = 'Prioritas';
+            break;
             default :
-                $column_name = 'replace_it';
+                $column_name = 'kode_kegiatan';
         }
-        $this->putControllerStateSession('rekaprkpdperubahanopd','orderby',['column_name'=>$column_name,'order'=>$orderby]);      
+        $this->putControllerStateSession($this->SessionName,'orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
-        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('rekaprkpdperubahanopd');         
-        $data=$this->populateData($currentpage);
-        if ($currentpage > $data->lastPage())
-        {            
-            $data = $this->populateData($data->lastPage());
-        }
-        
-        $datatable = view("pages.$theme.report.rekaprkpdperubahanopd.datatable")->with(['page_active'=>'rekaprkpdperubahanopd',
-                                                            'search'=>$this->getControllerStateSession('rekaprkpdperubahanopd','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('rekaprkpdperubahanopd.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('rekaprkpdperubahanopd.orderby','order'),
-                                                            'data'=>$data])->render();     
+        $data=$this->populateData();
+       
+        $datatable = view("pages.$theme.report.rekaprkpdperubahanopd.datatable")->with(['page_active'=>$this->NameOfPage,
+                                                                        'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),                                                                           
+                                                                        'search'=>$this->getControllerStateSession($this->SessionName,'search'),
+                                                                        'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                        'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                                        'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
+                                                                        'data'=>$data])->render();     
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
     }
+
     /**
-     * paginate resource in storage called by ajax
+     * filter resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function paginate ($id) 
+    public function filter(Request $request) 
     {
-        $theme = \Auth::user()->theme;
+        $auth = \Auth::user();    
+        $theme = $auth->theme;
 
-        $this->setCurrentPageInsideSession('rekaprkpdperubahanopd',$id);
-        $data=$this->populateData($id);
-        $datatable = view("pages.$theme.report.rekaprkpdperubahanopd.datatable")->with(['page_active'=>'rekaprkpdperubahanopd',
-                                                                            'search'=>$this->getControllerStateSession('rekaprkpdperubahanopd','search'),
+        $filters=$this->getControllerStateSession($this->SessionName,'filters');
+        $daftar_unitkerja=[];
+        $json_data = [];
+
+        //index
+        if ($request->exists('OrgID'))
+        {
+            $OrgID = $request->input('OrgID')==''?'none':$request->input('OrgID');
+            $filters['OrgID']=$OrgID;
+            $filters['SOrgID']='none';
+            $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$OrgID);  
+            
+            $this->putControllerStateSession($this->SessionName,'filters',$filters);
+
+            $data = [];
+
+            $datatable = view("pages.$theme.report.rekaprkpdperubahanopd.datatable")->with(['page_active'=>$this->NameOfPage,   
+                                                                            'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),                                                                                                                                    
+                                                                            'search'=>$this->getControllerStateSession($this->SessionName,'search'),
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                            'column_order'=>$this->getControllerStateSession('rekaprkpdperubahanopd.orderby','column_name'),
-                                                                            'direction'=>$this->getControllerStateSession('rekaprkpdperubahanopd.orderby','order'),
-                                                                            'data'=>$data])->render(); 
+                                                                            'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                                            'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
+                                                                            'data'=>$data])->render();
 
-        return response()->json(['success'=>true,'datatable'=>$datatable],200);        
-    }
-    /**
-     * search resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function search (Request $request) 
-    {
-        $theme = \Auth::user()->theme;
+            
 
-        $action = $request->input('action');
-        if ($action == 'reset') 
+            $json_data = ['success'=>true,'daftar_unitkerja'=>$daftar_unitkerja,'datatable'=>$datatable];
+        } 
+        //index
+        if ($request->exists('SOrgID'))
         {
-            $this->destroyControllerStateSession('rekaprkpdperubahanopd','search');
-        }
-        else
-        {
-            $kriteria = $request->input('cmbKriteria');
-            $isikriteria = $request->input('txtKriteria');
-            $this->putControllerStateSession('rekaprkpdperubahanopd','search',['kriteria'=>$kriteria,'isikriteria'=>$isikriteria]);
-        }      
-        $this->setCurrentPageInsideSession('rekaprkpdperubahanopd',1);
-        $data=$this->populateData();
+            $SOrgID = $request->input('SOrgID')==''?'none':$request->input('SOrgID');
+            $filters['SOrgID']=$SOrgID;
+            $this->putControllerStateSession($this->SessionName,'filters',$filters);
+            
+            $data = $this->populateData();            
+            $datatable = view("pages.$theme.report.rekaprkpdperubahanopd.datatable")->with(['page_active'=>$this->NameOfPage,   
+                                                                                'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),                                                                                                                                    
+                                                                                'search'=>$this->getControllerStateSession($this->SessionName,'search'),
+                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                                                'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
+                                                                                'data'=>$data])->render();                                                                                       
+                        
+            
+            $json_data = ['success'=>true,'datatable'=>$datatable];            
+        } 
 
-        $datatable = view("pages.$theme.report.rekaprkpdperubahanopd.datatable")->with(['page_active'=>'rekaprkpdperubahanopd',                                                            
-                                                            'search'=>$this->getControllerStateSession('rekaprkpdperubahanopd','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('rekaprkpdperubahanopd.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('rekaprkpdperubahanopd.orderby','order'),
-                                                            'data'=>$data])->render();      
-        
-        return response()->json(['success'=>true,'datatable'=>$datatable],200);        
+
+        return response()->json($json_data,200);  
     }
     /**
      * Show the form for creating a new resource.
@@ -179,170 +201,45 @@ class RekapRKPDPerubahanOPDController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {                
-        $theme = \Auth::user()->theme;
-
-        $search=$this->getControllerStateSession('rekaprkpdperubahanopd','search');
-        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('rekaprkpdperubahanopd'); 
-        $data = $this->populateData($currentpage);
-        if ($currentpage > $data->lastPage())
-        {            
-            $data = $this->populateData($data->lastPage());
-        }
-        $this->setCurrentPageInsideSession('rekaprkpdperubahanopd',$data->currentPage());
+    {  
+        $auth = \Auth::user();    
+        $theme = $auth->theme;
         
-        return view("pages.$theme.report.rekaprkpdperubahanopd.index")->with(['page_active'=>'rekaprkpdperubahanopd',
-                                                'search'=>$this->getControllerStateSession('rekaprkpdperubahanopd','search'),
-                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                'column_order'=>$this->getControllerStateSession('rekaprkpdperubahanopd.orderby','column_name'),
-                                                'direction'=>$this->getControllerStateSession('rekaprkpdperubahanopd.orderby','order'),
-                                                'data'=>$data]);               
-    }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {        
-        $theme = \Auth::user()->theme;
-
-        return view("pages.$theme.report.rekaprkpdperubahanopd.create")->with(['page_active'=>'rekaprkpdperubahanopd',
-                                                                    
-                                                ]);  
-    }
-    
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $this->validate($request, [
-            'replaceit'=>'required',
-        ]);
+        $filters=$this->getControllerStateSession($this->SessionName,'filters');
+        $roles=$auth->getRoleNames();   
         
-        $rekaprkpdperubahanopd = RekapRKPDPerubahanOPDModel::create([
-            'replaceit' => $request->input('replaceit'),
-        ]);        
-        
-        if ($request->ajax()) 
+        switch ($roles[0])
         {
-            return response()->json([
-                'success'=>true,
-                'message'=>'Data ini telah berhasil disimpan.'
-            ],200);
-        }
-        else
-        {
-            return redirect(route('rekaprkpdperubahanopd.show',['id'=>$rekaprkpdperubahanopd->replaceit]))->with('success','Data ini telah berhasil disimpan.');
-        }
-
-    }
-    
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $theme = \Auth::user()->theme;
-
-        $data = RekapRKPDPerubahanOPDModel::findOrFail($id);
-        if (!is_null($data) )  
-        {
-            return view("pages.$theme.report.rekaprkpdperubahanopd.show")->with(['page_active'=>'rekaprkpdperubahanopd',
-                                                    'data'=>$data
-                                                    ]);
+            case 'superadmin' :     
+            case 'bapelitbang' :     
+            case 'tapd' :     
+                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);  
+                $daftar_unitkerja=array();           
+                if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
+                {
+                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$filters['OrgID']);        
+                }    
+            break;
+            case 'opd' :               
+                $daftar_opd=\App\Models\UserOPD::where('ta',\HelperKegiatan::getTahunPerencanaan())
+                                                ->where('id',$auth->id)
+                                                ->pluck('OrgNm','OrgID');      
+                $daftar_unitkerja=array();      
+                if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
+                {
+                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$filters['OrgID']);        
+                }  
+            break;
         }        
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $theme = \Auth::user()->theme;
+        $data = $this->populateData();        
         
-        $data = RekapRKPDPerubahanOPDModel::findOrFail($id);
-        if (!is_null($data) ) 
-        {
-            return view("pages.$theme.report.rekaprkpdperubahanopd.edit")->with(['page_active'=>'rekaprkpdperubahanopd',
-                                                    'data'=>$data
-                                                    ]);
-        }        
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        $rekaprkpdperubahanopd = RekapRKPDPerubahanOPDModel::find($id);
-        
-        $this->validate($request, [
-            'replaceit'=>'required',
-        ]);
-        
-        $rekaprkpdperubahanopd->replaceit = $request->input('replaceit');
-        $rekaprkpdperubahanopd->save();
-
-        if ($request->ajax()) 
-        {
-            return response()->json([
-                'success'=>true,
-                'message'=>'Data ini telah berhasil diubah.'
-            ],200);
-        }
-        else
-        {
-            return redirect(route('rekaprkpdperubahanopd.show',['id'=>$rekaprkpdperubahanopd->replaceit]))->with('success','Data ini telah berhasil disimpan.');
-        }
-    }
-
-     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request,$id)
-    {
-        $theme = \Auth::user()->theme;
-        
-        $rekaprkpdperubahanopd = RekapRKPDPerubahanOPDModel::find($id);
-        $result=$rekaprkpdperubahanopd->delete();
-        if ($request->ajax()) 
-        {
-            $currentpage=$this->getCurrentPageInsideSession('rekaprkpdperubahanopd'); 
-            $data=$this->populateData($currentpage);
-            if ($currentpage > $data->lastPage())
-            {            
-                $data = $this->populateData($data->lastPage());
-            }
-            $datatable = view("pages.$theme.report.rekaprkpdperubahanopd.datatable")->with(['page_active'=>'rekaprkpdperubahanopd',
-                                                            'search'=>$this->getControllerStateSession('rekaprkpdperubahanopd','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                            'column_order'=>$this->getControllerStateSession('rekaprkpdperubahanopd.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('rekaprkpdperubahanopd.orderby','order'),
-                                                            'data'=>$data])->render();      
-            
-            return response()->json(['success'=>true,'datatable'=>$datatable],200); 
-        }
-        else
-        {
-            return redirect(route('rekaprkpdperubahanopd.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
-        }        
-    }
+        return view("pages.$theme.report.rekaprkpdperubahanopd.index")->with(['page_active'=>$this->NameOfPage, 
+                                                                    'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
+                                                                    'daftar_opd'=>$daftar_opd,
+                                                                    'daftar_unitkerja'=>$daftar_unitkerja,
+                                                                    'filters'=>$filters,
+                                                                    'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                                    'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),                                                                    
+                                                                    'data'=>$data]);
+    }   
 }

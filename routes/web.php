@@ -452,6 +452,17 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::get('/workflow/rkpd/rkpdperubahan/paginate/{id}',['uses'=>'RKPD\RKPDPerubahanController@paginate','as'=>'rkpdperubahan.paginate']);              
     Route::post('/workflow/rkpd/rkpdperubahan/changenumberrecordperpage',['uses'=>'RKPD\RKPDPerubahanController@changenumberrecordperpage','as'=>'rkpdperubahan.changenumberrecordperpage']);  
     Route::post('/workflow/rkpd/rkpdperubahan/orderby',['uses'=>'RKPD\RKPDPerubahanController@orderby','as'=>'rkpdperubahan.orderby']);
+    
+    //Report - Perencanaan  REKAP RKPD PERUBAHAN OPD    
+    Route::resource('/report/rkpd/rekaprkpdperubahanopd','Report\RekapRKPDPerubahanOPDController',[
+                                                                            'parameters'=>['rekaprkpdperubahanopd'=>'id'],
+                                                                            'only'=>['index']
+                                                                        ]);                   
+    
+    Route::post('/report/rkpd/rekaprkpdperubahanopd/search',['uses'=>'Report\RekapRKPDPerubahanOPDController@search','as'=>'rekaprkpdperubahanopd.search']);              
+    Route::post('/report/rkpd/rekaprkpdperubahanopd/orderby',['uses'=>'Report\RekapRKPDPerubahanOPDController@orderby','as'=>'rekaprkpdperubahanopd.orderby']);  
+    Route::post('/report/rkpd/rekaprkpdperubahanopd/filter',['uses'=>'Report\RekapRKPDPerubahanOPDController@filter','as'=>'rekaprkpdperubahanopd.filter']);                  
+    Route::post('/report/rkpd/rekaprkpdperubahanopd/printexcel',['uses'=>'Report\RekapRKPDPerubahanOPDController@orderby','as'=>'rekaprkpdperubahanopd.printexcel']);  
 
     //setting - permissions    
     Route::resource('/setting/permissions','Setting\PermissionsController',[

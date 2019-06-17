@@ -25,7 +25,10 @@
                 <h5 class="panel-title"> 
                     <i class="icon-eye"></i>  DATA PROGRAM
                 </h5>
-                <div class="heading-elements">   
+                <div class="heading-elements"> 
+                    <a href="{{route('program.create')}}" class="btn btn-info btn-icon heading-btn btnTambah" title="Tambah Data Program">
+                        <i class="icon-googleplus5"></i>
+                    </a>   
                     <a href="{{route('program.edit',['id'=>$data->PrgID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Program">
                         <i class="icon-pencil7"></i>
                     </a>

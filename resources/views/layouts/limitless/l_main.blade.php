@@ -348,7 +348,28 @@
                     </li>
                     @endhasrole
                 </ul>
-            </li>                        
+            </li>   
+            <li class="dropdown mega-menu mega-menu-wide visible">                
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-file-empty position-left"></i> LAPORAN <span class="caret"></span>
+                </a>
+                <div class="dropdown-menu dropdown-content">
+                    <div class="dropdown-content-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <span class="menu-heading underlined"><i class="icon-file-empty"></i> RENCANA KERJA OPD / SKPD</span>
+                                <ul class="menu-list">
+                                    <li{!!Helper::isMenuActive ($page_active,'rekaprkpdperubahanopd',' class="active"')!!}>
+                                        <a href="{{route('rekaprkpdperubahanopd.index')}}">
+                                            <i class="icon-file-empty"></i> RKPD PERUBAHAN PER OPD</span>
+                                        </a>
+                                    </li>  
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
             <li class="dropdown mega-menu mega-menu-wide visible">                
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-cogs position-left"></i> SETTING <span class="caret"></span>
