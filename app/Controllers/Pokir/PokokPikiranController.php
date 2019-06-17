@@ -55,6 +55,7 @@ class PokokPikiranController extends Controller {
                                                         "tmPemilikPokok"."Kd_PK",
                                                         "tmPemilikPokok"."NmPk",
                                                         "trPokPir"."NamaUsulanKegiatan",
+                                                        "trPokPir"."NilaiUsulan",
                                                         "tmOrg"."OrgNm",
                                                         "trPokPir"."Prioritas"
                                                     '))      
@@ -75,6 +76,7 @@ class PokokPikiranController extends Controller {
                                                         "tmPemilikPokok"."Kd_PK",
                                                         "tmPemilikPokok"."NmPk",
                                                         "trPokPir"."NamaUsulanKegiatan",
+                                                        "trPokPir"."NilaiUsulan",
                                                         "tmOrg"."OrgNm",
                                                         "trPokPir"."Prioritas"
                                                     '))            
@@ -355,8 +357,9 @@ class PokokPikiranController extends Controller {
             'NamaUsulanKegiatan'=>'required',
             'Lokasi'=>'required',
             'Sasaran_Angka'=>'required',
-            'Sasaran_Uraian'=>'required',
+            'Sasaran_Uraian'=>'required',            
             'Output'=>'required',
+            'NilaiUsulan'=>'required',
             'Prioritas'=>'required',
         ]);
         $jeniskeg=$request->has('Jeniskeg')?$request->input('Jeniskeg'):0;
@@ -372,7 +375,7 @@ class PokokPikiranController extends Controller {
             'Lokasi' => $request->input('Lokasi'),
             'Sasaran_Angka' => $request->input('Sasaran_Angka'),
             'Sasaran_Uraian' => $request->input('Sasaran_Uraian'),
-            'NilaiUsulan' => 0,
+            'NilaiUsulan' => $request->input('NilaiUsulan'),
             'Status' => 0,
             'EntryLvl' => 0,
             'Output' => $request->input('Output'),
@@ -486,6 +489,7 @@ class PokokPikiranController extends Controller {
             'Lokasi'=>'required',
             'Sasaran_Angka'=>'required',
             'Sasaran_Uraian'=>'required',
+            'NilaiUsulan'=>'required',
             'Output'=>'required',
             'Prioritas'=>'required',
         ]);
@@ -497,6 +501,7 @@ class PokokPikiranController extends Controller {
         $pokokpikiran->Lokasi = $request->input('Lokasi');
         $pokokpikiran->Sasaran_Angka = $request->input('Sasaran_Angka');
         $pokokpikiran->Sasaran_Uraian = $request->input('Sasaran_Uraian');
+        $pokokpikiran->NilaiUsulan = $request->input('NilaiUsulan');
         $pokokpikiran->Output = $request->input('Output');
         $pokokpikiran->Jeniskeg = $request->input('Jeniskeg');
         $pokokpikiran->Prioritas = $request->input('Prioritas');

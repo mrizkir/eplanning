@@ -37,6 +37,11 @@
                             NAMA KEGIATAN  
                         </a>                                             
                     </th> 
+                    <th>
+                        <a class="column-sort text-white" id="col-NilaiUsulan" data-order="{{$direction}}" href="#">
+                            NILAI USULAN  
+                        </a>                                             
+                    </th> 
                     <th width="100">
                         <a class="column-sort text-white" id="col-Prioritas" data-order="{{$direction}}" href="#">
                             PRIORITAS  
@@ -54,6 +59,7 @@
                     <td>{{$item->Kd_PK}}</td>
                     <td>{{$item->NmPk}}</td>
                     <td>{{$item->NamaUsulanKegiatan}}</td>
+                    <td>{{$item->NilaiUsulan}}</td>
                     <td>
                         <span class="label label-flat border-pink text-pink-600">
                             {{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}

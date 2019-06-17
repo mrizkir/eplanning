@@ -69,6 +69,12 @@
                 </div>
             </div>            
             <div class="form-group">
+                {{Form::label('NilaiUsulan','NILAI USULAN',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    {{Form::text('NilaiUsulan',$data->NilaiUsulan,['class'=>'form-control','placeholder'=>'NILAI USULAN'])}}
+                </div>
+            </div>             
+            <div class="form-group">
                 {{Form::label('Prioritas','PRIORITAS',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
                     {{Form::select('Prioritas', HelperKegiatan::getDaftarPrioritas(),$data->Prioritas,['class'=>'form-control','id'=>'Prioritas'])}}
@@ -166,7 +172,14 @@ $(document).ready(function () {
                                         unformatOnSubmit: true,
                                         modifyValueOnWheel:false
                                     });
-
+    AutoNumeric.multiple(['#NilaiUsulan'],{
+                            allowDecimalPadding: false,
+                            decimalCharacter: ",",
+                            digitGroupSeparator: ".",
+                            unformatOnSubmit: true,
+                            showWarnings:false,
+                            modifyValueOnWheel:false
+                        });
     $(".switch").bootstrapSwitch();
     //styling select
 
