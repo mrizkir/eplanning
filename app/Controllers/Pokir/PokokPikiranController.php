@@ -36,7 +36,15 @@ class PokokPikiranController extends Controller {
         {            
             $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
         }
-        $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
+        $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');       
+        //filter
+        if (!$this->checkStateIsExistSession('pokokpikiran','filters')) 
+        {            
+            $this->putControllerStateSession('pokokpikiran','filters',[
+                                                                        'PemilikPokokID'=>'none',
+                                                                        ]);
+        }        
+        $PemilikPokokID= $this->getControllerStateSession(\Helper::getNameOfPage('filters'),'PemilikPokokID');      
         if ($this->checkStateIsExistSession('pokokpikiran','search')) 
         {
             $search=$this->getControllerStateSession('pokokpikiran','search');
@@ -53,6 +61,7 @@ class PokokPikiranController extends Controller {
                                                 ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')
                                                 ->join('tmOrg','tmOrg.OrgID','trPokPir.OrgID')                                                
                                                 ->where('NamaUsulanKegiatan', 'ilike', '%' . $search['isikriteria'] . '%')
+                                                ->where('trPokPir.PemilikPokokID',$PemilikPokokID)
                                                 ->orderBy('Prioritas','ASC')
                                                 ->orderBy($column_order,$direction);                                        
                 break;
@@ -70,6 +79,8 @@ class PokokPikiranController extends Controller {
                                                     '))            
                                     ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')
                                     ->join('tmOrg','tmOrg.OrgID','trPokPir.OrgID')
+                                    ->where('trPokPir.TA',\HelperKegiatan::getTahunPerencanaan())
+                                    ->where('trPokPir.PemilikPokokID',$PemilikPokokID)
                                     ->orderBy('Prioritas','ASC')
                                     ->orderBy($column_order,$direction)
                                     ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
@@ -173,7 +184,26 @@ class PokokPikiranController extends Controller {
         $auth = \Auth::user();    
         $theme = $auth->theme;
 
-        $json_data = [];               
+        $filters=$this->getControllerStateSession('pokokpikiran','filters');
+
+        $json_data = [];     
+        //index
+        if ($request->exists('PemilikPokokID'))
+        {
+            $PemilikPokokID = $request->input('PemilikPokokID')==''?'none':$request->input('PemilikPokokID');
+            $filters['PemilikPokokID']=$PemilikPokokID;
+            $this->putControllerStateSession('pokokpikiran','filters',$filters);
+            $this->setCurrentPageInsideSession('pokokpikiran',1);
+
+            $data=$this->populateData();
+            $datatable = view("pages.$theme.pokir.pokokpikiran.datatable")->with(['page_active'=>'pokokpikiran',
+                                                                                    'search'=>$this->getControllerStateSession('pokokpikiran','search'),
+                                                                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                    'column_order'=>$this->getControllerStateSession('pokokpikiran.orderby','column_name'),
+                                                                                    'direction'=>$this->getControllerStateSession('pokokpikiran.orderby','order'),
+                                                                                    'data'=>$data])->render();      
+            return response()->json(['success'=>true,'datatable'=>$datatable],200);       
+        }           
         //create4
         if ($request->exists('PmKecamatanID'))
         {
@@ -225,8 +255,31 @@ class PokokPikiranController extends Controller {
      */
     public function index(Request $request)
     {                
-        $theme = \Auth::user()->theme;
+        $auth = \Auth::user();    
+        $theme = $auth->theme;
 
+        $filters=$this->getControllerStateSession('pokokpikiran','filters');
+
+        $roles=$auth->getRoleNames(); 
+        switch ($roles[0])
+        {
+            case 'superadmin' :     
+            case 'bapelitbang' :     
+                $daftar_dewan=\App\Models\Pokir\PemilikPokokPikiranModel::where('TA',\HelperKegiatan::getTahunPerencanaan()) 
+                                                                        ->select(\DB::raw('"PemilikPokokID", CONCAT("NmPk",\' [\',"Kd_PK",\']\') AS "NmPk"'))                                                                       
+                                                                        ->get()
+                                                                        ->pluck('NmPk','PemilikPokokID')                                                                        
+                                                                        ->toArray();                  
+            break;
+            case 'dewan' :               
+                $daftar_dewan=\App\Models\UserDewan::select(\DB::raw('"PemilikPokokID", CONCAT("NmPk",\' [\',"Kd_PK",\']\') AS "NmPk"'))                                                                       
+                                                    ->where('ta',\HelperKegiatan::getTahunPerencanaan())
+                                                    ->where('id',$auth->id)
+                                                    ->get()
+                                                    ->pluck('NmPk','PemilikPokokID')
+                                                    ->toArray(); 
+            break;
+        }        
         $search=$this->getControllerStateSession('pokokpikiran','search');
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('pokokpikiran'); 
         $data = $this->populateData($currentpage);
@@ -235,13 +288,14 @@ class PokokPikiranController extends Controller {
             $data = $this->populateData($data->lastPage());
         }
         $this->setCurrentPageInsideSession('pokokpikiran',$data->currentPage());
-        
         return view("pages.$theme.pokir.pokokpikiran.index")->with(['page_active'=>'pokokpikiran',
-                                                'search'=>$this->getControllerStateSession('pokokpikiran','search'),
-                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                'column_order'=>$this->getControllerStateSession('pokokpikiran.orderby','column_name'),
-                                                'direction'=>$this->getControllerStateSession('pokokpikiran.orderby','order'),
-                                                'data'=>$data]);               
+                                                                    'filters'=>$filters,
+                                                                    'daftar_dewan'=>$daftar_dewan,
+                                                                    'search'=>$this->getControllerStateSession('pokokpikiran','search'),
+                                                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                    'column_order'=>$this->getControllerStateSession('pokokpikiran.orderby','column_name'),
+                                                                    'direction'=>$this->getControllerStateSession('pokokpikiran.orderby','order'),
+                                                                    'data'=>$data]);               
     }
     /**
      * Show the form for creating a new resource.
@@ -250,13 +304,32 @@ class PokokPikiranController extends Controller {
      */
     public function create()
     {        
-        $theme = \Auth::user()->theme;
-        $daftar_pemilik= \App\Models\Pokir\PemilikPokokPikiranModel::where('TA',\HelperKegiatan::getTahunPerencanaan()) 
+        $auth = \Auth::user(); 
+        $theme =  $auth->theme;
+        
+        $roles=$auth->getRoleNames();
+        switch ($roles[0])
+        {
+            case 'superadmin' :     
+            case 'bapelitbang' :     
+                $daftar_pemilik= \App\Models\Pokir\PemilikPokokPikiranModel::where('TA',\HelperKegiatan::getTahunPerencanaan()) 
                                                                         ->select(\DB::raw('"PemilikPokokID", CONCAT("NmPk",\' [\',"Kd_PK",\']\') AS "NmPk"'))                                                                       
                                                                         ->get()
                                                                         ->pluck('NmPk','PemilikPokokID')   
-                                                                        ->prepend('DAFTAR PEMILIK POKOK PIKIRAN','none')                                                                     
-                                                                        ->toArray();
+                                                                        ->prepend('DAFTAR ANGGOTA DEWAN','none')                                                                     
+                                                                        ->toArray();                  
+            break;
+            case 'dewan' :               
+                $daftar_pemilik=\App\Models\UserDewan::select(\DB::raw('"PemilikPokokID", CONCAT("NmPk",\' [\',"Kd_PK",\']\') AS "NmPk"'))                                                                       
+                                                    ->where('ta',\HelperKegiatan::getTahunPerencanaan())
+                                                    ->where('id',$auth->id)
+                                                    ->get()
+                                                    ->pluck('NmPk','PemilikPokokID')
+                                                    ->prepend('DAFTAR ANGGOTA DEWAN','none')
+                                                    ->toArray(); 
+            break;
+        }       
+        
         $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);  
         $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),NULL,false);
         return view("pages.$theme.pokir.pokokpikiran.create")->with(['page_active'=>'pokokpikiran',
@@ -351,17 +424,35 @@ class PokokPikiranController extends Controller {
      */
     public function edit($id)
     {
-        $theme = \Auth::user()->theme;
+        $auth = \Auth::user(); 
+        $theme =  $auth->theme;
+        
+        $roles=$auth->getRoleNames();
+        switch ($roles[0])
+        {
+            case 'superadmin' :     
+            case 'bapelitbang' :     
+                $daftar_pemilik= \App\Models\Pokir\PemilikPokokPikiranModel::where('TA',\HelperKegiatan::getTahunPerencanaan()) 
+                                                                        ->select(\DB::raw('"PemilikPokokID", CONCAT("NmPk",\' [\',"Kd_PK",\']\') AS "NmPk"'))                                                                       
+                                                                        ->get()
+                                                                        ->pluck('NmPk','PemilikPokokID')   
+                                                                        ->prepend('DAFTAR ANGGOTA DEWAN','none')                                                                     
+                                                                        ->toArray();                  
+            break;
+            case 'dewan' :               
+                $daftar_pemilik=\App\Models\UserDewan::select(\DB::raw('"PemilikPokokID", CONCAT("NmPk",\' [\',"Kd_PK",\']\') AS "NmPk"'))                                                                       
+                                                    ->where('ta',\HelperKegiatan::getTahunPerencanaan())
+                                                    ->where('id',$auth->id)
+                                                    ->get()
+                                                    ->pluck('NmPk','PemilikPokokID')
+                                                    ->prepend('DAFTAR ANGGOTA DEWAN','none')
+                                                    ->toArray(); 
+            break;
+        }       
         
         $data = PokokPikiranModel::findOrFail($id);        
         if (!is_null($data) ) 
-        {
-            $daftar_pemilik= \App\Models\Pokir\PemilikPokokPikiranModel::where('TA',\HelperKegiatan::getTahunPerencanaan()) 
-                                                                            ->select(\DB::raw('"PemilikPokokID", CONCAT("NmPk",\' [\',"Kd_PK",\']\') AS "NmPk"'))                                                                       
-                                                                            ->get()
-                                                                            ->pluck('NmPk','PemilikPokokID')   
-                                                                            ->prepend('DAFTAR PEMILIK POKOK PIKIRAN','none')                                                                     
-                                                                            ->toArray();
+        {           
             $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);  
             $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),NULL,false);
             $daftar_desa=\App\Models\DMaster\DesaModel::getDaftarDesa(\HelperKegiatan::getTahunPerencanaan(),$data->PmKecamatanID,false);
