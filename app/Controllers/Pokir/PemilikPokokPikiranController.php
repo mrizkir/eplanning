@@ -45,17 +45,20 @@ class PemilikPokokPikiranController extends Controller {
             switch ($search['kriteria']) 
             {
                 case 'Kd_PK' :
-                    $data = PemilikPokokPikiranModel::where(['Kd_PK'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                    $data = PemilikPokokPikiranModel::where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                                    ->where(['Kd_PK'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
                 case 'NmPk' :
-                    $data = PemilikPokokPikiranModel::where('NmPk', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = PemilikPokokPikiranModel::where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                                    ->where('NmPk', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = PemilikPokokPikiranModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data = PemilikPokokPikiranModel::where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                            ->orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('pemilikpokokpikiran.index'));
         return $data;

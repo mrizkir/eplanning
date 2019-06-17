@@ -62,6 +62,7 @@ class PokokPikiranController extends Controller {
                                                 ->join('tmOrg','tmOrg.OrgID','trPokPir.OrgID')                                                
                                                 ->where('NamaUsulanKegiatan', 'ilike', '%' . $search['isikriteria'] . '%')
                                                 ->where('trPokPir.PemilikPokokID',$PemilikPokokID)
+                                                ->where('trPokPir.TA',\HelperKegiatan::getTahunPerencanaan())
                                                 ->orderBy('Prioritas','ASC')
                                                 ->orderBy($column_order,$direction);                                        
                 break;
