@@ -25,6 +25,9 @@
                     <i class="icon-eye"></i>  DATA USER DEWAN
                 </h5>
                 <div class="heading-elements">   
+                    <a href="{{route('usersdewan.create')}}" class="btn btn-info btn-icon heading-btn btnTambah" title="Tambah Data Kelompok Urusan">
+                        <i class="icon-googleplus5"></i>
+                    </a>
                     <a href="{{route('usersdewan.edit',['id'=>$data->id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data User Dewan">
                         <i class="icon-pencil7"></i>
                     </a>

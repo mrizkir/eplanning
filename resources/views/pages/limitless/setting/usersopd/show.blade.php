@@ -24,6 +24,9 @@
                 <h5 class="panel-title"> 
                     <i class="icon-eye"></i>  DATA USER OPD
                 </h5>
+                <a href="{{route('usersopd.create')}}" class="btn btn-info btn-icon heading-btn btnTambah" title="Tambah Data Kelompok Urusan">
+                    <i class="icon-googleplus5"></i>
+                </a>
                 <div class="heading-elements">   
                     <a href="{{route('usersopd.edit',['id'=>$data->id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data User OPD">
                         <i class="icon-pencil7"></i>
