@@ -1,29 +1,31 @@
 @if (count($data) > 0)
 <div class="table-responsive"> 
-    <table id="data" border="1">
+    <table id="data" class="table table-bordered">
         <thead>
             <tr>
-                <th colspan="5">                   
+                <th colspan="5" rowspan="2">                   
                     KODE            
                 </th>                
-                <th width="400">                    
+                <th width="400" rowspan="2">                    
                     NAMA KEGIATAN                                                                                           
                 </th> 
-                <th width="300">                    
+                <th width="300" rowspan="2">                    
                     NAMA URAIAN                                                                                           
                 </th>
-                <th width="200">                    
+                <th width="200" rowspan="2">                    
                     SASARAN 
                 </th> 
-                <th width="120">                        
+                <th width="120" rowspan="2">                        
                     TARGET (%)                        
                 </th> 
-                <th width="150" class="text-right">                    
-                    NILAI M / <br>NILAI P                    
-                </th>                     
-                
+                <th width="150" colspan="3">                    
+                    PAGU DANA                  
+                </th>  
             </tr>
             <tr>
+                <th>SEBELUM</th>
+                <th>SESUDAH</th>
+                <th>SELISIH</th>
             </tr>
         </thead>
         <tbody>                    
@@ -65,12 +67,31 @@
                 <td>{{Helper::formatAngka($item->Sasaran_Angka)}} {{$item->Sasaran_Uraian}}</td>
                 <td>{{$item->Target}}</td>
                 <td class="text-right">
-                    <span class="text-success">{{Helper::formatuang($item->Jumlah)}}</span><br>
-                    <span class="text-danger">{{Helper::formatuang($item->Jumlah2)}}</span>
-                </td>                                    
+                    <span class="">{{Helper::formatuang($item->Jumlah)}}</span>                    
+                </td>       
+                <td class="text-right">
+                    <span class="text-info">{{Helper::formatuang($item->Jumlah2)}}</span>
+                </td>                             
+                <td class="text-right">
+                    <span class="">{{Helper::formatuang($item->Jumlah2-$item->Jumlah)}}</span>
+                </td>                             
             </tr>           
         @endforeach                    
         </tbody>
+        <tfoot>
+            <tr class="bg-grey-300" style="font-weight:bold">
+                <td colspan="9" class="text-right">
+                    TOTAL
+                    @php
+                        $jumlah_m=$data->sum('Jumlah');
+                        $jumlah_p=$data->sum('Jumlah2');
+                    @endphp
+                </td>
+                <td class="text-right">{{Helper::formatUang($jumlah_m)}}</td> 
+                <td class="text-right">{{Helper::formatUang($jumlah_p)}}</td>
+                <td class="text-right">{{Helper::formatUang($jumlah_p-$jumlah_m)}}</td>
+            </tr>
+        </tfoot>
     </table>               
 </div>
 @else       
