@@ -135,16 +135,16 @@ class ProgramKegiatanController extends Controller {
         switch($column) 
         {
             case 'col-Kd_Keg' :
-                $column_name = 'Kd_Keg';
+                $column_name = 'tmKgt.Kd_Keg';
             break; 
             case 'col-KgtNm' :
-                $column_name = 'KgtNm';
+                $column_name = 'tmKgt.KgtNm';
             break;
             case 'col-PrgNm' :
-                $column_name = 'PrgNm';
+                $column_name = 'v_program_kegiatan.PrgNm';
             break;          
             default :
-                $column_name = 'Kd_Keg';
+                $column_name = 'tmKgt.Kd_Keg';
         }
         $this->putControllerStateSession('programkegiatan','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
