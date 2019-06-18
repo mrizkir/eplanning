@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Models\DMaster\ProgramModel;
 use App\Models\DMaster\ProgramKegiatanModel;
+use App\Rules\CheckRecordIsExistValidation;
+use App\Rules\IgnoreIfDataIsEqualValidation;
 
 class ProgramKegiatanController extends Controller {
      /**
@@ -223,6 +225,43 @@ class ProgramKegiatanController extends Controller {
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
     }
     /**
+     * filter resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function filter(Request $request) 
+    {
+        $auth = \Auth::user();    
+        $theme = $auth->theme;
+
+        $json_data = [];
+        
+        //index
+        if ($request->exists('PrgID'))
+        {
+            $PrgID = $request->input('PrgID')==''?'none':$request->input('PrgID');
+            $filters['PrgID']=$PrgID;
+            $this->putControllerStateSession('programkegiatan','filters',$filters);
+            $this->setCurrentPageInsideSession('programkegiatan',1);
+
+            $data = $this->populateData();            
+            $filter_kode_program_selected=ProgramModel::getKodeProgramByPrgID($this->getControllerStateSession('programkegiatan.filters','PrgID'));
+            $datatable = view("pages.$theme.dmaster.programkegiatan.datatable")->with(['page_active'=>'programkegiatan',   
+                                                                                'search'=>$this->getControllerStateSession('programkegiatan','search'),                                                                                
+                                                                                'filter_prgid_selected'=>$this->getControllerStateSession('programkegiatan.filters','PrgID'), 
+                                                                                'filter_kode_program_selected'=>$filter_kode_program_selected,
+                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                                                'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
+                                                                                'data'=>$data])->render();                                                                                       
+                        
+            
+            $json_data = ['success'=>true,'datatable'=>$datatable];            
+        }
+        return response()->json($json_data,200);  
+    }
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -275,8 +314,14 @@ class ProgramKegiatanController extends Controller {
      */
     public function store(Request $request)
     {
-        $this->validate($request, [            
-            'Kd_Keg'=>'required|min:1|max:4|regex:/^[0-9]+$/',
+        $this->validate($request, [      
+            'Kd_Keg'=>[new CheckRecordIsExistValidation('tmKgt',['where'=>['PrgID','=',$request->input('PrgID')]]),
+                            'required',
+                            'min:1',
+                            'max:4',
+                            'regex:/^[0-9]+$/'
+                        ],         
+            'PrgID'=>'required',
             'KgtNm'=>'required|min:5',
         ]);
         
@@ -312,13 +357,10 @@ class ProgramKegiatanController extends Controller {
     public function show($id)
     {
         $theme = \Auth::user()->theme;
-
-        $data = ProgramKegiatanModel::findOrFail($id);
-
-        $data = ProgramKegiatanModel::leftJoin('v_program_kegiatan','v_program_kegiatan.KgtID','tmKgt.KgtID')
-                            ->where('tmKgt.KgtID',$id)
-                            ->firstOrFail(['tmKgt.KgtID','tmKgt.KgtNm','v_program_kegiatan.kode_kegiatan','v_program_kegiatan.PrgNm','tmKgt.Descr','tmKgt.TA','tmKgt.created_at','tmKgt.updated_at']);
-        
+        $data = ProgramKegiatanModel::select(\DB::raw('"v_program_kegiatan"."Kd_Urusan","v_program_kegiatan"."Nm_Urusan","v_program_kegiatan"."Kd_Bidang","v_program_kegiatan"."Nm_Bidang","tmKgt"."KgtID","v_program_kegiatan"."Kd_Prog","tmKgt"."Kd_Keg","tmKgt"."KgtNm","v_program_kegiatan"."kode_kegiatan","v_program_kegiatan"."PrgNm","tmKgt"."Descr","tmKgt"."TA","tmKgt"."created_at","tmKgt"."updated_at"'))
+                                    ->leftJoin('v_program_kegiatan','v_program_kegiatan.KgtID','tmKgt.KgtID')
+                                    ->where('tmKgt.KgtID',$id)
+                                    ->firstOrFail();        
         if (!is_null($data) )  
         {
             return view("pages.$theme.dmaster.programkegiatan.show")->with(['page_active'=>'programkegiatan',
@@ -357,12 +399,19 @@ class ProgramKegiatanController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [            
-            'Kd_Keg'=>'required|min:1|max:4|regex:/^[0-9]+$/',
-            'KgtNm'=>'required|min:5',
-        ]);
-        
         $programkegiatan = ProgramKegiatanModel::find($id);
+
+        $this->validate($request, [            
+            'Kd_Keg'=>[new IgnoreIfDataIsEqualValidation('tmKgt',$programkegiatan->Kd_Keg,['where'=>['PrgID','=',$programkegiatan->PrgID]]),
+                            'required',
+                            'min:1',
+                            'max:4',
+                            'regex:/^[0-9]+$/'
+                        ],   
+            'PrgID'=>'required',
+            'KgtNm'=>'required|min:5',
+        ]);        
+        
         $programkegiatan->PrgID = $request->input('PrgID');
         $programkegiatan->Kd_Keg = $request->input('Kd_Keg');
         $programkegiatan->KgtNm = $request->input('KgtNm');

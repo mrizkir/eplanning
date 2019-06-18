@@ -34,13 +34,11 @@
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>['DMaster\ProgramKegiatanController@update',$data->KgtID],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
-                {{Form::hidden('_method','PUT')}}
+            {!! Form::open(['action'=>['DMaster\ProgramKegiatanController@update',$data->KgtID],'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
                 <div class="form-group">
                     {{Form::label('PrgID','PROGRAM',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
                         {{Form::select('PrgID', $daftar_program, $data['PrgID'],['class'=>'select','id'=>'PrgID'])}}
-                        {{Form::hidden('Kode_Program','none',['id'=>'Kode_Program'])}}
                     </div>
                 </div>
                 <div class="form-group">
@@ -122,27 +120,14 @@ $(document).ready(function () {
     $(document).on('change','#PrgID',function(ev) {
         ev.preventDefault();  
         PrgID=$(this).val();
-        if (PrgID == null)
+        if (PrgID == null || PrgID=='')
         {
             $("#frmdata :input").not('[name=PrgID]').prop("disabled", true);
             $("#Kode_Program").val('none');  
         }
         else
         {
-            $("#frmdata *").prop("disabled", false);
-            // $.ajax({
-            //     type:'get',
-            //     url: '{{route('kelompokurusan.index')}}/getkodekelompokurusan/'+KUrsID,
-            //     dataType: 'json',
-            //     success:function(result)
-            //     {          
-            //         $("#Kode_Bidang").val(result.kodekelompokurusan);  
-            //     },
-            //     error:function(xhr, status, error)
-            //     {   
-            //         console.log(parseMessageAjaxEror(xhr, status, error));                           
-            //     },
-            // });            
+            $("#frmdata *").prop("disabled", false);           
         }
     });
 });

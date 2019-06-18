@@ -25,6 +25,9 @@
                     <i class="icon-eye"></i>  DATA USULAN {{$page_title}}
                 </h5>
                 <div class="heading-elements">
+                    <a href="{{route(Helper::getNameOfPage('create'))}}" class="btn btn-info btn-icon heading-btn btnTambah" title="Tambah Usulan Kegiatan">
+                        <i class="icon-googleplus5"></i>
+                    </a>  
                     @if ($renja->Privilege==0)
                     <a href="{{route(Helper::getNameOfPage('edit'),['id'=>$renja->RenjaID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Usulan {{$page_title}}">
                         <i class="icon-pencil7"></i>

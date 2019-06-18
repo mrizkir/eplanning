@@ -38,7 +38,7 @@
                 <div class="form-group">
                     {{Form::label('PrgID','PROGRAM',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::select('PrgID', $daftar_program, '',['class'=>'select','id'=>'PrgID'])}}
+                        {{Form::select('PrgID', $daftar_program, '',['class'=>'select','id'=>'PrgID','placeholder' => 'Pick a size...'])}}
                         {{Form::hidden('Kode_Program','none',['id'=>'Kode_Program'])}}
                     </div>
                 </div>
@@ -118,31 +118,20 @@ $(document).ready(function () {
             }
         }        
     });   
-    $("#frmdata :input").not('[name=PrgID]').prop("disabled", true);
+    @if(!(count($errors) > 0))
+        $("#frmdata :input").not('[name=PrgID]').prop("disabled", true);
+    @endif
     $(document).on('change','#PrgID',function(ev) {
         ev.preventDefault();  
-        PrgID=$(this).val();
-        if (PrgID == null)
+        PrgID=$(this).val();        
+        if (PrgID == null || PrgID=='')
         {
             $("#frmdata :input").not('[name=PrgID]').prop("disabled", true);
-            $("#Kode_Program").val('none');  
+            $("#Kode_Program").val('');  
         }
         else
         {
-            $("#frmdata *").prop("disabled", false);
-            // $.ajax({
-            //     type:'get',
-            //     url: '{{route('kelompokurusan.index')}}/getkodekelompokurusan/'+KUrsID,
-            //     dataType: 'json',
-            //     success:function(result)
-            //     {          
-            //         $("#Kode_Bidang").val(result.kodekelompokurusan);  
-            //     },
-            //     error:function(xhr, status, error)
-            //     {   
-            //         console.log(parseMessageAjaxEror(xhr, status, error));                           
-            //     },
-            // });            
+            $("#frmdata *").prop("disabled", false);              
         }
     });
 });

@@ -45,9 +45,40 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>KELOMPOK URUSAN: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->Kd_Urusan==null?'SEMUA KELOMPOK URUSAN':'['.$data->Kd_Urusan.'] '.$data->Nm_Urusan}}</p>
+                                </div>                            
+                            </div> 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>URUSAN: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->Kd_Bidang==null?'SEMUA URUSAN':'['.$data->Kd_Bidang.'] '.$data->Nm_Bidang}}</p>
+                                </div>                            
+                            </div> 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>KODE PROGRAM: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->Kd_Prog}}</p>
+                                </div>                            
+                            </div> 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>NAMA PROGRAM: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->PrgNm}}</p>
+                                </div>                            
+                            </div> 
+                                                
+                            
+                            
+                        </div>                        
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-horizontal">     
+                            <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>KODE KEGIATAN: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->kode_kegiatan}}</p>
+                                    <p class="form-control-static">{{$data->kode_kegiatan==null?$data->Kd_Prog.'.'.$data->Kd_Keg:$data->kode_kegiatan}}</p>
                                 </div>                            
                             </div> 
                             <div class="form-group">
@@ -55,23 +86,7 @@
                                 <div class="col-md-8">
                                     <p class="form-control-static">{{$data->KgtNm}}</p>
                                 </div>                            
-                            </div>                           
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}}</p>
-                                </div>                            
-                            </div>
-                        </div>                        
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-horizontal">
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>MAMA PROGRAM: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->PrgNm}}</p>
-                                </div>                            
-                            </div> 
+                            </div>                             
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>TA: </strong></label>
                                 <div class="col-md-8">
@@ -79,11 +94,11 @@
                                 </div>                            
                             </div>    
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>TGL. UBAH: </strong></label>
+                                <label class="col-md-4 control-label"><strong>TGL. BUAT / UBAH: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->updated_at)}}</p>
+                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}} / {{Helper::tanggal('d/m/Y H:m',$data->updated_at)}}</p>
                                 </div>                            
-                            </div>                         
+                            </div>                            
                         </div>
                     </div>
                 </div>

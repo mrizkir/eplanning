@@ -44,20 +44,25 @@
                 </div>
                 <div class="form-group">
                     {{Form::label('UrsID','NAMA URUSAN',['class'=>'control-label col-md-2'])}}
-                    <div class="col-md-10">
-                        <p class="form-control-static">{{$renja->Nm_Bidang}}</p>           
+                    <div class="col-md-10">                                         
+                        {{Form::select('UrsID', $daftar_urusan, $UrsID_selected,['class'=>'select','id'=>'UrsID'])}}   
                     </div>
-                </div> 
+                </div>         
                 <div class="form-group">
                     {{Form::label('PrgID','NAMA PROGRAM',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        <p class="form-control-static">{{$renja->PrgNm}}</p>
+                        <select name="PrgID" id="PrgID" class="select">
+                            <option></option>
+                            @foreach ($daftar_program as $k=>$item)
+                                <option value="{{$k}}"}}>{{$item}}</option>
+                            @endforeach
+                        </select>    
                     </div>
-                </div>
+                </div>          
                 <div class="form-group">
                     {{Form::label('KgtID','NAMA KEGIATAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        <p class="form-control-static">{{$renja->KgtNm}}</p>
+                        {{Form::select('KgtID', [], '',['class'=>'select','id'=>'KgtID'])}}                    
                     </div>
                 </div>
                 <div class="form-group">
@@ -145,6 +150,19 @@
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
+    //styling select
+    $('#UrsID.select').select2({
+        placeholder: "PILIH NAMA URUSAN",
+        allowClear:true
+    });
+    $('#PrgID.select').select2({
+        placeholder: "PILIH NAMA PROGRAM",
+        allowClear:true
+    });
+    $('#KgtID.select').select2({
+        placeholder: "PILIH NAMA KEGIATAN",
+        allowClear:true
+    });   
     AutoNumeric.multiple(['#Sasaran_Angka','#Sasaran_AngkaSetelah'], {
                                             allowDecimalPadding: false,
                                             minimumValue:0,
@@ -206,9 +224,6 @@ $(document).ready(function () {
             NilaiSebelum : {
                 required: true
             },
-            NilaiUsulan : {
-                required: true
-            },
             NilaiSetelah : {
                 required: true
             },
@@ -246,9 +261,6 @@ $(document).ready(function () {
             },
             NilaiSebelum : {
                 required: "Mohon untuk di isi nilai (TA-1).",                
-            },
-            NilaiUsulan : {
-                required: "Mohon untuk di isi nilai (TA).",                
             },
             NilaiSetelah : {
                 required: "Mohon untuk di isi nilai (TA+1).",                
