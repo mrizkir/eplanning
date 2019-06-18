@@ -51,18 +51,13 @@
                 <div class="form-group">
                     {{Form::label('PrgID','NAMA PROGRAM',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        <select name="PrgID" id="PrgID" class="select">
-                            <option></option>
-                            @foreach ($daftar_program as $k=>$item)
-                                <option value="{{$k}}"}}>{{$item}}</option>
-                            @endforeach
-                        </select>    
+                        {{Form::select('PrgID', $daftar_program, $renja->PrgID,['class'=>'select','id'=>'PrgID'])}}
                     </div>
                 </div>          
                 <div class="form-group">
                     {{Form::label('KgtID','NAMA KEGIATAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::select('KgtID', [], '',['class'=>'select','id'=>'KgtID'])}}                    
+                        {{Form::select('KgtID', $daftar_kegiatan, $renja->KgtID,['class'=>'select','id'=>'KgtID'])}}                    
                     </div>
                 </div>
                 <div class="form-group">
@@ -194,7 +189,60 @@ $(document).ready(function () {
                                             showWarnings:false,
                                             modifyValueOnWheel:false
                                         });
-                                        $('#frmdata').validate({
+    $(document).on('change','#UrsID',function(ev) {
+        ev.preventDefault();
+        UrsID=$(this).val();        
+        $.ajax({
+            type:'post',
+            url: '{{route(Helper::getNameOfPage("pilihusulankegiatan"))}}',
+            dataType: 'json',
+            data: {
+                "_token": token,
+                "UrsID": UrsID,
+            },
+            success:function(result)
+            {   
+                var daftar_program = result.daftar_program;
+                var listitems='<option></option>';
+                $('#KgtID').html(listitems);
+                $.each(daftar_program,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
+                $('#PrgID').html(listitems);
+            },
+            error:function(xhr, status, error)
+            {   
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    });
+    $(document).on('change','#PrgID',function(ev) {
+        ev.preventDefault();
+        PrgID=$(this).val();        
+        $.ajax({
+            type:'post',
+            url: '{{route(Helper::getNameOfPage("pilihusulankegiatan"))}}',
+            dataType: 'json',
+            data: {
+                "_token": token,
+                "PrgID": PrgID,
+            },
+            success:function(result)
+            {   
+                var daftar_kegiatan = result.daftar_kegiatan;
+                var listitems='<option></option>';
+                $.each(daftar_kegiatan,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
+                $('#KgtID').html(listitems);
+            },
+            error:function(xhr, status, error)
+            {   
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    });
+    $('#frmdata').validate({
         ignore:[],
         rules: {
             UrsID : {

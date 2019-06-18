@@ -1720,7 +1720,9 @@ class UsulanRenjaController extends Controller
                 $renja = RenjaModel::select(\DB::raw('"trRenja"."RenjaID",
                                                     "tmUrs"."UrsID",
                                                     "tmUrs"."Nm_Bidang",
+                                                    "tmPrg"."PrgID",
                                                     "tmPrg"."PrgNm",
+                                                    "tmKgt"."KgtID",
                                                     "tmKgt"."KgtNm",
                                                     "trRenja"."Sasaran_Angka1" AS "Sasaran_Angka",
                                                     "trRenja"."Sasaran_Uraian1" AS "Sasaran_Uraian",
@@ -1743,7 +1745,9 @@ class UsulanRenjaController extends Controller
                 $renja = RenjaModel::select(\DB::raw('"trRenja"."RenjaID",
                                                     "tmUrs"."UrsID",
                                                     "tmUrs"."Nm_Bidang",
+                                                    "tmPrg"."PrgID",
                                                     "tmPrg"."PrgNm",
+                                                    "tmKgt"."KgtID",
                                                     "tmKgt"."KgtNm",
                                                     "trRenja"."Sasaran_Angka2" AS "Sasaran_Angka",
                                                     "trRenja"."Sasaran_Uraian2" AS "Sasaran_Uraian",
@@ -1766,7 +1770,9 @@ class UsulanRenjaController extends Controller
                 $renja = RenjaModel::select(\DB::raw('"trRenja"."RenjaID",
                                                     "tmUrs"."UrsID",
                                                     "tmUrs"."Nm_Bidang",
+                                                    "tmPrg"."PrgID",
                                                     "tmPrg"."PrgNm",
+                                                    "tmKgt"."KgtID",
                                                     "tmKgt"."KgtNm",
                                                     "trRenja"."Sasaran_Angka3" AS "Sasaran_Angka",
                                                     "trRenja"."Sasaran_Uraian3" AS "Sasaran_Uraian",
@@ -1789,7 +1795,9 @@ class UsulanRenjaController extends Controller
                 $renja = RenjaModel::select(\DB::raw('"trRenja"."RenjaID",
                                                     "tmUrs"."UrsID",
                                                     "tmUrs"."Nm_Bidang",
+                                                    "tmPrg"."PrgID",
                                                     "tmPrg"."PrgNm",
+                                                    "tmKgt"."KgtID",
                                                     "tmKgt"."KgtNm",
                                                     "trRenja"."Sasaran_Angka4" AS "Sasaran_Angka",
                                                     "trRenja"."Sasaran_Uraian4" AS "Sasaran_Uraian",
@@ -1815,13 +1823,33 @@ class UsulanRenjaController extends Controller
             $UrsID_selected=$renja->UrsID==null?'all':$renja->UrsID;
             $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusan(\HelperKegiatan::getTahunPerencanaan(),false);   
             $daftar_urusan['all']='SEMUA URUSAN';
-            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan(),false,$renja->UrsID);
+            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan(),false,$UrsID_selected);
+            $r=\DB::table('v_program_kegiatan')
+                    ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                    ->where('PrgID',$renja->PrgID)                    
+                    ->orderBy('Kd_Keg')
+                    ->orderBy('kode_kegiatan')
+                    ->get();
+            $daftar_kegiatan=[];        
+            foreach ($r as $k=>$v)
+            {
+                if (!$v->Jns)
+                {
+                    $daftar_kegiatan[$v->KgtID]=$v->Kd_Prog.'.'.$v->Kd_Keg.'. '.$v->KgtNm;
+                }
+                else
+                {
+                    $daftar_kegiatan[$v->KgtID]=$v->kode_kegiatan.'. '.$v->KgtNm;
+                }
+                
+            }            
             $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunPerencanaan(),false);     
             return view("pages.$theme.rkpd.usulanrenja.edit")->with(['page_active'=>$this->NameOfPage,
                                                                 'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                 'renja'=>$renja,
                                                                 'daftar_urusan'=>$daftar_urusan,
                                                                 'daftar_program'=>$daftar_program,
+                                                                'daftar_kegiatan'=>$daftar_kegiatan,
                                                                 'UrsID_selected'=>$UrsID_selected,
                                                                 'sumber_dana'=>$sumber_dana
                                                                 ]);
@@ -2794,9 +2822,12 @@ class UsulanRenjaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $usulanprarenjaopd = RenjaModel::find($id);
+        $renja = RenjaModel::find($id);
         
-        $this->validate($request, [            
+        $this->validate($request, [           
+            'UrsID'=>'required',
+            'PrgID'=>'required',
+            'KgtID'=>'required', 
             'SumberDanaID'=>'required',
             'Sasaran_Angka'=>'required',
             'Sasaran_Uraian' => 'required',
@@ -2812,56 +2843,60 @@ class UsulanRenjaController extends Controller
         switch ($this->NameOfPage) 
         {            
             case 'usulanprarenjaopd' :
-                $usulanprarenjaopd->SumberDanaID = $request->input('SumberDanaID');
-                $usulanprarenjaopd->Sasaran_Angka1 = $request->input('Sasaran_Angka');
-                $usulanprarenjaopd->Sasaran_Uraian1 = $request->input('Sasaran_Uraian');
-                $usulanprarenjaopd->Sasaran_AngkaSetelah = $request->input('Sasaran_AngkaSetelah');
-                $usulanprarenjaopd->Sasaran_UraianSetelah = $request->input('Sasaran_UraianSetelah');
-                $usulanprarenjaopd->Target1 = $request->input('Target');
-                $usulanprarenjaopd->NilaiSebelum = $request->input('NilaiSebelum');
-                $usulanprarenjaopd->NilaiSetelah = $request->input('NilaiSetelah');
-                $usulanprarenjaopd->NamaIndikator = $request->input('NamaIndikator');
-                $usulanprarenjaopd->Descr = $request->input('Descr');
-                $usulanprarenjaopd->save();
+                $renja->KgtID = $request->input('KgtID');
+                $renja->SumberDanaID = $request->input('SumberDanaID');
+                $renja->Sasaran_Angka1 = $request->input('Sasaran_Angka');
+                $renja->Sasaran_Uraian1 = $request->input('Sasaran_Uraian');
+                $renja->Sasaran_AngkaSetelah = $request->input('Sasaran_AngkaSetelah');
+                $renja->Sasaran_UraianSetelah = $request->input('Sasaran_UraianSetelah');
+                $renja->Target1 = $request->input('Target');
+                $renja->NilaiSebelum = $request->input('NilaiSebelum');
+                $renja->NilaiSetelah = $request->input('NilaiSetelah');
+                $renja->NamaIndikator = $request->input('NamaIndikator');
+                $renja->Descr = $request->input('Descr');
+                $renja->save();
             break;
             case 'usulanrakorbidang' :
-                $usulanprarenjaopd->SumberDanaID = $request->input('SumberDanaID');
-                $usulanprarenjaopd->Sasaran_Angka2 = $request->input('Sasaran_Angka');
-                $usulanprarenjaopd->Sasaran_Uraian2 = $request->input('Sasaran_Uraian');
-                $usulanprarenjaopd->Sasaran_AngkaSetelah = $request->input('Sasaran_AngkaSetelah');
-                $usulanprarenjaopd->Sasaran_UraianSetelah = $request->input('Sasaran_UraianSetelah');
-                $usulanprarenjaopd->Target2 = $request->input('Target');
-                $usulanprarenjaopd->NilaiSebelum = $request->input('NilaiSebelum');
-                $usulanprarenjaopd->NilaiSetelah = $request->input('NilaiSetelah');
-                $usulanprarenjaopd->NamaIndikator = $request->input('NamaIndikator');
-                $usulanprarenjaopd->Descr = $request->input('Descr');
-                $usulanprarenjaopd->save();
+                $renja->KgtID = $request->input('KgtID');
+                $renja->SumberDanaID = $request->input('SumberDanaID');
+                $renja->Sasaran_Angka2 = $request->input('Sasaran_Angka');
+                $renja->Sasaran_Uraian2 = $request->input('Sasaran_Uraian');
+                $renja->Sasaran_AngkaSetelah = $request->input('Sasaran_AngkaSetelah');
+                $renja->Sasaran_UraianSetelah = $request->input('Sasaran_UraianSetelah');
+                $renja->Target2 = $request->input('Target');
+                $renja->NilaiSebelum = $request->input('NilaiSebelum');
+                $renja->NilaiSetelah = $request->input('NilaiSetelah');
+                $renja->NamaIndikator = $request->input('NamaIndikator');
+                $renja->Descr = $request->input('Descr');
+                $renja->save();
             break;
             case 'usulanforumopd' :
-                $usulanprarenjaopd->SumberDanaID = $request->input('SumberDanaID');
-                $usulanprarenjaopd->Sasaran_Angka3 = $request->input('Sasaran_Angka');
-                $usulanprarenjaopd->Sasaran_Uraian3 = $request->input('Sasaran_Uraian');
-                $usulanprarenjaopd->Sasaran_AngkaSetelah = $request->input('Sasaran_AngkaSetelah');
-                $usulanprarenjaopd->Sasaran_UraianSetelah = $request->input('Sasaran_UraianSetelah');
-                $usulanprarenjaopd->Target3 = $request->input('Target');
-                $usulanprarenjaopd->NilaiSebelum = $request->input('NilaiSebelum');
-                $usulanprarenjaopd->NilaiSetelah = $request->input('NilaiSetelah');
-                $usulanprarenjaopd->NamaIndikator = $request->input('NamaIndikator');
-                $usulanprarenjaopd->Descr = $request->input('Descr');
-                $usulanprarenjaopd->save();
+                $renja->KgtID = $request->input('KgtID');
+                $renja->SumberDanaID = $request->input('SumberDanaID');
+                $renja->Sasaran_Angka3 = $request->input('Sasaran_Angka');
+                $renja->Sasaran_Uraian3 = $request->input('Sasaran_Uraian');
+                $renja->Sasaran_AngkaSetelah = $request->input('Sasaran_AngkaSetelah');
+                $renja->Sasaran_UraianSetelah = $request->input('Sasaran_UraianSetelah');
+                $renja->Target3 = $request->input('Target');
+                $renja->NilaiSebelum = $request->input('NilaiSebelum');
+                $renja->NilaiSetelah = $request->input('NilaiSetelah');
+                $renja->NamaIndikator = $request->input('NamaIndikator');
+                $renja->Descr = $request->input('Descr');
+                $renja->save();
             break;
             case 'usulanmusrenkab' :
-                $usulanprarenjaopd->SumberDanaID = $request->input('SumberDanaID');
-                $usulanprarenjaopd->Sasaran_Angka4 = $request->input('Sasaran_Angka');
-                $usulanprarenjaopd->Sasaran_Uraian4 = $request->input('Sasaran_Uraian');
-                $usulanprarenjaopd->Sasaran_AngkaSetelah = $request->input('Sasaran_AngkaSetelah');
-                $usulanprarenjaopd->Sasaran_UraianSetelah = $request->input('Sasaran_UraianSetelah');
-                $usulanprarenjaopd->Target4 = $request->input('Target');
-                $usulanprarenjaopd->NilaiSebelum = $request->input('NilaiSebelum');
-                $usulanprarenjaopd->NilaiSetelah = $request->input('NilaiSetelah');
-                $usulanprarenjaopd->NamaIndikator = $request->input('NamaIndikator');
-                $usulanprarenjaopd->Descr = $request->input('Descr');
-                $usulanprarenjaopd->save();
+                $renja->KgtID = $request->input('KgtID');
+                $renja->SumberDanaID = $request->input('SumberDanaID');
+                $renja->Sasaran_Angka4 = $request->input('Sasaran_Angka');
+                $renja->Sasaran_Uraian4 = $request->input('Sasaran_Uraian');
+                $renja->Sasaran_AngkaSetelah = $request->input('Sasaran_AngkaSetelah');
+                $renja->Sasaran_UraianSetelah = $request->input('Sasaran_UraianSetelah');
+                $renja->Target4 = $request->input('Target');
+                $renja->NilaiSebelum = $request->input('NilaiSebelum');
+                $renja->NilaiSetelah = $request->input('NilaiSetelah');
+                $renja->NamaIndikator = $request->input('NamaIndikator');
+                $renja->Descr = $request->input('Descr');
+                $renja->save();
             break;                
         }   
 
@@ -2874,7 +2909,7 @@ class UsulanRenjaController extends Controller
         }
         else
         {
-            return redirect(route(\Helper::getNameOfPage('show'),['id'=>$usulanprarenjaopd->RenjaID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route(\Helper::getNameOfPage('show'),['id'=>$renja->RenjaID]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
     /**
