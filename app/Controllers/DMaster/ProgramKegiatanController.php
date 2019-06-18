@@ -30,7 +30,7 @@ class ProgramKegiatanController extends Controller {
         $columns=['*'];       
         if (!$this->checkStateIsExistSession('programkegiatan','orderby')) 
         {            
-           $this->putControllerStateSession('programkegiatan','orderby',['column_name'=>'Kd_Keg','order'=>'asc']);
+           $this->putControllerStateSession('programkegiatan','orderby',['column_name'=>'kode_kegiatan','order'=>'asc']);
         }
         $column_order=$this->getControllerStateSession('programkegiatan.orderby','column_name'); 
         $direction=$this->getControllerStateSession('programkegiatan.orderby','order'); 
@@ -70,18 +70,22 @@ class ProgramKegiatanController extends Controller {
         else
         {
             $data =$filter_prgid == 'none' ? 
-                                            \DB::table('v_program_kegiatan')
-                                                        ->orderBy($column_order,$direction)
-                                                        ->where('TA',\HelperKegiatan::getTahunPerencanaan())
-                                                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage)
+                                            \DB::table('tmKgt')
+                                                    ->select(\DB::raw('"tmKgt"."KgtID","v_program_kegiatan"."kode_kegiatan","tmKgt"."KgtNm","v_program_kegiatan"."PrgNm","tmKgt"."TA","v_program_kegiatan"."Jns"'))
+                                                    ->join('v_program_kegiatan','v_program_kegiatan.KgtID','tmKgt.KgtID')
+                                                    ->orderBy($column_order,$direction)
+                                                    ->where('tmKgt.TA',\HelperKegiatan::getTahunPerencanaan())
+                                                    ->paginate($numberRecordPerPage, $columns, 'page', $currentpage)
                                             :
-                                            \DB::table('v_program_kegiatan')
-                                                        ->orderBy($column_order,$direction)
-                                                        ->where('TA',\HelperKegiatan::getTahunPerencanaan())
-                                                        ->where('PrgID',$filter_prgid)
-                                                        ->orWhereNull('UrsID')
-                                                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
+                                            \DB::table('tmKgt')
+                                                ->select(\DB::raw('"tmKgt"."KgtID","tmKgt"."KgtNm","v_program_kegiatan"."PrgNm","tmKgt"."TA"'))
+                                                ->join('v_program_kegiatan','v_program_kegiatan.KgtID','tmKgt.KgtID')
+                                                ->orderBy($column_order,$direction)
+                                                ->where('tmKgt.TA',\HelperKegiatan::getTahunPerencanaan())
+                                                ->where('tmKgt.PrgID',$filter_prgid)                                                
+                                                ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
         }        
+        
         $data->setPath(route('programkegiatan.index'));
         return $data;
     }
