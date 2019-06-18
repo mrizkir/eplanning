@@ -75,7 +75,9 @@ class RekapRKPDPerubahanOPDController extends Controller
                                     "Descr"'))
                                     ->where('SOrgID',$SOrgID)   
                                     ->whereNotNull('RKPDRincID')                                         
-                                    ->where('TA', \HelperKegiatan::getTahunPerencanaan())                                                                                                                     
+                                    ->where('TA', \HelperKegiatan::getTahunPerencanaan())   
+                                    ->orderBy('Kd_Prog','ASC')
+                                    ->orderBy('kode_kegiatan','ASC')                                                                                                                  
                                     ->get();
                         
         
