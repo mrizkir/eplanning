@@ -20,12 +20,12 @@
             <thead>
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
-                    <th width="150">
+                    <th width="100">
                         <a class="column-sort text-white" id="col-kode_kegiatan" data-order="{{$direction}}" href="#">
                             KODE KEGIATAN  
                         </a>                                             
                     </th> 
-                    <th width="300">
+                    <th>
                         <a class="column-sort text-white" id="col-KgtNm" data-order="{{$direction}}" href="#">
                             NAMA KEGIATAN  
                         </a>                                             
@@ -35,7 +35,7 @@
                             NAMA PROGRAM  
                         </a>                                             
                     </th> 
-                    <th width="120">
+                    <th width="70">
                         <a class="column-sort text-white" id="col-TA" data-order="{{$direction}}" href="#">
                             TAHUN
                         </a>                                             

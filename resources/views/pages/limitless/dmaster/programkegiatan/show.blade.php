@@ -67,8 +67,7 @@
                                 <div class="col-md-8">
                                     <p class="form-control-static">{{$data->PrgNm}}</p>
                                 </div>                            
-                            </div> 
-                                                
+                            </div>                                                 
                             
                             
                         </div>                        
