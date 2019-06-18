@@ -175,7 +175,7 @@
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
-                            @if ($item->Privilege==0)
+                            @if ($item->Privilege==0 && $item->Locked==false)
                             <li class="text-primary-600">
                                 @if ($item->isSKPD)
                                     <a class="btnEdit" href="{{route(Helper::getNameOfPage('edit4'),['id'=>$item->RenjaRincID])}}" title="Ubah Data {{$page_title}}">
@@ -206,7 +206,7 @@
                     @endif                    
                 </tr>
                 <tr class="text-center info">
-                    <td colspan="11">
+                    <td colspan="10">
                         <span class="label label-warning label-rounded" style="text-transform: none">
                             <strong>RENJAID:</strong>
                             {{$item->RenjaID}}
@@ -219,6 +219,9 @@
                             <strong>KET:</strong>
                             {{empty($item->Descr)?'-':$item->Descr}}
                         </span>
+                    </td>
+                    <td class='text-right'>
+                        {!!$item->Locked==false?'<i class="icon-unlocked2"></i>':'<i class="icon-lock2"></i>'!!}
                     </td>
                 </tr>
             @endforeach                    

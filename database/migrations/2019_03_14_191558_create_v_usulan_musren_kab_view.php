@@ -45,6 +45,7 @@ class CreateVUsulanMusrenKabView extends Migration
                 B."Target4",
                 B."Jumlah4",
                 B."Prioritas",
+                A."Locked",
                 B."Status",
                 A."Status_Indikator",
                 B."Privilege",

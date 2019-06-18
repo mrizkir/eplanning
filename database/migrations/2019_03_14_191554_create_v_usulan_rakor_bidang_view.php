@@ -48,6 +48,7 @@ class CreateVUsulanRakorBidangView extends Migration
                 B."Status",
                 A."Status_Indikator",
                 B."Privilege",
+                A."Locked",
                 B."isReses",
                 B."isReses_Uraian",
                 B."isSKPD",

@@ -45,7 +45,7 @@
                 <div class="form-group">
                     {{Form::label('UrsID','NAMA URUSAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        <p class="form-control-static">{{$rkpd->Nm_Bidang}}</p>           
+                        <p class="form-control-static">{{$rkpd->UrsID==null?'SEMUA URUSAN':$rkpd->Nm_Bidang}}</p>           
                     </div>
                 </div> 
                 <div class="form-group">

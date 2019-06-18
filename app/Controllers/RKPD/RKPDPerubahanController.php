@@ -803,7 +803,6 @@ class RKPDPerubahanController extends Controller
             'Sasaran_UraianSetelah'=>'required',
             'Target'=>'required',
             'NilaiSebelum'=>'required',
-            'NilaiUsulan'=>'required',
             'NilaiSetelah'=>'required',
             'NamaIndikator'=>'required'
         ]);
@@ -1431,8 +1430,11 @@ class RKPDPerubahanController extends Controller
         {   
             case 'rkpdperubahan' :                
                 $rkpd = RKPDModel::select(\DB::raw('"trRKPD"."RKPDID",
+                                                    "tmUrs"."UrsID",
                                                     "tmUrs"."Nm_Bidang",
+                                                    "tmPrg"."PrgID",
                                                     "tmPrg"."PrgNm",
+                                                    "tmKgt"."KgtID",
                                                     "tmKgt"."KgtNm",
                                                     "trRKPD"."Sasaran_Angka2" AS "Sasaran_Angka",
                                                     "trRKPD"."Sasaran_Uraian2" AS "Sasaran_Uraian",
@@ -1445,12 +1447,12 @@ class RKPDPerubahanController extends Controller
                                                     "trRKPD"."NamaIndikator",
                                                     "trRKPD"."SumberDanaID",
                                                     "trRKPD"."Descr"'))
-                            // ->join('tmKgt','tmKgt.KgtID','trRKPD.KgtID')
-                            // ->join('tmPrg','tmPrg.PrgID','tmKgt.PrgID')
-                            // ->join('trUrsPrg','trUrsPrg.PrgID','tmPrg.PrgID')
-                            // ->join('tmUrs','tmUrs.UrsID','trUrsPrg.UrsID')
+                            ->join('tmKgt','tmKgt.KgtID','trRKPD.KgtID')
+                            ->leftJoin('tmPrg','tmPrg.PrgID','tmKgt.PrgID')
+                            ->leftJoin('trUrsPrg','trUrsPrg.PrgID','tmPrg.PrgID')
+                            ->leftJoin('tmUrs','tmUrs.UrsID','trUrsPrg.UrsID')
                             ->findOrFail($id);      
-                dd($rkpd);
+                
             break;                     
         }   
         
@@ -2239,7 +2241,7 @@ class RKPDPerubahanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $usulanprarkpdopd = RKPDModel::find($id);
+        $rkpd = RKPDModel::find($id);
         
         $this->validate($request, [            
             'SumberDanaID'=>'required',
@@ -2255,58 +2257,19 @@ class RKPDPerubahanController extends Controller
         ]);
         
         switch ($this->NameOfPage) 
-        {            
-            case 'usulanprarkpdopd' :
-                $usulanprarkpdopd->SumberDanaID = $request->input('SumberDanaID');
-                $usulanprarkpdopd->Sasaran_Angka1 = $request->input('Sasaran_Angka');
-                $usulanprarkpdopd->Sasaran_Uraian1 = $request->input('Sasaran_Uraian');
-                $usulanprarkpdopd->Sasaran_AngkaSetelah = $request->input('Sasaran_AngkaSetelah');
-                $usulanprarkpdopd->Sasaran_UraianSetelah = $request->input('Sasaran_UraianSetelah');
-                $usulanprarkpdopd->Target1 = $request->input('Target');
-                $usulanprarkpdopd->NilaiSebelum = $request->input('NilaiSebelum');
-                $usulanprarkpdopd->NilaiSetelah = $request->input('NilaiSetelah');
-                $usulanprarkpdopd->NamaIndikator = $request->input('NamaIndikator');
-                $usulanprarkpdopd->Descr = $request->input('Descr');
-                $usulanprarkpdopd->save();
-            break;
-            case 'usulanrakorbidang' :
-                $usulanprarkpdopd->SumberDanaID = $request->input('SumberDanaID');
-                $usulanprarkpdopd->Sasaran_Angka2 = $request->input('Sasaran_Angka');
-                $usulanprarkpdopd->Sasaran_Uraian2 = $request->input('Sasaran_Uraian');
-                $usulanprarkpdopd->Sasaran_AngkaSetelah = $request->input('Sasaran_AngkaSetelah');
-                $usulanprarkpdopd->Sasaran_UraianSetelah = $request->input('Sasaran_UraianSetelah');
-                $usulanprarkpdopd->Target2 = $request->input('Target');
-                $usulanprarkpdopd->NilaiSebelum = $request->input('NilaiSebelum');
-                $usulanprarkpdopd->NilaiSetelah = $request->input('NilaiSetelah');
-                $usulanprarkpdopd->NamaIndikator = $request->input('NamaIndikator');
-                $usulanprarkpdopd->Descr = $request->input('Descr');
-                $usulanprarkpdopd->save();
-            break;
-            case 'usulanforumopd' :
-                $usulanprarkpdopd->SumberDanaID = $request->input('SumberDanaID');
-                $usulanprarkpdopd->Sasaran_Angka3 = $request->input('Sasaran_Angka');
-                $usulanprarkpdopd->Sasaran_Uraian3 = $request->input('Sasaran_Uraian');
-                $usulanprarkpdopd->Sasaran_AngkaSetelah = $request->input('Sasaran_AngkaSetelah');
-                $usulanprarkpdopd->Sasaran_UraianSetelah = $request->input('Sasaran_UraianSetelah');
-                $usulanprarkpdopd->Target3 = $request->input('Target');
-                $usulanprarkpdopd->NilaiSebelum = $request->input('NilaiSebelum');
-                $usulanprarkpdopd->NilaiSetelah = $request->input('NilaiSetelah');
-                $usulanprarkpdopd->NamaIndikator = $request->input('NamaIndikator');
-                $usulanprarkpdopd->Descr = $request->input('Descr');
-                $usulanprarkpdopd->save();
-            break;
-            case 'usulanmusrenkab' :
-                $usulanprarkpdopd->SumberDanaID = $request->input('SumberDanaID');
-                $usulanprarkpdopd->Sasaran_Angka4 = $request->input('Sasaran_Angka');
-                $usulanprarkpdopd->Sasaran_Uraian4 = $request->input('Sasaran_Uraian');
-                $usulanprarkpdopd->Sasaran_AngkaSetelah = $request->input('Sasaran_AngkaSetelah');
-                $usulanprarkpdopd->Sasaran_UraianSetelah = $request->input('Sasaran_UraianSetelah');
-                $usulanprarkpdopd->Target4 = $request->input('Target');
-                $usulanprarkpdopd->NilaiSebelum = $request->input('NilaiSebelum');
-                $usulanprarkpdopd->NilaiSetelah = $request->input('NilaiSetelah');
-                $usulanprarkpdopd->NamaIndikator = $request->input('NamaIndikator');
-                $usulanprarkpdopd->Descr = $request->input('Descr');
-                $usulanprarkpdopd->save();
+        {   
+            case 'rkpdperubahan' :
+                $rkpd->SumberDanaID = $request->input('SumberDanaID');
+                $rkpd->Sasaran_Angka2 = $request->input('Sasaran_Angka');
+                $rkpd->Sasaran_Uraian2 = $request->input('Sasaran_Uraian');
+                $rkpd->Sasaran_AngkaSetelah = $request->input('Sasaran_AngkaSetelah');
+                $rkpd->Sasaran_UraianSetelah = $request->input('Sasaran_UraianSetelah');
+                $rkpd->Target2 = $request->input('Target');
+                $rkpd->NilaiSebelum = $request->input('NilaiSebelum');
+                $rkpd->NilaiSetelah = $request->input('NilaiSetelah');
+                $rkpd->NamaIndikator = $request->input('NamaIndikator');
+                $rkpd->Descr = $request->input('Descr');
+                $rkpd->save();
             break;                
         }   
 
@@ -2319,7 +2282,7 @@ class RKPDPerubahanController extends Controller
         }
         else
         {
-            return redirect(route(\Helper::getNameOfPage('show'),['id'=>$usulanprarkpdopd->RKPDID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route(\Helper::getNameOfPage('show'),['id'=>$rkpd->RKPDID]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
     /**

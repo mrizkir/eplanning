@@ -49,6 +49,7 @@ class CreateUsulanrkpdabpdTable extends Migration
             $table->tinyInteger('Status_Indikator')->default(0);
             $table->tinyInteger('EntryLvl')->default(0);
             $table->tinyInteger('Privilege')->default(0);
+            $table->boolean('Locked')->default(0);
             $table->string('RKPDID_Src',19)->nullable();                    
             $table->timestamps();
 
@@ -110,6 +111,7 @@ class CreateUsulanrkpdabpdTable extends Migration
             $table->year('TA');
 
             $table->tinyInteger('Privilege')->default(0);                        
+            $table->boolean('Locked')->default(0);
             $table->string('RKPDIndikatorID_Src',19)->nullable(); 
             $table->timestamps();
 
@@ -172,6 +174,7 @@ class CreateUsulanrkpdabpdTable extends Migration
                 $table->tinyInteger('Status')->default(0);
                 $table->tinyInteger('EntryLvl')->default(0);
                 $table->tinyInteger('Privilege')->default(0);                
+                $table->boolean('Locked')->default(0);
                 $table->string('RKPDRincID_Src',19)->nullable();
                 $table->timestamps();
 

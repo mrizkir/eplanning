@@ -640,7 +640,8 @@ class UsulanRenjaController extends Controller
         $theme = \Auth::user()->theme;
 
         $filters=$this->getControllerStateSession($this->SessionName,'filters');         
-        if ($filters['SOrgID'] != 'none'&&$filters['SOrgID'] != ''&&$filters['SOrgID'] != null)
+        $locked=true;
+        if ($filters['SOrgID'] != 'none'&&$filters['SOrgID'] != ''&&$filters['SOrgID'] != null && $locked==false)
         {
             $SOrgID=$filters['SOrgID'];            
             $OrgID=$filters['OrgID'];
@@ -665,7 +666,7 @@ class UsulanRenjaController extends Controller
         {
             return view("pages.$theme.rkpd.usulanrenja.error")->with(['page_active'=>$this->NameOfPage,
                                                                     'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
-                                                                    'errormessage'=>'Mohon unit kerja untuk di pilih terlebih dahulu.'
+                                                                    'errormessage'=>'Mohon unit kerja untuk di pilih terlebih dahulu. bila sudah terpilih ternyata tidak bisa, berarti saudara tidak diperkenankan menambah kegiatan karena telah dikunci.'
                                                                 ]);  
         }  
     }    

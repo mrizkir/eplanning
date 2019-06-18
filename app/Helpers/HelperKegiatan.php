@@ -317,6 +317,7 @@ class HelperKegiatan {
                                     "isReses_Uraian",
                                     "Status",
                                     "Privilege",
+                                    "Locked",
                                     "Status_Indikator",
                                     "Descr"');
             break;
@@ -340,6 +341,7 @@ class HelperKegiatan {
                                     "isReses_Uraian",
                                     "Status",
                                     "Privilege",
+                                    "Locked",
                                     "Status_Indikator",
                                     "Descr"');
             break;
@@ -363,6 +365,7 @@ class HelperKegiatan {
                                     "isReses_Uraian",
                                     "Status",
                                     "Privilege",
+                                    "Locked",
                                     "Status_Indikator",
                                     "Descr"');
             break;
@@ -386,6 +389,7 @@ class HelperKegiatan {
                                     "isReses_Uraian",
                                     "Status",
                                     "Privilege",
+                                    "Locked",
                                     "Status_Indikator",
                                     "Descr"');
             break;
@@ -408,6 +412,7 @@ class HelperKegiatan {
                                     "isReses_Uraian",
                                     "Status",
                                     "Privilege",
+                                    "Locked",
                                     "Status_Indikator",
                                     "Descr"');
             break;
