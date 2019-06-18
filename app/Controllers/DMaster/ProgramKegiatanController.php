@@ -71,19 +71,19 @@ class ProgramKegiatanController extends Controller {
         {
             $data =$filter_prgid == 'none' ? 
                                             \DB::table('tmKgt')
-                                                    ->select(\DB::raw('"tmKgt"."KgtID","v_program_kegiatan"."kode_kegiatan","tmKgt"."KgtNm","v_program_kegiatan"."PrgNm","tmKgt"."TA","v_program_kegiatan"."Jns"'))
+                                                    ->select(\DB::raw('"tmKgt"."KgtID","v_program_kegiatan"."kode_kegiatan","tmKgt"."Kd_Keg","tmKgt"."KgtNm","v_program_kegiatan"."Kd_Prog","v_program_kegiatan"."PrgNm","tmKgt"."TA","v_program_kegiatan"."Jns"'))
                                                     ->join('v_program_kegiatan','v_program_kegiatan.KgtID','tmKgt.KgtID')
                                                     ->orderBy($column_order,$direction)
                                                     ->where('tmKgt.TA',\HelperKegiatan::getTahunPerencanaan())
                                                     ->paginate($numberRecordPerPage, $columns, 'page', $currentpage)
                                             :
                                             \DB::table('tmKgt')
-                                                ->select(\DB::raw('"tmKgt"."KgtID","tmKgt"."KgtNm","v_program_kegiatan"."PrgNm","tmKgt"."TA"'))
-                                                ->join('v_program_kegiatan','v_program_kegiatan.KgtID','tmKgt.KgtID')
-                                                ->orderBy($column_order,$direction)
-                                                ->where('tmKgt.TA',\HelperKegiatan::getTahunPerencanaan())
-                                                ->where('tmKgt.PrgID',$filter_prgid)                                                
-                                                ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
+                                            ->select(\DB::raw('"tmKgt"."KgtID","v_program_kegiatan"."kode_kegiatan","tmKgt"."Kd_Keg","tmKgt"."KgtNm","v_program_kegiatan"."Kd_Prog","v_program_kegiatan"."PrgNm","tmKgt"."TA","v_program_kegiatan"."Jns"'))
+                                                    ->join('v_program_kegiatan','v_program_kegiatan.KgtID','tmKgt.KgtID')
+                                                    ->orderBy($column_order,$direction)
+                                                    ->where('tmKgt.TA',\HelperKegiatan::getTahunPerencanaan())
+                                                    ->where('tmKgt.PrgID',$filter_prgid)                                                
+                                                    ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
         }        
         
         $data->setPath(route('programkegiatan.index'));

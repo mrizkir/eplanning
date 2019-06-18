@@ -56,10 +56,10 @@
                                 echo 'n.nn.'.$item->Kd_Prog.'.'.$item->Kd_Keg;
                             } 
                             elseif ($item->Jns==false && $filter_prgid_selected!='none') 
-                            {
-                                echo $filter_kode_program_selected.'.'.$item->Kd_Keg;
+                            {                                
+                                echo $item->Kd_Prog.'.'.$item->Kd_Keg;
                             }
-                            else {
+                            else {                                
                                 echo $item->kode_kegiatan;
                             }   
                         @endphp                        
