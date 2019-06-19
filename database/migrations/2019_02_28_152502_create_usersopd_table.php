@@ -21,6 +21,7 @@ class CreateUsersopdTable extends Migration
             $table->string('OrgNm');
             $table->string('SOrgID',19)->nullable();  
             $table->string('SOrgNm')->nullable();              
+            $table->boolean('Locked')->default(0);              
             $table->timestamps();
             
             $table->index('id');

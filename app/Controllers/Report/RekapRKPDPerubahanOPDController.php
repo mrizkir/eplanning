@@ -223,14 +223,12 @@ class RekapRKPDPerubahanOPDController extends Controller
                 }    
             break;
             case 'opd' :               
-                $daftar_opd=\App\Models\UserOPD::where('ta',\HelperKegiatan::getTahunPerencanaan())
-                                                ->where('id',$auth->id)
-                                                ->pluck('OrgNm','OrgID');      
-                $daftar_unitkerja=array();      
+                $daftar_opd=\App\Models\UserOPD::getOPD(false);    
+                $daftar_unitkerja=array();                                     
                 if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
                 {
                     $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$filters['OrgID']);        
-                }  
+                }                   
             break;
         }        
         $data = $this->populateData();        

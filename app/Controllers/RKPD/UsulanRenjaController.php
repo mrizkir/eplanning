@@ -534,14 +534,25 @@ class UsulanRenjaController extends Controller
                 }    
             break;
             case 'opd' :               
-                $daftar_opd=\App\Models\UserOPD::where('ta',\HelperKegiatan::getTahunPerencanaan())
-                                                ->where('id',$auth->id)
-                                                ->pluck('OrgNm','OrgID');      
-                $daftar_unitkerja=array();      
-                if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
+                $daftar_opd=\App\Models\UserOPD::getOPD();      
+                if (count($daftar_opd) > 0)
+                {                    
+                    if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
+                    {
+                        $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$filters['OrgID']);        
+                    }  
+                }      
+                else
                 {
-                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$filters['OrgID']);        
-                }  
+                    $filters['OrgID']='none';
+                    $filters['SOrgID']='none';
+                    $this->putControllerStateSession($this->SessionName,'filters',$filters);
+
+                    return view("pages.$theme.rkpd.usulanrenja.error")->with(['page_active'=>$this->NameOfPage, 
+                                                                                        'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
+                                                                                        'errormessage'=>'Anda Tidak Diperkenankan Mengakses Halaman ini, karena Sudah dikunci oleh BAPELITBANG',
+                                                                                        ]);
+                }          
             break;
         }        
         $search=$this->getControllerStateSession($this->SessionName,'search');        
