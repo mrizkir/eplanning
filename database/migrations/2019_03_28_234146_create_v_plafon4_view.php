@@ -38,12 +38,7 @@ class CreateVPlafon4View extends Migration
                 AS "Jumlah1", 
                 a."Descr", 
                 a."TA",		 		
-                (SELECT 
-                    CASE WHEN "Status"=0 THEN
-                        \'Dum\'
-                    ELSE	
-                        \'ACC\'
-                    END AS "Status"
+                a."Status"
                 FROM 
                 "trRenjaRinc" WHERE "trRenjaRinc"."RenjaID"=a."RenjaID" LIMIT 1) as Status,
 	            a."EntryLvl" 	
@@ -58,7 +53,7 @@ class CreateVPlafon4View extends Migration
                 LEFT JOIN "trUrsPrg" f1 ON f1."PrgID" = f."PrgID"  
                 LEFT JOIN "tmUrs" f2 ON f2."UrsID" = f1."UrsID"  
                 LEFT JOIN "tmKUrs" f3 ON f3."KUrsID" = f2."KUrsID" 
-                WHERE a."EntryLvl"=0 		
+                WHERE a."EntryLvl"=4		
                 GROUP BY 
                     a."RenjaID", 
                     c3."Kd_Urusan", 
