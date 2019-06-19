@@ -15,7 +15,7 @@ class CreateVPlafon1View extends Migration
     {
         \DB::statement('CREATE VIEW v_plafon1 AS
             SELECT 
-		        a."RenjaID" as "transid", 
+		        a."RenjaID", 
                 c3."Kd_Urusan" as "Kd_UrusanUnit", 
                 c2."Kd_Bidang" as "Kd_BidangUnit", 
                 c."OrgCd", 
