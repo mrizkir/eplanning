@@ -38,9 +38,17 @@ class CreateVPlafon4View extends Migration
                 AS "Jumlah1", 
                 a."Descr", 
                 a."TA",		 		
-                a."Status"
-                FROM 
-                "trRenjaRinc" WHERE "trRenjaRinc"."RenjaID"=a."RenjaID" LIMIT 1) as Status,
+                a."Status" AS "Kode_Status",
+                CASE 
+                    WHEN b."Status"=0 THEN
+                        \'DRAFT\'
+                    WHEN b."Status"=1 THEN
+                        \'STATUS\'
+                    WHEN b."Status"=2 THEN
+                        \'STATUS DGN. CATATAN\'
+                    WHEN b."Status"=3 THEN
+                        \'PENDING\'
+                END AS "Status",                 
 	            a."EntryLvl" 	
             FROM "trRenja" a  
                 JOIN "trRenjaRinc" b ON b."RenjaID" = a."RenjaID" AND b."TA" = a."TA"   

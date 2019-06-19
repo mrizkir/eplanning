@@ -685,7 +685,7 @@ class RKPDPerubahanController extends Controller
             $daftar_provinsi = ['uidF1847004D8F547BF'=>'KEPULAUAN RIAU'];
             $daftar_kota_kab = ['uidE4829D1F21F44ECA'=>'BINTAN'];        
             $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),config('eplanning.defaul_kota_atau_kab'),false);
-            $nomor_rincian = RKPDRincianModel::where('RKPDID',$rkpdid)->max('No')+1;
+            $nomor_rincian = RKPDRincianModel::where('RKPDID',$rkpdid)->count('No')+1;
             return view("pages.$theme.rkpd.rkpdperubahan.create2")->with(['page_active'=>$this->NameOfPage,
                                                                     'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                     'rkpd'=>$rkpd,
@@ -720,7 +720,7 @@ class RKPDPerubahanController extends Controller
             
             $datarinciankegiatan = $this->populateRincianKegiatan($rkpdid);
 
-            $nomor_rincian = RKPDRincianModel::where('RKPDID',$rkpdid)->max('No')+1;
+            $nomor_rincian = RKPDRincianModel::where('RKPDID',$rkpdid)->count('No')+1;
             $daftar_pemilik= \App\Models\Pokir\PemilikPokokPikiranModel::where('TA',\HelperKegiatan::getTahunPerencanaan()) 
                                                                         ->select(\DB::raw('"PemilikPokokID", CONCAT("NmPk",\' [\',"Kd_PK",\']\') AS "NmPk"'))                                                                       
                                                                         ->get()
@@ -765,7 +765,7 @@ class RKPDPerubahanController extends Controller
             $daftar_provinsi = ['uidF1847004D8F547BF'=>'KEPULAUAN RIAU'];
             $daftar_kota_kab = ['uidE4829D1F21F44ECA'=>'BINTAN'];        
             $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),config('eplanning.defaul_kota_atau_kab'),false);
-            $nomor_rincian = RKPDRincianModel::where('RKPDID',$rkpdid)->max('No')+1;
+            $nomor_rincian = RKPDRincianModel::where('RKPDID',$rkpdid)->count('No')+1;
             return view("pages.$theme.rkpd.rkpdperubahan.create4")->with(['page_active'=>$this->NameOfPage,
                                                                     'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                     'rkpd'=>$rkpd,
@@ -917,7 +917,7 @@ class RKPDPerubahanController extends Controller
 
         \DB::transaction(function () use ($request) {        
             $rkpdid=$request->input('RKPDID');
-            $nomor_rincian = RKPDRincianModel::where('RKPDID',$rkpdid)->max('No')+1;
+            $nomor_rincian = RKPDRincianModel::where('RKPDID',$rkpdid)->count('No')+1;
             switch ($this->NameOfPage) 
             {            
                 case 'usulanprarkpdopd' :
@@ -1060,7 +1060,7 @@ class RKPDPerubahanController extends Controller
         ]);
         \DB::transaction(function () use ($request) {
             $rkpdid=$request->input('RKPDID');            
-            $nomor_rincian = RKPDRincianModel::where('RKPDID',$rkpdid)->max('No')+1;
+            $nomor_rincian = RKPDRincianModel::where('RKPDID',$rkpdid)->count('No')+1;
 
             $PokPirID=$request->input('PokPirID');
             
@@ -1220,7 +1220,7 @@ class RKPDPerubahanController extends Controller
 
         \DB::transaction(function () use ($request) {        
             $rkpdid=$request->input('RKPDID');
-            $nomor_rincian = RKPDRincianModel::where('RKPDID',$rkpdid)->max('No')+1;
+            $nomor_rincian = RKPDRincianModel::where('RKPDID',$rkpdid)->count('No')+1;
             $tanggal_posting=\Carbon\Carbon::now();
             switch ($this->NameOfPage) 
             {  

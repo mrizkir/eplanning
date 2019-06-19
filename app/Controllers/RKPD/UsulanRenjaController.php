@@ -756,7 +756,7 @@ class UsulanRenjaController extends Controller
             $daftar_provinsi = ['uidF1847004D8F547BF'=>'KEPULAUAN RIAU'];
             $daftar_kota_kab = ['uidE4829D1F21F44ECA'=>'BINTAN'];        
             $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),config('eplanning.defaul_kota_atau_kab'),false);
-            $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->max('No')+1;
+            $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->count('No')+1;
             return view("pages.$theme.rkpd.usulanrenja.create2")->with(['page_active'=>$this->NameOfPage,
                                                                     'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                     'renja'=>$renja,
@@ -791,7 +791,7 @@ class UsulanRenjaController extends Controller
             
             $datarinciankegiatan = $this->populateRincianKegiatan($renjaid);
 
-            $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->max('No')+1;
+            $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->count('No')+1;
             $daftar_pemilik= \App\Models\Pokir\PemilikPokokPikiranModel::where('TA',\HelperKegiatan::getTahunPerencanaan()) 
                                                                         ->select(\DB::raw('"PemilikPokokID", CONCAT("NmPk",\' [\',"Kd_PK",\']\') AS "NmPk"'))                                                                       
                                                                         ->get()
@@ -836,7 +836,7 @@ class UsulanRenjaController extends Controller
             $daftar_provinsi = ['uidF1847004D8F547BF'=>'KEPULAUAN RIAU'];
             $daftar_kota_kab = ['uidE4829D1F21F44ECA'=>'BINTAN'];        
             $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),config('eplanning.defaul_kota_atau_kab'),false);
-            $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->max('No')+1;
+            $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->count('No')+1;
             return view("pages.$theme.rkpd.usulanrenja.create4")->with(['page_active'=>$this->NameOfPage,
                                                                     'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                     'renja'=>$renja,
@@ -1044,7 +1044,7 @@ class UsulanRenjaController extends Controller
 
         \DB::transaction(function () use ($request) {        
             $renjaid=$request->input('RenjaID');
-            $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->max('No')+1;
+            $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->count('No')+1;
             switch ($this->NameOfPage) 
             {            
                 case 'usulanprarenjaopd' :
@@ -1187,7 +1187,7 @@ class UsulanRenjaController extends Controller
         ]);
         \DB::transaction(function () use ($request) {
             $renjaid=$request->input('RenjaID');            
-            $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->max('No')+1;
+            $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->count('No')+1;
 
             $PokPirID=$request->input('PokPirID');
             
@@ -1348,7 +1348,7 @@ class UsulanRenjaController extends Controller
 
         \DB::transaction(function () use ($request) {        
             $renjaid=$request->input('RenjaID');
-            $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->max('No')+1;
+            $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->count('No')+1;
 
             switch ($this->NameOfPage) 
             {            
@@ -2632,8 +2632,7 @@ class UsulanRenjaController extends Controller
                                                                 ->findOrFail($id);        
                                                                 
                     break;
-                }        
-                // dd($renja);       
+                }                        
             break;
             case 'usulanrakorbidang' :
                 switch ($roles[0])
