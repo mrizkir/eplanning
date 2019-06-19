@@ -64,6 +64,7 @@ class CreateVPlafon4View extends Migration
                 WHERE a."EntryLvl"=4		
                 GROUP BY 
                     a."RenjaID", 
+                    b."Status",
                     c3."Kd_Urusan", 
                     c2."Kd_Bidang", 
                     c."OrgCd", 
