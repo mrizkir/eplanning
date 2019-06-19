@@ -33,13 +33,19 @@
             </div>
         </div>
         {!! Form::open(['url'=>route(Helper::getNameOfPage('update4'),$renja->RenjaRincID),'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
-        <div class="panel-body">     
+        <div class="panel-body">                    
+            <div class="form-group">
+                <label class="control-label col-md-2">NAMA KEGIATAN</label>
+                <div class="col-md-10">                    
+                    <p class="form-control-static">[{{$renja->kode_kegiatan}}] {{$renja->KgtNm}}</p>
+                </div>
+            </div>   
             <div class="form-group">
                 {{Form::label('No','NOMOR',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
                     {{Form::text('No',$renja->No,['class'=>'form-control','placeholder'=>'NOMOR URUT KEGIATAN','readonly'=>true])}}
                 </div>
-            </div>    
+            </div>      
             <div class="form-group">
                 {{Form::label('Uraian','NAMA/URAIAN KEGIATAN',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">

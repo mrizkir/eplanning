@@ -25,6 +25,9 @@
                     <i class="icon-eye"></i>  DATA USULAN {{$page_title}}
                 </h5>
                 <div class="heading-elements">
+                    <a href="{{route(Helper::getNameOfPage('create'))}}" class="btn btn-info btn-icon heading-btn btnTambah" title="Tambah Usulan Kegiatan">
+                        <i class="icon-googleplus5"></i>
+                    </a> 
                     @if ($rkpd->Privilege==0)
                     <a href="{{route(Helper::getNameOfPage('edit'),['id'=>$rkpd->RKPDID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Usulan {{$page_title}}">
                         <i class="icon-pencil7"></i>
@@ -51,39 +54,75 @@
                                 </div>                            
                             </div> 
                             <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>OPD / SKPD: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">[{{$rkpd->kode_organisasi}}] {{$rkpd->OrgNm}}</p>
+                                </div>                            
+                            </div> 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>UNIT KERJA: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">[{{$rkpd->kode_suborganisasi}}] {{$rkpd->SOrgNm}}</p>
+                                </div>                            
+                            </div> 
+                            <div class="form-group">                            
                                 <label class="col-md-4 control-label"><strong>KELOMPOK URUSAN : </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">[{{$rkpd->Kd_Urusan}}] {{$rkpd->Nm_Urusan}}</p>
+                                    <p class="form-control-static">
+                                        @if ($rkpd->Kd_Urusan==null)
+                                            SEMUA URUSAN
+                                        @else
+                                             [{{$rkpd->Kd_Urusan}}] {{$rkpd->Nm_Urusan}}
+                                        @endif                                       
+                                    </p>
                                 </div>                            
                             </div>  
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>URUSAN : </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">[{{$rkpd->Kd_Urusan.'.'.$rkpd->Kd_Bidang}}] {{$rkpd->Nm_Bidang}}</p>
+                                    <p class="form-control-static">
+                                        @if ($rkpd->Kd_Urusan==null)
+                                            SEMUA URUSAN
+                                        @else
+                                            [{{$rkpd->Kd_Urusan.'.'.$rkpd->Kd_Bidang}}] {{$rkpd->Nm_Bidang}}
+                                        @endif                                         
+                                    </p>
                                 </div>                            
                             </div> 
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>PROGRAM : </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">[{{$rkpd->Kd_Urusan.'.'.$rkpd->Kd_Bidang.'.'.$rkpd->Kd_Prog}}] {{$rkpd->PrgNm}}</p>
+                                    <p class="form-control-static">
+                                        @if ($rkpd->Kd_Urusan==null)
+                                            [{{$rkpd->kode_suborganisasi.'.'.$rkpd->Kd_Prog}}] {{$rkpd->PrgNm}}
+                                        @else
+                                            [{{$rkpd->Kd_Urusan.'.'.$rkpd->Kd_Bidang.'.'.$rkpd->Kd_Prog}}] {{$rkpd->PrgNm}}
+                                        @endif   
+                                    </p>
                                 </div>                            
                             </div> 
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>KEGIATAN : </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">[{{$rkpd->kode_kegiatan}}] {{$rkpd->KgtNm}}</p>
+                                    <p class="form-control-static">
+                                        @if ($rkpd->Kd_Urusan==null)
+                                            [{{$rkpd->kode_suborganisasi.'.'.$rkpd->Kd_Prog.'.'.$rkpd->Kd_Keg}}] {{$rkpd->KgtNm}}
+                                        @else
+                                            [{{$rkpd->kode_kegiatan}}] {{$rkpd->KgtNm}}
+                                        @endif   
+                                    </p>
                                 </div>                            
-                            </div> 
+                            </div>                              
+                        </div>                        
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-horizontal">                            
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>SASARAN KEGIATAN: </strong></label>
                                 <div class="col-md-8">
                                     <p class="form-control-static">{{Helper::formatAngka($rkpd->Sasaran_Angka)}} {{$rkpd->Sasaran_Uraian}}</p>
                                 </div>                            
-                            </div>    
-                        </div>                        
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-horizontal">                            
+                            </div>   
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>SASARAN KEGIATAN (N+1): </strong></label>
                                 <div class="col-md-8">
@@ -168,7 +207,7 @@ $(document).ready(function () {
                     "_method": 'DELETE',
                     "_token": token,
                     "id": id,
-                    "pid":'renja'
+                    "pid":'rkpd'
                 },
                 success:function(data){ 
                     window.location.replace(url_);                        

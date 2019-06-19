@@ -21,11 +21,15 @@ class CreateVSuborganisasiView extends Migration
                             kelompok_urusan."Kd_Urusan",
                             urusan."Kd_Bidang",			 
                             organisasi."OrgCd",
+                            CASE 
+                                WHEN urusan."UrsID" IS NOT NULL OR  kelompok_urusan."KUrsID" IS NOT NULL THEN
+                                    CONCAT(kelompok_urusan."Kd_Urusan",\'.\',urusan."Kd_Bidang",\'.\',organisasi."OrgCd")
+                            END AS kode_organisasi,
                             sub."SOrgCd",
                             CASE 
                                 WHEN urusan."UrsID" IS NOT NULL OR  kelompok_urusan."KUrsID" IS NOT NULL THEN
                                     CONCAT(kelompok_urusan."Kd_Urusan",\'.\',urusan."Kd_Bidang",\'.\',organisasi."OrgCd",\'.\',sub."SOrgCd")
-                            END AS Kode_SubOrganisasi,
+                            END AS kode_suborganisasi,
                             kelompok_urusan."Nm_Urusan",
                             urusan."Nm_Bidang",
                             organisasi."OrgNm",

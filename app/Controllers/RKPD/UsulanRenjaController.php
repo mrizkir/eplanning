@@ -640,7 +640,7 @@ class UsulanRenjaController extends Controller
         $theme = \Auth::user()->theme;
 
         $filters=$this->getControllerStateSession($this->SessionName,'filters');         
-        $locked=true;
+        $locked=false;
         if ($filters['SOrgID'] != 'none'&&$filters['SOrgID'] != ''&&$filters['SOrgID'] != null && $locked==false)
         {
             $SOrgID=$filters['SOrgID'];            
@@ -1489,15 +1489,19 @@ class UsulanRenjaController extends Controller
         {            
             case 'usulanprarenjaopd' :
                 $renja = RenjaModel::select(\DB::raw('"trRenja"."RenjaID",
-                                            "Kd_Urusan",
-                                            "Nm_Urusan",
-                                            "Kd_Bidang",
-                                            "Nm_Bidang",
-                                            "Kd_Prog",
-                                            "PrgNm",
-                                            "Kd_Keg",
-                                            "kode_kegiatan",
-                                            "KgtNm",
+                                            "v_program_kegiatan"."Kd_Urusan",
+                                            "v_program_kegiatan"."Nm_Urusan",
+                                            "v_program_kegiatan"."Kd_Bidang",
+                                            "v_program_kegiatan"."Nm_Bidang",
+                                            "v_suborganisasi"."kode_organisasi",
+                                            "v_suborganisasi"."OrgNm",
+                                            "v_suborganisasi"."kode_suborganisasi",
+                                            "v_suborganisasi"."SOrgNm",
+                                            "v_program_kegiatan"."Kd_Prog",
+                                            "v_program_kegiatan"."PrgNm",
+                                            "v_program_kegiatan"."Kd_Keg",
+                                            "v_program_kegiatan"."kode_kegiatan",
+                                            "v_program_kegiatan"."KgtNm",
                                             "NamaIndikator",
                                             "Sasaran_Angka1" AS "Sasaran_Angka",
                                             "Sasaran_Uraian1" AS "Sasaran_Uraian",
@@ -1512,22 +1516,26 @@ class UsulanRenjaController extends Controller
                                             "trRenja"."created_at",
                                             "trRenja"."updated_at"
                                             '))
+                            ->join('v_suborganisasi','v_suborganisasi.SOrgID','trRenja.SOrgID')  
                             ->join('v_program_kegiatan','v_program_kegiatan.KgtID','trRenja.KgtID')     
                             ->join('tmSumberDana','tmSumberDana.SumberDanaID','trRenja.SumberDanaID')                       
                             ->findOrFail($id);                
             break;
             case 'usulanrakorbidang' :
                 $renja = RenjaModel::select(\DB::raw('"trRenja"."RenjaID",
-                                            "Kd_Urusan",
-                                            "Nm_Urusan",
-                                            "Kd_Bidang",
-                                            "Nm_Bidang",
-                                            "Kd_Prog",
-                                            "PrgNm",
-                                            "Kd_Keg",
-                                            "kode_kegiatan",
-                                            "KgtNm",
-                                            "NamaIndikator",
+                                            "v_program_kegiatan"."Kd_Urusan",
+                                            "v_program_kegiatan"."Nm_Urusan",
+                                            "v_program_kegiatan"."Kd_Bidang",
+                                            "v_program_kegiatan"."Nm_Bidang",
+                                            "v_suborganisasi"."kode_organisasi",
+                                            "v_suborganisasi"."OrgNm",
+                                            "v_suborganisasi"."kode_suborganisasi",
+                                            "v_suborganisasi"."SOrgNm",
+                                            "v_program_kegiatan"."Kd_Prog",
+                                            "v_program_kegiatan"."PrgNm",
+                                            "v_program_kegiatan"."Kd_Keg",
+                                            "v_program_kegiatan"."kode_kegiatan",
+                                            "v_program_kegiatan"."KgtNm",
                                             "Sasaran_Angka2" AS "Sasaran_Angka",
                                             "Sasaran_Uraian2" AS "Sasaran_Uraian",
                                             "Sasaran_AngkaSetelah",
@@ -1541,50 +1549,60 @@ class UsulanRenjaController extends Controller
                                             "trRenja"."created_at",
                                             "trRenja"."updated_at"
                                             '))
+                            ->join('v_suborganisasi','v_suborganisasi.SOrgID','trRenja.SOrgID')  
                             ->join('v_program_kegiatan','v_program_kegiatan.KgtID','trRenja.KgtID')     
                             ->join('tmSumberDana','tmSumberDana.SumberDanaID','trRenja.SumberDanaID')                       
                             ->findOrFail($id);
             break;
             case 'usulanforumopd' :
                 $renja = RenjaModel::select(\DB::raw('"trRenja"."RenjaID",                
-                                                    "Kd_Urusan",
-                                                    "Nm_Urusan",
-                                                    "Kd_Bidang",
-                                                    "Nm_Bidang",
-                                                    "Kd_Prog",
-                                                    "PrgNm",
-                                                    "Kd_Keg",
-                                                    "kode_kegiatan",
-                                                    "KgtNm",
-                                                    "NamaIndikator",
-                                                    "Sasaran_Angka3" AS "Sasaran_Angka",
-                                                    "Sasaran_Uraian3" AS "Sasaran_Uraian",
-                                                    "Sasaran_AngkaSetelah",
-                                                    "Sasaran_UraianSetelah",
-                                                    "Target3" AS "Target",
-                                                    "NilaiSebelum",
-                                                    "NilaiUsulan3" AS "NilaiUsulan",
-                                                    "NilaiSetelah",
-                                                    "Nm_SumberDana",
-                                                    "trRenja"."Privilege",
-                                                    "trRenja"."created_at",
-                                                    "trRenja"."updated_at"
-                                            '))
+                                            "v_program_kegiatan"."Kd_Urusan",
+                                            "v_program_kegiatan"."Nm_Urusan",
+                                            "v_program_kegiatan"."Kd_Bidang",
+                                            "v_program_kegiatan"."Nm_Bidang",
+                                            "v_suborganisasi"."kode_organisasi",
+                                            "v_suborganisasi"."OrgNm",
+                                            "v_suborganisasi"."kode_suborganisasi",
+                                            "v_suborganisasi"."SOrgNm",
+                                            "v_program_kegiatan"."Kd_Prog",
+                                            "v_program_kegiatan"."PrgNm",
+                                            "v_program_kegiatan"."Kd_Keg",
+                                            "v_program_kegiatan"."kode_kegiatan",
+                                            "v_program_kegiatan"."KgtNm",
+                                            "NamaIndikator",
+                                            "Sasaran_Angka3" AS "Sasaran_Angka",
+                                            "Sasaran_Uraian3" AS "Sasaran_Uraian",
+                                            "Sasaran_AngkaSetelah",
+                                            "Sasaran_UraianSetelah",
+                                            "Target3" AS "Target",
+                                            "NilaiSebelum",
+                                            "NilaiUsulan3" AS "NilaiUsulan",
+                                            "NilaiSetelah",
+                                            "Nm_SumberDana",
+                                            "trRenja"."Privilege",
+                                            "trRenja"."created_at",
+                                            "trRenja"."updated_at"
+                                    '))
+                            ->join('v_suborganisasi','v_suborganisasi.SOrgID','trRenja.SOrgID')  
                             ->join('v_program_kegiatan','v_program_kegiatan.KgtID','trRenja.KgtID')     
                             ->join('tmSumberDana','tmSumberDana.SumberDanaID','trRenja.SumberDanaID')                       
                             ->findOrFail($id);
             break;
             case 'usulanmusrenkab' :
                 $renja = RenjaModel::select(\DB::raw('"trRenja"."RenjaID",
-                                            "Kd_Urusan",
-                                            "Nm_Urusan",
-                                            "Kd_Bidang",
-                                            "Nm_Bidang",
-                                            "Kd_Prog",
-                                            "PrgNm",
-                                            "Kd_Keg",
-                                            "kode_kegiatan",
-                                            "KgtNm",
+                                            "v_program_kegiatan"."Kd_Urusan",
+                                            "v_program_kegiatan"."Nm_Urusan",
+                                            "v_program_kegiatan"."Kd_Bidang",
+                                            "v_program_kegiatan"."Nm_Bidang",
+                                            "v_suborganisasi"."kode_organisasi",
+                                            "v_suborganisasi"."OrgNm",
+                                            "v_suborganisasi"."kode_suborganisasi",
+                                            "v_suborganisasi"."SOrgNm",
+                                            "v_program_kegiatan"."Kd_Prog",
+                                            "v_program_kegiatan"."PrgNm",
+                                            "v_program_kegiatan"."Kd_Keg",
+                                            "v_program_kegiatan"."kode_kegiatan",
+                                            "v_program_kegiatan"."KgtNm",
                                             "NamaIndikator",
                                             "Sasaran_Angka4" AS "Sasaran_Angka",
                                             "Sasaran_Uraian4" AS "Sasaran_Uraian",
@@ -1599,6 +1617,7 @@ class UsulanRenjaController extends Controller
                                             "trRenja"."created_at",
                                             "trRenja"."updated_at"
                                             '))
+                            ->join('v_suborganisasi','v_suborganisasi.SOrgID','trRenja.SOrgID')  
                             ->join('v_program_kegiatan','v_program_kegiatan.KgtID','trRenja.KgtID')     
                             ->join('tmSumberDana','tmSumberDana.SumberDanaID','trRenja.SumberDanaID')                       
                             ->findOrFail($id);
@@ -1911,6 +1930,7 @@ class UsulanRenjaController extends Controller
                                                                     "tmPmKota"."Nm_Kota",
                                                                     "tmPmKecamatan"."Nm_Kecamatan",
                                                                     "trRenjaRinc"."RenjaID",
+                                                                    "v_usulan_pra_renja"."KgtNm",
                                                                     "trRenjaRinc"."No",
                                                                     "trUsulanKec"."NamaKegiatan",
                                                                     "trRenjaRinc"."Uraian",
@@ -1922,11 +1942,12 @@ class UsulanRenjaController extends Controller
                                                                     "trRenjaRinc"."Descr",
                                                                     "trRenjaRinc"."isSKPD",
                                                                     "trRenjaRinc"."isReses"'))                                            
+                                                    ->join('v_usulan_pra_renja','v_usulan_pra_renja.RenjaID','trRenjaRinc.RenjaID')
                                                     ->join('trUsulanKec','trUsulanKec.UsulanKecID','trRenjaRinc.UsulanKecID')                                                                                        
                                                     ->join('tmPMProv','tmPMProv.PMProvID','trRenjaRinc.PMProvID')
                                                     ->join('tmPmKota','tmPmKota.PmKotaID','trRenjaRinc.PmKotaID')
                                                     ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')                                            
-                                                    ->find($id);        
+                                                    ->findOrFail($id);                                                     
                     break;
                     case 'opd' :
                         $filters=$this->getControllerStateSession($this->SessionName,'filters');
@@ -2554,6 +2575,8 @@ class UsulanRenjaController extends Controller
                 {
                     case 'superadmin' :
                         $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
+                                                                    "v_usulan_pra_renja_opd"."kode_kegiatan", 
+                                                                    "v_usulan_pra_renja_opd"."KgtNm", 
                                                                     "trRenjaRinc"."RenjaID",
                                                                     "trRenjaRinc"."PmKecamatanID",
                                                                     "trRenjaRinc"."PmDesaID",
@@ -2566,7 +2589,8 @@ class UsulanRenjaController extends Controller
                                                                     "trRenjaRinc"."Prioritas",
                                                                     "trRenjaRinc"."Descr",
                                                                     "trRenjaRinc"."isSKPD",
-                                                                    "trRenjaRinc"."isReses"'))                                                                                        
+                                                                    "trRenjaRinc"."isReses"'))
+                                                    ->join('v_usulan_pra_renja_opd','v_usulan_pra_renja_opd.RenjaRincID','trRenjaRinc.RenjaRincID')
                                                     ->findOrFail($id);        
                     break;
                     case 'opd' :
@@ -2606,8 +2630,10 @@ class UsulanRenjaController extends Controller
                                                                 ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')                                                        
                                                                 ->where('trRenja.OrgID',$OrgID)
                                                                 ->findOrFail($id);        
+                                                                
                     break;
                 }        
+                // dd($renja);       
             break;
             case 'usulanrakorbidang' :
                 switch ($roles[0])

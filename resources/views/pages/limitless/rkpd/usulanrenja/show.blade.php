@@ -52,6 +52,18 @@
                                 </div>                            
                             </div> 
                             <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>OPD / SKPD: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">[{{$renja->kode_organisasi}}] {{$renja->OrgNm}}</p>
+                                </div>                            
+                            </div> 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>UNIT KERJA: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">[{{$renja->kode_suborganisasi}}] {{$renja->SOrgNm}}</p>
+                                </div>                            
+                            </div> 
+                            <div class="form-group">                            
                                 <label class="col-md-4 control-label"><strong>KELOMPOK URUSAN : </strong></label>
                                 <div class="col-md-8">
                                     <p class="form-control-static">
@@ -80,11 +92,11 @@
                                 <div class="col-md-8">
                                     <p class="form-control-static">
                                         @if ($renja->Kd_Urusan==null)
-                                        [{{$renja->Kd_Prog}}] {{$renja->PrgNm}}
+                                            [{{$renja->kode_suborganisasi.'.'.$renja->Kd_Prog}}] {{$renja->PrgNm}}
                                         @else
                                             [{{$renja->Kd_Urusan.'.'.$renja->Kd_Bidang.'.'.$renja->Kd_Prog}}] {{$renja->PrgNm}}
-                                        @endif                                         
-                                    </p>                                    
+                                        @endif   
+                                    </p>
                                 </div>                            
                             </div> 
                             <div class="form-group">
@@ -92,23 +104,23 @@
                                 <div class="col-md-8">
                                     <p class="form-control-static">
                                         @if ($renja->Kd_Urusan==null)
-                                            [{{$renja->Kd_Prog.'.'.$renja->Kd_Keg}}] {{$renja->PrgNm}}
+                                            [{{$renja->kode_suborganisasi.'.'.$renja->Kd_Prog.'.'.$renja->Kd_Keg}}] {{$renja->KgtNm}}
                                         @else
                                             [{{$renja->kode_kegiatan}}] {{$renja->KgtNm}}
-                                        @endif                                         
-                                    </p>  
+                                        @endif   
+                                    </p>
                                 </div>                            
-                            </div> 
+                            </div>  
+                        </div>                        
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-horizontal">                            
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>SASARAN KEGIATAN: </strong></label>
                                 <div class="col-md-8">
                                     <p class="form-control-static">{{Helper::formatAngka($renja->Sasaran_Angka)}} {{$renja->Sasaran_Uraian}}</p>
                                 </div>                            
-                            </div>    
-                        </div>                        
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-horizontal">                            
+                            </div>   
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>SASARAN KEGIATAN (N+1): </strong></label>
                                 <div class="col-md-8">
