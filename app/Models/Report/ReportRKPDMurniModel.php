@@ -22,7 +22,7 @@ class ReportRKPDMurniModel extends ReportModel
         $OrgID = $this->dataReport['OrgID'];
 
         $sheet = $this->spreadsheet->getActiveSheet();        
-        $sheet->setTitle ('LAPORAN RKPD TA '.config('eplanning.tahun_perencanaan'));   
+        $sheet->setTitle ('LAPORAN RKPD TA '.\HelperKegiatan::getTahunPerencanaan());   
         
         $sheet->getParent()->getDefaultStyle()->applyFromArray([
             'font' => [
@@ -32,9 +32,9 @@ class ReportRKPDMurniModel extends ReportModel
         ]);
 
         $sheet->mergeCells ('A1:K1');
-        $sheet->setCellValue('A1','RUMUSAN PROGRAM DAN KEGIATAN OPD TAHUN '.config('eplanning.tahun_perencanaan'));
+        $sheet->setCellValue('A1','RUMUSAN PROGRAM DAN KEGIATAN OPD TAHUN '.\HelperKegiatan::getTahunPerencanaan());
 
-        $n1 = config('eplanning.tahun_perencanaan')+1;
+        $n1 = \HelperKegiatan::getTahunPerencanaan()+1;
         $sheet->mergeCells ('A2:K2');
         $sheet->setCellValue('A2','DAN PRAKIRAAN MAJU TAHUN '.$n1);
 
@@ -62,7 +62,7 @@ class ReportRKPDMurniModel extends ReportModel
         $sheet->mergeCells ('C10:C11');
         $sheet->setCellValue('C10','INDIKATOR KINERJA PROGRAM/KEGIATAN'); 
         $sheet->mergeCells ('D10:G10');
-        $sheet->setCellValue('D10','RENCANA TAHUN '.config('eplanning.tahun_perencanaan')); 
+        $sheet->setCellValue('D10','RENCANA TAHUN '.\HelperKegiatan::getTahunPerencanaan()); 
         $sheet->mergeCells ('H10:J10');
         $sheet->setCellValue('H10','PERKIRAAN MAJU RENCANA TAHUN '.$n1);
         $sheet->mergeCells ('K10:K11');
@@ -113,7 +113,8 @@ class ReportRKPDMurniModel extends ReportModel
 
         $daftar_program=RKPDMurniModel::select(\DB::raw('"PrgID","kode_program","PrgNm"'))
                                         ->where('OrgID',$OrgID)
-                                        ->where('TA',config('eplanning.tahun_perencanaan'))
+                                        ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                        ->limit(1)
                                         ->get()->toArray();
 
         
@@ -123,7 +124,8 @@ class ReportRKPDMurniModel extends ReportModel
         {
             $PrgID=$v['PrgID'];
             $daftar_kegiatan = RKPDMurniModel::select(\DB::raw('"kode_kegiatan","KgtNm","NamaIndikator","Sasaran_Angka1","Sasaran_Uraian1","Target1","NilaiUsulan1","Sasaran_AngkaSetelah","Sasaran_UraianSetelah","NilaiSetelah","Nm_SumberDana","Descr"'))
-                                    ->where('PrgID',$PrgID)                                    
+                                    ->where('PrgID',$PrgID)             
+                                    ->limit(5)                       
                                     ->get()->toArray();
 
             if (isset($daftar_kegiatan[0])) 
