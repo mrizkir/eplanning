@@ -7,10 +7,10 @@
         <div class="heading-btn">
             {{-- <a href="{!!route(Helper::getNameOfPage('create2'),['id'=>$rkpd->RKPDID])!!}" class="btn btn-info btn-xs" title="Tambah Rincian Kegiatan dari Musren. Kec.">
                 <i class="icon-googleplus5"></i>
-            </a>
+            </a> --}}
             <a href="{!!route(Helper::getNameOfPage('create3'),['id'=>$rkpd->RKPDID])!!}" class="btn btn-success btn-xs" title="Tambah Rincian Kegiatan dari POKIR">
                 <i class="icon-googleplus5"></i>
-            </a> --}}
+            </a>
             <a href="{!!route(Helper::getNameOfPage('create4'),['id'=>$rkpd->RKPDID])!!}" class="btn btn-primary btn-xs" title="Tambah Rincian Kegiatan">
                 <i class="icon-googleplus5"></i>
             </a>

@@ -59,7 +59,8 @@ class PokokPikiranController extends Controller {
                                                         "tmPmKecamatan"."Nm_Kecamatan",
                                                         "tmPmDesa"."Nm_Desa",
                                                         "trPokPir"."Lokasi",
-                                                        "trPokPir"."Prioritas"
+                                                        "trPokPir"."Prioritas",
+                                                        "trPokPir"."Privilege"
                                                     '))      
                                                 ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')
                                                 ->join('tmOrg','tmOrg.OrgID','trPokPir.OrgID')
@@ -90,7 +91,8 @@ class PokokPikiranController extends Controller {
                                                         "tmPmKecamatan"."Nm_Kecamatan",
                                                         "tmPmDesa"."Nm_Desa",
                                                         "trPokPir"."Lokasi",
-                                                        "trPokPir"."Prioritas"
+                                                        "trPokPir"."Prioritas",
+                                                        "trPokPir"."Privilege"
                                                     '))            
                                     ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')
                                     ->join('tmOrg','tmOrg.OrgID','trPokPir.OrgID')

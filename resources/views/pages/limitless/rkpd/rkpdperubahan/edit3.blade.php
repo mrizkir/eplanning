@@ -92,13 +92,7 @@
                 <div class="col-md-10">
                     {{Form::text('Jumlah',$rkpd->Jumlah,['class'=>'form-control','placeholder'=>'NILAI USULAN'])}}
                 </div>
-            </div>
-            <div class="form-group">
-                {{Form::label('Prioritas','PRIORITAS',['class'=>'control-label col-md-2'])}}
-                <div class="col-md-10">
-                    {{Form::select('Prioritas', HelperKegiatan::getDaftarPrioritas(),$rkpd->Prioritas,['class'=>'form-control','id'=>'Prioritas'])}}
-                </div>
-            </div>
+            </div>            
             <div class="form-group">
                 {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">

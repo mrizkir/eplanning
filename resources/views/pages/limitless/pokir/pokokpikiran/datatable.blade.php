@@ -52,6 +52,11 @@
                             PRIO.  
                         </a>                                             
                     </th> 
+                    <th width="70">
+                        <a class="column-sort text-white" id="col-Prioritas" data-order="{{$direction}}" href="#">
+                            VER.  
+                        </a>                                             
+                    </th> 
                     <th width="120">AKSI</th>
                 </tr>
             </thead>
@@ -65,12 +70,23 @@
                     <td>{{$item->NmPk}}</td>
                     <td>{{$item->NamaUsulanKegiatan}}</td>
                     <td>{{Helper::formatUang($item->NilaiUsulan)}}</td>
-                    <td>{{$item->Lokasi}}</td>                    
+                    <td>{{$item->Lokasi}}</td>                                        
                     <td>
                         <span class="label label-flat border-pink text-pink-600">
                             {{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}
                         </span>
-                    </td>
+                    </td> 
+                    <td>                    
+                        @if ($item->Privilege==0)
+                        <span class="label label-flat border-grey text-grey-600 label-icon">
+                            <i class="icon-cross2"></i>
+                        </span>
+                        @else
+                            <span class="label label-flat border-success text-success-600 label-icon">
+                                <i class="icon-checkmark"></i>
+                            </span>                            
+                        @endif                    
+                    </td>              
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
