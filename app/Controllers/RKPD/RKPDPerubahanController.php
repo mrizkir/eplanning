@@ -377,9 +377,10 @@ class RKPDPerubahanController extends Controller
                                                     ->orderBY('trPokPir.Prioritas','ASC')
                                                     ->orderBY('NamaUsulanKegiatan','ASC')
                                                     ->get(); 
+            $daftar_pokir=[];
             foreach ($data as $v)
             {
-                $daftar_pokir[$v->PokPirID]=$v->PokPirID.' - '.$v->NamaUsulanKegiatan;
+                $daftar_pokir[$v->PokPirID]=$v->NamaUsulanKegiatan;
             }
 
             $json_data = ['success'=>true,'daftar_pokir'=>$daftar_pokir,'message'=>'bila daftar_pokir kosong mohon dicek Privilege apakah bernilai 1'];                        
@@ -739,17 +740,13 @@ class RKPDPerubahanController extends Controller
                                                                         ->get()
                                                                         ->pluck('NmPk','PemilikPokokID')                                                                        
                                                                         ->toArray();
-            //lokasi
-            $PMProvID = 'uidF1847004D8F547BF';
-            $PmKotaID = 'uidE4829D1F21F44ECA';
+            
             return view("pages.$theme.rkpd.rkpdperubahan.create3")->with(['page_active'=>$this->NameOfPage,
                                                                             'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                             'rkpd'=>$rkpd,
                                                                             'datarinciankegiatan'=>$datarinciankegiatan,
                                                                             'daftar_pemilik'=>$daftar_pemilik, 
-                                                                            'nomor_rincian'=>$nomor_rincian,
-                                                                            'PMProvID'=>$PMProvID,
-                                                                            'PmKotaID'=>$PmKotaID
+                                                                            'nomor_rincian'=>$nomor_rincian                                                                           
                                                                             ]);  
         }
         else
@@ -1077,130 +1074,55 @@ class RKPDPerubahanController extends Controller
 
             $PokPirID=$request->input('PokPirID');
             
-            $pokok_pikiran = \App\Models\Pokir\PokokPikiranModel::join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')
-                                                                    ->where('PokPirID',$PokPirID)
-                                                                    ->first(['trPokPir.PmDesaID','trPokPir.PmKecamatanID','trPokPir.PmKecamatanID','tmPemilikPokok.Kd_PK']);
-            
+            $pokok_pikiran = \App\Models\Pokir\PokokPikiranModel::select(\DB::raw('"trPokPir"."PmDesaID",
+                                                                                "trPokPir"."PmKecamatanID",
+                                                                                "tmPmKecamatan"."PmKotaID",
+                                                                                "tmPmKota"."PMProvID",
+                                                                                "tmPemilikPokok"."NmPk",
+                                                                                "tmPemilikPokok"."Kd_PK"'))
+                                                                ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')
+                                                                ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trPokPir.PmKecamatanID')
+                                                                ->join('tmPmKota','tmPmKecamatan.PmKotaID','tmPmKota.PmKotaID')
+                                                                ->where('PokPirID',$PokPirID)
+                                                                ->first();
+            $tanggal_posting=\Carbon\Carbon::now();
             switch ($this->NameOfPage) 
             {            
-                case 'usulanprarkpdopd' :                    
+                case 'rkpdperubahan' :                    
                     $data=[
                         'RKPDRincID' => uniqid ('uid'),           
                         'RKPDID' => $rkpdid,            
-                        'PMProvID' => $request->input('PMProvID'),           
-                        'PmKotaID' => $request->input('PmKotaID'),           
+                        'PMProvID' => $pokok_pikiran->PMProvID,           
+                        'PmKotaID' => $pokok_pikiran->PmKotaID,           
                         'PmKecamatanID' => $pokok_pikiran->PmKecamatanID,           
                         'PmDesaID' => $pokok_pikiran->PmDesaID,    
                         'PokPirID' => $PokPirID, 
                         'No' => $nomor_rincian,           
                         'Uraian' => $request->input('Uraian'),
-                        'Sasaran_Angka1' => $request->input('Sasaran_Angka'),                       
-                        'Sasaran_Uraian1' => $request->input('Sasaran_Uraian'),                       
-                        'Target1' => $request->input('Target'),                       
-                        'Jumlah1' => $request->input('Jumlah'),                       
-                        'Prioritas' => $request->input('Prioritas'),  
-                        'isReses' => true,     
-                        'isReses_Uraian' => $pokok_pikiran->Kd_PK,
-                        'Status' => 0,        
-                        'EntryLvl' => 0,                                     
-                        'Descr' => $request->input('Descr'),
-                        'TA' => \HelperKegiatan::getTahunPerencanaan()
-                    ];
-
-                    $rinciankegiatan= RKPDRincianModel::create($data);
-                    $rkpd = $rinciankegiatan->rkpd;            
-                    $rkpd->NilaiUsulan1=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('Jumlah1');            
-                    $rkpd->save();
-                break;
-                case 'usulanrakorbidang' :                    
-                    $data=[
-                        'RKPDRincID' => uniqid ('uid'),           
-                        'RKPDID' => $rkpdid,            
-                        'PMProvID' => $request->input('PMProvID'),           
-                        'PmKotaID' => $request->input('PmKotaID'),           
-                        'PmKecamatanID' => $pokok_pikiran->PmKecamatanID,           
-                        'PmDesaID' => $pokok_pikiran->PmDesaID,    
-                        'PokPirID' => $PokPirID, 
-                        'No' => $nomor_rincian,           
-                        'Uraian' => $request->input('Uraian'),
+                        'Sasaran_Angka1' => 0,                       
                         'Sasaran_Angka2' => $request->input('Sasaran_Angka'),                       
+                        'Sasaran_Uraian1' => '',                       
                         'Sasaran_Uraian2' => $request->input('Sasaran_Uraian'),                       
+                        'Target1' => 0,                       
                         'Target2' => $request->input('Target'),                       
-                        'Jumlah2' => $request->input('Jumlah'),                       
+                        'NilaiUsulan1' => 0,                       
+                        'NilaiUsulan2' => $request->input('Jumlah'),                       
                         'Prioritas' => $request->input('Prioritas'),  
+                        'Tgl_Posting' => $tanggal_posting,                       
                         'isReses' => true,     
-                        'isReses_Uraian' => $pokok_pikiran->Kd_PK,
-                        'Status' => 0,                             
-                        'EntryLvl' => 1,             
+                        'isReses_Uraian' => '['.$pokok_pikiran->Kd_PK . '] '.$pokok_pikiran->NmPk,
+                        'Status' => 3,        
+                        'EntryLvl' => 5,                                     
                         'Descr' => $request->input('Descr'),
                         'TA' => \HelperKegiatan::getTahunPerencanaan()
                     ];
 
                     $rinciankegiatan= RKPDRincianModel::create($data);
                     $rkpd = $rinciankegiatan->rkpd;            
-                    $rkpd->NilaiUsulan2=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('Jumlah2');            
-                    $rkpd->save();
-                break;
-                case 'usulanforumopd' :
-                    $data=[
-                        'RKPDRincID' => uniqid ('uid'),           
-                        'RKPDID' => $rkpdid,            
-                        'PMProvID' => $request->input('PMProvID'),           
-                        'PmKotaID' => $request->input('PmKotaID'),           
-                        'PmKecamatanID' => $pokok_pikiran->PmKecamatanID,           
-                        'PmDesaID' => $pokok_pikiran->PmDesaID,    
-                        'PokPirID' => $PokPirID, 
-                        'No' => $nomor_rincian,           
-                        'Uraian' => $request->input('Uraian'),
-                        'Sasaran_Angka3' => $request->input('Sasaran_Angka'),                       
-                        'Sasaran_Uraian3' => $request->input('Sasaran_Uraian'),                       
-                        'Target3' => $request->input('Target'),                       
-                        'Jumlah3' => $request->input('Jumlah'),                       
-                        'Prioritas' => $request->input('Prioritas'),  
-                        'isReses' => true,     
-                        'isReses_Uraian' => $pokok_pikiran->Kd_PK,
-                        'Status' => 0,                             
-                        'EntryLvl' => 2,             
-                        'Descr' => $request->input('Descr'),
-                        'TA' => \HelperKegiatan::getTahunPerencanaan()
-                    ];
-
-                    $rinciankegiatan= RKPDRincianModel::create($data);
-                    $rkpd = $rinciankegiatan->rkpd;            
-                    $rkpd->NilaiUsulan3=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('Jumlah3');            
-                    $rkpd->save();
-                break;
-                case 'usulanmusrenkab' :
-                    $data=[
-                        'RKPDRincID' => uniqid ('uid'),           
-                        'RKPDID' => $rkpdid,            
-                        'PMProvID' => $request->input('PMProvID'),           
-                        'PmKotaID' => $request->input('PmKotaID'),           
-                        'PmKecamatanID' => $pokok_pikiran->PmKecamatanID,           
-                        'PmDesaID' => $pokok_pikiran->PmDesaID,    
-                        'PokPirID' => $PokPirID, 
-                        'No' => $nomor_rincian,           
-                        'Uraian' => $request->input('Uraian'),
-                        'Sasaran_Angka4' => $request->input('Sasaran_Angka'),                       
-                        'Sasaran_Uraian4' => $request->input('Sasaran_Uraian'),                       
-                        'Target4' => $request->input('Target'),                       
-                        'Jumlah4' => $request->input('Jumlah'),                       
-                        'Prioritas' => $request->input('Prioritas'),  
-                        'isReses' => true,     
-                        'isReses_Uraian' => $pokok_pikiran->Kd_PK,
-                        'Status' => 0,                             
-                        'EntryLvl' => 3,             
-                        'Descr' => $request->input('Descr'),
-                        'TA' => \HelperKegiatan::getTahunPerencanaan()
-                    ];
-
-                    $rinciankegiatan= RKPDRincianModel::create($data);
-                    $rkpd = $rinciankegiatan->rkpd;            
-                    $rkpd->NilaiUsulan4=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('Jumlah4');            
+                    $rkpd->NilaiUsulan2=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('NilaiUsulan2');            
                     $rkpd->save();
                 break;                
-            }   
-
+            }
         });
         if ($request->ajax()) 
         {

@@ -121,19 +121,19 @@
                         <td colspan="2">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td class="text-right">STATUS SETUJU DENGAN CATATAN [2]</td>
+                        <td class="text-right">STATUS SETUJU <br>DENGAN CATATAN [2]</td>
                         <td id="totalstatusopd2" class="text-right">
                             {{Helper::formatUang($totalpaguindikatifopd[2])}}                        
                         </td>
-                        <td width="100">[1+2] = </td> 
+                        <td width="100">TOTAL PAGU INDIKATIF [1+2]</td> 
                         <td id="totalstatusopd12">
                             {{Helper::formatUang($totalpaguindikatifopd[1]+$totalpaguindikatifopd[2])}}
                         </td>
-                        <td class="text-right">STATUS SETUJU DENGAN CATATAN [2]</td>
+                        <td class="text-right">STATUS SETUJU <br>DENGAN CATATAN [2]</td>
                         <td id="totalstatusunitkerja2" class="text-right">
                             {{Helper::formatUang($totalpaguindikatifunitkerja[2])}}                        
                         </td>
-                        <td width="100">[1+2] = </td> 
+                        <td width="100">TOTAL PAGU INDIKATIF [1+2]</td> 
                         <td id="totalstatusunitkerja12">
                             {{Helper::formatUang($totalpaguindikatifunitkerja[1]+$totalpaguindikatifunitkerja[2])}}
                         </td>

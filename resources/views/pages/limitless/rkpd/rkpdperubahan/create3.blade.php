@@ -36,9 +36,7 @@
             </div>
         </div>
         {!! Form::open(['url'=>route(Helper::getNameOfPage('store3')),'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}
-        {{Form::hidden('RKPDID',$rkpd->RKPDID,['id'=>'RKPDID'])}}
-        {{Form::hidden('PMProvID',$PMProvID)}}
-        {{Form::hidden('PmKotaID',$PmKotaID)}}
+        {{Form::hidden('RKPDID',$rkpd->RKPDID,['id'=>'RKPDID'])}}      
         <div class="panel-body">
             <div class="form-group">
                 <label class="col-md-2 control-label">POSISI ENTRI: </label>

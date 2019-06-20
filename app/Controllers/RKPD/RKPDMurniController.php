@@ -276,7 +276,7 @@ class RKPDMurniController extends Controller {
                                                                                     'direction'=>$this->getControllerStateSession('rkpdmurni.orderby','order'),
                                                                                     'data'=>$data])->render();
 
-            $totalpaguindikatifopd = RKPDRincianModel::getTotalPaguIndikatifByStatusAndOPD(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName('rkpdmurni'),$filters['OrgID']);            
+            $totalpaguindikatifopd = RKPDRincianModel::getTotalPaguByOPD(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName('rkpdmurni'),$filters['OrgID']);            
                   
             $totalpaguindikatifunitkerja[0]=0;
             $totalpaguindikatifunitkerja[1]=0;
@@ -310,7 +310,7 @@ class RKPDMurniController extends Controller {
                                                                             'direction'=>$this->getControllerStateSession('rkpdmurni.orderby','order'),
                                                                             'data'=>$data])->render();                                                                                       
 
-            $totalpaguindikatifunitkerja = RKPDRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName('rkpdmurni'),$filters['SOrgID']);            
+            $totalpaguindikatifunitkerja = RKPDRincianModel::getTotalPaguByUnitKerja(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName('rkpdmurni'),$filters['SOrgID']);            
 
             $json_data = ['success'=>true,
                         'totalpaguindikatifunitkerja'=>$totalpaguindikatifunitkerja,
@@ -366,9 +366,9 @@ class RKPDMurniController extends Controller {
         }
         $this->setCurrentPageInsideSession('rkpdmurni',$data->currentPage());
 
-        // $paguanggaranopd=\App\Models\DMaster\PaguAnggaranOPDModel::select('Jumlah1')
-        //                                                             ->where('OrgID',$filters['OrgID'])                                                    
-        //                                                             ->value('Jumlah1');
+        $paguanggaranopd=\App\Models\DMaster\PaguAnggaranOPDModel::select('Jumlah1')
+                                                                    ->where('OrgID',$filters['OrgID'])                                                    
+                                                                    ->value('Jumlah1');
                                                                     
         return view("pages.$theme.rkpd.rkpdmurni.index")->with(['page_active'=>'rkpdmurni',
                                                                 'daftar_opd'=>$daftar_opd,
@@ -378,9 +378,9 @@ class RKPDMurniController extends Controller {
                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                                                 'column_order'=>$this->getControllerStateSession('rkpdmurni.orderby','column_name'),
                                                                 'direction'=>$this->getControllerStateSession('rkpdmurni.orderby','order'),
-                                                                // 'paguanggaranopd'=>$paguanggaranopd,
-                                                                // 'totalpaguindikatifopd'=>RKPDRincianModel::getTotalPaguIndikatifByStatusAndOPD(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName('rkpdmurni'),$filters['OrgID']),
-                                                                // 'totalpaguindikatifunitkerja' => RKPDRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName('rkpdmurni'),$filters['SOrgID']),            
+                                                                'paguanggaranopd'=>$paguanggaranopd,
+                                                                'totalpaguindikatifopd'=>RKPDRincianModel::getTotalPaguByOPD(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName('rkpdmurni'),$filters['OrgID']),
+                                                                'totalpaguindikatifunitkerja' => RKPDRincianModel::getTotalPaguByUnitKerja(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName('rkpdmurni'),$filters['SOrgID']),            
                                                                 'data'=>$data]);               
                      
     }

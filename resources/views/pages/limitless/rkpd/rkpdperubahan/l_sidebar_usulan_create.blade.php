@@ -23,12 +23,12 @@
                         <a href="{{route(Helper::getNameOfPage('create2'),['id'=>$rkpd->RKPDID])}}">
                             <i class="icon-info3"></i><span>RINCIAN KEGIATAN MUSREN KEC.</span>
                         </a>
-                    </li>                   
+                    </li>             --}}       
                     <li{!!Request::route()->getName()==Helper::getNameOfPage('create3') ? ' class="active"':""!!}>
                         <a href="{{route(Helper::getNameOfPage('create3'),['id'=>$rkpd->RKPDID])}}">
                             <i class="icon-info3"></i><span>RINCIAN KEGIATAN POKIR.</span>
                         </a>
-                    </li>                    --}}
+                    </li>                   
                     <li{!!Request::route()->getName()==Helper::getNameOfPage('create4') ? ' class="active"':""!!}>
                         <a href="{{route(Helper::getNameOfPage('create4'),['id'=>$rkpd->RKPDID])}}">
                             <i class="icon-info3"></i><span>RINCIAN KEGIATAN OPD.</span>
