@@ -520,21 +520,20 @@ class UsulanRenjaController extends Controller
         
         $filters=$this->getControllerStateSession($this->SessionName,'filters');
         $roles=$auth->getRoleNames();   
-
+        $daftar_unitkerja=array();           
         switch ($roles[0])
         {
             case 'superadmin' :     
             case 'bapelitbang' :     
             case 'tapd' :     
-                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);  
-                $daftar_unitkerja=array();           
+                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);                  
                 if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
                 {
                     $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$filters['OrgID']);        
                 }    
             break;
             case 'opd' :               
-                $daftar_opd=\App\Models\UserOPD::getOPD();      
+                $daftar_opd=\App\Models\UserOPD::getOPD();                      
                 if (count($daftar_opd) > 0)
                 {                    
                     if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
