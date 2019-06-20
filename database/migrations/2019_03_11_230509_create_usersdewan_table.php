@@ -20,7 +20,7 @@ class CreateUsersdewanTable extends Migration
             $table->string('PemilikPokokID',19);  
             $table->string('Kd_PK',16);
             $table->string('NmPk');
-             
+            $table->boolean('locked')->default(0); 
             $table->timestamps();
             
             $table->index('id');

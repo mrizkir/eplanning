@@ -146,6 +146,11 @@
                                             <i class="icon-link"></i> PAGU ANGGARAN OPD/SKPD
                                         </a>    
                                     </li>
+                                    <li{!!Helper::isMenuActive ($page_active,'paguanggarandewan',' class="active"')!!}>
+                                        <a href="{{route('paguanggarandewan.index')}}" title="Pagu Anggaran Anggota Dewan">
+                                            <i class="icon-link"></i> PAGU ANGGARAN ANGGOTA DEWAN
+                                        </a>    
+                                    </li>
                                     <li{!!Helper::isMenuActive ($page_active,'ta',' class="active"')!!}>
                                         <a href="{{route('ta.index')}}" title="TAHUN">
                                             <i class="icon-calendar2"></i> TAHUN PERENCANAAN / ANGGARAN

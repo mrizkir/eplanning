@@ -288,9 +288,9 @@ class RKPDPerubahanController extends Controller
             $totalpaguunitkerja['perubahan']=0;
             $totalpaguunitkerja['selisih']=0;
             
-            $paguanggaranopd=\App\Models\DMaster\PaguAnggaranOPDModel::select('Jumlah1')
+            $paguanggaranopd=\App\Models\DMaster\PaguAnggaranOPDModel::select('Jumlah2')
                                                                         ->where('OrgID',$filters['OrgID'])
-                                                                        ->value('Jumlah1');
+                                                                        ->value('Jumlah2');
 
             $json_data = ['success'=>true,'paguanggaranopd'=>$paguanggaranopd,'totalpaguopd'=>$totalpaguopd,'totalpaguunitkerja'=>$totalpaguunitkerja,'daftar_unitkerja'=>$daftar_unitkerja,'datatable'=>$datatable];
         } 
@@ -499,9 +499,9 @@ class RKPDPerubahanController extends Controller
             $data = $this->populateData($data->lastPage());
         }
         $this->setCurrentPageInsideSession($this->SessionName,$data->currentPage());
-        $paguanggaranopd=\App\Models\DMaster\PaguAnggaranOPDModel::select('Jumlah1')
+        $paguanggaranopd=\App\Models\DMaster\PaguAnggaranOPDModel::select('Jumlah2')
                                                                     ->where('OrgID',$filters['OrgID'])                                                    
-                                                                    ->value('Jumlah1');
+                                                                    ->value('Jumlah2');
         
         return view("pages.$theme.rkpd.rkpdperubahan.index")->with(['page_active'=>$this->NameOfPage, 
                                                                 'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),

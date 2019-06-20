@@ -42,6 +42,6 @@ class CreatePaguanggaranopdTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('paguanggaranopd');
+        Schema::dropIfExists('tmPaguAnggaranOPD');
     }
 }

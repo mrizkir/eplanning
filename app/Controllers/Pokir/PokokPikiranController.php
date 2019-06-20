@@ -52,41 +52,58 @@ class PokokPikiranController extends Controller {
             {
                 case 'NamaUsulanKegiatan' :
                     $data = PokokPikiranModel::select(\DB::raw('"trPokPir"."PokPirID",
-                                                        "tmPemilikPokok"."Kd_PK",
                                                         "tmPemilikPokok"."NmPk",
                                                         "trPokPir"."NamaUsulanKegiatan",
                                                         "trPokPir"."NilaiUsulan",
                                                         "tmOrg"."OrgNm",
+                                                        "tmPmKecamatan"."Nm_Kecamatan",
+                                                        "tmPmDesa"."Nm_Desa",
+                                                        "trPokPir"."Lokasi",
                                                         "trPokPir"."Prioritas"
                                                     '))      
                                                 ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')
-                                                ->join('tmOrg','tmOrg.OrgID','trPokPir.OrgID')                                                
-                                                ->where('NamaUsulanKegiatan', 'ilike', '%' . $search['isikriteria'] . '%')
-                                                ->where('trPokPir.PemilikPokokID',$PemilikPokokID)
-                                                ->where('trPokPir.TA',\HelperKegiatan::getTahunPerencanaan())
-                                                ->orderBy('Prioritas','ASC')
-                                                ->orderBy($column_order,$direction);                                        
+                                                ->join('tmOrg','tmOrg.OrgID','trPokPir.OrgID')
+                                                ->leftJoin('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trPokPir.PmKecamatanID')
+                                                ->leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trPokPir.PmDesaID')
+                                                ->where('trPokPir.TA',\HelperKegiatan::getTahunPerencanaan())                                        
+                                                ->where('trPokPir.NamaUsulanKegiatan', 'ilike', '%' . $search['isikriteria'] . '%');
+                                                
+                                               
+                    if ($PemilikPokokID!='all')
+                    {
+                        $data = $data->where('trPokPir.PemilikPokokID',$PemilikPokokID);
+                    }
+                    $data = $data->orderBy('Prioritas','ASC')
+                                ->orderBy($column_order,$direction);
                 break;
             }           
-            $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
+
+            $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);              
         }
         else
         {
             $data = PokokPikiranModel::select(\DB::raw('"trPokPir"."PokPirID",
-                                                        "tmPemilikPokok"."Kd_PK",
                                                         "tmPemilikPokok"."NmPk",
                                                         "trPokPir"."NamaUsulanKegiatan",
                                                         "trPokPir"."NilaiUsulan",
                                                         "tmOrg"."OrgNm",
+                                                        "tmPmKecamatan"."Nm_Kecamatan",
+                                                        "tmPmDesa"."Nm_Desa",
+                                                        "trPokPir"."Lokasi",
                                                         "trPokPir"."Prioritas"
                                                     '))            
                                     ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')
                                     ->join('tmOrg','tmOrg.OrgID','trPokPir.OrgID')
-                                    ->where('trPokPir.TA',\HelperKegiatan::getTahunPerencanaan())
-                                    ->where('trPokPir.PemilikPokokID',$PemilikPokokID)
-                                    ->orderBy('Prioritas','ASC')
-                                    ->orderBy($column_order,$direction)
-                                    ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+                                    ->leftJoin('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trPokPir.PmKecamatanID')
+                                    ->leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trPokPir.PmDesaID')
+                                    ->where('trPokPir.TA',\HelperKegiatan::getTahunPerencanaan());
+            if ($PemilikPokokID!='all')
+            {
+                $data = $data->where('trPokPir.PemilikPokokID',$PemilikPokokID);
+            }
+            $data = $data->orderBy('Prioritas','ASC')
+                        ->orderBy($column_order,$direction)
+                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('pokokpikiran.index'));
         return $data;
@@ -267,11 +284,12 @@ class PokokPikiranController extends Controller {
         switch ($roles[0])
         {
             case 'superadmin' :     
-            case 'bapelitbang' :     
+            case 'bapelitbang' :                     
                 $daftar_dewan=\App\Models\Pokir\PemilikPokokPikiranModel::where('TA',\HelperKegiatan::getTahunPerencanaan()) 
                                                                         ->select(\DB::raw('"PemilikPokokID", CONCAT("NmPk",\' [\',"Kd_PK",\']\') AS "NmPk"'))                                                                       
                                                                         ->get()
-                                                                        ->pluck('NmPk','PemilikPokokID')                                                                        
+                                                                        ->pluck('NmPk','PemilikPokokID')              
+                                                                        ->prepend('SELURUH ANGGOTA DEWAN','all')                                                          
                                                                         ->toArray();                  
             break;
             case 'dewan' :               
@@ -291,9 +309,25 @@ class PokokPikiranController extends Controller {
             $data = $this->populateData($data->lastPage());
         }
         $this->setCurrentPageInsideSession('pokokpikiran',$data->currentPage());
+
+        if ($filters['PemilikPokokID']=='all')
+        {
+            $paguanggota=\App\Models\DMaster\PaguAnggaranDewanModel::select('Jumlah1')
+                                                                    ->where('TA',\HelperKegiatan::getTahunPerencanaan())                                                    
+                                                                    ->value('Jumlah1');
+        }
+        else
+        {
+            $paguanggota=\App\Models\DMaster\PaguAnggaranDewanModel::select('Jumlah1')
+                                                                    ->where('PemilikPokokID',$filters['PemilikPokokID'])                                                    
+                                                                    ->value('Jumlah1');
+        }
+        
+
         return view("pages.$theme.pokir.pokokpikiran.index")->with(['page_active'=>'pokokpikiran',
                                                                     'filters'=>$filters,
                                                                     'daftar_dewan'=>$daftar_dewan,
+                                                                    'paguanggota'=>$paguanggota,
                                                                     'search'=>$this->getControllerStateSession('pokokpikiran','search'),
                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                                                     'column_order'=>$this->getControllerStateSession('pokokpikiran.orderby','column_name'),

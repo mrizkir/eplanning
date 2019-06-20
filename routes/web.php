@@ -87,6 +87,14 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/dmaster/paguanggaranopd/orderby',['uses'=>'DMaster\PaguAnggaranOPDController@orderby','as'=>'paguanggaranopd.orderby']); 
     Route::get('/dmaster/paguanggaranopd/getkodekelompokurusan/{uuid}',['uses'=>'DMaster\PaguAnggaranOPDController@getkodekelompokurusan','as'=>'paguanggaranopd.getkodekelompokurusan']); 
     
+    //masters - pagu anggaran anggota dewan [aneka data] 
+    Route::resource('/dmaster/paguanggarandewan','DMaster\PaguAnggaranDewanController',['parameters'=>['paguanggarandewan'=>'uuid']]); 
+    Route::post('/dmaster/paguanggarandewan/search',['uses'=>'DMaster\PaguAnggaranDewanController@search','as'=>'paguanggarandewan.search']);  
+    Route::get('/dmaster/paguanggarandewan/paginate/{id}',['uses'=>'DMaster\PaguAnggaranDewanController@paginate','as'=>'paguanggarandewan.paginate']);              
+    Route::post('/dmaster/paguanggarandewan/changenumberrecordperpage',['uses'=>'DMaster\PaguAnggaranDewanController@changenumberrecordperpage','as'=>'paguanggarandewan.changenumberrecordperpage']);  
+    Route::post('/dmaster/paguanggarandewan/orderby',['uses'=>'DMaster\PaguAnggaranDewanController@orderby','as'=>'paguanggarandewan.orderby']); 
+    Route::get('/dmaster/paguanggarandewan/getkodekelompokurusan/{uuid}',['uses'=>'DMaster\PaguAnggaranDewanController@getkodekelompokurusan','as'=>'paguanggarandewan.getkodekelompokurusan']); 
+    
     //RPJMD - Visi
     Route::resource('/perencanaan/rpjmd/rpjmdvisi','RPJMD\RPJMDVisiController',['parameters'=>['rpjmdvisi'=>'uuid']]); 
     Route::post('/perencanaan/rpjmd/rpjmdvisi/search',['uses'=>'RPJMD\RPJMDVisiController@search','as'=>'rpjmdvisi.search']); 

@@ -21,10 +21,10 @@
         <table id="data" class="table table-striped table-hover">
             <thead>
                 <tr class="bg-teal-700">
-                    <th width="55">NO</th>
-                    <th width="100">
-                        <a class="column-sort text-white" id="col-KdPK" data-order="{{$direction}}" href="#">
-                            KODE  
+                    <th width="55">NO</th>                   
+                    <th>
+                        <a class="column-sort text-white" width="250" id="col-OrgNm" data-order="{{$direction}}" href="#">
+                            NAMA OPD  
                         </a>                                             
                     </th> 
                     <th>
@@ -41,10 +41,15 @@
                         <a class="column-sort text-white" id="col-NilaiUsulan" data-order="{{$direction}}" href="#">
                             NILAI USULAN  
                         </a>                                             
+                    </th>                    
+                    <th width="200">
+                        <a class="column-sort text-white" id="col-Lokasi" data-order="{{$direction}}" href="#">
+                            LOKASI  
+                        </a>                                             
                     </th> 
                     <th width="100">
                         <a class="column-sort text-white" id="col-Prioritas" data-order="{{$direction}}" href="#">
-                            PRIORITAS  
+                            PRIO.  
                         </a>                                             
                     </th> 
                     <th width="120">AKSI</th>
@@ -56,10 +61,11 @@
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>                  
-                    <td>{{$item->Kd_PK}}</td>
+                    <td>{{$item->OrgNm}}</td>
                     <td>{{$item->NmPk}}</td>
                     <td>{{$item->NamaUsulanKegiatan}}</td>
-                    <td>{{$item->NilaiUsulan}}</td>
+                    <td>{{Helper::formatUang($item->NilaiUsulan)}}</td>
+                    <td>{{$item->Lokasi}}</td>                    
                     <td>
                         <span class="label label-flat border-pink text-pink-600">
                             {{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}
@@ -90,6 +96,14 @@
                         <span class="label label-warning label-rounded" style="text-transform: none">
                             <strong>POKPIRID:</strong>
                             {{$item->PokPirID}}
+                        </span> 
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>KECAMATAN:</strong>
+                            {{$item->Nm_Kecamatan}}
+                        </span>                        
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>DESA:</strong>
+                            {{$item->Nm_Desa}}
                         </span>                        
                         <span class="label label-warning label-rounded" style="text-transform: none">
                             <strong>KET:</strong>
