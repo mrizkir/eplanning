@@ -41,6 +41,7 @@ class ReportRKPDMurniModel extends ReportModel
 
             $daftar_kegiatan = RKPDMurniModel::select(\DB::raw('"kode_kegiatan","KgtNm","NamaIndikator","Sasaran_Angka1","Sasaran_Uraian1","Target1","NilaiUsulan1","Sasaran_AngkaSetelah","Sasaran_UraianSetelah","NilaiSetelah","Nm_SumberDana","Descr"'))
                                             ->where('PrgID',$PrgID)      
+                                            ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                                             ->orderBy('kode_kegiatan','ASC')       
                                             ->get();
             $totalpagueachprogram= $daftar_kegiatan->sum('NilaiUsulan1');      
