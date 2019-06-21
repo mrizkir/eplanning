@@ -94,7 +94,8 @@ class ReportRKPDMurniModel extends ReportModel
                             ->select(\DB::raw('"PrgID","kode_program","Kd_Prog","PrgNm","Jns"'))
                             ->where('OrgID',$OrgID)
                             ->where('TA',\HelperKegiatan::getTahunPerencanaan())
-                            ->orderBy('kode_program','ASC')
+                            ->orderByRaw('kode_program ASC NULLS FIRST')
+                            ->orderBy('Kd_Prog','ASC')
                             ->get();
                 
         $row=11;
