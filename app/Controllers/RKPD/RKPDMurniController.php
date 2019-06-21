@@ -446,12 +446,14 @@ class RKPDMurniController extends Controller {
     {       
        
         $generate_date=date('Y-m-d_H_m_s');
-        $OrgID=$filters=$this->getControllerStateSession('rkpdmurni','filters.OrgID');        
+        $OrgID=$this->getControllerStateSession('rkpdmurni','filters.OrgID');        
+        $SOrgID=$this->getControllerStateSession('rkpdmurni','filters.SOrgID');        
         
         $opd = \DB::table('v_urusan_organisasi')
                     ->where('OrgID',$OrgID)->first();  
         
         $data_report['OrgID']=$opd->OrgID;
+        $data_report['SOrgID']=$SOrgID;
         $data_report['Kd_Urusan']=$opd->Kd_Urusan;
         $data_report['Nm_Urusan']=$opd->Nm_Urusan;
         $data_report['Kd_Bidang']=$opd->Kd_Bidang;

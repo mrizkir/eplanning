@@ -27,10 +27,10 @@ class ReportRKPDMurniModel extends ReportModel
 
         $writer->openToFile($this->customTempFolderPath.DIRECTORY_SEPARATOR.$filename);
 
-        $OrgID = $this->dataReport['OrgID'];
+        $SOrgID = $this->dataReport['SOrgID'];
         
         $daftar_program=RKPDMurniModel::select(\DB::raw('"PrgID","kode_program","PrgNm"'))
-                                        ->where('OrgID',$OrgID)
+                                        ->where('SOrgID',$SOrgID)
                                         ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                                         ->orderBy('kode_program','ASC')
                                         ->get()->toArray();
