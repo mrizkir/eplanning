@@ -63,6 +63,7 @@ class MappingProgramToOPDController extends Controller {
                                 "v_organisasi_program"."OrgNm",
                                 CONCAT("tmKUrs"."Kd_Urusan",\'.\',"tmUrs"."Kd_Bidang",\'.\',"v_organisasi_program"."Kd_Prog") AS kode_program_all_urusan,
                                 "v_organisasi_program"."kode_program",
+                                "v_organisasi_program"."PrgID",
                                 "v_organisasi_program"."PrgNm",
                                 "v_organisasi_program"."Nm_Urusan",
                                 "v_organisasi_program"."Jns"
@@ -84,6 +85,7 @@ class MappingProgramToOPDController extends Controller {
                                 "v_organisasi_program"."OrgNm",
                                 CONCAT("tmKUrs"."Kd_Urusan",\'.\',"tmUrs"."Kd_Bidang",\'.\',"v_organisasi_program"."Kd_Prog") AS kode_program_all_urusan,
                                 "v_organisasi_program"."kode_program",
+                                "v_organisasi_program"."PrgID",
                                 "v_organisasi_program"."PrgNm",
                                 "v_organisasi_program"."Nm_Urusan",
                                 "v_organisasi_program"."Jns"
@@ -109,6 +111,7 @@ class MappingProgramToOPDController extends Controller {
                         "v_organisasi_program"."OrgNm",
                         CONCAT("tmKUrs"."Kd_Urusan",\'.\',"tmUrs"."Kd_Bidang",\'.\',"v_organisasi_program"."Kd_Prog") AS kode_program_all_urusan,
                         "v_organisasi_program"."kode_program",
+                        "v_organisasi_program"."PrgID",
                         "v_organisasi_program"."PrgNm",
                         "v_organisasi_program"."Nm_Urusan",
                         "v_organisasi_program"."Jns"

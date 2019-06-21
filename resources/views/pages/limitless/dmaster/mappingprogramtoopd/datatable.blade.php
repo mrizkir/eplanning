@@ -103,7 +103,7 @@
                         </span>                            
                         <span class="label label-warning label-rounded" style="text-transform: none">
                             <strong>PRGID:</strong>
-                            {{$item->orgProgramID}}
+                            {{$item->PrgID}}
                         </span>
                     </td>
                 </tr>
