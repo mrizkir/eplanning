@@ -461,7 +461,7 @@ class RKPDMurniController extends Controller {
         $data_report['NamaKepalaSKPD']=$opd->NamaKepalaSKPD;
         $data_report['NIPKepalaSKPD']=$opd->NIPKepalaSKPD;
         
-        $report= new \App\Models\Report\ReportRKPDMurniModel ($data_report);
-        return $report->download("rkpd_$generate_date.xlsx");
+        $report= new \App\Models\Report\ReportRKPDMurniModel ($data_report,"rkpd_$generate_date.xlsx");
+        return $report->download();
     }
 }
