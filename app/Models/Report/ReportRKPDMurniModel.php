@@ -106,6 +106,7 @@ class ReportRKPDMurniModel extends ReportModel
         
         
         $row=13;
+        $total_pagu=0;
         foreach ($daftar_program as $v)
         {
             $PrgID=$v->PrgID;
@@ -140,11 +141,15 @@ class ReportRKPDMurniModel extends ReportModel
                     $sheet->setCellValue("J$row",\Helper::formatUang($n['NilaiSetelah'])); 
                     $sheet->setCellValue("K$row",$n['Descr']); 
                     $row+=1;
+                    $total_pagu+=$n['NilaiUsulan1'];
                 }
             }
         }
-        
-        $row=$row-1;
+        $sheet->mergeCells("A$row:E$row"); 
+        $sheet->setCellValue("A$row",'TOTAL'); 
+        $sheet->setCellValue("F$row",\Helper::formatUang($total_pagu)); 
+        $sheet->mergeCells("F$row:K$row"); 
+
         $styleArray=array(								
             'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
                                'vertical'=>Alignment::HORIZONTAL_CENTER),
