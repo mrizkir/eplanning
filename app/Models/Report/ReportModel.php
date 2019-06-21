@@ -1,10 +1,7 @@
 <?php
-
 namespace App\Models\Report;
-
-use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
-use Box\Spout\Common\Entity\Row;
-
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class ReportModel 
 {   
     /**
@@ -12,29 +9,23 @@ class ReportModel
      */
     protected $dataReport = [];
     /**
-     * object writer
+     * object spreadsheet
      */
-    protected $writer;
-    /**
-     * custom temp folder path
-     */
-    protected $customTempFolderPath;
-
-    /**
-     * file generated path
-     */
-    protected $pathFileGenerated;
-
+    protected $spreadsheet;
     public function __construct($dataReport)
     {
-        $this->dataReport = $dataReport;              
-        $this->writer = WriterEntityFactory::createXLSXWriter();  
-        $this->customTempFolderPath = config('eplanning.local_path');
-        $this->writer->setTempFolder($this->customTempFolderPath);        
+        $this->dataReport = $dataReport;
+        $this->spreadsheet = new Spreadsheet();         
     }
-    public function download()
-    {  
-        $this->writer->close();        
-        return response()->download($this->customTempFolderPath.DIRECTORY_SEPARATOR.$this->pathFileGenerated)->deleteFileAfterSend(true);
+    public function download(string $filename)
+    {
+        $pathToFile = config('eplanning.local_path').DIRECTORY_SEPARATOR.$filename;
+        $this->spreadsheet->getProperties()->setCreator(config('eplanning.nama_institusi'));
+        $this->spreadsheet->getProperties()->setLastModifiedBy(config('eplanning.nama_institusi'));
+        $this->spreadsheet->getProperties()->setTitle("Laporan RKPD Tahun ".config('eplanning.tahun_perencanaan'));
+        $this->spreadsheet->getProperties()->setSubject("Laporan RKPD Tahun ".config('eplanning.tahun_perencanaan'));        
+        $writer = new Xlsx($this->spreadsheet);
+        $writer->save($pathToFile);        
+        return response()->download($pathToFile)->deleteFileAfterSend(true);
     }
 }
