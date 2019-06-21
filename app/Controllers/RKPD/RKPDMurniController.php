@@ -343,19 +343,25 @@ class RKPDMurniController extends Controller {
                 }    
             break;
             case 'opd' :
-                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false,NULL,$auth->OrgID);  
-                $filters['OrgID']=$auth->OrgID;                
-                if (empty($auth->SOrgID)) 
-                {
-                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$auth->OrgID);  
-                    $filters['SOrgID']=empty($filters['SOrgID'])?'':$filters['SOrgID'];                    
-                }   
+                $daftar_opd=\App\Models\UserOPD::getOPD();                      
+                if (count($daftar_opd) > 0)
+                {                    
+                    if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
+                    {
+                        $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$filters['OrgID']);        
+                    }  
+                }      
                 else
                 {
-                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$auth->OrgID,$auth->SOrgID);
-                    $filters['SOrgID']=$auth->SOrgID;
-                }                
-                $this->putControllerStateSession('rkpdmurni','filters',$filters);
+                    $filters['OrgID']='none';
+                    $filters['SOrgID']='none';
+                    $this->putControllerStateSession($this->SessionName,'filters',$filters);
+
+                    return view("pages.$theme.rkpd.rkpdmurni.error")->with(['page_active'=>$this->NameOfPage, 
+                                                                                        'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
+                                                                                        'errormessage'=>'Anda Tidak Diperkenankan Mengakses Halaman ini, karena Sudah dikunci oleh BAPELITBANG',
+                                                                                        ]);
+                }        
             break;
         }
 
@@ -444,26 +450,38 @@ class RKPDMurniController extends Controller {
      */
     public function printtoexcel()
     {       
-       
-        $generate_date=date('Y-m-d_H_m_s');
-        $OrgID=$this->getControllerStateSession('rkpdmurni','filters.OrgID');        
-        $SOrgID=$this->getControllerStateSession('rkpdmurni','filters.SOrgID');        
-        
-        $opd = \DB::table('v_urusan_organisasi')
-                    ->where('OrgID',$OrgID)->first();  
-        
-        $data_report['OrgID']=$opd->OrgID;
-        $data_report['SOrgID']=$SOrgID;
-        $data_report['Kd_Urusan']=$opd->Kd_Urusan;
-        $data_report['Nm_Urusan']=$opd->Nm_Urusan;
-        $data_report['Kd_Bidang']=$opd->Kd_Bidang;
-        $data_report['Nm_Bidang']=$opd->Nm_Bidang;
-        $data_report['kode_organisasi']=$opd->kode_organisasi;
-        $data_report['OrgNm']=$opd->OrgNm;
-        $data_report['NamaKepalaSKPD']=$opd->NamaKepalaSKPD;
-        $data_report['NIPKepalaSKPD']=$opd->NIPKepalaSKPD;
-        
-        $report= new \App\Models\Report\ReportRKPDMurniModel ($data_report);
-        return $report->download("rkpd_$generate_date.xlsx");
+        $theme = \Auth::user()->theme;
+
+        $filters=$this->getControllerStateSession('rkpdmurni','filters');    
+        if ($filters['SOrgID'] != 'none'&&$filters['SOrgID'] != ''&&$filters['SOrgID'] != null)       
+        {
+            $generate_date=date('Y-m-d_H_m_s');
+            $OrgID=$this->getControllerStateSession('rkpdmurni','filters.OrgID');        
+            $SOrgID=$this->getControllerStateSession('rkpdmurni','filters.SOrgID');        
+            
+            $opd = \DB::table('v_urusan_organisasi')
+                        ->where('OrgID',$OrgID)->first();  
+            
+            $data_report['OrgID']=$opd->OrgID;
+            $data_report['SOrgID']=$SOrgID;
+            $data_report['Kd_Urusan']=$opd->Kd_Urusan;
+            $data_report['Nm_Urusan']=$opd->Nm_Urusan;
+            $data_report['Kd_Bidang']=$opd->Kd_Bidang;
+            $data_report['Nm_Bidang']=$opd->Nm_Bidang;
+            $data_report['kode_organisasi']=$opd->kode_organisasi;
+            $data_report['OrgNm']=$opd->OrgNm;
+            $data_report['NamaKepalaSKPD']=$opd->NamaKepalaSKPD;
+            $data_report['NIPKepalaSKPD']=$opd->NIPKepalaSKPD;
+            
+            $report= new \App\Models\Report\ReportRKPDMurniModel ($data_report);
+            return $report->download("rkpd_$generate_date.xlsx");
+        }
+        else
+        {
+            return view("pages.$theme.rkpd.rkpdmurni.error")->with(['page_active'=>$this->NameOfPage,
+                                                                    'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
+                                                                    'errormessage'=>'Mohon unit kerja untuk di pilih terlebih dahulu. bila sudah terpilih ternyata tidak bisa, berarti saudara tidak diperkenankan menambah kegiatan karena telah dikunci.'
+                                                                ]);  
+        }
     }
 }

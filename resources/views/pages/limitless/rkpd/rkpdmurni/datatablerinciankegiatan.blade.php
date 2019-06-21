@@ -55,7 +55,7 @@
                 </td>               
             </tr>
             <tr class="text-center info">
-                <td colspan="10">
+                <td colspan="6">
                     <span class="label label-warning label-rounded" style="text-transform: none">
                         <strong>RKPDID:</strong>
                         {{$item->RKPDID}}

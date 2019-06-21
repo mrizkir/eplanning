@@ -72,7 +72,8 @@ class MappingProgramToOPDController extends Controller {
                             ->join ('tmKUrs','tmUrs.KUrsID','tmKUrs.KUrsID')
                             ->where('v_organisasi_program.TA',\HelperKegiatan::getTahunPerencanaan())
                             ->where(['kode_program'=>$search['isikriteria']])
-                            ->orderBy("v_organisasi_program.$column_order",$direction);
+                            ->orderBy("v_organisasi_program.$column_order",$direction)
+                            ->orderBy("v_organisasi_program.kode_program",'ASC');
                 break;
                 case 'PrgNm' :
                     $data = MappingProgramToOPDModel::where('PrgNm', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
@@ -92,6 +93,7 @@ class MappingProgramToOPDController extends Controller {
                             ->join ('tmKUrs','tmUrs.KUrsID','tmKUrs.KUrsID')
                             ->where('v_organisasi_program.TA',\HelperKegiatan::getTahunPerencanaan())
                             ->where('PrgNm', 'ilike', '%' . $search['isikriteria'] . '%')                                        
+                            ->orderBy("v_organisasi_program.kode_program",'ASC')
                             ->orderBy("v_organisasi_program.$column_order",$direction);
                 break;
             }           
@@ -103,6 +105,7 @@ class MappingProgramToOPDController extends Controller {
                     ->select(\DB::raw('
                         "v_organisasi_program"."orgProgramID",
                         CONCAT("tmKUrs"."Kd_Urusan",\'.\',"tmUrs"."Kd_Bidang",\'.\',"tmOrg"."OrgCd") AS kode_organisasi_all_urusan,
+                        "v_organisasi_program"."OrgID",
                         "v_organisasi_program"."OrgNm",
                         CONCAT("tmKUrs"."Kd_Urusan",\'.\',"tmUrs"."Kd_Bidang",\'.\',"v_organisasi_program"."Kd_Prog") AS kode_program_all_urusan,
                         "v_organisasi_program"."kode_program",
@@ -114,6 +117,7 @@ class MappingProgramToOPDController extends Controller {
                     ->join ('tmUrs','tmOrg.UrsID','tmUrs.UrsID')
                     ->join ('tmKUrs','tmUrs.KUrsID','tmKUrs.KUrsID')
                     ->where('v_organisasi_program.TA',\HelperKegiatan::getTahunPerencanaan())
+                    ->orderBy("v_organisasi_program.kode_program",'ASC')
                     ->orderBy("v_organisasi_program.$column_order",$direction);
             
             if ($OrgID=='none'  || $OrgID=='')
@@ -165,19 +169,19 @@ class MappingProgramToOPDController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'OrgID' :
+            case 'col-OrgID' :
                 $column_name = 'OrgID';
             break; 
-            case 'NmOrg' :
-                $column_name = 'NmOrg';
+            case 'col-NmOrg' :
+                $column_name = 'OrgNm';
             break;  
-            case 'Kode_Program' :
+            case 'col-Kode_Program' :
                 $column_name = 'kode_program';
             break; 
-            case 'PrgNm' :
+            case 'col-PrgNm' :
                 $column_name = 'PrgNm';
             break; 
-            case 'Nm_Urusan' :
+            case 'col-Nm_Urusan' :
                 $column_name = 'Nm_Urusan';
             break;          
             default :

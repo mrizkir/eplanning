@@ -98,6 +98,10 @@
                                 <strong>RKPDID:</strong>
                                 {{$item->RKPDID}}
                             </span>                            
+                            <span class="label label-warning label-rounded" style="text-transform: none">
+                                <strong>PRGID:</strong>
+                                {{$item->PrgID}}
+                            </span>                            
                             <span class="label label-warning label-rounded">
                                 <strong>KET:</strong>
                                 {{empty($item->Descr)?'-':$item->Descr}}

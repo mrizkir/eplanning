@@ -86,6 +86,14 @@
                         </div>
                     </td>
                 </tr>
+                <tr class="text-center info">
+                    <td colspan="5">                     
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>PRGID:</strong>
+                            {{$item->PrgID}}
+                        </span> 
+                    </td>
+                </tr>
             @endforeach                    
             </tbody>
         </table>      

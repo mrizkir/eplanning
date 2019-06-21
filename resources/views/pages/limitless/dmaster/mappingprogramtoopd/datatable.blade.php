@@ -95,8 +95,20 @@
                         </ul>
                     </td>
                 </tr>
+                <tr class="text-center info">
+                    <td colspan="10">
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>ORGID:</strong>
+                            {{$item->OrgID}}
+                        </span>                            
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>PRGID:</strong>
+                            {{$item->orgProgramID}}
+                        </span>
+                    </td>
+                </tr>
             @endforeach                    
-            </tbody>
+            </tbody>            
         </table>               
     </div>
     <div class="panel-body border-top-info text-center" id="paginations">

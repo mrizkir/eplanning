@@ -24,12 +24,12 @@ class ReportRKPDMurniModel extends ReportModel
                 'size' => '9',
             ],
         ]);
-        $sheet->mergeCells ('A1:K1');
+        $sheet->mergeCells ('A1:J1');
         $sheet->setCellValue('A1','RUMUSAN PROGRAM DAN KEGIATAN OPD TAHUN '.\HelperKegiatan::getTahunPerencanaan());
         $n1 = \HelperKegiatan::getTahunPerencanaan()+1;
-        $sheet->mergeCells ('A2:K2');
+        $sheet->mergeCells ('A2:J2');
         $sheet->setCellValue('A2','DAN PRAKIRAAN MAJU TAHUN '.$n1);
-        $sheet->mergeCells ('A3:K3');
+        $sheet->mergeCells ('A3:J3');
         $sheet->setCellValue('A3','KABUPATEN BINTAN');
         $styleArray=array( 
             'font' => array('bold' => true,'size'=>'9'),
@@ -45,38 +45,36 @@ class ReportRKPDMurniModel extends ReportModel
         $sheet->setCellValue('A7','NAMA OPD / SKPD'); 
         $sheet->setCellValue('B7',': '.$this->dataReport['OrgNm']. ' ['.$this->dataReport['kode_organisasi'].']'); 
                 
-        $sheet->mergeCells ('A10:A11');
-        $sheet->setCellValue('A10','KODE'); 
-        $sheet->mergeCells ('B10:B11');
-        $sheet->setCellValue('B10','URUSAN/BIDANG URUSAN PEMERINTAH DAERAH DAN PROGRAM/KEGIATAN'); 
-        $sheet->mergeCells ('C10:C11');
-        $sheet->setCellValue('C10','INDIKATOR KINERJA PROGRAM/KEGIATAN'); 
-        $sheet->mergeCells ('D10:G10');
-        $sheet->setCellValue('D10','RENCANA TAHUN '.\HelperKegiatan::getTahunPerencanaan()); 
-        $sheet->mergeCells ('H10:J10');
-        $sheet->setCellValue('H10','PERKIRAAN MAJU RENCANA TAHUN '.$n1);
-        $sheet->mergeCells ('K10:K11');
-        $sheet->setCellValue('K10','KETERANGAN'); 
+        $sheet->mergeCells ('A9:A10');
+        $sheet->setCellValue('A9','KODE'); 
+        $sheet->mergeCells ('B9:B10');
+        $sheet->setCellValue('B9','URUSAN/BIDANG URUSAN PEMERINTAH DAERAH DAN PROGRAM/KEGIATAN'); 
+        $sheet->mergeCells ('C9:C10');
+        $sheet->setCellValue('C9','INDIKATOR KINERJA PROGRAM/KEGIATAN'); 
+        $sheet->mergeCells ('D9:G9');
+        $sheet->setCellValue('D9','RENCANA TAHUN '.\HelperKegiatan::getTahunPerencanaan());         
+        $sheet->mergeCells ('H9:H10');
+        $sheet->setCellValue('H9','CATATAN PENTING');
+        $sheet->mergeCells ('I9:J9');
+        $sheet->setCellValue('I9','PERKIRAAN MAJU RENCANA TAHUN '.$n1);
         
-        $sheet->setCellValue('D11','LOKASI'); 
-        $sheet->setCellValue('E11','TARGET CAPAIAN KINERJA'); 
-        $sheet->setCellValue('F11','KEBUTUHAN DANA/PAGU INDIKATIF'); 
-        $sheet->setCellValue('G11','SUMBER DANA'); 
-        $sheet->setCellValue('H11','LOKASI');         
-        $sheet->setCellValue('I11','TARGET CAPAIAN KINERJA'); 
-        $sheet->setCellValue('J11','KEBUTUHAN DANA/PAGU INDIKATIF'); 
+        $sheet->setCellValue('D10','LOKASI'); 
+        $sheet->setCellValue('E10','TARGET CAPAIAN KINERJA'); 
+        $sheet->setCellValue('F10','KEBUTUHAN DANA/PAGU INDIKATIF'); 
+        $sheet->setCellValue('G10','SUMBER DANA');         
+        $sheet->setCellValue('I10','TARGET CAPAIAN KINERJA'); 
+        $sheet->setCellValue('J10','KEBUTUHAN DANA/PAGU INDIKATIF'); 
         
-        $sheet->setCellValue('A12',1); 
-        $sheet->setCellValue('B12',2); 
-        $sheet->setCellValue('C12',3); 
-        $sheet->setCellValue('D12',4); 
-        $sheet->setCellValue('E12',5); 
-        $sheet->setCellValue('F12',6); 
-        $sheet->setCellValue('G12',7); 
-        $sheet->setCellValue('H12',12); 
-        $sheet->setCellValue('I12',9); 
-        $sheet->setCellValue('J12',10); 
-        $sheet->setCellValue('K12',11); 
+        $sheet->setCellValue('A11',1); 
+        $sheet->setCellValue('B11',2); 
+        $sheet->setCellValue('C11',3); 
+        $sheet->setCellValue('D11',4); 
+        $sheet->setCellValue('E11',5); 
+        $sheet->setCellValue('F11',6); 
+        $sheet->setCellValue('G11',7); 
+        $sheet->setCellValue('H11',11); 
+        $sheet->setCellValue('I11',9); 
+        $sheet->setCellValue('J11',10); 
         $sheet->getColumnDimension('A')->setWidth(19);
         $sheet->getColumnDimension('B')->setWidth(40);
         $sheet->getColumnDimension('C')->setWidth(30);
@@ -87,15 +85,14 @@ class ReportRKPDMurniModel extends ReportModel
         $sheet->getColumnDimension('H')->setWidth(11);
         $sheet->getColumnDimension('I')->setWidth(20);
         $sheet->getColumnDimension('J')->setWidth(17);
-        $sheet->getColumnDimension('K')->setWidth(12);
         $styleArray=array( 
             'font' => array('bold' => true,'size'=>'9'),
             'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
                                'vertical'=>Alignment::HORIZONTAL_CENTER),
             'borders' => array('allBorders' => array('borderStyle' =>Border::BORDER_THIN))
         );                
-        $sheet->getStyle("A10:K12")->applyFromArray($styleArray);
-        $sheet->getStyle("A10:K12")->getAlignment()->setWrapText(true);
+        $sheet->getStyle("A9:J11")->applyFromArray($styleArray);
+        $sheet->getStyle("A9:J11")->getAlignment()->setWrapText(true);
 
         $daftar_program=\DB::table('v_organisasi_program')
                             ->select(\DB::raw('"PrgID","kode_program","PrgNm"'))
@@ -105,8 +102,9 @@ class ReportRKPDMurniModel extends ReportModel
                             ->get()->toArray();
         
         
-        $row=13;
+        $row=12;
         $total_pagu=0;
+        $total_nilai_setelah=0;
         foreach ($daftar_program as $v)
         {
             $PrgID=$v->PrgID;
@@ -117,15 +115,16 @@ class ReportRKPDMurniModel extends ReportModel
                                             ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                                             ->orderBy('kode_kegiatan','ASC')       
                                             ->get();
-
+            
             if (isset($daftar_kegiatan[0])) 
             {
                 $totalpagueachprogram= $daftar_kegiatan->sum('NilaiUsulan1');      
-
-                $sheet->getStyle("A$row:K$row")->getFont()->setBold(true);                
+                $totalnilaisetelah= $daftar_kegiatan->sum('NilaiSetelah');  
+                $sheet->getStyle("A$row:J$row")->getFont()->setBold(true);                
                 $sheet->setCellValue("A$row",$v->kode_program);
                 $sheet->setCellValue("B$row",$v->PrgNm);
                 $sheet->setCellValue("F$row",\Helper::formatUang($totalpagueachprogram)); 
+                $sheet->setCellValue("J$row",\Helper::formatUang($totalnilaisetelah)); 
                 $row+=1;
                 foreach ($daftar_kegiatan as $n) 
                 {
@@ -142,27 +141,35 @@ class ReportRKPDMurniModel extends ReportModel
                     $sheet->setCellValue("K$row",$n['Descr']); 
                     $row+=1;
                     $total_pagu+=$n['NilaiUsulan1'];
+                    $total_nilai_setelah+=$n['NilaiSetelah'];
                 }
             }
-        }
-        $sheet->mergeCells("A$row:D$row"); 
+        }        
         $sheet->setCellValue("E$row",'TOTAL'); 
         $sheet->setCellValue("F$row",\Helper::formatUang($total_pagu)); 
-        $sheet->mergeCells("G$row:K$row"); 
+        $sheet->setCellValue("J$row",\Helper::formatUang($total_nilai_setelah)); 
         
-        $row=$row-1;
-        $styleArray=array(								
-            'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
-                               'vertical'=>Alignment::HORIZONTAL_CENTER),
-            'borders' => array('allBorders' => array('borderStyle' =>Border::BORDER_THIN))
-        );        																			 
-        $sheet->getStyle("A13:K$row")->applyFromArray($styleArray);
-        $sheet->getStyle("A13:K$row")->getAlignment()->setWrapText(true);      
+        // $row=$row-1;
+        // $styleArray=array(								
+        //     'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
+        //                        'vertical'=>Alignment::HORIZONTAL_CENTER),
+        //     'borders' => array('allBorders' => array('borderStyle' =>Border::BORDER_THIN))
+        // );        																			 
+        // $sheet->getStyle("A13:J$row")->applyFromArray($styleArray);
+        // $sheet->getStyle("A13:J$row")->getAlignment()->setWrapText(true);      
         
-        $styleArray=array(								
-            'alignment' => array('horizontal'=>Alignment::HORIZONTAL_LEFT)
-        );																					 
-        $sheet->getStyle("A13:C$row")->applyFromArray($styleArray);
+        // $styleArray=array(								
+        //     'alignment' => array('horizontal'=>Alignment::HORIZONTAL_LEFT)
+        // );																					 
+        // $sheet->getStyle("A13:C$row")->applyFromArray($styleArray);
+
+        // $row=$row+1;
+        // $styleArray=array(								
+        //     'alignment' => array('horizontal'=>Alignment::HORIZONTAL_RIGHT)
+        // );																					 
+        // $sheet->getStyle("F13:C$row")->applyFromArray($styleArray);
+        // $sheet->getStyle("J13:C$row")->applyFromArray($styleArray);
+
         $row+=3;
         $sheet->setCellValue("H$row",'BANDAR SRI BENTAN, '.\Helper::tanggal('d F Y'));
         $row+=1;        
