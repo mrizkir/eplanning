@@ -330,9 +330,11 @@ class RKPDMurniController extends Controller {
 
         $filters=$this->getControllerStateSession('rkpdmurni','filters');
         $roles=$auth->getRoleNames();        
+        $daftar_unitkerja=[];
         switch ($roles[0])
         {
             case 'superadmin' :                 
+            case 'bapelitbang' :                 
                 $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);  
                 $daftar_unitkerja=array();           
                 if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
