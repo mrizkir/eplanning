@@ -145,11 +145,12 @@ class ReportRKPDMurniModel extends ReportModel
                 }
             }
         }
-        $sheet->mergeCells("A$row:E$row"); 
-        $sheet->setCellValue("A$row",'TOTAL'); 
+        $sheet->mergeCells("A$row:D$row"); 
+        $sheet->setCellValue("E$row",'TOTAL'); 
         $sheet->setCellValue("F$row",\Helper::formatUang($total_pagu)); 
-        $sheet->mergeCells("F$row:K$row"); 
-
+        $sheet->mergeCells("G$row:K$row"); 
+        
+        $row=$row-1;
         $styleArray=array(								
             'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
                                'vertical'=>Alignment::HORIZONTAL_CENTER),
