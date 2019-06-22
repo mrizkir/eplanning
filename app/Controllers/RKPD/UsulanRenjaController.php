@@ -658,8 +658,8 @@ class UsulanRenjaController extends Controller
 
             $organisasi=\App\Models\DMaster\OrganisasiModel::find($OrgID);            
             $UrsID=$organisasi->UrsID;
-
-            $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusan(\HelperKegiatan::getTahunPerencanaan(),false);   
+            
+            $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusanByOPD(\HelperKegiatan::getTahunPerencanaan(),$filters['OrgID'],false);   
             $daftar_urusan['all']='SEMUA URUSAN';
             $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan(),false,$UrsID);
             $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunPerencanaan(),false);     
