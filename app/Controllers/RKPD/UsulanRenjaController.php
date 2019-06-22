@@ -1851,7 +1851,7 @@ class UsulanRenjaController extends Controller
         if (!is_null($renja) ) 
         {
             $UrsID_selected=$renja->UrsID==null?'all':$renja->UrsID;
-            $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusan(\HelperKegiatan::getTahunPerencanaan(),false);   
+            $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusanByOPD(\HelperKegiatan::getTahunPerencanaan(),$UrsID_selected,false);   
             $daftar_urusan['all']='SEMUA URUSAN';
             $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan(),false,$UrsID_selected);
             $r=\DB::table('v_program_kegiatan')
