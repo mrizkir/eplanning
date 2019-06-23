@@ -130,7 +130,7 @@ class ReportRKPDPerubahanModel extends ReportModel
             {   
                 $kode_program=$v->kode_program==''?$this->dataReport['kode_organisasi'].'.'.$v->Kd_Prog:$v->kode_program;
                 $PrgNm=$v->PrgNm;     
-                $sheet->getStyle("A$row:J$row")->getFont()->setBold(true);                                
+                $sheet->getStyle("A$row:P$row")->getFont()->setBold(true);                                
                 $sheet->mergeCells ("A$row:F$row");
                 $sheet->setCellValue("A$row",$kode_program);
                 $sheet->setCellValue("G$row",$PrgNm);
@@ -139,6 +139,7 @@ class ReportRKPDPerubahanModel extends ReportModel
                 $sheet->setCellValue("M$row",\Helper::formatUang($totalpagueachprogramM)); 
                 $sheet->setCellValue("N$row",\Helper::formatUang($totalpagueachprogramP)); 
                 $sheet->setCellValue("O$row",\Helper::formatUang($totalpagueachprogramP-$totalpagueachprogramM)); 
+                $sheet->setCellValue("P$row",$PrgID);
                 $row+=1;
                 foreach ($daftar_kegiatan as $n) 
                 {
