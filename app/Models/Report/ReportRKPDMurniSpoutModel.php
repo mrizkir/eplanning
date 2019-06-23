@@ -6,9 +6,9 @@ use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
 use Box\Spout\Common\Entity\Style\Color;
 
-use App\Models\RKPD\RKPDMurniModel;
+use App\Models\RKPD\RKPDViewJudulModel;
 
-class ReportRKPDMurniModel extends ReportModel
+class ReportRKPDMurniSpoutModel extends ReportModel
 {   
     public function __construct($dataReport,$filename)
     {
@@ -41,7 +41,7 @@ class ReportRKPDMurniModel extends ReportModel
         {
             $PrgID=$v->PrgID;
 
-            $daftar_kegiatan = RKPDMurniModel::select(\DB::raw('"kode_kegiatan","KgtNm","NamaIndikator","Sasaran_Angka1","Sasaran_Uraian1","Target1","NilaiUsulan1","Sasaran_AngkaSetelah","Sasaran_UraianSetelah","NilaiSetelah","Nm_SumberDana","Descr"'))
+            $daftar_kegiatan = RKPDViewJudulModel::select(\DB::raw('"kode_kegiatan","KgtNm","NamaIndikator","Sasaran_Angka1","Sasaran_Uraian1","Target1","NilaiUsulan1","Sasaran_AngkaSetelah","Sasaran_UraianSetelah","NilaiSetelah","Nm_SumberDana","Descr"'))
                                             ->where('PrgID',$PrgID)      
                                             ->where('SOrgID',$SOrgID)
                                             ->where('TA',\HelperKegiatan::getTahunPerencanaan())

@@ -3,7 +3,7 @@ namespace App\Models\Report;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
-use App\Models\RKPD\RKPDMurniModel;
+use App\Models\RKPD\RKPDViewJudulModel;
 class ReportRKPDMurniModel extends ReportModel
 {   
     public function __construct($dataReport)
@@ -97,18 +97,15 @@ class ReportRKPDMurniModel extends ReportModel
                             ->orderByRaw('kode_program ASC NULLS FIRST')
                             ->orderBy('Kd_Prog','ASC')
                             ->get();
-                
+        
         $row=11;
         $total_pagu=0;
         $total_nilai_setelah=0;
 
         foreach ($daftar_program as $v)
         {
-            $PrgID=$v->PrgID;
-            $kode_program=$v->kode_program==''?$this->dataReport['kode_organisasi'].'.'.$v->Kd_Prog:$v->kode_program;
-            $PrgNm=$v->PrgNm;
-            $sheet->setCellValue("A12",$kode_program);
-            $daftar_kegiatan = RKPDMurniModel::select(\DB::raw('"kode_kegiatan","KgtNm","NamaIndikator","Sasaran_Angka1","Sasaran_Uraian1","Target1","NilaiUsulan1","Sasaran_AngkaSetelah","Sasaran_UraianSetelah","NilaiSetelah","Nm_SumberDana","Descr"'))
+            $PrgID=$v->PrgID;           
+            $daftar_kegiatan = RKPDViewJudulModel::select(\DB::raw('"kode_kegiatan","KgtNm","NamaIndikator","Sasaran_Angka1","Sasaran_Uraian1","Target1","NilaiUsulan1","Sasaran_AngkaSetelah","Sasaran_UraianSetelah","NilaiSetelah","Nm_SumberDana","Descr"'))
                                             ->where('PrgID',$PrgID)      
                                             ->where('OrgID',$OrgID)
                                             ->where('TA',\HelperKegiatan::getTahunPerencanaan())
@@ -117,6 +114,8 @@ class ReportRKPDMurniModel extends ReportModel
                                             
             if (isset($daftar_kegiatan[0])) 
             {   
+                $kode_program=$v->kode_program==''?$this->dataReport['kode_organisasi'].'.'.$v->Kd_Prog:$v->kode_program;
+                $PrgNm=$v->PrgNm;
                 $sheet->getStyle("A$row:J$row")->getFont()->setBold(true);                                
                 $sheet->setCellValue("A$row",$kode_program);
                 $sheet->setCellValue("B$row",$PrgNm);
@@ -136,10 +135,10 @@ class ReportRKPDMurniModel extends ReportModel
                     $sheet->setCellValue("G$row",$n['Nm_SumberDana']); 
                     $sheet->setCellValue("H$row",$n['Descr']); 
                     $sheet->setCellValue("I$row",\Helper::formatAngka($n['Sasaran_AngkaSetelah']).' '.$n['Sasaran_UraianSetelah']); 
-                    $sheet->setCellValue("J$row",\Helper::formatUang($n['NilaiSetelah']));                     
-                    $row+=1;
+                    $sheet->setCellValue("J$row",\Helper::formatUang($n['NilaiSetelah'])); 
                     $total_pagu+=$n['NilaiUsulan1'];
                     $total_nilai_setelah+=$n['NilaiSetelah'];
+                    $row+=1;
                 }
             }
         }        

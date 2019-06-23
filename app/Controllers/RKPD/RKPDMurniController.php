@@ -4,7 +4,7 @@ namespace App\Controllers\RKPD;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
-use App\Models\RKPD\RKPDMurniModel;
+use App\Models\RKPD\RKPDViewJudulModel;
 use App\Models\RKPD\RKPDModel;
 use App\Models\RKPD\RKPDRincianModel;
 use App\Models\RKPD\RKPDMurniIndikatorModel;
@@ -78,19 +78,19 @@ class RKPDMurniController extends Controller {
             switch ($search['kriteria']) 
             {
                 case 'kode_kegiatan' :
-                    $data = RKPDMurniModel::where(['kode_kegiatan'=>$search['isikriteria']])                                                    
+                    $data = RKPDViewJudulModel::where(['kode_kegiatan'=>$search['isikriteria']])                                                    
                                                     ->where('SOrgID',$SOrgID)
                                                     ->where('TA', \HelperKegiatan::getTahunPerencanaan())
                                                     ->orderBy($column_order,$direction); 
                 break;
                 case 'KgtNm' :
-                    $data = RKPDMurniModel::where('KgtNm', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
+                    $data = RKPDViewJudulModel::where('KgtNm', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                                     ->where('SOrgID',$SOrgID)
                                                     ->where('TA', \HelperKegiatan::getTahunPerencanaan())
                                                     ->orderBy($column_order,$direction);                                        
                 break;
                 case 'Uraian' :
-                    $data = RKPDMurniModel::where('Uraian', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
+                    $data = RKPDViewJudulModel::where('Uraian', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                                     ->where('SOrgID',$SOrgID)
                                                     ->where('TA', \HelperKegiatan::getTahunPerencanaan())
                                                     ->orderBy($column_order,$direction);                                        
@@ -100,7 +100,7 @@ class RKPDMurniController extends Controller {
         }
         else
         {
-            $data = RKPDMurniModel::where('SOrgID',$SOrgID)                                                                                      
+            $data = RKPDViewJudulModel::where('SOrgID',$SOrgID)                                                                                      
                                             ->where('TA', \HelperKegiatan::getTahunPerencanaan())                                            
                                             ->orderBy($column_order,$direction)                                            
                                             ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);             

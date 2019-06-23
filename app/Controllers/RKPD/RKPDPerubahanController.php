@@ -5,11 +5,10 @@ namespace App\Controllers\RKPD;
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
 
-use App\Models\RKPD\RKPDPerubahanModel;
+use App\Models\RKPD\RKPDViewRincianModel;
 use App\Models\RKPD\RKPDIndikatorModel;
 use App\Models\RKPD\RKPDModel;
 use App\Models\RKPD\RKPDRincianModel;
-
 
 class RKPDPerubahanController extends Controller 
 {    
@@ -124,7 +123,7 @@ class RKPDPerubahanController extends Controller
                                 ->orderBy($column_order,$direction);                                        
                 break;
                 case 'Uraian' :
-                    $data =  RKPDPerubahanModel::select(\HelperKegiatan::getField($this->NameOfPage))
+                    $data =  RKPDViewRincianModel::select(\HelperKegiatan::getField($this->NameOfPage))
                                                 ->where('Uraian', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                                 ->where('SOrgID',$SOrgID)
                                                 ->where('TA', \HelperKegiatan::getTahunPerencanaan())
@@ -135,7 +134,7 @@ class RKPDPerubahanController extends Controller
         }
         else
         {
-            $data = RKPDPerubahanModel::select(\HelperKegiatan::getField($this->NameOfPage))
+            $data = RKPDViewRincianModel::select(\HelperKegiatan::getField($this->NameOfPage))
                                         ->where('SOrgID',$SOrgID)                                            
                                         ->where('TA', \HelperKegiatan::getTahunPerencanaan())                                            
                                         ->orderBy($column_order,$direction)                                            
@@ -2255,5 +2254,47 @@ class RKPDPerubahanController extends Controller
                 return redirect(route(\Helper::getNameOfPage('index')))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
             }      
         }  
+        
+    }
+    /**
+     * Print to Excel
+     *    
+     * @return \Illuminate\Http\Response
+     */
+    public function printtoexcel()
+    {       
+        $theme = \Auth::user()->theme;
+
+        $filters=$this->getControllerStateSession('rkpdperubahan','filters');    
+        if ($filters['SOrgID'] != 'none'&&$filters['SOrgID'] != ''&&$filters['SOrgID'] != null)       
+        {
+            $generate_date=date('Y-m-d_H_m_s');
+            $OrgID=$this->getControllerStateSession('rkpdperubahan','filters.OrgID');        
+            $SOrgID=$this->getControllerStateSession('rkpdperubahan','filters.SOrgID');        
+            
+            $opd = \DB::table('v_urusan_organisasi')
+                        ->where('OrgID',$OrgID)->first();  
+            
+            $data_report['OrgID']=$opd->OrgID;
+            $data_report['SOrgID']=$SOrgID;
+            $data_report['Kd_Urusan']=$opd->Kd_Urusan;
+            $data_report['Nm_Urusan']=$opd->Nm_Urusan;
+            $data_report['Kd_Bidang']=$opd->Kd_Bidang;
+            $data_report['Nm_Bidang']=$opd->Nm_Bidang;
+            $data_report['kode_organisasi']=$opd->kode_organisasi;
+            $data_report['OrgNm']=$opd->OrgNm;
+            $data_report['NamaKepalaSKPD']=$opd->NamaKepalaSKPD;
+            $data_report['NIPKepalaSKPD']=$opd->NIPKepalaSKPD;
+            
+            $report= new \App\Models\Report\ReportRKPDPerubahanModel ($data_report);
+            return $report->download("rkpdp_$generate_date.xlsx");
+        }
+        else
+        {
+            return view("pages.$theme.rkpd.rkpdperubahan.error")->with(['page_active'=>$this->NameOfPage,
+                                                                    'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
+                                                                    'errormessage'=>'Mohon unit kerja untuk di pilih terlebih dahulu. bila sudah terpilih ternyata tidak bisa, berarti saudara tidak diperkenankan menambah kegiatan karena telah dikunci.'
+                                                                ]);  
+        }
     }
 }

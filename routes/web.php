@@ -460,7 +460,9 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::get('/workflow/rkpd/rkpdperubahan/paginate/{id}',['uses'=>'RKPD\RKPDPerubahanController@paginate','as'=>'rkpdperubahan.paginate']);              
     Route::post('/workflow/rkpd/rkpdperubahan/changenumberrecordperpage',['uses'=>'RKPD\RKPDPerubahanController@changenumberrecordperpage','as'=>'rkpdperubahan.changenumberrecordperpage']);  
     Route::post('/workflow/rkpd/rkpdperubahan/orderby',['uses'=>'RKPD\RKPDPerubahanController@orderby','as'=>'rkpdperubahan.orderby']);
-    
+    Route::get('/workflow/rkpd/rkpdperubahan/printtoexcel',['uses'=>'RKPD\RKPDPerubahanController@printtoexcel','as'=>'rkpdperubahan.printtoexcel']);
+    Route::get('/workflow/rkpd/rkpdperubahan/printtopdf',['uses'=>'RKPD\RKPDPerubahanController@printtopdf','as'=>'rkpdperubahan.printtopdf']);
+
     //Report - Perencanaan  REKAP RKPD PERUBAHAN OPD    
     Route::resource('/report/rkpd/rekaprkpdperubahanopd','Report\RekapRKPDPerubahanOPDController',[
                                                                             'parameters'=>['rekaprkpdperubahanopd'=>'id'],

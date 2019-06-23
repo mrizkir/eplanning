@@ -5,7 +5,7 @@ namespace App\Models\RKPD;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class RKPDMurniModel extends Model {
+class RKPDViewRincianModel extends Model {
     use LogsActivity;
 
      /**
@@ -13,13 +13,13 @@ class RKPDMurniModel extends Model {
      *
      * @var string
      */
-    protected $table = 'v_rkpd';    
+    protected $table = 'v_rkpd_rinci';    
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'RKPDID';
+    protected $primaryKey = 'RKPDRincID';
     /**
      * enable auto_increment.
      *

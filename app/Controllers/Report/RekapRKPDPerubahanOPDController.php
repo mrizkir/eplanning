@@ -5,7 +5,7 @@ namespace App\Controllers\Report;
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
 
-use App\Models\RKPD\RKPDPerubahanModel;
+use App\Models\RKPD\RKPDViewRincianModel;
 use App\Models\RKPD\RKPDIndikatorModel;
 use App\Models\RKPD\RKPDModel;
 use App\Models\RKPD\RKPDRincianModel;
@@ -45,7 +45,7 @@ class RekapRKPDPerubahanOPDController extends Controller
         $SOrgID= $this->getControllerStateSession(\Helper::getNameOfPage('filters'),'SOrgID');        
 
     
-        $data = RKPDPerubahanModel::select(\DB::raw('
+        $data = RKPDViewRincianModel::select(\DB::raw('
                                     "Kd_Urusan",
                                     "Kd_Bidang",
                                     "OrgCd",
