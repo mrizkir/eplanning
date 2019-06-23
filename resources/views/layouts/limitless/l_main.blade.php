@@ -364,8 +364,8 @@
                             <div class="col-md-3">
                                 <span class="menu-heading underlined"><i class="icon-file-empty"></i> RENCANA KERJA OPD / SKPD</span>
                                 <ul class="menu-list">
-                                    <li{!!Helper::isMenuActive ($page_active,'rekaprkpdperubahanopd',' class="active"')!!}>
-                                        <a href="{{route('rekaprkpdperubahanopd.index')}}">
+                                    <li{!!Helper::isMenuActive ($page_active,'reportrkpdperubahanopd',' class="active"')!!}>
+                                        <a href="{{route('reportrkpdperubahanopd.index')}}">
                                             <i class="icon-file-empty"></i> RKPD PERUBAHAN PER OPD</span>
                                         </a>
                                     </li>  

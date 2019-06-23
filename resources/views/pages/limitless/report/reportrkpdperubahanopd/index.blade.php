@@ -1,6 +1,6 @@
 @extends('layouts.limitless.l_report')
 @section('page_title')
-    REKAP RKPD PERUBAHAN OPD
+    LAPORAN RKPD PERUBAHAN OPD
 @endsection
 @section('page_content')
 <div class="row">      
@@ -43,7 +43,7 @@
         </div>
     </div>
     <div class="col-md-12" id="divdatatable">
-        @include('pages.limitless.report.rekaprkpdperubahanopd.datatable')
+        @include('pages.limitless.report.reportrkpdperubahanopd.datatable')
     </div>
 </div>
 @endsection

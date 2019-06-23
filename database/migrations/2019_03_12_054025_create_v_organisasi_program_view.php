@@ -18,6 +18,8 @@ class CreateVOrganisasiProgramView extends Migration
 				orgprg."orgProgramID",
 				orgprg."OrgID",	
 				orgprg."PrgID",			
+				kelompok_urusan."Kd_Urusan",			
+				urusan."Kd_Bidang",			
 				CONCAT(kelompok_urusan."Kd_Urusan", \'.\', urusan."Kd_Bidang") AS "Kode_Bidang",
 				kelompok_urusan."Nm_Urusan", 
 				urusan."Nm_Bidang", 
@@ -25,6 +27,7 @@ class CreateVOrganisasiProgramView extends Migration
 					WHEN urusan."UrsID" IS NOT NULL OR  kelompok_urusan."KUrsID" IS NOT NULL THEN
 						CONCAT(kelompok_urusan."Kd_Urusan",\'.\',urusan."Kd_Bidang",\'.\',organisasi."OrgCd")
 				END AS kode_organisasi,
+				organisasi."OrgCd", 
 				organisasi."OrgNm", 
 				organisasi."Alamat", 
 				organisasi."NamaKepalaSKPD", 

@@ -2265,12 +2265,12 @@ class RKPDPerubahanController extends Controller
     {       
         $theme = \Auth::user()->theme;
 
-        $filters=$this->getControllerStateSession('rkpdperubahan','filters');    
+        $filters=$this->getControllerStateSession($this->SessionName,'filters');    
         if ($filters['SOrgID'] != 'none'&&$filters['SOrgID'] != ''&&$filters['SOrgID'] != null)       
         {
             $generate_date=date('Y-m-d_H_m_s');
-            $OrgID=$this->getControllerStateSession('rkpdperubahan','filters.OrgID');        
-            $SOrgID=$this->getControllerStateSession('rkpdperubahan','filters.SOrgID');        
+            $OrgID=$filters['OrgID'];        
+            $SOrgID=$filters['SOrgID'];        
             
             $opd = \DB::table('v_urusan_organisasi')
                         ->where('OrgID',$OrgID)->first();  

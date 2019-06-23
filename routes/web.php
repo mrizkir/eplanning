@@ -464,15 +464,14 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::get('/workflow/rkpd/rkpdperubahan/printtopdf',['uses'=>'RKPD\RKPDPerubahanController@printtopdf','as'=>'rkpdperubahan.printtopdf']);
 
     //Report - Perencanaan  REKAP RKPD PERUBAHAN OPD    
-    Route::resource('/report/rkpd/rekaprkpdperubahanopd','Report\RekapRKPDPerubahanOPDController',[
-                                                                            'parameters'=>['rekaprkpdperubahanopd'=>'id'],
+    Route::resource('/report/rkpd/reportrkpdperubahanopd','Report\ReportRKPDPerubahanOPDController',[
+                                                                            'parameters'=>['reportrkpdperubahanopd'=>'id'],
                                                                             'only'=>['index']
                                                                         ]);                   
     
-    Route::post('/report/rkpd/rekaprkpdperubahanopd/search',['uses'=>'Report\RekapRKPDPerubahanOPDController@search','as'=>'rekaprkpdperubahanopd.search']);              
-    Route::post('/report/rkpd/rekaprkpdperubahanopd/orderby',['uses'=>'Report\RekapRKPDPerubahanOPDController@orderby','as'=>'rekaprkpdperubahanopd.orderby']);  
-    Route::post('/report/rkpd/rekaprkpdperubahanopd/filter',['uses'=>'Report\RekapRKPDPerubahanOPDController@filter','as'=>'rekaprkpdperubahanopd.filter']);                  
-    Route::post('/report/rkpd/rekaprkpdperubahanopd/printexcel',['uses'=>'Report\RekapRKPDPerubahanOPDController@orderby','as'=>'rekaprkpdperubahanopd.printexcel']);  
+    Route::post('/report/rkpd/reportrkpdperubahanopd/search',['uses'=>'Report\ReportRKPDPerubahanOPDController@search','as'=>'reportrkpdperubahanopd.search']);              
+    Route::post('/report/rkpd/reportrkpdperubahanopd/filter',['uses'=>'Report\ReportRKPDPerubahanOPDController@filter','as'=>'reportrkpdperubahanopd.filter']);                  
+    Route::get('/report/rkpd/reportrkpdperubahanopd/printtoexcel',['uses'=>'Report\ReportRKPDPerubahanOPDController@printtotexcel','as'=>'reportrkpdperubahanopd.printtoexcel']);  
 
     //setting - permissions    
     Route::resource('/setting/permissions','Setting\PermissionsController',[

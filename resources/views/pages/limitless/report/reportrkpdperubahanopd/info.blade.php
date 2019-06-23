@@ -1,3 +1,3 @@
 <small class="display-block">          
-    <code>info halaman</code>
+    <code>Laporan RKPD Perubahan</code>
 </small>
