@@ -27,7 +27,7 @@ class CreateVRkpdView extends Migration
                 E."PrgID",
                 CONCAT(H."Kd_Urusan", \'.\', G."Kd_Bidang", \'.\', C."OrgCd", \'.\', F."Kd_Prog") AS kode_program,                                
                 F."PrgNm",
-                E."Kgt_Keg",
+                E."Kd_Keg",
                 CONCAT(H."Kd_Urusan", \'.\', G."Kd_Bidang", \'.\', C."OrgCd", \'.\', F."Kd_Prog", \'.\', E."Kd_Keg") AS kode_kegiatan,
                 E."KgtNm",
                 I."Nm_SumberDana",
