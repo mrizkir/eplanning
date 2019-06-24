@@ -343,7 +343,23 @@ class RekapPaguIndikatifOPDController extends Controller {
                 foreach ($data as $k=>$v)
                 {
                     $jumlah = empty($v) ? 0 : $v;
-                    \DB::table('trRekapPaguIndikatifOPD')->where('OrgID',$k)->update(['NilaiUsulan1'=>$jumlah,'updated_at'=>\Carbon\Carbon::now()]);
+                    \DB::table('trRekapPaguIndikatifOPD')->where('OrgID',$k)->update(['rkpd1'=>$jumlah,'updated_at'=>\Carbon\Carbon::now()]);
+                }
+            break;     
+            case 'uidRKPDPerubahan' :
+                $data = \DB::table('trRKPDRinc')
+                            ->select(\DB::raw('"trRKPD"."OrgID", SUM("trRKPDRinc"."NilaiUsulan2") AS jumlah'))
+                            ->join('trRKPD','trRKPDRinc.RKPDID','trRKPD.RKPDID')                            
+                            ->where('trRKPDRinc.EntryLvl',5)  
+                            ->where('trRKPDRinc.Status',2)                                      
+                            ->orWhere('trRKPDRinc.Status',3)                                      
+                            ->where('trRKPDRinc.TA',$ta)
+                            ->groupBy('trRKPD.OrgID')->get()->pluck('jumlah','OrgID')->toArray();
+
+                foreach ($data as $k=>$v)
+                {
+                    $jumlah = empty($v) ? 0 : $v;
+                    \DB::table('trRekapPaguIndikatifOPD')->where('OrgID',$k)->update(['rkpd2'=>$jumlah,'updated_at'=>\Carbon\Carbon::now()]);
                 }
             break;           
         }        
