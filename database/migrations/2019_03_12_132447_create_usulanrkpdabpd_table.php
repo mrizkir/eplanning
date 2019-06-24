@@ -22,7 +22,7 @@ class CreateUsulanrkpdabpdTable extends Migration
             $table->string('SOrgID',19);
             $table->string('KgtID',19);
             $table->string('SumberDanaID',19);                
-            $table->string('NamaIndikator');
+            $table->text('NamaIndikator');
 
             $table->text('Sasaran_Uraian1');
             $table->text('Sasaran_Uraian2')->nullable();
