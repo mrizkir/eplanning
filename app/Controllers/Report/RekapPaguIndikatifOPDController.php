@@ -376,4 +376,45 @@ class RekapPaguIndikatifOPDController extends Controller {
             return redirect(route('rekappaguindikatifopd.index'))->with('success','Data ini telah berhasil disimpan.');
         }
     }
+    /**
+     * Print to Excel
+     *    
+     * @return \Illuminate\Http\Response
+     */
+    public function printtoexcel ()
+    {       
+        $theme = \Auth::user()->theme;
+
+        // $filters=$this->getControllerStateSession($this->SessionName,'filters');    
+        // if ($filters['SOrgID'] != 'none'&&$filters['SOrgID'] != ''&&$filters['SOrgID'] != null)       
+        // {
+        //     $generate_date=date('Y-m-d_H_m_s');
+        //     $OrgID=$filters['OrgID'];        
+        //     $SOrgID=$filters['SOrgID'];    
+            
+        //     $opd = \DB::table('v_urusan_organisasi')
+        //                 ->where('OrgID',$OrgID)->first();  
+            
+        //     $data_report['OrgID']=$opd->OrgID;
+        //     $data_report['SOrgID']=$SOrgID;
+        //     $data_report['Kd_Urusan']=$opd->Kd_Urusan;
+        //     $data_report['Nm_Urusan']=$opd->Nm_Urusan;
+        //     $data_report['Kd_Bidang']=$opd->Kd_Bidang;
+        //     $data_report['Nm_Bidang']=$opd->Nm_Bidang;
+        //     $data_report['kode_organisasi']=$opd->kode_organisasi;
+        //     $data_report['OrgNm']=$opd->OrgNm;
+        //     $data_report['NamaKepalaSKPD']=$opd->NamaKepalaSKPD;
+        //     $data_report['NIPKepalaSKPD']=$opd->NIPKepalaSKPD;
+            
+        //     $report= new \App\Models\Report\ReportRKPDPerubahanModel ($data_report);
+        //     return $report->download("rkpdp_$generate_date.xlsx");
+        // }
+        // else
+        // {            
+        //     return view("pages.$theme.report.reportrkpdperubahanopd.error")->with(['page_active'=>$this->NameOfPage,
+        //                                                                         'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
+        //                                                                         'errormessage'=>'Mohon OPD / SKPD untuk di pilih terlebih dahulu.'
+        //                                                                     ]);  
+        // }
+    }
 }

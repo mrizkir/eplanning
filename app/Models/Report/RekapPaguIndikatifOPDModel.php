@@ -2,13 +2,15 @@
 
 namespace App\Models\Report;
 
-use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class RekapPaguIndikatifOPDModel extends Model {
+class RekapPaguIndikatifOPDModel extends ReportModel {
     use LogsActivity;
-
-     /**
+    public function __construct()
+    {
+        
+    }
+    /**
      * nama tabel model ini.
      *
      * @var string
@@ -74,4 +76,5 @@ class RekapPaguIndikatifOPDModel extends Model {
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
+    
 }

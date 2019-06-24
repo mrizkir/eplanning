@@ -1,8 +1,12 @@
 <?php
 namespace App\Models\Report;
+
+use Illuminate\Database\Eloquent\Model;
+
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-class ReportModel 
+
+class ReportModel extends Model
 {   
     /**
      * data report
@@ -12,8 +16,17 @@ class ReportModel
      * object spreadsheet
      */
     protected $spreadsheet;
+
     public function __construct($dataReport)
     {
+        $this->dataReport = $dataReport;
+        $this->spreadsheet = new Spreadsheet();         
+    }
+    /**
+     * digunakan untuk mengeset data report dan inisialisasi object spreadsheet
+     */
+    public function setObjReport($dataReport)
+    {   
         $this->dataReport = $dataReport;
         $this->spreadsheet = new Spreadsheet();         
     }

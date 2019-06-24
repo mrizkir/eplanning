@@ -43,6 +43,7 @@
         </ul>
     </div>
 </div>
+@include('layouts.limitless.l_navbar')
 <!-- /page header -->
 <div class="page-container">    
     <div class="page-content">

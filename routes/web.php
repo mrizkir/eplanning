@@ -12,6 +12,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
                                                                                                     'only'=>['index','store','update']
                                                                                                 ]); 
     Route::post('/dashboard/rekappaguindikatifopd/orderby',['uses'=>'Report\RekapPaguIndikatifOPDController@orderby','as'=>'rekappaguindikatifopd.orderby']); 
+    Route::get('/dashboard/rekappaguindikatifopd/printtoexcel',['uses'=>'Report\RekapPaguIndikatifOPDController@printtoexcel','as'=>'rekappaguindikatifopd.printtoexcel']); 
 
     //masters - tahun perencanaan dan penyerapan anggaran
     Route::resource('/dmaster/ta','DMaster\TAController',['parameters'=>['ta'=>'uuid']]); 
@@ -471,7 +472,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     
     Route::post('/report/rkpd/reportrkpdperubahanopd/search',['uses'=>'Report\ReportRKPDPerubahanOPDController@search','as'=>'reportrkpdperubahanopd.search']);              
     Route::post('/report/rkpd/reportrkpdperubahanopd/filter',['uses'=>'Report\ReportRKPDPerubahanOPDController@filter','as'=>'reportrkpdperubahanopd.filter']);                  
-    Route::get('/report/rkpd/reportrkpdperubahanopd/printtoexcel',['uses'=>'Report\ReportRKPDPerubahanOPDController@printtotexcel','as'=>'reportrkpdperubahanopd.printtoexcel']);  
+    Route::get('/report/rkpd/reportrkpdperubahanopd/printtoexcel',['uses'=>'Report\ReportRKPDPerubahanOPDController@printtoexcel','as'=>'reportrkpdperubahanopd.printtoexcel']);  
 
     //setting - permissions    
     Route::resource('/setting/permissions','Setting\PermissionsController',[

@@ -5,7 +5,7 @@
             <ul class="icons-list">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="icon-menu7"></i> 
+                        <i class="icon-printer"></i> 
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right">

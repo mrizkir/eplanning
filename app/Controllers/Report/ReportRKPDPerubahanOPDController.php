@@ -133,7 +133,7 @@ class ReportRKPDPerubahanOPDController extends Controller
      *    
      * @return \Illuminate\Http\Response
      */
-    public function printtotexcel ()
+    public function printtoexcel ()
     {       
         $theme = \Auth::user()->theme;
 

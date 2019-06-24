@@ -9,6 +9,21 @@
                     {{ Form::button('<b><i class="icon-database-refresh"></i></b>', ['type' => 'submit', 'class' => 'btn btn-info btn-xs heading-btn'] ) }}
                 </div>   
             {!! Form::close()!!}           
+            <ul class="icons-list">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="icon-printer"></i> 
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li>
+                            <a href="{!!route('rekappaguindikatifopd.printtoexcel')!!}" title="Print to Excel" id="btnprintexcel">
+                                <i class="icon-file-excel"></i> Export to Excel
+                            </a>     
+                        </li>                            
+                    </ul>
+                </li>
+            </ul>     
         </div>
     </div>
     @if (count($data) > 0)
