@@ -136,10 +136,12 @@
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/switch.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
+    $(".switch").bootstrapSwitch();
     //styling select
     $('#OrgID.select').select2({
         placeholder: "PILIH OPD / SKPD",
@@ -212,6 +214,31 @@ $(document).ready(function () {
             }
         },        
     });   
+    $(document).on('switchChange.bootstrapSwitch', '.switch',function (ev) {
+        ev.preventDefault();
+        var useropd = $(this).val();        
+        var checked = $(this).prop('checked');        
+        
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/changelocked/'+useropd,
+            dataType: 'json',
+            data: {                
+                "_token": token,
+                "_method": 'PUT',
+                "locked":checked
+            },
+            success:function(result)
+            { 
+                $('#divdatatable').html(result.datatable); 
+                $(".switch").bootstrapSwitch();              
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    });
 });
 </script>
 @endsection

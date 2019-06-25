@@ -15,16 +15,11 @@
                     <th>                        
                         TA                          
                     </th>
-                    <th>                        
-                        ORGID                          
-                    </th>
                     <th>
                         NAMA OPD / SKPD                        
                     </th>
-                    <th>                        
-                        SORGID  
-                    </th>
                     <th>NAMA UNIT KERJA</th>
+                    <th>LOCKED</th>
                     <th width="100">AKSI</th>
                 </tr>
             </thead>
@@ -32,14 +27,26 @@
             @foreach ($dataopd as $key=>$item)
                 <tr>                   
                     <td>{{$item->useropd}}</td>
-                    <td>{{$item->ta}}</td> 
-                    <td>{{$item->OrgID}}</td> 
+                    <td>{{$item->ta}}</td>  
                     <td>{{$item->OrgNm}}</td> 
-                    <td>{{$item->SOrgID}}</td> 
-                    <td>{{$item->SOrgNm}}</td> 
+                    <td>{{empty($item->SOrgNm)?'N.A':$item->SOrgNm}}</td> 
                     <td>
-                        
+                        <div class="checkbox">
+                            {{Form::checkbox("chklocked[]", $item->useropd,$item->locked,['class'=>'switch'])}}  
+                        </div>
                     </td>
+                </tr>
+                <tr class="text-center info">
+                    <td colspan="7">
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>OrgID:</strong>
+                            {{$item->OrgID}}
+                        </span>
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>SOrgID:</strong>
+                            {{empty($item->SOrgID)?'N.A':$item->SOrgID}}
+                        </span>
+                    </td>                    
                 </tr>
             @endforeach                    
             </tbody>

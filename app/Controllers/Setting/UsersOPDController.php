@@ -325,7 +325,27 @@ class UsersOPDController extends Controller {
                                                                 ]);
         }        
     }
+    public function changelocked (Request $request, $id)
+    {
+        $theme = \Auth::user()->theme;
 
+        $json_data = [];
+        if ($request->exists('locked'))
+        {
+            $locked = $request->input('locked');
+            $user=\App\Models\UserOPD::find($id);
+            $user->locked=$locked;
+            $user->save();
+            $dataopd=$this->populateDataOPD($user->id);
+
+            $datatable=view("pages.$theme.setting.usersopd.datatableopd")->with(['page_active'=>'usersopd',
+                                                                            'dataopd'=>$dataopd
+                                                                        ])->render();
+            $json_data = ['success'=>true,'datatable'=>$datatable];
+        } 
+
+        return response()->json($json_data,200);
+    }
     /**
      * Store a newly created resource in storage.
      *
