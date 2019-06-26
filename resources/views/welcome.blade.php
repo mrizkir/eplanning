@@ -95,7 +95,7 @@
             </div>  
             <div class="col-lg-3 col-md-6 text-center">						
                 <div class="mt-5">
-                    <a href="https:/simonev.bintankab.go.id">
+                    <a href="https://simonev.bintankab.go.id">
                         <i class="fas fa-4x fa-a text-primary mb-4">
                             <img src="{!!asset('/themes/frontend/img/portfolio/magni.png')!!}" alt="">
                         </i>
