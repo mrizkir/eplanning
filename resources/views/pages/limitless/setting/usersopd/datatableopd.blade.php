@@ -35,6 +35,15 @@
                             {{Form::checkbox("chklocked[]", $item->useropd,$item->locked,['class'=>'switch'])}}  
                         </div>
                     </td>
+                    <td>
+                        <ul class="icons-list">
+                            <li class="text-danger-600">
+                                <a class="btnDeleteOPD" href="javascript:;" title="Hapus Data User OPD" data-id="{{$item->useropd}}" data-url="{{route('usersopd.index')}}">
+                                    <i class='icon-trash'></i>
+                                </a> 
+                            </li>
+                        </ul>
+                    </td>
                 </tr>
                 <tr class="text-center info">
                     <td colspan="7">

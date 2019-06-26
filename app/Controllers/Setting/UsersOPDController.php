@@ -356,9 +356,10 @@ class UsersOPDController extends Controller {
     {
         $this->validate($request, [              
             'OrgID'=>'required',
-        ]);
+        ]);        
         $OrgID=$request->input('OrgID');
         $SOrgID=$request->input('SOrgID');
+        $locked=$request->input('locked')==1?true:false;
         $now = \Carbon\Carbon::now()->toDateTimeString();        
         $user=\App\Models\UserOPD::create([
             'id'=>$id,            
@@ -367,6 +368,7 @@ class UsersOPDController extends Controller {
             'OrgNm'=> \App\Models\DMaster\OrganisasiModel::find($OrgID)->OrgNm,
             'SOrgID'=> $SOrgID,
             'SOrgNm'=> \App\Models\DMaster\SubOrganisasiModel::getNamaUnitKerjaByID($request->input('SOrgID')),            
+            'locked'=> $locked,
             'created_at'=>$now, 
             'updated_at'=>$now
         ]); 
@@ -460,29 +462,52 @@ class UsersOPDController extends Controller {
     public function destroy(Request $request,$id)
     {
         $theme = \Auth::user()->theme;
-        
-        $usersopd = User::find($id);
-        $result=$usersopd->delete();
-        if ($request->ajax()) 
+        if ($request->exists('useropd'))
         {
-            $currentpage=$this->getCurrentPageInsideSession('usersopd'); 
-            $data=$this->populateData($currentpage);
-            if ($currentpage > $data->lastPage())
-            {            
-                $data = $this->populateData($data->lastPage());
+            $user=\App\Models\UserOPD::find($id);
+            $userid=$user->id;
+            $result=$user->delete();
+            if ($request->ajax()) 
+            {
+                $dataopd=$this->populateDataOPD($userid);
+                $datatable = view("pages.$theme.setting.usersopd.datatableopd")->with(['page_active'=>'usersopd',                                                                                
+                                                                                'dataopd'=>$dataopd])->render(); 
+                
+                return response()->json(['success'=>true,'datatable'=>$datatable],200); 
             }
-            $datatable = view("pages.$theme.setting.usersopd.datatable")->with(['page_active'=>'usersopd',
-                                                            'search'=>$this->getControllerStateSession('usersopd','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                            'column_order'=>$this->getControllerStateSession('usersopd.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('usersopd.orderby','order'),
-                                                            'data'=>$data])->render();      
-            
-            return response()->json(['success'=>true,'datatable'=>$datatable],200); 
+            else
+            {
+                return redirect(route('usersopd.show',['id'=>$userid]))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+            }
         }
         else
         {
-            return redirect(route('usersopd.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
-        }        
+            $usersopd = User::find($id);
+            $result=$usersopd->delete();
+            if ($request->ajax()) 
+            {
+            
+                $currentpage=$this->getCurrentPageInsideSession('usersopd'); 
+                $data=$this->populateData($currentpage);
+                if ($currentpage > $data->lastPage())
+                {            
+                    $data = $this->populateData($data->lastPage());
+                }
+                $datatable = view("pages.$theme.setting.usersopd.datatable")->with(['page_active'=>'usersopd',
+                                                                                    'search'=>$this->getControllerStateSession('usersopd','search'),
+                                                                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                                    'column_order'=>$this->getControllerStateSession('usersopd.orderby','column_name'),
+                                                                                    'direction'=>$this->getControllerStateSession('usersopd.orderby','order'),
+                                                                                    'data'=>$data])->render();      
+                
+                return response()->json(['success'=>true,'datatable'=>$datatable],200); 
+            }
+            else
+            {
+                return redirect(route('usersopd.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+            }    
+
+        }
+           
     }
 }

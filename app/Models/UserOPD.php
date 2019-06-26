@@ -21,7 +21,7 @@ class UserOPD extends Model
      * @var array
      */
     protected $fillable = [
-        'useropd', 'id', 'ta','OrgID','OrgNm','SOrgID','SOrgNm'
+        'useropd', 'id', 'ta','OrgID','OrgNm','SOrgID','SOrgNm','locked'
     ];
     /**
     * primary key tabel ini.
@@ -50,7 +50,7 @@ class UserOPD extends Model
     /**
      * log the changed attributes for all these events 
      */
-    protected static $logAttributes = ['useropd', 'id', 'ta','OrgID','OrgNm','SOrgID','SOrgNm'];
+    protected static $logAttributes = ['useropd', 'id', 'ta','OrgID','OrgNm','SOrgID','SOrgNm','locked'];
     /**
      * log changes to all the $fillable attributes of the model
      */

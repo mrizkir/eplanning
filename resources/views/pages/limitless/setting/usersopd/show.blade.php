@@ -117,6 +117,14 @@
                                 <option></option>                            
                             </select>                              
                         </div>
+                    </div>     
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">LOCKED :</label> 
+                        <div class="col-md-10">
+                            <div class="checkbox">
+                                {{Form::checkbox("locked", 1,0,['class'=>'switch'])}}  
+                            </div>                          
+                        </div>
                     </div>                           
                     <div class="form-group">            
                         <div class="col-md-10 col-md-offset-2">                        
@@ -214,7 +222,7 @@ $(document).ready(function () {
             }
         },        
     });   
-    $(document).on('switchChange.bootstrapSwitch', '.switch',function (ev) {
+    $('#divdatatable').on('switchChange.bootstrapSwitch', '.switch',function (ev) {
         ev.preventDefault();
         var useropd = $(this).val();        
         var checked = $(this).prop('checked');        
@@ -238,6 +246,32 @@ $(document).ready(function () {
                 console.log(parseMessageAjaxEror(xhr, status, error));                           
             },
         });
+    });
+    $("#divdatatable").on("click",".btnDeleteOPD", function(){
+        if (confirm('Apakah Anda ingin menghapus Data Hak Akses pada OPD / SKPD ini ?')) {
+            let url_ = $(this).attr("data-url");
+            let id = $(this).attr("data-id");
+            $.ajax({            
+                type:'post',
+                url:url_+'/'+id,
+                dataType: 'json',
+                data: {
+                    "_method": 'DELETE',
+                    "_token": token,
+                    "id": id,
+                    'useropd':true
+                },
+                success:function(result)
+                {                     
+                    $('#divdatatable').html(result.datatable); 
+                    $(".switch").bootstrapSwitch();                                    
+                },
+                error:function(xhr, status, error){
+                    console.log('ERROR');
+                    console.log(parseMessageAjaxEror(xhr, status, error));                           
+                },
+            });
+        }        
     });
 });
 </script>
