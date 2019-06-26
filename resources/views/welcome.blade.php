@@ -73,7 +73,7 @@
             </div>         
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="mt-5">
-                    <a href="https:/ebudgeting-bintan.id">
+                    <a href="https://ebudgeting-bintan.id">
                         <i class="fas fa-4x fa-usd text-primary mb-4">
                             <img src="{!!asset('/themes/frontend/img/portfolio/money.png')!!}" alt="">
                         </i>
