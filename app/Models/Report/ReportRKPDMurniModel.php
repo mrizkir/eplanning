@@ -1,9 +1,11 @@
 <?php
 namespace App\Models\Report;
+
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use App\Models\RKPD\RKPDViewJudulModel;
+
 class ReportRKPDMurniModel extends ReportModel
 {   
     public function __construct($dataReport)
@@ -15,6 +17,8 @@ class ReportRKPDMurniModel extends ReportModel
     private function  print()  
     {
         $OrgID = $this->dataReport['OrgID'];
+        $SOrgID = $this->dataReport['SOrgID'];
+
         $sheet = $this->spreadsheet->getActiveSheet();        
         $sheet->setTitle ('LAPORAN RKPD TA '.\HelperKegiatan::getTahunPerencanaan());   
         
@@ -37,10 +41,18 @@ class ReportRKPDMurniModel extends ReportModel
                                'vertical'=>Alignment::HORIZONTAL_CENTER),								
         );                
         $sheet->getStyle("A1:A3")->applyFromArray($styleArray);        
-       
-        $sheet->setCellValue('A5','NAMA OPD / SKPD'); 
-        $sheet->setCellValue('B5',': '.$this->dataReport['OrgNm']. ' ['.$this->dataReport['kode_organisasi'].']'); 
-                
+        
+        if ($SOrgID != 'none'&&$SOrgID != ''&&$SOrgID != null)
+        {
+            $sheet->setCellValue('A5','NAMA UNIT KERJA'); 
+            $sheet->setCellValue('B5',': '.$this->dataReport['SOrgNm']. ' ['.$this->dataReport['kode_suborganisasi'].']'); 
+        }        
+        else
+        {
+            $sheet->setCellValue('A5','NAMA OPD / SKPD'); 
+            $sheet->setCellValue('B5',': '.$this->dataReport['OrgNm']. ' ['.$this->dataReport['kode_organisasi'].']'); 
+        }
+
         $sheet->mergeCells ('A7:A8');
         $sheet->setCellValue('A7','KODE'); 
         $sheet->mergeCells ('B7:B8');
@@ -89,7 +101,7 @@ class ReportRKPDMurniModel extends ReportModel
         );                
         $sheet->getStyle("A7:J9")->applyFromArray($styleArray);
         $sheet->getStyle("A7:J9")->getAlignment()->setWrapText(true);
-
+        
         $daftar_program=\DB::table('v_organisasi_program')
                             ->select(\DB::raw('"PrgID","kode_program","Kd_Prog","PrgNm","Jns"'))
                             ->where('OrgID',$OrgID)
@@ -107,10 +119,17 @@ class ReportRKPDMurniModel extends ReportModel
             $PrgID=$v->PrgID;           
             $daftar_kegiatan = RKPDViewJudulModel::select(\DB::raw('"kode_kegiatan","KgtNm","NamaIndikator","Sasaran_Angka1","Sasaran_Uraian1","Target1","NilaiUsulan1","Sasaran_AngkaSetelah","Sasaran_UraianSetelah","NilaiSetelah","Nm_SumberDana","Descr"'))
                                             ->where('PrgID',$PrgID)      
-                                            ->where('OrgID',$OrgID)
-                                            ->where('TA',\HelperKegiatan::getTahunPerencanaan())
-                                            ->orderBy('kode_kegiatan','ASC')       
-                                            ->get();
+                                            ->where('OrgID',$OrgID);
+            $daftar_kegiatan = ($SOrgID == 'none' || $SOrgID == '') ? 
+                                                                    $daftar_kegiatan->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                                                    ->orderBy('kode_kegiatan','ASC')       
+                                                                    ->get()
+                                                                :
+                                                                    $daftar_kegiatan->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                                                    ->where('SOrgID',$SOrgID)
+                                                                    ->orderBy('kode_kegiatan','ASC')       
+                                                                    ->get();
+
                                             
             if (isset($daftar_kegiatan[0])) 
             {   
@@ -147,11 +166,21 @@ class ReportRKPDMurniModel extends ReportModel
         $sheet->setCellValue("J$row",\Helper::formatUang($total_nilai_setelah)); 
         
 
-        $sheet->setCellValue("A10",$this->dataReport['kode_organisasi']); 
-        $sheet->setCellValue("B10",$this->dataReport['OrgNm']);         
-        $sheet->setCellValue("F10",\Helper::formatUang($total_pagu));  
-        $sheet->setCellValue("J10",\Helper::formatUang($total_nilai_setelah));                     
-        
+        if ($SOrgID != 'none'&&$SOrgID != ''&&$SOrgID != null)
+        {
+            $sheet->setCellValue("A10",$this->dataReport['kode_suborganisasi']); 
+            $sheet->setCellValue("B10",$this->dataReport['SOrgNm']);         
+            $sheet->setCellValue("F10",\Helper::formatUang($total_pagu));  
+            $sheet->setCellValue("J10",\Helper::formatUang($total_nilai_setelah));                     
+        }        
+        else
+        {
+            $sheet->setCellValue("A10",$this->dataReport['kode_organisasi']); 
+            $sheet->setCellValue("B10",$this->dataReport['OrgNm']);         
+            $sheet->setCellValue("F10",\Helper::formatUang($total_pagu));  
+            $sheet->setCellValue("J10",\Helper::formatUang($total_nilai_setelah));   
+        }
+
         $row=$row-1;
         $styleArray=array(								
             'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,

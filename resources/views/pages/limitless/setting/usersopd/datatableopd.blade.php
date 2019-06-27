@@ -9,17 +9,17 @@
         <table id="data" class="table table-striped table-hover">
             <thead>
                 <tr class="bg-teal-700">
-                    <th width="100">                      
+                    <th width="50">                      
                         ID                                     
                     </th>                     
-                    <th>                        
+                    <th width="70">                        
                         TA                          
                     </th>
                     <th>
                         NAMA OPD / SKPD                        
                     </th>
                     <th>NAMA UNIT KERJA</th>
-                    <th>LOCKED</th>
+                    <th width="100">LOCKED</th>
                     <th width="100">AKSI</th>
                 </tr>
             </thead>
