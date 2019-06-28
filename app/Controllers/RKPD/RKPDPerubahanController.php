@@ -106,6 +106,14 @@ class RKPDPerubahanController extends Controller
             $search=$this->getControllerStateSession($this->SessionName,'search');
             switch ($search['kriteria']) 
             {
+                case 'RKPDID' :
+                    $data = \DB::table(\HelperKegiatan::getViewName($this->NameOfPage))
+                                ->select(\HelperKegiatan::getField($this->NameOfPage))
+                                ->where(['RKPDID'=>$search['isikriteria']])                                                    
+                                ->where('SOrgID',$SOrgID)
+                                ->where('TA', \HelperKegiatan::getTahunPerencanaan())
+                                ->orderBy($column_order,$direction); 
+                break;
                 case 'kode_kegiatan' :
                     $data = \DB::table(\HelperKegiatan::getViewName($this->NameOfPage))
                                 ->select(\HelperKegiatan::getField($this->NameOfPage))

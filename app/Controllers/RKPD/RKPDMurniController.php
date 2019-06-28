@@ -77,6 +77,12 @@ class RKPDMurniController extends Controller {
             $search=$this->getControllerStateSession('rkpdmurni','search');
             switch ($search['kriteria']) 
             {
+                case 'RKPDID' :
+                    $data = RKPDViewJudulModel::where(['RKPDID'=>$search['isikriteria']])                                                    
+                                                    ->where('SOrgID',$SOrgID)
+                                                    ->where('TA', \HelperKegiatan::getTahunPerencanaan())
+                                                    ->orderBy($column_order,$direction); 
+                break;
                 case 'kode_kegiatan' :
                     $data = RKPDViewJudulModel::where(['kode_kegiatan'=>$search['isikriteria']])                                                    
                                                     ->where('SOrgID',$SOrgID)
