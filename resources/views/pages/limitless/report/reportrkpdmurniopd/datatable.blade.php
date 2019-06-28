@@ -10,7 +10,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right">
                         <li>
-                            <a href="{!!route('reportrkpdperubahanopd.printtoexcel')!!}" title="Print to Excel" id="btnprintexcel">
+                            <a href="{!!route('reportrkpdmurniopd.printtoexcel')!!}" title="Print to Excel" id="btnprintexcel">
                                 <i class="icon-file-excel"></i> Export to Excel
                             </a>     
                         </li>                            
