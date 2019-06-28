@@ -20,6 +20,7 @@
         </div>
     </div>
     @php
+        $n1 = \HelperKegiatan::getTahunPerencanaan()+1;
         $daftar_program=\DB::table('v_organisasi_program')
                             ->select(\DB::raw('"PrgID","Kd_Urusan","Kd_Bidang","OrgCd","kode_program","Kd_Prog","PrgNm","Jns"'))
                             ->where('OrgID',$filters['OrgID'])
@@ -42,40 +43,38 @@
                         BIDANG URUSAN PEMERINTAH DAERAH DAN PROGRAM/KEGIATAN                                                                                           
                     </th>                    
                     <th width="200" rowspan="2">                    
-                        SASARAN 
+                        INDIKATOR KINERJA PROGRAM/KEGIATAN
                     </th> 
+                    <th width="200" colspan="4">                    
+                        RENCANA TAHUN {{HelperKegiatan::getTahunPerencanaan()}}
+                    </th>                                
                     <th width="200" rowspan="2">                    
-                        LOKASI 
-                    </th>                     
-                    <th width="120" rowspan="2">                        
-                        SUMBER DANA                        
+                        CATATAN PENTING
+                    </th>                      
                     </th> 
-                    <th width="200" rowspan="2">                    
-                        TARGET (%) 
+                    <th width="200" colspan="2">                    
+                        PERKIRAAN MAJU RENCANA TAHUN {{$n1}}
                     </th>  
-                    <th width="150" colspan="3">                    
-                        INDIKASI TA(n)                 
-                    </th>  
-                    <th width="120" rowspan="2">                        
-                        KET.                        
-                    </th> 
                 </tr>
                 <tr class="bg-teal-700">
-                    <th>SEBELUM</th>
-                    <th>SESUDAH</th>
-                    <th>SELISIH</th>
+                    <th>LOKASI</th>
+                    <th>TARGET CAPAIAN KINERJA</th>
+                    <th>KEBUTUHAN DANA/PAGU INDIKATIF</th>
+                    <th>SUMBER DANA</th>
+                    <th>TARGET CAPAIAN KINERJA</th>
+                    <th>KEBUTUHAN DANA/PAGU INDIKATIF</th>
                 </tr>
             </thead>
             <tbody>                
             @php
                 $total_pagu_m=0;
-                $total_pagu_p=0;
+                $total_nilai_setelah=0;
             @endphp       
             @foreach ($daftar_program as $key=>$v){{-- startlooping daftar program --}}
             @php
                 $PrgID=$v->PrgID;                 
                 $daftar_kegiatan = \DB::table('v_rkpd')
-                                        ->select(\DB::raw('"RKPDID","Kd_Urusan","Kd_Bidang","OrgCd","Kd_Prog","Kd_Keg","kode_kegiatan","KgtNm","Sasaran_Angka1","Sasaran_Angka2","Sasaran_Uraian1","Sasaran_Uraian2","Target1","Target2","NilaiUsulan1","NilaiUsulan2","Sasaran_AngkaSetelah","Sasaran_UraianSetelah","NilaiSetelah","Nm_SumberDana","Descr"'))
+                                        ->select(\DB::raw('"RKPDID","Kd_Urusan","Kd_Bidang","OrgCd","Kd_Prog","Kd_Keg","kode_kegiatan","KgtNm","Sasaran_Angka1","Sasaran_Angka2","Sasaran_Uraian1","Sasaran_Uraian2","Target1","Target2","NilaiUsulan1","NilaiSetelah","Sasaran_AngkaSetelah","Sasaran_UraianSetelah","NilaiSetelah","Nm_SumberDana","Descr"'))
                                         ->where('PrgID',$PrgID)      
                                         ->where('OrgID',$filters['OrgID'])
                                         ->where('TA',HelperKegiatan::getTahunPerencanaan())
@@ -90,15 +89,14 @@
                 <td>{{$v->Kd_Prog}}</td>
                 <td></td>
                 <td>{{$v->PrgNm}}</td>
-                <td colspan="4"></td>
+                <td colspan="3"></td>
                 @php
-                    $totalpagueachprogramM= $daftar_kegiatan->sum('NilaiUsulan1');      
-                    $totalpagueachprogramP= $daftar_kegiatan->sum('NilaiUsulan2');   
+                    $totalpagueachprogramNilaiUsulan= $daftar_kegiatan->sum('NilaiUsulan1');      
+                    $totalpagueachprogramNilaiSetelah= $daftar_kegiatan->sum('NilaiSetelah');   
                 @endphp
-                <td>{{Helper::formatUang($totalpagueachprogramM)}}</td>
-                <td>{{Helper::formatUang($totalpagueachprogramP)}}</td>
-                <td>{{Helper::formatUang($totalpagueachprogramP-$totalpagueachprogramM)}}</td>
-                <td></td>
+                <td>{{Helper::formatUang($totalpagueachprogramNilaiUsulan)}}</td>
+                <td colspan="3"></td>
+                <td class="text-right">{{Helper::formatUang($totalpagueachprogramNilaiSetelah)}}</td>                                
             </tr>
             @foreach ($daftar_kegiatan as $key=>$item){{-- startlooping daftar kegiatan --}}
                 <tr>                        
@@ -110,22 +108,22 @@
                     <td rowspan="2">
                         {{ucwords($item->KgtNm)}}                           
                     </td> 
-                    <td rowspan="2">{{Helper::formatAngka($item->Sasaran_Angka2)}} {{$item->Sasaran_Uraian2}}</td>                      
+                    <td rowspan="2">{{Helper::formatAngka($item->Sasaran_Angka1)}} {{$item->Sasaran_Uraian1}}</td>                      
                     <td rowspan="2">
                         KAB. BINTAN
-                    </td>
-                    <td rowspan="2">{{$item->Nm_SumberDana}}</td>
+                    </td>                    
                     <td rowspan="2">{{$item->Target2}}</td>
                     <td class="text-right" rowspan="2">
                         <span class="">{{Helper::formatuang($item->NilaiUsulan1)}}</span>                    
                     </td>       
+                    <td rowspan="2">{{$item->Nm_SumberDana}}</td>
+                    <td rowspan="2">{{$item->Descr}}</td>    
                     <td class="text-right" rowspan="2">
-                        <span class="text-info">{{Helper::formatuang($item->NilaiUsulan2)}}</span>
-                    </td>                             
+                        {{Helper::formatAngka($item->Sasaran_AngkaSetelah)}} {{$item->Sasaran_UraianSetelah}}
+                    </td>                   
                     <td class="text-right" rowspan="2">
-                        <span class="">{{Helper::formatuang($item->NilaiUsulan2-$item->NilaiUsulan1)}}</span>
-                    </td>                             
-                    <td rowspan="2">{{$item->Descr}}</td>
+                        <span class="text-info">{{Helper::formatuang($item->NilaiSetelah)}}</span>
+                    </td>                                                            
                 </tr>           
                 <tr class="text-center">
                     <td colspan="5" class="bg-info-300">
@@ -134,7 +132,7 @@
                 </tr>
                 @php
                     $total_pagu_m+=$item->NilaiUsulan1;
-                    $total_pagu_p+=$item->NilaiUsulan2;;
+                    $total_nilai_setelah+=$item->NilaiSetelah;
                 @endphp
             @endforeach      
             {{-- end looping daftar kegiatan --}}
@@ -145,13 +143,13 @@
             </tbody>
             <tfoot>
                 <tr class="bg-grey-300" style="font-weight:bold">
-                    <td colspan="10" class="text-right">
+                    <td colspan="9" class="text-right">
                         TOTAL                        
                     </td>
-                    <td class="text-right">{{Helper::formatUang($total_pagu_m)}}</td> 
-                    <td class="text-right">{{Helper::formatUang($total_pagu_p)}}</td>
-                    <td class="text-right">{{Helper::formatUang($total_pagu_p-$total_pagu_p)}}</td>
-                    <td></td>
+                    <td class="text-right">{{Helper::formatUang($total_pagu_m)}}</td>                     
+                    <td colspan="3"></td>
+                    <td class="text-right">{{Helper::formatUang($total_nilai_setelah)}}</td>
+                    
                 </tr>
             </tfoot>
         </table>               
