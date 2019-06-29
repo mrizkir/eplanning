@@ -15,6 +15,8 @@ class ReportRKPDPerubahanModel extends ReportModel
     private function  print()  
     {
         $OrgID = $this->dataReport['OrgID'];
+        $SOrgID = $this->dataReport['SOrgID'];
+        
         $sheet = $this->spreadsheet->getActiveSheet();        
         $sheet->setTitle ('LAPORAN RKPD-P TA '.\HelperKegiatan::getTahunPerencanaan());   
         
@@ -38,10 +40,19 @@ class ReportRKPDPerubahanModel extends ReportModel
                                'vertical'=>Alignment::HORIZONTAL_CENTER),								
         );                
         $sheet->getStyle("A1:A3")->applyFromArray($styleArray);        
-       
-        $sheet->setCellValue('A5','NAMA OPD / SKPD'); 
-        $sheet->setCellValue('B5',': '.$this->dataReport['kode_organisasi'].'. '.$this->dataReport['OrgNm']); 
-                
+        
+        $sheet->mergeCells ('A5:D5');
+        if ($SOrgID != 'none'&&$SOrgID != ''&&$SOrgID != null)
+        {
+            $sheet->setCellValue('A5','NAMA UNIT KERJA'); 
+            $sheet->setCellValue('E5',': '.$this->dataReport['SOrgNm']. ' ['.$this->dataReport['kode_suborganisasi'].']'); 
+        }        
+        else
+        {
+            $sheet->setCellValue('A5','NAMA OPD / SKPD'); 
+            $sheet->setCellValue('E5',': '.$this->dataReport['OrgNm']. ' ['.$this->dataReport['kode_organisasi'].']'); 
+        }
+
         $sheet->mergeCells ('A7:F8');
         $sheet->setCellValue('A7','KODE'); 
         $sheet->mergeCells ('G7:G8');
@@ -118,13 +129,20 @@ class ReportRKPDPerubahanModel extends ReportModel
         $total_pagu_p=0;
         foreach ($daftar_program as $v)
         {
-            $PrgID=$v->PrgID;                 
+            $PrgID=$v->PrgID;         
             $daftar_kegiatan = RKPDViewJudulModel::select(\DB::raw('"kode_kegiatan","KgtNm","Sasaran_Angka1","Sasaran_Uraian2","Target1","Target2","NilaiUsulan1","NilaiUsulan2","Sasaran_AngkaSetelah","Sasaran_UraianSetelah","NilaiSetelah","Nm_SumberDana","Descr"'))
                                             ->where('PrgID',$PrgID)      
-                                            ->where('OrgID',$OrgID)
-                                            ->where('TA',\HelperKegiatan::getTahunPerencanaan())
-                                            ->orderBy('kode_kegiatan','ASC')       
-                                            ->get();
+                                            ->where('OrgID',$OrgID);
+            $daftar_kegiatan = ($SOrgID == 'none' || $SOrgID == '') ?
+                                                                    $daftar_kegiatan->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                                                                    ->orderBy('kode_kegiatan','ASC')       
+                                                                                    ->get()
+                                                                    :
+                                                                    $daftar_kegiatan->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                                                                    ->where('SOrgID',$SOrgID)
+                                                                                    ->orderBy('kode_kegiatan','ASC')       
+                                                                                    ->get();
+                                            
                                             
             if (isset($daftar_kegiatan[0])) 
             {   

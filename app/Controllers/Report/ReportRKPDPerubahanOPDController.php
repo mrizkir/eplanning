@@ -138,12 +138,33 @@ class ReportRKPDPerubahanOPDController extends Controller
         $theme = \Auth::user()->theme;
 
         $filters=$this->getControllerStateSession($this->SessionName,'filters');    
-        if ($filters['SOrgID'] != 'none'&&$filters['SOrgID'] != ''&&$filters['SOrgID'] != null)       
-        {
-            $generate_date=date('Y-m-d_H_m_s');
-            $OrgID=$filters['OrgID'];        
-            $SOrgID=$filters['SOrgID'];    
+        $generate_date=date('Y-m-d_H_m_s');
+        $OrgID=$filters['OrgID'];        
+        $SOrgID=$filters['SOrgID'];    
+        
+        if ($SOrgID != 'none'&&$SOrgID != ''&&$SOrgID != null)       
+        {   
+            $unitkerja = \DB::table('v_suborganisasi')
+                            ->where('SOrgID',$SOrgID)->first();              
+            $data_report['OrgID']=$unitkerja->OrgID;
+            $data_report['SOrgID']=$SOrgID;
+            $data_report['Kd_Urusan']=$unitkerja->Kd_Urusan;
+            $data_report['Nm_Urusan']=$unitkerja->Nm_Urusan;
+            $data_report['Kd_Bidang']=$unitkerja->Kd_Bidang;
+            $data_report['Nm_Bidang']=$unitkerja->Nm_Bidang;
+            $data_report['kode_organisasi']=$unitkerja->kode_organisasi;
+            $data_report['OrgNm']=$unitkerja->OrgNm;
+            $data_report['SOrgID']=$SOrgID;
+            $data_report['kode_suborganisasi']=$unitkerja->kode_suborganisasi;
+            $data_report['SOrgNm']=$unitkerja->SOrgNm;
+            $data_report['NamaKepalaSKPD']=$unitkerja->NamaKepalaSKPD;
+            $data_report['NIPKepalaSKPD']=$unitkerja->NIPKepalaSKPD;
             
+            $report= new \App\Models\Report\ReportRKPDPerubahanModel ($data_report);
+            return $report->download("rkpdp_$generate_date.xlsx");
+        }
+        elseif ($OrgID != 'none'&&$OrgID != ''&&$OrgID != null)       
+        {
             $opd = \DB::table('v_urusan_organisasi')
                         ->where('OrgID',$OrgID)->first();  
             
@@ -155,9 +176,10 @@ class ReportRKPDPerubahanOPDController extends Controller
             $data_report['Nm_Bidang']=$opd->Nm_Bidang;
             $data_report['kode_organisasi']=$opd->kode_organisasi;
             $data_report['OrgNm']=$opd->OrgNm;
+            $data_report['SOrgID']=$SOrgID;
             $data_report['NamaKepalaSKPD']=$opd->NamaKepalaSKPD;
-            $data_report['NIPKepalaSKPD']=$opd->NIPKepalaSKPD;
-            
+            $data_report['NIPKepalaSKPD']=$opd->NIPKepalaSKPD;      
+
             $report= new \App\Models\Report\ReportRKPDPerubahanModel ($data_report);
             return $report->download("rkpdp_$generate_date.xlsx");
         }

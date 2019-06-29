@@ -42,15 +42,16 @@ class ReportRKPDMurniModel extends ReportModel
         );                
         $sheet->getStyle("A1:A3")->applyFromArray($styleArray);        
         
+        $sheet->mergeCells ('A5:D5');
         if ($SOrgID != 'none'&&$SOrgID != ''&&$SOrgID != null)
         {
             $sheet->setCellValue('A5','NAMA UNIT KERJA'); 
-            $sheet->setCellValue('B5',': '.$this->dataReport['SOrgNm']. ' ['.$this->dataReport['kode_suborganisasi'].']'); 
+            $sheet->setCellValue('E5',': '.$this->dataReport['SOrgNm']. ' ['.$this->dataReport['kode_suborganisasi'].']'); 
         }        
         else
         {
             $sheet->setCellValue('A5','NAMA OPD / SKPD'); 
-            $sheet->setCellValue('B5',': '.$this->dataReport['OrgNm']. ' ['.$this->dataReport['kode_organisasi'].']'); 
+            $sheet->setCellValue('E5',': '.$this->dataReport['OrgNm']. ' ['.$this->dataReport['kode_organisasi'].']'); 
         }
 
         $sheet->mergeCells ('A7:A8');
