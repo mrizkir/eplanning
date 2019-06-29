@@ -221,7 +221,7 @@ class RENSTRAKebijakanController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_Kebijakan'=>[new CheckRecordIsExistValidation('tmPrioritasKebijakanKab',['where'=>['TA','=',config('eplanning.renstra_tahun_mulai')]]),
+            'Kd_Kebijakan'=>[new CheckRecordIsExistValidation('tmPrioritasKebijakanKab',['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]]),
                             'required'
                         ],
             'PrioritasStrategiKabID'=>'required',
@@ -318,7 +318,7 @@ class RENSTRAKebijakanController extends Controller {
         $this->validate($request, [
             'Kd_Kebijakan'=>['required',new IgnoreIfDataIsEqualValidation('tmPrioritasKebijakanKab',
                                                                         $renstrakebijakan->Kd_Kebijakan,
-                                                                        ['where'=>['TA','=',config('eplanning.renstra_tahun_mulai')]],
+                                                                        ['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]],
                                                                         'Kode Strategi')],
             'PrioritasStrategiKabID'=>'required',
             'Nm_Kebijakan'=>'required',

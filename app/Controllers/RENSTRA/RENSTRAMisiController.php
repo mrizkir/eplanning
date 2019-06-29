@@ -29,7 +29,7 @@ class RENSTRAMisiController extends Controller {
         $columns=['*'];       
         if (!$this->checkStateIsExistSession('renstramisi','orderby')) 
         {            
-           $this->putControllerStateSession('renstramisi','orderby',['column_name'=>'Nm_RenstraMisi','order'=>'asc']);
+           $this->putControllerStateSession('renstramisi','orderby',['column_name'=>'Kd_RenstraMisi','order'=>'asc']);
         }
         $column_order=$this->getControllerStateSession('renstramisi.orderby','column_name'); 
         $direction=$this->getControllerStateSession('renstramisi.orderby','order'); 
@@ -266,7 +266,7 @@ class RENSTRAMisiController extends Controller {
         {
             $daftar_visi = \App\Models\RENSTRA\RENSTRAVisiModel::select(\DB::raw('"RenstraVisiID",CONCAT("Kd_RenstraVisi",\'.\',"Nm_RenstraVisi") AS "Nm_RenstraVisi"'))
                                                                 ->where('OrgID',$filters['OrgID'])
-                                                                ->where('TA',config('eplanning.renstra_tahun_mulai'))
+                                                                ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                                                                 ->get()
                                                                 ->pluck('Nm_RenstraVisi','RenstraVisiID')
                                                                 ->prepend('','')
@@ -295,7 +295,7 @@ class RENSTRAMisiController extends Controller {
     {
         $this->validate($request, [
             'RenstraVisiID'=>'required',
-            'Kd_RenstraMisi'=>[new CheckRecordIsExistValidation('tmRenstraMisi',['where'=>['TA','=',config('eplanning.renstra_tahun_mulai')]]),
+            'Kd_RenstraMisi'=>[new CheckRecordIsExistValidation('tmRenstraMisi',['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]]),
                         'required'
                     ],
             'Nm_RenstraMisi'=>'required',
@@ -385,7 +385,7 @@ class RENSTRAMisiController extends Controller {
         $renstramisi = RENSTRAMisiModel::find($id);
         
         $this->validate($request, [
-            'Kd_RenstraMisi'=>[new IgnoreIfDataIsEqualValidation('tmRenstraMisi',$renstramisi->Kd_RenstraMisi,['where'=>['TA','=',config('eplanning.renstra_tahun_mulai')]]),
+            'Kd_RenstraMisi'=>[new IgnoreIfDataIsEqualValidation('tmRenstraMisi',$renstramisi->Kd_RenstraMisi,['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]]),
                                     'required'
                                 ],
             'Nm_RenstraMisi'=>'required|min:2'

@@ -226,7 +226,7 @@ class RENSTRASasaranController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_Sasaran'=>[new CheckRecordIsExistValidation('tmPrioritasSasaranKab',['where'=>['TA','=',config('eplanning.renstra_tahun_mulai')]]),
+            'Kd_Sasaran'=>[new CheckRecordIsExistValidation('tmPrioritasSasaranKab',['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]]),
                             'required'
                         ],
             'PrioritasTujuanKabID'=>'required',
@@ -324,7 +324,7 @@ class RENSTRASasaranController extends Controller {
         $this->validate($request, [
             'Kd_Sasaran'=>['required',new IgnoreIfDataIsEqualValidation('tmPrioritasSasaranKab',
                                                                         $renstrasasaran->Kd_Sasaran,
-                                                                        ['where'=>['TA','=',config('eplanning.renstra_tahun_mulai')]],
+                                                                        ['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]],
                                                                         'Kode Sasaran')],
             'PrioritasTujuanKabID'=>'required',
             'Nm_Sasaran'=>'required',

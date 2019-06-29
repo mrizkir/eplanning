@@ -53,7 +53,7 @@ class RENSTRAIndikatorKinerjaController extends Controller {
         }
         else
         {
-            $data = RENSTRAIndikatorSasaranModel::where('TA_N',config('eplanning.renstra_tahun_mulai'))
+            $data = RENSTRAIndikatorSasaranModel::where('TA_N',\HelperKegiatan::getTahunPerencanaan())
                                                 ->orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('renstraindikatorkinerja.index'));
@@ -267,7 +267,7 @@ class RENSTRAIndikatorKinerjaController extends Controller {
             'UrsID' => $request->input('UrsID'),
             'PrgID' => $request->input('PrgID'),
             'NamaIndikator' => $request->input('NamaIndikator'),
-            'TA_N'=>config('eplanning.renstra_tahun_mulai'),
+            'TA_N'=>HelperKegiatan::getTahunPerencanaan(),
             'OrgID' => $request->input('OrgID'),
             'OrgID2' => $request->input('OrgID2'),
             'TargetAwal' => $request->input('TargetAwal'),

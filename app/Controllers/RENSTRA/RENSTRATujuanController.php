@@ -29,7 +29,7 @@ class RENSTRATujuanController extends Controller {
         $columns=['*'];       
         if (!$this->checkStateIsExistSession('renstratujuan','orderby')) 
         {            
-           $this->putControllerStateSession('renstratujuan','orderby',['column_name'=>'Nm_Tujuan','order'=>'asc']);
+           $this->putControllerStateSession('renstratujuan','orderby',['column_name'=>'Nm_RenstraTujuan','order'=>'asc']);
         }
         $column_order=$this->getControllerStateSession('renstratujuan.orderby','column_name'); 
         $direction=$this->getControllerStateSession('renstratujuan.orderby','order'); 
@@ -44,11 +44,11 @@ class RENSTRATujuanController extends Controller {
             $search=$this->getControllerStateSession('renstratujuan','search');
             switch ($search['kriteria']) 
             {
-                case 'Kd_Tujuan' :
-                    $data = RENSTRATujuanModel::where(['Kd_Tujuan'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                case 'Kd_RenstraTujuan' :
+                    $data = RENSTRATujuanModel::where(['Kd_RenstraTujuan'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
-                case 'Nm_Tujuan' :
-                    $data = RENSTRATujuanModel::where('Nm_Tujuan', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                case 'Nm_RenstraTujuan' :
+                    $data = RENSTRATujuanModel::where('Nm_RenstraTujuan', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
@@ -96,14 +96,14 @@ class RENSTRATujuanController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'col-Kd_Tujuan' :
-                $column_name = 'Kd_Tujuan';
+            case 'col-Kd_RenstraTujuan' :
+                $column_name = 'Kd_RenstraTujuan';
             break;      
-            case 'col-Nm_Tujuan' :
-                $column_name = 'Nm_Tujuan';
+            case 'col-Nm_RenstraTujuan' :
+                $column_name = 'Nm_RenstraTujuan';
             break;        
             default :
-                $column_name = 'Nm_Tujuan';
+                $column_name = 'Nm_RenstraTujuan';
         }
         $this->putControllerStateSession('renstratujuan','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
@@ -205,17 +205,28 @@ class RENSTRATujuanController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $daftar_misi=\App\Models\RENSTRA\RENSTRAMisiModel::select(\DB::raw('"PrioritasKabID",CONCAT(\'[\',"Kd_PrioritasKab",\']. \',"Nm_PrioritasKab") AS "Nm_PrioritasKab"'))
-                                                        ->where('TA',\HelperKegiatan::getTahunPerencanaan())
-                                                        ->orderBy('Kd_PrioritasKab','ASC')
-                                                        ->get()
-                                                        ->pluck('Nm_PrioritasKab','PrioritasKabID')
-                                                        ->toArray();
+        $filters=$this->getControllerStateSession('renstratujuan','filters');  
+        if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
+        {
+            $daftar_misi=\App\Models\RENSTRA\RENSTRAMisiModel::select(\DB::raw('"RenstraMisiID",CONCAT(\'[\',"Kd_RenstraMisi",\']. \',"Nm_RenstraMisi") AS "Nm_RenstraMisi"'))
+                                                            ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                                            ->where('OrgID',$filters['OrgID'])
+                                                            ->orderBy('Kd_RenstraMisi','ASC')
+                                                            ->get()
+                                                            ->pluck('Nm_RenstraMisi','RenstraMisiID')
+                                                            ->toArray();
 
-        
-        return view("pages.$theme.renstra.renstratujuan.create")->with(['page_active'=>'renstratujuan',
-                                                                    'daftar_misi'=>$daftar_misi
+            
+            return view("pages.$theme.renstra.renstratujuan.create")->with(['page_active'=>'renstratujuan',
+                                                                        'daftar_misi'=>$daftar_misi
+                                                                        ]);  
+        }
+        else
+        {
+            return view("pages.$theme.renstra.renstratujuan.error")->with(['page_active'=>'renstratujuan',
+                                                                        'errormessage'=>'Mohon OPD / SKPD untuk di pilih terlebih dahulu.'
                                                                     ]);  
+        }
     }
     
     /**
@@ -227,18 +238,19 @@ class RENSTRATujuanController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_Tujuan'=>[new CheckRecordIsExistValidation('tmPrioritasTujuanKab',['where'=>['TA','=',config('eplanning.renstra_tahun_mulai')]]),
+            'Kd_RenstraTujuan'=>[new CheckRecordIsExistValidation('tmRenstraTujuan',['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]]),
                             'required'
                         ],
-            'PrioritasKabID'=>'required',
-            'Nm_Tujuan'=>'required',
+            'RenstraMisiID'=>'required',
+            'Nm_RenstraTujuan'=>'required',
         ]);
         
         $renstratujuan = RENSTRATujuanModel::create([
-            'PrioritasTujuanKabID'=> uniqid ('uid'),
-            'PrioritasKabID' => $request->input('PrioritasKabID'),
-            'Kd_Tujuan' => $request->input('Kd_Tujuan'),
-            'Nm_Tujuan' => $request->input('Nm_Tujuan'),
+            'RenstraTujuanID'=> uniqid ('uid'),
+            'RenstraMisiID' => $request->input('RenstraMisiID'),
+            'OrgID' => $this->getControllerStateSession('renstratujuan','filters.OrgID'),
+            'Kd_RenstraTujuan' => $request->input('Kd_RenstraTujuan'),
+            'Nm_RenstraTujuan' => $request->input('Nm_RenstraTujuan'),
             'Descr' => $request->input('Descr'),
             'TA' => \HelperKegiatan::getTahunPerencanaan()
         ]);        
@@ -252,7 +264,7 @@ class RENSTRATujuanController extends Controller {
         }
         else
         {
-            return redirect(route('renstratujuan.show',['id'=>$renstratujuan->PrioritasTujuanKabID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('renstratujuan.show',['id'=>$renstratujuan->RenstraTujuanID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -267,16 +279,16 @@ class RENSTRATujuanController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = RENSTRATujuanModel::select(\DB::raw('"tmPrioritasTujuanKab"."PrioritasTujuanKabID",
-                                                    "tmPrioritasKab"."Kd_PrioritasKab",
-                                                    "tmPrioritasKab"."Nm_PrioritasKab",
-                                                    "tmPrioritasTujuanKab"."Kd_Tujuan",
-                                                    "tmPrioritasTujuanKab"."Nm_Tujuan",
-                                                    "tmPrioritasTujuanKab"."Descr",
-                                                    "tmPrioritasTujuanKab"."PrioritasTujuanKabID_Src",
-                                                    "tmPrioritasTujuanKab"."created_at",
-                                                    "tmPrioritasTujuanKab"."updated_at"'))
-                                ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmPrioritasTujuanKab.PrioritasKabID')
+        $data = RENSTRATujuanModel::select(\DB::raw('"tmRenstraTujuan"."RenstraTujuanID",
+                                                    "tmPrioritasKab"."Kd_RenstraMisi",
+                                                    "tmPrioritasKab"."Nm_RenstraMisi",
+                                                    "tmRenstraTujuan"."Kd_RenstraTujuan",
+                                                    "tmRenstraTujuan"."Nm_RenstraTujuan",
+                                                    "tmRenstraTujuan"."Descr",
+                                                    "tmRenstraTujuan"."RenstraTujuanID_Src",
+                                                    "tmRenstraTujuan"."created_at",
+                                                    "tmRenstraTujuan"."updated_at"'))
+                                ->join('tmPrioritasKab','tmPrioritasKab.RenstraMisiID','tmRenstraTujuan.RenstraMisiID')
                                 ->findOrFail($id);
         if (!is_null($data) )  
         {
@@ -299,11 +311,11 @@ class RENSTRATujuanController extends Controller {
         $data = RENSTRATujuanModel::findOrFail($id);
         if (!is_null($data) ) 
         {
-            $daftar_misi=\App\Models\RENSTRA\RENSTRAMisiModel::select(\DB::raw('"PrioritasKabID",CONCAT(\'[\',"Kd_PrioritasKab",\']. \',"Nm_PrioritasKab") AS "Nm_PrioritasKab"'))
+            $daftar_misi=\App\Models\RENSTRA\RENSTRAMisiModel::select(\DB::raw('"RenstraMisiID",CONCAT(\'[\',"Kd_RenstraMisi",\']. \',"Nm_RenstraMisi") AS "Nm_RenstraMisi"'))
                                                             ->where('TA',\HelperKegiatan::getTahunPerencanaan())
-                                                            ->orderBy('Kd_PrioritasKab','ASC')
+                                                            ->orderBy('Kd_RenstraMisi','ASC')
                                                             ->get()
-                                                            ->pluck('Nm_PrioritasKab','PrioritasKabID')
+                                                            ->pluck('Nm_RenstraMisi','RenstraMisiID')
                                                             ->toArray();
 
             return view("pages.$theme.renstra.renstratujuan.edit")->with(['page_active'=>'renstratujuan',
@@ -325,17 +337,17 @@ class RENSTRATujuanController extends Controller {
         $renstratujuan = RENSTRATujuanModel::find($id);
         
         $this->validate($request, [
-            'Kd_Tujuan'=>['required',new IgnoreIfDataIsEqualValidation('tmPrioritasTujuanKab',
-                                                                        $renstratujuan->Kd_Tujuan,
-                                                                        ['where'=>['TA','=',config('eplanning.renstra_tahun_mulai')]],
+            'Kd_RenstraTujuan'=>['required',new IgnoreIfDataIsEqualValidation('tmRenstraTujuan',
+                                                                        $renstratujuan->Kd_RenstraTujuan,
+                                                                        ['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]],
                                                                         'Kode Tujuan')],
-            'PrioritasKabID'=>'required',
-            'Nm_Tujuan'=>'required',
+            'RenstraMisiID'=>'required',
+            'Nm_RenstraTujuan'=>'required',
         ]);
                
-        $renstratujuan->PrioritasKabID = $request->input('PrioritasKabID');
-        $renstratujuan->Kd_Tujuan = $request->input('Kd_Tujuan');
-        $renstratujuan->Nm_Tujuan = $request->input('Nm_Tujuan');
+        $renstratujuan->RenstraMisiID = $request->input('RenstraMisiID');
+        $renstratujuan->Kd_RenstraTujuan = $request->input('Kd_RenstraTujuan');
+        $renstratujuan->Nm_RenstraTujuan = $request->input('Nm_RenstraTujuan');
         $renstratujuan->Descr = $request->input('Descr');
         $renstratujuan->save();
 
@@ -348,7 +360,7 @@ class RENSTRATujuanController extends Controller {
         }
         else
         {
-            return redirect(route('renstratujuan.show',['id'=>$renstratujuan->PrioritasTujuanKabID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('renstratujuan.show',['id'=>$renstratujuan->RenstraTujuanID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 

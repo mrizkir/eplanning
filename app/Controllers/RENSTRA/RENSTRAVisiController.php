@@ -29,7 +29,7 @@ class RENSTRAVisiController extends Controller {
         $columns=['*'];       
         if (!$this->checkStateIsExistSession('renstravisi','Nm_RenstraVisi')) 
         {            
-           $this->putControllerStateSession('renstravisi','orderby',['column_name'=>'Nm_RenstraVisi','order'=>'asc']);
+           $this->putControllerStateSession('renstravisi','orderby',['column_name'=>'Kd_RenstraVisi','order'=>'asc']);
         }
         $column_order=$this->getControllerStateSession('renstravisi.orderby','column_name'); 
         $direction=$this->getControllerStateSession('renstravisi.orderby','order'); 
@@ -228,9 +228,30 @@ class RENSTRAVisiController extends Controller {
      */
     public function index(Request $request)
     {                
-        $theme = \Auth::user()->theme;
+        $auth = \Auth::user();    
+        $theme = $auth->theme;
+        
         $filters=$this->getControllerStateSession('renstravisi','filters');
-
+        $roles=$auth->getRoleNames();   
+        $daftar_unitkerja=array();           
+        switch ($roles[0])
+        {
+            case 'superadmin' :     
+            case 'bapelitbang' :     
+            case 'tapd' :     
+                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);   
+            break;
+            case 'opd' :               
+                $daftar_opd=\App\Models\UserOPD::getOPD();                      
+                if (!(count($daftar_opd) > 0))
+                {  
+                    return view("pages.$theme.renstra.renstravisi.error")->with(['page_active'=>'renstravisi', 
+                                                                        'page_title'=>\HelperKegiatan::getPageTitle('renstravisi'),
+                                                                        'errormessage'=>'Anda Tidak Diperkenankan Mengakses Halaman ini, karena Sudah dikunci oleh BAPELITBANG',
+                                                                        ]);
+                }          
+            break;
+        }
         $search=$this->getControllerStateSession('renstravisi','search');
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('renstravisi'); 
         $data = $this->populateData($currentpage);
@@ -238,10 +259,10 @@ class RENSTRAVisiController extends Controller {
         {            
             $data = $this->populateData($data->lastPage());
         }
-        $this->setCurrentPageInsideSession('renstravisi',$data->currentPage());
+        $this->setCurrentPageInsideSession('renstravisi',$data->currentPage());        
         
-        $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);  
         return view("pages.$theme.renstra.renstravisi.index")->with(['page_active'=>'renstravisi',
+                                                                    'daftar_opd'=>$daftar_opd,
                                                                     'search'=>$this->getControllerStateSession('renstravisi','search'),
                                                                     'filters'=>$filters,
                                                                     'daftar_opd'=>$daftar_opd,
@@ -282,7 +303,7 @@ class RENSTRAVisiController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_RenstraVisi'=>[new CheckRecordIsExistValidation('tmRenstraVisi',['where'=>['TA','=',config('eplanning.renstra_tahun_mulai')]]),
+            'Kd_RenstraVisi'=>[new CheckRecordIsExistValidation('tmRenstraVisi',['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]]),
                         'required'
                     ],
             'Nm_RenstraVisi'=>'required',
@@ -361,7 +382,7 @@ class RENSTRAVisiController extends Controller {
         $renstravisi = RENSTRAVisiModel::find($id);
         
         $this->validate($request, [
-            'Kd_RenstraVisi'=>[new IgnoreIfDataIsEqualValidation('tmRenstraVisi',$renstravisi->Kd_RenstraVisi,['where'=>['TA','=',config('eplanning.renstra_tahun_mulai')]]),
+            'Kd_RenstraVisi'=>[new IgnoreIfDataIsEqualValidation('tmRenstraVisi',$renstravisi->Kd_RenstraVisi,['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]]),
                         'required'
                     ],
             'Nm_RenstraVisi'=>'required|min:2'

@@ -38,7 +38,7 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label">MISI :</label> 
                     <div class="col-md-10">
-                        <select name="PrioritasKabID" id="PrioritasKabID" class="select">
+                        <select name="RenstraMisiID" id="RenstraMisiID" class="select">
                             <option></option>
                             @foreach ($daftar_misi as $k=>$item)
                                 <option value="{{$k}}"">{{$item}}</option>
@@ -47,15 +47,15 @@
                     </div>
                 </div>   
                 <div class="form-group">
-                    {{Form::label('Kd_Tujuan','KODE TUJUAN',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('Kd_RenstraTujuan','KODE TUJUAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('Kd_Tujuan','',['class'=>'form-control','placeholder'=>'Kode Tujuan','maxlength'=>'4'])}}
+                        {{Form::text('Kd_RenstraTujuan','',['class'=>'form-control','placeholder'=>'Kode Tujuan','maxlength'=>'4'])}}
                     </div>
                 </div>
                 <div class="form-group">
-                    {{Form::label('Nm_Tujuan','NAMA TUJUAN',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('Nm_RenstraTujuan','NAMA TUJUAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('Nm_Tujuan','',['class'=>'form-control','placeholder'=>'Nama Tujuan'])}}
+                        {{Form::text('Nm_RenstraTujuan','',['class'=>'form-control','placeholder'=>'Nama Tujuan'])}}
                     </div>
                 </div>
                 <div class="form-group">
@@ -83,7 +83,7 @@
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
-    AutoNumeric.multiple(['#Kd_Tujuan'], {
+    AutoNumeric.multiple(['#Kd_RenstraTujuan'], {
                                         allowDecimalPadding: false,
                                         minimumValue:0,
                                         maximumValue:9999,
@@ -94,34 +94,34 @@ $(document).ready(function () {
                                         unformatOnSubmit: true,
                                         modifyValueOnWheel:false
                                     });
-    $('#PrioritasKabID.select').select2({
+    $('#RenstraMisiID.select').select2({
         placeholder: "PILIH MISI",
         allowClear:true
     });
     $('#frmdata').validate({
         ignore: [],
         rules: {
-            PrioritasKabID : {
+            RenstraMisiID : {
                 required: true,
                 valueNotEquals: 'none'
             },
-            Kd_Tujuan : {
+            Kd_RenstraTujuan : {
                 required: true,
             },
-            Nm_Tujuan : {
+            Nm_RenstraTujuan : {
                 required: true,
                 minlength: 2
             }
         },
         messages : {
-            PrioritasKabID : {
+            RenstraMisiID : {
                 required: "Mohon untuk di pilih karena ini diperlukan.",
                 valueNotEquals: "Mohon untuk di pilih karena ini diperlukan.",      
             },
-            Kd_Tujuan : {
+            Kd_RenstraTujuan : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
             },
-            Nm_Tujuan : {
+            Nm_RenstraTujuan : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             }
