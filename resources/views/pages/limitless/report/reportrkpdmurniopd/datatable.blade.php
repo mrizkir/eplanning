@@ -39,7 +39,7 @@
                     <th colspan="5" rowspan="2">                   
                         KODE            
                     </th>                
-                    <th width="400" rowspan="2">                    
+                    <th width="400" rowspan="2" colspan="2">                    
                         BIDANG URUSAN PEMERINTAH DAERAH DAN PROGRAM/KEGIATAN                                                                                           
                     </th>                    
                     <th width="200" rowspan="2">                    
@@ -88,7 +88,7 @@
                 <td>{{$v->OrgCd}}</td>
                 <td>{{$v->Kd_Prog}}</td>
                 <td></td>
-                <td>{{$v->PrgNm}}</td>
+                <td colspan="2">{{$v->PrgNm}}</td>
                 <td colspan="3"></td>
                 @php
                     $totalpagueachprogramNilaiUsulan= $daftar_kegiatan->sum('NilaiUsulan1');      
@@ -105,7 +105,7 @@
                     <td>{{$item->OrgCd}}</td>
                     <td>{{$item->Kd_Prog}}</td>
                     <td>{{$item->Kd_Keg}}</td>
-                    <td rowspan="2">
+                    <td rowspan="2" colspan="2">
                         {{ucwords($item->KgtNm)}}                           
                     </td> 
                     <td rowspan="2">{{Helper::formatAngka($item->Sasaran_Angka1)}} {{$item->Sasaran_Uraian1}}</td>                      
@@ -129,11 +129,48 @@
                     <td colspan="5" class="bg-info-300">
                         RKPDID: {{$item->RKPDID}}
                     </td>
-                </tr>
+                </tr>                
                 @php
                     $total_pagu_m+=$item->NilaiUsulan1;
                     $total_nilai_setelah+=$item->NilaiSetelah;
+
+                    $rinciankegiatan = \DB::table('trRKPDRinc')
+                                        ->select(\DB::raw('"RKPDRincID","No","Uraian","Sasaran_Angka1","Sasaran_Angka2","Sasaran_Uraian1","Sasaran_Uraian2","Target1","Target2","NilaiUsulan1","Descr"'))                                        
+                                        ->where('RKPDID',$item->RKPDID)                                        
+                                        ->orderBy('No','ASC')       
+                                        ->get();
                 @endphp
+                @foreach ($rinciankegiatan as $rinc)
+                <tr class="bg-grey-600" >                        
+                    <td colspan="5" class="text-right">&nbsp;</td>                    
+                    <td rowspan="2">{{$rinc->No}}</td>
+                    <td rowspan="2">
+                        {{ucwords($rinc->Uraian)}}                           
+                    </td> 
+                    <td rowspan="2">{{Helper::formatAngka($rinc->Sasaran_Angka1)}} {{$rinc->Sasaran_Uraian1}}</td>                      
+                    <td rowspan="2">
+                        KAB. BINTAN
+                    </td>                    
+                    <td rowspan="2">{{$rinc->Target2}}</td>
+                    <td class="text-right" rowspan="2">
+                        <span class="">{{Helper::formatuang($rinc->NilaiUsulan1)}}</span>                    
+                    </td>       
+                    <td rowspan="2">{{$item->Nm_SumberDana}}</td>
+                    <td rowspan="2">{{$rinc->Descr}}</td>    
+                    <td class="text-right" rowspan="2">
+                        {{Helper::formatAngka($item->Sasaran_AngkaSetelah)}} {{$item->Sasaran_UraianSetelah}}
+                    </td>                   
+                    <td class="text-right" rowspan="2">
+                        <span class="text-info">{{Helper::formatuang($item->NilaiSetelah)}}</span>
+                    </td>                                                            
+                </tr>           
+                <tr class="text-center">
+                    <td colspan="5" class="bg-info-300">
+                        RKPDRINCID: {{$rinc->RKPDRincID}}
+                    </td>
+                </tr>   
+                @endforeach
+                {{-- end looping rincian kegiatan --}}
             @endforeach      
             {{-- end looping daftar kegiatan --}}
             @endif
@@ -143,7 +180,7 @@
             </tbody>
             <tfoot>
                 <tr class="bg-grey-300" style="font-weight:bold">
-                    <td colspan="9" class="text-right">
+                    <td colspan="10" class="text-right">
                         TOTAL                        
                     </td>
                     <td class="text-right">{{Helper::formatUang($total_pagu_m)}}</td>                     
