@@ -34,7 +34,7 @@
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>['RENSTRA\RENSTRATujuanController@update',$data->PrioritasTujuanKabID],'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
+            {!! Form::open(['action'=>['RENSTRA\RENSTRATujuanController@update',$data->RenstraTujuanID],'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
                 <div class="form-group">
                     <label class="col-md-2 control-label">MISI :</label> 
                     <div class="col-md-10">

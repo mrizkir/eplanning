@@ -197,7 +197,6 @@ class RENSTRAVisiController extends Controller {
         $theme = $auth->theme;
 
         $filters=$this->getControllerStateSession('renstravisi','filters');
-        $daftar_unitkerja=[];
         $json_data = [];
 
         //index

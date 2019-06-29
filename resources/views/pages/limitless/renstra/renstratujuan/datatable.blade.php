@@ -22,16 +22,17 @@
             <thead>
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
-                    <th width="100">
-                        <a class="column-sort text-white" id="col-Kd_Tujuan" data-order="{{$direction}}" href="#">
+                    <th width="150">
+                        <a class="column-sort text-white" id="col-Kd_RenstraTujuan" data-order="{{$direction}}" href="#">
                             KODE TUJUAN 
                         </a>                                             
                     </th> 
-                    <th width="100">
-                        <a class="column-sort text-white" id="col-Nm_Tujuan" data-order="{{$direction}}" href="#">
+                    <th>
+                        <a class="column-sort text-white" id="col-Nm_RenstraTujuan" data-order="{{$direction}}" href="#">
                             NAMA TUJUAN  
                         </a>                                             
                     </th> 
+                    <th width="100">TA</th>
                     <th width="100">AKSI</th>
                 </tr>
             </thead>
@@ -41,22 +42,23 @@
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>                  
-                    <td>{{$item->Kd_Tujuan}}</td>
-                    <td>{{$item->Nm_Tujuan}}</td>
+                    <td>{{$item->Kd_RenstraTujuan}}</td>
+                    <td>{{$item->Nm_RenstraTujuan}}</td>
+                    <td>{{$item->TA}}</td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('renstratujuan.show',['id'=>$item->PrioritasTujuanKabID])}}" title="Detail Data RpjmdTujuan">
+                                <a class="btnShow" href="{{route('renstratujuan.show',['id'=>$item->RenstraTujuanID])}}" title="Detail Data RpjmdTujuan">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('renstratujuan.edit',['id'=>$item->PrioritasTujuanKabID])}}" title="Ubah Data RpjmdTujuan">
+                                <a class="btnEdit" href="{{route('renstratujuan.edit',['id'=>$item->RenstraTujuanID])}}" title="Ubah Data RpjmdTujuan">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data RpjmdTujuan" data-id="{{$item->PrioritasTujuanKabID}}" data-url="{{route('renstratujuan.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data RpjmdTujuan" data-id="{{$item->RenstraTujuanID}}" data-url="{{route('renstratujuan.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>

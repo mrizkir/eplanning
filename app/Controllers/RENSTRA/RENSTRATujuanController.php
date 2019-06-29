@@ -39,23 +39,39 @@ class RENSTRATujuanController extends Controller {
             $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
         }
         $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
+
+        //filter
+        if (!$this->checkStateIsExistSession('renstratujuan','filters')) 
+        {            
+            $this->putControllerStateSession('renstratujuan','filters',[
+                                                                    'OrgID'=>'none'
+                                                                    ]);
+        }        
+        $OrgID= $this->getControllerStateSession(\Helper::getNameOfPage('filters'),'OrgID');        
+        
         if ($this->checkStateIsExistSession('renstratujuan','search')) 
         {
             $search=$this->getControllerStateSession('renstratujuan','search');
             switch ($search['kriteria']) 
             {
                 case 'Kd_RenstraTujuan' :
-                    $data = RENSTRATujuanModel::where(['Kd_RenstraTujuan'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                    $data = RENSTRATujuanModel::where('OrgID',$OrgID)
+                                                ->where(['Kd_RenstraTujuan'=>$search['isikriteria']])
+                                                ->orderBy($column_order,$direction); 
                 break;
                 case 'Nm_RenstraTujuan' :
-                    $data = RENSTRATujuanModel::where('Nm_RenstraTujuan', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = RENSTRATujuanModel::where('OrgID',$OrgID)
+                                                ->where('Nm_RenstraTujuan', 'ilike', '%' . $search['isikriteria'] . '%')
+                                                ->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = RENSTRATujuanModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data = RENSTRATujuanModel::where('OrgID',$OrgID)
+                                        ->orderBy($column_order,$direction)
+                                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('renstratujuan.index'));
         return $data;
@@ -173,14 +189,71 @@ class RENSTRATujuanController extends Controller {
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
     }
     /**
+     * filter resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function filter(Request $request) 
+    {
+        $auth = \Auth::user();    
+        $theme = $auth->theme;
+
+        $filters=$this->getControllerStateSession('renstratujuan','filters');       
+        $json_data = [];
+
+        //index
+        if ($request->exists('OrgID'))
+        {
+            $OrgID = $request->input('OrgID')==''?'none':$request->input('OrgID');
+            $filters['OrgID']=$OrgID;            
+            $this->putControllerStateSession('renstratujuan','filters',$filters);
+            
+            $data = $this->populateData();
+
+            $datatable = view("pages.$theme.renstra.renstratujuan.datatable")->with(['page_active'=>'renstratujuan',                                                                               
+                                                                            'search'=>$this->getControllerStateSession('renstratujuan','search'),
+                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                            'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                                            'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
+                                                                            'data'=>$data])->render();
+
+            
+            $json_data = ['success'=>true,'datatable'=>$datatable];
+        } 
+        return response()->json($json_data,200);
+    }
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {                
-        $theme = \Auth::user()->theme;
+        $auth = \Auth::user();    
+        $theme = $auth->theme;
 
+        $filters=$this->getControllerStateSession('renstratujuan','filters');
+        $roles=$auth->getRoleNames();   
+        $daftar_unitkerja=array();           
+        switch ($roles[0])
+        {
+            case 'superadmin' :     
+            case 'bapelitbang' :     
+            case 'tapd' :     
+                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);   
+            break;
+            case 'opd' :               
+                $daftar_opd=\App\Models\UserOPD::getOPD();                      
+                if (!(count($daftar_opd) > 0))
+                {  
+                    return view("pages.$theme.renstra.renstratujuan.error")->with(['page_active'=>'renstratujuan', 
+                                                                        'page_title'=>\HelperKegiatan::getPageTitle('renstratujuan'),
+                                                                        'errormessage'=>'Anda Tidak Diperkenankan Mengakses Halaman ini, karena Sudah dikunci oleh BAPELITBANG',
+                                                                        ]);
+                }          
+            break;
+        }
         $search=$this->getControllerStateSession('renstratujuan','search');
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('renstratujuan'); 
         $data = $this->populateData($currentpage);
@@ -191,11 +264,13 @@ class RENSTRATujuanController extends Controller {
         $this->setCurrentPageInsideSession('renstratujuan',$data->currentPage());
         
         return view("pages.$theme.renstra.renstratujuan.index")->with(['page_active'=>'renstratujuan',
-                                                'search'=>$this->getControllerStateSession('renstratujuan','search'),
-                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                'column_order'=>$this->getControllerStateSession('renstratujuan.orderby','column_name'),
-                                                'direction'=>$this->getControllerStateSession('renstratujuan.orderby','order'),
-                                                'data'=>$data]);               
+                                                                    'search'=>$this->getControllerStateSession('renstratujuan','search'),
+                                                                    'filters'=>$filters,
+                                                                    'daftar_opd'=>$daftar_opd,
+                                                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                    'column_order'=>$this->getControllerStateSession('renstratujuan.orderby','column_name'),
+                                                                    'direction'=>$this->getControllerStateSession('renstratujuan.orderby','order'),
+                                                                    'data'=>$data]);               
     }
     /**
      * Show the form for creating a new resource.
@@ -280,15 +355,15 @@ class RENSTRATujuanController extends Controller {
         $theme = \Auth::user()->theme;
 
         $data = RENSTRATujuanModel::select(\DB::raw('"tmRenstraTujuan"."RenstraTujuanID",
-                                                    "tmPrioritasKab"."Kd_RenstraMisi",
-                                                    "tmPrioritasKab"."Nm_RenstraMisi",
+                                                    "tmRenstraMisi"."Kd_RenstraMisi",
+                                                    "tmRenstraMisi"."Nm_RenstraMisi",
                                                     "tmRenstraTujuan"."Kd_RenstraTujuan",
                                                     "tmRenstraTujuan"."Nm_RenstraTujuan",
                                                     "tmRenstraTujuan"."Descr",
-                                                    "tmRenstraTujuan"."RenstraTujuanID_Src",
+                                                    "tmRenstraTujuan"."TA",
                                                     "tmRenstraTujuan"."created_at",
                                                     "tmRenstraTujuan"."updated_at"'))
-                                ->join('tmPrioritasKab','tmPrioritasKab.RenstraMisiID','tmRenstraTujuan.RenstraMisiID')
+                                ->join('tmRenstraMisi','tmRenstraMisi.RenstraMisiID','tmRenstraTujuan.RenstraMisiID')
                                 ->findOrFail($id);
         if (!is_null($data) )  
         {

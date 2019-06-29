@@ -200,7 +200,6 @@ class RENSTRAMisiController extends Controller {
         $theme = $auth->theme;
 
         $filters=$this->getControllerStateSession('renstramisi','filters');
-        $daftar_unitkerja=[];
         $json_data = [];
 
         //index
@@ -231,9 +230,30 @@ class RENSTRAMisiController extends Controller {
      */
     public function index(Request $request)
     {                
-        $theme = \Auth::user()->theme;
-        $filters=$this->getControllerStateSession('renstramisi','filters');
+        $auth = \Auth::user();    
+        $theme = $auth->theme;
 
+        $filters=$this->getControllerStateSession('renstramisi','filters');
+        $roles=$auth->getRoleNames();   
+        $daftar_unitkerja=array();           
+        switch ($roles[0])
+        {
+            case 'superadmin' :     
+            case 'bapelitbang' :     
+            case 'tapd' :     
+                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);   
+            break;
+            case 'opd' :               
+                $daftar_opd=\App\Models\UserOPD::getOPD();                      
+                if (!(count($daftar_opd) > 0))
+                {  
+                    return view("pages.$theme.renstra.renstramisi.error")->with(['page_active'=>'renstramisi', 
+                                                                        'page_title'=>\HelperKegiatan::getPageTitle('renstramisi'),
+                                                                        'errormessage'=>'Anda Tidak Diperkenankan Mengakses Halaman ini, karena Sudah dikunci oleh BAPELITBANG',
+                                                                        ]);
+                }          
+            break;
+        }
         $search=$this->getControllerStateSession('renstramisi','search');
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('renstramisi'); 
         $data = $this->populateData($currentpage);
@@ -243,7 +263,6 @@ class RENSTRAMisiController extends Controller {
         }
         $this->setCurrentPageInsideSession('renstramisi',$data->currentPage());
         
-        $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);  
         return view("pages.$theme.renstra.renstramisi.index")->with(['page_active'=>'renstramisi',
                                                                     'search'=>$this->getControllerStateSession('renstramisi','search'),
                                                                     'filters'=>$filters,

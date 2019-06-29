@@ -26,10 +26,10 @@
                     <i class="icon-eye"></i>  DATA RENSTRA TUJUAN
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('renstratujuan.edit',['id'=>$data->PrioritasTujuanKabID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RENSTRA Tujuan">
+                    <a href="{{route('renstratujuan.edit',['id'=>$data->RenstraTujuanID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RENSTRA Tujuan">
                         <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data RENSTRA Tujuan" data-id="{{$data->PrioritasTujuanKabID}}" data-url="{{route('renstratujuan.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
+                    <a href="javascript:;" title="Hapus Data RENSTRA Tujuan" data-id="{{$data->RenstraTujuanID}}" data-url="{{route('renstratujuan.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
                     </a>
                     <a href="{!!route('renstratujuan.create')!!}" class="btn btn-primary btn-info heading-btn btnEdit" title="Tambah RENSTRA Tujuan">
@@ -45,21 +45,21 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>PrioritasTujuanKabID: </strong></label>
+                                <label class="col-md-4 control-label"><strong>RENSTRATUJUANID: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->PrioritasTujuanKabID}}</p>
+                                    <p class="form-control-static">{{$data->RenstraTujuanID}}</p>
                                 </div>                            
                             </div>                        
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>KODE TUJUAN : </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->Kd_Tujuan}}</p>
+                                    <p class="form-control-static">{{$data->Kd_RenstraTujuan}}</p>
                                 </div>                            
                             </div>                            
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>NAMA TUJUAN: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->Nm_Tujuan}}</p>
+                                    <p class="form-control-static">{{$data->Nm_RenstraTujuan}}</p>
                                 </div>                            
                             </div>  
                         </div>                        
@@ -69,13 +69,13 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>KODE MISI : </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->Kd_PrioritasKab}}</p>
+                                    <p class="form-control-static">{{$data->Kd_RenstraMisi}}</p>
                                 </div>                            
                             </div>                            
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>NAMA MISI: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->Nm_PrioritasKab}}</p>
+                                    <p class="form-control-static">{{$data->Nm_RenstraMisi}}</p>
                                 </div>                            
                             </div>     
                             <div class="form-group">
