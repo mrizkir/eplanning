@@ -12,21 +12,21 @@ class RENSTRASasaranModel extends Model {
      *
      * @var string
      */
-    protected $table = 'tmPrioritasSasaranKab';
+    protected $table = 'tmRenstraSasaran';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'PrioritasSasaranKabID', 'PrioritasTujuanKabID', 'OrgID', 'Kd_Sasaran', 'Nm_Sasaran', 'Descr', 'TA'
+        'RenstraSasaranID', 'RenstraTujuanID', 'OrgID', 'Kd_RenstraSasaran', 'Nm_RenstraSasaran', 'Descr', 'TA'
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'PrioritasSasaranKabID';
+    protected $primaryKey = 'RenstraSasaranID';
     /**
      * enable auto_increment.
      *
@@ -49,7 +49,7 @@ class RENSTRASasaranModel extends Model {
     /**
      * log the changed attributes for all these events 
      */
-    protected static $logAttributes = ['PrioritasSasaranKabID', 'Nm_Sasaran'];
+    protected static $logAttributes = ['RenstraSasaranID', 'Nm_RenstraSasaran'];
     /**
      * log changes to all the $fillable attributes of the model
      */

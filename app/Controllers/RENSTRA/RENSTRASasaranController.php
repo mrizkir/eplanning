@@ -29,7 +29,7 @@ class RENSTRASasaranController extends Controller {
         $columns=['*'];       
         if (!$this->checkStateIsExistSession('renstrasasaran','orderby')) 
         {            
-           $this->putControllerStateSession('renstrasasaran','orderby',['column_name'=>'Nm_Sasaran','order'=>'asc']);
+           $this->putControllerStateSession('renstrasasaran','orderby',['column_name'=>'Nm_RenstraSasaran','order'=>'asc']);
         }
         $column_order=$this->getControllerStateSession('renstrasasaran.orderby','column_name'); 
         $direction=$this->getControllerStateSession('renstrasasaran.orderby','order'); 
@@ -39,16 +39,26 @@ class RENSTRASasaranController extends Controller {
             $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
         }
         $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
+
+        //filter
+        if (!$this->checkStateIsExistSession('renstrasasaran','filters')) 
+        {            
+            $this->putControllerStateSession('renstrasasaran','filters',[
+                                                                    'OrgID'=>'none'
+                                                                    ]);
+        }        
+        $OrgID= $this->getControllerStateSession(\Helper::getNameOfPage('filters'),'OrgID');        
+
         if ($this->checkStateIsExistSession('renstrasasaran','search')) 
         {
             $search=$this->getControllerStateSession('renstrasasaran','search');
             switch ($search['kriteria']) 
             {
-                case 'Kd_Sasaran' :
-                    $data = RENSTRASasaranModel::where(['Kd_Sasaran'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                case 'Kd_RenstraSasaran' :
+                    $data = RENSTRASasaranModel::where(['Kd_RenstraSasaran'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
-                case 'Nm_Sasaran' :
-                    $data = RENSTRASasaranModel::where('Nm_Sasaran', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                case 'Nm_RenstraSasaran' :
+                    $data = RENSTRASasaranModel::where('Nm_RenstraSasaran', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
@@ -96,25 +106,25 @@ class RENSTRASasaranController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'col-Kd_Sasaran' :
-                $column_name = 'Kd_Sasaran';
+            case 'col-Kd_RenstraSasaran' :
+                $column_name = 'Kd_RenstraSasaran';
             break;           
-            case 'col-Nm_Sasaran' :
-                $column_name = 'Nm_Sasaran';
+            case 'col-Nm_RenstraSasaran' :
+                $column_name = 'Nm_RenstraSasaran';
             break;           
             default :
-                $column_name = 'Nm_Sasaran';
+                $column_name = 'Nm_RenstraSasaran';
         }
         $this->putControllerStateSession('renstrasasaran','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
         $data=$this->populateData();
 
         $datatable = view("pages.$theme.renstra.renstrasasaran.datatable")->with(['page_active'=>'renstrasasaran',
-                                                            'search'=>$this->getControllerStateSession('renstrasasaran','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('renstrasasaran.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('renstrasasaran.orderby','order'),
-                                                            'data'=>$data])->render();     
+                                                                                    'search'=>$this->getControllerStateSession('renstrasasaran','search'),
+                                                                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                    'column_order'=>$this->getControllerStateSession('renstrasasaran.orderby','column_name'),
+                                                                                    'direction'=>$this->getControllerStateSession('renstrasasaran.orderby','order'),
+                                                                                    'data'=>$data])->render();     
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
     }
@@ -164,13 +174,48 @@ class RENSTRASasaranController extends Controller {
         $data=$this->populateData();
 
         $datatable = view("pages.$theme.renstra.renstrasasaran.datatable")->with(['page_active'=>'renstrasasaran',                                                            
-                                                            'search'=>$this->getControllerStateSession('renstrasasaran','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('renstrasasaran.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('renstrasasaran.orderby','order'),
-                                                            'data'=>$data])->render();      
+                                                                                    'search'=>$this->getControllerStateSession('renstrasasaran','search'),
+                                                                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                    'column_order'=>$this->getControllerStateSession('renstrasasaran.orderby','column_name'),
+                                                                                    'direction'=>$this->getControllerStateSession('renstrasasaran.orderby','order'),
+                                                                                    'data'=>$data])->render();      
         
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
+    }
+    /**
+     * filter resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function filter(Request $request) 
+    {
+        $auth = \Auth::user();    
+        $theme = $auth->theme;
+
+        $filters=$this->getControllerStateSession('renstrasasaran','filters');       
+        $json_data = [];
+
+        //index
+        if ($request->exists('OrgID'))
+        {
+            $OrgID = $request->input('OrgID')==''?'none':$request->input('OrgID');
+            $filters['OrgID']=$OrgID;            
+            $this->putControllerStateSession('renstrasasaran','filters',$filters);
+            
+            $data = $this->populateData();
+
+            $datatable = view("pages.$theme.renstra.renstrasasaran.datatable")->with(['page_active'=>'renstrasasaran',                                                                               
+                                                                            'search'=>$this->getControllerStateSession('renstrasasaran','search'),
+                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                            'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                                            'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
+                                                                            'data'=>$data])->render();
+
+            
+            $json_data = ['success'=>true,'datatable'=>$datatable];
+        } 
+        return response()->json($json_data,200);
     }
     /**
      * Show the form for creating a new resource.
@@ -179,8 +224,30 @@ class RENSTRASasaranController extends Controller {
      */
     public function index(Request $request)
     {                
-        $theme = \Auth::user()->theme;
+        $auth = \Auth::user();    
+        $theme = $auth->theme;
 
+        $filters=$this->getControllerStateSession('renstrasasaran','filters');
+        $roles=$auth->getRoleNames();   
+        $daftar_unitkerja=array();           
+        switch ($roles[0])
+        {
+            case 'superadmin' :     
+            case 'bapelitbang' :     
+            case 'tapd' :     
+                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);   
+            break;
+            case 'opd' :               
+                $daftar_opd=\App\Models\UserOPD::getOPD();                      
+                if (!(count($daftar_opd) > 0))
+                {  
+                    return view("pages.$theme.renstra.renstrasasaran.error")->with(['page_active'=>'renstrasasaran', 
+                                                                                    'page_title'=>\HelperKegiatan::getPageTitle('renstrasasaran'),
+                                                                                    'errormessage'=>'Anda Tidak Diperkenankan Mengakses Halaman ini, karena Sudah dikunci oleh BAPELITBANG',
+                                                                                    ]);
+                }          
+            break;
+        }
         $search=$this->getControllerStateSession('renstrasasaran','search');
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('renstrasasaran'); 
         $data = $this->populateData($currentpage);
@@ -191,11 +258,13 @@ class RENSTRASasaranController extends Controller {
         $this->setCurrentPageInsideSession('renstrasasaran',$data->currentPage());
         
         return view("pages.$theme.renstra.renstrasasaran.index")->with(['page_active'=>'renstrasasaran',
-                                                'search'=>$this->getControllerStateSession('renstrasasaran','search'),
-                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                'column_order'=>$this->getControllerStateSession('renstrasasaran.orderby','column_name'),
-                                                'direction'=>$this->getControllerStateSession('renstrasasaran.orderby','order'),
-                                                'data'=>$data]);               
+                                                                        'search'=>$this->getControllerStateSession('renstrasasaran','search'),
+                                                                        'filters'=>$filters,
+                                                                        'daftar_opd'=>$daftar_opd,
+                                                                        'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                        'column_order'=>$this->getControllerStateSession('renstrasasaran.orderby','column_name'),
+                                                                        'direction'=>$this->getControllerStateSession('renstrasasaran.orderby','order'),
+                                                                        'data'=>$data]);               
     }
     /**
      * Show the form for creating a new resource.
@@ -205,11 +274,11 @@ class RENSTRASasaranController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $daftar_tujuan=\App\Models\RENSTRA\RENSTRATujuanModel::select(\DB::raw('"PrioritasTujuanKabID",CONCAT(\'[\',"Kd_Tujuan",\']. \',"Nm_Tujuan") AS "Nm_Tujuan"'))
+        $daftar_tujuan=\App\Models\RENSTRA\RENSTRATujuanModel::select(\DB::raw('"RenstraTujuanID",CONCAT(\'[\',"Kd_Tujuan",\']. \',"Nm_Tujuan") AS "Nm_Tujuan"'))
                                                             ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                                                             ->orderBy('Kd_Tujuan','ASC')
                                                             ->get()
-                                                            ->pluck('Nm_Tujuan','PrioritasTujuanKabID')
+                                                            ->pluck('Nm_Tujuan','RenstraTujuanID')
                                                             ->toArray();
 
         return view("pages.$theme.renstra.renstrasasaran.create")->with(['page_active'=>'renstrasasaran',
@@ -226,18 +295,18 @@ class RENSTRASasaranController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_Sasaran'=>[new CheckRecordIsExistValidation('tmPrioritasSasaranKab',['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]]),
+            'Kd_RenstraSasaran'=>[new CheckRecordIsExistValidation('tmRenstraSasaran',['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]]),
                             'required'
                         ],
-            'PrioritasTujuanKabID'=>'required',
-            'Nm_Sasaran'=>'required',
+            'RenstraTujuanID'=>'required',
+            'Nm_RenstraSasaran'=>'required',
         ]);
         
         $renstrasasaran = RENSTRASasaranModel::create([
-            'PrioritasSasaranKabID'=> uniqid ('uid'),
-            'PrioritasTujuanKabID' => $request->input('PrioritasTujuanKabID'),
-            'Kd_Sasaran' => $request->input('Kd_Sasaran'),
-            'Nm_Sasaran' => $request->input('Nm_Sasaran'),
+            'RenstraSasaranID'=> uniqid ('uid'),
+            'RenstraTujuanID' => $request->input('RenstraTujuanID'),
+            'Kd_RenstraSasaran' => $request->input('Kd_RenstraSasaran'),
+            'Nm_RenstraSasaran' => $request->input('Nm_RenstraSasaran'),
             'Descr' => $request->input('Descr'),
             'TA' => \HelperKegiatan::getTahunPerencanaan()
         ]);        
@@ -251,7 +320,7 @@ class RENSTRASasaranController extends Controller {
         }
         else
         {
-            return redirect(route('renstrasasaran.show',['id'=>$renstrasasaran->PrioritasSasaranKabID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('renstrasasaran.show',['id'=>$renstrasasaran->RenstraSasaranID]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
     
@@ -265,16 +334,16 @@ class RENSTRASasaranController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = RENSTRASasaranModel::select(\DB::raw('"tmPrioritasSasaranKab"."PrioritasSasaranKabID",
+        $data = RENSTRASasaranModel::select(\DB::raw('"tmRenstraSasaran"."RenstraSasaranID",
                                                     "tmPrioritasTujuanKab"."Kd_Tujuan",
                                                     "tmPrioritasTujuanKab"."Nm_Tujuan",
-                                                    "tmPrioritasSasaranKab"."Kd_Sasaran",
-                                                    "tmPrioritasSasaranKab"."Nm_Sasaran",
-                                                    "tmPrioritasSasaranKab"."Descr",
-                                                    "tmPrioritasSasaranKab"."PrioritasSasaranKabID_Src",
-                                                    "tmPrioritasSasaranKab"."created_at",
-                                                    "tmPrioritasSasaranKab"."updated_at"'))
-                                ->join('tmPrioritasTujuanKab','tmPrioritasTujuanKab.PrioritasTujuanKabID','tmPrioritasSasaranKab.PrioritasTujuanKabID')
+                                                    "tmRenstraSasaran"."Kd_RenstraSasaran",
+                                                    "tmRenstraSasaran"."Nm_RenstraSasaran",
+                                                    "tmRenstraSasaran"."Descr",
+                                                    "tmRenstraSasaran"."RenstraSasaranID_Src",
+                                                    "tmRenstraSasaran"."created_at",
+                                                    "tmRenstraSasaran"."updated_at"'))
+                                ->join('tmPrioritasTujuanKab','tmPrioritasTujuanKab.RenstraTujuanID','tmRenstraSasaran.RenstraTujuanID')
                                 ->findOrFail($id);
         if (!is_null($data) )  
         {
@@ -297,11 +366,11 @@ class RENSTRASasaranController extends Controller {
         $data = RENSTRASasaranModel::findOrFail($id);
         if (!is_null($data) ) 
         {
-            $daftar_tujuan=\App\Models\RENSTRA\RENSTRATujuanModel::select(\DB::raw('"PrioritasTujuanKabID",CONCAT(\'[\',"Kd_Tujuan",\']. \',"Nm_Tujuan") AS "Nm_Tujuan"'))
+            $daftar_tujuan=\App\Models\RENSTRA\RENSTRATujuanModel::select(\DB::raw('"RenstraTujuanID",CONCAT(\'[\',"Kd_Tujuan",\']. \',"Nm_Tujuan") AS "Nm_Tujuan"'))
                                                             ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                                                             ->orderBy('Kd_Tujuan','ASC')
                                                             ->get()
-                                                            ->pluck('Nm_Tujuan','PrioritasTujuanKabID')
+                                                            ->pluck('Nm_Tujuan','RenstraTujuanID')
                                                             ->toArray();
             return view("pages.$theme.renstra.renstrasasaran.edit")->with(['page_active'=>'renstrasasaran',
                                                                         'data'=>$data,
@@ -322,17 +391,17 @@ class RENSTRASasaranController extends Controller {
         $renstrasasaran = RENSTRASasaranModel::find($id);
         
         $this->validate($request, [
-            'Kd_Sasaran'=>['required',new IgnoreIfDataIsEqualValidation('tmPrioritasSasaranKab',
-                                                                        $renstrasasaran->Kd_Sasaran,
+            'Kd_RenstraSasaran'=>['required',new IgnoreIfDataIsEqualValidation('tmRenstraSasaran',
+                                                                        $renstrasasaran->Kd_RenstraSasaran,
                                                                         ['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]],
                                                                         'Kode Sasaran')],
-            'PrioritasTujuanKabID'=>'required',
-            'Nm_Sasaran'=>'required',
+            'RenstraTujuanID'=>'required',
+            'Nm_RenstraSasaran'=>'required',
         ]);
                
-        $renstrasasaran->PrioritasTujuanKabID = $request->input('PrioritasTujuanKabID');
-        $renstrasasaran->Kd_Sasaran = $request->input('Kd_Sasaran');
-        $renstrasasaran->Nm_Sasaran = $request->input('Nm_Sasaran');
+        $renstrasasaran->RenstraTujuanID = $request->input('RenstraTujuanID');
+        $renstrasasaran->Kd_RenstraSasaran = $request->input('Kd_RenstraSasaran');
+        $renstrasasaran->Nm_RenstraSasaran = $request->input('Nm_RenstraSasaran');
         $renstrasasaran->Descr = $request->input('Descr');
         $renstrasasaran->save();
 
@@ -345,7 +414,7 @@ class RENSTRASasaranController extends Controller {
         }
         else
         {
-            return redirect(route('renstrasasaran.show',['id'=>$renstrasasaran->PrioritasSasaranKabID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('renstrasasaran.show',['id'=>$renstrasasaran->RenstraSasaranID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
 
     }
