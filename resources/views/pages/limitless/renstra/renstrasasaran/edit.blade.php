@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-strategy position-left"></i>
     <span class="text-semibold"> 
-        RENSTRA SASARAN TAHUN {{config('eplanning.renstra_tahun_mulai')}} - {{config('eplanning.renstra_tahun_akhir')}}  
+        RENSTRA SASARAN TAHUN {{config('eplanning.renstra_tahun_mulai')}} - {{config('eplanning.renstra_tahun_akhir')}}
     </span>     
 @endsection
 @section('page_info')
@@ -14,7 +14,7 @@
 @section('page_breadcrumb')
     <li><a href="#">PERENCANAAN</a></li>
     <li><a href="#">RENSTRA</a></li>
-    <li><a href="{!!route('renstrastrategi.index')!!}">SASARAN</a></li>
+    <li><a href="{!!route('renstrasasaran.index')!!}">SASARAN</a></li>
     <li class="active">UBAH DATA</li>
 @endsection
 @section('page_content')
@@ -34,28 +34,28 @@
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>['RENSTRA\RENSTRASasaranController@update',$data->PrioritasSasaranKabID],'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
+            {!! Form::open(['action'=>['RENSTRA\RENSTRASasaranController@update',$data->RenstraSasaranID],'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
                 <div class="form-group">
-                    <label class="col-md-2 control-label">TUJUAN RENSTRA :</label> 
+                    <label class="col-md-2 control-label">TUJUAN :</label> 
                     <div class="col-md-10">
-                        <select name="PrioritasTujuanKabID" id="PrioritasTujuanKabID" class="select">
+                        <select name="RenstraTujuanID" id="RenstraTujuanID" class="select">
                             <option></option>
                             @foreach ($daftar_tujuan as $k=>$item)
-                                <option value="{{$k}}"{{$k==$data->PrioritasTujuanKabID ?' selected':''}}>{{$item}}</option>
+                                <option value="{{$k}}"{{$k==$data->RenstraTujuanID ?' selected':''}}>{{$item}}</option>
                             @endforeach
                         </select>                                
                     </div>
                 </div>   
                 <div class="form-group">
-                    {{Form::label('Kd_Sasaran','KODE SASARAN',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('Kd_RenstraSasaran','KODE SASARAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('Kd_Sasaran',$data->Kd_Sasaran,['class'=>'form-control','placeholder'=>'Kode Sasaran','maxlength'=>'4'])}}
+                        {{Form::text('Kd_RenstraSasaran',$data->Kd_RenstraSasaran,['class'=>'form-control','placeholder'=>'Kode Sasaran','maxlength'=>'4'])}}
                     </div>
                 </div>
                 <div class="form-group">
-                    {{Form::label('Nm_Sasaran','NAMA SASARAN',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('Nm_RenstraSasaran','NAMA SASARAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('Nm_Sasaran',$data->Nm_Sasaran,['class'=>'form-control','placeholder'=>'Nama Sasaran'])}}
+                        {{Form::text('Nm_RenstraSasaran',$data->Nm_RenstraSasaran,['class'=>'form-control','placeholder'=>'Nama Sasaran'])}}
                     </div>
                 </div>
                 <div class="form-group">
@@ -83,7 +83,7 @@
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
-    AutoNumeric.multiple(['#Kd_Sasaran'], {
+    AutoNumeric.multiple(['#Kd_RenstraSasaran'], {
                                         allowDecimalPadding: false,
                                         minimumValue:0,
                                         maximumValue:9999,
@@ -94,34 +94,34 @@ $(document).ready(function () {
                                         unformatOnSubmit: true,
                                         modifyValueOnWheel:false
                                     });
-    $('#PrioritasTujuanKabID.select').select2({
-        placeholder: "PILIH TUJUAN RENSTRA",
+    $('#RenstraTujuanID.select').select2({
+        placeholder: "PILIH TUJUAN",
         allowClear:true
     });
     $('#frmdata').validate({
         ignore: [],
         rules: {
-            PrioritasSasaranKabID : {
+            RenstraTujuanID : {
                 required: true,
                 valueNotEquals: 'none'
             },
-            Kd_Sasaran : {
+            Kd_RenstraSasaran : {
                 required: true,
             },
-            Nm_Sasaran : {
+            Nm_RenstraSasaran : {
                 required: true,
                 minlength: 2
             }
         },
         messages : {
-            PrioritasSasaranKabID : {
+            RenstraTujuanID : {
                 required: "Mohon untuk di pilih karena ini diperlukan.",
                 valueNotEquals: "Mohon untuk di pilih karena ini diperlukan.",      
             },
-            Kd_Sasaran : {
+            Kd_RenstraSasaran : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
             },
-            Nm_Sasaran : {
+            Nm_RenstraSasaran : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             }

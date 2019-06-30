@@ -1,5 +1,5 @@
 <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
-    <div class="panel-heading">       
+    <div class="panel-heading">     
         <div class="panel-title">
             <h6 class="panel-title">&nbsp;</h6>
         </div>
@@ -9,7 +9,7 @@
                     {!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control','style'=>'width:70px'])!!}                        
                 </div> 
                 <div class="form-group">
-                    <a href="{!!route('renstrasasaran.create')!!}" class="btn btn-info btn-xs" title="Tambah RENSTRA TUJUAN">
+                    <a href="{!!route('renstrasasaran.create')!!}" class="btn btn-info btn-xs" title="Tambah RENSTRA SASARAN">
                         <i class="icon-googleplus5"></i>
                     </a>
                 </div> 
@@ -22,16 +22,17 @@
             <thead>
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
-                    <th width="100">
-                        <a class="column-sort text-white" id="col-Kd_Sasaran" data-order="{{$direction}}" href="#">
+                    <th width="150">
+                        <a class="column-sort text-white" id="col-Kd_RenstraSasaran" data-order="{{$direction}}" href="#">
                             KODE SASARAN 
                         </a>                                             
                     </th> 
-                    <th width="100">
-                        <a class="column-sort text-white" id="col-Nm_Sasaran" data-order="{{$direction}}" href="#">
+                    <th>
+                        <a class="column-sort text-white" id="col-Nm_RenstraSasaran" data-order="{{$direction}}" href="#">
                             NAMA SASARAN  
                         </a>                                             
                     </th> 
+                    <th width="100">TA</th>
                     <th width="100">AKSI</th>
                 </tr>
             </thead>
@@ -41,22 +42,23 @@
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>                  
-                    <td>{{$item->Kd_Sasaran}}</td>
-                    <td>{{$item->Nm_Sasaran}}</td>
+                    <td>{{$item->Kd_RenstraSasaran}}</td>
+                    <td>{{$item->Nm_RenstraSasaran}}</td>
+                    <td>{{$item->TA}}</td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('renstrasasaran.show',['id'=>$item->PrioritasSasaranKabID])}}" title="Detail Data RENSTRA Sasaran">
+                                <a class="btnShow" href="{{route('renstrasasaran.show',['id'=>$item->RenstraSasaranID])}}" title="Detail Data RpjmdSasaran">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('renstrasasaran.edit',['id'=>$item->PrioritasSasaranKabID])}}" title="Ubah Data RENSTRA Sasaran">
+                                <a class="btnEdit" href="{{route('renstrasasaran.edit',['id'=>$item->RenstraSasaranID])}}" title="Ubah Data RpjmdSasaran">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data RENSTRA Sasaran" data-id="{{$item->PrioritasSasaranKabID}}" data-url="{{route('renstrasasaran.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data RpjmdSasaran" data-id="{{$item->RenstraSasaranID}}" data-url="{{route('renstrasasaran.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>

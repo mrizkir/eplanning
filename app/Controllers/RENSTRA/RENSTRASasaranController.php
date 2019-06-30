@@ -274,11 +274,11 @@ class RENSTRASasaranController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $daftar_tujuan=\App\Models\RENSTRA\RENSTRATujuanModel::select(\DB::raw('"RenstraTujuanID",CONCAT(\'[\',"Kd_Tujuan",\']. \',"Nm_Tujuan") AS "Nm_Tujuan"'))
+        $daftar_tujuan=\App\Models\RENSTRA\RENSTRATujuanModel::select(\DB::raw('"RenstraTujuanID",CONCAT(\'[\',"Kd_RenstraTujuan",\']. \',"Nm_RenstraTujuan") AS "Nm_RenstraTujuan"'))
                                                             ->where('TA',\HelperKegiatan::getTahunPerencanaan())
-                                                            ->orderBy('Kd_Tujuan','ASC')
+                                                            ->orderBy('Kd_RenstraTujuan','ASC')
                                                             ->get()
-                                                            ->pluck('Nm_Tujuan','RenstraTujuanID')
+                                                            ->pluck('Nm_RenstraTujuan','RenstraTujuanID')
                                                             ->toArray();
 
         return view("pages.$theme.renstra.renstrasasaran.create")->with(['page_active'=>'renstrasasaran',
@@ -305,6 +305,7 @@ class RENSTRASasaranController extends Controller {
         $renstrasasaran = RENSTRASasaranModel::create([
             'RenstraSasaranID'=> uniqid ('uid'),
             'RenstraTujuanID' => $request->input('RenstraTujuanID'),
+            'OrgID' => $this->getControllerStateSession('renstrasasaran','filters.OrgID'),
             'Kd_RenstraSasaran' => $request->input('Kd_RenstraSasaran'),
             'Nm_RenstraSasaran' => $request->input('Nm_RenstraSasaran'),
             'Descr' => $request->input('Descr'),
@@ -335,15 +336,14 @@ class RENSTRASasaranController extends Controller {
         $theme = \Auth::user()->theme;
 
         $data = RENSTRASasaranModel::select(\DB::raw('"tmRenstraSasaran"."RenstraSasaranID",
-                                                    "tmPrioritasTujuanKab"."Kd_Tujuan",
-                                                    "tmPrioritasTujuanKab"."Nm_Tujuan",
+                                                    "tmRenstraTujuan"."Kd_RenstraTujuan",
+                                                    "tmRenstraTujuan"."Nm_RenstraTujuan",
                                                     "tmRenstraSasaran"."Kd_RenstraSasaran",
                                                     "tmRenstraSasaran"."Nm_RenstraSasaran",
                                                     "tmRenstraSasaran"."Descr",
-                                                    "tmRenstraSasaran"."RenstraSasaranID_Src",
                                                     "tmRenstraSasaran"."created_at",
                                                     "tmRenstraSasaran"."updated_at"'))
-                                ->join('tmPrioritasTujuanKab','tmPrioritasTujuanKab.RenstraTujuanID','tmRenstraSasaran.RenstraTujuanID')
+                                ->join('tmRenstraTujuan','tmRenstraTujuan.RenstraTujuanID','tmRenstraSasaran.RenstraTujuanID')
                                 ->findOrFail($id);
         if (!is_null($data) )  
         {
@@ -366,11 +366,11 @@ class RENSTRASasaranController extends Controller {
         $data = RENSTRASasaranModel::findOrFail($id);
         if (!is_null($data) ) 
         {
-            $daftar_tujuan=\App\Models\RENSTRA\RENSTRATujuanModel::select(\DB::raw('"RenstraTujuanID",CONCAT(\'[\',"Kd_Tujuan",\']. \',"Nm_Tujuan") AS "Nm_Tujuan"'))
+            $daftar_tujuan=\App\Models\RENSTRA\RENSTRATujuanModel::select(\DB::raw('"RenstraTujuanID",CONCAT(\'[\',"Kd_RenstraTujuan",\']. \',"Nm_RenstraTujuan") AS "Nm_RenstraTujuan"'))
                                                             ->where('TA',\HelperKegiatan::getTahunPerencanaan())
-                                                            ->orderBy('Kd_Tujuan','ASC')
+                                                            ->orderBy('Kd_RenstraTujuan','ASC')
                                                             ->get()
-                                                            ->pluck('Nm_Tujuan','RenstraTujuanID')
+                                                            ->pluck('Nm_RenstraTujuan','RenstraTujuanID')
                                                             ->toArray();
             return view("pages.$theme.renstra.renstrasasaran.edit")->with(['page_active'=>'renstrasasaran',
                                                                         'data'=>$data,
