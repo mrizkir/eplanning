@@ -5,7 +5,7 @@ namespace App\Models\Report;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Box\Spout\Common\Entity\Row;
 
-class ReportModel 
+class ReportSpoutModel 
 {   
     /**
      * data report
