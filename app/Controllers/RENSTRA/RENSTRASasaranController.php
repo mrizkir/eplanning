@@ -229,7 +229,6 @@ class RENSTRASasaranController extends Controller {
 
         $filters=$this->getControllerStateSession('renstrasasaran','filters');
         $roles=$auth->getRoleNames();   
-        $daftar_unitkerja=array();           
         switch ($roles[0])
         {
             case 'superadmin' :     
@@ -274,16 +273,26 @@ class RENSTRASasaranController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $daftar_tujuan=\App\Models\RENSTRA\RENSTRATujuanModel::select(\DB::raw('"RenstraTujuanID",CONCAT(\'[\',"Kd_RenstraTujuan",\']. \',"Nm_RenstraTujuan") AS "Nm_RenstraTujuan"'))
-                                                            ->where('TA',\HelperKegiatan::getTahunPerencanaan())
-                                                            ->orderBy('Kd_RenstraTujuan','ASC')
-                                                            ->get()
-                                                            ->pluck('Nm_RenstraTujuan','RenstraTujuanID')
-                                                            ->toArray();
+        $filters=$this->getControllerStateSession('renstrasasaran','filters');  
+        if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
+        {
+            $daftar_tujuan=\App\Models\RENSTRA\RENSTRATujuanModel::select(\DB::raw('"RenstraTujuanID",CONCAT(\'[\',"Kd_RenstraTujuan",\']. \',"Nm_RenstraTujuan") AS "Nm_RenstraTujuan"'))
+                                                                ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                                                ->orderBy('Kd_RenstraTujuan','ASC')
+                                                                ->get()
+                                                                ->pluck('Nm_RenstraTujuan','RenstraTujuanID')
+                                                                ->toArray();
 
-        return view("pages.$theme.renstra.renstrasasaran.create")->with(['page_active'=>'renstrasasaran',
-                                                                    'daftar_tujuan'=>$daftar_tujuan
+            return view("pages.$theme.renstra.renstrasasaran.create")->with(['page_active'=>'renstrasasaran',
+                                                                        'daftar_tujuan'=>$daftar_tujuan
+                                                                        ]);  
+        }
+        else
+        {
+            return view("pages.$theme.renstra.renstrasasaran.error")->with(['page_active'=>'renstrasasaran',
+                                                                        'errormessage'=>'Mohon OPD / SKPD untuk di pilih terlebih dahulu.'
                                                                     ]);  
+        }
     }
     
     /**

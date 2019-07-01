@@ -1465,6 +1465,7 @@ class RKPDPerubahanController extends Controller
                 {
                     case 'superadmin' :
                     case 'bapelitbang' :
+                    case 'tapd' :     
                         $rkpd = RKPDRincianModel::select(\DB::raw('"trRKPDRinc"."RKPDRincID",
                                                                     "tmPMProv"."Nm_Prov",
                                                                     "tmPmKota"."Nm_Kota",
@@ -1543,6 +1544,7 @@ class RKPDPerubahanController extends Controller
                 {
                     case 'superadmin' :
                     case 'bapelitbang' :
+                    case 'tapd' :     
                         $rkpd = RKPDRincianModel::select(\DB::raw('"trRKPDRinc"."RKPDRincID",
                                                                     "tmPMProv"."Nm_Prov",
                                                                     "tmPmKota"."Nm_Kota",
@@ -1621,6 +1623,7 @@ class RKPDPerubahanController extends Controller
                 {
                     case 'superadmin' :
                     case 'bapelitbang' :
+                    case 'tapd' :     
                         $rkpd = RKPDRincianModel::select(\DB::raw('"trRKPDRinc"."RKPDRincID",
                                                                     "tmPMProv"."Nm_Prov",
                                                                     "tmPmKota"."Nm_Kota",
@@ -1699,6 +1702,7 @@ class RKPDPerubahanController extends Controller
                 {
                     case 'superadmin' :
                     case 'bapelitbang' :
+                    case 'tapd' :     
                         $rkpd = RKPDRincianModel::select(\DB::raw('"trRKPDRinc"."RKPDRincID",
                                                                     "tmPMProv"."Nm_Prov",
                                                                     "tmPmKota"."Nm_Kota",
@@ -1807,6 +1811,7 @@ class RKPDPerubahanController extends Controller
                 {
                     case 'superadmin' :
                     case 'bapelitbang' :
+                    case 'tapd' :     
                         $rkpd = RKPDRincianModel::select(\DB::raw('"trRKPDRinc"."RKPDRincID",
                                                                     "trRKPDRinc"."RKPDID",
                                                                     "trRKPDRinc"."No",
@@ -1904,6 +1909,7 @@ class RKPDPerubahanController extends Controller
                 {
                     case 'superadmin' :
                     case 'bapelitbang' :
+                    case 'tapd' :     
                         $rkpd = RKPDRincianModel::select(\DB::raw('"trRKPDRinc"."RKPDRincID",
                                                                     "trRKPDRinc"."RKPDID",
                                                                     "trRKPDRinc"."PmKecamatanID",

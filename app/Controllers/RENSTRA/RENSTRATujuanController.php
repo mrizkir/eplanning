@@ -235,7 +235,6 @@ class RENSTRATujuanController extends Controller {
 
         $filters=$this->getControllerStateSession('renstratujuan','filters');
         $roles=$auth->getRoleNames();   
-        $daftar_unitkerja=array();           
         switch ($roles[0])
         {
             case 'superadmin' :     

@@ -9,12 +9,12 @@
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.renstra.renstratujuan.info')
+    @include('pages.limitless.renstra.renstrasasaran.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">PERENCANAAN</a></li>
     <li><a href="#">RENSTRA</a></li>
-    <li><a href="{!!route('renstratujuan.index')!!}">SASARAN</a></li>
+    <li><a href="{!!route('renstrasasaran.index')!!}">SASARAN</a></li>
     <li class="active">TAMBAH DATA</li>
 @endsection
 @section('page_content')
@@ -28,7 +28,7 @@
             <div class="heading-elements">
                 <ul class="icons-list">                    
                     <li>               
-                        <a href="{!!route('renstratujuan.index')!!}" data-action="closeredirect" title="keluar"></a>
+                        <a href="{!!route('renstrasasaran.index')!!}" data-action="closeredirect" title="keluar"></a>
                     </li>
                 </ul>
             </div>

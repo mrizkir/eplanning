@@ -29,7 +29,7 @@ class RENSTRAStrategiController extends Controller {
         $columns=['*'];       
         if (!$this->checkStateIsExistSession('renstrastrategi','orderby')) 
         {            
-           $this->putControllerStateSession('renstrastrategi','orderby',['column_name'=>'Nm_Strategi','order'=>'asc']);
+           $this->putControllerStateSession('renstrastrategi','orderby',['column_name'=>'Nm_RenstraStrategi','order'=>'asc']);
         }
         $column_order=$this->getControllerStateSession('renstrastrategi.orderby','column_name'); 
         $direction=$this->getControllerStateSession('renstrastrategi.orderby','order'); 
@@ -44,11 +44,11 @@ class RENSTRAStrategiController extends Controller {
             $search=$this->getControllerStateSession('renstrastrategi','search');
             switch ($search['kriteria']) 
             {
-                case 'Kd_Strategi' :
-                    $data = RENSTRAStrategiModel::where(['Kd_Strategi'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                case 'Kd_RenstraStrategi' :
+                    $data = RENSTRAStrategiModel::where(['Kd_RenstraStrategi'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
-                case 'Nm_Strategi' :
-                    $data = RENSTRAStrategiModel::where('Nm_Strategi', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                case 'Nm_RenstraStrategi' :
+                    $data = RENSTRAStrategiModel::where('Nm_RenstraStrategi', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
@@ -96,11 +96,11 @@ class RENSTRAStrategiController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'Nm_Strategi' :
-                $column_name = 'Nm_Strategi';
+            case 'Nm_RenstraStrategi' :
+                $column_name = 'Nm_RenstraStrategi';
             break;           
             default :
-                $column_name = 'Nm_Strategi';
+                $column_name = 'Nm_RenstraStrategi';
         }
         $this->putControllerStateSession('renstrastrategi','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
@@ -170,13 +170,70 @@ class RENSTRAStrategiController extends Controller {
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
     }
     /**
+     * filter resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function filter(Request $request) 
+    {
+        $auth = \Auth::user();    
+        $theme = $auth->theme;
+
+        $filters=$this->getControllerStateSession('renstrastrategi','filters');       
+        $json_data = [];
+
+        //index
+        if ($request->exists('OrgID'))
+        {
+            $OrgID = $request->input('OrgID')==''?'none':$request->input('OrgID');
+            $filters['OrgID']=$OrgID;            
+            $this->putControllerStateSession('renstrastrategi','filters',$filters);
+            
+            $data = $this->populateData();
+
+            $datatable = view("pages.$theme.renstra.renstrastrategi.datatable")->with(['page_active'=>'renstrastrategi',                                                                               
+                                                                            'search'=>$this->getControllerStateSession('renstrastrategi','search'),
+                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                            'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                                            'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
+                                                                            'data'=>$data])->render();
+
+            
+            $json_data = ['success'=>true,'datatable'=>$datatable];
+        } 
+        return response()->json($json_data,200);
+    }
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {                
-        $theme = \Auth::user()->theme;
+        $auth = \Auth::user();    
+        $theme = $auth->theme;
+
+        $filters=$this->getControllerStateSession('renstrastrategi','filters');
+        $roles=$auth->getRoleNames();   
+        switch ($roles[0])
+        {
+            case 'superadmin' :     
+            case 'bapelitbang' :     
+            case 'tapd' :     
+                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);   
+            break;
+            case 'opd' :               
+                $daftar_opd=\App\Models\UserOPD::getOPD();                      
+                if (!(count($daftar_opd) > 0))
+                {  
+                    return view("pages.$theme.renstra.renstrastrategi.error")->with(['page_active'=>'renstrastrategi', 
+                                                                                    'page_title'=>\HelperKegiatan::getPageTitle('renstrastrategi'),
+                                                                                    'errormessage'=>'Anda Tidak Diperkenankan Mengakses Halaman ini, karena Sudah dikunci oleh BAPELITBANG',
+                                                                                    ]);
+                }          
+            break;
+        }
 
         $search=$this->getControllerStateSession('renstrastrategi','search');
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('renstrastrategi'); 
@@ -189,6 +246,8 @@ class RENSTRAStrategiController extends Controller {
         
         return view("pages.$theme.renstra.renstrastrategi.index")->with(['page_active'=>'renstrastrategi',
                                                 'search'=>$this->getControllerStateSession('renstrastrategi','search'),
+                                                'filters'=>$filters,
+                                                'daftar_opd'=>$daftar_opd,
                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                                 'column_order'=>$this->getControllerStateSession('renstrastrategi.orderby','column_name'),
                                                 'direction'=>$this->getControllerStateSession('renstrastrategi.orderby','order'),
@@ -202,17 +261,26 @@ class RENSTRAStrategiController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
+        $filters=$this->getControllerStateSession('renstrastrategi','filters');  
+        if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
+        {
+            $daftar_sasaran=\App\Models\RENSTRA\RENSTRASasaranModel::select(\DB::raw('"RenstraSasaranID",CONCAT(\'[\',"Kd_RenstraSasaran",\']. \',"Nm_RenstraSasaran") AS "Nm_RenstraSasaran"'))
+                                                                ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                                                ->orderBy('Kd_RenstraSasaran','ASC')
+                                                                ->get()
+                                                                ->pluck('Nm_RenstraSasaran','RenstraSasaranID')
+                                                                ->toArray();
 
-        $daftar_sasaran=\App\Models\RENSTRA\RENSTRASasaranModel::select(\DB::raw('"PrioritasSasaranKabID",CONCAT(\'[\',"Kd_Sasaran",\']. \',"Nm_Sasaran") AS "Nm_Sasaran"'))
-                                                            ->where('TA',\HelperKegiatan::getTahunPerencanaan())
-                                                            ->orderBy('Kd_Sasaran','ASC')
-                                                            ->get()
-                                                            ->pluck('Nm_Sasaran','PrioritasSasaranKabID')
-                                                            ->toArray();
-
-        return view("pages.$theme.renstra.renstrastrategi.create")->with(['page_active'=>'renstrastrategi',
-                                                                    'daftar_sasaran'=>$daftar_sasaran
-                                                                ]);  
+            return view("pages.$theme.renstra.renstrastrategi.create")->with(['page_active'=>'renstrastrategi',
+                                                                        'daftar_sasaran'=>$daftar_sasaran
+                                                                    ]);  
+        }
+        else
+        {
+            return view("pages.$theme.renstra.renstrastrategi.error")->with(['page_active'=>'renstrastrategi',
+                                                                        'errormessage'=>'Mohon OPD / SKPD untuk di pilih terlebih dahulu.'
+                                                                    ]);  
+        }
     }
     
     /**
@@ -224,18 +292,19 @@ class RENSTRAStrategiController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_Strategi'=>[new CheckRecordIsExistValidation('tmPrioritasStrategiKab',['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]]),
+            'Kd_RenstraStrategi'=>[new CheckRecordIsExistValidation('tmRenstraStrategi',['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]]),
                             'required'
                         ],
-            'PrioritasSasaranKabID'=>'required',
-            'Nm_Strategi'=>'required',
+            'RenstraSasaranID'=>'required',
+            'Nm_RenstraStrategi'=>'required',
         ]);
         
         $renstrastrategi = RENSTRAStrategiModel::create([
-            'PrioritasStrategiKabID'=> uniqid ('uid'),
-            'PrioritasSasaranKabID' => $request->input('PrioritasSasaranKabID'),
-            'Kd_Strategi' => $request->input('Kd_Strategi'),
-            'Nm_Strategi' => $request->input('Nm_Strategi'),
+            'RenstraStrategiID'=> uniqid ('uid'),
+            'RenstraSasaranID' => $request->input('RenstraSasaranID'),
+            'OrgID' => $this->getControllerStateSession('renstrastrategi','filters.OrgID'),
+            'Kd_RenstraStrategi' => $request->input('Kd_RenstraStrategi'),
+            'Nm_RenstraStrategi' => $request->input('Nm_RenstraStrategi'),
             'Descr' => $request->input('Descr'),
             'TA' => \HelperKegiatan::getTahunPerencanaan()
         ]);        
@@ -249,7 +318,7 @@ class RENSTRAStrategiController extends Controller {
         }
         else
         {
-            return redirect(route('renstrastrategi.show',['id'=>$renstrastrategi->PrioritasStrategiKabID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('renstrastrategi.show',['id'=>$renstrastrategi->RenstraStrategiID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -264,20 +333,19 @@ class RENSTRAStrategiController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = RENSTRAStrategiModel::select(\DB::raw('"tmPrioritasStrategiKab"."PrioritasStrategiKabID",
-                                                    "tmPrioritasSasaranKab"."Kd_Sasaran",
-                                                    "tmPrioritasSasaranKab"."Nm_Sasaran",
-                                                    "tmPrioritasStrategiKab"."Kd_Strategi",
-                                                    "tmPrioritasStrategiKab"."Nm_Strategi",
-                                                    "tmPrioritasStrategiKab"."Descr",
-                                                    "tmPrioritasStrategiKab"."PrioritasStrategiKabID_Src",
-                                                    "tmPrioritasStrategiKab"."created_at",
-                                                    "tmPrioritasStrategiKab"."updated_at"'))
-                                ->join('tmPrioritasSasaranKab','tmPrioritasSasaranKab.PrioritasSasaranKabID','tmPrioritasStrategiKab.PrioritasSasaranKabID')
+        $data = RENSTRAStrategiModel::select(\DB::raw('"tmRenstraStrategi"."RenstraStrategiID",
+                                                    "tmRenstraSasaran"."Kd_RenstraSasaran",
+                                                    "tmRenstraSasaran"."Nm_RenstraSasaran",
+                                                    "tmRenstraStrategi"."Kd_RenstraStrategi",
+                                                    "tmRenstraStrategi"."Nm_RenstraStrategi",
+                                                    "tmRenstraStrategi"."Descr",
+                                                    "tmRenstraStrategi"."created_at",
+                                                    "tmRenstraStrategi"."updated_at"'))
+                                ->join('tmRenstraSasaran','tmRenstraSasaran.RenstraSasaranID','tmRenstraStrategi.RenstraSasaranID')
                                 ->findOrFail($id);
 
         if (!is_null($data) )  
-        {
+        {            
             return view("pages.$theme.renstra.renstrastrategi.show")->with(['page_active'=>'renstrastrategi',
                                                                         'data'=>$data
                                                                     ]);
@@ -297,11 +365,11 @@ class RENSTRAStrategiController extends Controller {
         $data = RENSTRAStrategiModel::findOrFail($id);
         if (!is_null($data) ) 
         {
-            $daftar_sasaran=\App\Models\RENSTRA\RENSTRASasaranModel::select(\DB::raw('"PrioritasSasaranKabID",CONCAT(\'[\',"Kd_Sasaran",\']. \',"Nm_Sasaran") AS "Nm_Sasaran"'))
+            $daftar_sasaran=\App\Models\RENSTRA\RENSTRASasaranModel::select(\DB::raw('"RenstraSasaranID",CONCAT(\'[\',"Kd_RenstraSasaran",\']. \',"Nm_RenstraSasaran") AS "Nm_RenstraSasaran"'))
                                                                 ->where('TA',\HelperKegiatan::getTahunPerencanaan())
-                                                                ->orderBy('Kd_Sasaran','ASC')
+                                                                ->orderBy('Kd_RenstraSasaran','ASC')
                                                                 ->get()
-                                                                ->pluck('Nm_Sasaran','PrioritasSasaranKabID')
+                                                                ->pluck('Nm_RenstraSasaran','RenstraSasaranID')
                                                                 ->toArray();
 
             return view("pages.$theme.renstra.renstrastrategi.edit")->with(['page_active'=>'renstrastrategi',
@@ -323,17 +391,17 @@ class RENSTRAStrategiController extends Controller {
         $renstrastrategi = RENSTRAStrategiModel::find($id);
         
         $this->validate($request, [
-            'Kd_Strategi'=>['required',new IgnoreIfDataIsEqualValidation('tmPrioritasStrategiKab',
-                                                                        $renstrastrategi->Kd_Strategi,
+            'Kd_RenstraStrategi'=>['required',new IgnoreIfDataIsEqualValidation('tmRenstraStrategi',
+                                                                        $renstrastrategi->Kd_RenstraStrategi,
                                                                         ['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]],
                                                                         'Kode Strategi')],
-            'PrioritasSasaranKabID'=>'required',
-            'Nm_Strategi'=>'required',
+            'RenstraSasaranID'=>'required',
+            'Nm_RenstraStrategi'=>'required',
         ]);
                
-        $renstrastrategi->PrioritasSasaranKabID = $request->input('PrioritasSasaranKabID');
-        $renstrastrategi->Kd_Strategi = $request->input('Kd_Strategi');
-        $renstrastrategi->Nm_Strategi = $request->input('Nm_Strategi');
+        $renstrastrategi->RenstraSasaranID = $request->input('RenstraSasaranID');
+        $renstrastrategi->Kd_RenstraStrategi = $request->input('Kd_RenstraStrategi');
+        $renstrastrategi->Nm_RenstraStrategi = $request->input('Nm_RenstraStrategi');
         $renstrastrategi->Descr = $request->input('Descr');
         $renstrastrategi->save();
 
@@ -346,7 +414,7 @@ class RENSTRAStrategiController extends Controller {
         }
         else
         {
-            return redirect(route('renstrastrategi.show',['id'=>$renstrastrategi->PrioritasStrategiKabID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('renstrastrategi.show',['id'=>$renstrastrategi->RenstraStrategiID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 

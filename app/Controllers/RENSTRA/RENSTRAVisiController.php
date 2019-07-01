@@ -231,8 +231,7 @@ class RENSTRAVisiController extends Controller {
         $theme = $auth->theme;
         
         $filters=$this->getControllerStateSession('renstravisi','filters');
-        $roles=$auth->getRoleNames();   
-        $daftar_unitkerja=array();           
+        $roles=$auth->getRoleNames();       
         switch ($roles[0])
         {
             case 'superadmin' :     

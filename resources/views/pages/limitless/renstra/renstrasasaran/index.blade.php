@@ -14,7 +14,7 @@
 @section('page_breadcrumb')
     <li><a href="#">PERENCANAAN</a></li>
     <li><a href="#">RENSTRA</a></li>
-    <li><a href="{!!route('renstrastrategi.index')!!}">SASARAN</a></li>
+    <li><a href="{!!route('renstrasasaran.index')!!}">SASARAN</a></li>
 @endsection
 @section('page_content')
 <div class="row">

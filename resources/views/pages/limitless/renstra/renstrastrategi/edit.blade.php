@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-strategy position-left"></i>
     <span class="text-semibold"> 
-        RENSTRA STRATEGI TAHUN {{config('eplanning.renstra_tahun_mulai')}} - {{config('eplanning.renstra_tahun_akhir')}}  
+        RENSTRA STRATEGI TAHUN {{config('eplanning.renstra_tahun_mulai')}} - {{config('eplanning.renstra_tahun_akhir')}}
     </span>     
 @endsection
 @section('page_info')
@@ -34,28 +34,28 @@
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>['RENSTRA\RENSTRAStrategiController@update',$data->PrioritasStrategiKabID],'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
+            {!! Form::open(['action'=>['RENSTRA\RENSTRAStrategiController@update',$data->RenstraStrategiID],'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
                 <div class="form-group">
-                    <label class="col-md-2 control-label">SASARAN RENSTRA :</label> 
+                    <label class="col-md-2 control-label">SASARAN :</label> 
                     <div class="col-md-10">
-                        <select name="PrioritasSasaranKabID" id="PrioritasSasaranKabID" class="select">
+                        <select name="RenstraSasaranID" id="RenstraSasaranID" class="select">
                             <option></option>
                             @foreach ($daftar_sasaran as $k=>$item)
-                                <option value="{{$k}}"{{$k==$data->PrioritasSasaranKabID ?' selected':''}}>{{$item}}</option>
+                                <option value="{{$k}}"{{$k==$data->RenstraSasaranID ?' selected':''}}>{{$item}}</option>
                             @endforeach
                         </select>                                
                     </div>
                 </div>   
                 <div class="form-group">
-                    {{Form::label('Kd_Strategi','KODE STRATEGI',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('Kd_RenstraStrategi','KODE STRATEGI',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('Kd_Strategi',$data->Kd_Strategi,['class'=>'form-control','placeholder'=>'Kode Strategi','maxlength'=>'4'])}}
+                        {{Form::text('Kd_RenstraStrategi',$data->Kd_RenstraStrategi,['class'=>'form-control','placeholder'=>'Kode Strategi','maxlength'=>'4'])}}
                     </div>
                 </div>
                 <div class="form-group">
-                    {{Form::label('Nm_Strategi','NAMA STRATEGI',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('Nm_RenstraStrategi','NAMA STRATEGI',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('Nm_Strategi',$data->Nm_Strategi,['class'=>'form-control','placeholder'=>'Nama Strategi'])}}
+                        {{Form::text('Nm_RenstraStrategi',$data->Nm_RenstraStrategi,['class'=>'form-control','placeholder'=>'Nama Strategi'])}}
                     </div>
                 </div>
                 <div class="form-group">
@@ -83,7 +83,7 @@
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
-    AutoNumeric.multiple(['#Kd_Strategi'], {
+    AutoNumeric.multiple(['#Kd_RenstraStrategi'], {
                                         allowDecimalPadding: false,
                                         minimumValue:0,
                                         maximumValue:9999,
@@ -94,34 +94,34 @@ $(document).ready(function () {
                                         unformatOnSubmit: true,
                                         modifyValueOnWheel:false
                                     });
-    $('#PrioritasSasaranKabID.select').select2({
-        placeholder: "PILIH TUJUAN RENSTRA",
+    $('#RenstraSasaranID.select').select2({
+        placeholder: "PILIH SASARAN",
         allowClear:true
     });
     $('#frmdata').validate({
         ignore: [],
         rules: {
-            PrioritasSasaranKabID : {
+            RenstraSasaranID : {
                 required: true,
                 valueNotEquals: 'none'
             },
-            Kd_Strategi : {
+            Kd_RenstraStrategi : {
                 required: true,
             },
-            Nm_Strategi : {
+            Nm_RenstraStrategi : {
                 required: true,
                 minlength: 2
             }
         },
         messages : {
-            PrioritasSasaranKabID : {
+            RenstraSasaranID : {
                 required: "Mohon untuk di pilih karena ini diperlukan.",
                 valueNotEquals: "Mohon untuk di pilih karena ini diperlukan.",      
             },
-            Kd_Strategi : {
+            Kd_RenstraStrategi : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
             },
-            Nm_Strategi : {
+            Nm_RenstraStrategi : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             }

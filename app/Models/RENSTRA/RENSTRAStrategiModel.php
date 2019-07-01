@@ -12,21 +12,21 @@ class RENSTRAStrategiModel extends Model {
      *
      * @var string
      */
-    protected $table = 'tmPrioritasStrategiKab';
+    protected $table = 'tmRenstraStrategi';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'PrioritasStrategiKabID', 'PrioritasSasaranKabID', 'OrgID', 'Kd_Strategi', 'Nm_Strategi', 'Descr', 'TA','PrioritasStrategiKabID_Src'
+        'RenstraStrategiID', 'RenstraSasaranID', 'OrgID', 'Kd_RenstraStrategi', 'Nm_RenstraStrategi', 'Descr', 'TA'
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'PrioritasStrategiKabID';
+    protected $primaryKey = 'RenstraStrategiID';
     /**
      * enable auto_increment.
      *
@@ -49,7 +49,7 @@ class RENSTRAStrategiModel extends Model {
     /**
      * log the changed attributes for all these events 
      */
-    protected static $logAttributes = ['PrioritasStrategiKabID', 'PrioritasSasaranKabID', 'Kd_Strategi', 'Nm_Strategi'];
+    protected static $logAttributes = ['RenstraStrategiID', 'RenstraSasaranID', 'Kd_RenstraStrategi', 'Nm_RenstraStrategi'];
     /**
      * log changes to all the $fillable attributes of the model
      */
@@ -59,22 +59,22 @@ class RENSTRAStrategiModel extends Model {
     // protected static $recordEvents = ['deleted'];
     public static function getRPJDMStrategi ($ta,$prepend=true) 
     {
-        $r=RENSTRAStrategiModel::join('tmPrioritasSasaranKab','tmPrioritasSasaranKab.PrioritasSasaranKabID','tmPrioritasStrategiKab.PrioritasSasaranKabID')
+        $r=RENSTRAStrategiModel::join('tmPrioritasSasaranKab','tmPrioritasSasaranKab.RenstraSasaranID','tmRenstraStrategi.RenstraSasaranID')
                             ->join('tmPrioritasTujuanKab','tmPrioritasTujuanKab.PrioritasTujuanKabID','tmPrioritasSasaranKab.PrioritasTujuanKabID')
                             ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmPrioritasTujuanKab.PrioritasKabID')
-                            ->where('tmPrioritasStrategiKab.TA',$ta)
+                            ->where('tmRenstraStrategi.TA',$ta)
                             ->orderBy('Kd_PrioritasKab')
                             ->orderBy('Kd_Tujuan')
                             ->orderBy('Kd_Sasaran')
-                            ->orderBy('Kd_Strategi')->get();
+                            ->orderBy('Kd_RenstraStrategi')->get();
         $strategi_rpjmd=($prepend==true)?['none'=>'DAFTAR RENSTRA STRATEGI']:[];        
         foreach ($r as $k=>$v)
         {
-            $strategi_rpjmd[$v->PrioritasStrategiKabID]=$v->Kd_PrioritasKab.'.'.
+            $strategi_rpjmd[$v->RenstraStrategiID]=$v->Kd_PrioritasKab.'.'.
                                                         $v->Kd_Tujuan.'.'.
                                                         $v->Kd_Sasaran.'.'.
-                                                        $v->Kd_Strategi.'.'.
-                                                        $v->Nm_Strategi;
+                                                        $v->Kd_RenstraStrategi.'.'.
+                                                        $v->Nm_RenstraStrategi;
         } 
         return $strategi_rpjmd;
     }

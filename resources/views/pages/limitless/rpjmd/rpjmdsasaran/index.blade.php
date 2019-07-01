@@ -14,7 +14,7 @@
 @section('page_breadcrumb')
     <li><a href="#">PERENCANAAN</a></li>
     <li><a href="#">RPJMD</a></li>
-    <li><a href="{!!route('rpjmdstrategi.index')!!}">SASARAN</a></li>
+    <li><a href="{!!route('rpjmdsasaran.index')!!}">SASARAN</a></li>
 @endsection
 @section('page_content')
 <div class="row">
