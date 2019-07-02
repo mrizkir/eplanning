@@ -68,6 +68,18 @@
                         </ul>
                     </td>
                 </tr>
+				<tr class="text-center info">
+                    <td colspan="5">
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>ORGID:</strong>
+                            {{$item->OrgID}}
+                        </span>                            
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>SOrgID:</strong>
+                            {{$item->SOrgID}}
+                        </span>
+                    </td>
+                </tr>
             @endforeach                    
             </tbody>
         </table>               
