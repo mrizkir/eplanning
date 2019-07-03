@@ -464,7 +464,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::get('/workflow/rkpd/rkpdperubahan/printtoexcel',['uses'=>'RKPD\RKPDPerubahanController@printtoexcel','as'=>'rkpdperubahan.printtoexcel']);
     Route::get('/workflow/rkpd/rkpdperubahan/printtopdf',['uses'=>'RKPD\RKPDPerubahanController@printtopdf','as'=>'rkpdperubahan.printtopdf']);
     
-    //Report - Perencanaan  REKAP RKPD PERUBAHAN OPD    
+    //Report - Perencanaan  REKAP RKPD MURNI OPD    
     Route::resource('/report/rkpd/reportrkpdmurniopd','Report\ReportRKPDMurniOPDController',[
                                                                 'parameters'=>['reportrkpdmurniopd'=>'id'],
                                                                 'only'=>['index']
@@ -474,6 +474,15 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/report/rkpd/reportrkpdmurniopd/filter',['uses'=>'Report\ReportRKPDMurniOPDController@filter','as'=>'reportrkpdmurniopd.filter']);                  
     Route::get('/report/rkpd/reportrkpdmurniopd/printtoexcel',['uses'=>'Report\ReportRKPDMurniOPDController@printtoexcel','as'=>'reportrkpdmurniopd.printtoexcel']);  
 
+    //Report - Perencanaan REKAP MURNI OPD    
+    Route::resource('/report/rkpd/reportprogrammurniopd','Report\ReportProgramMurniOPDController',[
+        'parameters'=>['reportprogrammurniopd'=>'id'],
+        'only'=>['index']
+    ]);                   
+
+    Route::post('/report/rkpd/reportprogrammurniopd/search',['uses'=>'Report\ReportProgramMurniOPDController@search','as'=>'reportprogrammurniopd.search']);              
+    Route::post('/report/rkpd/reportprogrammurniopd/filter',['uses'=>'Report\ReportProgramMurniOPDController@filter','as'=>'reportprogrammurniopd.filter']);                  
+    Route::get('/report/rkpd/reportprogrammurniopd/printtoexcel',['uses'=>'Report\ReportProgramMurniOPDController@printtoexcel','as'=>'reportprogrammurniopd.printtoexcel']);  
 
     //Report - Perencanaan  REKAP RKPD PERUBAHAN OPD    
     Route::resource('/report/rkpd/reportrkpdperubahanopd','Report\ReportRKPDPerubahanOPDController',[
@@ -484,6 +493,16 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/report/rkpd/reportrkpdperubahanopd/search',['uses'=>'Report\ReportRKPDPerubahanOPDController@search','as'=>'reportrkpdperubahanopd.search']);              
     Route::post('/report/rkpd/reportrkpdperubahanopd/filter',['uses'=>'Report\ReportRKPDPerubahanOPDController@filter','as'=>'reportrkpdperubahanopd.filter']);                  
     Route::get('/report/rkpd/reportrkpdperubahanopd/printtoexcel',['uses'=>'Report\ReportRKPDPerubahanOPDController@printtoexcel','as'=>'reportrkpdperubahanopd.printtoexcel']);  
+
+    //Report - Perencanaan REKAP Program PERUBAHAN OPD    
+    Route::resource('/report/rkpd/reportprogramperubahanopd','Report\ReportProgramPerubahanOPDController',[
+                                                                            'parameters'=>['reportprogramperubahanopd'=>'id'],
+                                                                            'only'=>['index']
+                                                                        ]);                   
+    
+    Route::post('/report/rkpd/reportprogramperubahanopd/search',['uses'=>'Report\ReportProgramPerubahanOPDController@search','as'=>'reportprogramperubahanopd.search']);              
+    Route::post('/report/rkpd/reportprogramperubahanopd/filter',['uses'=>'Report\ReportProgramPerubahanOPDController@filter','as'=>'reportprogramperubahanopd.filter']);                  
+    Route::get('/report/rkpd/reportprogramperubahanopd/printtoexcel',['uses'=>'Report\ReportProgramPerubahanOPDController@printtoexcel','as'=>'reportprogramperubahanopd.printtoexcel']);  
 
     //setting - permissions    
     Route::resource('/setting/permissions','Setting\PermissionsController',[

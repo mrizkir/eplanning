@@ -318,16 +318,23 @@
                             <div class="col-md-3">
                                 <span class="menu-heading underlined"><i class="icon-file-empty"></i> RENCANA KERJA OPD / SKPD</span>
                                 <ul class="menu-list">
+                                    <li class="dropdown-header">MURNI</li>
                                     <li{!!Helper::isMenuActive ($page_active,'reportrkpdmurniopd',' class="active"')!!}>
                                         <a href="{{route('reportrkpdmurniopd.index')}}">
                                             <i class="icon-file-empty"></i> RKPD PER OPD</span>
                                         </a>
+                                    </li> 
+                                    <li{!!Helper::isMenuActive ($page_active,'reportprogrammurniopd',' class="active"')!!}>
+                                        <a href="{{route('reportprogrammurniopd.index')}}">
+                                            <i class="icon-file-empty"></i> PROGRAM RKPD PER OPD</span>
+                                        </a>
                                     </li>  
+                                    <li class="dropdown-header">PERUBAHAN</li>
                                     <li{!!Helper::isMenuActive ($page_active,'reportrkpdperubahanopd',' class="active"')!!}>
                                         <a href="{{route('reportrkpdperubahanopd.index')}}">
                                             <i class="icon-file-empty"></i> RKPD PERUBAHAN PER OPD</span>
                                         </a>
-                                    </li>  
+                                    </li> 
                                 </ul>
                             </div>
                         </div>
