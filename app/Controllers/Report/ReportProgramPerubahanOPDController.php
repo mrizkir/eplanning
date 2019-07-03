@@ -11,7 +11,7 @@ use App\Models\RKPD\RKPDModel;
 use App\Models\RKPD\RKPDRincianModel;
 
 
-class ReportProgramMurniOPDController extends Controller 
+class ReportProgramPerubahanOPDController extends Controller 
 {    
     /**
      * Membuat sebuah objek
@@ -56,7 +56,7 @@ class ReportProgramMurniOPDController extends Controller
             
             $this->putControllerStateSession($this->SessionName,'filters',$filters);
             
-            $datatable = view("pages.$theme.report.reportprogrammurniopd.datatable")->with(['page_active'=>$this->NameOfPage,   
+            $datatable = view("pages.$theme.report.reportprogramperubahanopd.datatable")->with(['page_active'=>$this->NameOfPage,   
                                                                                             'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),                                                                                                                                    
                                                                                             'filters'=>$filters,                                                                                                                                                        
                                                                                             ])->render();
@@ -101,7 +101,7 @@ class ReportProgramMurniOPDController extends Controller
                 }                   
             break;
         }
-        return view("pages.$theme.report.reportprogrammurniopd.index")->with(['page_active'=>$this->NameOfPage, 
+        return view("pages.$theme.report.reportprogramperubahanopd.index")->with(['page_active'=>$this->NameOfPage, 
                                                                                 'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                                 'daftar_opd'=>$daftar_opd,
                                                                                 'daftar_unitkerja'=>$daftar_unitkerja,
@@ -142,7 +142,7 @@ class ReportProgramMurniOPDController extends Controller
         //     $data_report['NamaKepalaSKPD']=$unitkerja->NamaKepalaSKPD;
         //     $data_report['NIPKepalaSKPD']=$unitkerja->NIPKepalaSKPD;          
 
-        //     $report= new \App\Models\Report\ReportRKPDMurniModel ($data_report);
+        //     $report= new \App\Models\Report\ReportRKPDPerubahanModel ($data_report);
         //     return $report->download("rkpd_$generate_date.xlsx");
         // }
         // elseif ($OrgID != 'none'&&$OrgID != ''&&$OrgID != null)       
@@ -161,12 +161,12 @@ class ReportProgramMurniOPDController extends Controller
         //     $data_report['SOrgID']=$SOrgID;
         //     $data_report['NamaKepalaSKPD']=$opd->NamaKepalaSKPD;
         //     $data_report['NIPKepalaSKPD']=$opd->NIPKepalaSKPD;            
-        //     $report= new \App\Models\Report\ReportRKPDMurniModel ($data_report);
+        //     $report= new \App\Models\Report\ReportRKPDPerubahanModel ($data_report);
         //     return $report->download("rkpd_$generate_date.xlsx");
         // }
         // else
         // {
-        //     return view("pages.$theme.report.reportprogrammurniopd.error")->with(['page_active'=>$this->NameOfPage,
+        //     return view("pages.$theme.report.reportprogramperubahanopd.error")->with(['page_active'=>$this->NameOfPage,
         //                                                             'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
         //                                                             'errormessage'=>'Mohon OPD / SKPD untuk di pilih terlebih dahulu. bila sudah terpilih ternyata tidak bisa, berarti saudara tidak diperkenankan menambah kegiatan karena telah dikunci.'
         //                                                         ]);  

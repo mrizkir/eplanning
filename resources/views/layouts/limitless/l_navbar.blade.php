@@ -335,7 +335,12 @@
                                             <i class="icon-file-empty"></i> RKPD PERUBAHAN PER OPD</span>
                                         </a>
                                     </li> 
-                                </ul>
+                                    <li{!!Helper::isMenuActive ($page_active,'reportprogramperubahanopd',' class="active"')!!}>
+                                        <a href="{{route('reportprogramperubahanopd.index')}}">
+                                            <i class="icon-file-empty"></i> PROGRAM RKPD PER. PER OPD</span>
+                                        </a>
+                                    </li>
+                                </ul>   
                             </div>
                         </div>
                     </div>

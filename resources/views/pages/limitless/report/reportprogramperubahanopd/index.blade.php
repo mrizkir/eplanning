@@ -1,13 +1,13 @@
 @extends('layouts.limitless.l_report')
 @section('page_title')
-    LAPORAN PROGRAM RKPD OPD DAN UNIT KERJA
+    LAPORAN PROGRAM RKPD PER. OPD DAN UNIT KERJA
 @endsection
 @section('page_content')
 <div class="row">      
     <div class="col-md-12" id="divfilter">
         <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
             <div class="panel-heading">
-                <h5 class="panel-title"><i class="icon-file-empty position-left"></i> REKAP PROGRAM RKPD OPD TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}</h5>
+                <h5 class="panel-title"><i class="icon-file-empty position-left"></i> REKAP PROGRAM RKPD PER. OPD TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}</h5>
                 <div class="heading-elements">                       
                     <ul class="icons-list">
                         <li><a data-action="collapse"></a></li> 
@@ -29,10 +29,10 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>       
     </div>
     <div class="col-md-12" id="divdatatable">
-        @include('pages.limitless.report.reportprogrammurniopd.datatable')
+        @include('pages.limitless.report.reportprogramperubahanopd.datatable')
     </div>
 </div>
 @endsection

@@ -10,7 +10,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right">
                         <li>
-                            <a href="{!!route('reportprogrammurniopd.printtoexcel')!!}" title="Print to Excel" id="btnprintexcel">
+                            <a href="{!!route('reportprogramperubahanopd.printtoexcel')!!}" title="Print to Excel" id="btnprintexcel">
                                 <i class="icon-file-excel"></i> Export to Excel
                             </a>     
                         </li>                            
@@ -52,14 +52,14 @@
             </thead>
             <tbody>                
             @php
-                $total_pagu_m=0;
-                $total_jumlah_kegiatan_m=0;
+                $total_pagu_p=0;
+                $total_jumlah_kegiatan_p=0;
             @endphp       
             @foreach ($daftar_program as $key=>$v){{-- startlooping daftar program --}}
             @php
                 $PrgID=$v->PrgID;                 
                 $daftar_kegiatan = \DB::table('v_rkpd')
-                                        ->select(\DB::raw('"RKPDID","NilaiUsulan1"'))
+                                        ->select(\DB::raw('"RKPDID","NilaiUsulan2"'))
                                         ->where('PrgID',$PrgID)      
                                         ->where('OrgID',$filters['OrgID'])
                                         ->where('TA',HelperKegiatan::getTahunPerencanaan())
@@ -73,10 +73,10 @@
                 <td>{{$v->Kd_Prog}}</td>
                 <td>{{$v->PrgNm}}</td>
                 @php
-                    $totalpagueachprogramNilaiUsulan= $daftar_kegiatan->sum('NilaiUsulan1');     
+                    $totalpagueachprogramNilaiUsulan= $daftar_kegiatan->sum('NilaiUsulan2');     
                     $jumlah_kegiatan= $daftar_kegiatan->count();     
-                    $total_pagu_m+=$totalpagueachprogramNilaiUsulan;
-                    $total_jumlah_kegiatan_m+=$jumlah_kegiatan;                     
+                    $total_pagu_p+=$totalpagueachprogramNilaiUsulan;
+                    $total_jumlah_kegiatan_p+=$jumlah_kegiatan;                     
                 @endphp
                 <td>{{$jumlah_kegiatan}}</td>
                 <td class="text-right">{{Helper::formatUang($totalpagueachprogramNilaiUsulan)}}</td>                             
@@ -88,10 +88,9 @@
                 <tr class="bg-grey-300" style="font-weight:bold">
                     <td colspan="5" class="text-right">
                         TOTAL                        
-                    </td>
-                    
-                    <td>{{$total_jumlah_kegiatan_m}}</td>
-                    <td class="text-right">{{Helper::formatUang($total_pagu_m)}}</td>                     
+                    </td>                    
+                    <td>{{$total_jumlah_kegiatan_p}}</td>
+                    <td class="text-right">{{Helper::formatUang($total_pagu_p)}}</td>                     
                 </tr>
             </tfoot>
         </table>               
