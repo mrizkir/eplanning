@@ -44,17 +44,26 @@ class ReportProgramRKPDPerubahanModel extends ReportModel
         $sheet->setCellValue('A5','NAMA OPD / SKPD'); 
         $sheet->setCellValue('E5',': '.$this->dataReport['OrgNm']. ' ['.$this->dataReport['kode_organisasi'].']'); 
 
-        $sheet->mergeCells ('A7:D7');
+        $sheet->mergeCells ('A7:D8');        
         $sheet->setCellValue('A7','KODE');
+        $sheet->mergeCells ('E7:E8');
         $sheet->setCellValue('E7','BIDANG URUSAN PEMERINTAH');         
+        $sheet->mergeCells ('F7:F8');
         $sheet->setCellValue('F7','JUMLAH KEGIATAN');                
+        $sheet->mergeCells ('G7:I7');
         $sheet->setCellValue('G7','INDIKASI TAHUN ('.\HelperKegiatan::getTahunPerencanaan().')');                
         
-        $sheet->mergeCells ('A7:D7');
-        $sheet->setCellValue('A8',1); 
-        $sheet->setCellValue('E8',2); 
-        $sheet->setCellValue('F8',2); 
-        $sheet->setCellValue('G8',3); 
+        $sheet->setCellValue('G8','SEBELUM');                
+        $sheet->setCellValue('H8','SESUDAH');                
+        $sheet->setCellValue('I8','SELISIH');                
+
+        $sheet->mergeCells ('A9:D9');
+        $sheet->setCellValue('A9',1); 
+        $sheet->setCellValue('E9',2); 
+        $sheet->setCellValue('F9',3); 
+        $sheet->setCellValue('G9',4); 
+        $sheet->setCellValue('H9',5); 
+        $sheet->setCellValue('I9',6); 
         $sheet->getColumnDimension('A')->setWidth(5);
         $sheet->getColumnDimension('B')->setWidth(5);
         $sheet->getColumnDimension('C')->setWidth(5);
@@ -69,8 +78,8 @@ class ReportProgramRKPDPerubahanModel extends ReportModel
                                'vertical'=>Alignment::HORIZONTAL_CENTER),
             'borders' => array('allBorders' => array('borderStyle' =>Border::BORDER_THIN))
         );                
-        $sheet->getStyle("A7:G8")->applyFromArray($styleArray);
-        $sheet->getStyle("A7:G8")->getAlignment()->setWrapText(true);
+        $sheet->getStyle("A7:I9")->applyFromArray($styleArray);
+        $sheet->getStyle("A7:I9")->getAlignment()->setWrapText(true);
         
         $daftar_program=\DB::table('v_organisasi_program')
                             ->select(\DB::raw('"PrgID","Kd_Urusan","Kd_Bidang","OrgCd","kode_program","Kd_Prog","PrgNm","Jns"'))
@@ -80,14 +89,15 @@ class ReportProgramRKPDPerubahanModel extends ReportModel
                             ->orderBy('Kd_Prog','ASC')
                             ->get();
         
-        $row=9;
+        $row=10;
         $total_pagu_m=0;
-        $total_jumlah_kegiatan_m=0;
+        $total_pagu_p=0;
+        $total_jumlah_kegiatan=0;
         foreach ($daftar_program as $v)
         {
             $PrgID=$v->PrgID;           
             $daftar_kegiatan = \DB::table('v_rkpd')
-                                    ->select(\DB::raw('SUM("NilaiUsulan2") AS jumlah_nilaiusulan,COUNT("RKPDID") AS jumlah_kegiatan'))
+                                    ->select(\DB::raw('SUM("NilaiUsulan1") AS jumlah_nilaiusulanm,SUM("NilaiUsulan2") AS jumlah_nilaiusulanp,COUNT("RKPDID") AS jumlah_kegiatan'))
                                     ->where('PrgID',$PrgID)                                              
                                     ->where('OrgID',$OrgID)
                                     ->where('TA',\HelperKegiatan::getTahunPerencanaan())                                        
@@ -99,18 +109,25 @@ class ReportProgramRKPDPerubahanModel extends ReportModel
             $sheet->setCellValue("D$row",$v->Kd_Prog);           
             $sheet->setCellValue("E$row",$v->PrgNm);     
             
-            $totalpagueachprogramNilaiUsulan= $daftar_kegiatan->jumlah_nilaiusulan;
+            $jumlah_nilaiusulanm= $daftar_kegiatan->jumlah_nilaiusulanm;
+            $jumlah_nilaiusulanp= $daftar_kegiatan->jumlah_nilaiusulanp;
             $jumlah_kegiatan= $daftar_kegiatan->jumlah_kegiatan;     
-            $total_pagu_m+=$totalpagueachprogramNilaiUsulan;
-            $total_jumlah_kegiatan_m+=$jumlah_kegiatan;      
+            $total_pagu_m+=$jumlah_nilaiusulanm;
+            $total_pagu_p+=$jumlah_nilaiusulanp;
+            $total_jumlah_kegiatan+=$jumlah_kegiatan;      
 
             $sheet->setCellValue("F$row",$jumlah_kegiatan);
-            $sheet->setCellValue("G$row",$totalpagueachprogramNilaiUsulan);            
+            $sheet->setCellValue("G$row",\Helper::formatUang($jumlah_nilaiusulanm));            
+            $sheet->setCellValue("H$row",\Helper::formatUang($jumlah_nilaiusulanp));            
+            $sheet->setCellValue("I$row",\Helper::formatUang($jumlah_nilaiusulanp-$jumlah_nilaiusulanm));            
+            
             $row+=1;
         }        
         $sheet->setCellValue("E$row",'TOTAL'); 
-        $sheet->setCellValue("F$row",$total_jumlah_kegiatan_m); 
+        $sheet->setCellValue("F$row",$total_jumlah_kegiatan); 
         $sheet->setCellValue("G$row",\Helper::formatUang($total_pagu_m)); 
+        $sheet->setCellValue("H$row",\Helper::formatUang($total_pagu_p)); 
+        $sheet->setCellValue("I$row",\Helper::formatUang($total_pagu_p-$total_pagu_m)); 
        
         $row=$row-1;
         $styleArray=array(								
@@ -118,19 +135,19 @@ class ReportProgramRKPDPerubahanModel extends ReportModel
                                'vertical'=>Alignment::HORIZONTAL_CENTER),
             'borders' => array('allBorders' => array('borderStyle' =>Border::BORDER_THIN))
         );        																			 
-        $sheet->getStyle("A9:G$row")->applyFromArray($styleArray);
-        $sheet->getStyle("A9:G$row")->getAlignment()->setWrapText(true);      
+        $sheet->getStyle("A10:I$row")->applyFromArray($styleArray);
+        $sheet->getStyle("A10:I$row")->getAlignment()->setWrapText(true);      
         
         $styleArray=array(								
             'alignment' => array('horizontal'=>Alignment::HORIZONTAL_LEFT)
         );																					 
-        $sheet->getStyle("E9:E$row")->applyFromArray($styleArray);
+        $sheet->getStyle("E10:E$row")->applyFromArray($styleArray);
 
         $row=$row+1;
         $styleArray=array(								
             'alignment' => array('horizontal'=>Alignment::HORIZONTAL_RIGHT)
         );																					 
-        $sheet->getStyle("G9:G$row")->applyFromArray($styleArray);
+        $sheet->getStyle("G10:I$row")->applyFromArray($styleArray);
 
         $row+=3;
         $sheet->setCellValue("F$row",'BANDAR SRI BENTAN, '.\Helper::tanggal('d F Y'));

@@ -36,22 +36,28 @@
         <table id="data" class="table table-xxs table-bordered" style="font-size:11px;padding:0px">
             <thead>
                 <tr class="bg-teal-700">
-                    <th colspan="4">                   
+                    <th colspan="4" rowspan="2">                   
                         KODE            
                     </th>                
-                    <th>                    
+                    <th rowspan="2">                    
                         BIDANG URUSAN PEMERINTAH DAERAH                                                                                           
                     </th>
-                    <th width="80">                    
+                    <th width="80" rowspan="2">                    
                         JUMLAH KEGIATAN                                                                                           
                     </th>                     
-                    <th width="200" class="text-right">                    
+                    <th width="200" class="text-center" colspan="3">                    
                         INDIKASI TA {{HelperKegiatan::getTahunPerencanaan()}}
                     </th>
-                </tr>                
+                </tr>   
+                <tr class="bg-teal-700">
+                    <th class="text-right">SEBELUM</th>
+                    <th class="text-right">SESUDAH</th>
+                    <th class="text-right">SELISIH</th>
+                </tr>
             </thead>
             <tbody>                
             @php
+                $total_pagu_m=0;
                 $total_pagu_p=0;
                 $total_jumlah_kegiatan_p=0;
             @endphp       
@@ -72,13 +78,17 @@
                 <td>{{$v->Kd_Prog}}</td>
                 <td>{{$v->PrgNm}}</td>
                 @php
-                    $totalpagueachprogramNilaiUsulan= $daftar_kegiatan->jumlah_nilaiusulanp;
+                    $jumlah_nilaiusulanm= $daftar_kegiatan->jumlah_nilaiusulanm;
+                    $jumlah_nilaiusulanp= $daftar_kegiatan->jumlah_nilaiusulanp;
                     $jumlah_kegiatan= $daftar_kegiatan->jumlah_kegiatan;     
-                    $total_pagu_p+=$totalpagueachprogramNilaiUsulan;
+                    $total_pagu_m+=$jumlah_nilaiusulanm;
+                    $total_pagu_p+=$jumlah_nilaiusulanp;
                     $total_jumlah_kegiatan_p+=$jumlah_kegiatan;                     
                 @endphp
                 <td>{{$jumlah_kegiatan}}</td>
-                <td class="text-right">{{Helper::formatUang($totalpagueachprogramNilaiUsulan)}}</td>                             
+                <td class="text-right">{{Helper::formatUang($jumlah_nilaiusulanm)}}</td>                             
+                <td class="text-right">{{Helper::formatUang($jumlah_nilaiusulanp)}}</td>                             
+                <td class="text-right">{{Helper::formatUang($jumlah_nilaiusulanp-$jumlah_nilaiusulanm)}}</td>                             
             </tr>
             @endforeach                              
             {{-- end looping daftar program --}}
@@ -89,7 +99,9 @@
                         TOTAL                        
                     </td>                    
                     <td>{{$total_jumlah_kegiatan_p}}</td>
+                    <td class="text-right">{{Helper::formatUang($total_pagu_m)}}</td>                     
                     <td class="text-right">{{Helper::formatUang($total_pagu_p)}}</td>                     
+                    <td class="text-right">{{Helper::formatUang($total_pagu_p-$total_pagu_m)}}</td>                     
                 </tr>
             </tfoot>
         </table>               

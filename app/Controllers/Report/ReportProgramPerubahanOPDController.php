@@ -108,7 +108,6 @@ class ReportProgramPerubahanOPDController extends Controller
         $filters=$this->getControllerStateSession($this->SessionName,'filters');  
         $generate_date=date('Y-m-d_H_m_s');
         $OrgID=$filters['OrgID'];        
-        $SOrgID=$filters['SOrgID'];   
         if ($OrgID != 'none'&&$OrgID != ''&&$OrgID != null)       
         {
             $opd = \DB::table('v_urusan_organisasi')
