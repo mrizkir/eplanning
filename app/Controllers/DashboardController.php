@@ -47,7 +47,7 @@ class DashboardController extends Controller {
                                                                             'data'=>$data]);                       
             break;
             case 'opd' :               
-                $daftar_opd=\App\Models\UserOPD::getOPD();
+                $daftar_opd=\App\Models\UserOPD::getOPD(false);
                 $OrgID=[];
                 foreach ($daftar_opd as $k=>$v)
                 {
