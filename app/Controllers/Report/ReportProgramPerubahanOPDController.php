@@ -50,10 +50,7 @@ class ReportProgramPerubahanOPDController extends Controller
         if ($request->exists('OrgID'))
         {
             $OrgID = $request->input('OrgID')==''?'none':$request->input('OrgID');
-            $filters['OrgID']=$OrgID;
-            $filters['SOrgID']='none';
-            $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$OrgID);  
-            
+            $filters['OrgID']=$OrgID;            
             $this->putControllerStateSession($this->SessionName,'filters',$filters);
             
             $datatable = view("pages.$theme.report.reportprogramperubahanopd.datatable")->with(['page_active'=>$this->NameOfPage,   
@@ -85,26 +82,15 @@ class ReportProgramPerubahanOPDController extends Controller
             case 'superadmin' :     
             case 'bapelitbang' :     
             case 'tapd' :     
-                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);  
-                $daftar_unitkerja=array();           
-                if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
-                {
-                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$filters['OrgID']);        
-                }    
+                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);                 
             break;
             case 'opd' :               
-                $daftar_opd=\App\Models\UserOPD::getOPD(false);    
-                $daftar_unitkerja=array();                                     
-                if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
-                {
-                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$filters['OrgID']);        
-                }                   
+                $daftar_opd=\App\Models\UserOPD::getOPD(); 
             break;
         }
         return view("pages.$theme.report.reportprogramperubahanopd.index")->with(['page_active'=>$this->NameOfPage, 
                                                                                 'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                                 'daftar_opd'=>$daftar_opd,
-                                                                                'daftar_unitkerja'=>$daftar_unitkerja,
                                                                                 'filters'=>$filters,
                                                                                 'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
                                                                                 'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),                                                                    
@@ -117,59 +103,35 @@ class ReportProgramPerubahanOPDController extends Controller
      */
     public function printtoexcel ()
     {       
-        // $theme = \Auth::user()->theme;
+        $theme = \Auth::user()->theme;
 
-        // $filters=$this->getControllerStateSession($this->SessionName,'filters');  
-        // $generate_date=date('Y-m-d_H_m_s');
-        // $OrgID=$filters['OrgID'];        
-        // $SOrgID=$filters['SOrgID'];   
-        // if ($SOrgID != 'none'&&$SOrgID != ''&&$SOrgID != null)       
-        // {
-        //     $unitkerja = \DB::table('v_suborganisasi')
-        //                 ->where('SOrgID',$SOrgID)->first();  
+        $filters=$this->getControllerStateSession($this->SessionName,'filters');  
+        $generate_date=date('Y-m-d_H_m_s');
+        $OrgID=$filters['OrgID'];        
+        $SOrgID=$filters['SOrgID'];   
+        if ($OrgID != 'none'&&$OrgID != ''&&$OrgID != null)       
+        {
+            $opd = \DB::table('v_urusan_organisasi')
+                        ->where('OrgID',$OrgID)->first();  
             
-        //     $data_report['OrgID']=$unitkerja->OrgID;
-        //     $data_report['SOrgID']=$SOrgID;
-        //     $data_report['Kd_Urusan']=$unitkerja->Kd_Urusan;
-        //     $data_report['Nm_Urusan']=$unitkerja->Nm_Urusan;
-        //     $data_report['Kd_Bidang']=$unitkerja->Kd_Bidang;
-        //     $data_report['Nm_Bidang']=$unitkerja->Nm_Bidang;
-        //     $data_report['kode_organisasi']=$unitkerja->kode_organisasi;
-        //     $data_report['OrgNm']=$unitkerja->OrgNm;
-        //     $data_report['SOrgID']=$SOrgID;
-        //     $data_report['kode_suborganisasi']=$unitkerja->kode_suborganisasi;
-        //     $data_report['SOrgNm']=$unitkerja->SOrgNm;
-        //     $data_report['NamaKepalaSKPD']=$unitkerja->NamaKepalaSKPD;
-        //     $data_report['NIPKepalaSKPD']=$unitkerja->NIPKepalaSKPD;          
-
-        //     $report= new \App\Models\Report\ReportRKPDPerubahanModel ($data_report);
-        //     return $report->download("rkpd_$generate_date.xlsx");
-        // }
-        // elseif ($OrgID != 'none'&&$OrgID != ''&&$OrgID != null)       
-        // {
-        //     $opd = \DB::table('v_urusan_organisasi')
-        //                 ->where('OrgID',$OrgID)->first();  
-            
-        //     $data_report['OrgID']=$opd->OrgID;
-        //     $data_report['SOrgID']=$SOrgID;
-        //     $data_report['Kd_Urusan']=$opd->Kd_Urusan;
-        //     $data_report['Nm_Urusan']=$opd->Nm_Urusan;
-        //     $data_report['Kd_Bidang']=$opd->Kd_Bidang;
-        //     $data_report['Nm_Bidang']=$opd->Nm_Bidang;
-        //     $data_report['kode_organisasi']=$opd->kode_organisasi;
-        //     $data_report['OrgNm']=$opd->OrgNm;
-        //     $data_report['SOrgID']=$SOrgID;
-        //     $data_report['NamaKepalaSKPD']=$opd->NamaKepalaSKPD;
-        //     $data_report['NIPKepalaSKPD']=$opd->NIPKepalaSKPD;            
-        //     $report= new \App\Models\Report\ReportRKPDPerubahanModel ($data_report);
-        //     return $report->download("rkpd_$generate_date.xlsx");
-        // }
-        // else
-        // {
-        //     return view("pages.$theme.report.reportprogramperubahanopd.error")->with(['page_active'=>$this->NameOfPage,
-        //                                                             'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
-        //                                                             'errormessage'=>'Mohon OPD / SKPD untuk di pilih terlebih dahulu. bila sudah terpilih ternyata tidak bisa, berarti saudara tidak diperkenankan menambah kegiatan karena telah dikunci.'
-        //                                                         ]);  
-        // }     
+            $data_report['OrgID']=$opd->OrgID;
+            $data_report['Kd_Urusan']=$opd->Kd_Urusan;
+            $data_report['Nm_Urusan']=$opd->Nm_Urusan;
+            $data_report['Kd_Bidang']=$opd->Kd_Bidang;
+            $data_report['Nm_Bidang']=$opd->Nm_Bidang;
+            $data_report['kode_organisasi']=$opd->kode_organisasi;
+            $data_report['OrgNm']=$opd->OrgNm;
+            $data_report['NamaKepalaSKPD']=$opd->NamaKepalaSKPD;
+            $data_report['NIPKepalaSKPD']=$opd->NIPKepalaSKPD;            
+            $report= new \App\Models\Report\ReportProgramRKPDPerubahanModel ($data_report);
+            return $report->download("programrkpdp_$generate_date.xlsx");
+        }
+        else
+        {
+            return view("pages.$theme.report.reportprogramperubahanopd.error")->with(['page_active'=>$this->NameOfPage,
+                                                                                        'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
+                                                                                        'errormessage'=>'Mohon OPD / SKPD untuk di pilih terlebih dahulu. bila sudah terpilih ternyata tidak bisa, berarti saudara tidak diperkenankan menambah kegiatan karena telah dikunci.'
+                                                                                    ]);  
+        }     
     }
 }

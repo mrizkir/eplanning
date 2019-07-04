@@ -1,6 +1,6 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    LAPORAN RKPD OPD DAN UNIT KERJA
+    LAPORAN PROGRAM RKPD OPD PERUBAHAN
 @endsection
 @section('page_content')
 <div class="alert alert-danger alert-styled-left alert-bordered">

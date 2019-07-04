@@ -346,6 +346,7 @@
                     </div>
                 </div>
             </li>
+            @hasrole('superadmin|bapelitbang')
             <li class="dropdown mega-menu mega-menu-wide visible">                
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-cogs position-left"></i> SETTING <span class="caret"></span>
@@ -448,6 +449,7 @@
                     </div>
                 </div>
             </li>
+            @endhasrole
         </ul>
     </div>
 </div>

@@ -59,12 +59,11 @@
             @php
                 $PrgID=$v->PrgID;                 
                 $daftar_kegiatan = \DB::table('v_rkpd')
-                                        ->select(\DB::raw('"RKPDID","NilaiUsulan1"'))
-                                        ->where('PrgID',$PrgID)      
+                                        ->select(\DB::raw('SUM("NilaiUsulan1") AS jumlah_nilaiusulan,COUNT("RKPDID") AS jumlah_kegiatan'))
+                                        ->where('PrgID',$PrgID)                                              
                                         ->where('OrgID',$filters['OrgID'])
-                                        ->where('TA',HelperKegiatan::getTahunPerencanaan())
-                                        ->orderBy('kode_kegiatan','ASC')       
-                                        ->get();
+                                        ->where('TA',HelperKegiatan::getTahunPerencanaan())                                        
+                                        ->first();               
             @endphp           
             <tr>
                 <td>{{$v->Kd_Urusan}}</td>
@@ -73,8 +72,8 @@
                 <td>{{$v->Kd_Prog}}</td>
                 <td>{{$v->PrgNm}}</td>
                 @php
-                    $totalpagueachprogramNilaiUsulan= $daftar_kegiatan->sum('NilaiUsulan1');     
-                    $jumlah_kegiatan= $daftar_kegiatan->count();     
+                    $totalpagueachprogramNilaiUsulan= $daftar_kegiatan->jumlah_nilaiusulan;
+                    $jumlah_kegiatan= $daftar_kegiatan->jumlah_kegiatan;     
                     $total_pagu_m+=$totalpagueachprogramNilaiUsulan;
                     $total_jumlah_kegiatan_m+=$jumlah_kegiatan;                     
                 @endphp
