@@ -25,17 +25,61 @@ class DashboardController extends Controller {
      */
     public function index(Request $request)
     {   
-        $theme = \Auth::user()->theme;
-        $stats = \DB::table('trRekapPaguIndikatifOPD')
+        $auth = \Auth::user();    
+        $theme = $auth->theme;
+        $roles=$auth->getRoleNames();
+
+        switch ($roles[0])
+        {
+            case 'superadmin' :     
+            case 'bapelitbang' :     
+            case 'tapd' :     
+                 $stats = \DB::table('trRekapPaguIndikatifOPD')
                     ->select(\DB::raw('SUM(rkpd1) AS totalrkpdm,SUM(rkpd2) AS totalrkpdp'))
                     ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                     ->first();
+
+                $data = [
+                    'totalrkpdm'=>$stats->totalrkpdm,
+                    'totalrkpdp'=>$stats->totalrkpdp
+                ];
+                return view("pages.{$theme}.dashboard.index")->with(['page_active'=>'dashboard',
+                                                                            'data'=>$data]);                       
+            break;
+            case 'opd' :               
+                $daftar_opd=\App\Models\UserOPD::getOPD();
+                $OrgID=[];
+                foreach ($daftar_opd as $k=>$v)
+                {
+                    $OrgID[]=$k;
+                }
+               
+                $stats = \DB::table('trRekapPaguIndikatifOPD')
+                                ->select(\DB::raw('SUM(rkpd1) AS totalrkpdm,SUM(rkpd2) AS totalrkpdp'))
+                                ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                ->whereIn('OrgID', $OrgID)
+                                ->first();
+                $data = [
+                    'totalrkpdm'=>$stats->totalrkpdm,
+                    'totalrkpdp'=>$stats->totalrkpdp
+                ];
+                return view("pages.{$theme}.dashboard.indexOPD")->with(['page_active'=>'dashboard',
+                                                                            'data'=>$data]);    
+            break;
+            case 'dewan' :
+                return view("pages.{$theme}.dashboard.indexDewan")->with(['page_active'=>'dashboard',
+                                                                                    'data'=>$data]);    
+            break;
+            case 'kecamatan' :                                       
+                return view("pages.{$theme}.dashboard.indexKecamatan")->with(['page_active'=>'dashboard',
+                                                                                    'data'=>$data]);    
+            break;
+            case 'desa' :                                       
+                return view("pages.{$theme}.dashboard.indexDesa")->with(['page_active'=>'dashboard',
+                                                                                    'data'=>$data]);    
+            break;
+        }      
         
-        $data = [
-            'totalrkpdm'=>$stats->totalrkpdm,
-            'totalrkpdp'=>$stats->totalrkpdp
-        ];
-        return view("pages.{$theme}.dashboard.index")->with(['page_active'=>'dashboard',
-                                                                    'data'=>$data]);               
+        
     }    
 }
