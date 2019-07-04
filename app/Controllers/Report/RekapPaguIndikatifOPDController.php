@@ -333,24 +333,27 @@ class RekapPaguIndikatifOPDController extends Controller {
             break;
             case 'uidRKPD' :
                 $data = \DB::table('trRKPDRinc')
-                            ->select(\DB::raw('"trRKPD"."OrgID", SUM("trRKPDRinc"."NilaiUsulan1") AS jumlah'))
+                            ->select(\DB::raw('"trRKPD"."OrgID", SUM("trRKPDRinc"."NilaiUsulan1") AS jumlah, SUM("trRKPDRinc"."NilaiUsulan2") AS jumlah2'))
                             ->join('trRKPD','trRKPDRinc.RKPDID','trRKPD.RKPDID')                            
                             ->where('trRKPDRinc.EntryLvl',4)  
                             ->where('trRKPDRinc.Status',1)                                      
                             ->where('trRKPDRinc.TA',$ta)
-                            ->groupBy('trRKPD.OrgID')->get()->pluck('jumlah','OrgID')->toArray();
+                            ->groupBy('trRKPD.OrgID')->get();
 
-                foreach ($data as $k=>$v)
+                foreach ($data as $v)
                 {
-                    $jumlah = empty($v) ? 0 : $v;
-                    \DB::table('trRekapPaguIndikatifOPD')->where('OrgID',$k)->update(['rkpd1'=>$jumlah,'updated_at'=>\Carbon\Carbon::now()]);
+                    $jumlah = empty($v->jumlah) ? 0 : $v->jumlah;
+                    $jumlah2 = empty($v->jumlah2) ? 0 : $v->jumlah2;
+                    \DB::table('trRekapPaguIndikatifOPD')
+                        ->where('OrgID',$v->OrgID)
+                        ->update(['rkpd1'=>$jumlah,'rkpd2'=>$jumlah2,'updated_at'=>\Carbon\Carbon::now()]);
                 }
             break;     
             case 'uidRKPDPerubahan' :
                 $data = \DB::table('trRKPDRinc')
                             ->select(\DB::raw('"trRKPD"."OrgID", SUM("trRKPDRinc"."NilaiUsulan2") AS jumlah'))
                             ->join('trRKPD','trRKPDRinc.RKPDID','trRKPD.RKPDID')                            
-                            ->where('trRKPDRinc.EntryLvl',5)  
+                            ->where('trRKPDRinc.EntryLvl',4)  
                             ->where('trRKPDRinc.Status',2)                                      
                             ->orWhere('trRKPDRinc.Status',3)                                      
                             ->where('trRKPDRinc.TA',$ta)

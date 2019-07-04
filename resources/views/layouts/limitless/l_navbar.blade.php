@@ -17,7 +17,7 @@
                                 <ul class="menu-list">
                                     <li{!!Helper::isMenuActive ($page_active,'dashboard',' class="active"')!!}>
                                         <a href="{!!route('dashboard.index')!!}">
-                                            <i class="icon-display"></i> PERENCANAAN DAN REALISASI 											
+                                            <i class="icon-display"></i> PERENCANAAN
                                         </a>   
                                     </li> 
                                 </ul>
