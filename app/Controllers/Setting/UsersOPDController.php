@@ -343,7 +343,18 @@ class UsersOPDController extends Controller {
                                                                         ])->render();
             $json_data = ['success'=>true,'datatable'=>$datatable];
         } 
-
+        else if ($request->exists('lockall'))
+        {
+            $json_data=\DB::table('usersopd')
+                            ->where('ta',\HelperKegiatan::getTahunPerencanaan())
+                            ->update(['locked'=>1]);
+        }
+        else if ($request->exists('unlockall'))
+        {
+            $json_data=\DB::table('usersopd')
+                            ->where('ta',\HelperKegiatan::getTahunPerencanaan())
+                            ->update(['locked'=>0]);
+        }
         return response()->json($json_data,200);
     }
     /**

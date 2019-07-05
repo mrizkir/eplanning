@@ -15,6 +15,29 @@
     <li><a href="#">SETTING</a></li>
     <li class="active">USERS OPD</li>
 @endsection
+@section('page_breadcrumbelement')
+<ul class="breadcrumb-elements">
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <i class="icon-cog5 position-left"></i>
+            AKSI
+            <span class="caret"></span>
+        </a>        
+        <ul class="dropdown-menu dropdown-menu-right" id="breadcrumb-action">
+            <li>
+                <a href="#" id="lockall">
+                    <i class="icon-lock2 pull-right"></i> LOCK ALL
+                </a>
+            </li>
+            <li>
+                <a href="#" id="unlockall">
+                    <i class="icon-unlocked2 pull-right"></i> UNLOCK ALL
+                </a>
+            </li>
+        </ul>
+    </li>
+</ul>
+@endsection
 @section('page_content')
 <div class="row">
     <div class="col-md-12">
@@ -58,7 +81,51 @@
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
-$(document).ready(function () {  
+$(document).ready(function () {
+    $('#breadcrumb-action').on('click','#lockall',function(ev)
+    {
+        ev.preventDefault();
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/changelocked/0',
+            dataType: 'json',
+            data: {                
+                "_token": token,
+                "_method": 'PUT',
+                "lockall":true
+            },
+            success:function(result)
+            { 
+                $('#divdatatable').html(result.datatable); 
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    });
+    $('#breadcrumb-action').on('click','#unlockall',function(ev)
+    {
+        ev.preventDefault();
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/changelocked/0',
+            dataType: 'json',
+            data: {                
+                "_token": token,
+                "_method": 'PUT',
+                "unlockall":true
+            },
+            success:function(result)
+            { 
+                $('#divdatatable').html(result.datatable); 
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    });
     $("#divdatatable").on("click",".btnDelete", function(){
         if (confirm('Apakah Anda ingin menghapus Data User OPD ini ?')) {
             let url_ = $(this).attr("data-url");
