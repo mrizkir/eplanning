@@ -1,4 +1,7 @@
 @extends('layouts.limitless.l_main')
+@section('page_asset_css')
+<link rel="stylesheet" href="{!!asset('themes/limitless/assets/js/sweetalert2/sweetalert2.min.css')!!}">
+@endsection
 @section('page_title')
     USERS OPD
 @endsection
@@ -79,6 +82,10 @@
     </div>
 </div>
 @endsection
+@section('page_asset_js')
+<script src="{!!asset('themes/limitless/assets/js/sweetalert2/sweetalert2.all.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/promise-polyfill.js')!!}"></script>
+@endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
@@ -96,7 +103,10 @@ $(document).ready(function () {
             },
             success:function(result)
             { 
-                $('#divdatatable').html(result.datatable); 
+                Swal.fire({
+                    title: 'Seluruh user berhasil dikunci semuanya',
+                    type: 'success',                    
+                });
             },
             error:function(xhr, status, error){
                 console.log('ERROR');
@@ -118,7 +128,10 @@ $(document).ready(function () {
             },
             success:function(result)
             { 
-                $('#divdatatable').html(result.datatable); 
+                Swal.fire({
+                    title: 'Seluruh user berhasil dilepas kuncinya',
+                    type: 'success',                    
+                });
             },
             error:function(xhr, status, error){
                 console.log('ERROR');
