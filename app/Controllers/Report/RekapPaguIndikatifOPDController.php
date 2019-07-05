@@ -334,9 +334,7 @@ class RekapPaguIndikatifOPDController extends Controller {
             case 'uidRKPD' :
                 $data = \DB::table('trRKPDRinc')
                             ->select(\DB::raw('"trRKPD"."OrgID", SUM("trRKPDRinc"."NilaiUsulan1") AS jumlah, SUM("trRKPDRinc"."NilaiUsulan2") AS jumlah2'))
-                            ->join('trRKPD','trRKPDRinc.RKPDID','trRKPD.RKPDID')                            
-                            ->where('trRKPDRinc.EntryLvl',4)  
-                            ->where('trRKPDRinc.Status',1)                                      
+                            ->join('trRKPD','trRKPDRinc.RKPDID','trRKPD.RKPDID')                                                                                         
                             ->where('trRKPDRinc.TA',$ta)
                             ->groupBy('trRKPD.OrgID')->get();
 
@@ -352,10 +350,7 @@ class RekapPaguIndikatifOPDController extends Controller {
             case 'uidRKPDPerubahan' :
                 $data = \DB::table('trRKPDRinc')
                             ->select(\DB::raw('"trRKPD"."OrgID", SUM("trRKPDRinc"."NilaiUsulan2") AS jumlah'))
-                            ->join('trRKPD','trRKPDRinc.RKPDID','trRKPD.RKPDID')                            
-                            ->where('trRKPDRinc.EntryLvl',4)  
-                            ->where('trRKPDRinc.Status',2)                                      
-                            ->orWhere('trRKPDRinc.Status',3)                                      
+                            ->join('trRKPD','trRKPDRinc.RKPDID','trRKPD.RKPDID')                                                                                           
                             ->where('trRKPDRinc.TA',$ta)
                             ->groupBy('trRKPD.OrgID')->get()->pluck('jumlah','OrgID')->toArray();
 
