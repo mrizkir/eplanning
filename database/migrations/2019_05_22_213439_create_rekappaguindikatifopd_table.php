@@ -21,22 +21,24 @@ class CreateRekappaguindikatifopdTable extends Migration
             $table->decimal('Jumlah2',15,2)->default(0);   
             
             $table->decimal('prarenja1',15,2)->default(0);    
-            $table->decimal('prarenja2',15,2)->default(0); 
+            $table->integer('jumlah_kegiatan1')->default(0); 
 
             $table->decimal('rakorbidang1',15,2)->default(0);    
-            $table->decimal('rakorbidang2',15,2)->default(0); 
+            $table->integer('jumlah_kegiatan2')->default(0);  
 
             $table->decimal('forumopd1',15,2)->default(0);    
-            $table->decimal('forumopd2',15,2)->default(0); 
+            $table->integer('jumlah_kegiatan3')->default(0); 
 
             $table->decimal('musrenkab1',15,2)->default(0);    
-            $table->decimal('musrenkab2',15,2)->default(0); 
+            $table->integer('jumlah_kegiatan4')->default(0); 
 
             $table->decimal('renjafinal1',15,2)->default(0);    
-            $table->decimal('renjafinal2',15,2)->default(0); 
+            $table->integer('jumlah_kegiatan5')->default(0); 
 
             $table->decimal('rkpd1',15,2)->default(0);    
+            $table->integer('jumlah_kegiatan6')->default(0); 
             $table->decimal('rkpd2',15,2)->default(0); 
+            $table->integer('jumlah_kegiatan7')->default(0); 
             
             $table->string('Descr')->nullable();
             $table->year('TA');

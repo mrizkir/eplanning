@@ -164,17 +164,19 @@ class RekapPaguIndikatifOPDController extends Controller {
                 "Jumlah1",
                 "Jumlah2",
                 "prarenja1",
-                "prarenja2",
+                "jumlah_kegiatan1",
                 "rakorbidang1",
-                "rakorbidang2",
+                "jumlah_kegiatan2",
                 "forumopd1",
-                "forumopd2",
+                "jumlah_kegiatan3",
                 "musrenkab1",                        
-                "musrenkab2",                        
+                "jumlah_kegiatan4",                        
                 "renjafinal1",                        
-                "renjafinal2",                         
+                "jumlah_kegiatan5",                         
                 "rkpd1",
+                "jumlah_kegiatan6",                         
                 "rkpd2",
+                "jumlah_kegiatan7",     
                 "Descr",
                 "TA",                                    
                 "created_at", 
@@ -195,17 +197,19 @@ class RekapPaguIndikatifOPDController extends Controller {
 					D."Jumlah2"
 				END AS "Jumlah2",
                 0 AS "prarenja1",
-                0 AS "prarenja2",
+                0 AS "jumlah_kegiatan1",
                 0 AS "rakorbidang1",
-                0 AS "rakorbidang2",
+                0 AS "jumlah_kegiatan2",
                 0 AS "forumopd1",
-                0 AS "forumopd2",
+                0 AS "jumlah_kegiatan3",
                 0 AS "musrenkab1",                        
-                0 AS "musrenkab2",                        
+                0 AS "jumlah_kegiatan4",                        
                 0 AS "renjafinal1",                        
-                0 AS "renjafinal2",                         
+                0 AS "jumlah_kegiatan5",                         
                 0 AS "rkpd1",
+                0 AS "jumlah_kegiatan6",                         
                 0 AS "rkpd2",
+                0 AS "jumlah_kegiatan7",                         
                 \'inisialisasi awal\' AS Desc,
                 A."TA", 
                 NOW() AS created_at,
@@ -250,116 +254,111 @@ class RekapPaguIndikatifOPDController extends Controller {
         switch($id)
         {
             case 'uidPrarenja' :
-                $data = \DB::table('trRenjaRinc')
-                            ->select(\DB::raw('"trRenja"."OrgID", SUM("trRenjaRinc"."Jumlah1") AS jumlah'))
-                            ->join('trRenja','trRenjaRinc.RenjaID','trRenja.RenjaID')                            
-                            ->where('trRenjaRinc.EntryLvl',0)                
-                            ->where('trRenjaRinc.Status',1)                                      
-                            ->orWhere('trRenjaRinc.Status',2)                                      
-                            ->where('trRenjaRinc.TA',$ta)
-                            ->groupBy('trRenja.OrgID')->get()->pluck('jumlah','OrgID')->toArray();
-
-
-                foreach ($data as $k=>$v)
-                {
-                    $jumlah = empty($v) ? 0 : $v;
-                    \DB::table('trRekapPaguIndikatifOPD')->where('OrgID',$k)->update(['prarenja1'=>$jumlah,'updated_at'=>\Carbon\Carbon::now()]);
-                }
-            break;
-            case 'uidRakorBidang' :
-                $data = \DB::table('trRenjaRinc')
-                            ->select(\DB::raw('"trRenja"."OrgID", SUM("trRenjaRinc"."Jumlah2") AS jumlah'))
-                            ->join('trRenja','trRenjaRinc.RenjaID','trRenja.RenjaID')                            
-                            ->where('trRenjaRinc.EntryLvl',1)                        
-                            ->where('trRenjaRinc.Status',1)                                      
-                            ->orWhere('trRenjaRinc.Status',2)                                                                    
-                            ->where('trRenjaRinc.TA',$ta)
-                            ->groupBy('trRenja.OrgID')->get()->pluck('jumlah','OrgID')->toArray();
-
-
-                foreach ($data as $k=>$v)
-                {
-                    $jumlah = empty($v) ? 0 : $v;
-                    \DB::table('trRekapPaguIndikatifOPD')->where('OrgID',$k)->update(['rakorbidang1'=>$jumlah,'updated_at'=>\Carbon\Carbon::now()]);
-                }
-            break;
-            case 'uidForumOPD' :
-                $data = \DB::table('trRenjaRinc')
-                            ->select(\DB::raw('"trRenja"."OrgID", SUM("trRenjaRinc"."Jumlah3") AS jumlah'))
-                            ->join('trRenja','trRenjaRinc.RenjaID','trRenja.RenjaID')                            
-                            ->where('trRenjaRinc.EntryLvl',2)                      
-                            ->where('trRenjaRinc.Status',1)                                      
-                            ->orWhere('trRenjaRinc.Status',2)                                                                      
-                            ->where('trRenjaRinc.TA',$ta)
-                            ->groupBy('trRenja.OrgID')->get()->pluck('jumlah','OrgID')->toArray();
-                            
-                foreach ($data as $k=>$v)
-                {
-                    $jumlah = empty($v) ? 0 : $v;
-                    \DB::table('trRekapPaguIndikatifOPD')->where('OrgID',$k)->update(['forumopd1'=>$jumlah,'updated_at'=>\Carbon\Carbon::now()]);
-                }
-            break;            
-            case 'uidMusrenKab' :
-                $data = \DB::table('trRenjaRinc')
-                            ->select(\DB::raw('"trRenja"."OrgID", SUM("trRenjaRinc"."Jumlah4") AS jumlah'))
-                            ->join('trRenja','trRenjaRinc.RenjaID','trRenja.RenjaID')                            
-                            ->where('trRenjaRinc.EntryLvl',3)             
-                            ->where('trRenjaRinc.Status',1)                                      
-                            ->orWhere('trRenjaRinc.Status',2)                                                                               
-                            ->where('trRenjaRinc.TA',$ta)
-                            ->groupBy('trRenja.OrgID')->get()->pluck('jumlah','OrgID')->toArray();
-
-                foreach ($data as $k=>$v)
-                {
-                    $jumlah = empty($v) ? 0 : $v;
-                    \DB::table('trRekapPaguIndikatifOPD')->where('OrgID',$k)->update(['musrenkab1'=>$jumlah,'updated_at'=>\Carbon\Carbon::now()]);
-                }
-            break;
-            case 'uidRenjaFinal' :
-                $data = \DB::table('trRenjaRinc')
-                            ->select(\DB::raw('"trRenja"."OrgID", SUM("trRenjaRinc"."Jumlah5") AS jumlah'))
-                            ->join('trRenja','trRenjaRinc.RenjaID','trRenja.RenjaID')                            
-                            ->where('trRenjaRinc.EntryLvl',4)            
-                            ->where('trRenjaRinc.Status',1)                                      
-                            ->orWhere('trRenjaRinc.Status',2)                                                                                
-                            ->where('trRenjaRinc.TA',$ta)
-                            ->groupBy('trRenja.OrgID')->get()->pluck('jumlah','OrgID')->toArray();
-
-                foreach ($data as $k=>$v)
-                {
-                    $jumlah = empty($v) ? 0 : $v;
-                    \DB::table('trRekapPaguIndikatifOPD')->where('OrgID',$k)->update(['renjafinal1'=>$jumlah,'updated_at'=>\Carbon\Carbon::now()]);
-                }
-            break;
-            case 'uidRKPD' :
-                $data = \DB::table('trRKPDRinc')
-                            ->select(\DB::raw('"trRKPD"."OrgID", SUM("trRKPDRinc"."NilaiUsulan1") AS jumlah, SUM("trRKPDRinc"."NilaiUsulan2") AS jumlah2'))
-                            ->join('trRKPD','trRKPDRinc.RKPDID','trRKPD.RKPDID')                                                                                         
-                            ->where('trRKPDRinc.TA',$ta)
-                            ->groupBy('trRKPD.OrgID')->get();
+                $data = \DB::table('trRenja')
+                            ->select(\DB::raw('"OrgID", SUM("NilaiUsulan1") AS jumlah,COUNT("RenjaID") AS jumlah_kegiatan'))
+                            ->where('EntryLvl',0)                
+                            ->where('Status',1)                                      
+                            ->orWhere('Status',2)                                      
+                            ->where('TA',$ta)
+                            ->groupBy('OrgID')->get();
 
                 foreach ($data as $v)
                 {
-                    $jumlah = empty($v->jumlah) ? 0 : $v->jumlah;
-                    $jumlah2 = empty($v->jumlah2) ? 0 : $v->jumlah2;
+                    $jumlah = $v->jumlah;
+                    $jumlah_kegiatan = $v->jumlah_kegiatan;
+                    \DB::table('trRekapPaguIndikatifOPD')
+                        ->where('OrgID',$v->OrgID)
+                        ->update(['prarenja1'=>$jumlah,'jumlah_kegiatan1'=>$jumlah_kegiatan,'updated_at'=>\Carbon\Carbon::now()]);
+                }
+            break;
+            case 'uidRakorBidang' :
+
+                $data = \DB::table('trRenja')
+                            ->select(\DB::raw('"OrgID", SUM("NilaiUsulan2") AS jumlah,COUNT("RenjaID") AS jumlah_kegiatan'))
+                            ->where('EntryLvl',1)                
+                            ->where('Status',1)                                      
+                            ->orWhere('Status',2)                                      
+                            ->where('TA',$ta)
+                            ->groupBy('OrgID')->get();
+
+                foreach ($data as $v)
+                {
+                    $jumlah = $v->jumlah;
+                    $jumlah_kegiatan = $v->jumlah_kegiatan;
+                    \DB::table('trRekapPaguIndikatifOPD')
+                        ->where('OrgID',$v->OrgID)
+                        ->update(['rakorbidang1'=>$jumlah,'jumlah_kegiatan2'=>$jumlah_kegiatan,'updated_at'=>\Carbon\Carbon::now()]);
+                }
+            break;
+            case 'uidForumOPD' :                
+                $data = \DB::table('trRenja')
+                            ->select(\DB::raw('"OrgID", SUM("NilaiUsulan3") AS jumlah,COUNT("RenjaID") AS jumlah_kegiatan'))
+                            ->where('EntryLvl',2)                
+                            ->where('Status',1)                                      
+                            ->orWhere('Status',2)                                      
+                            ->where('TA',$ta)
+                            ->groupBy('OrgID')->get();
+
+                foreach ($data as $v)
+                {
+                    $jumlah = $v->jumlah;
+                    $jumlah_kegiatan = $v->jumlah_kegiatan;
+                    \DB::table('trRekapPaguIndikatifOPD')
+                        ->where('OrgID',$v->OrgID)
+                        ->update(['forumopd1'=>$jumlah,'jumlah_kegiatan3'=>$jumlah_kegiatan,'updated_at'=>\Carbon\Carbon::now()]);
+                }
+            break;            
+            case 'uidMusrenKab' :                
+                $data = \DB::table('trRenja')
+                            ->select(\DB::raw('"OrgID", SUM("NilaiUsulan4") AS jumlah,COUNT("RenjaID") AS jumlah_kegiatan'))
+                            ->where('EntryLvl',3)                
+                            ->where('Status',1)                                      
+                            ->orWhere('Status',2)                                      
+                            ->where('TA',$ta)
+                            ->groupBy('OrgID')->get();
+
+                foreach ($data as $v)
+                {
+                    $jumlah = $v->jumlah;
+                    $jumlah_kegiatan = $v->jumlah_kegiatan;
+                    \DB::table('trRekapPaguIndikatifOPD')
+                        ->where('OrgID',$v->OrgID)
+                        ->update(['musrenkab1'=>$jumlah,'jumlah_kegiatan4'=>$jumlah_kegiatan,'updated_at'=>\Carbon\Carbon::now()]);
+                }
+            break;
+            case 'uidRenjaFinal' :                
+                $data = \DB::table('trRenja')
+                            ->select(\DB::raw('"OrgID", SUM("NilaiUsulan4") AS jumlah,COUNT("RenjaID") AS jumlah_kegiatan'))
+                            ->where('EntryLvl',4)                
+                            ->where('Status',1)                                      
+                            ->orWhere('Status',2)                                      
+                            ->where('TA',$ta)
+                            ->groupBy('OrgID')->get();
+
+                foreach ($data as $v)
+                {
+                    $jumlah = $v->jumlah;
+                    $jumlah_kegiatan = $v->jumlah_kegiatan;
+                    \DB::table('trRekapPaguIndikatifOPD')
+                        ->where('OrgID',$v->OrgID)
+                        ->update(['renjafinal1'=>$jumlah,'jumlah_kegiatan5'=>$jumlah_kegiatan,'updated_at'=>\Carbon\Carbon::now()]);
+                }
+            break;
+            case 'uidRKPD' :
+                $data = \DB::table('trRKPD')
+                            ->select(\DB::raw('"OrgID", SUM("NilaiUsulan1") AS jumlah, SUM("NilaiUsulan2") AS jumlah2'))
+                            ->where('TA',$ta)
+                            ->groupBy('OrgID')->get();
+               
+                foreach ($data as $v)
+                {
+                    $jumlah = $v->jumlah;
+                    $jumlah2 = $v->jumlah2;
                     \DB::table('trRekapPaguIndikatifOPD')
                         ->where('OrgID',$v->OrgID)
                         ->update(['rkpd1'=>$jumlah,'rkpd2'=>$jumlah2,'updated_at'=>\Carbon\Carbon::now()]);
                 }
-            break;     
-            case 'uidRKPDPerubahan' :
-                $data = \DB::table('trRKPDRinc')
-                            ->select(\DB::raw('"trRKPD"."OrgID", SUM("trRKPDRinc"."NilaiUsulan2") AS jumlah'))
-                            ->join('trRKPD','trRKPDRinc.RKPDID','trRKPD.RKPDID')                                                                                           
-                            ->where('trRKPDRinc.TA',$ta)
-                            ->groupBy('trRKPD.OrgID')->get()->pluck('jumlah','OrgID')->toArray();
-
-                foreach ($data as $k=>$v)
-                {
-                    $jumlah = empty($v) ? 0 : $v;
-                    \DB::table('trRekapPaguIndikatifOPD')->where('OrgID',$k)->update(['rkpd2'=>$jumlah,'updated_at'=>\Carbon\Carbon::now()]);
-                }
-            break;           
+            break;
         }        
         
         if ($request->ajax()) 

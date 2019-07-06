@@ -1088,11 +1088,11 @@ class RKPDPerubahanController extends Controller
                                                                                 "tmPemilikPokok"."NmPk",
                                                                                 "tmPemilikPokok"."Kd_PK"'))
                                                                 ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')
-                                                                ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trPokPir.PmKecamatanID')
-                                                                ->join('tmPmKota','tmPmKecamatan.PmKotaID','tmPmKota.PmKotaID')
+                                                                ->leftJoin('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trPokPir.PmKecamatanID')
+                                                                ->leftJoin('tmPmKota','tmPmKecamatan.PmKotaID','tmPmKota.PmKotaID')
                                                                 ->where('PokPirID',$PokPirID)
                                                                 ->first();
-            $tanggal_posting=\Carbon\Carbon::now();
+            $tanggal_posting=\Carbon\Carbon::now();            
             switch ($this->NameOfPage) 
             {            
                 case 'rkpdperubahan' :                    
@@ -2153,15 +2153,18 @@ class RKPDPerubahanController extends Controller
                     $rinciankegiatan->Sasaran_Uraian2 = $request->input('Sasaran_Uraian');
                     $rinciankegiatan->Target2 = $request->input('Target');
                     $rinciankegiatan->NilaiUsulan2 = $request->input('Jumlah');  
-                    $rinciankegiatan->EntryLvl = 5;
-                    $Status=$rinciankegiatan->Status == 1 || $rinciankegiatan->Status==2 ? 2:3;
-                    $rinciankegiatan->Status = $Status;
                     $rinciankegiatan->Descr = $request->input('Descr');
+                    if ($rinciankegiatan->NilaiaUsulan2!=$rinciankegiatan->NilaiaUsulan1)                    
+                    {
+                        $rinciankegiatan->EntryLvl = 5;
+                        $Status=$rinciankegiatan->Status == 1 || $rinciankegiatan->Status==2 ? 2:3;
+                        $rinciankegiatan->Status = $Status;
+                    }                                        
                     $rinciankegiatan->save();
         
                     $rkpd = $rinciankegiatan->rkpd;   
-                    $rkpd->Status=$Status;         
-                    $rkpd->EntryLvl=5;
+                    $rkpd->Status=$rinciankegiatan->Status;         
+                    $rkpd->EntryLvl=$rinciankegiatan->EntryLvl;
                     $rkpd->NilaiUsulan2=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('NilaiUsulan2');            
                     $rkpd->save();
                 break;                
