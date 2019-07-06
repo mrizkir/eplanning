@@ -27,11 +27,11 @@ class ReportProgramRKPDPerubahanModel extends ReportModel
                 'size' => '9',
             ],
         ]);
-        $sheet->mergeCells ('A1:G1');
+        $sheet->mergeCells ('A1:I1');
         $sheet->setCellValue('A1','PEMERINTAH DAERAH KABUPATEN BINTAN ');        
-        $sheet->mergeCells ('A2:G2');
+        $sheet->mergeCells ('A2:I2');
         $sheet->setCellValue('A2','LAPORAN RANCANGAN AKHIR RKPD PERUBAHAN');
-        $sheet->mergeCells ('A3:G3');
+        $sheet->mergeCells ('A3:I3');
         $sheet->setCellValue('A3','TAHUN ANGGARAN '.\HelperKegiatan::getTahunPerencanaan());
         $styleArray=array( 
             'font' => array('bold' => true,'size'=>'9'),
@@ -71,6 +71,8 @@ class ReportProgramRKPDPerubahanModel extends ReportModel
         $sheet->getColumnDimension('E')->setWidth(40);
         $sheet->getColumnDimension('F')->setWidth(17);
         $sheet->getColumnDimension('G')->setWidth(17);
+        $sheet->getColumnDimension('H')->setWidth(17);
+        $sheet->getColumnDimension('I')->setWidth(17);
 
         $styleArray=array( 
             'font' => array('bold' => true,'size'=>'9'),
