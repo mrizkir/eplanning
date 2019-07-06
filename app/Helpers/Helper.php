@@ -64,8 +64,8 @@ class Helper {
     /**
 	* digunakan untuk mem-format uang
 	*/
-	public static function formatUang ($uang=0) {
-		$formatted = number_format((float)$uang,2,',','.');
+	public static function formatUang ($uang=0,$decimal=2) {
+		$formatted = number_format((float)$uang,$decimal,',','.');
         return $formatted;
     }
     /**
