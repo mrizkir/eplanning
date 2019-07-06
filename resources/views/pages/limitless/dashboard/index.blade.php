@@ -41,5 +41,19 @@
             </div>
         </div>        
     </div>
+    <div class="col-sm-6 col-md-3">
+        <div class="panel panel-body bg-blue-400 has-bg-image">
+            <div class="media no-margin">
+                <div class="media-body">
+                    <h3 class="no-margin">{{Helper::formatUang($data['totalrkpdp']-$data['totalrkpdm'])}}</h3>
+                    <span class="text-uppercase text-size-mini">SELISIH</span>
+                </div>
+
+                <div class="media-right media-middle">
+                    <i class="icon-bubbles4 icon-3x opacity-75"></i>
+                </div>
+            </div>
+        </div>        
+    </div>
 </div>
 @endsection
