@@ -192,7 +192,7 @@ class RekapPaguIndikatifOPDController extends Controller {
                 CASE WHEN D."Jumlah2" IS NULL THEN
 					0
 				ELSE	
-					D."Jumlah1"
+					D."Jumlah2"
 				END AS "Jumlah2",
                 0 AS "prarenja1",
                 0 AS "prarenja2",

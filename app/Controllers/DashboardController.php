@@ -35,13 +35,15 @@ class DashboardController extends Controller {
             case 'bapelitbang' :     
             case 'tapd' :     
                  $stats = \DB::table('trRekapPaguIndikatifOPD')
-                    ->select(\DB::raw('SUM(rkpd1) AS totalrkpdm,SUM(rkpd2) AS totalrkpdp'))
+                    ->select(\DB::raw('SUM(rkpd1) AS totalrkpdm,SUM(rkpd2) AS totalrkpdp,SUM("Jumlah1") AS "Jumlah1",SUM("Jumlah2") AS "Jumlah2"'))
                     ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                     ->first();
 
                 $data = [
+                    'pagum'=>$stats->Jumlah1,
+                    'pagup'=>$stats->Jumlah2,
                     'totalrkpdm'=>$stats->totalrkpdm,
-                    'totalrkpdp'=>$stats->totalrkpdp
+                    'totalrkpdp'=>$stats->totalrkpdp,
                 ];
                 return view("pages.{$theme}.dashboard.index")->with(['page_active'=>'dashboard',
                                                                             'data'=>$data]);                       
@@ -55,13 +57,16 @@ class DashboardController extends Controller {
                 }
                
                 $stats = \DB::table('trRekapPaguIndikatifOPD')
-                                ->select(\DB::raw('SUM(rkpd1) AS totalrkpdm,SUM(rkpd2) AS totalrkpdp'))
+                                ->select(\DB::raw('SUM(rkpd1) AS totalrkpdm,SUM(rkpd2) AS totalrkpdp,SUM("Jumlah1") AS "Jumlah1",SUM("Jumlah2") AS "Jumlah2"'))
                                 ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                                 ->whereIn('OrgID', $OrgID)
                                 ->first();
+
                 $data = [
+                    'pagum'=>$stats->Jumlah1,
+                    'pagup'=>$stats->Jumlah2,
                     'totalrkpdm'=>$stats->totalrkpdm,
-                    'totalrkpdp'=>$stats->totalrkpdp
+                    'totalrkpdp'=>$stats->totalrkpdp,
                 ];
                 return view("pages.{$theme}.dashboard.indexOPD")->with(['page_active'=>'dashboard',
                                                                             'data'=>$data]);    
