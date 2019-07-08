@@ -43,7 +43,11 @@
                         BIDANG URUSAN PEMERINTAH DAERAH                                                                                           
                     </th>
                     <th width="80" rowspan="2">                    
-                        JUMLAH KEGIATAN                                                                                           
+                        JUMLAH KEGIATAN <br>
+                        KESELURUHAN                                                                                         
+                    </th>     
+                    <th width="80" rowspan="2">                    
+                        JUMLAH KEGIATAN <br>PERUBAHAN                                                                                          
                     </th>                     
                     <th width="200" class="text-center" colspan="3">                    
                         INDIKASI TA {{HelperKegiatan::getTahunPerencanaan()}}
@@ -59,6 +63,7 @@
             @php
                 $total_pagu_m=0;
                 $total_pagu_p=0;
+                $total_jumlah_kegiatan=0;
                 $total_jumlah_kegiatan_p=0;
             @endphp       
             @foreach ($daftar_program as $key=>$v){{-- startlooping daftar program --}}
@@ -69,7 +74,15 @@
                                         ->where('PrgID',$PrgID)                                              
                                         ->where('OrgID',$filters['OrgID'])
                                         ->where('TA',HelperKegiatan::getTahunPerencanaan())                                        
-                                        ->first();                    
+                                        ->first();                
+                                        
+                $p = \DB::table('v_rkpd')
+                                        ->select(\DB::raw('COUNT("RKPDID") AS jumlah_kegiatan'))
+                                        ->where('PrgID',$PrgID)                                              
+                                        ->where('OrgID',$filters['OrgID'])
+                                        ->whereRaw('"NilaiUsulan1"!="NilaiUsulan2"')
+                                        ->where('TA',HelperKegiatan::getTahunPerencanaan())                                        
+                                        ->first();                
             @endphp           
             <tr>
                 <td>{{$v->Kd_Urusan}}</td>
@@ -81,11 +94,14 @@
                     $jumlah_nilaiusulanm= $daftar_kegiatan->jumlah_nilaiusulanm;
                     $jumlah_nilaiusulanp= $daftar_kegiatan->jumlah_nilaiusulanp;
                     $jumlah_kegiatan= $daftar_kegiatan->jumlah_kegiatan;     
+                    $jumlah_kegiatan_p= $p->jumlah_kegiatan;     
                     $total_pagu_m+=$jumlah_nilaiusulanm;
                     $total_pagu_p+=$jumlah_nilaiusulanp;
-                    $total_jumlah_kegiatan_p+=$jumlah_kegiatan;                     
+                    $total_jumlah_kegiatan+=$jumlah_kegiatan;                     
+                    $total_jumlah_kegiatan_p+=$jumlah_kegiatan_p;                     
                 @endphp
                 <td>{{$jumlah_kegiatan}}</td>
+                <td>{{$jumlah_kegiatan_p}}</td>
                 <td class="text-right">{{Helper::formatUang($jumlah_nilaiusulanm)}}</td>                             
                 <td class="text-right">{{Helper::formatUang($jumlah_nilaiusulanp)}}</td>                             
                 <td class="text-right">{{Helper::formatUang($jumlah_nilaiusulanp-$jumlah_nilaiusulanm)}}</td>                             
@@ -98,6 +114,7 @@
                     <td colspan="5" class="text-right">
                         TOTAL                        
                     </td>                    
+                    <td>{{$total_jumlah_kegiatan}}</td>
                     <td>{{$total_jumlah_kegiatan_p}}</td>
                     <td class="text-right">{{Helper::formatUang($total_pagu_m)}}</td>                     
                     <td class="text-right">{{Helper::formatUang($total_pagu_p)}}</td>                     
