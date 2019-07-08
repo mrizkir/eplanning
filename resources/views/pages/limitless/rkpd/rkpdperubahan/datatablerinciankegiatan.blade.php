@@ -142,7 +142,7 @@
         <tfoot>
             @php
                 $jumlah=$datarinciankegiatan->sum('Jumlah');
-                $jumlah2=$datarinciankegiatan->sum('Jumlah');
+                $jumlah2=$datarinciankegiatan->sum('Jumlah2');
             @endphp
             <tr class="bg-grey-300" style="font-weight:bold">
                 <td colspan="4" class="text-right">TOTAL</td>
