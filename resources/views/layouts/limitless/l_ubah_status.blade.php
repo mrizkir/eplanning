@@ -88,9 +88,14 @@
                 </a>
             @endif
         </li>             
-        @endif 
+        @endif
+         <li class="text-primary-600">        
+            <a href="{{route($page_active.'.show',['id'=>$item->RenjaID])}}" title="Detail Data Usulan">
+                <i class='icon-eye'></i> DETAIL KEGIATAN
+            </a>             
+        </li> 
         <li class="text-primary-600">        
-            <a class="btnEdit" href="{{route($page_active.'.showrincian',['id'=>$item->RenjaRincID])}}" title="Detail Data Usulan">
+            <a href="{{route($page_active.'.showrincian',['id'=>$item->RenjaRincID])}}" title="Detail Data Rincian Usulan">
                 <i class='icon-eye'></i> DETAIL RINCIAN
             </a>             
         </li> 

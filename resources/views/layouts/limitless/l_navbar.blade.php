@@ -191,7 +191,7 @@
                                     </li>           
                                     <li{!!Helper::isMenuActive ($page_active,'renstrakebijakan',' class="active"')!!}>
                                         <a href="{{route('renstrakebijakan.index')}}">
-                                            <i class="icon-strategy"></i> PRIORITAS / ARAH KEBIJAKAN <span class="text-violet"><strong>[6]</strong></span>
+                                            <i class="icon-strategy"></i> ARAH KEBIJAKAN <span class="text-violet"><strong>[6]</strong></span>
                                         </a>
                                     </li>
                                 </ul>

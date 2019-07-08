@@ -45,7 +45,7 @@ class RPJMDKebijakanModel extends Model {
      *
      * @var string
      */
-    // protected static $logName = 'RPJMDKebijakanController';
+    protected static $logName = 'RPJMDKebijakanController';
     /**
      * log the changed attributes for all these events 
      */

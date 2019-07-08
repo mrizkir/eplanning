@@ -1,20 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RENSTRA PRIORITAS / ARAH KEBIJAKAN
+    RENSTRA ARAH STRATEGI  {{config('eplanning.renstra_tahun_mulai')}} - {{config('eplanning.renstra_tahun_akhir')}}
 @endsection
 @section('page_header')
-    <i class="icon-strategy position-left"></i>
+    <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        RENSTRA PRIORITAS / ARAH KEBIJAKAN TAHUN {{config('eplanning.renstra_tahun_mulai')}}-{{config('eplanning.renstra_tahun_akhir')}}
+        RENSTRA ARAH STRATEGI TAHUN {{config('eplanning.renstra_tahun_mulai')}} - {{config('eplanning.renstra_tahun_akhir')}}  
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.renstra.renstrakebijakan.info')
+    @include('pages.limitless.renstra.renstrastrategi.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">PERENCANAAN</a></li>
     <li><a href="#">RENSTRA</a></li>
-    <li><a href="{!!route('renstrakebijakan.index')!!}">PRIORITAS / ARAH KEBIJAKAN</a></li>
+    <li><a href="{!!route('renstrastrategi.index')!!}">ARAH STRATEGI</a></li>
     <li class="active">TAMBAH DATA</li>
 @endsection
 @section('page_content')
@@ -28,34 +28,34 @@
             <div class="heading-elements">
                 <ul class="icons-list">                    
                     <li>               
-                        <a href="{!!route('renstrakebijakan.index')!!}" data-action="closeredirect" title="keluar"></a>
+                        <a href="{!!route('renstrastrategi.index')!!}" data-action="closeredirect" title="keluar"></a>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>'RENSTRA\RENSTRAKebijakanController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
+            {!! Form::open(['action'=>'RENSTRA\RENSTRAKebijakanController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                            
                 <div class="form-group">
-                    {{Form::label('PrioritasStrategiKabID','STRATEGI',['class'=>'control-label col-md-2'])}}
+                    <label class="col-md-2 control-label">STRATEGI :</label> 
                     <div class="col-md-10">
-                        <select name="PrioritasStrategiKabID" id="PrioritasStrategiKabID" class="select">
+                        <select name="RenstraStrategiID" id="RenstraStrategiID" class="select">
                             <option></option>
                             @foreach ($daftar_strategi as $k=>$item)
                                 <option value="{{$k}}"">{{$item}}</option>
                             @endforeach
-                        </select>  
+                        </select>                                
+                    </div>
+                </div>   
+                <div class="form-group">
+                    {{Form::label('Kd_RenstraKebijakan','KODE ARAH STRATEGI',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('Kd_RenstraKebijakan','',['class'=>'form-control','placeholder'=>'Kode Kebijakan','maxlength'=>'4'])}}
                     </div>
                 </div>
                 <div class="form-group">
-                    {{Form::label('Kd_Kebijakan','KODE KEBIJAKAN',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('Nm_RenstraKebijakan','NAMA ARAH STRATEGI',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('Kd_Kebijakan','',['class'=>'form-control','placeholder'=>'KODE KEBIJAKAN RENSTRA','maxlength'=>4])}}
-                    </div>
-                </div>  
-                <div class="form-group">
-                    {{Form::label('Nm_Kebijakan','NAMA KEBIJAKAN',['class'=>'control-label col-md-2'])}}
-                    <div class="col-md-10">
-                        {{Form::text('Nm_Kebijakan','',['class'=>'form-control','placeholder'=>'NAMA KEBIJAKAN RENSTRA'])}}
+                        {{Form::text('Nm_RenstraKebijakan','',['class'=>'form-control','placeholder'=>'Nama Kebijakan'])}}
                     </div>
                 </div>
                 <div class="form-group">
@@ -83,7 +83,7 @@
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
-    AutoNumeric.multiple(['#Kd_Kebijakan'], {
+    AutoNumeric.multiple(['#Kd_RenstraKebijakan'], {
                                         allowDecimalPadding: false,
                                         minimumValue:0,
                                         maximumValue:9999,
@@ -94,52 +94,39 @@ $(document).ready(function () {
                                         unformatOnSubmit: true,
                                         modifyValueOnWheel:false
                                     });
-    $('#PrioritasStrategiKabID.select').select2({
-        placeholder: "PILIH STRATEGI RENSTRA",
+    $('#RenstraStrategiID.select').select2({
+        placeholder: "PILIH STRATEGI",
         allowClear:true
     });
     $('#frmdata').validate({
         ignore: [],
         rules: {
-            PrioritasStrategiKabID : {
-                required: true,  
-                valueNotEquals : 'none'
-            },
-            Kd_Kebijakan : {
-                required: true,  
-                number: true,
-                maxlength: 4              
-            },
-            Kode_Kebijakan : {
-                required: true,  
-                valueNotEquals : 'none'           
-            },
-            Nm_Kebijakan : {
+            RenstraStrategiID : {
                 required: true,
-                minlength: 5
+                valueNotEquals: 'none'
+            },
+            Kd_RenstraKebijakan : {
+                required: true,
+            },
+            Nm_RenstraKebijakan : {
+                required: true,
+                minlength: 2
             }
         },
         messages : {
-            PrioritasStrategiKabID : {
-                required: "Mohon dipilih Strategi RENSTRA !",  
-                valueNotEquals: "Mohon dipilih Strategi RENSTRA !"
+            RenstraStrategiID : {
+                required: "Mohon untuk di pilih karena ini diperlukan.",
+                valueNotEquals: "Mohon untuk di pilih karena ini diperlukan.",      
             },
-            Kd_Kebijakan : {
+            Kd_RenstraKebijakan : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
-                number: "Mohon input dengan tipe data bilangan bulat",
-                maxlength: "Nilai untuk Kode Urusan maksimal 4 digit"
             },
-            Kode_Kebijakan : {
-                required: "Mohon dipilih Strategi RENSTRA !",
-                valueNotEquals: "Mohon dipilih Strategi RENSTRA !"
-            },
-            Nm_Kebijakan : {
+            Nm_RenstraKebijakan : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
-                minlength: "Mohon di isi minimal 5 karakter atau lebih."
+                minlength: "Mohon di isi minimal 2 karakter atau lebih."
             }
-        }        
-    });      
-   
+        }      
+    });   
 });
 </script>
 @endsection

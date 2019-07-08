@@ -12,21 +12,21 @@ class RENSTRAKebijakanModel extends Model {
      *
      * @var string
      */
-    protected $table = 'tmPrioritasKebijakanKab';
+    protected $table = 'tmRenstraKebijakan';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'PrioritasKebijakanKabID', 'PrioritasStrategiKabID', 'OrgID', 'Kd_Kebijakan', 'Nm_Kebijakan', 'Descr', 'TA'
+        'RenstraKebijakanID', 'RenstraStrategiID', 'OrgID', 'Kd_RenstraKebijakan', 'Nm_RenstraKebijakan', 'Descr', 'TA'
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'PrioritasKebijakanKabID';
+    protected $primaryKey = 'RenstraKebijakanID';
     /**
      * enable auto_increment.
      *
@@ -45,11 +45,11 @@ class RENSTRAKebijakanModel extends Model {
      *
      * @var string
      */
-    // protected static $logName = 'RENSTRAKebijakanController';
+    protected static $logName = 'RENSTRAKebijakanController';
     /**
      * log the changed attributes for all these events 
      */
-    protected static $logAttributes = ['PrioritasKebijakanKabID', 'Kd_Kebijakan', 'Nm_Kebijakan'];
+    protected static $logAttributes = ['RenstraKebijakanID', 'Kd_RenstraKebijakan', 'Nm_RenstraKebijakan'];
     /**
      * log changes to all the $fillable attributes of the model
      */
