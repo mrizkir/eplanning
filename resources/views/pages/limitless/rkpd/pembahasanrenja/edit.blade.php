@@ -13,7 +13,7 @@
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">WORKFLOW</a></li>
-    <li><a href="{!!route(Helper::getNameOfPage('index'))!!}!!}">{{$page_title}}</a></li>
+    <li><a href="{!!route(Helper::getNameOfPage('index'))!!}">{{$page_title}}</a></li>
     <li class="active">UBAH DATA RINCIAN KEGIATAN</li>
 @endsection
 @section('page_content')

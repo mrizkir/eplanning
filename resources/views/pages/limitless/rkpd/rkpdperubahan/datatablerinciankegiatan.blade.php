@@ -27,7 +27,8 @@
                 <th>NAMA URAIAN</th>                
                 <th>SASARAN KEGIATAN</th>  
                 <th>TARGET (%)</th> 
-                <th class="text-right">NILAI USULAN</th>                
+                <th class="text-right">NILAI USULAN<br>SEBELUM</th>                
+                <th class="text-right">NILAI USULAN<br>SETELAH</th>                
                 <th width="80">STATUS</th>                                       
                 <th width="80">VERIFIKASI</th>                                       
                 <th width="120">AKSI</th>
@@ -66,7 +67,12 @@
                 </td>                
                 <td>{{Helper::formatAngka($item->Sasaran_Angka)}} {{ucwords($item->Sasaran_Uraian)}}</td>
                 <td>{{$item->Target}}</td>               
-                <td class="text-right">{{Helper::formatUang($item->Jumlah)}}</td>   
+                <td class="text-right">
+                    <span class="text-success">{{Helper::formatuang($item->Jumlah)}}</span><br>                
+                </td>  
+                <td class="text-right">                    
+                    <span class="text-danger">{{Helper::formatuang($item->Jumlah2)}}</span>
+                </td>  
                 <td>
                     @include('layouts.limitless.l_status_rkpd')
                 </td>
@@ -134,9 +140,19 @@
         @endforeach                    
         </tbody>
         <tfoot>
+            @php
+                $jumlah=$datarinciankegiatan->sum('Jumlah');
+                $jumlah2=$datarinciankegiatan->sum('Jumlah');
+            @endphp
             <tr class="bg-grey-300" style="font-weight:bold">
                 <td colspan="4" class="text-right">TOTAL</td>
-                <td class="text-right">{{Helper::formatUang($datarinciankegiatan->sum('Jumlah'))}}</td> 
+                <td class="text-right">{{Helper::formatUang($jumlah)}}</td> 
+                <td class="text-right">{{Helper::formatUang($jumlah2)}}</td> 
+                <td colspan="3"></td>
+            </tr>
+            <tr class="bg-grey-300" style="font-weight:bold">
+                <td colspan="4" class="text-right">SISA</td>
+                <td class="text-right">{{Helper::formatUang($jumlah2-$jumlah)}}</td> 
                 <td colspan="4"></td>
             </tr>
         </tfoot>
