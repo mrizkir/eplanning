@@ -39,6 +39,16 @@ class RENSTRAKebijakanController extends Controller {
             $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
         }
         $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
+
+         //filter
+         if (!$this->checkStateIsExistSession('renstrasasaran','filters')) 
+         {            
+             $this->putControllerStateSession('renstrasasaran','filters',[
+                                                                     'OrgID'=>'none'
+                                                                     ]);
+         }        
+         $OrgID= $this->getControllerStateSession(\Helper::getNameOfPage('filters'),'OrgID');        
+ 
         if ($this->checkStateIsExistSession('renstrakebijakan','search')) 
         {
             $search=$this->getControllerStateSession('renstrakebijakan','search');
@@ -51,11 +61,13 @@ class RENSTRAKebijakanController extends Controller {
                     $data = RENSTRAKebijakanModel::where('Nm_RenstraKebijakan', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
-            $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
+            $data = $data->where('OrgID',$OrgID)->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = RENSTRAKebijakanModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data = RENSTRAKebijakanModel::where('OrgID',$OrgID)
+                                        ->orderBy($column_order,$direction)
+                                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('renstrakebijakan.index'));
         return $data;

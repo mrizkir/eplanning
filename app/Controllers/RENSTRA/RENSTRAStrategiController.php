@@ -38,7 +38,17 @@ class RENSTRAStrategiController extends Controller {
         {            
             $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
         }
-        $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
+        $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');  
+        
+        //filter
+        if (!$this->checkStateIsExistSession('renstrastrategi','filters')) 
+        {            
+            $this->putControllerStateSession('renstrastrategi','filters',[
+                                                                    'OrgID'=>'none'
+                                                                    ]);
+        }        
+        $OrgID= $this->getControllerStateSession(\Helper::getNameOfPage('filters'),'OrgID');
+
         if ($this->checkStateIsExistSession('renstrastrategi','search')) 
         {
             $search=$this->getControllerStateSession('renstrastrategi','search');
@@ -51,11 +61,13 @@ class RENSTRAStrategiController extends Controller {
                     $data = RENSTRAStrategiModel::where('Nm_RenstraStrategi', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
-            $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
+            $data = $data->where('OrgID',$OrgID)->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = RENSTRAStrategiModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data = RENSTRAStrategiModel::where('OrgID',$OrgID)
+                                        ->orderBy($column_order,$direction)
+                                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('renstrastrategi.index'));
         return $data;

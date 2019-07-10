@@ -61,11 +61,13 @@ class RENSTRASasaranController extends Controller {
                     $data = RENSTRASasaranModel::where('Nm_RenstraSasaran', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
-            $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
+            $data = $data->where('OrgID',$OrgID)->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = RENSTRASasaranModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data = RENSTRASasaranModel::where('OrgID',$OrgID)
+                                        ->orderBy($column_order,$direction)
+                                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('renstrasasaran.index'));
         return $data;
