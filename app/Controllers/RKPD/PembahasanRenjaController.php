@@ -23,7 +23,7 @@ class PembahasanRenjaController extends Controller {
         $this->NameOfPage = \Helper::getNameOfPage();
         if ($this->NameOfPage == 'verifikasirenja')
         {
-            $this->middleware(['auth','role:superadmin|bapelitbang|tapd|opd']);
+            $this->middleware(['auth','role:superadmin|bapelitbang|tapd']);
         }
         else
         {

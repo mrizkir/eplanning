@@ -290,11 +290,13 @@
                             <i class="icon-arrow-down16"></i>PEMBAHASAN MUSRENBANG KAB. <span class="text-violet"><strong>[12]</strong></span>
                         </a>
                     </li>
+                    @hasrole('superadmin|bapelitbang|tapd')
                     <li{!!Helper::isMenuActive ($page_active,'verifikasirenja',' class="active"')!!}>
                         <a href="{{route('verifikasirenja.index')}}" title="verifikasi tapd">
                             <i class="icon-arrow-down16"></i>VERIFIKASI TAPD <span class="text-violet"><strong>[13]</strong></span>
                         </a>                                        
                     </li>  
+                    @endhasrole
                     <li{!!Helper::isMenuActive ($page_active,'rkpdmurni',' class="active"')!!}>
                         <a href="{{route('rkpdmurni.index')}}" title="RENCANA KERJA PERANGKAT DAERAH">
                             <i class="icon-arrow-down16"></i>RKPD <span class="text-violet"><strong>[14]</strong></span>
