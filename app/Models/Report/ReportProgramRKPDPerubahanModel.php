@@ -27,11 +27,11 @@ class ReportProgramRKPDPerubahanModel extends ReportModel
                 'size' => '9',
             ],
         ]);
-        $sheet->mergeCells ('A1:I1');
+        $sheet->mergeCells ('A1:J1');
         $sheet->setCellValue('A1','PEMERINTAH DAERAH KABUPATEN BINTAN ');        
-        $sheet->mergeCells ('A2:I2');
+        $sheet->mergeCells ('A2:J2');
         $sheet->setCellValue('A2','LAPORAN RANCANGAN AKHIR RKPD PERUBAHAN');
-        $sheet->mergeCells ('A3:I3');
+        $sheet->mergeCells ('A3:J3');
         $sheet->setCellValue('A3','TAHUN ANGGARAN '.\HelperKegiatan::getTahunPerencanaan());
         $styleArray=array( 
             'font' => array('bold' => true,'size'=>'9'),
@@ -49,13 +49,15 @@ class ReportProgramRKPDPerubahanModel extends ReportModel
         $sheet->mergeCells ('E7:E8');
         $sheet->setCellValue('E7','BIDANG URUSAN PEMERINTAH');         
         $sheet->mergeCells ('F7:F8');
-        $sheet->setCellValue('F7','JUMLAH KEGIATAN');                
-        $sheet->mergeCells ('G7:I7');
-        $sheet->setCellValue('G7','INDIKASI TAHUN ('.\HelperKegiatan::getTahunPerencanaan().')');                
+        $sheet->setCellValue('F7','JUMLAH KEGIATAN KESELURUHAN');                
+        $sheet->mergeCells ('G7:G8');
+        $sheet->setCellValue('G7','JUMLAH KEGIATAN PERUBAHAN');                
+        $sheet->mergeCells ('H7:J7');
+        $sheet->setCellValue('H7','INDIKASI TAHUN ('.\HelperKegiatan::getTahunPerencanaan().')');                
         
-        $sheet->setCellValue('G8','SEBELUM');                
-        $sheet->setCellValue('H8','SESUDAH');                
-        $sheet->setCellValue('I8','SELISIH');                
+        $sheet->setCellValue('H8','SEBELUM');                
+        $sheet->setCellValue('I8','SESUDAH');                
+        $sheet->setCellValue('J8','SELISIH');                
 
         $sheet->mergeCells ('A9:D9');
         $sheet->setCellValue('A9',1); 
@@ -64,6 +66,7 @@ class ReportProgramRKPDPerubahanModel extends ReportModel
         $sheet->setCellValue('G9',4); 
         $sheet->setCellValue('H9',5); 
         $sheet->setCellValue('I9',6); 
+        $sheet->setCellValue('J9',7); 
         $sheet->getColumnDimension('A')->setWidth(5);
         $sheet->getColumnDimension('B')->setWidth(5);
         $sheet->getColumnDimension('C')->setWidth(5);
@@ -73,6 +76,7 @@ class ReportProgramRKPDPerubahanModel extends ReportModel
         $sheet->getColumnDimension('G')->setWidth(17);
         $sheet->getColumnDimension('H')->setWidth(17);
         $sheet->getColumnDimension('I')->setWidth(17);
+        $sheet->getColumnDimension('J')->setWidth(17);
 
         $styleArray=array( 
             'font' => array('bold' => true,'size'=>'9'),
@@ -80,8 +84,8 @@ class ReportProgramRKPDPerubahanModel extends ReportModel
                                'vertical'=>Alignment::HORIZONTAL_CENTER),
             'borders' => array('allBorders' => array('borderStyle' =>Border::BORDER_THIN))
         );                
-        $sheet->getStyle("A7:I9")->applyFromArray($styleArray);
-        $sheet->getStyle("A7:I9")->getAlignment()->setWrapText(true);
+        $sheet->getStyle("A7:J9")->applyFromArray($styleArray);
+        $sheet->getStyle("A7:J9")->getAlignment()->setWrapText(true);
         
         $daftar_program=\DB::table('v_organisasi_program')
                             ->select(\DB::raw('"PrgID","Kd_Urusan","Kd_Bidang","OrgCd","kode_program","Kd_Prog","PrgNm","Jns"'))
@@ -95,6 +99,7 @@ class ReportProgramRKPDPerubahanModel extends ReportModel
         $total_pagu_m=0;
         $total_pagu_p=0;
         $total_jumlah_kegiatan=0;
+        $total_jumlah_kegiatan_p=0;
         foreach ($daftar_program as $v)
         {
             $PrgID=$v->PrgID;           
@@ -104,7 +109,15 @@ class ReportProgramRKPDPerubahanModel extends ReportModel
                                     ->where('OrgID',$OrgID)
                                     ->where('TA',\HelperKegiatan::getTahunPerencanaan())                                        
                                     ->first(); 
-            
+
+            $p = \DB::table('v_rkpd')
+                                ->select(\DB::raw('COUNT("RKPDID") AS jumlah_kegiatan'))
+                                ->where('PrgID',$PrgID)                                              
+                                ->where('OrgID',$OrgID)
+                                ->whereRaw('"NilaiUsulan1"!="NilaiUsulan2"')
+                                ->where('TA',\HelperKegiatan::getTahunPerencanaan())                                        
+                                ->first();      
+
             $sheet->setCellValue("A$row",$v->Kd_Urusan);           
             $sheet->setCellValue("B$row",$v->Kd_Bidang);           
             $sheet->setCellValue("C$row",$v->OrgCd);           
@@ -114,22 +127,26 @@ class ReportProgramRKPDPerubahanModel extends ReportModel
             $jumlah_nilaiusulanm= $daftar_kegiatan->jumlah_nilaiusulanm;
             $jumlah_nilaiusulanp= $daftar_kegiatan->jumlah_nilaiusulanp;
             $jumlah_kegiatan= $daftar_kegiatan->jumlah_kegiatan;     
+            $jumlah_kegiatan_p= $p->jumlah_kegiatan;   
             $total_pagu_m+=$jumlah_nilaiusulanm;
             $total_pagu_p+=$jumlah_nilaiusulanp;
             $total_jumlah_kegiatan+=$jumlah_kegiatan;      
+            $total_jumlah_kegiatan_p+=$jumlah_kegiatan_p; 
 
             $sheet->setCellValue("F$row",$jumlah_kegiatan);
-            $sheet->setCellValue("G$row",\Helper::formatUang($jumlah_nilaiusulanm));            
-            $sheet->setCellValue("H$row",\Helper::formatUang($jumlah_nilaiusulanp));            
-            $sheet->setCellValue("I$row",\Helper::formatUang($jumlah_nilaiusulanp-$jumlah_nilaiusulanm));            
+            $sheet->setCellValue("G$row",$jumlah_kegiatan_p);
+            $sheet->setCellValue("H$row",\Helper::formatUang($jumlah_nilaiusulanm));            
+            $sheet->setCellValue("I$row",\Helper::formatUang($jumlah_nilaiusulanp));            
+            $sheet->setCellValue("J$row",\Helper::formatUang($jumlah_nilaiusulanp-$jumlah_nilaiusulanm));            
             
             $row+=1;
         }        
         $sheet->setCellValue("E$row",'TOTAL'); 
         $sheet->setCellValue("F$row",$total_jumlah_kegiatan); 
-        $sheet->setCellValue("G$row",\Helper::formatUang($total_pagu_m)); 
-        $sheet->setCellValue("H$row",\Helper::formatUang($total_pagu_p)); 
-        $sheet->setCellValue("I$row",\Helper::formatUang($total_pagu_p-$total_pagu_m)); 
+        $sheet->setCellValue("G$row",$total_jumlah_kegiatan_p); 
+        $sheet->setCellValue("H$row",\Helper::formatUang($total_pagu_m)); 
+        $sheet->setCellValue("I$row",\Helper::formatUang($total_pagu_p)); 
+        $sheet->setCellValue("J$row",\Helper::formatUang($total_pagu_p-$total_pagu_m)); 
        
         $row=$row-1;
         $styleArray=array(								
@@ -137,8 +154,8 @@ class ReportProgramRKPDPerubahanModel extends ReportModel
                                'vertical'=>Alignment::HORIZONTAL_CENTER),
             'borders' => array('allBorders' => array('borderStyle' =>Border::BORDER_THIN))
         );        																			 
-        $sheet->getStyle("A10:I$row")->applyFromArray($styleArray);
-        $sheet->getStyle("A10:I$row")->getAlignment()->setWrapText(true);      
+        $sheet->getStyle("A10:J$row")->applyFromArray($styleArray);
+        $sheet->getStyle("A10:J$row")->getAlignment()->setWrapText(true);      
         
         $styleArray=array(								
             'alignment' => array('horizontal'=>Alignment::HORIZONTAL_LEFT)
@@ -149,7 +166,7 @@ class ReportProgramRKPDPerubahanModel extends ReportModel
         $styleArray=array(								
             'alignment' => array('horizontal'=>Alignment::HORIZONTAL_RIGHT)
         );																					 
-        $sheet->getStyle("G10:I$row")->applyFromArray($styleArray);
+        $sheet->getStyle("G10:J$row")->applyFromArray($styleArray);
 
         $row+=3;
         $sheet->setCellValue("F$row",'BANDAR SRI BENTAN, '.\Helper::tanggal('d F Y'));
