@@ -32,9 +32,32 @@ class RekapPaguIndikatifOPDController extends Controller {
         $column_order=$this->getControllerStateSession('rekappaguindikatifopd.orderby','column_name'); 
         $direction=$this->getControllerStateSession('rekappaguindikatifopd.orderby','order'); 
 
-        $data = RekapPaguIndikatifOPDModel::where('TA',\HelperKegiatan::getTahunPerencanaan())
-                                        ->orderBy($column_order,$direction)
-                                        ->get();       
+        $auth = \Auth::user();            
+        $roles=$auth->getRoleNames();
+
+        switch ($roles[0])
+        {
+            case 'superadmin' :     
+            case 'bapelitbang' :     
+            case 'tapd' :     
+                $data = RekapPaguIndikatifOPDModel::where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                                ->orderBy($column_order,$direction)
+                                                ->get();       
+            break;
+            case 'opd' :
+                $daftar_opd=\App\Models\UserOPD::getOPD(false,true);                
+                $OrgID=[];
+                foreach ($daftar_opd as $k=>$v)
+                {
+                    $OrgID[]=$k;
+                }
+
+                $data = RekapPaguIndikatifOPDModel::where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                                ->whereIn('OrgID',$OrgID)
+                                                ->orderBy($column_order,$direction)
+                                                ->get();   
+            break;
+        }
         
         return $data;
     }    

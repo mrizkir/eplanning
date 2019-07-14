@@ -50,7 +50,7 @@ class DashboardController extends Controller {
                                                                             'data'=>$data]);                       
             break;
             case 'opd' :               
-                $daftar_opd=\App\Models\UserOPD::getOPD(false);
+                $daftar_opd=\App\Models\UserOPD::getOPD(false,true);
                 $OrgID=[];
                 foreach ($daftar_opd as $k=>$v)
                 {
@@ -62,7 +62,7 @@ class DashboardController extends Controller {
                                 ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                                 ->whereIn('OrgID', $OrgID)
                                 ->first();
-
+                                
                 $data = [
                     'jumlahkegiatan'=>$stats->jumlahkegiatan,
                     'pagum'=>$stats->Jumlah1,

@@ -9,6 +9,7 @@
     </span>
 @endsection
 @section('page_breadcrumb')
+    <li><a href="#">DASHBOARD</a></li>
     <li class="active">RINGKASAN PERENCANAAN</li>
 @endsection
 @section('page_content')

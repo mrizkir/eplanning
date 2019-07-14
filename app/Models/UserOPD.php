@@ -58,13 +58,21 @@ class UserOPD extends Model
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];     
-    public static function getOPD($listlocked=true)
-    {
-        $daftar_opd=\App\Models\UserOPD::where('ta',\HelperKegiatan::getTahunPerencanaan())
+    public static function getOPD($listlocked=true,$ignorelocked=false)
+    {        
+        if ($ignorelocked == true)
+        {
+            $daftar_opd=\App\Models\UserOPD::where('ta',\HelperKegiatan::getTahunPerencanaan())
+                                                ->where('id',\Auth::user()->id)                                                
+                                                ->pluck('OrgNm','OrgID');      
+        }
+        else
+        {
+            $daftar_opd=\App\Models\UserOPD::where('ta',\HelperKegiatan::getTahunPerencanaan())
                                                 ->where('id',\Auth::user()->id)
                                                 ->where('locked',!$listlocked)
                                                 ->pluck('OrgNm','OrgID');      
-
+        }
         return $daftar_opd;
     }
 }   

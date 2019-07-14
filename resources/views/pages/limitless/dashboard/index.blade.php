@@ -9,6 +9,7 @@
     </span>
 @endsection
 @section('page_breadcrumb')
+    <li><a href="#">DASHBOARD</a></li>
     <li class="active">RINGKASAN PERENCANAAN</li>
 @endsection
 @section('page_content')
@@ -17,7 +18,7 @@
         <div class="panel panel-body bg-green-700 has-bg-image">
             <div class="media no-margin">
                 <div class="media-body">
-                    <h3 class="no-margin">{{$data['jumlahkegiatan']}}</h3>
+                    <h3 class="no-margin">{{Helper::formatAngka($data['jumlahkegiatan'])}}</h3>
                     <span class="text-uppercase text-size-mini">JUMLAH KEGIATAN KESELURUHAN</span>
                 </div>
                 <div class="media-right media-middle">
