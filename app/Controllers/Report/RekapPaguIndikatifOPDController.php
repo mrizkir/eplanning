@@ -346,7 +346,7 @@ class RekapPaguIndikatifOPDController extends Controller {
             break;
             case 'uidRKPD' :
                 $data = \DB::table('trRKPD')
-                            ->select(\DB::raw('"OrgID", SUM("NilaiUsulan1") AS jumlah, SUM("NilaiUsulan2") AS jumlah2'))
+                            ->select(\DB::raw('"OrgID", SUM("NilaiUsulan1") AS jumlah, SUM("NilaiUsulan2") AS jumlah2,COUNT("RKPDID") AS jumlahkegiatan'))
                             ->where('TA',$ta)
                             ->groupBy('OrgID')->get();
                
@@ -354,9 +354,10 @@ class RekapPaguIndikatifOPDController extends Controller {
                 {
                     $jumlah = $v->jumlah;
                     $jumlah2 = $v->jumlah2;
+                    $jumlahkegiatan = $v->jumlahkegiatan;
                     \DB::table('trRekapPaguIndikatifOPD')
                         ->where('OrgID',$v->OrgID)
-                        ->update(['rkpd1'=>$jumlah,'rkpd2'=>$jumlah2,'updated_at'=>\Carbon\Carbon::now()]);
+                        ->update(['rkpd1'=>$jumlah,'rkpd2'=>$jumlah2,'jumlah_kegiatan6'=>$jumlahkegiatan,'updated_at'=>\Carbon\Carbon::now()]);
                 }
             break;
         }        

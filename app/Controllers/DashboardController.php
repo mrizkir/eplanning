@@ -35,11 +35,12 @@ class DashboardController extends Controller {
             case 'bapelitbang' :     
             case 'tapd' :     
                  $stats = \DB::table('trRekapPaguIndikatifOPD')
-                    ->select(\DB::raw('SUM(rkpd1) AS totalrkpdm,SUM(rkpd2) AS totalrkpdp,SUM("Jumlah1") AS "Jumlah1",SUM("Jumlah2") AS "Jumlah2"'))
+                    ->select(\DB::raw('SUM(jumlah_kegiatan6) AS jumlahkegiatan,SUM(rkpd1) AS totalrkpdm,SUM(rkpd2) AS totalrkpdp,SUM("Jumlah1") AS "Jumlah1",SUM("Jumlah2") AS "Jumlah2"'))
                     ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                     ->first();
 
                 $data = [
+                    'jumlahkegiatan'=>$stats->jumlahkegiatan,
                     'pagum'=>$stats->Jumlah1,
                     'pagup'=>$stats->Jumlah2,
                     'totalrkpdm'=>$stats->totalrkpdm,
@@ -57,12 +58,13 @@ class DashboardController extends Controller {
                 }
                
                 $stats = \DB::table('trRekapPaguIndikatifOPD')
-                                ->select(\DB::raw('SUM(rkpd1) AS totalrkpdm,SUM(rkpd2) AS totalrkpdp,SUM("Jumlah1") AS "Jumlah1",SUM("Jumlah2") AS "Jumlah2"'))
+                                ->select(\DB::raw('SUM(jumlah_kegiatan6) AS jumlahkegiatan,SUM(rkpd1) AS totalrkpdm,SUM(rkpd2) AS totalrkpdp,SUM("Jumlah1") AS "Jumlah1",SUM("Jumlah2") AS "Jumlah2"'))
                                 ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                                 ->whereIn('OrgID', $OrgID)
                                 ->first();
 
                 $data = [
+                    'jumlahkegiatan'=>$stats->jumlahkegiatan,
                     'pagum'=>$stats->Jumlah1,
                     'pagup'=>$stats->Jumlah2,
                     'totalrkpdm'=>$stats->totalrkpdm,
