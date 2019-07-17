@@ -74,14 +74,35 @@ class DashboardController extends Controller {
                                                                             'data'=>$data]);    
             break;
             case 'dewan' :
+                $data = [
+                    'jumlahkegiatan'=>0,
+                    'pagum'=>0,
+                    'pagup'=>0,
+                    'totalrkpdm'=>0,
+                    'totalrkpdp'=>0,
+                ];
                 return view("pages.{$theme}.dashboard.indexDewan")->with(['page_active'=>'dashboard',
                                                                                     'data'=>$data]);    
             break;
-            case 'kecamatan' :                                       
+            case 'kecamatan' :  
+                $data = [
+                    'jumlahkegiatan'=>0,
+                    'pagum'=>0,
+                    'pagup'=>0,
+                    'totalrkpdm'=>0,
+                    'totalrkpdp'=>0,
+                ];                                     
                 return view("pages.{$theme}.dashboard.indexKecamatan")->with(['page_active'=>'dashboard',
                                                                                     'data'=>$data]);    
             break;
-            case 'desa' :                                       
+            case 'desa' :                   
+                $data = [
+                    'jumlahkegiatan'=>0,
+                    'pagum'=>0,
+                    'pagup'=>0,
+                    'totalrkpdm'=>0,
+                    'totalrkpdp'=>0,
+                ];                    
                 return view("pages.{$theme}.dashboard.indexDesa")->with(['page_active'=>'dashboard',
                                                                                     'data'=>$data]);    
             break;
