@@ -9,7 +9,7 @@ use App\Models\RENSTRA\RENSTRAKebijakanModel;
 use App\Rules\CheckRecordIsExistValidation;
 use App\Rules\IgnoreIfDataIsEqualValidation;
 
-class RENSTRAIndikatorKinerjaController extends Controller {
+class RENSTRAIndikatorSasaranController extends Controller {
      /**
      * Membuat sebuah objek
      *
@@ -28,21 +28,21 @@ class RENSTRAIndikatorKinerjaController extends Controller {
     public function populateData ($currentpage=1) 
     {        
         $columns=['*'];       
-        if (!$this->checkStateIsExistSession('renstraindikatorkinerja','orderby')) 
+        if (!$this->checkStateIsExistSession('renstraindikatorsasaran','orderby')) 
         {            
-           $this->putControllerStateSession('renstraindikatorkinerja','orderby',['column_name'=>'NamaIndikator','order'=>'asc']);
+           $this->putControllerStateSession('renstraindikatorsasaran','orderby',['column_name'=>'NamaIndikator','order'=>'asc']);
         }
-        $column_order=$this->getControllerStateSession('renstraindikatorkinerja.orderby','column_name'); 
-        $direction=$this->getControllerStateSession('renstraindikatorkinerja.orderby','order'); 
+        $column_order=$this->getControllerStateSession('renstraindikatorsasaran.orderby','column_name'); 
+        $direction=$this->getControllerStateSession('renstraindikatorsasaran.orderby','order'); 
 
         if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
         {            
             $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
         }
         $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
-        if ($this->checkStateIsExistSession('renstraindikatorkinerja','search')) 
+        if ($this->checkStateIsExistSession('renstraindikatorsasaran','search')) 
         {
-            $search=$this->getControllerStateSession('renstraindikatorkinerja','search');
+            $search=$this->getControllerStateSession('renstraindikatorsasaran','search');
             switch ($search['kriteria']) 
             {                
                 case 'NamaIndikator' :
@@ -53,10 +53,10 @@ class RENSTRAIndikatorKinerjaController extends Controller {
         }
         else
         {
-            $data = RENSTRAIndikatorSasaranModel::where('TA_N',\HelperKegiatan::getTahunPerencanaan())
+            $data = RENSTRAIndikatorSasaranModel::where('TA',\HelperKegiatan::getTahunPerencanaan())
                                                 ->orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
-        $data->setPath(route('renstraindikatorkinerja.index'));
+        $data->setPath(route('renstraindikatorsasaran.index'));
         return $data;
     }
     /**
@@ -71,14 +71,14 @@ class RENSTRAIndikatorKinerjaController extends Controller {
         $numberRecordPerPage = $request->input('numberRecordPerPage');
         $this->putControllerStateSession('global_controller','numberRecordPerPage',$numberRecordPerPage);
         
-        $this->setCurrentPageInsideSession('renstraindikatorkinerja',1);
+        $this->setCurrentPageInsideSession('renstraindikatorsasaran',1);
         $data=$this->populateData();
 
-        $datatable = view("pages.$theme.renstra.renstraindikatorkinerja.datatable")->with(['page_active'=>'renstraindikatorkinerja',
-                                                                                'search'=>$this->getControllerStateSession('renstraindikatorkinerja','search'),
+        $datatable = view("pages.$theme.renstra.renstraindikatorsasaran.datatable")->with(['page_active'=>'renstraindikatorsasaran',
+                                                                                'search'=>$this->getControllerStateSession('renstraindikatorsasaran','search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                                'column_order'=>$this->getControllerStateSession('renstraindikatorkinerja.orderby','column_name'),
-                                                                                'direction'=>$this->getControllerStateSession('renstraindikatorkinerja.orderby','order'),
+                                                                                'column_order'=>$this->getControllerStateSession('renstraindikatorsasaran.orderby','column_name'),
+                                                                                'direction'=>$this->getControllerStateSession('renstraindikatorsasaran.orderby','order'),
                                                                                 'data'=>$data])->render();      
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
     }
@@ -101,20 +101,20 @@ class RENSTRAIndikatorKinerjaController extends Controller {
             default :
                 $column_name = 'NamaIndikator';
         }
-        $this->putControllerStateSession('renstraindikatorkinerja','orderby',['column_name'=>$column_name,'order'=>$orderby]);      
+        $this->putControllerStateSession('renstraindikatorsasaran','orderby',['column_name'=>$column_name,'order'=>$orderby]);      
 
-        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('renstraindikatorkinerja');         
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('renstraindikatorsasaran');         
         $data=$this->populateData($currentpage);
         if ($currentpage > $data->lastPage())
         {            
             $data = $this->populateData($data->lastPage());
         }
         
-        $datatable = view("pages.$theme.renstra.renstraindikatorkinerja.datatable")->with(['page_active'=>'renstraindikatorkinerja',
-                                                            'search'=>$this->getControllerStateSession('renstraindikatorkinerja','search'),
+        $datatable = view("pages.$theme.renstra.renstraindikatorsasaran.datatable")->with(['page_active'=>'renstraindikatorsasaran',
+                                                            'search'=>$this->getControllerStateSession('renstraindikatorsasaran','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('renstraindikatorkinerja.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('renstraindikatorkinerja.orderby','order'),
+                                                            'column_order'=>$this->getControllerStateSession('renstraindikatorsasaran.orderby','column_name'),
+                                                            'direction'=>$this->getControllerStateSession('renstraindikatorsasaran.orderby','order'),
                                                             'data'=>$data])->render();     
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
@@ -129,13 +129,13 @@ class RENSTRAIndikatorKinerjaController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $this->setCurrentPageInsideSession('renstraindikatorkinerja',$id);
+        $this->setCurrentPageInsideSession('renstraindikatorsasaran',$id);
         $data=$this->populateData($id);
-        $datatable = view("pages.$theme.renstra.renstraindikatorkinerja.datatable")->with(['page_active'=>'renstraindikatorkinerja',
-                                                                            'search'=>$this->getControllerStateSession('renstraindikatorkinerja','search'),
+        $datatable = view("pages.$theme.renstra.renstraindikatorsasaran.datatable")->with(['page_active'=>'renstraindikatorsasaran',
+                                                                            'search'=>$this->getControllerStateSession('renstraindikatorsasaran','search'),
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                            'column_order'=>$this->getControllerStateSession('renstraindikatorkinerja.orderby','column_name'),
-                                                                            'direction'=>$this->getControllerStateSession('renstraindikatorkinerja.orderby','order'),
+                                                                            'column_order'=>$this->getControllerStateSession('renstraindikatorsasaran.orderby','column_name'),
+                                                                            'direction'=>$this->getControllerStateSession('renstraindikatorsasaran.orderby','order'),
                                                                             'data'=>$data])->render(); 
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
@@ -153,22 +153,22 @@ class RENSTRAIndikatorKinerjaController extends Controller {
         $action = $request->input('action');
         if ($action == 'reset') 
         {
-            $this->destroyControllerStateSession('renstraindikatorkinerja','search');
+            $this->destroyControllerStateSession('renstraindikatorsasaran','search');
         }
         else
         {
             $kriteria = $request->input('cmbKriteria');
             $isikriteria = $request->input('txtKriteria');
-            $this->putControllerStateSession('renstraindikatorkinerja','search',['kriteria'=>$kriteria,'isikriteria'=>$isikriteria]);
+            $this->putControllerStateSession('renstraindikatorsasaran','search',['kriteria'=>$kriteria,'isikriteria'=>$isikriteria]);
         }      
-        $this->setCurrentPageInsideSession('renstraindikatorkinerja',1);
+        $this->setCurrentPageInsideSession('renstraindikatorsasaran',1);
         $data=$this->populateData();
 
-        $datatable = view("pages.$theme.renstra.renstraindikatorkinerja.datatable")->with(['page_active'=>'renstraindikatorkinerja',                                                            
-                                                            'search'=>$this->getControllerStateSession('renstraindikatorkinerja','search'),
+        $datatable = view("pages.$theme.renstra.renstraindikatorsasaran.datatable")->with(['page_active'=>'renstraindikatorsasaran',                                                            
+                                                            'search'=>$this->getControllerStateSession('renstraindikatorsasaran','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('renstraindikatorkinerja.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('renstraindikatorkinerja.orderby','order'),
+                                                            'column_order'=>$this->getControllerStateSession('renstraindikatorsasaran.orderby','column_name'),
+                                                            'direction'=>$this->getControllerStateSession('renstraindikatorsasaran.orderby','order'),
                                                             'data'=>$data])->render();      
         
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
@@ -180,17 +180,33 @@ class RENSTRAIndikatorKinerjaController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function filter(Request $request) 
-    {        
+    {
+        $auth = \Auth::user();    
+        $theme = $auth->theme;
+
+        $filters=$this->getControllerStateSession('renstraindikatorsasaran','filters');       
         $json_data = [];
-        //create
-        if ($request->exists('UrsID') && $request->exists('create') )
+
+        //index
+        if ($request->exists('OrgID'))
         {
-            $UrsID = $request->input('UrsID')==''?'none':$request->input('UrsID');            
-            $daftar_program=\App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan(),false,$UrsID);
-            $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false,$UrsID);
-            $json_data = ['success'=>true,'daftar_program'=>$daftar_program,'daftar_opd'=>$daftar_opd];
+            $OrgID = $request->input('OrgID')==''?'none':$request->input('OrgID');
+            $filters['OrgID']=$OrgID;            
+            $this->putControllerStateSession('renstraindikatorsasaran','filters',$filters);
+            
+            $data = $this->populateData();
+
+            $datatable = view("pages.$theme.renstra.renstraindikatorsasaran.datatable")->with(['page_active'=>'renstraindikatorsasaran',                                                                               
+                                                                            'search'=>$this->getControllerStateSession('renstraindikatorsasaran','search'),
+                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                            'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                                            'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
+                                                                            'data'=>$data])->render();
+
+            
+            $json_data = ['success'=>true,'datatable'=>$datatable];
         } 
-        return response()->json($json_data,200);  
+        return response()->json($json_data,200);
     }
     /**
      * Show the form for creating a new resource.
@@ -199,23 +215,47 @@ class RENSTRAIndikatorKinerjaController extends Controller {
      */
     public function index(Request $request)
     {                
-        $theme = \Auth::user()->theme;
+        $auth = \Auth::user();    
+        $theme = $auth->theme;
 
-        $search=$this->getControllerStateSession('renstraindikatorkinerja','search');
-        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('renstraindikatorkinerja'); 
+        $filters=$this->getControllerStateSession('renstraindikatorsasaran','filters');
+        $roles=$auth->getRoleNames();   
+        switch ($roles[0])
+        {
+            case 'superadmin' :     
+            case 'bapelitbang' :     
+            case 'tapd' :     
+                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);   
+            break;
+            case 'opd' :               
+                $daftar_opd=\App\Models\UserOPD::getOPD();                      
+                if (!(count($daftar_opd) > 0))
+                {  
+                    return view("pages.$theme.renstra.renstraindikatorsasaran.error")->with(['page_active'=>'renstraindikatorsasaran', 
+                                                                                    'page_title'=>\HelperKegiatan::getPageTitle('renstraindikatorsasaran'),
+                                                                                    'errormessage'=>'Anda Tidak Diperkenankan Mengakses Halaman ini, karena Sudah dikunci oleh BAPELITBANG',
+                                                                                    ]);
+                }          
+            break;
+        }
+
+        $search=$this->getControllerStateSession('renstraindikatorsasaran','search');
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('renstraindikatorsasaran'); 
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage())
         {            
             $data = $this->populateData($data->lastPage());
         }
-        $this->setCurrentPageInsideSession('renstraindikatorkinerja',$data->currentPage());
+        $this->setCurrentPageInsideSession('renstraindikatorsasaran',$data->currentPage());
         
-        return view("pages.$theme.renstra.renstraindikatorkinerja.index")->with(['page_active'=>'renstraindikatorkinerja',
-                                                'search'=>$this->getControllerStateSession('renstraindikatorkinerja','search'),
-                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                'column_order'=>$this->getControllerStateSession('renstraindikatorkinerja.orderby','column_name'),
-                                                'direction'=>$this->getControllerStateSession('renstraindikatorkinerja.orderby','order'),
-                                                'data'=>$data]);               
+        return view("pages.$theme.renstra.renstraindikatorsasaran.index")->with(['page_active'=>'renstraindikatorsasaran',
+                                                                                    'search'=>$this->getControllerStateSession('renstraindikatorsasaran','search'),
+                                                                                    'filters'=>$filters,
+                                                                                    'daftar_opd'=>$daftar_opd,
+                                                                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                                    'column_order'=>$this->getControllerStateSession('renstraindikatorsasaran.orderby','column_name'),
+                                                                                    'direction'=>$this->getControllerStateSession('renstraindikatorsasaran.orderby','order'),
+                                                                                    'data'=>$data]);               
     }
     /**
      * Show the form for creating a new resource.
@@ -225,12 +265,40 @@ class RENSTRAIndikatorKinerjaController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $daftar_kebijakan = RENSTRAKebijakanModel::getDaftarKebijakan(\HelperKegiatan::getTahunPerencanaan(),false);
-        $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusan(\HelperKegiatan::getTahunPerencanaan(),false);
-        return view("pages.$theme.renstra.renstraindikatorkinerja.create")->with(['page_active'=>'renstraindikatorkinerja',
-                                                                                'daftar_kebijakan'=>$daftar_kebijakan,
-                                                                                'daftar_urusan'=>$daftar_urusan
-                                                                            ]);  
+        $filters=$this->getControllerStateSession('renstraindikatorsasaran','filters');  
+        if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
+        {            
+            $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusanByOPD(\HelperKegiatan::getTahunPerencanaan(),$filters['OrgID'],false);   
+            $daftar_urusan['all']='SEMUA URUSAN';            
+            $organisasi=\App\Models\DMaster\OrganisasiModel::find($filters['OrgID']);            
+            $UrsID=$organisasi->UrsID;
+            $daftar_program=[];
+            if (isset($daftar_urusan[$UrsID]))
+            {
+                $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan(),false,$UrsID);
+            }            
+
+            $daftar_kebijakan=\App\Models\RENSTRA\RENSTRAKebijakanModel::select(\DB::raw('"RenstraKebijakanID",CONCAT(\'[\',"Kd_RenstraKebijakan",\']. \',"Nm_RenstraKebijakan") AS "Nm_RenstraKebijakan"'))
+                                                                ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                                                ->orderBy('Kd_RenstraKebijakan','ASC')
+                                                                ->get()
+                                                                ->pluck('Nm_RenstraKebijakan','RenstraKebijakanID')
+                                                                ->toArray();
+            
+
+            return view("pages.$theme.renstra.renstraindikatorsasaran.create")->with(['page_active'=>'renstraindikatorsasaran',
+                                                                        'daftar_urusan'=>$daftar_urusan,
+                                                                        'daftar_kebijakan'=>$daftar_kebijakan,
+                                                                        'daftar_program'=>$daftar_program,
+                                                                        'UrsID_selected'=>$UrsID,
+                                                                    ]);  
+        }
+        else
+        {
+            return view("pages.$theme.renstra.renstraindikatorsasaran.error")->with(['page_active'=>'renstraindikatorsasaran',
+                                                                        'errormessage'=>'Mohon OPD / SKPD untuk di pilih terlebih dahulu.'
+                                                                    ]);  
+        }
     }
     
     /**
@@ -261,13 +329,13 @@ class RENSTRAIndikatorKinerjaController extends Controller {
             'TargetN5'=>'required'
         ]);
         
-        $renstraindikatorkinerja = RENSTRAIndikatorSasaranModel::create([
+        $renstraindikatorsasaran = RENSTRAIndikatorSasaranModel::create([
             'IndikatorKinerjaID' => uniqid ('uid'),
             'PrioritasKebijakanKabID' => $request->input('PrioritasKebijakanKabID'),
             'UrsID' => $request->input('UrsID'),
             'PrgID' => $request->input('PrgID'),
             'NamaIndikator' => $request->input('NamaIndikator'),
-            'TA_N'=>HelperKegiatan::getTahunPerencanaan(),
+            'TA'=>HelperKegiatan::getTahunPerencanaan(),
             'OrgID' => $request->input('OrgID'),
             'OrgID2' => $request->input('OrgID2'),
             'TargetAwal' => $request->input('TargetAwal'),
@@ -294,7 +362,7 @@ class RENSTRAIndikatorKinerjaController extends Controller {
         }
         else
         {
-            return redirect(route('renstraindikatorkinerja.show',['id'=>$renstraindikatorkinerja->IndikatorKinerjaID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('renstraindikatorsasaran.show',['id'=>$renstraindikatorsasaran->IndikatorKinerjaID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -315,13 +383,13 @@ class RENSTRAIndikatorKinerjaController extends Controller {
 
         if (!is_null($data) )  
         {
-            return view("pages.$theme.renstra.renstraindikatorkinerja.show")->with(['page_active'=>'renstraindikatorkinerja',
+            return view("pages.$theme.renstra.renstraindikatorsasaran.show")->with(['page_active'=>'renstraindikatorsasaran',
                                                                                 'data'=>$data
                                                                                 ]);
         }
         else
         {
-            return view("pages.$theme.renstra.renstraindikatorkinerja.error")->with(['page_active'=>'renstraindikatorkinerja',
+            return view("pages.$theme.renstra.renstraindikatorsasaran.error")->with(['page_active'=>'renstraindikatorsasaran',
                                                                                 'errormessage'=>"ID Indikator Kinerja ($id) tidak ditemukan."
                                                                                 ]);
         }
@@ -344,7 +412,7 @@ class RENSTRAIndikatorKinerjaController extends Controller {
             $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusan(\HelperKegiatan::getTahunPerencanaan(),false);
             $daftar_program=\App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan(),false,$data['UrsID']);
             $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false,$data['UrsID']);
-            return view("pages.$theme.renstra.renstraindikatorkinerja.edit")->with(['page_active'=>'renstraindikatorkinerja',
+            return view("pages.$theme.renstra.renstraindikatorsasaran.edit")->with(['page_active'=>'renstraindikatorsasaran',
                                                                                 'data'=>$data,
                                                                                 'daftar_kebijakan'=>$daftar_kebijakan,
                                                                                 'daftar_urusan'=>$daftar_urusan,
@@ -363,7 +431,7 @@ class RENSTRAIndikatorKinerjaController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $renstraindikatorkinerja = RENSTRAIndikatorSasaranModel::find($id);
+        $renstraindikatorsasaran = RENSTRAIndikatorSasaranModel::find($id);
         
         $this->validate($request, [
             'PrioritasKebijakanKabID'=>'required',
@@ -385,26 +453,26 @@ class RENSTRAIndikatorKinerjaController extends Controller {
             'TargetN5'=>'required'
         ]);
         
-        $renstraindikatorkinerja->PrioritasKebijakanKabID = $request->input('PrioritasKebijakanKabID');
-        $renstraindikatorkinerja->UrsID = $request->input('UrsID');
-        $renstraindikatorkinerja->PrgID = $request->input('PrgID');
-        $renstraindikatorkinerja->NamaIndikator = $request->input('NamaIndikator');
-        $renstraindikatorkinerja->TargetAwal = $request->input('TargetAwal');
-        $renstraindikatorkinerja->OrgID = $request->input('OrgID');
-        $renstraindikatorkinerja->OrgID2 = $request->input('OrgID2');
-        $renstraindikatorkinerja->PaguDanaN1 = $request->input('PaguDanaN1');
-        $renstraindikatorkinerja->PaguDanaN2 = $request->input('PaguDanaN2');
-        $renstraindikatorkinerja->PaguDanaN3 = $request->input('PaguDanaN3');
-        $renstraindikatorkinerja->PaguDanaN4 = $request->input('PaguDanaN4');
-        $renstraindikatorkinerja->PaguDanaN5 = $request->input('PaguDanaN5');
-        $renstraindikatorkinerja->TargetN1 = $request->input('TargetN1');
-        $renstraindikatorkinerja->TargetN2 = $request->input('TargetN2');
-        $renstraindikatorkinerja->TargetN3 = $request->input('TargetN3');
-        $renstraindikatorkinerja->TargetN4 = $request->input('TargetN4');
-        $renstraindikatorkinerja->TargetN5 = $request->input('TargetN5');
-        $renstraindikatorkinerja->Descr = $request->input('Descr');
+        $renstraindikatorsasaran->PrioritasKebijakanKabID = $request->input('PrioritasKebijakanKabID');
+        $renstraindikatorsasaran->UrsID = $request->input('UrsID');
+        $renstraindikatorsasaran->PrgID = $request->input('PrgID');
+        $renstraindikatorsasaran->NamaIndikator = $request->input('NamaIndikator');
+        $renstraindikatorsasaran->TargetAwal = $request->input('TargetAwal');
+        $renstraindikatorsasaran->OrgID = $request->input('OrgID');
+        $renstraindikatorsasaran->OrgID2 = $request->input('OrgID2');
+        $renstraindikatorsasaran->PaguDanaN1 = $request->input('PaguDanaN1');
+        $renstraindikatorsasaran->PaguDanaN2 = $request->input('PaguDanaN2');
+        $renstraindikatorsasaran->PaguDanaN3 = $request->input('PaguDanaN3');
+        $renstraindikatorsasaran->PaguDanaN4 = $request->input('PaguDanaN4');
+        $renstraindikatorsasaran->PaguDanaN5 = $request->input('PaguDanaN5');
+        $renstraindikatorsasaran->TargetN1 = $request->input('TargetN1');
+        $renstraindikatorsasaran->TargetN2 = $request->input('TargetN2');
+        $renstraindikatorsasaran->TargetN3 = $request->input('TargetN3');
+        $renstraindikatorsasaran->TargetN4 = $request->input('TargetN4');
+        $renstraindikatorsasaran->TargetN5 = $request->input('TargetN5');
+        $renstraindikatorsasaran->Descr = $request->input('Descr');
 
-        $renstraindikatorkinerja->save();
+        $renstraindikatorsasaran->save();
 
         if ($request->ajax()) 
         {
@@ -415,7 +483,7 @@ class RENSTRAIndikatorKinerjaController extends Controller {
         }
         else
         {
-            return redirect(route('renstraindikatorkinerja.show',['id'=>$id]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('renstraindikatorsasaran.show',['id'=>$id]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
 
@@ -429,28 +497,28 @@ class RENSTRAIndikatorKinerjaController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $renstraindikatorkinerja = RENSTRAIndikatorSasaranModel::find($id);
-        $result=$renstraindikatorkinerja->delete();
+        $renstraindikatorsasaran = RENSTRAIndikatorSasaranModel::find($id);
+        $result=$renstraindikatorsasaran->delete();
         if ($request->ajax()) 
         {
-            $currentpage=$this->getCurrentPageInsideSession('renstraindikatorkinerja'); 
+            $currentpage=$this->getCurrentPageInsideSession('renstraindikatorsasaran'); 
             $data=$this->populateData($currentpage);
             if ($currentpage > $data->lastPage())
             {            
                 $data = $this->populateData($data->lastPage());
             }
-            $datatable = view("pages.$theme.renstra.renstraindikatorkinerja.datatable")->with(['page_active'=>'renstraindikatorkinerja',
-                                                            'search'=>$this->getControllerStateSession('renstraindikatorkinerja','search'),
+            $datatable = view("pages.$theme.renstra.renstraindikatorsasaran.datatable")->with(['page_active'=>'renstraindikatorsasaran',
+                                                            'search'=>$this->getControllerStateSession('renstraindikatorsasaran','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                            'column_order'=>$this->getControllerStateSession('renstraindikatorkinerja.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('renstraindikatorkinerja.orderby','order'),
+                                                            'column_order'=>$this->getControllerStateSession('renstraindikatorsasaran.orderby','column_name'),
+                                                            'direction'=>$this->getControllerStateSession('renstraindikatorsasaran.orderby','order'),
                                                             'data'=>$data])->render();      
             
             return response()->json(['success'=>true,'datatable'=>$datatable],200); 
         }
         else
         {
-            return redirect(route('renstraindikatorkinerja.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+            return redirect(route('renstraindikatorsasaran.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
         }        
     }
 }

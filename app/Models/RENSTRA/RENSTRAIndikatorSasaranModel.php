@@ -13,43 +13,29 @@ class RENSTRAIndikatorSasaranModel extends Model {
      *
      * @var string
      */
-    protected $table = 'trIndikatorSasaran';
+    protected $table = 'trRenstraIndikator';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'IndikatorSasaranID',
-        'PrioritasKebijakanKabID', 
+        'RenstraIndikatorID',
+        'RenstraKebijakanID', 
+        'IndikatorKinerjaID', 
         'UrsID', 
         'PrgID', 
-        'OrgID', 
-        'OrgID2', 
-        'OrgID3', 
+        'OrgID',         
         'NamaIndikator',
-        'TA_N',
-        'TargetN',
-        'TargetN1',
-        'TargetN2',
-        'TargetN3',
-        'TargetN4',
-        'TargetN5',
-        'PaguDanaN',
-        'PaguDanaN1',
-        'PaguDanaN2',
-        'PaguDanaN3',
-        'PaguDanaN4',
-        'PaguDanaN5',
-        'Descr',
-        'TA'
+        'Descr',        
+        'TA',        
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'IndikatorSasaranID';
+    protected $primaryKey = 'RenstraIndikatorID';
     /**
      * enable auto_increment.
      *
@@ -72,7 +58,7 @@ class RENSTRAIndikatorSasaranModel extends Model {
     /**
      * log the changed attributes for all these events 
      */
-    protected static $logAttributes = ['IndikatorSasaranID', 'PrioritasKebijakanKabID', 'NamaIndikator'];
+    protected static $logAttributes = ['RenstraIndikatorID', 'RenstraKebijakanID', 'NamaIndikator'];
     /**
      * log changes to all the $fillable attributes of the model
      */
@@ -84,7 +70,7 @@ class RENSTRAIndikatorSasaranModel extends Model {
     public static function getDaftarIndikatorSasaran($UrsID,$PrgID=null,$OrgID=null,$prepend=true)
     {   
         $data = RENSTRAIndikatorSasaranModel::where('UrsID',$UrsID)
-                                            ->where('TA_N',config('eplanning.rpjmd_tahun_mulai'));
+                                            ->where('TA',config('eplanning.renstra_tahun_mulai'));
 
         if ($PrgID != null)
         {
@@ -96,23 +82,23 @@ class RENSTRAIndikatorSasaranModel extends Model {
         }
         
         $daftar_indikator = $prepend==true ? $data->get()
-                ->pluck('NamaIndikator','IndikatorSasaranID')
-                ->prepend('DAFTAR INDIKATOR KINERJA','none')
+                ->pluck('NamaIndikator','RenstraIndikatorID')
+                ->prepend('DAFTAR INDIKATOR SASARAN','none')
                 ->toArray()
                 :
                 $data->get()
-                ->pluck('NamaIndikator','IndikatorSasaranID')
+                ->pluck('NamaIndikator','RenstraIndikatorID')
                 ->toArray();
         
         return $daftar_indikator;
     }
-    public static function getIndikatorSasaranByID($IndikatorSasaranID,$ta)
+    public static function getIndikatorSasaranByID($RenstraIndikatorID,$ta)
     {
-        $data = RENSTRAIndikatorSasaranModel::find($IndikatorSasaranID);
+        $data = RENSTRAIndikatorSasaranModel::find($RenstraIndikatorID);
         $data_indikator=null;
         if (!is_null($data) )  
         {   
-            $tahun_n=($ta-config('eplanning.rpjmd_tahun_mulai'))+1;
+            $tahun_n=($ta-config('eplanning.renstra_tahun_mulai'))+1;
             $target_n="TargetN$tahun_n";
             $pagudana_n="PaguDanaN$tahun_n";
             $data_indikator=[

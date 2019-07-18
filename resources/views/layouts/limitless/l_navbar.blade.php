@@ -196,6 +196,11 @@
                                             <i class="icon-strategy"></i> ARAH KEBIJAKAN <span class="text-violet"><strong>[6]</strong></span>
                                         </a>
                                     </li>
+                                    <li{!!Helper::isMenuActive ($page_active,'renstraindikatorsasaran',' class="active"')!!}>
+                                        <a href="{{route('renstraindikatorsasaran.index')}}">
+                                            <i class="icon-strategy"></i> INDIKATOR SASARAN <span class="text-violet"><strong>[7]</strong></span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                             @endhasrole                            

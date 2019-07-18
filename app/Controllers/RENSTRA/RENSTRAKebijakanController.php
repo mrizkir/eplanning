@@ -257,13 +257,13 @@ class RENSTRAKebijakanController extends Controller {
         $this->setCurrentPageInsideSession('renstrakebijakan',$data->currentPage());
         
         return view("pages.$theme.renstra.renstrakebijakan.index")->with(['page_active'=>'renstrakebijakan',
-                                                'search'=>$this->getControllerStateSession('renstrakebijakan','search'),
-                                                'filters'=>$filters,
-                                                'daftar_opd'=>$daftar_opd,
-                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                'column_order'=>$this->getControllerStateSession('renstrakebijakan.orderby','column_name'),
-                                                'direction'=>$this->getControllerStateSession('renstrakebijakan.orderby','order'),
-                                                'data'=>$data]);               
+                                                                            'search'=>$this->getControllerStateSession('renstrakebijakan','search'),
+                                                                            'filters'=>$filters,
+                                                                            'daftar_opd'=>$daftar_opd,
+                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                            'column_order'=>$this->getControllerStateSession('renstrakebijakan.orderby','column_name'),
+                                                                            'direction'=>$this->getControllerStateSession('renstrakebijakan.orderby','order'),
+                                                                            'data'=>$data]);               
     }
     /**
      * Show the form for creating a new resource.

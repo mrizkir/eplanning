@@ -63,9 +63,11 @@ class UrusanController extends Controller {
         else
         {
             $data = UrusanModel::join('v_urusan','v_urusan.UrsID','tmUrs.UrsID')
+                                ->select(\DB::raw('"tmUrs"."UrsID","tmUrs"."KUrsID",v_urusan."Nm_Urusan",v_urusan."Kode_Bidang","tmUrs"."Nm_Bidang","tmUrs"."Descr","tmUrs"."created_at","tmUrs"."updated_at"'))
                                 ->where('tmUrs.TA',\HelperKegiatan::getTahunPerencanaan())
                                 ->orderBy($column_order,$direction)
                                 ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            
         }
         $data->setPath(route('urusan.index'));
         return $data;

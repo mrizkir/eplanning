@@ -1,20 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RENSTRA ARAH STRATEGI  {{config('eplanning.renstra_tahun_mulai')}} - {{config('eplanning.renstra_tahun_akhir')}}
+    RENSTRA ARAH KEBIJAKAN  {{config('eplanning.renstra_tahun_mulai')}} - {{config('eplanning.renstra_tahun_akhir')}}
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        RENSTRA ARAH STRATEGI TAHUN {{config('eplanning.renstra_tahun_mulai')}} - {{config('eplanning.renstra_tahun_akhir')}}  
+        RENSTRA ARAH KEBIJAKAN TAHUN {{config('eplanning.renstra_tahun_mulai')}} - {{config('eplanning.renstra_tahun_akhir')}}  
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.renstra.renstrastrategi.info')
+    @include('pages.limitless.renstra.renstrakebijakan.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">PERENCANAAN</a></li>
     <li><a href="#">RENSTRA</a></li>
-    <li><a href="{!!route('renstrastrategi.index')!!}">ARAH STRATEGI</a></li>
+    <li><a href="{!!route('renstrakebijakan.index')!!}">ARAH KEBIJAKAN</a></li>
     <li class="active">TAMBAH DATA</li>
 @endsection
 @section('page_content')
@@ -28,7 +28,7 @@
             <div class="heading-elements">
                 <ul class="icons-list">                    
                     <li>               
-                        <a href="{!!route('renstrastrategi.index')!!}" data-action="closeredirect" title="keluar"></a>
+                        <a href="{!!route('renstrakebijakan.index')!!}" data-action="closeredirect" title="keluar"></a>
                     </li>
                 </ul>
             </div>
@@ -47,13 +47,13 @@
                     </div>
                 </div>   
                 <div class="form-group">
-                    {{Form::label('Kd_RenstraKebijakan','KODE ARAH STRATEGI',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('Kd_RenstraKebijakan','KODE ARAH KEBIJAKAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
                         {{Form::text('Kd_RenstraKebijakan','',['class'=>'form-control','placeholder'=>'Kode Kebijakan','maxlength'=>'4'])}}
                     </div>
                 </div>
                 <div class="form-group">
-                    {{Form::label('Nm_RenstraKebijakan','NAMA ARAH STRATEGI',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('Nm_RenstraKebijakan','NAMA ARAH KEBIJAKAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
                         {{Form::text('Nm_RenstraKebijakan','',['class'=>'form-control','placeholder'=>'Nama Kebijakan'])}}
                     </div>
