@@ -29,7 +29,7 @@ class RPJMDIndikatorKinerjaModel extends Model {
         'OrgID3', 
         'NamaIndikator',
         'TA_N',
-        'TargetN',
+        'TargetAwal',
         'TargetN1',
         'TargetN2',
         'TargetN3',

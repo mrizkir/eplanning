@@ -56,6 +56,14 @@
                             @endforeach
                         </select>    
                     </div>
+                </div> 
+                <div class="form-group">
+                    {{Form::label('IndikatorKinerjaID','INDIKATOR KINERJA RPJMD',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        <select name="IndikatorKinerjaID" id="IndikatorKinerjaID" class="select">
+                            <option></option>                            
+                        </select>    
+                    </div>
                 </div>       
                 <div class="form-group">
                     <label class="col-md-2 control-label">ARAH KEBIJAKAN:</label> 
@@ -110,6 +118,62 @@ $(document).ready(function () {
     $('#RenstraKebijakanID.select').select2({
         placeholder: "PILIH ARAH KEBIJAKAN",
         allowClear:true
+    });
+    $('#IndikatorKinerjaID.select').select2({
+        placeholder: "PILIH INDIKATOR KINERJA RPJMD",
+        allowClear:true
+    });
+    $(document).on('change','#UrsID',function(ev) {
+        ev.preventDefault();
+        UrsID=$(this).val();        
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/pilihindikatorsasaran',
+            dataType: 'json',
+            data: {
+                "_token": token,
+                "UrsID": UrsID,
+            },
+            success:function(result)
+            {   
+                var daftar_program = result.daftar_program;
+                var listitems='<option></option>';
+                $.each(daftar_program,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
+                $('#PrgID').html(listitems);
+            },
+            error:function(xhr, status, error)
+            {   
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    });
+    $(document).on('change','#PrgID',function(ev) {
+        ev.preventDefault();
+        PrgID=$(this).val();        
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/pilihindikatorsasaran',
+            dataType: 'json',
+            data: {
+                "_token": token,
+                "PrgID": PrgID,
+            },
+            success:function(result)
+            {   
+                var daftar_indikator = result.daftar_indikator;
+                var listitems='<option></option>';
+                $.each(daftar_indikator,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
+                $('#IndikatorKinerjaID').html(listitems);
+            },
+            error:function(xhr, status, error)
+            {   
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
     });
     $('#frmdata').validate({
         ignore: [],

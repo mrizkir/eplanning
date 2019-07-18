@@ -208,6 +208,37 @@ class RENSTRAIndikatorSasaranController extends Controller {
         } 
         return response()->json($json_data,200);
     }
+    public function pilihindikatorsasaran(Request $request)
+    {
+        $json_data=[];
+        if ($request->exists('UrsID'))
+        {
+            $UrsID = $request->input('UrsID')==''?'none':$request->input('UrsID');
+            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan(),false,$UrsID);
+            $json_data['success']=true;
+            $json_data['UrsID']=$UrsID;
+            $json_data['daftar_program']=$daftar_program;
+        }
+        if ($request->exists('PrgID'))
+        {
+            $PrgID = $request->input('PrgID')==''?'none':$request->input('PrgID');
+            $r=\DB::table('trIndikatorKinerja')
+                    ->select(\DB::raw('"IndikatorKinerjaID","NamaIndikator"'))
+                    ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                    ->where('PrgID',$PrgID)                    
+                    ->orderBy('NamaIndikator')
+                    ->get();
+            $daftar_indikator=[];        
+            foreach ($r as $k=>$v)
+            { 
+                $daftar_indikator[$v->IndikatorKinerjaID]=$v->NamaIndikator;
+            }            
+            $json_data['success']=true;
+            $json_data['PrgID']=$PrgID;
+            $json_data['daftar_indikator']=$daftar_indikator;
+        }
+        return response()->json($json_data,200);
+    }
     /**
      * Show the form for creating a new resource.
      *

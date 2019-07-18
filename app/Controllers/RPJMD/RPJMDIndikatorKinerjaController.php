@@ -186,8 +186,8 @@ class RPJMDIndikatorKinerjaController extends Controller {
         if ($request->exists('UrsID') && $request->exists('create') )
         {
             $UrsID = $request->input('UrsID')==''?'none':$request->input('UrsID');            
-            $daftar_program=\App\Models\DMaster\ProgramModel::getDaftarProgram(config('eplanning.rpjmd_tahun_mulai'),false,$UrsID);
-            $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(config('eplanning.rpjmd_tahun_mulai'),false,$UrsID);
+            $daftar_program=\App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan(),false,$UrsID);
+            $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false,$UrsID);
             $json_data = ['success'=>true,'daftar_program'=>$daftar_program,'daftar_opd'=>$daftar_opd];
         } 
         return response()->json($json_data,200);  
@@ -225,8 +225,8 @@ class RPJMDIndikatorKinerjaController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $daftar_kebijakan = RPJMDKebijakanModel::getDaftarKebijakan(config('eplanning.rpjmd_tahun_mulai'),false);
-        $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusan(config('eplanning.rpjmd_tahun_mulai'),false);
+        $daftar_kebijakan = RPJMDKebijakanModel::getDaftarKebijakan(\HelperKegiatan::getTahunPerencanaan(),false);
+        $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusan(\HelperKegiatan::getTahunPerencanaan(),false);
         return view("pages.$theme.rpjmd.rpjmdindikatorkinerja.create")->with(['page_active'=>'rpjmdindikatorkinerja',
                                                                                 'daftar_kebijakan'=>$daftar_kebijakan,
                                                                                 'daftar_urusan'=>$daftar_urusan
@@ -269,13 +269,13 @@ class RPJMDIndikatorKinerjaController extends Controller {
             'NamaIndikator' => $request->input('NamaIndikator'),
             'TA_N'=>config('eplanning.rpjmd_tahun_mulai'),
             'OrgID' => $request->input('OrgID'),
-            'OrgID2' => $request->input('OrgID2'),
-            'TargetAwal' => $request->input('TargetAwal'),
+            'OrgID2' => $request->input('OrgID2'),            
             'PaguDanaN1' => $request->input('PaguDanaN1'),
             'PaguDanaN2' => $request->input('PaguDanaN2'),
             'PaguDanaN3' => $request->input('PaguDanaN3'),
             'PaguDanaN4' => $request->input('PaguDanaN4'),
             'PaguDanaN5' => $request->input('PaguDanaN5'),
+            'TargetAwal' => $request->input('TargetAwal'),
             'TargetN1' => $request->input('TargetN1'),
             'TargetN2' => $request->input('TargetN2'),
             'TargetN3' => $request->input('TargetN3'),

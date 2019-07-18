@@ -198,6 +198,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::resource('/perencanaan/renstra/renstraindikatorsasaran','RENSTRA\RENSTRAIndikatorSasaranController',['parameters'=>['renstraindikatorsasaran'=>'uuid']]); 
     Route::post('/perencanaan/renstra/renstraindikatorsasaran/search',['uses'=>'RENSTRA\RENSTRAIndikatorSasaranController@search','as'=>'renstraindikatorsasaran.search']); 
     Route::post('/perencanaan/renstra/renstraindikatorsasaran/filter',['uses'=>'RENSTRA\RENSTRAIndikatorSasaranController@filter','as'=>'renstraindikatorsasaran.filter']); 
+    Route::post('/perencanaan/renstra/renstraindikatorsasaran/pilihindikatorsasaran',['uses'=>'RENSTRA\RENSTRAIndikatorSasaranController@pilihindikatorsasaran','as'=>'renstraindikatorsasaran.pilihindikatorsasaran']); 
     Route::get('/perencanaan/renstra/renstraindikatorsasaran/paginate/{id}',['uses'=>'RENSTRA\RENSTRAIndikatorSasaranController@paginate','as'=>'renstraindikatorsasaran.paginate']);              
     Route::post('/perencanaan/renstra/renstraindikatorsasaran/changenumberrecordperpage',['uses'=>'RENSTRA\RENSTRAIndikatorSasaranController@changenumberrecordperpage','as'=>'renstraindikatorsasaran.changenumberrecordperpage']);  
     Route::post('/perencanaan/renstra/renstraindikatorsasaran/orderby',['uses'=>'RENSTRA\RENSTRAIndikatorSasaranController@orderby','as'=>'renstraindikatorsasaran.orderby']);
