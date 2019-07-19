@@ -17,8 +17,8 @@ class CreateRenstraindikatorTable extends Migration
             $table->string('RenstraIndikatorID',19);
             $table->string('RenstraKebijakanID',19);            
             $table->string('IndikatorKinerjaID',19); 
-            $table->string('UrsID',4);
-            $table->string('PrgID',4);
+            $table->string('UrsID',19);
+            $table->string('PrgID',19);
             $table->string('OrgID',19);
 
             $table->string('NamaIndikator'); 

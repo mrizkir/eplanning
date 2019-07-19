@@ -34,7 +34,7 @@
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>['RENSTRA\RENSTRAKebijakanController@update',$data->RenstraKebijakanID],'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
+            {!! Form::open(['action'=>['RENSTRA\RENSTRAKebijakanController@update',$data->RenstraIndikatorID],'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
                 <div class="form-group">
                     <label class="col-md-2 control-label">STRATEGI :</label> 
                     <div class="col-md-10">

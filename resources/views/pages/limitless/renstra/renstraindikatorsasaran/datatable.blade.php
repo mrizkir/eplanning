@@ -24,7 +24,12 @@
                     <th width="55">NO</th>                    
                     <th>
                         <a class="column-sort text-white" id="col-Nm_RenstraKebijakan" data-order="{{$direction}}" href="#">
-                            NAMA NAMA INDIKATOR 
+                            NAMA INDIKATOR 
+                        </a>                                             
+                    </th> 
+                    <th>
+                        <a class="column-sort text-white" id="col-Nm_RenstraKebijakan" data-order="{{$direction}}" href="#">
+                            ARAH KEBIJAKAN 
                         </a>                                             
                     </th> 
                     <th width="100">TA</th>
@@ -38,25 +43,42 @@
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>                  
                     <td>{{$item->NamaIndikator}}</td>
+                    <td>{{$item->Nm_RenstraKebijakan}}</td>
                     <td>{{$item->TA}}</td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('renstraindikatorsasaran.show',['id'=>$item->RenstraKebijakanID])}}" title="Detail Data RENSTRA Arah Kebijakan">
+                                <a class="btnShow" href="{{route('renstraindikatorsasaran.show',['id'=>$item->RenstraIndikatorID])}}" title="Detail Data RENSTRA Arah Kebijakan">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('renstraindikatorsasaran.edit',['id'=>$item->RenstraKebijakanID])}}" title="Ubah Data RENSTRA Arah Kebijakan">
+                                <a class="btnEdit" href="{{route('renstraindikatorsasaran.edit',['id'=>$item->RenstraIndikatorID])}}" title="Ubah Data RENSTRA Arah Kebijakan">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data RENSTRA Arah Kebijakan" data-id="{{$item->RenstraKebijakanID}}" data-url="{{route('renstraindikatorsasaran.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data RENSTRA Arah Kebijakan" data-id="{{$item->RenstraIndikatorID}}" data-url="{{route('renstraindikatorsasaran.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>
                         </ul>
+                    </td>
+                </tr>
+                <tr class="text-center info">
+                    <td colspan="10">
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>RENSTRAINDIKATORID:</strong>
+                            {{$item->RenstraIndikatorID}}
+                        </span>                        
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>CREATED:</strong>
+                            {{Helper::tanggal('d/m/Y H:m',$item->created_at)}}
+                        </span>
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>UPDATED:</strong>
+                            {{Helper::tanggal('d/m/Y H:m',$item->updated_at)}}
+                        </span>
                     </td>
                 </tr>
             @endforeach                    

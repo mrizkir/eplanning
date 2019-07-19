@@ -35,6 +35,15 @@
         </div>
         <div class="panel-body">
             {!! Form::open(['action'=>'RENSTRA\RENSTRAIndikatorSasaranController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                            
+                {{Form::hidden('OrgID',$organisasi->OrgID)}}
+                <div class="form-group">
+                    <label class="col-md-2 control-label">OPD / SKPD: </label>
+                    <div class="col-md-10">
+                        <p class="form-control-static">
+                            <span class="label border-left-primary label-striped">{{$organisasi->OrgNm}}</span>
+                        </p>
+                    </div>                            
+                </div>
                 <div class="form-group">
                     {{Form::label('UrsID','NAMA URUSAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
@@ -138,6 +147,7 @@ $(document).ready(function () {
             {   
                 var daftar_program = result.daftar_program;
                 var listitems='<option></option>';
+                $('#IndikatorKinerjaID').html(listitems);
                 $.each(daftar_program,function(key,value){
                     listitems+='<option value="' + key + '">'+value+'</option>';                    
                 });
@@ -182,6 +192,14 @@ $(document).ready(function () {
                 required: true,
                 valueNotEquals: 'none'
             },
+            PrgID : {
+                required: true,
+                valueNotEquals: 'none'
+            },
+            IndikatorKinerjaID : {
+                required: true,
+                valueNotEquals: 'none'
+            },
             NamaIndikator : {
                 required: true,
                 minlength: 2
@@ -189,6 +207,14 @@ $(document).ready(function () {
         },
         messages : {
             RenstraKebijakanID : {
+                required: "Mohon untuk di pilih karena ini diperlukan.",
+                valueNotEquals: "Mohon untuk di pilih karena ini diperlukan.",      
+            },
+            PrgID : {
+                required: "Mohon untuk di pilih karena ini diperlukan.",
+                valueNotEquals: "Mohon untuk di pilih karena ini diperlukan.",      
+            },
+            IndikatorKinerjaID : {
                 required: "Mohon untuk di pilih karena ini diperlukan.",
                 valueNotEquals: "Mohon untuk di pilih karena ini diperlukan.",      
             },

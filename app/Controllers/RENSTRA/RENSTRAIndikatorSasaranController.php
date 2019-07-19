@@ -53,7 +53,13 @@ class RENSTRAIndikatorSasaranController extends Controller {
         }
         else
         {
-            $data = RENSTRAIndikatorSasaranModel::where('TA',\HelperKegiatan::getTahunPerencanaan())
+            $data = RENSTRAIndikatorSasaranModel::select(\DB::raw('"RenstraIndikatorID","tmUrs"."Nm_Bidang","tmPrg"."PrgNm","tmOrg"."OrgNm","trIndikatorKinerja"."NamaIndikator" AS "IndikatorKinerja","tmRenstraKebijakan"."Nm_RenstraKebijakan","trRenstraIndikator"."NamaIndikator","trRenstraIndikator"."Descr","trRenstraIndikator"."TA","trRenstraIndikator"."created_at","trRenstraIndikator"."updated_at"'))
+                                                ->join('tmUrs','tmUrs.UrsID','trRenstraIndikator.UrsID')
+                                                ->join('tmPrg','tmPrg.PrgID','trRenstraIndikator.PrgID')
+                                                ->join('tmOrg','tmOrg.OrgID','trRenstraIndikator.OrgID')
+                                                ->join('trIndikatorKinerja','trIndikatorKinerja.IndikatorKinerjaID','trRenstraIndikator.IndikatorKinerjaID')
+                                                ->join('tmRenstraKebijakan','tmRenstraKebijakan.RenstraKebijakanID','trRenstraIndikator.RenstraKebijakanID')
+                                                ->where('trRenstraIndikator.TA',\HelperKegiatan::getTahunPerencanaan())
                                                 ->orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('renstraindikatorsasaran.index'));
@@ -298,10 +304,10 @@ class RENSTRAIndikatorSasaranController extends Controller {
         $theme = \Auth::user()->theme;
         $filters=$this->getControllerStateSession('renstraindikatorsasaran','filters');  
         if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
-        {            
+        {   
             $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusanByOPD(\HelperKegiatan::getTahunPerencanaan(),$filters['OrgID'],false);   
             $daftar_urusan['all']='SEMUA URUSAN';            
-            $organisasi=\App\Models\DMaster\OrganisasiModel::find($filters['OrgID']);            
+            $organisasi=\App\Models\DMaster\OrganisasiModel::find($filters['OrgID']);                        
             $UrsID=$organisasi->UrsID;
             $daftar_program=[];
             if (isset($daftar_urusan[$UrsID]))
@@ -310,19 +316,20 @@ class RENSTRAIndikatorSasaranController extends Controller {
             }            
 
             $daftar_kebijakan=\App\Models\RENSTRA\RENSTRAKebijakanModel::select(\DB::raw('"RenstraKebijakanID",CONCAT(\'[\',"Kd_RenstraKebijakan",\']. \',"Nm_RenstraKebijakan") AS "Nm_RenstraKebijakan"'))
-                                                                ->where('TA',\HelperKegiatan::getTahunPerencanaan())
-                                                                ->orderBy('Kd_RenstraKebijakan','ASC')
-                                                                ->get()
-                                                                ->pluck('Nm_RenstraKebijakan','RenstraKebijakanID')
-                                                                ->toArray();
-            
+                                                                        ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                                                        ->orderBy('Kd_RenstraKebijakan','ASC')
+                                                                        ->get()
+                                                                        ->pluck('Nm_RenstraKebijakan','RenstraKebijakanID')
+                                                                        ->toArray();
+                    
 
             return view("pages.$theme.renstra.renstraindikatorsasaran.create")->with(['page_active'=>'renstraindikatorsasaran',
-                                                                        'daftar_urusan'=>$daftar_urusan,
-                                                                        'daftar_kebijakan'=>$daftar_kebijakan,
-                                                                        'daftar_program'=>$daftar_program,
-                                                                        'UrsID_selected'=>$UrsID,
-                                                                    ]);  
+                                                                                    'organisasi'=>$organisasi,
+                                                                                    'daftar_urusan'=>$daftar_urusan,
+                                                                                    'daftar_kebijakan'=>$daftar_kebijakan,
+                                                                                    'daftar_program'=>$daftar_program,
+                                                                                    'UrsID_selected'=>$UrsID,
+                                                                                ]);  
         }
         else
         {
@@ -341,45 +348,21 @@ class RENSTRAIndikatorSasaranController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'PrioritasKebijakanKabID'=>'required',
+            'RenstraKebijakanID'=>'required',
+            'IndikatorKinerjaID'=>'required',
             'UrsID'=>'required',
-            'PrgID'=>'required',
-            'NamaIndikator'=>'required',
-            'OrgID'=>'required',
-            'OrgID2'=>'required',
-            'TargetAwal'=>'required',
-            'PaguDanaN1'=>'required',
-            'PaguDanaN2'=>'required',
-            'PaguDanaN3'=>'required',
-            'PaguDanaN4'=>'required',
-            'PaguDanaN5'=>'required',
-            'TargetN1'=>'required',
-            'TargetN2'=>'required',
-            'TargetN3'=>'required',
-            'TargetN4'=>'required',
-            'TargetN5'=>'required'
+            'PrgID'=>'required',          
+            'NamaIndikator'=>'required',                       
         ]);
         
         $renstraindikatorsasaran = RENSTRAIndikatorSasaranModel::create([
-            'IndikatorKinerjaID' => uniqid ('uid'),
-            'PrioritasKebijakanKabID' => $request->input('PrioritasKebijakanKabID'),
+            'RenstraIndikatorID' => uniqid ('uid'),
+            'RenstraKebijakanID' => $request->input('RenstraKebijakanID'),
+            'IndikatorKinerjaID' => $request->input('IndikatorKinerjaID'),
             'UrsID' => $request->input('UrsID'),
             'PrgID' => $request->input('PrgID'),
-            'NamaIndikator' => $request->input('NamaIndikator'),
-            'TA'=>HelperKegiatan::getTahunPerencanaan(),
-            'OrgID' => $request->input('OrgID'),
-            'OrgID2' => $request->input('OrgID2'),
-            'TargetAwal' => $request->input('TargetAwal'),
-            'PaguDanaN1' => $request->input('PaguDanaN1'),
-            'PaguDanaN2' => $request->input('PaguDanaN2'),
-            'PaguDanaN3' => $request->input('PaguDanaN3'),
-            'PaguDanaN4' => $request->input('PaguDanaN4'),
-            'PaguDanaN5' => $request->input('PaguDanaN5'),
-            'TargetN1' => $request->input('TargetN1'),
-            'TargetN2' => $request->input('TargetN2'),
-            'TargetN3' => $request->input('TargetN3'),
-            'TargetN4' => $request->input('TargetN4'),
-            'TargetN5' => $request->input('TargetN5'),
+            'OrgID' => $request->input('OrgID'), 
+            'NamaIndikator' => $request->input('NamaIndikator'),                      
             'Descr' => $request->input('Descr'),
             'TA' => \HelperKegiatan::getTahunPerencanaan()            
         ]);        
@@ -393,7 +376,7 @@ class RENSTRAIndikatorSasaranController extends Controller {
         }
         else
         {
-            return redirect(route('renstraindikatorsasaran.show',['id'=>$renstraindikatorsasaran->IndikatorKinerjaID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('renstraindikatorsasaran.show',['id'=>$renstraindikatorsasaran->RenstraIndikatorID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -408,14 +391,20 @@ class RENSTRAIndikatorSasaranController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = \DB::table('v_indikator_kinerja2')
-                    ->where('IndikatorKinerjaID',$id)
+        $data = \DB::table('trRenstraIndikator')
+                    ->select(\DB::raw('"RenstraIndikatorID","tmUrs"."Nm_Bidang","tmPrg"."PrgNm","tmOrg"."OrgNm","trIndikatorKinerja"."NamaIndikator" AS "IndikatorKinerja","tmRenstraKebijakan"."Nm_RenstraKebijakan","trRenstraIndikator"."NamaIndikator","trRenstraIndikator"."Descr","trRenstraIndikator"."TA","trRenstraIndikator"."created_at","trRenstraIndikator"."updated_at"'))
+                    ->join('tmUrs','tmUrs.UrsID','trRenstraIndikator.UrsID')
+                    ->join('tmPrg','tmPrg.PrgID','trRenstraIndikator.PrgID')
+                    ->join('tmOrg','tmOrg.OrgID','trRenstraIndikator.OrgID')
+                    ->join('trIndikatorKinerja','trIndikatorKinerja.IndikatorKinerjaID','trRenstraIndikator.IndikatorKinerjaID')
+                    ->join('tmRenstraKebijakan','tmRenstraKebijakan.RenstraKebijakanID','trRenstraIndikator.RenstraKebijakanID')
+                    ->where('RenstraIndikatorID',$id)
                     ->first();
-
+        
         if (!is_null($data) )  
         {
             return view("pages.$theme.renstra.renstraindikatorsasaran.show")->with(['page_active'=>'renstraindikatorsasaran',
-                                                                                'data'=>$data
+                                                                                    'data'=>$data
                                                                                 ]);
         }
         else
@@ -436,20 +425,41 @@ class RENSTRAIndikatorSasaranController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $data = RENSTRAIndikatorSasaranModel::findOrFail($id);
+        $data = RENSTRAIndikatorSasaranModel::select(\DB::raw('"RenstraIndikatorID","RenstraKebijakanID","IndikatorKinerjaID","trRenstraIndikator"."UrsID","PrgID","trRenstraIndikator"."OrgID","OrgNm","trRenstraIndikator"."NamaIndikator","trRenstraIndikator"."Descr"'))
+                                            ->join('tmOrg','tmOrg.OrgID','trRenstraIndikator.OrgID')
+                                            ->findOrFail($id);
         if (!is_null($data) ) 
         {
-            $daftar_kebijakan = RENSTRAKebijakanModel::getDaftarKebijakan(\HelperKegiatan::getTahunPerencanaan(),false);
-            $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusan(\HelperKegiatan::getTahunPerencanaan(),false);
-            $daftar_program=\App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan(),false,$data['UrsID']);
-            $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false,$data['UrsID']);
+            $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusanByOPD(\HelperKegiatan::getTahunPerencanaan(),$data->OrgID,false);   
+            $daftar_urusan['all']='SEMUA URUSAN';                                                        
+            $daftar_program=[];
+            if (isset($daftar_urusan[$data->UrsID]))
+            {
+                $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan(),false,$data->UrsID);
+            }            
+
+            $daftar_indikator=\App\Models\RPJMD\RPJMDIndikatorKinerjaModel::select(\DB::raw('"IndikatorKinerjaID","NamaIndikator"'))
+                                                                        ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                                                        ->where('PrgID',$data->PrgID)                    
+                                                                        ->orderBy('NamaIndikator')
+                                                                        ->get()
+                                                                        ->pluck('NamaIndikator','IndikatorKinerjaID')
+                                                                        ->toArray();
+
+            $daftar_kebijakan=\App\Models\RENSTRA\RENSTRAKebijakanModel::select(\DB::raw('"RenstraKebijakanID",CONCAT(\'[\',"Kd_RenstraKebijakan",\']. \',"Nm_RenstraKebijakan") AS "Nm_RenstraKebijakan"'))
+                                                                        ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                                                        ->orderBy('Kd_RenstraKebijakan','ASC')
+                                                                        ->get()
+                                                                        ->pluck('Nm_RenstraKebijakan','RenstraKebijakanID')
+                                                                        ->toArray();
+
             return view("pages.$theme.renstra.renstraindikatorsasaran.edit")->with(['page_active'=>'renstraindikatorsasaran',
-                                                                                'data'=>$data,
-                                                                                'daftar_kebijakan'=>$daftar_kebijakan,
-                                                                                'daftar_urusan'=>$daftar_urusan,
-                                                                                'daftar_program'=>$daftar_program,
-                                                                                'daftar_opd'=>$daftar_opd
-                                                                                ]);
+                                                                                    'data'=>$data,
+                                                                                    'daftar_urusan'=>$daftar_urusan,
+                                                                                    'daftar_kebijakan'=>$daftar_kebijakan,
+                                                                                    'daftar_program'=>$daftar_program,
+                                                                                    'daftar_indikator'=>$daftar_indikator,
+                                                                                ]);  
                                     }        
     }
 
@@ -465,42 +475,17 @@ class RENSTRAIndikatorSasaranController extends Controller {
         $renstraindikatorsasaran = RENSTRAIndikatorSasaranModel::find($id);
         
         $this->validate($request, [
-            'PrioritasKebijakanKabID'=>'required',
+            'RenstraKebijakanID'=>'required',
+            'IndikatorKinerjaID'=>'required',
             'UrsID'=>'required',
-            'PrgID'=>'required',
-            'NamaIndikator'=>'required',
-            'OrgID'=>'required',
-            'OrgID2'=>'required',
-            'TargetAwal'=>'required',
-            'PaguDanaN1'=>'required',
-            'PaguDanaN2'=>'required',
-            'PaguDanaN3'=>'required',
-            'PaguDanaN4'=>'required',
-            'PaguDanaN5'=>'required',
-            'TargetN1'=>'required',
-            'TargetN2'=>'required',
-            'TargetN3'=>'required',
-            'TargetN4'=>'required',
-            'TargetN5'=>'required'
+            'PrgID'=>'required',          
+            'NamaIndikator'=>'required', 
         ]);
-        
-        $renstraindikatorsasaran->PrioritasKebijakanKabID = $request->input('PrioritasKebijakanKabID');
+        $renstraindikatorsasaran->RenstraKebijakanID = $request->input('RenstraKebijakanID');
+        $renstraindikatorsasaran->IndikatorKinerjaID = $request->input('IndikatorKinerjaID');
         $renstraindikatorsasaran->UrsID = $request->input('UrsID');
         $renstraindikatorsasaran->PrgID = $request->input('PrgID');
         $renstraindikatorsasaran->NamaIndikator = $request->input('NamaIndikator');
-        $renstraindikatorsasaran->TargetAwal = $request->input('TargetAwal');
-        $renstraindikatorsasaran->OrgID = $request->input('OrgID');
-        $renstraindikatorsasaran->OrgID2 = $request->input('OrgID2');
-        $renstraindikatorsasaran->PaguDanaN1 = $request->input('PaguDanaN1');
-        $renstraindikatorsasaran->PaguDanaN2 = $request->input('PaguDanaN2');
-        $renstraindikatorsasaran->PaguDanaN3 = $request->input('PaguDanaN3');
-        $renstraindikatorsasaran->PaguDanaN4 = $request->input('PaguDanaN4');
-        $renstraindikatorsasaran->PaguDanaN5 = $request->input('PaguDanaN5');
-        $renstraindikatorsasaran->TargetN1 = $request->input('TargetN1');
-        $renstraindikatorsasaran->TargetN2 = $request->input('TargetN2');
-        $renstraindikatorsasaran->TargetN3 = $request->input('TargetN3');
-        $renstraindikatorsasaran->TargetN4 = $request->input('TargetN4');
-        $renstraindikatorsasaran->TargetN5 = $request->input('TargetN5');
         $renstraindikatorsasaran->Descr = $request->input('Descr');
 
         $renstraindikatorsasaran->save();
