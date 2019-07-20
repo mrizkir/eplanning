@@ -22,6 +22,7 @@ class CreateRenstramisiTable extends Migration
             $table->string('Descr')->nullable();
             $table->year('TA');
             $table->boolean('Locked')->default(0);
+            $table->string('RenstraMisiID_Src',19)->nullable();
 
             $table->timestamps();
 
@@ -29,6 +30,7 @@ class CreateRenstramisiTable extends Migration
 
             $table->index('RenstraVisiID');
             $table->index('OrgID');
+            $table->index('RenstraMisiID_Src');
 
             $table->foreign('RenstraVisiID')
                     ->references('RenstraVisiID')

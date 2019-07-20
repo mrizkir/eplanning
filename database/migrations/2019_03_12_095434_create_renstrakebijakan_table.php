@@ -22,13 +22,14 @@ class CreateRenstrakebijakanTable extends Migration
             $table->string('Descr')->nullable();
             $table->year('TA');
             $table->boolean('Locked')->default(0);
-
+            $table->string('RenstraKebijakanID_Src',19)->nullable();
             $table->timestamps();
 
             $table->primary('RenstraKebijakanID');
 
             $table->index('RenstraStrategiID');
             $table->index('OrgID');
+            $table->index('RenstraKebijakanID_Src');
 
             $table->foreign('RenstraStrategiID')
                     ->references('RenstraStrategiID')

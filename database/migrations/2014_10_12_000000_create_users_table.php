@@ -28,12 +28,6 @@ class CreateUsersTable extends Migration
             $table->string('token')->nullable();
             $table->rememberToken();
             $table->timestamps();
-
-            $table->index('OrgID');  
-            $table->index('SOrgID');
-            $table->index('PemilikPokokID');
-            $table->index('PmKecamatanID');
-            $table->index('PmDesaID');
             
         });
     }

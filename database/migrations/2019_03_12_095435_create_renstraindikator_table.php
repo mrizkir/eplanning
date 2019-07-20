@@ -26,6 +26,7 @@ class CreateRenstraindikatorTable extends Migration
             $table->string('Descr')->nullable();
             $table->year('TA');
             $table->boolean('Locked')->default(0);
+            $table->string('RenstraIndikatorID_Src',19)->nullable();
 
             $table->timestamps();
 
@@ -36,6 +37,7 @@ class CreateRenstraindikatorTable extends Migration
             $table->index('UrsID');
             $table->index('PrgID');
             $table->index('OrgID');
+            $table->index('RenstraIndikatorID_Src');
 
             $table->foreign('RenstraKebijakanID')
                     ->references('RenstraKebijakanID')

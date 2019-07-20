@@ -22,6 +22,7 @@ class CreateRenstrasasaranTable extends Migration
             $table->string('Descr')->nullable();
             $table->year('TA');
             $table->boolean('Locked')->default(0);
+            $table->string('RenstraSasaranID_Src',19)->nullable();
 
             $table->timestamps();
 
@@ -29,6 +30,7 @@ class CreateRenstrasasaranTable extends Migration
 
             $table->index('RenstraTujuanID');
             $table->index('OrgID');
+            $table->index('RenstraSasaranID_Src');
 
             $table->foreign('RenstraTujuanID')
                     ->references('RenstraTujuanID')

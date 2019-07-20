@@ -20,6 +20,7 @@ class CreateRenstravisiTable extends Migration
             $table->string('Nm_RenstraVisi');           
             $table->string('Descr')->nullable();
             $table->year('TA');
+            $table->string('RenstraVisiID_Src',19)->nullable();
             $table->boolean('Locked')->default(0);
 
             $table->timestamps();
@@ -27,6 +28,7 @@ class CreateRenstravisiTable extends Migration
             $table->primary('RenstraVisiID');
 
             $table->index('OrgID');
+            $table->index('RenstraVisiID_Src');
 
             $table->foreign('OrgID')
                     ->references('OrgID')
