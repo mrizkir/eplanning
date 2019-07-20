@@ -22,11 +22,27 @@ class RKPDMurniController extends Controller {
     }
     private function populateRincianKegiatan($RKPDID)
     {
-        $data = RKPDRincianModel::select(\DB::raw('"trRKPDRinc"."RKPDRincID","trRKPDRinc"."RKPDID","trRKPDRinc"."RKPDID","trRKPDRinc"."UsulanKecID","Nm_Kecamatan","trRKPDRinc"."Uraian","trRKPDRinc"."No","trRKPDRinc"."Sasaran_Angka1","trRKPDRinc"."Sasaran_Uraian1","trRKPDRinc"."Target1","trRKPDRinc"."NilaiUsulan1","trRKPDRinc"."Status" AS "Status","trRKPDRinc"."Descr","isSKPD","isReses","isReses_Uraian","trRKPDRinc"."Descr"'))
+        $data = RKPDRincianModel::select(\DB::raw('"trRKPDRinc"."RKPDRincID",
+                                                "trRKPDRinc"."RKPDID",
+                                                "trRKPDRinc"."UsulanKecID",
+                                                "Nm_Kecamatan",
+                                                "trRKPDRinc"."Uraian",
+                                                "trRKPDRinc"."No",
+                                                "trRKPDRinc"."Sasaran_Angka1",
+                                                "trRKPDRinc"."Sasaran_Uraian1",
+                                                "trRKPDRinc"."Target1",
+                                                "trRKPDRinc"."NilaiUsulan1",
+                                                "trRKPDRinc"."Status",
+                                                "trRKPDRinc"."Privilege",
+                                                "trRKPDRinc"."Descr",
+                                                "isSKPD",
+                                                "isReses",
+                                                "isReses_Uraian",
+                                                "trRKPDRinc"."Descr"'))
                                 ->leftJoin('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRKPDRinc.PmKecamatanID')
                                 ->leftJoin('trPokPir','trPokPir.PokPirID','trRKPDRinc.PokPirID')
                                 ->leftJoin('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')
-                                ->where('trRKPDRinc.EntryLvl',5)
+                                ->where('trRKPDRinc.EntryLvl',4)
                                 ->where('RKPDID',$RKPDID)
                                 ->get();
     
@@ -282,22 +298,15 @@ class RKPDMurniController extends Controller {
                                                                                     'direction'=>$this->getControllerStateSession('rkpdmurni.orderby','order'),
                                                                                     'data'=>$data])->render();
 
-            $totalpaguindikatifopd = RKPDRincianModel::getTotalPaguByOPD(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName('rkpdmurni'),$filters['OrgID']);            
-                  
-            $totalpaguindikatifunitkerja[0]=0;
-            $totalpaguindikatifunitkerja[1]=0;
-            $totalpaguindikatifunitkerja[2]=0;
-            $totalpaguindikatifunitkerja[3]=0;  
+            $totalpaguopd = RKPDRincianModel::getTotalPaguByOPD(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['OrgID']);            
+            
+            $totalpaguunitkerja['murni']=0;
 
             $paguanggaranopd=\App\Models\DMaster\PaguAnggaranOPDModel::select('Jumlah1')
                                                                         ->where('OrgID',$filters['OrgID'])
                                                                         ->value('Jumlah1');
-            $json_data = ['success'=>true,
-                        'paguanggaranopd'=>$paguanggaranopd,
-                        'daftar_unitkerja'=>$daftar_unitkerja,
-                        'totalpaguindikatifopd'=>$totalpaguindikatifopd,
-                        'totalpaguindikatifunitkerja'=>$totalpaguindikatifunitkerja,
-                        'datatable'=>$datatable];
+            
+            $json_data = ['success'=>true,'paguanggaranopd'=>$paguanggaranopd,'totalpaguopd'=>$totalpaguopd,'totalpaguunitkerja'=>$totalpaguunitkerja,'daftar_unitkerja'=>$daftar_unitkerja,'datatable'=>$datatable];
         } 
         //index
         if ($request->exists('SOrgID'))
@@ -316,11 +325,9 @@ class RKPDMurniController extends Controller {
                                                                             'direction'=>$this->getControllerStateSession('rkpdmurni.orderby','order'),
                                                                             'data'=>$data])->render();                                                                                       
 
-            $totalpaguindikatifunitkerja = RKPDRincianModel::getTotalPaguByUnitKerja(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName('rkpdmurni'),$filters['SOrgID']);            
+            $totalpaguunitkerja = RKPDRincianModel::getTotalPaguByUnitKerja(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['SOrgID']);            
 
-            $json_data = ['success'=>true,
-                        'totalpaguindikatifunitkerja'=>$totalpaguindikatifunitkerja,
-                        'datatable'=>$datatable];    
+            $json_data = ['success'=>true,'totalpaguunitkerja'=>$totalpaguunitkerja,'datatable'=>$datatable];    
         }
         return $json_data;
     }
@@ -379,7 +386,7 @@ class RKPDMurniController extends Controller {
             $data = $this->populateData($data->lastPage());
         }
         $this->setCurrentPageInsideSession('rkpdmurni',$data->currentPage());
-
+        
         $paguanggaranopd=\App\Models\DMaster\PaguAnggaranOPDModel::select('Jumlah1')
                                                                     ->where('OrgID',$filters['OrgID'])                                                    
                                                                     ->value('Jumlah1');
@@ -393,8 +400,8 @@ class RKPDMurniController extends Controller {
                                                                 'column_order'=>$this->getControllerStateSession('rkpdmurni.orderby','column_name'),
                                                                 'direction'=>$this->getControllerStateSession('rkpdmurni.orderby','order'),
                                                                 'paguanggaranopd'=>$paguanggaranopd,
-                                                                'totalpaguindikatifopd'=>RKPDRincianModel::getTotalPaguByOPD(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName('rkpdmurni'),$filters['OrgID']),
-                                                                'totalpaguindikatifunitkerja' => RKPDRincianModel::getTotalPaguByUnitKerja(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName('rkpdmurni'),$filters['SOrgID']),            
+                                                                'totalpaguopd'=>RKPDRincianModel::getTotalPaguByOPD(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['OrgID']),
+                                                                'totalpaguunitkerja' => RKPDRincianModel::getTotalPaguByUnitKerja(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['SOrgID']),            
                                                                 'data'=>$data]);               
                      
     }
@@ -418,33 +425,45 @@ class RKPDMurniController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $renja = RKPDModel::select(\DB::raw('"trRKPD"."RKPDID",                            
-                            "v_program_kegiatan"."Kd_Urusan",
-                            "v_program_kegiatan"."Nm_Urusan",
-                            "v_program_kegiatan"."Kd_Bidang",
-                            "v_program_kegiatan"."Nm_Bidang",
-                            "v_program_kegiatan"."Kd_Prog",
-                            "v_program_kegiatan"."PrgNm",
-                            "v_program_kegiatan"."kode_kegiatan",
-                            "v_program_kegiatan"."KgtNm",
-                            "trRKPD"."Sasaran_Angka1",
-                            "trRKPD"."Sasaran_Uraian1",
-                            "trRKPD"."Sasaran_AngkaSetelah",
-                            "trRKPD"."Sasaran_UraianSetelah",
-                            "trRKPD"."Target1",
-                            "trRKPD"."NilaiUsulan1",
-                            "trRKPD"."NamaIndikator",
-                            "tmSumberDana"."Nm_SumberDana",
-                            "trRKPD"."created_at",
-                            "trRKPD"."updated_at"'))
+        $rkpd = RKPDModel::select(\DB::raw('"trRKPD"."RKPDID",
+                                            "v_program_kegiatan"."Kd_Urusan",
+                                            "v_program_kegiatan"."Nm_Urusan",
+                                            "v_program_kegiatan"."Kd_Bidang",
+                                            "v_program_kegiatan"."Nm_Bidang",
+                                            "v_suborganisasi"."kode_organisasi",
+                                            "v_suborganisasi"."OrgNm",
+                                            "v_suborganisasi"."kode_suborganisasi",
+                                            "v_suborganisasi"."SOrgNm",
+                                            "v_program_kegiatan"."Kd_Prog",
+                                            "v_program_kegiatan"."PrgNm",
+                                            "v_program_kegiatan"."Kd_Keg",
+                                            "v_program_kegiatan"."kode_kegiatan",
+                                            "v_program_kegiatan"."KgtNm",
+                                            "NamaIndikator",
+                                            "Sasaran_Angka1" AS "Sasaran_Angka",
+                                            "Sasaran_Uraian1" AS "Sasaran_Uraian",
+                                            "Sasaran_AngkaSetelah",
+                                            "Sasaran_UraianSetelah",
+                                            "Target1" AS "Target",
+                                            "NilaiSebelum",
+                                            "NilaiUsulan1" AS "NilaiUsulan",
+                                            "NilaiSetelah",
+                                            "Nm_SumberDana",
+                                            "trRKPD"."Privilege",
+                                            "trRKPD"."Status",
+                                            "trRKPD"."EntryLvl",
+                                            "trRKPD"."created_at",
+                                            "trRKPD"."updated_at"
+                                            '))
+                            ->join('v_suborganisasi','v_suborganisasi.SOrgID','trRKPD.SOrgID')                       
                             ->join('v_program_kegiatan','v_program_kegiatan.KgtID','trRKPD.KgtID')     
-                            ->join('tmSumberDana','tmSumberDana.SumberDanaID','trRKPD.SumberDanaID')   
-                            ->findOrFail($id);            
-        if (!is_null($renja) )  
-        {
+                            ->join('tmSumberDana','tmSumberDana.SumberDanaID','trRKPD.SumberDanaID')
+                            ->findOrFail($id);
+        if (!is_null($rkpd) )  
+        {            
             $datarinciankegiatan = $this->populateRincianKegiatan($id);
             return view("pages.$theme.rkpd.rkpdmurni.show")->with(['page_active'=>'rkpdmurni',
-                                                                        'renja'=>$renja,
+                                                                        'rkpd'=>$rkpd,
                                                                         'datarinciankegiatan'=>$datarinciankegiatan
                                                                     ]);
         }        

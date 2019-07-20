@@ -465,7 +465,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::get('/workflow/rkpd/rkpdperubahan/printtoexcel',['uses'=>'RKPD\RKPDPerubahanController@printtoexcel','as'=>'rkpdperubahan.printtoexcel']);
     Route::get('/workflow/rkpd/rkpdperubahan/printtopdf',['uses'=>'RKPD\RKPDPerubahanController@printtopdf','as'=>'rkpdperubahan.printtopdf']);
     
-    //Report - Perencanaan  REKAP RKPD MURNI OPD    
+    //Report - RENCANA KERJA OPD / SKPD - RKPD MURNI PER OPD   
     Route::resource('/report/rkpd/reportrkpdmurniopd','Report\ReportRKPDMurniOPDController',[
                                                                 'parameters'=>['reportrkpdmurniopd'=>'id'],
                                                                 'only'=>['index']
@@ -475,7 +475,17 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/report/rkpd/reportrkpdmurniopd/filter',['uses'=>'Report\ReportRKPDMurniOPDController@filter','as'=>'reportrkpdmurniopd.filter']);                  
     Route::get('/report/rkpd/reportrkpdmurniopd/printtoexcel',['uses'=>'Report\ReportRKPDMurniOPDController@printtoexcel','as'=>'reportrkpdmurniopd.printtoexcel']);  
 
-    //Report - Perencanaan REKAP MURNI OPD    
+    //Report - RENCANA KERJA OPD / SKPD - RKPD MURNI PER OPD RINCI
+    Route::resource('/report/rkpd/reportrkpdmurniopdrinci','Report\ReportRKPDMurniOPDRinciController',[
+        'parameters'=>['reportrkpdmurniopdrinci'=>'id'],
+        'only'=>['index']
+    ]);                   
+
+    Route::post('/report/rkpd/reportrkpdmurniopdrinci/search',['uses'=>'Report\ReportRKPDMurniOPDRinciController@search','as'=>'reportrkpdmurniopdrinci.search']);              
+    Route::post('/report/rkpd/reportrkpdmurniopdrinci/filter',['uses'=>'Report\ReportRKPDMurniOPDRinciController@filter','as'=>'reportrkpdmurniopdrinci.filter']);                  
+    Route::get('/report/rkpd/reportrkpdmurniopdrinci/printtoexcel',['uses'=>'Report\ReportRKPDMurniOPDRinciController@printtoexcel','as'=>'reportrkpdmurniopdrinci.printtoexcel']);  
+
+    //Report - RENCANA KERJA OPD / SKPD - PROGRAM RKPD MURNI PER OPD
     Route::resource('/report/rkpd/reportprogrammurniopd','Report\ReportProgramMurniOPDController',[
         'parameters'=>['reportprogrammurniopd'=>'id'],
         'only'=>['index']
@@ -485,7 +495,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/report/rkpd/reportprogrammurniopd/filter',['uses'=>'Report\ReportProgramMurniOPDController@filter','as'=>'reportprogrammurniopd.filter']);                  
     Route::get('/report/rkpd/reportprogrammurniopd/printtoexcel',['uses'=>'Report\ReportProgramMurniOPDController@printtoexcel','as'=>'reportprogrammurniopd.printtoexcel']);  
 
-    //Report - Perencanaan  REKAP RKPD PERUBAHAN OPD    
+    //Report - RENCANA KERJA OPD / SKPD - PROGRAM RKPD MURNI PER OPD
     Route::resource('/report/rkpd/reportrkpdperubahanopd','Report\ReportRKPDPerubahanOPDController',[
                                                                             'parameters'=>['reportrkpdperubahanopd'=>'id'],
                                                                             'only'=>['index']
@@ -495,7 +505,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/report/rkpd/reportrkpdperubahanopd/filter',['uses'=>'Report\ReportRKPDPerubahanOPDController@filter','as'=>'reportrkpdperubahanopd.filter']);                  
     Route::get('/report/rkpd/reportrkpdperubahanopd/printtoexcel',['uses'=>'Report\ReportRKPDPerubahanOPDController@printtoexcel','as'=>'reportrkpdperubahanopd.printtoexcel']);  
 
-    //Report - Perencanaan REKAP Program PERUBAHAN OPD    
+    //Report - RENCANA KERJA OPD / SKPD - PROGRAM RKPD PERUBAHAN PER OPD
     Route::resource('/report/rkpd/reportprogramperubahanopd','Report\ReportProgramPerubahanOPDController',[
                                                                             'parameters'=>['reportprogramperubahanopd'=>'id'],
                                                                             'only'=>['index']

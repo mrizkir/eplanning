@@ -80,7 +80,7 @@
                         <td>{{$item->Target1}}</td>
                         <td class="text-right">{{Helper::formatuang($item->NilaiUsulan1)}}</td>                        
                         <td>
-                            @include('layouts.limitless.l_status_kegiatan')                        
+                            @include('layouts.limitless.l_status_rkpd')                       
                         </td>
                         <td>
                             <ul class="icons-list">                            

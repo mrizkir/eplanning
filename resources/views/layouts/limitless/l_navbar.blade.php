@@ -335,6 +335,11 @@
                                             <i class="icon-file-empty"></i> RKPD PER OPD</span>
                                         </a>
                                     </li> 
+                                    <li{!!Helper::isMenuActive ($page_active,'reportrkpdmurniopdrinci',' class="active"')!!}>
+                                        <a href="{{route('reportrkpdmurniopdrinci.index')}}">
+                                            <i class="icon-file-empty"></i> RKPD PER OPD RINCI</span>
+                                        </a>
+                                    </li> 
                                     <li{!!Helper::isMenuActive ($page_active,'reportprogrammurniopd',' class="active"')!!}>
                                         <a href="{{route('reportprogrammurniopd.index')}}">
                                             <i class="icon-file-empty"></i> PROGRAM RKPD PER OPD</span>

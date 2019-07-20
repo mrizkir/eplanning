@@ -25,7 +25,7 @@
                     DATA RENCANA KERJA KEGIATAN                   
                 </h5>
                 <div class="heading-elements"> 
-                    @if (empty($renja->RKPDID))
+                    @if (empty($rkpd->RKPDID))
                     <a id="btnTransfer" href="#" class="btn btn-primary btn-icon heading-btn btnEdit" title="Transfer RENJA Ke RKPD">
                         <i class="icon-play4"></i>
                     </a>
@@ -40,79 +40,125 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>RENJA ID: </strong></label>
+                                <label class="col-md-4 control-label"><strong>RKPD ID: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$renja->RenjaID}}</p>
+                                    <p class="form-control-static">{{$rkpd->RKPDID}}</p>
                                 </div>                            
                             </div> 
                             <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>OPD / SKPD: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">[{{$rkpd->kode_organisasi}}] {{$rkpd->OrgNm}}</p>
+                                </div>                            
+                            </div> 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>UNIT KERJA: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">[{{$rkpd->kode_suborganisasi}}] {{$rkpd->SOrgNm}}</p>
+                                </div>                            
+                            </div> 
+                            <div class="form-group">                            
                                 <label class="col-md-4 control-label"><strong>KELOMPOK URUSAN : </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">[{{$renja->Kd_Urusan}}] {{$renja->Nm_Urusan}}</p>
+                                    <p class="form-control-static">
+                                        @if ($rkpd->Kd_Urusan==null)
+                                            SEMUA URUSAN
+                                        @else
+                                             [{{$rkpd->Kd_Urusan}}] {{$rkpd->Nm_Urusan}}
+                                        @endif                                       
+                                    </p>
                                 </div>                            
                             </div>  
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>URUSAN : </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">[{{$renja->Kd_Urusan.'.'.$renja->Kd_Bidang}}] {{$renja->Nm_Bidang}}</p>
+                                    <p class="form-control-static">
+                                        @if ($rkpd->Kd_Urusan==null)
+                                            SEMUA URUSAN
+                                        @else
+                                            [{{$rkpd->Kd_Urusan.'.'.$rkpd->Kd_Bidang}}] {{$rkpd->Nm_Bidang}}
+                                        @endif                                         
+                                    </p>
                                 </div>                            
                             </div> 
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>PROGRAM : </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">[{{$renja->Kd_Urusan.'.'.$renja->Kd_Bidang.'.'.$renja->Kd_Prog}}] {{$renja->PrgNm}}</p>
+                                    <p class="form-control-static">
+                                        @if ($rkpd->Kd_Urusan==null)
+                                            [{{$rkpd->kode_suborganisasi.'.'.$rkpd->Kd_Prog}}] {{$rkpd->PrgNm}}
+                                        @else
+                                            [{{$rkpd->Kd_Urusan.'.'.$rkpd->Kd_Bidang.'.'.$rkpd->Kd_Prog}}] {{$rkpd->PrgNm}}
+                                        @endif   
+                                    </p>
                                 </div>                            
                             </div> 
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>KEGIATAN : </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">[{{$renja->kode_kegiatan}}] {{$renja->KgtNm}}</p>
+                                    <p class="form-control-static">
+                                        @if ($rkpd->Kd_Urusan==null)
+                                            [{{$rkpd->kode_suborganisasi.'.'.$rkpd->Kd_Prog.'.'.$rkpd->Kd_Keg}}] {{$rkpd->KgtNm}}
+                                        @else
+                                            [{{$rkpd->kode_kegiatan}}] {{$rkpd->KgtNm}}
+                                        @endif   
+                                    </p>
                                 </div>                            
-                            </div> 
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>SASARAN KEGIATAN: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::formatAngka($renja->Sasaran_Angka1)}} {{$renja->Sasaran_Uraian5}}</p>
-                                </div>                            
-                            </div>    
+                            </div>                              
                         </div>                        
                     </div>
                     <div class="col-md-6">
                         <div class="form-horizontal">                            
                             <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>SASARAN KEGIATAN: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{Helper::formatAngka($rkpd->Sasaran_Angka)}} {{$rkpd->Sasaran_Uraian}}</p>
+                                </div>                            
+                            </div>   
+                            <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>SASARAN KEGIATAN (N+1): </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::formatAngka($renja->Sasaran_AngkaSetelah)}} {{$renja->Sasaran_UraianSetelah}}</p>
+                                    <p class="form-control-static">{{Helper::formatAngka($rkpd->Sasaran_AngkaSetelah)}} {{$rkpd->Sasaran_UraianSetelah}}</p>
                                 </div>                            
                             </div>   
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>TARGET (%): </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::formatAngka($renja->Target1)}}</p>
+                                    <p class="form-control-static">{{Helper::formatAngka($rkpd->Target)}}</p>
                                 </div>                            
                             </div>
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>NILAI: </strong></label>
+                                <label class="col-md-4 control-label"><strong>NILAI (TA-1 / TA / TA+1): </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::formatUang($renja->NilaiUsulan1)}}</p>                                
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <p class="form-control-static">{{Helper::formatUang($rkpd->NilaiSebelum)}}</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p class="form-control-static" id="pNilaiUsulan">{{Helper::formatUang($rkpd->NilaiUsulan)}}</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p class="form-control-static">{{Helper::formatUang($rkpd->NilaiSetelah)}}</p>
+                                        </div>
+                                    </div>                                    
                                 </div>                            
                             </div>  
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>INDIKATOR KEGIATAN: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$renja->NamaIndikator}}</p>
+                                    <p class="form-control-static">{{$rkpd->NamaIndikator}}</p>
                                 </div>                            
                             </div>  
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>SUMBER DANA: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$renja->Nm_SumberDana}}</p>
+                                    <p class="form-control-static">{{$rkpd->Nm_SumberDana}}</p>
                                 </div>                            
                             </div>  
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>TGL. BUAT / UBAH: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$renja->created_at)}} / {{Helper::tanggal('d/m/Y H:m',$renja->updated_at)}}</p>
+                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$rkpd->created_at)}} / {{Helper::tanggal('d/m/Y H:m',$rkpd->updated_at)}}</p>
                                 </div>                            
                             </div>                     
                         </div>

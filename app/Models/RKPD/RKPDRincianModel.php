@@ -109,10 +109,10 @@ class RKPDRincianModel extends Model {
                 ->get()                
                 ->toArray();
         
-        $totalpagu['murni']=isset($data[0])?$data[0]->NilaiUsulan1:0;        
-        $totalpagu['perubahan']=isset($data[0])?$data[0]->NilaiUsulan2:0;  
+        $totalpagu['murni']=is_null($data[0]->NilaiUsulan1)?0:$data[0]->NilaiUsulan1;        
+        $totalpagu['perubahan']=is_null($data[0]->NilaiUsulan2)?0:$data[0]->NilaiUsulan2;  
         $totalpagu['selisih']=$totalpagu['perubahan']-$totalpagu['murni'];
-          
+        
         return $totalpagu;
     }
     /**
@@ -128,8 +128,8 @@ class RKPDRincianModel extends Model {
                 ->get()                
                 ->toArray();
         
-        $totalpagu['murni']=isset($data[0])?$data[0]->NilaiUsulan1:0;        
-        $totalpagu['perubahan']=isset($data[0])?$data[0]->NilaiUsulan2:0;  
+        $totalpagu['murni']=is_null($data[0]->NilaiUsulan1)?0:$data[0]->NilaiUsulan1;        
+        $totalpagu['perubahan']=is_null($data[0]->NilaiUsulan2)?0:$data[0]->NilaiUsulan2;  
         $totalpagu['selisih']=$totalpagu['perubahan']-$totalpagu['murni'];
           
         return $totalpagu;

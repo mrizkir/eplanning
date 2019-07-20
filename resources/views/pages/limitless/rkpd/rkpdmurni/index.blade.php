@@ -94,9 +94,28 @@
     </div>
     <div class="col-md-12">
         <div class="table-responsive">
-                         
+            <table id="datapagu" class="table"> 
+                <thead class="bg-info-300">
+                    <tr>
+                        <th colspan="2" class="text-center">TOTAL PAGU INDIKATIF OPD / SKPD</th>
+                        <th width="150"><strong>PAGU DANA:</strong></th>
+                        <th id="paguanggaranopd">{{Helper::formatUang($paguanggaranopd)}}</th>
+                        <th colspan="4" class="text-center">TOTAL PAGU INDIKATIF UNIT KERJA</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-grey-300" style="font-weight:bold">   
+                    <tr>
+                        <td class="text-right">JUMLAH PAGU MURNI</td>
+                        <td id="totalpagumurniopd" class="text-right">{{Helper::formatUang($totalpaguopd['murni'])}}</td>                     
+                        <td colspan="2">&nbsp;</td>
+                        <td class="text-right">JUMLAH PAGU MURNI</td>
+                        <td id="totalpagumurniunitkerja" class="text-right">{{Helper::formatUang($totalpaguunitkerja['murni'])}}</td>                     
+                        <td colspan="2">&nbsp;</td>
+                    </tr>          
+                </tbody>            
+            </table>               
         </div>
-    </div> 
+    </div>    
 </div>
 @endsection
 @section('page_asset_js')
@@ -134,8 +153,16 @@ $(document).ready(function () {
                 });                
                 $('#SOrgID').html(listitems);
                 $('#divdatatable').html(result.datatable); 
-                formatPaguTotalIndikatifOPD(result.totalpaguindikatifopd);   
-                formatPaguTotalIndikatifUnitKerja(result.totalpaguindikatifunitkerja);  
+                $('#paguanggaranopd').html(result.paguanggaranopd);
+                new AutoNumeric ('#paguanggaranopd',{
+                    allowDecimalPadding: false,
+                    emptyInputBehavior:'zero',
+                    decimalCharacter: ",",
+                    digitGroupSeparator: ".",
+                    showWarnings:false
+                });
+                formatPaguRKPDMurniOPD(result.totalpaguopd);
+                formatPaguRKPDMurniUnitKerja(result.totalpaguunitkerja);  
             },
             error:function(xhr, status, error){
                 console.log('ERROR');
@@ -156,7 +183,7 @@ $(document).ready(function () {
             success:function(result)
             { 
                 $('#divdatatable').html(result.datatable);  
-                formatPaguTotalIndikatifUnitKerja(result.totalpaguindikatifunitkerja);                   
+                formatPaguRKPDMurniUnitKerja(result.totalpaguunitkerja);                
             },
             error:function(xhr, status, error){
                 console.log('ERROR');

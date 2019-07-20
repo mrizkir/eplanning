@@ -31,7 +31,7 @@ class RKPDPerubahanController extends Controller
         switch ($this->NameOfPage) 
         {
             case 'rkpdperubahan' :
-                 $data = RKPDRincianModel::select(\DB::raw('"trRKPDRinc"."RKPDRincID",
+                $data = RKPDRincianModel::select(\DB::raw('"trRKPDRinc"."RKPDRincID",
                                                             "trRKPDRinc"."RKPDID",
                                                             "trRKPDRinc"."UsulanKecID",
                                                             "Nm_Kecamatan",
@@ -2074,14 +2074,14 @@ class RKPDPerubahanController extends Controller
         {
             return redirect(route(\Helper::getNameOfPage('show'),['id'=>$indikatorkinerja->RKPDID]))->with('success','Data Indikator kegiatan telah berhasil disimpan. Selanjutnya isi Rincian Kegiatan');
         }
-    }
+    }    
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function update2(Request $request, $id)
+    public function update3(Request $request, $id)
     {
         $rinciankegiatan = RKPDRincianModel::find($id);        
         $this->validate($request, [
@@ -2103,6 +2103,11 @@ class RKPDPerubahanController extends Controller
                     $rinciankegiatan->Target2 = $request->input('Target');
                     $rinciankegiatan->NilaiUsulan2 = $request->input('Jumlah');  
                     $rinciankegiatan->Descr = $request->input('Descr');
+                    if ($rinciankegiatan->NilaiaUsulan2!=$rinciankegiatan->NilaiaUsulan1)                    
+                    {                        
+                        $Status=$rinciankegiatan->Status == 1 || $rinciankegiatan->Status==2 ? 2:3;
+                        $rinciankegiatan->Status = $Status;
+                    }                         
                     $rinciankegiatan->save();
 
                     $rkpd = $rinciankegiatan->rkpd;            
@@ -2155,8 +2160,7 @@ class RKPDPerubahanController extends Controller
                     $rinciankegiatan->NilaiUsulan2 = $request->input('Jumlah');  
                     $rinciankegiatan->Descr = $request->input('Descr');
                     if ($rinciankegiatan->NilaiaUsulan2!=$rinciankegiatan->NilaiaUsulan1)                    
-                    {
-                        $rinciankegiatan->EntryLvl = 5;
+                    {                        
                         $Status=$rinciankegiatan->Status == 1 || $rinciankegiatan->Status==2 ? 2:3;
                         $rinciankegiatan->Status = $Status;
                     }                                        

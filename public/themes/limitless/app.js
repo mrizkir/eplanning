@@ -26,6 +26,7 @@ function checkExistsID(id) {
     if ($(id).length) status = true;
     return status;
 }
+
 function formatPaguTotalIndikatifOPD(totalpaguindikatif)
 {
     var optionnumeric =  {
@@ -67,6 +68,7 @@ function formatPaguTotalIndikatifOPD(totalpaguindikatif)
     }
     
 }
+
 function formatPaguTotalIndikatifUnitKerja(totalpaguindikatif)
 {
     var optionnumeric =  {
@@ -106,6 +108,38 @@ function formatPaguTotalIndikatifUnitKerja(totalpaguindikatif)
         $('#datastatus #totalstatusunitkerja').html(totalpaguindikatif.total);                
         new AutoNumeric ('#datastatus #totalstatusunitkerja',optionnumeric);        
     }   
+}
+
+function formatPaguRKPDMurniOPD(totalpagu)
+{
+    var optionnumeric =  {
+                            allowDecimalPadding: false,
+                            decimalCharacter: ",",
+                            digitGroupSeparator: ".",
+                            showWarnings:false
+                        };
+    
+    if (checkExistsID('#datapagu #totalpagumurniopd'))
+    {
+        $('#datapagu #totalpagumurniopd').html(totalpagu['murni']);                
+        new AutoNumeric ('#datapagu #totalpagumurniopd',optionnumeric); 
+    }   
+}
+
+function formatPaguRKPDMurniUnitKerja(totalpagu)
+{
+    var optionnumeric =  {
+                            allowDecimalPadding: false,
+                            decimalCharacter: ",",
+                            digitGroupSeparator: ".",
+                            showWarnings:false
+                        };
+    
+    if (checkExistsID('#datapagu #totalpagumurniunitkerja'))
+    {
+        $('#datapagu #totalpagumurniunitkerja').html(totalpagu['murni']);                
+        new AutoNumeric ('#datapagu #totalpagumurniunitkerja',optionnumeric); 
+    }       
 }
 
 function formatPaguRKPDPerubahanOPD(totalpagu)

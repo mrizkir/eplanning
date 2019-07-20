@@ -32,7 +32,7 @@
                 </ul>
             </div>
         </div>
-        {!! Form::open(['url'=>route(Helper::getNameOfPage('update2'),$rkpd->RKPDRincID),'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}         
+        {!! Form::open(['url'=>route(Helper::getNameOfPage('update3'),$rkpd->RKPDRincID),'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}         
         <div class="panel-body">
             <div class="form-group">
                 <label class="col-md-2 control-label">POSISI ENTRI: </label>
