@@ -57,4 +57,9 @@ class RPJMDTujuanIndikatorModel extends Model {
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
+    
+    public function tujuan()
+    {
+        return $this->belongsTo('\App\Models\RPJMD\RPJMDTujuanModel','PrioritasTujuanKabID');
+    }
 }

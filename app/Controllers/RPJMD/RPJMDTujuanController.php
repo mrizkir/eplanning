@@ -20,6 +20,14 @@ class RPJMDTujuanController extends Controller {
         parent::__construct();
         $this->middleware(['auth','role:superadmin|bapelitbang']);
     }
+    private function populateIndikatorTujuan($PrioritasTujuanKabID)
+    {
+      
+        $data = RPJMDTujuanIndikatorModel::where('PrioritasTujuanKabID',$PrioritasTujuanKabID)
+                                        ->get();
+
+        return $data;
+    }
     /**
      * collect data from resources for index view
      *
@@ -192,11 +200,11 @@ class RPJMDTujuanController extends Controller {
         $this->setCurrentPageInsideSession('rpjmdtujuan',$data->currentPage());
         
         return view("pages.$theme.rpjmd.rpjmdtujuan.index")->with(['page_active'=>'rpjmdtujuan',
-                                                'search'=>$this->getControllerStateSession('rpjmdtujuan','search'),
-                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                'column_order'=>$this->getControllerStateSession('rpjmdtujuan.orderby','column_name'),
-                                                'direction'=>$this->getControllerStateSession('rpjmdtujuan.orderby','order'),
-                                                'data'=>$data]);               
+                                                                    'search'=>$this->getControllerStateSession('rpjmdtujuan','search'),
+                                                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                    'column_order'=>$this->getControllerStateSession('rpjmdtujuan.orderby','column_name'),
+                                                                    'direction'=>$this->getControllerStateSession('rpjmdtujuan.orderby','order'),
+                                                                    'data'=>$data]);               
     }
     public function getkodetujuan($id)
     {
@@ -324,8 +332,10 @@ class RPJMDTujuanController extends Controller {
                                 ->findOrFail($id);
         if (!is_null($data) )  
         {
+            $dataindikatortujuan=$this->populateIndikatorTujuan($id);
             return view("pages.$theme.rpjmd.rpjmdtujuan.show")->with(['page_active'=>'rpjmdtujuan',
-                                                                        'data'=>$data
+                                                                        'data'=>$data,
+                                                                        'dataindikatortujuan'=>$dataindikatortujuan
                                                                     ]);
         }        
     }
@@ -356,7 +366,28 @@ class RPJMDTujuanController extends Controller {
                                                                     ]);
         }        
     }
-
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit1($id)
+    {
+        $theme = \Auth::user()->theme;
+        
+        $data_indikator = RPJMDTujuanIndikatorModel::findOrFail($id);
+        $data = RPJMDTujuanModel::find($data_indikator->PrioritasTujuanKabID);
+        if (!is_null($data) ) 
+        {        
+            $dataindikatortujuan=$this->populateIndikatorTujuan($data_indikator->PrioritasTujuanKabID);
+            return view("pages.$theme.rpjmd.rpjmdtujuan.edit1")->with(['page_active'=>'rpjmdtujuan',
+                                                                        'dataindikatortujuan'=>$dataindikatortujuan,
+                                                                        'data'=>$data,
+                                                                        'data_indikator'=>$data_indikator
+                                                                    ]);
+        }        
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -395,7 +426,43 @@ class RPJMDTujuanController extends Controller {
             return redirect(route('rpjmdtujuan.show',['id'=>$rpjmdtujuan->PrioritasTujuanKabID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update1(Request $request, $id)
+    {
+        $rpjmdindikatortujuan = RPJMDTujuanIndikatorModel::find($id);
 
+        $this->validate($request, [            
+            'NamaIndikator'=>'required',
+            'KondisiAwal'=>'required',
+            'KondisiAkhir'=>'required',
+            'Satuan'=>'required',
+        ]);
+        
+        $rpjmdindikatortujuan->NamaIndikator = $request->input('NamaIndikator');
+        $rpjmdindikatortujuan->KondisiAwal = $request->input('KondisiAwal');
+        $rpjmdindikatortujuan->KondisiAkhir = $request->input('KondisiAkhir');
+        $rpjmdindikatortujuan->Satuan = $request->input('Satuan');
+        $rpjmdindikatortujuan->Descr = $request->input('Descr');
+        $rpjmdindikatortujuan->save();
+        
+        if ($request->ajax()) 
+        {
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data ini telah berhasil disimpan.'
+            ]);
+        }
+        else
+        {
+            return redirect(route('rpjmdtujuan.show',['id'=>$rpjmdindikatortujuan->PrioritasTujuanKabID]))->with('success','Data ini telah berhasil disimpan.');
+        }
+
+    }
      /**
      * Remove the specified resource from storage.
      *
@@ -406,28 +473,49 @@ class RPJMDTujuanController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $rpjmdtujuan = RPJMDTujuanModel::find($id);
-        $result=$rpjmdtujuan->delete();
-        if ($request->ajax()) 
+        if ($request->exists('indikatortujuan'))
         {
-            $currentpage=$this->getCurrentPageInsideSession('rpjmdtujuan'); 
-            $data=$this->populateData($currentpage);
-            if ($currentpage > $data->lastPage())
-            {            
-                $data = $this->populateData($data->lastPage());
+            $rpjmdtujuan = RPJMDTujuanIndikatorModel::find($id);
+            $PrioritasTujuanKabID=$rpjmdtujuan->PrioritasTujuanKabID;
+            $result=$rpjmdtujuan->delete();
+            if ($request->ajax()) 
+            {                
+                $dataindikatortujuan = $this->populateIndikatorTujuan($PrioritasTujuanKabID);                
+                $datatable = view("pages.$theme.rpjmd.rpjmdtujuan.datatableindikatortujuan")->with(['page_active'=>'rpjmdtujuan',                                                                                    
+                                                                                    'dataindikatortujuan'=>$dataindikatortujuan])->render();      
+                
+                return response()->json(['success'=>true,'datatable'=>$datatable],200); 
             }
-            $datatable = view("pages.$theme.rpjmd.rpjmdtujuan.datatable")->with(['page_active'=>'rpjmdtujuan',
-                                                            'search'=>$this->getControllerStateSession('rpjmdtujuan','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                            'column_order'=>$this->getControllerStateSession('rpjmdtujuan.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('rpjmdtujuan.orderby','order'),
-                                                            'data'=>$data])->render();      
-            
-            return response()->json(['success'=>true,'datatable'=>$datatable],200); 
+            else
+            {
+                return redirect(route('rpjmdtujuan.show',['id'=>$PrioritasTujuanKabID]))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+            }       
         }
         else
         {
-            return redirect(route('rpjmdtujuan.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
-        }        
+            $rpjmdtujuan = RPJMDTujuanModel::find($id);
+            $result=$rpjmdtujuan->delete();
+            if ($request->ajax()) 
+            {
+                $currentpage=$this->getCurrentPageInsideSession('rpjmdtujuan'); 
+                $data=$this->populateData($currentpage);
+                if ($currentpage > $data->lastPage())
+                {            
+                    $data = $this->populateData($data->lastPage());
+                }
+                $datatable = view("pages.$theme.rpjmd.rpjmdtujuan.datatable")->with(['page_active'=>'rpjmdtujuan',
+                                                                'search'=>$this->getControllerStateSession('rpjmdtujuan','search'),
+                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                'column_order'=>$this->getControllerStateSession('rpjmdtujuan.orderby','column_name'),
+                                                                'direction'=>$this->getControllerStateSession('rpjmdtujuan.orderby','order'),
+                                                                'data'=>$data])->render();      
+                
+                return response()->json(['success'=>true,'datatable'=>$datatable],200); 
+            }
+            else
+            {
+                return redirect(route('rpjmdtujuan.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+            }       
+        }         
     }
 }

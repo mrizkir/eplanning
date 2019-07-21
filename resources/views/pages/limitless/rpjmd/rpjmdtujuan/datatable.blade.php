@@ -32,6 +32,7 @@
                             NAMA TUJUAN  
                         </a>                                             
                     </th> 
+                    <th width="100">JUMLAH INDIKATOR</th>
                     <th width="100">TA</th>
                     <th width="100">AKSI</th>
                 </tr>
@@ -44,6 +45,7 @@
                     </td>                  
                     <td>{{$item->Kd_Tujuan}}</td>
                     <td>{{$item->Nm_Tujuan}}</td>
+                    <td>{{DB::table('tmPrioritasIndikatorTujuan')->where('PrioritasTujuanKabID',$item->PrioritasTujuanKabID)->count()}}</td>
                     <td>{{$item->TA}}</td>
                     <td>
                         <ul class="icons-list">

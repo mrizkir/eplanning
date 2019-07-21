@@ -3210,7 +3210,7 @@ class UsulanRenjaController extends Controller
                 return redirect(route(\Helper::getNameOfPage('create1'),['id'=>$renjaid]))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
             }
         }
-        else  if ($request->exists('rinciankegiatan'))
+        elseif ($request->exists('rinciankegiatan'))
         {
             $rinciankegiatan = RenjaRincianModel::find($id);
             $renjaid=$rinciankegiatan->RenjaID;
