@@ -41,7 +41,7 @@
                         <select name="PrioritasKabID" id="PrioritasKabID" class="select">
                             <option></option>
                             @foreach ($daftar_misi as $k=>$item)
-                                <option value="{{$k}}"">{{$item}}</option>
+                                <option value="{{$k}}"{{$k==old('PrioritasKabID') ?' selected':''}}>{{$item}}</option>
                             @endforeach
                         </select>                                
                     </div>
@@ -82,7 +82,7 @@
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
-$(document).ready(function () {
+$(document).ready(function () {    
     AutoNumeric.multiple(['#Kd_Tujuan'], {
                                         allowDecimalPadding: false,
                                         minimumValue:0,
@@ -98,6 +98,28 @@ $(document).ready(function () {
         placeholder: "PILIH MISI",
         allowClear:true
     });
+    $(document).on('change','#PrioritasKabID',function(ev) {
+        ev.preventDefault();
+        PrioritasKabID=$(this).val();        
+        $.ajax({
+            type:'get',
+            url: url_current_page+'/getkodetujuan/'+PrioritasKabID,
+            dataType: 'json',
+            data: {
+                "_token": token,
+                "PrioritasKabID": PrioritasKabID,
+            },
+            success:function(result)
+            {   
+                const element = AutoNumeric.getAutoNumericElement('#Kd_Tujuan');
+                element.set(result.Kd_Tujuan);                                
+            },
+            error:function(xhr, status, error)
+            {   
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    });     
     $('#frmdata').validate({
         ignore: [],
         rules: {

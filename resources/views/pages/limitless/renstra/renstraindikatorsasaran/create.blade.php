@@ -80,7 +80,7 @@
                         <select name="RenstraKebijakanID" id="RenstraKebijakanID" class="select">
                             <option></option>
                             @foreach ($daftar_kebijakan as $k=>$item)
-                                <option value="{{$k}}"">{{$item}}</option>
+                                <option value="{{$k}}">{{$item}}</option>
                             @endforeach
                         </select>                                
                     </div>

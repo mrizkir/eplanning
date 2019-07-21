@@ -5,6 +5,7 @@ namespace App\Controllers\RPJMD;
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Models\RPJMD\RPJMDTujuanModel;
+use App\Models\RPJMD\RPJMDTujuanIndikatorModel;
 use App\Rules\CheckRecordIsExistValidation;
 use App\Rules\IgnoreIfDataIsEqualValidation;
 
@@ -197,6 +198,11 @@ class RPJMDTujuanController extends Controller {
                                                 'direction'=>$this->getControllerStateSession('rpjmdtujuan.orderby','order'),
                                                 'data'=>$data]);               
     }
+    public function getkodetujuan($id)
+    {
+        $Kd_Tujuan = RPJMDTujuanModel::where('PrioritasKabID',$id)->count('Kd_Tujuan')+1;
+        return response()->json(['success'=>true,'Kd_Tujuan'=>$Kd_Tujuan],200);
+    }   
     /**
      * Show the form for creating a new resource.
      *
@@ -227,7 +233,7 @@ class RPJMDTujuanController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_Tujuan'=>[new CheckRecordIsExistValidation('tmPrioritasTujuanKab',['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]]),
+            'Kd_Tujuan'=>[new CheckRecordIsExistValidation('tmPrioritasTujuanKab',['where'=>['PrioritasKabID','=',$request->input('PrioritasKabID')]]),
                             'required'
                         ],
             'PrioritasKabID'=>'required',
@@ -256,7 +262,45 @@ class RPJMDTujuanController extends Controller {
         }
 
     }
-    
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store1(Request $request)
+    {
+        $this->validate($request, [            
+            'NamaIndikator'=>'required',
+            'KondisiAwal'=>'required',
+            'KondisiAkhir'=>'required',
+            'Satuan'=>'required',
+        ]);
+        
+        $rpjmdindikatortujuan = RPJMDTujuanIndikatorModel::create([
+            'PrioritasIndikatorTujuanID'=> uniqid ('uid'),
+            'PrioritasTujuanKabID' => $request->input('PrioritasTujuanKabID'),
+            'NamaIndikator' => $request->input('NamaIndikator'),
+            'KondisiAwal' => $request->input('KondisiAwal'),
+            'KondisiAkhir' => $request->input('KondisiAkhir'),
+            'Satuan' => $request->input('Satuan'),
+            'Descr' => $request->input('Descr'),
+            'TA' => \HelperKegiatan::getTahunPerencanaan()
+        ]);        
+        
+        if ($request->ajax()) 
+        {
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data ini telah berhasil disimpan.'
+            ]);
+        }
+        else
+        {
+            return redirect(route('rpjmdtujuan.show',['id'=>$rpjmdindikatortujuan->PrioritasTujuanKabID]))->with('success','Data ini telah berhasil disimpan.');
+        }
+
+    }
     /**
      * Display the specified resource.
      *
@@ -327,7 +371,7 @@ class RPJMDTujuanController extends Controller {
         $this->validate($request, [
             'Kd_Tujuan'=>['required',new IgnoreIfDataIsEqualValidation('tmPrioritasTujuanKab',
                                                                         $rpjmdtujuan->Kd_Tujuan,
-                                                                        ['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]],
+                                                                        ['where'=>['PrioritasKabID','=',$request->input('PrioritasKabID')]],
                                                                         'Kode Tujuan')],
             'PrioritasKabID'=>'required',
             'Nm_Tujuan'=>'required',

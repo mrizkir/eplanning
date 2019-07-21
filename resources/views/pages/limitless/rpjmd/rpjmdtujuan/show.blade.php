@@ -91,6 +91,61 @@
         </div>
     </div>
 </div>
+<div class="content">
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h5 class="panel-title">
+                <i class="icon-pencil7 position-left"></i> 
+                TAMBAH INDIKATOR TUJUAN
+            </h5>            
+        </div>
+        <div class="panel-body">            
+            {!! Form::open(['action'=>'RPJMD\RPJMDTujuanController@store1','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
+                {{Form::hidden('PrioritasTujuanKabID',$data->PrioritasTujuanKabID)}}                                
+                <div class="form-group">
+                    {{Form::label('NamaIndikator','NAMA INDIKATOR',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('NamaIndikator','',['class'=>'form-control','placeholder'=>'NAMA INDIKATOR'])}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('Satuan','SATUAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('Satuan','',['class'=>'form-control','placeholder'=>'SATUAN'])}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('KondisiAwal','KONDISI KINERJA AWAL',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('KondisiAwal','',['class'=>'form-control','placeholder'=>'KONDISI KINERJA AWAL'])}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('KondisiAkhir','KONDISI AKHIR RPJMD',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('KondisiAkhir','',['class'=>'form-control','placeholder'=>'KONDISI AKHIR RPJMD'])}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::textarea('Descr','',['class'=>'form-control','placeholder'=>'KETERANGAN','rows' => 2, 'cols' => 40])}}
+                    </div>
+                </div>
+                <div class="col-md-10 col-md-offset-2">                        
+                    {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}                                            
+                </div>                
+            {!! Form::close()!!}                      
+        </div>
+    </div>
+    <div class="panel panel-flat border-top-lg border-top-info border-bottom-info" id="divdatatableindikatorkinerja">
+                 
+    </div>
+</div>   
+@endsection
+@section('page_asset_js')
+<script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
@@ -119,7 +174,37 @@ $(document).ready(function () {
             });
         }
     });
-    
+    $('#frmdata').validate({
+        ignore:[],
+        rules: {
+            NamaIndikator : {
+                required: true
+            },  
+            Satuan : {
+                required: true
+            },
+            KondisiAwal : {
+                required: true
+            },         
+            KondisiAkhir : {
+                required: true,
+            }           
+        },
+        messages : {
+            NamaIndikator : {
+                required: "Mohon untuk di isi nama indikator."              
+            },        
+            Satuan : {
+                required: "Mohon untuk di isi satuan."                
+            },
+            KondisiAwal : {
+                required: "Mohon untuk di isi kondisi kinerja awal"                    
+            },
+            KondisiAkhir : {
+                required: "Mohon untuk di isi kondisi akhir RPJMD"                            
+            }            
+        }      
+    });
 });
 </script>
 @endsection

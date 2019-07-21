@@ -41,7 +41,7 @@
                         <select name="RenstraMisiID" id="RenstraMisiID" class="select">
                             <option></option>
                             @foreach ($daftar_misi as $k=>$item)
-                                <option value="{{$k}}"">{{$item}}</option>
+                                <option value="{{$k}}">{{$item}}</option>
                             @endforeach
                         </select>                                
                     </div>

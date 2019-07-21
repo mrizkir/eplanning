@@ -40,7 +40,7 @@
                     <select name="PrioritasKebijakanKabID" id="PrioritasKebijakanKabID" class="select">
                         <option></option>
                         @foreach ($daftar_kebijakan as $k=>$item)
-                            <option value="{{$k}}"">{{$item}}</option>
+                            <option value="{{$k}}">{{$item}}</option>
                         @endforeach
                     </select>  
                 </div>
@@ -51,7 +51,7 @@
                     <select name="UrsID" id="UrsID" class="select">
                         <option></option>
                         @foreach ($daftar_urusan as $k=>$item)
-                            <option value="{{$k}}"">{{$item}}</option>
+                            <option value="{{$k}}">{{$item}}</option>
                         @endforeach
                     </select>  
                 </div>

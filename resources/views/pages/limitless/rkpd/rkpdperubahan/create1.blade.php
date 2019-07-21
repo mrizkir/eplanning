@@ -37,60 +37,58 @@
         </div>
         <div class="panel-body">
             {!! Form::open(['url'=>route(Helper::getNameOfPage('store1')),'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
-            {{Form::hidden('RKPDID',$rkpd->RKPDID)}}
-                <div class="form-group">    
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">POSISI ENTRI: </label>
-                        <div class="col-md-10">
-                            <p class="form-control-static">
-                                <span class="label border-left-primary label-striped">{{$page_title}}</span>
-                            </p>
-                        </div>                            
-                    </div>    
-                    <div class="form-group">
-                        {{Form::label('IndikatorKinerjaID','INDIKATOR KINERJA',['class'=>'control-label col-md-2'])}}
-                        <div class="col-md-10">
-                            <select name="IndikatorKinerjaID" id="IndikatorKinerjaID" class="select">
-                                <option></option>
-                                @foreach ($daftar_indikatorkinerja as $k=>$item)
-                                    <option value="{{$k}}">{{$item}}</option>
-                                @endforeach
-                            </select>                        
-                        </div>
-                    </div>   
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">NAMA INDIKATOR (RPJMD): </label>
-                        <div class="col-md-10">
-                            <p class="form-control-static" id="pNamaIndikator">-</p>
-                        </div>                            
-                    </div>  
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">TARGET TA {{HelperKegiatan::getTahunPerencanaan()}} (RPJMD): </label>
-                        <div class="col-md-10">
-                            <p class="form-control-static" id="pTargetAngka">-</p>
-                        </div>                            
-                    </div>  
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">PAGU DANA TA {{HelperKegiatan::getTahunPerencanaan()}} (RPJMD): </label>
-                        <div class="col-md-10">
-                            <p class="form-control-static" id="pPaguDana">-</p>
-                        </div>                            
-                    </div>    
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">TARGET ANGKA: </label>
-                        <div class="col-md-10">
-                            {{Form::text('Target_Angka','',['class'=>'form-control','placeholder'=>'TARGET ANGKA KEGIATAN','id'=>'Target_Angka'])}}
-                        </div>                            
-                    </div> 
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">TARGET URAIAN: </label>
-                        <div class="col-md-10">
-                            {{Form::text('Target_Uraian','',['class'=>'form-control','placeholder'=>'TARGET URAIAN KEGIATAN','id'=>'Target_Uraian'])}}
-                        </div>                            
-                    </div> 
-                    <div class="col-md-10 col-md-offset-2">                        
-                        {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}                                            
+            {{Form::hidden('RKPDID',$rkpd->RKPDID)}}                
+                <div class="form-group">
+                    <label class="col-md-2 control-label">POSISI ENTRI: </label>
+                    <div class="col-md-10">
+                        <p class="form-control-static">
+                            <span class="label border-left-primary label-striped">{{$page_title}}</span>
+                        </p>
+                    </div>                            
+                </div>    
+                <div class="form-group">
+                    {{Form::label('IndikatorKinerjaID','INDIKATOR KINERJA',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        <select name="IndikatorKinerjaID" id="IndikatorKinerjaID" class="select">
+                            <option></option>
+                            @foreach ($daftar_indikatorkinerja as $k=>$item)
+                                <option value="{{$k}}">{{$item}}</option>
+                            @endforeach
+                        </select>                        
                     </div>
+                </div>   
+                <div class="form-group">
+                    <label class="col-md-2 control-label">NAMA INDIKATOR (RPJMD): </label>
+                    <div class="col-md-10">
+                        <p class="form-control-static" id="pNamaIndikator">-</p>
+                    </div>                            
+                </div>  
+                <div class="form-group">
+                    <label class="col-md-2 control-label">TARGET TA {{HelperKegiatan::getTahunPerencanaan()}} (RPJMD): </label>
+                    <div class="col-md-10">
+                        <p class="form-control-static" id="pTargetAngka">-</p>
+                    </div>                            
+                </div>  
+                <div class="form-group">
+                    <label class="col-md-2 control-label">PAGU DANA TA {{HelperKegiatan::getTahunPerencanaan()}} (RPJMD): </label>
+                    <div class="col-md-10">
+                        <p class="form-control-static" id="pPaguDana">-</p>
+                    </div>                            
+                </div>    
+                <div class="form-group">
+                    <label class="col-md-2 control-label">TARGET ANGKA: </label>
+                    <div class="col-md-10">
+                        {{Form::text('Target_Angka','',['class'=>'form-control','placeholder'=>'TARGET ANGKA KEGIATAN','id'=>'Target_Angka'])}}
+                    </div>                            
+                </div> 
+                <div class="form-group">
+                    <label class="col-md-2 control-label">TARGET URAIAN: </label>
+                    <div class="col-md-10">
+                        {{Form::text('Target_Uraian','',['class'=>'form-control','placeholder'=>'TARGET URAIAN KEGIATAN','id'=>'Target_Uraian'])}}
+                    </div>                            
+                </div> 
+                <div class="col-md-10 col-md-offset-2">                        
+                    {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}                                            
                 </div>
             {!! Form::close()!!}
         </div>

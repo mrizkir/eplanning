@@ -41,7 +41,7 @@
                         <select name="PrioritasStrategiKabID" id="PrioritasStrategiKabID" class="select">
                             <option></option>
                             @foreach ($daftar_strategi as $k=>$item)
-                                <option value="{{$k}}"">{{$item}}</option>
+                                <option value="{{$k}}">{{$item}}</option>
                             @endforeach
                         </select>  
                     </div>

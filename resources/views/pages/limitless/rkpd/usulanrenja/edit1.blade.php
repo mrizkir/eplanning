@@ -33,50 +33,48 @@
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['url'=>route(Helper::getNameOfPage('update1'),['id'=>$renja->RenjaIndikatorID]),'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
-                <div class="form-group">    
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">POSISI ENTRI: </label>
-                        <div class="col-md-10">
-                            <p class="form-control-static">
-                                <span class="label border-left-primary label-striped">{{$page_title}}</span>
-                            </p>
-                        </div>                            
-                    </div>   
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">NAMA INDIKATOR (RPJMD): </label>
-                        <div class="col-md-10">
-                            <p class="form-control-static" id="pNamaIndikator">{{$dataindikator_rpjmd['NamaIndikator']}}</p>
-                        </div>                            
-                    </div>  
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">TARGET TA {{$renja->TA}} (RPJMD): </label>
-                        <div class="col-md-10">
-                            <p class="form-control-static" id="pTargetAngka">{{$dataindikator_rpjmd['TargetAngka']}}</p>
-                        </div>                            
-                    </div>  
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">PAGU DANA TA {{$renja->TA}} (RPJMD): </label>
-                        <div class="col-md-10">
-                            <p class="form-control-static" id="pPaguDana">{{$dataindikator_rpjmd['PaguDana']}}</p>
-                        </div>                            
-                    </div>    
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">TARGET ANGKA: </label>
-                        <div class="col-md-10">
-                            {{Form::text('Target_Angka',$renja->Target_Angka,['class'=>'form-control','placeholder'=>'TARGET ANGKA KEGIATAN','id'=>'Target_Angka'])}}
-                        </div>                            
-                    </div> 
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">TARGET URAIAN: </label>
-                        <div class="col-md-10">
-                            {{Form::text('Target_Uraian',$renja->Target_Uraian,['class'=>'form-control','placeholder'=>'TARGET URAIAN KEGIATAN','id'=>'Target_Uraian'])}}
-                        </div>                            
-                    </div> 
-                    <div class="col-md-10 col-md-offset-2">                        
-                        {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}                                            
-                    </div>
-                </div>
+            {!! Form::open(['url'=>route(Helper::getNameOfPage('update1'),['id'=>$renja->RenjaIndikatorID]),'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                                                 
+                <div class="form-group">
+                    <label class="col-md-2 control-label">POSISI ENTRI: </label>
+                    <div class="col-md-10">
+                        <p class="form-control-static">
+                            <span class="label border-left-primary label-striped">{{$page_title}}</span>
+                        </p>
+                    </div>                            
+                </div>   
+                <div class="form-group">
+                    <label class="col-md-2 control-label">NAMA INDIKATOR (RPJMD): </label>
+                    <div class="col-md-10">
+                        <p class="form-control-static" id="pNamaIndikator">{{$dataindikator_rpjmd['NamaIndikator']}}</p>
+                    </div>                            
+                </div>  
+                <div class="form-group">
+                    <label class="col-md-2 control-label">TARGET TA {{$renja->TA}} (RPJMD): </label>
+                    <div class="col-md-10">
+                        <p class="form-control-static" id="pTargetAngka">{{$dataindikator_rpjmd['TargetAngka']}}</p>
+                    </div>                            
+                </div>  
+                <div class="form-group">
+                    <label class="col-md-2 control-label">PAGU DANA TA {{$renja->TA}} (RPJMD): </label>
+                    <div class="col-md-10">
+                        <p class="form-control-static" id="pPaguDana">{{$dataindikator_rpjmd['PaguDana']}}</p>
+                    </div>                            
+                </div>    
+                <div class="form-group">
+                    <label class="col-md-2 control-label">TARGET ANGKA: </label>
+                    <div class="col-md-10">
+                        {{Form::text('Target_Angka',$renja->Target_Angka,['class'=>'form-control','placeholder'=>'TARGET ANGKA KEGIATAN','id'=>'Target_Angka'])}}
+                    </div>                            
+                </div> 
+                <div class="form-group">
+                    <label class="col-md-2 control-label">TARGET URAIAN: </label>
+                    <div class="col-md-10">
+                        {{Form::text('Target_Uraian',$renja->Target_Uraian,['class'=>'form-control','placeholder'=>'TARGET URAIAN KEGIATAN','id'=>'Target_Uraian'])}}
+                    </div>                            
+                </div> 
+                <div class="col-md-10 col-md-offset-2">                        
+                    {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}                                            
+                </div>                
             {!! Form::close()!!}
         </div>
     </div>
