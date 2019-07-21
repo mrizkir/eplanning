@@ -292,6 +292,7 @@ class RPJMDTujuanController extends Controller {
             'KondisiAwal' => $request->input('KondisiAwal'),
             'KondisiAkhir' => $request->input('KondisiAkhir'),
             'Satuan' => $request->input('Satuan'),
+            'Operator' => $request->input('Operator'),
             'Descr' => $request->input('Descr'),
             'TA' => \HelperKegiatan::getTahunPerencanaan()
         ]);        
@@ -447,6 +448,7 @@ class RPJMDTujuanController extends Controller {
         $rpjmdindikatortujuan->KondisiAwal = $request->input('KondisiAwal');
         $rpjmdindikatortujuan->KondisiAkhir = $request->input('KondisiAkhir');
         $rpjmdindikatortujuan->Satuan = $request->input('Satuan');
+        $rpjmdindikatortujuan->Operator = $request->input('Operator');
         $rpjmdindikatortujuan->Descr = $request->input('Descr');
         $rpjmdindikatortujuan->save();
         

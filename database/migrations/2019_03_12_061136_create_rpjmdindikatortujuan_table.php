@@ -17,9 +17,10 @@ class CreateRpjmdindikatortujuanTable extends Migration
             $table->string('PrioritasIndikatorTujuanID',19);
             $table->string('PrioritasTujuanKabID',19);            
             $table->text('NamaIndikator');
-            $table->string('KondisiAwal');
-            $table->string('KondisiAkhir');
+            $table->decimal('KondisiAwal',6,2);
+            $table->decimal('KondisiAkhir',6,2);
             $table->string('Satuan');           
+            $table->string('Operator',10);           
             $table->string('Descr')->nullable();
             $table->year('TA');
             $table->string('PrioritasIndikatorTujuanID_Src',19)->nullable();

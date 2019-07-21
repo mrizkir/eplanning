@@ -122,7 +122,14 @@
                 <div class="form-group">
                     {{Form::label('KondisiAkhir','KONDISI AKHIR RPJMD',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('KondisiAkhir',$data_indikator->KondisiAkhir,['class'=>'form-control','placeholder'=>'KONDISI AKHIR RPJMD'])}}
+                        <div class="row">
+                            <div class="col-md-1">
+                                {{Form::select('Operator',['='=>'=','>'=>'>','>='=>'>=','<'=>'<','<='=>'<='],$data_indikator->Operator,['class'=>'form-control'])}}
+                            </div>
+                            <div class="col-md-11">
+                                {{Form::text('KondisiAkhir',$data_indikator->KondisiAkhir,['class'=>'form-control','placeholder'=>'KONDISI AKHIR RPJMD'])}}
+                            </div>
+                        </div>                        
                     </div>
                 </div>
                 <div class="form-group">
@@ -145,10 +152,20 @@
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/autoNumeric.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
+    AutoNumeric.multiple(['#KondisiAwal,#KondisiAkhir'], {
+                            allowDecimalPadding: false,                            
+                            numericPos:true,
+                            decimalPlaces : 2,
+                            digitGroupSeparator : '',
+                            showWarnings:false,
+                            unformatOnSubmit: true,
+                            modifyValueOnWheel:false
+                        });
     $(document).on('click',".btnDeleteTujuan", function(ev) {
         if (confirm('Apakah Anda ingin menghapus Data RPJMD Tujuan ini ?')) {
             let url_ = $(this).attr("data-url");
