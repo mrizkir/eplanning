@@ -100,8 +100,8 @@ class ReportPokokPikiranModel extends ReportModel
         $sheet->setCellValue('B7','PEMILIK'); 
         $sheet->setCellValue('C7','NAMA KEGIATAN'); 
         $sheet->setCellValue('D7','NILAI USULAN');         
-        $sheet->setCellValue('E7','KECAMATAN');
-        $sheet->setCellValue('F7','DESA');
+        $sheet->setCellValue('E7','DESA');
+        $sheet->setCellValue('F7','KECAAMATAN');
         $sheet->setCellValue('G7','LOKASI');
         $sheet->setCellValue('H7','PRIORITAS');
         $sheet->setCellValue('I7','NAMA OPD');
