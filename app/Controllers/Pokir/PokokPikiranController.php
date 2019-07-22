@@ -60,7 +60,9 @@ class PokokPikiranController extends Controller {
                                                         "tmPmDesa"."Nm_Desa",
                                                         "trPokPir"."Lokasi",
                                                         "trPokPir"."Prioritas",
-                                                        "trPokPir"."Privilege"
+                                                        "trPokPir"."Privilege",
+                                                        "trPokPir".created_at,
+                                                        "trPokPir".updated_at
                                                     '))      
                                                 ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')
                                                 ->join('tmOrg','tmOrg.OrgID','trPokPir.OrgID')
@@ -92,7 +94,9 @@ class PokokPikiranController extends Controller {
                                                         "tmPmDesa"."Nm_Desa",
                                                         "trPokPir"."Lokasi",
                                                         "trPokPir"."Prioritas",
-                                                        "trPokPir"."Privilege"
+                                                        "trPokPir"."Privilege",
+                                                        "trPokPir".created_at,
+                                                        "trPokPir".updated_at
                                                     '))            
                                     ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')
                                     ->join('tmOrg','tmOrg.OrgID','trPokPir.OrgID')
@@ -591,5 +595,21 @@ class PokokPikiranController extends Controller {
         {
             return redirect(route('pokokpikiran.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
         }        
+    }
+    /**
+     * Print to Excel
+     *    
+     * @return \Illuminate\Http\Response
+     */
+    public function printtoexcel ()
+    {
+        $theme = \Auth::user()->theme;
+
+        $data_report=$this->getControllerStateSession('pokokpikiran','filters');
+        $generate_date=date('Y-m-d_H_m_s');
+
+        
+        $report= new \App\Models\Report\ReportPokokPikiranModel ($data_report);
+        return $report->download("pokokpikiran_$generate_date.xlsx");
     }
 }

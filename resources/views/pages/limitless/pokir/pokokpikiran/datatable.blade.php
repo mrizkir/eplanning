@@ -13,6 +13,21 @@
                         <i class="icon-googleplus5"></i>
                     </a>
                 </div> 
+                <ul class="icons-list">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-printer"></i> 
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li>
+                                <a href="{!!route('pokokpikiran.printtoexcel')!!}" title="Print to Excel" id="btnprintexcel">
+                                    <i class="icon-file-excel"></i> Export to Excel
+                                </a>     
+                            </li>                            
+                        </ul>
+                    </li>
+                </ul>
             {!! Form::close()!!}
         </div>       
     </div>
