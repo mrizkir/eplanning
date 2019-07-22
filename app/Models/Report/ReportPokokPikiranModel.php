@@ -61,6 +61,8 @@ class ReportPokokPikiranModel extends ReportModel
                                     ->leftJoin('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trPokPir.PmKecamatanID')
                                     ->leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trPokPir.PmDesaID')
                                     ->where('trPokPir.TA',\HelperKegiatan::getTahunPerencanaan())
+                                    ->orderBy('tmPemilikPokok.NmPk','ASC')
+                                    ->orderBy('Prioritas','ASC')
                                     ->get();
         }        
         else
@@ -84,6 +86,8 @@ class ReportPokokPikiranModel extends ReportModel
                                     ->leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trPokPir.PmDesaID')
                                     ->where('trPokPir.TA',\HelperKegiatan::getTahunPerencanaan())
                                     ->where('trPokPir.PemilikPokokID',$PemilikPokokID)
+                                    ->orderBy('tmPemilikPokok.NmPk','ASC')
+                                    ->orderBy('Prioritas','ASC')
                                     ->get();
             $pemilik = \App\Models\Pokir\PemilikPokokPikiranModel::find($PemilikPokokID);
             
