@@ -17,7 +17,7 @@ class ReportPokokPikiranModel extends ReportModel
     private function  print()  
     {
         $PemilikPokokID = $this->dataReport['PemilikPokokID'];
-
+        
         $sheet = $this->spreadsheet->getActiveSheet();        
         $sheet->setTitle ('LAPORAN POKOK PIKIRAN TA '.\HelperKegiatan::getTahunPerencanaan());   
         
@@ -85,9 +85,10 @@ class ReportPokokPikiranModel extends ReportModel
                                     ->where('trPokPir.TA',\HelperKegiatan::getTahunPerencanaan())
                                     ->where('trPokPir.PemilikPokokID',$PemilikPokokID)
                                     ->get();
-
+            $pemilik = \App\Models\Pokir\PemilikPokokPikiranModel::find($PemilikPokokID);
+            
             $sheet->setCellValue('A5','PEMILIK POKOK PIKIRAN'); 
-            $sheet->setCellValue('C5',': '.$PemilikPokokID); 
+            $sheet->setCellValue('C5',': '.$pemilik->NmPk); 
                         
         }
 

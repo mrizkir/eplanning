@@ -94,4 +94,10 @@ class PokokPikiranModel extends Model {
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
+
+    public function pemilikpokir()
+    {
+        return $this->belongsTo('PemilikPokokPikiranModel', 'PemilikPokokID');
+    }
+
 }
