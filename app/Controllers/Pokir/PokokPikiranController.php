@@ -604,12 +604,21 @@ class PokokPikiranController extends Controller {
     public function printtoexcel ()
     {
         $theme = \Auth::user()->theme;
-
-        $data_report=$this->getControllerStateSession('pokokpikiran','filters');
-        $generate_date=date('Y-m-d_H_m_s');
-
         
-        $report= new \App\Models\Report\ReportPokokPikiranModel ($data_report);
-        return $report->download("pokokpikiran_$generate_date.xlsx");
+        $data_report=$this->getControllerStateSession('pokokpikiran','filters');
+
+        if ($data_report['PemilikPokokID'] == 'none')
+        {
+            return view("pages.$theme.pokir.pokokpikiran.error")->with(['page_active'=>'pokokpikiran',
+                                                                    'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
+                                                                    'errormessage'=>'Mohon Pemilik Pokok Pikiran untuk di pilih terlebih dahulu.'
+                                                                ]);  
+        }   
+        else
+        {
+            $generate_date=date('Y-m-d_H_m_s');        
+            $report= new \App\Models\Report\ReportPokokPikiranModel ($data_report);
+            return $report->download("pokokpikiran_$generate_date.xlsx");
+        }     
     }
 }
