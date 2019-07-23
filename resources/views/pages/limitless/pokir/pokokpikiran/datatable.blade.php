@@ -32,6 +32,10 @@
         </div>       
     </div>
     @if (count($data) > 0)
+    @php
+        $roles=\Auth::user()->getRoleNames();
+        $hidenilai_usulan=$roles[0]!='dewan';
+    @endphp
     <div class="table-responsive"> 
         <table id="data" class="table table-striped table-hover">
             <thead>
@@ -52,11 +56,13 @@
                             NAMA KEGIATAN  
                         </a>                                             
                     </th> 
+                    @if ($hidenilai_usulan)
                     <th>
                         <a class="column-sort text-white" id="col-NilaiUsulan" data-order="{{$direction}}" href="#">
                             NILAI USULAN  
                         </a>                                             
-                    </th>                    
+                    </th>
+                    @endif                                        
                     <th width="200">
                         <a class="column-sort text-white" id="col-Lokasi" data-order="{{$direction}}" href="#">
                             LOKASI  
@@ -84,7 +90,9 @@
                     <td>{{$item->OrgNm}}</td>
                     <td>{{$item->NmPk}}</td>
                     <td>{{$item->NamaUsulanKegiatan}}</td>
+                    @if ($hidenilai_usulan)
                     <td>{{Helper::formatUang($item->NilaiUsulan)}}</td>
+                    @endif
                     <td>{{$item->Lokasi}}</td>                                        
                     <td>
                         <span class="label label-flat border-pink text-pink-600">

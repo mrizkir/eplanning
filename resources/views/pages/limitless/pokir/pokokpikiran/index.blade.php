@@ -82,6 +82,7 @@
     <div class="col-md-12" id="divdatatable">
         @include('pages.limitless.pokir.pokokpikiran.datatable')
     </div>
+    @unlessrole('dewan')  
     <div class="col-md-12">
         <div class="table-responsive">
             <table id="datastatus" class="table"> 
@@ -99,6 +100,7 @@
             </table>               
         </div>
     </div>    
+    @endunlessrole  
 </div>
 @endsection
 @section('page_asset_js')

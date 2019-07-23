@@ -26,6 +26,9 @@
                     <i class="icon-eye"></i>  DATA POKOK PIKIRAN
                 </h5>
                 <div class="heading-elements">   
+                    <a href="{{route('pokokpikiran.create')}}" class="btn btn-info btn-icon heading-btn btnTambah" title="Tambah Data Pokok Pikiran">
+                        <i class="icon-googleplus5"></i>
+                    </a>
                     <a href="{{route('pokokpikiran.edit',['id'=>$data->PokPirID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Pokok Pikiran">
                         <i class="icon-pencil7"></i>
                     </a>

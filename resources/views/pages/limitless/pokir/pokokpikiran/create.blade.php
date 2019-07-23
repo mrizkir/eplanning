@@ -38,7 +38,7 @@
             <div class="form-group">
                 {{Form::label('PemilikPokokID','NAMA PEMILIK',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
-                    {{Form::select('PemilikPokokID', $daftar_pemilik,'none',['class'=>'form-control','id'=>'PemilikPokokID'])}}
+                    {{Form::select('PemilikPokokID', $daftar_pemilik,$filters['PemilikPokokID'],['class'=>'form-control','id'=>'PemilikPokokID'])}}
                 </div>
             </div>                               
         </div>        
@@ -67,13 +67,17 @@
                         </div>
                     </div>
                 </div>
-            </div>            
+            </div>  
+            @unlessrole('dewan')          
             <div class="form-group">
                 {{Form::label('NilaiUsulan','NILAI USULAN',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
                     {{Form::text('NilaiUsulan','',['class'=>'form-control','placeholder'=>'NILAI USULAN'])}}
                 </div>
-            </div>             
+            </div>            
+            @else
+            {{Form::hidden('NilaiUsulan',0,['id'=>'NilaiUsulan'])}}
+            @endunlessrole 
             <div class="form-group">
                 {{Form::label('Prioritas','PRIORITAS',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">

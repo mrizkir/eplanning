@@ -67,13 +67,17 @@
                         </div>
                     </div>
                 </div>
-            </div>            
+            </div>   
+            @unlessrole('dewan')          
             <div class="form-group">
                 {{Form::label('NilaiUsulan','NILAI USULAN',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
                     {{Form::text('NilaiUsulan',$data->NilaiUsulan,['class'=>'form-control','placeholder'=>'NILAI USULAN'])}}
                 </div>
-            </div>             
+            </div>            
+            @else
+            {{Form::hidden('NilaiUsulan',$data->NilaiUsulan,['id'=>'NilaiUsulan'])}}
+            @endunlessrole   
             <div class="form-group">
                 {{Form::label('Prioritas','PRIORITAS',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">

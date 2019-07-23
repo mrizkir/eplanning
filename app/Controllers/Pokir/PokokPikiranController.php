@@ -376,6 +376,7 @@ class PokokPikiranController extends Controller {
         $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);  
         $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),NULL,false);
         return view("pages.$theme.pokir.pokokpikiran.create")->with(['page_active'=>'pokokpikiran',
+                                                                    'filters'=>$this->getControllerStateSession('pokokpikiran','filters'),
                                                                     'daftar_pemilik'=>$daftar_pemilik,
                                                                     'daftar_opd'=>$daftar_opd,
                                                                     'daftar_kecamatan'=>$daftar_kecamatan,
