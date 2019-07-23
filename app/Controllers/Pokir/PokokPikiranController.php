@@ -433,6 +433,7 @@ class PokokPikiranController extends Controller {
             'Output' => $request->input('Output'),
             'Jeniskeg' => $jeniskeg,
             'Prioritas' => $request->input('Prioritas'),
+            'Privilege' => 0,
             'Bobot' => 0,
             'Descr' => $request->input('Descr'),
             'TA' => \HelperKegiatan::getTahunPerencanaan(),
@@ -506,7 +507,8 @@ class PokokPikiranController extends Controller {
             break;
         }       
         
-        $data = PokokPikiranModel::findOrFail($id);        
+        $data = PokokPikiranModel::where('Privilege',0)
+                                ->findOrFail($id);        
         if (!is_null($data) ) 
         {           
             $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);  
