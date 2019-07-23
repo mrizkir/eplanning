@@ -349,38 +349,49 @@ class PokokPikiranController extends Controller {
     {        
         $auth = \Auth::user(); 
         $theme =  $auth->theme;
-        
-        $roles=$auth->getRoleNames();
-        switch ($roles[0])
+        $filters = $this->getControllerStateSession('pokokpikiran','filters');
+
+        if ($filters['PemilikPokokID']=='none' || $filters['PemilikPokokID']=='all')
         {
-            case 'superadmin' :     
-            case 'bapelitbang' :     
-                $daftar_pemilik= \App\Models\Pokir\PemilikPokokPikiranModel::where('TA',\HelperKegiatan::getTahunPerencanaan()) 
-                                                                        ->select(\DB::raw('"PemilikPokokID", CONCAT("NmPk",\' [\',"Kd_PK",\']\') AS "NmPk"'))                                                                       
-                                                                        ->get()
-                                                                        ->pluck('NmPk','PemilikPokokID')   
-                                                                        ->prepend('DAFTAR ANGGOTA DEWAN','none')                                                                     
-                                                                        ->toArray();                  
-            break;
-            case 'dewan' :               
-                $daftar_pemilik=\App\Models\UserDewan::select(\DB::raw('"PemilikPokokID", CONCAT("NmPk",\' [\',"Kd_PK",\']\') AS "NmPk"'))                                                                       
-                                                    ->where('ta',\HelperKegiatan::getTahunPerencanaan())
-                                                    ->where('id',$auth->id)
-                                                    ->get()
-                                                    ->pluck('NmPk','PemilikPokokID')
-                                                    ->prepend('DAFTAR ANGGOTA DEWAN','none')
-                                                    ->toArray(); 
-            break;
-        }       
-        
-        $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);  
-        $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),NULL,false);
-        return view("pages.$theme.pokir.pokokpikiran.create")->with(['page_active'=>'pokokpikiran',
-                                                                    'filters'=>$this->getControllerStateSession('pokokpikiran','filters'),
-                                                                    'daftar_pemilik'=>$daftar_pemilik,
-                                                                    'daftar_opd'=>$daftar_opd,
-                                                                    'daftar_kecamatan'=>$daftar_kecamatan,
-                                                                    ]);  
+            return view("pages.$theme.pokir.pokokpikiran.error")->with(['page_active'=>'pokokpikiran',
+                                                                    'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
+                                                                    'errormessage'=>'Mohon Pemilik Pokok Pikiran untuk di pilih terlebih dahulu.'
+                                                                ]);  
+        }
+        else
+        {
+            $roles=$auth->getRoleNames();
+            switch ($roles[0])
+            {
+                case 'superadmin' :     
+                case 'bapelitbang' :     
+                    $daftar_pemilik= \App\Models\Pokir\PemilikPokokPikiranModel::where('TA',\HelperKegiatan::getTahunPerencanaan()) 
+                                                                            ->select(\DB::raw('"PemilikPokokID", CONCAT("NmPk",\' [\',"Kd_PK",\']\') AS "NmPk"'))                                                                       
+                                                                            ->get()
+                                                                            ->pluck('NmPk','PemilikPokokID')   
+                                                                            ->prepend('DAFTAR ANGGOTA DEWAN','none')                                                                     
+                                                                            ->toArray();                  
+                break;
+                case 'dewan' :               
+                    $daftar_pemilik=\App\Models\UserDewan::select(\DB::raw('"PemilikPokokID", CONCAT("NmPk",\' [\',"Kd_PK",\']\') AS "NmPk"'))                                                                       
+                                                        ->where('ta',\HelperKegiatan::getTahunPerencanaan())
+                                                        ->where('id',$auth->id)
+                                                        ->get()
+                                                        ->pluck('NmPk','PemilikPokokID')
+                                                        ->prepend('DAFTAR ANGGOTA DEWAN','none')
+                                                        ->toArray(); 
+                break;
+            }       
+            
+            $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);  
+            $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),NULL,false);
+            return view("pages.$theme.pokir.pokokpikiran.create")->with(['page_active'=>'pokokpikiran',
+                                                                        'filters'=>$this->getControllerStateSession('pokokpikiran','filters'),
+                                                                        'daftar_pemilik'=>$daftar_pemilik,
+                                                                        'daftar_opd'=>$daftar_opd,
+                                                                        'daftar_kecamatan'=>$daftar_kecamatan,
+                                                                        ]);  
+        }        
     }
     
     /**

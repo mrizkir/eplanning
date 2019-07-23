@@ -29,12 +29,14 @@
                     <a href="{{route('pokokpikiran.create')}}" class="btn btn-info btn-icon heading-btn btnTambah" title="Tambah Data Pokok Pikiran">
                         <i class="icon-googleplus5"></i>
                     </a>
+                    @if ($data->Privilege==0)
                     <a href="{{route('pokokpikiran.edit',['id'=>$data->PokPirID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Pokok Pikiran">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data Pokok Pikiran" data-id="{{$data->PokPirID}}" data-url="{{route('pokokpikiran.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
                     </a>
+                    @endif                    
                     <a href="{!!route('pokokpikiran.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
                         <i class="icon-close2"></i>
                     </a>            
