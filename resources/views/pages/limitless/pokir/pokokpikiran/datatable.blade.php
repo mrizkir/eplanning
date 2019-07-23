@@ -117,6 +117,7 @@
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
+                            @if ($item->Privilege==0)
                             <li class="text-primary-600">
                                 <a class="btnEdit" href="{{route('pokokpikiran.edit',['id'=>$item->PokPirID])}}" title="Ubah Data Pokok Pikiran">
                                     <i class='icon-pencil7'></i>
@@ -127,6 +128,7 @@
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>
+                            @endif 
                         </ul>
                     </td>
                 </tr>
