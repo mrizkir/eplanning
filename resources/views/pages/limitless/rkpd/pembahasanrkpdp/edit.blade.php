@@ -9,7 +9,7 @@
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.rkpd.pembahasanrenja.info')
+    @include('pages.limitless.rkpd.pembahasanrkpdp.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">WORKFLOW</a></li>

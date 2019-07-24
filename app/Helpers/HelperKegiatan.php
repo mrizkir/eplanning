@@ -204,6 +204,9 @@ class HelperKegiatan {
             case 'rkpdperubahan' :
                 $pagetitle = 'RKPD PERUBAHAN';                
             break;           
+            case 'pembahasanrkpdp' :
+                $pagetitle = 'PEMBAHASAN RKPD PERUBAHAN';                
+            break;           
             default :
                 $pagetitle = 'WORKFLOW';
         }
@@ -227,6 +230,9 @@ class HelperKegiatan {
             break;           
             case 'verifikasirenja' :
                 $pagetitle = 'RKPD';                
+            break;           
+            case 'pembahasanrkpdp' :
+                $pagetitle = 'RKPDP FINAL';                
             break;           
             default :
                 $pagetitle = 'WORKFLOW';
@@ -283,6 +289,7 @@ class HelperKegiatan {
             break;    
             case 'rkpdmurni' :                        
             case 'rkpdperubahan' :
+            case 'pembahasanrkpdp' :
                 $dbViewName = 'v_rkpd_rinci';
             break;          
             default :
@@ -417,6 +424,7 @@ class HelperKegiatan {
                                     "Descr"');
             break;
             case 'rkpdperubahan' :
+            case 'pembahasanrkpdp' :
                 $rawSql = \DB::raw('"RKPDRincID",
                                     "RKPDID",
                                     "UsulanKecID",

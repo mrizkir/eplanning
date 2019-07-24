@@ -10,7 +10,7 @@ use App\Models\RKPD\RenjaModel;
 use App\Models\RKPD\RenjaRincianModel;
 use App\Models\RKPD\RKPDModel;
 
-class PembahasanRenjaController extends Controller {    
+class PembahasanRKPDPController extends Controller {    
     /**
      * Membuat sebuah objek
      *
@@ -20,146 +20,16 @@ class PembahasanRenjaController extends Controller {
     {
         parent::__construct();
         //set nama halaman saat ini
-        $this->NameOfPage = \Helper::getNameOfPage();
-        if ($this->NameOfPage == 'verifikasirenja')
-        {
-            $this->middleware(['auth','role:superadmin|bapelitbang|tapd']);
-        }
-        else
-        {
-            $this->middleware(['auth','role:superadmin|bapelitbang|tapd|opd']);
-        }
+        $this->NameOfPage = \Helper::getNameOfPage();       
+        
+        $this->middleware(['auth','role:superadmin|bapelitbang|tapd|opd']);
+        
         //set nama session 
         $this->SessionName=$this->getNameForSession();      
         
-
         //set nama halaman saat ini
-        $this->LabelTransfer = \HelperKegiatan::getLabelTransfer($this->NameOfPage);
-
+        $this->LabelTransfer = \HelperKegiatan::getLabelTransfer($this->NameOfPage);        
     }     
-    private function populateRincianKegiatan($RenjaID)
-    {
-        switch ($this->NameOfPage) 
-        {
-            case 'pembahasanprarenjaopd' :
-                $data = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
-                                                            "trRenjaRinc"."RenjaID",
-                                                            "trRenjaRinc"."UsulanKecID",
-                                                            "Nm_Kecamatan",
-                                                            "trRenjaRinc"."Uraian",
-                                                            "trRenjaRinc"."No",
-                                                            "trRenjaRinc"."Sasaran_Angka1" AS "Sasaran_Angka",
-                                                            "trRenjaRinc"."Sasaran_Uraian1" AS "Sasaran_Uraian",
-                                                            "trRenjaRinc"."Target1" AS "Target",
-                                                            "trRenjaRinc"."Jumlah1" AS "Jumlah",
-                                                            "trRenjaRinc"."Status",
-                                                            "trRenjaRinc"."Privilege",
-                                                            "trRenjaRinc"."Prioritas",
-                                                            "isSKPD",
-                                                            "isReses",
-                                                            "isReses_Uraian",
-                                                            "trRenjaRinc"."Descr"'))
-                                        ->where('trRenjaRinc.EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage));
-            break;
-            case 'pembahasanrakorbidang' :
-                $data = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
-                                                            "trRenjaRinc"."RenjaID",
-                                                            "trRenjaRinc"."UsulanKecID",
-                                                            "Nm_Kecamatan",
-                                                            "trRenjaRinc"."Uraian",
-                                                            "trRenjaRinc"."No",
-                                                            "trRenjaRinc"."Sasaran_Angka2" AS "Sasaran_Angka",
-                                                            "trRenjaRinc"."Sasaran_Uraian2" AS "Sasaran_Uraian",
-                                                            "trRenjaRinc"."Target2" AS "Target",
-                                                            "trRenjaRinc"."Jumlah2" AS "Jumlah",
-                                                            "trRenjaRinc"."Status",
-                                                            "trRenjaRinc"."Privilege",
-                                                            "trRenjaRinc"."Prioritas",
-                                                            "isSKPD",
-                                                            "isReses",
-                                                            "isReses_Uraian",
-                                                            "trRenjaRinc"."Descr"'))
-                                        ->where('trRenjaRinc.EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage));  
-            break;
-            case 'pembahasanforumopd' :
-                $data = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
-                                                            "trRenjaRinc"."RenjaID",
-                                                            "trRenjaRinc"."UsulanKecID",
-                                                            "Nm_Kecamatan",
-                                                            "trRenjaRinc"."Uraian",
-                                                            "trRenjaRinc"."No",
-                                                            "trRenjaRinc"."Sasaran_Angka3" AS "Sasaran_Angka",
-                                                            "trRenjaRinc"."Sasaran_Uraian3" AS "Sasaran_Uraian",
-                                                            "trRenjaRinc"."Target3" AS "Target",
-                                                            "trRenjaRinc"."Jumlah3" AS "Jumlah",
-                                                            "trRenjaRinc"."Status",
-                                                            "trRenjaRinc"."Privilege",
-                                                            "trRenjaRinc"."Prioritas",
-                                                            "isSKPD",
-                                                            "isReses",
-                                                            "isReses_Uraian",
-                                                            "trRenjaRinc"."Descr"'))
-                                        ->where('trRenjaRinc.EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage));  
-            break;
-            case 'pembahasanmusrenkab' :
-                 $data = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
-                                                            "trRenjaRinc"."RenjaID",
-                                                            "trRenjaRinc"."UsulanKecID",
-                                                            "Nm_Kecamatan",
-                                                            "trRenjaRinc"."Uraian",
-                                                            "trRenjaRinc"."No",
-                                                            "trRenjaRinc"."Sasaran_Angka4" AS "Sasaran_Angka",
-                                                            "trRenjaRinc"."Sasaran_Uraian4" AS "Sasaran_Uraian",
-                                                            "trRenjaRinc"."Target4" AS "Target",
-                                                            "trRenjaRinc"."Jumlah4" AS "Jumlah",
-                                                            "trRenjaRinc"."Status",
-                                                            "trRenjaRinc"."Privilege",
-                                                            "trRenjaRinc"."Prioritas",
-                                                            "isSKPD",
-                                                            "isReses",
-                                                            "isReses_Uraian",
-                                                            "trRenjaRinc"."Descr"'))
-                                        ->where('trRenjaRinc.EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage));  
-            break;
-            case 'verifikasirenja' :
-                 $data = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
-                                                            "trRenjaRinc"."RenjaID",
-                                                            "trRenjaRinc"."UsulanKecID",
-                                                            "Nm_Kecamatan",
-                                                            "trRenjaRinc"."Uraian",
-                                                            "trRenjaRinc"."No",
-                                                            "trRenjaRinc"."Sasaran_Angka5" AS "Sasaran_Angka",
-                                                            "trRenjaRinc"."Sasaran_Uraian5" AS "Sasaran_Uraian",
-                                                            "trRenjaRinc"."Target5" AS "Target",
-                                                            "trRenjaRinc"."Jumlah5" AS "Jumlah",
-                                                            "trRenjaRinc"."Status",
-                                                            "trRenjaRinc"."Privilege",
-                                                            "trRenjaRinc"."Prioritas",
-                                                            "isSKPD",
-                                                            "isReses",
-                                                            "isReses_Uraian",
-                                                            "trRenjaRinc"."Descr"'))
-                                        ->where('trRenjaRinc.EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage));  
-            break;
-        }
-        $data = $data->leftJoin('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')
-                        ->leftJoin('trPokPir','trPokPir.PokPirID','trRenjaRinc.PokPirID')
-                        ->leftJoin('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')                        
-                        ->where('RenjaID',$RenjaID)
-                        ->orderBy('Prioritas','ASC')
-                        ->get();
-        
-        return $data;
-    }
-    private function populateIndikatorKegiatan($RenjaID)
-    {
-      
-        $data = RenjaIndikatorModel::join('trIndikatorKinerja','trIndikatorKinerja.IndikatorKinerjaID','trRenjaIndikator.IndikatorKinerjaID')
-                                                            ->where('RenjaID',$RenjaID)
-                                                            ->get();
-
-        return $data;
-    }
     /**
      * collect data from resources for index view
      *
@@ -190,7 +60,7 @@ class PembahasanRenjaController extends Controller {
                                                                             ]);
         }        
         $SOrgID= $this->getControllerStateSession(\Helper::getNameOfPage('filters'),'SOrgID');        
-
+        
         if ($this->checkStateIsExistSession($this->SessionName,'search')) 
         {
             $search=$this->getControllerStateSession($this->SessionName,'search');
@@ -201,7 +71,6 @@ class PembahasanRenjaController extends Controller {
                                 ->select(\HelperKegiatan::getField($this->NameOfPage))
                                 ->where('kode_kegiatan',$search['isikriteria'])                                                    
                                 ->where('SOrgID',$SOrgID)
-                                ->whereNotNull('RenjaRincID')
                                 ->where('TA', \HelperKegiatan::getTahunPerencanaan())
                                 ->orderBy('Prioritas','ASC')
                                 ->orderBy($column_order,$direction); 
@@ -211,7 +80,6 @@ class PembahasanRenjaController extends Controller {
                                 ->select(\HelperKegiatan::getField($this->NameOfPage))
                                 ->where('KgtNm', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                 ->where('SOrgID',$SOrgID)
-                                ->whereNotNull('RenjaRincID')
                                 ->where('TA', \HelperKegiatan::getTahunPerencanaan())
                                 ->orderBy('Prioritas','ASC')
                                 ->orderBy($column_order,$direction);                                        
@@ -221,7 +89,6 @@ class PembahasanRenjaController extends Controller {
                                 ->select(\HelperKegiatan::getField($this->NameOfPage))
                                 ->where('Uraian', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                 ->where('SOrgID',$SOrgID)
-                                ->whereNotNull('RenjaRincID')
                                 ->where('TA', \HelperKegiatan::getTahunPerencanaan())
                                 ->orderBy('Prioritas','ASC')
                                 ->orderBy($column_order,$direction);                                        
@@ -230,11 +97,10 @@ class PembahasanRenjaController extends Controller {
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
-        {
+        {   
             $data = \DB::table(\HelperKegiatan::getViewName($this->NameOfPage))
                         ->select(\HelperKegiatan::getField($this->NameOfPage))
                         ->where('SOrgID',$SOrgID)                                     
-                        ->whereNotNull('RenjaRincID')       
                         ->where('TA', \HelperKegiatan::getTahunPerencanaan())                                            
                         ->orderBy('Prioritas','ASC')
                         ->orderBy($column_order,$direction)                                            
@@ -258,7 +124,7 @@ class PembahasanRenjaController extends Controller {
         $this->setCurrentPageInsideSession($this->SessionName,1);
         $data=$this->populateData();
 
-        $datatable = view("pages.$theme.rkpd.pembahasanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
+        $datatable = view("pages.$theme.rkpd.pembahasanrkpdp.datatable")->with(['page_active'=>$this->NameOfPage, 
                                                                                 'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                                 'label_transfer'=>$this->LabelTransfer,
                                                                                 'search'=>$this->getControllerStateSession($this->SessionName,'search'),
@@ -311,7 +177,7 @@ class PembahasanRenjaController extends Controller {
             $data = $this->populateData($data->lastPage());
         }
         
-        $datatable = view("pages.$theme.rkpd.pembahasanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
+        $datatable = view("pages.$theme.rkpd.pembahasanrkpdp.datatable")->with(['page_active'=>$this->NameOfPage, 
                                                                                 'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                                 'label_transfer'=>$this->LabelTransfer,
                                                                                 'search'=>$this->getControllerStateSession($this->SessionName,'search'),
@@ -334,7 +200,7 @@ class PembahasanRenjaController extends Controller {
 
         $this->setCurrentPageInsideSession($this->SessionName,$id);
         $data=$this->populateData($id);
-        $datatable = view("pages.$theme.rkpd.pembahasanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
+        $datatable = view("pages.$theme.rkpd.pembahasanrkpdp.datatable")->with(['page_active'=>$this->NameOfPage, 
                                                                                 'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                                 'label_transfer'=>$this->LabelTransfer,
                                                                                 'search'=>$this->getControllerStateSession($this->SessionName,'search'),
@@ -369,7 +235,7 @@ class PembahasanRenjaController extends Controller {
         $this->setCurrentPageInsideSession($this->SessionName,1);
         $data=$this->populateData();
 
-        $datatable = view("pages.$theme.rkpd.pembahasanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
+        $datatable = view("pages.$theme.rkpd.pembahasanrkpdp.datatable")->with(['page_active'=>$this->NameOfPage, 
                                                                                 'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),                                                            
                                                                                 'label_transfer'=>$this->LabelTransfer,
                                                                                 'search'=>$this->getControllerStateSession($this->SessionName,'search'),
@@ -407,7 +273,7 @@ class PembahasanRenjaController extends Controller {
 
             $data = [];
 
-            $datatable = view("pages.$theme.rkpd.pembahasanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
+            $datatable = view("pages.$theme.rkpd.pembahasanrkpdp.datatable")->with(['page_active'=>$this->NameOfPage, 
                                                                                     'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage), 
                                                                                     'label_transfer'=>$this->LabelTransfer,                                                                       
                                                                                     'search'=>$this->getControllerStateSession($this->SessionName,'search'),
@@ -439,7 +305,7 @@ class PembahasanRenjaController extends Controller {
 
             $data = $this->populateData();
 
-            $datatable = view("pages.$theme.rkpd.pembahasanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
+            $datatable = view("pages.$theme.rkpd.pembahasanrkpdp.datatable")->with(['page_active'=>$this->NameOfPage, 
                                                                                     'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                                     'label_transfer'=>$this->LabelTransfer,
                                                                                     'search'=>$this->getControllerStateSession($this->SessionName,'search'),
@@ -493,7 +359,7 @@ class PembahasanRenjaController extends Controller {
                     $filters['SOrgID']='none';
                     $this->putControllerStateSession($this->SessionName,'filters',$filters);
 
-                    return view("pages.$theme.rkpd.pembahasanrenja.error")->with(['page_active'=>$this->NameOfPage, 
+                    return view("pages.$theme.rkpd.pembahasanrkpdp.error")->with(['page_active'=>$this->NameOfPage, 
                                                                                         'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                                         'errormessage'=>'Anda Tidak Diperkenankan Mengakses Halaman ini, karena Sudah dikunci oleh BAPELITBANG',
                                                                                         ]);
@@ -514,7 +380,7 @@ class PembahasanRenjaController extends Controller {
                                                                     ->where('OrgID',$filters['OrgID'])                                                    
                                                                     ->value('Jumlah1');
         
-        return view("pages.$theme.rkpd.pembahasanrenja.index")->with(['page_active'=>$this->NameOfPage, 
+        return view("pages.$theme.rkpd.pembahasanrkpdp.index")->with(['page_active'=>$this->NameOfPage, 
                                                                         'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),                                                                            
                                                                         'label_transfer'=>$this->LabelTransfer,
                                                                         'daftar_opd'=>$daftar_opd,
@@ -528,200 +394,6 @@ class PembahasanRenjaController extends Controller {
                                                                         'totalpaguindikatifopd'=>RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['OrgID']),
                                                                         'totalpaguindikatifunitkerja' => RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['SOrgID']),            
                                                                         'data'=>$data]);             
-    }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $theme = \Auth::user()->theme;
-
-        switch ($this->NameOfPage) 
-        {            
-            case 'pembahasanprarenjaopd' :
-                $renja = RenjaModel::select(\DB::raw('"trRenja"."RenjaID",
-                                            "v_program_kegiatan"."Kd_Urusan",
-                                            "v_program_kegiatan"."Nm_Urusan",
-                                            "v_program_kegiatan"."Kd_Bidang",
-                                            "v_program_kegiatan"."Nm_Bidang",
-                                            "v_suborganisasi"."kode_organisasi",
-                                            "v_suborganisasi"."OrgNm",
-                                            "v_suborganisasi"."kode_suborganisasi",
-                                            "v_suborganisasi"."SOrgNm",
-                                            "v_program_kegiatan"."Kd_Prog",
-                                            "v_program_kegiatan"."PrgNm",
-                                            "v_program_kegiatan"."Kd_Keg",
-                                            "v_program_kegiatan"."kode_kegiatan",
-                                            "v_program_kegiatan"."KgtNm",
-                                            "NamaIndikator",
-                                            "Sasaran_Angka1" AS "Sasaran_Angka",
-                                            "Sasaran_Uraian1" AS "Sasaran_Uraian",
-                                            "Sasaran_AngkaSetelah",
-                                            "Sasaran_UraianSetelah",
-                                            "Target1" AS "Target",
-                                            "NilaiSebelum",
-                                            "NilaiUsulan1" AS "NilaiUsulan",
-                                            "NilaiSetelah",
-                                            "Nm_SumberDana",
-                                            "trRenja"."Privilege",
-                                            "trRenja"."created_at",
-                                            "trRenja"."updated_at"
-                                            '))
-                            ->join('v_suborganisasi','v_suborganisasi.SOrgID','trRenja.SOrgID')  
-                            ->join('v_program_kegiatan','v_program_kegiatan.KgtID','trRenja.KgtID')     
-                            ->join('tmSumberDana','tmSumberDana.SumberDanaID','trRenja.SumberDanaID')                       
-                            ->findOrFail($id);                
-            break;
-            case 'pembahasanrakorbidang' :
-                $renja = RenjaModel::select(\DB::raw('"trRenja"."RenjaID",
-                                            "v_program_kegiatan"."Kd_Urusan",
-                                            "v_program_kegiatan"."Nm_Urusan",
-                                            "v_program_kegiatan"."Kd_Bidang",
-                                            "v_program_kegiatan"."Nm_Bidang",
-                                            "v_suborganisasi"."kode_organisasi",
-                                            "v_suborganisasi"."OrgNm",
-                                            "v_suborganisasi"."kode_suborganisasi",
-                                            "v_suborganisasi"."SOrgNm",
-                                            "v_program_kegiatan"."Kd_Prog",
-                                            "v_program_kegiatan"."PrgNm",
-                                            "v_program_kegiatan"."Kd_Keg",
-                                            "v_program_kegiatan"."kode_kegiatan",
-                                            "v_program_kegiatan"."KgtNm",
-                                            "Sasaran_Angka2" AS "Sasaran_Angka",
-                                            "Sasaran_Uraian2" AS "Sasaran_Uraian",
-                                            "Sasaran_AngkaSetelah",
-                                            "Sasaran_UraianSetelah",
-                                            "Target2" AS "Target",
-                                            "NilaiSebelum",
-                                            "NilaiUsulan2" AS "NilaiUsulan",
-                                            "NilaiSetelah",
-                                            "Nm_SumberDana",
-                                            "trRenja"."Privilege",
-                                            "trRenja"."created_at",
-                                            "trRenja"."updated_at"
-                                            '))
-                            ->join('v_suborganisasi','v_suborganisasi.SOrgID','trRenja.SOrgID')  
-                            ->join('v_program_kegiatan','v_program_kegiatan.KgtID','trRenja.KgtID')     
-                            ->join('tmSumberDana','tmSumberDana.SumberDanaID','trRenja.SumberDanaID')                       
-                            ->findOrFail($id);
-            break;
-            case 'pembahasanforumopd' :
-                $renja = RenjaModel::select(\DB::raw('"trRenja"."RenjaID",                
-                                            "v_program_kegiatan"."Kd_Urusan",
-                                            "v_program_kegiatan"."Nm_Urusan",
-                                            "v_program_kegiatan"."Kd_Bidang",
-                                            "v_program_kegiatan"."Nm_Bidang",
-                                            "v_suborganisasi"."kode_organisasi",
-                                            "v_suborganisasi"."OrgNm",
-                                            "v_suborganisasi"."kode_suborganisasi",
-                                            "v_suborganisasi"."SOrgNm",
-                                            "v_program_kegiatan"."Kd_Prog",
-                                            "v_program_kegiatan"."PrgNm",
-                                            "v_program_kegiatan"."Kd_Keg",
-                                            "v_program_kegiatan"."kode_kegiatan",
-                                            "v_program_kegiatan"."KgtNm",
-                                            "NamaIndikator",
-                                            "Sasaran_Angka3" AS "Sasaran_Angka",
-                                            "Sasaran_Uraian3" AS "Sasaran_Uraian",
-                                            "Sasaran_AngkaSetelah",
-                                            "Sasaran_UraianSetelah",
-                                            "Target3" AS "Target",
-                                            "NilaiSebelum",
-                                            "NilaiUsulan3" AS "NilaiUsulan",
-                                            "NilaiSetelah",
-                                            "Nm_SumberDana",
-                                            "trRenja"."Privilege",
-                                            "trRenja"."created_at",
-                                            "trRenja"."updated_at"
-                                    '))
-                            ->join('v_suborganisasi','v_suborganisasi.SOrgID','trRenja.SOrgID')  
-                            ->join('v_program_kegiatan','v_program_kegiatan.KgtID','trRenja.KgtID')     
-                            ->join('tmSumberDana','tmSumberDana.SumberDanaID','trRenja.SumberDanaID')                       
-                            ->findOrFail($id);
-            break;
-            case 'pembahasanmusrenkab' :
-                $renja = RenjaModel::select(\DB::raw('"trRenja"."RenjaID",
-                                            "v_program_kegiatan"."Kd_Urusan",
-                                            "v_program_kegiatan"."Nm_Urusan",
-                                            "v_program_kegiatan"."Kd_Bidang",
-                                            "v_program_kegiatan"."Nm_Bidang",
-                                            "v_suborganisasi"."kode_organisasi",
-                                            "v_suborganisasi"."OrgNm",
-                                            "v_suborganisasi"."kode_suborganisasi",
-                                            "v_suborganisasi"."SOrgNm",
-                                            "v_program_kegiatan"."Kd_Prog",
-                                            "v_program_kegiatan"."PrgNm",
-                                            "v_program_kegiatan"."Kd_Keg",
-                                            "v_program_kegiatan"."kode_kegiatan",
-                                            "v_program_kegiatan"."KgtNm",
-                                            "NamaIndikator",
-                                            "Sasaran_Angka4" AS "Sasaran_Angka",
-                                            "Sasaran_Uraian4" AS "Sasaran_Uraian",
-                                            "Sasaran_AngkaSetelah",
-                                            "Sasaran_UraianSetelah",
-                                            "Target4" AS "Target",
-                                            "NilaiSebelum",
-                                            "NilaiUsulan4" AS "NilaiUsulan",
-                                            "NilaiSetelah",
-                                            "Nm_SumberDana",
-                                            "trRenja"."Privilege",
-                                            "trRenja"."created_at",
-                                            "trRenja"."updated_at"
-                                            '))
-                            ->join('v_suborganisasi','v_suborganisasi.SOrgID','trRenja.SOrgID')  
-                            ->join('v_program_kegiatan','v_program_kegiatan.KgtID','trRenja.KgtID')     
-                            ->join('tmSumberDana','tmSumberDana.SumberDanaID','trRenja.SumberDanaID')                       
-                            ->findOrFail($id);
-            break;                
-            case 'verifikasirenja' :
-                $renja = RenjaModel::select(\DB::raw('"trRenja"."RenjaID",
-                                            "v_program_kegiatan"."Kd_Urusan",
-                                            "v_program_kegiatan"."Nm_Urusan",
-                                            "v_program_kegiatan"."Kd_Bidang",
-                                            "v_program_kegiatan"."Nm_Bidang",
-                                            "v_suborganisasi"."kode_organisasi",
-                                            "v_suborganisasi"."OrgNm",
-                                            "v_suborganisasi"."kode_suborganisasi",
-                                            "v_suborganisasi"."SOrgNm",
-                                            "v_program_kegiatan"."Kd_Prog",
-                                            "v_program_kegiatan"."PrgNm",
-                                            "v_program_kegiatan"."Kd_Keg",
-                                            "v_program_kegiatan"."kode_kegiatan",
-                                            "v_program_kegiatan"."KgtNm",
-                                            "NamaIndikator",
-                                            "Sasaran_Angka5" AS "Sasaran_Angka",
-                                            "Sasaran_Uraian5" AS "Sasaran_Uraian",
-                                            "Sasaran_AngkaSetelah",
-                                            "Sasaran_UraianSetelah",
-                                            "Target4" AS "Target",
-                                            "NilaiSebelum",
-                                            "NilaiUsulan5" AS "NilaiUsulan",
-                                            "NilaiSetelah",
-                                            "Nm_SumberDana",
-                                            "trRenja"."Privilege",
-                                            "trRenja"."created_at",
-                                            "trRenja"."updated_at"
-                                            '))
-                            ->join('v_suborganisasi','v_suborganisasi.SOrgID','trRenja.SOrgID')  
-                            ->join('v_program_kegiatan','v_program_kegiatan.KgtID','trRenja.KgtID')     
-                            ->join('tmSumberDana','tmSumberDana.SumberDanaID','trRenja.SumberDanaID')                       
-                            ->findOrFail($id);
-            break;                
-        }           
-        if (!is_null($renja) )  
-        {
-            $dataindikatorkinerja = $this->populateIndikatorKegiatan($id);            
-            $datarinciankegiatan = $this->populateRincianKegiatan($id);               
-            return view("pages.$theme.rkpd.pembahasanrenja.show")->with(['page_active'=>$this->NameOfPage,
-                                                                'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
-                                                                'renja'=>$renja,
-                                                                'dataindikatorkinerja'=>$dataindikatorkinerja,
-                                                                'datarinciankegiatan'=>$datarinciankegiatan
-                                                            ]);
-        }        
     }
     /**
      * Display the specified resource.
@@ -824,7 +496,7 @@ class PembahasanRenjaController extends Controller {
        
         if (!is_null($data) )  
         {            
-            return view("pages.$theme.rkpd.pembahasanrenja.showrincian")->with(['page_active'=>$this->NameOfPage,
+            return view("pages.$theme.rkpd.pembahasanrkpdp.showrincian")->with(['page_active'=>$this->NameOfPage,
                                                                                 'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                                 'label_transfer'=>$this->LabelTransfer,
                                                                                 'renja'=>$data,
@@ -950,7 +622,7 @@ class PembahasanRenjaController extends Controller {
         
         if (!is_null($renja) ) 
         {  
-            return view("pages.$theme.rkpd.pembahasanrenja.edit")->with(['page_active'=>$this->NameOfPage,
+            return view("pages.$theme.rkpd.pembahasanrkpdp.edit")->with(['page_active'=>$this->NameOfPage,
                                                                         'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                         'label_transfer'=>$this->LabelTransfer,
                                                                         'renja'=>$renja,                                                                   
@@ -988,7 +660,7 @@ class PembahasanRenjaController extends Controller {
             $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession($this->SessionName);
             $data = $this->populateData($currentpage);           
             
-            $datatable = view("pages.$theme.rkpd.pembahasanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
+            $datatable = view("pages.$theme.rkpd.pembahasanrkpdp.datatable")->with(['page_active'=>$this->NameOfPage, 
                                                                                     'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),                                                                            
                                                                                     'label_transfer'=>$this->LabelTransfer,
                                                                                     'search'=>$this->getControllerStateSession($this->SessionName,'search'),
@@ -1954,7 +1626,7 @@ class PembahasanRenjaController extends Controller {
                 $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession($this->SessionName);
                 $data = $this->populateData($currentpage);                
                 
-                $datatable = view("pages.$theme.rkpd.pembahasanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
+                $datatable = view("pages.$theme.rkpd.pembahasanrkpdp.datatable")->with(['page_active'=>$this->NameOfPage, 
                                                                                         'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),                                                                            
                                                                                         'label_transfer'=>$this->LabelTransfer,
                                                                                         'search'=>$this->getControllerStateSession($this->SessionName,'search'),

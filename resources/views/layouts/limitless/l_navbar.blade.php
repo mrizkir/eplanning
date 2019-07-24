@@ -315,6 +315,11 @@
                             <i class="icon-arrow-down16"></i>RKPD PERUBAHAN <span class="text-violet"><strong>[15]</strong></span>
                         </a>                                        
                     </li>
+                    <li{!!Helper::isMenuActive ($page_active,'pembahasanrkpdp',' class="active"')!!}>
+                        <a href="{{route('pembahasanrkpdp.index')}}" title="PEMBAHASAN RKPD PERUBAHAN">
+                            <i class="icon-arrow-down16"></i>PEMBAHASAN RKPD PER. <span class="text-violet"><strong>[16]</strong></span>
+                        </a>                                        
+                    </li>
                     @endhasrole
                 </ul>
             </li>   
