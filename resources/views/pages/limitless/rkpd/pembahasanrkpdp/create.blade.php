@@ -68,6 +68,7 @@
                 {{Form::label('KgtID','NAMA KEGIATAN',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
                     {{Form::select('KgtID', [], '',['class'=>'select','id'=>'KgtID'])}}                    
+                    <span class="help-block">Bila kegiatan tidak ada, barangkali sudah di inputkan. Prinsipnya satu kegiatan tidak bisa digunakan oleh Unitkerja yang sama.</span>              
                 </div>
             </div>
         </div>
