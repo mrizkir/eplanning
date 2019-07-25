@@ -26,6 +26,7 @@ class CreateUsulanrkpdabpdTable extends Migration
 
             $table->text('Sasaran_Uraian1');
             $table->text('Sasaran_Uraian2')->nullable();
+            $table->text('Sasaran_Uraian3')->nullable();
             $table->decimal('Sasaran_Angka1',15,2);
             $table->decimal('Sasaran_Angka2',15,2)->nullable();
             $table->decimal('Sasaran_Angka3',15,2)->nullable();
@@ -159,6 +160,7 @@ class CreateUsulanrkpdabpdTable extends Migration
                 $table->string('No',4);
                 $table->text('Sasaran_Uraian1');
                 $table->text('Sasaran_Uraian2')->nullable();
+                $table->text('Sasaran_Uraian3')->nullable();
                 $table->decimal('Sasaran_Angka1',15,2);
                 $table->decimal('Sasaran_Angka2',15,2)->nullable();
                 $table->decimal('Sasaran_Angka3',15,2)->nullable();

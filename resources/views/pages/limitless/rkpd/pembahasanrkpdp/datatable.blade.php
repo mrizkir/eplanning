@@ -1,22 +1,42 @@
 <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
     <div class="panel-heading">
         <div class="panel-title">
-            <h6 class="panel-title">&nbsp;</h6>
+            <h6 class="panel-title">&nbsp;</h6>            
         </div>
         <div class="heading-elements">
-            {!! Form::open(['url'=>'#','method'=>'post','class'=>'heading-form','id'=>'frmheading','name'=>'frmheading'])!!}                 
+            {!! Form::open(['url'=>'#','method'=>'post','class'=>'heading-form','id'=>'frmheading','name'=>'frmheading'])!!}                     
                 <div class="form-group">
                     {!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control','style'=>'width:70px'])!!}                        
-                </div>                
-            {!! Form::close()!!}
+                </div>    
+                <div class="form-group">
+                    <a href="{!!route(Helper::getNameOfPage('create'))!!}" class="btn btn-info btn-xs" title="Tambah Usulan Kegiatan">
+                        <i class="icon-googleplus5"></i>
+                    </a>
+                </div>            
+            {!! Form::close()!!}  
+            <ul class="icons-list">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="icon-printer"></i> 
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li>
+                            <a href="{!!route('pembahasanrkpdp.printtoexcel')!!}" title="Print to Excel" id="btnprintexcel">
+                                <i class="icon-file-excel"></i> Export to Excel
+                            </a>     
+                        </li>                            
+                    </ul>
+                </li>
+            </ul>         
         </div>
     </div>
     @if (count($data) > 0)
-    <div class="table-responsive">
+    <div class="table-responsive"> 
         <table id="data" class="table table-striped table-hover">
             <thead>
                 <tr class="bg-teal-700">
-                    <th width="120">NO</th>     
+                    <th width="50">NO</th>     
                     <th width="150">
                         <a class="column-sort text-white" id="col-kode_kegiatan" data-order="{{$direction}}" href="#">
                             KODE KEGIATAN                                                                       
@@ -27,43 +47,40 @@
                             NAMA KEGIATAN                                                                       
                         </a>
                     </th> 
-                    <th width="350">
+                    <th width="300">
                         <a class="column-sort text-white" id="col-Uraian" data-order="{{$direction}}" href="#">
                             NAMA URAIAN                                                                       
                         </a>
                     </th>
-                    <th width="250">
+                    <th width="200">
                         <a class="column-sort text-white" id="col-Sasaran_Angka" data-order="{{$direction}}" href="#">
                             SASARAN  
                         </a>                                             
                     </th> 
-                    <th>                        
+                    <th width="120">                        
                         TARGET (%)                        
                     </th> 
                     <th width="150" class="text-right">
                         <a class="column-sort text-white" id="col-Jumlah" data-order="{{$direction}}" href="#">
                             NILAI M / <br>NILAI P
                         </a>                                             
-                    </th>            
+                    </th>                     
                     <th width="80">
-                        <a class="column-sort text-white" id="col-Status" data-order="{{$direction}}" href="#">
+                        <a class="column-sort text-white" id="col-status" data-order="{{$direction}}" href="#">
                             STATUS  
-                        </a>
+                        </a>                                             
                     </th> 
-                    <th>VER.</th>                           
-                    <th width="150">AKSI</th>
+                    <th>VER.</th>
+                    <th width="200">AKSI</th>
                 </tr>
             </thead>
             <tbody>                    
             @foreach ($data as $key=>$item)
                 <tr>
                     <td>
-                        {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}   
-                        [{{$item->No}}]
+                        {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>
-                    <td>
-                        {{$item->kode_kegiatan}}                        
-                    </td>
+                    <td>{{$item->kode_kegiatan}}</td>
                     <td>
                         {{ucwords($item->KgtNm)}}
                         @if ($item->Status_Indikator==0)
@@ -72,25 +89,44 @@
                                 INDIKATOR TIDAK ADA
                             </span>
                         @endif
-                    </td>                    
+                    </td>
+                    @if ($item->RKPDRincID=='')
+                    <td colspan="6">
+                        <span class="label label-flat label-block border-info text-info-600">
+                            PROSES INPUT BELUM SELESAI
+                        </span>
+                        <a href="{{route(Helper::getNameOfPage('create1'),['uuid'=>$item->RKPDID])}}">
+                            Lanjutkan Input 
+                        </a>
+                    </td>
                     <td>
-                        {{ucwords($item->Uraian)}}                    
+                        <ul class="icons-list">                            
+                            <li class="text-danger-600">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data {{$page_title}}" data-id="{{$item->RKPDID}}" data-url="{{route(Helper::getNameOfPage('index'))}}" data-pid="renja">
+                                    <i class='icon-trash'></i>
+                                </a> 
+                            </li>
+                        </ul>
+                    </td>
+                    @else
+                    <td>
+                        {{ucwords($item->Uraian)}}
                         @if ($item->isSKPD)
-                            <br />
+                            <br>
                             <span class="label label-flat border-grey text-grey-600">                        
                                 <a href="#">
                                     <strong>Usulan dari: </strong>OPD / SKPD
                                 </a> 
                             </span>
                         @elseif($item->isReses)
-                            <br />
+                            <br>
                             <span class="label label-flat border-grey text-grey-600">                        
                                 <a href="#">
                                     <strong>Usulan dari: </strong>POKIR [{{$item->isReses_Uraian}}]
                                 </a>
                             </span>
                         @elseif(!empty($item->UsulanKecID))
-                            <br />
+                            <br>
                             <span class="label label-flat border-grey text-grey-600">                        
                                 <a href="{{route('aspirasimusrenkecamatan.show',['id'=>$item->UsulanKecID])}}">
                                     <strong>Usulan dari: MUSREN. KEC. {{$item->Nm_Kecamatan}}
@@ -103,10 +139,10 @@
                     <td class="text-right">
                         <span class="text-success">{{Helper::formatuang($item->Jumlah)}}</span><br>
                         <span class="text-danger">{{Helper::formatuang($item->Jumlah2)}}</span>
-                    </td>                    
+                    </td>                                    
                     <td>
-                        @include('layouts.limitless.l_status_rkpd') 
-                    </td>                    
+                        @include('layouts.limitless.l_status_rkpd')    
+                    </td>
                     <td>                    
                         @if ($item->Privilege==0)
                         <span class="label label-flat border-grey text-grey-600 label-icon">
@@ -120,9 +156,42 @@
                     </td>
                     <td>
                         <ul class="icons-list">
-                            @include('layouts.limitless.l_ubah_status_rkpdp')
+                            <li class="text-primary-600">
+                                <a class="btnShow" href="{{route(Helper::getNameOfPage('show'),['id'=>$item->RKPDID])}}" title="Detail Data {{$page_title}}">
+                                    <i class='icon-eye'></i>
+                                </a>  
+                            </li>
+                            @if ($item->Privilege==0)
+                            <li class="text-primary-600">
+                                @if ($item->isSKPD)
+                                    <a class="btnEdit" href="{{route(Helper::getNameOfPage('edit4'),['id'=>$item->RKPDRincID])}}" title="Ubah Data {{$page_title}}">
+                                        <i class='icon-pencil7'></i>
+                                    </a> 
+                                @elseif($item->isReses)
+                                    <a class="btnEdit" href="{{route(Helper::getNameOfPage('edit3'),['id'=>$item->RKPDRincID])}}" title="Ubah Data {{$page_title}}">
+                                        <i class='icon-pencil7'></i>
+                                    </a>
+                                @elseif(!empty($item->UsulanKecID))
+                                    <a class="btnEdit" href="{{route(Helper::getNameOfPage('edit2'),['id'=>$item->RKPDRincID])}}" title="Ubah Data {{$page_title}}">
+                                        <i class='icon-pencil7'></i>
+                                    </a>
+                                @else
+                                    <a class="btnEdit" href="{{route(Helper::getNameOfPage('edit4'),['id'=>$item->RKPDRincID])}}" title="Ubah Data {{$page_title}}">
+                                        <i class='icon-pencil7'></i>
+                                    </a>
+                                @endif
+                            </li>      
+                            @if ($item->EntryLvl==5 && $item->Status==3)                  
+                            <li class="text-danger-600">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data Usulan {{$page_title}}" data-id="{{$item->RKPDRincID}}" data-url="{{route(Helper::getNameOfPage('index'))}}" data-pid="rincian">
+                                    <i class='icon-trash'></i>
+                                </a> 
+                            </li>
+                            @endif
+                            @endif
                         </ul>
-                    </td>                                
+                    </td>
+                    @endif                    
                 </tr>
                 <tr class="text-center info">
                     <td colspan="11">
@@ -141,7 +210,7 @@
                     </td>
                 </tr>
             @endforeach                    
-            </tbody>           
+            </tbody>
         </table>               
     </div>
     <div class="panel-body border-top-info text-center" id="paginations">

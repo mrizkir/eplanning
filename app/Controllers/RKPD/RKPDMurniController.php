@@ -96,24 +96,28 @@ class RKPDMurniController extends Controller {
                 case 'RKPDID' :
                     $data = RKPDViewJudulModel::where(['RKPDID'=>$search['isikriteria']])                                                    
                                                     ->where('SOrgID',$SOrgID)
+                                                    ->where('EntryLvl',4)                                  
                                                     ->where('TA', \HelperKegiatan::getTahunPerencanaan())
                                                     ->orderBy($column_order,$direction); 
                 break;
                 case 'kode_kegiatan' :
                     $data = RKPDViewJudulModel::where(['kode_kegiatan'=>$search['isikriteria']])                                                    
                                                     ->where('SOrgID',$SOrgID)
+                                                    ->where('EntryLvl',4)                                  
                                                     ->where('TA', \HelperKegiatan::getTahunPerencanaan())
                                                     ->orderBy($column_order,$direction); 
                 break;
                 case 'KgtNm' :
                     $data = RKPDViewJudulModel::where('KgtNm', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                                     ->where('SOrgID',$SOrgID)
+                                                    ->where('EntryLvl',4)                                  
                                                     ->where('TA', \HelperKegiatan::getTahunPerencanaan())
                                                     ->orderBy($column_order,$direction);                                        
                 break;
                 case 'Uraian' :
                     $data = RKPDViewJudulModel::where('Uraian', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                                     ->where('SOrgID',$SOrgID)
+                                                    ->where('EntryLvl',4)                                  
                                                     ->where('TA', \HelperKegiatan::getTahunPerencanaan())
                                                     ->orderBy($column_order,$direction);                                        
                 break;
@@ -124,7 +128,8 @@ class RKPDMurniController extends Controller {
         {
             $data = RKPDViewJudulModel::where('SOrgID',$SOrgID)                                                                                      
                                             ->where('TA', \HelperKegiatan::getTahunPerencanaan())                                            
-                                            ->orderBy($column_order,$direction)                                            
+                                            ->orderBy($column_order,$direction)          
+                                            ->where('EntryLvl',4)                                  
                                             ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);             
         }        
         $data->setPath(route('rkpdmurni.index'));                  
@@ -406,16 +411,6 @@ class RKPDMurniController extends Controller {
                      
     }
     /**
-     * Edit the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        
-    }
-    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -458,6 +453,7 @@ class RKPDMurniController extends Controller {
                             ->join('v_suborganisasi','v_suborganisasi.SOrgID','trRKPD.SOrgID')                       
                             ->join('v_program_kegiatan','v_program_kegiatan.KgtID','trRKPD.KgtID')     
                             ->join('tmSumberDana','tmSumberDana.SumberDanaID','trRKPD.SumberDanaID')
+                            ->where('EntryLvl',4)                                  
                             ->findOrFail($id);
         if (!is_null($rkpd) )  
         {            

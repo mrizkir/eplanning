@@ -64,11 +64,11 @@
                 </h5>
             </div>
             <div class="panel-body">
-            {!! Form::open(['url'=>route(Helper::getNameOfPage('search')),'method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
-                <div class="form-group">
+                {!! Form::open(['url'=>route(Helper::getNameOfPage('search')),'method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
+                    <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">
-                            {{Form::select('cmbKriteria', ['kode_kegiatan'=>'KODE KEGIATAN','KgtNm'=>'NAMA KEGIATAN','Uraian'=>'NAMA URAIAN'], isset($search['kriteria'])?$search['kriteria']:'kode_kegiatan',['class'=>'form-control'])}}
+                            {{Form::select('cmbKriteria', ['RKPDID'=>'RKPD ID','kode_kegiatan'=>'KODE KEGIATAN','KgtNm'=>'NAMA KEGIATAN','Uraian'=>'NAMA URAIAN'], isset($search['kriteria'])?$search['kriteria']:'kode_kegiatan',['class'=>'form-control'])}}
                         </div>
                     </div>
                     <div class="form-group" id="divKriteria">
@@ -88,13 +88,13 @@
                 {!! Form::close()!!}
             </div>
         </div>
-    </div>       
+    </div> 
     <div class="col-md-12" id="divdatatable">
         @include('pages.limitless.rkpd.pembahasanrkpdp.datatable')
-    </div>    
+    </div>      
     <div class="col-md-12">
         <div class="table-responsive">
-            <table id="datastatus" class="table"> 
+            <table id="datapagu" class="table"> 
                 <thead class="bg-info-300">
                     <tr>
                         <th colspan="2" class="text-center">TOTAL PAGU INDIKATIF OPD / SKPD</th>
@@ -105,53 +105,27 @@
                 </thead>
                 <tbody class="bg-grey-300" style="font-weight:bold">   
                     <tr>
-                        <td class="text-right">STATUS DRAFT [0]</td>
-                        <td id="totalstatusopd0" class="text-right">{{Helper::formatUang($totalpaguindikatifopd[0])}}</td>                     
+                        <td class="text-right">JUMLAH PAGU MURNI</td>
+                        <td id="totalpagumurniopd" class="text-right">{{Helper::formatUang($totalpaguopd['murni'])}}</td>                     
                         <td colspan="2">&nbsp;</td>
-                        <td class="text-right">STATUS DRAFT [0]</td>
-                        <td id="totalstatusunitkerja0" class="text-right">{{Helper::formatUang($totalpaguindikatifunitkerja[0])}}</td>                     
+                        <td class="text-right">JUMLAH PAGU MURNI</td>
+                        <td id="totalpagumurniunitkerja" class="text-right">{{Helper::formatUang($totalpaguunitkerja['murni'])}}</td>                     
                         <td colspan="2">&nbsp;</td>
                     </tr>               
                     <tr>
-                        <td class="text-right">STATUS SETUJU [1]</td>
-                        <td id="totalstatusopd1" class="text-right">{{Helper::formatUang($totalpaguindikatifopd[1])}}</td> 
+                        <td class="text-right">JUMLAH PAGU PERUBAHAN</td>
+                        <td id="totalpaguperubahanopd" class="text-right">{{Helper::formatUang($totalpaguopd['perubahan'])}}</td> 
                         <td colspan="2">&nbsp;</td>
-                        <td class="text-right">STATUS SETUJU [1]</td>
-                        <td id="totalstatusunitkerja1" class="text-right">{{Helper::formatUang($totalpaguindikatifunitkerja[1])}}</td> 
-                        <td colspan="2">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td class="text-right">STATUS SETUJU <br>DENGAN CATATAN [2]</td>
-                        <td id="totalstatusopd2" class="text-right">
-                            {{Helper::formatUang($totalpaguindikatifopd[2])}}                        
-                        </td>
-                        <td width="100">TOTAL PAGU INDIKATIF [1+2]</td> 
-                        <td id="totalstatusopd12">
-                            {{Helper::formatUang($totalpaguindikatifopd[1]+$totalpaguindikatifopd[2])}}
-                        </td>
-                        <td class="text-right">STATUS SETUJU <br>DENGAN CATATAN [2]</td>
-                        <td id="totalstatusunitkerja2" class="text-right">
-                            {{Helper::formatUang($totalpaguindikatifunitkerja[2])}}                        
-                        </td>
-                        <td width="100">TOTAL PAGU INDIKATIF [1+2]</td> 
-                        <td id="totalstatusunitkerja12">
-                            {{Helper::formatUang($totalpaguindikatifunitkerja[1]+$totalpaguindikatifunitkerja[2])}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-right">STATUS PENDING [3]</td>
-                        <td id="totalstatusopd3" class="text-right">{{Helper::formatUang($totalpaguindikatifopd[3])}}</td> 
-                        <td colspan="2">&nbsp;</td>
-                        <td class="text-right">STATUS PENDING [3]</td>
-                        <td id="totalstatusunitkerja3" class="text-right">{{Helper::formatUang($totalpaguindikatifunitkerja[3])}}</td> 
+                        <td class="text-right">JUMLAH PAGU PERUBAHAN</td>
+                        <td id="totalpaguperubahanunitkerja" class="text-right">{{Helper::formatUang($totalpaguunitkerja['perubahan'])}}</td> 
                         <td colspan="2">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td class="text-right">TOTAL KESELURUHAN (0+1+2+3)</td>
-                        <td id="totalstatusopd" class="text-right">{{Helper::formatUang($totalpaguindikatifopd['total'])}}</td> 
+                        <td class="text-right">SELISIH</td>
+                        <td id="selisihopd" class="text-right">{{Helper::formatUang($totalpaguopd['selisih'])}}</td> 
                         <td colspan="2">&nbsp;</td>
-                        <td class="text-right">TOTAL KESELURUHAN (0+1+2+3)</td>
-                        <td id="totalstatusunitkerja" class="text-right">{{Helper::formatUang($totalpaguindikatifunitkerja['total'])}}</td> 
+                        <td class="text-right">SELISIH</td>
+                        <td id="selisihunitkerja" class="text-right">{{Helper::formatUang($totalpaguunitkerja['selisih'])}}</td> 
                         <td colspan="2">&nbsp;</td>
                     </tr>
                 </tbody>            
@@ -160,18 +134,15 @@
     </div>    
 </div>
 @endsection
-@section('page_custom_html')
-    @include('layouts.limitless.l_modal_histori_renja_only_pagu')
-@endsection
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
-<script src="{!!asset('themes/limitless/assets/js/autoNumeric.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/switch.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/autoNumeric.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
-$(document).ready(function () {   
-    $(".switch").bootstrapSwitch();   
+$(document).ready(function () {  
+    $(".switch").bootstrapSwitch();
     //styling select
     $('#OrgID.select').select2({
         placeholder: "PILIH OPD / SKPD",
@@ -192,15 +163,17 @@ $(document).ready(function () {
                 "OrgID": $('#OrgID').val(),
             },
             success:function(result)
-            {                  
+            { 
                 var daftar_unitkerja = result.daftar_unitkerja;
                 var listitems='<option></option>';
                 $.each(daftar_unitkerja,function(key,value){
                     listitems+='<option value="' + key + '">'+value+'</option>';                    
-                });                
+                });
+                
                 $('#SOrgID').html(listitems);
                 $('#divdatatable').html(result.datatable);
-                $(".switch").bootstrapSwitch();   
+                $(".switch").bootstrapSwitch();
+
                 $('#paguanggaranopd').html(result.paguanggaranopd);
                 new AutoNumeric ('#paguanggaranopd',{
                     allowDecimalPadding: false,
@@ -209,8 +182,8 @@ $(document).ready(function () {
                     digitGroupSeparator: ".",
                     showWarnings:false
                 }); 
-                formatPaguTotalIndikatifOPD(result.totalpaguindikatifopd);
-                formatPaguTotalIndikatifUnitKerja(result.totalpaguindikatifunitkerja);
+                formatPaguRKPDPerubahanOPD(result.totalpaguopd);
+                formatPaguRKPDPerubahanUnitKerja(result.totalpaguunitkerja);
             },
             error:function(xhr, status, error){
                 console.log('ERROR');
@@ -231,8 +204,8 @@ $(document).ready(function () {
             success:function(result)
             { 
                 $('#divdatatable').html(result.datatable);
-                $(".switch").bootstrapSwitch();  
-                formatPaguTotalIndikatifUnitKerja(result.totalpaguindikatifunitkerja);
+                $(".switch").bootstrapSwitch();
+                formatPaguRKPDPerubahanUnitKerja(result.totalpaguunitkerja);
             },
             error:function(xhr, status, error){
                 console.log('ERROR');
@@ -240,77 +213,35 @@ $(document).ready(function () {
             },
         });     
     });
-    $("#divdatatable").on('click','.ubahstatus',function(ev) {
-        ev.preventDefault();
-        var RenjaRincID = $(this).attr("data-id");
-        var Status = $(this).attr("data-status");
-        $.ajax({
-            type:'post',
-            url: url_current_page +'/'+RenjaRincID,
-            dataType: 'json',
-            data: {                
-                "_token": token,
-                "_method": 'PUT',
-                "Status":Status
-            },
-            success:function(result)
-            { 
-                $('#divdatatable').html(result.datatable); 
-                $(".switch").bootstrapSwitch();  
-                formatPaguTotalIndikatifOPD(result.totalpaguindikatifopd);
-                formatPaguTotalIndikatifUnitKerja(result.totalpaguindikatifunitkerja);
-            },
-            error:function(xhr, status, error){
-                console.log('ERROR');
-                console.log(parseMessageAjaxEror(xhr, status, error));                           
-            },
-        });
-    });
-    $("#divdatatable").on('click','#btnTransfer',function(ev){
-        ev.preventDefault();   
-        let RenjaRincID = $(this).attr("data-id");        
-        $.ajax({
-            type:'post',
-            url: url_current_page +'/transfer',
-            dataType: 'json',
-            data: {                
-                "_token": token,
-                "RenjaRincID": RenjaRincID,
-            },
-            success:function(result)
-            { 
-                $('#divdatatable').html(result.datatable);
-                $(".switch").bootstrapSwitch();   
-            },
-            error:function(xhr, status, error){
-                console.log('ERROR');
-                console.log(parseMessageAjaxEror(xhr, status, error));                           
-            },
-        });     
-    });
-    $("#divdatatable").on("click",".btnHistoriRenja", function(ev){   
-        ev.preventDefault();   
-        let _url = $(this).attr("data-url");
-        
-        $.ajax({
-            type:'get',
-            url: _url,
-            dataType: 'json',            
-            success:function(result)
-            { 
-                $('#modalrenjahistorionlypagu #modalnamauraian').html(result.data.Uraian);
-                $('#modalrenjahistorionlypagu #modalprarenja').html(result.data.Jumlah1);
-                $('#modalrenjahistorionlypagu #modalrakorbidang').html(result.data.Jumlah2);
-                $('#modalrenjahistorionlypagu #modalforumopd').html(result.data.Jumlah3);
-                $('#modalrenjahistorionlypagu #modalmusrenkab').html(result.data.Jumlah4);               
-                $('#modalrenjahistorionlypagu #modalverifikasitapd').html(result.data.Jumlah5);                
-                $('#modalrenjahistorionlypagu').modal('show');
-            },
-            error:function(xhr, status, error){
-                console.log('ERROR');
-                console.log(parseMessageAjaxEror(xhr, status, error));                           
-            },
-        });     
+    $("#divdatatable").on("click",".btnDelete", function(){
+        if (confirm('Apakah Anda ingin menghapus Data {{$page_title}} ini ?')) {
+            let url_ = $(this).attr("data-url");
+            let id = $(this).attr("data-id");
+            let pid = $(this).attr("data-pid");
+            $.ajax({            
+                type:'post',
+                url:url_+'/'+id,
+                dataType: 'json',
+                data: {
+                    "_method": 'DELETE',
+                    "_token": token,
+                    "id": id,
+                    "pid": pid
+                },
+                success:function(result){ 
+                    if (result.success==1){
+                        $('#divdatatable').html(result.datatable);       
+                        $(".switch").bootstrapSwitch();                 
+                    }else{
+                        console.log("Gagal menghapus data {{$page_title}} dengan id "+id);
+                    }                    
+                },
+                error:function(xhr, status, error){
+                    console.log('ERROR');
+                    console.log(parseMessageAjaxEror(xhr, status, error));                           
+                },
+            });
+        }        
     });
 });
 </script>

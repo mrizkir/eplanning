@@ -698,6 +698,8 @@ class UsulanRenjaController extends Controller
             $renja=RenjaModel::select(\DB::raw('"RenjaID","KgtID"'))
                                 ->where('OrgID',$OrgID)
                                 ->where('SOrgID',$SOrgID)
+                                ->where('Privilege',0)
+                                ->where('Locked',false)
                                 ->findOrFail($renjaid);
             
             
@@ -758,7 +760,9 @@ class UsulanRenjaController extends Controller
         $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
         if ($filters['SOrgID'] != 'none'&&$filters['SOrgID'] != ''&&$filters['SOrgID'] != null)
         {
-            $renja=RenjaModel::findOrFail($renjaid);
+            $renja=RenjaModel::where('Privilege',0)
+                                ->where('Locked',false)
+                                ->findOrFail($renjaid);
 
             $datarinciankegiatan = $this->populateRincianKegiatan($renjaid);
             
@@ -797,7 +801,9 @@ class UsulanRenjaController extends Controller
         $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
         if ($filters['SOrgID'] != 'none'&&$filters['SOrgID'] != ''&&$filters['SOrgID'] != null)
         {
-            $renja=RenjaModel::findOrFail($renjaid);
+            $renja=RenjaModel::where('Privilege',0)
+                            ->where('Locked',false)
+                            ->findOrFail($renjaid);
             
             $datarinciankegiatan = $this->populateRincianKegiatan($renjaid);
 
@@ -840,7 +846,9 @@ class UsulanRenjaController extends Controller
         $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
         if ($filters['SOrgID'] != 'none'&&$filters['SOrgID'] != ''&&$filters['SOrgID'] != null)
         {
-            $renja=RenjaModel::findOrFail($renjaid);            
+            $renja=RenjaModel::where('Privilege',0)
+                                ->where('Locked',false)
+                                ->findOrFail($renjaid);            
             $datarinciankegiatan = $this->populateRincianKegiatan($renjaid);            
             //lokasi
             $daftar_provinsi = ['uidF1847004D8F547BF'=>'KEPULAUAN RIAU'];

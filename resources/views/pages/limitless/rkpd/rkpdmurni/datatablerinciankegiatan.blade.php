@@ -17,7 +17,7 @@
             <tr class="bg-teal-700">
                 <th width="55">NO</th>     
                 <th>NAMA URAIAN</th>                
-                <th>SASARAN KEGIATAN</th>  
+                <th>SASARAN URAIAN</th>  
                 <th>TARGET (%)</th> 
                 <th class="text-right">PAGU INDIKATIF</th>                                      
                 <th>STATUS</th> 

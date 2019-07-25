@@ -144,7 +144,9 @@ class RKPDPerubahanController extends Controller
         {
             $data = RKPDViewRincianModel::select(\HelperKegiatan::getField($this->NameOfPage))
                                         ->where('SOrgID',$SOrgID)                                            
-                                        ->where('TA', \HelperKegiatan::getTahunPerencanaan())                                            
+                                        ->where('TA', \HelperKegiatan::getTahunPerencanaan())    
+                                        ->where('EntryLvl',4)                               
+                                        ->orWhere('EntryLvl',5)                                                                             
                                         ->orderBy($column_order,$direction)                                            
                                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
         }        

@@ -24,19 +24,33 @@
                 <h5 class="panel-title"> 
                     <i class="icon-eye"></i>  
                     DETAIL RINCIAN RENCANA KEGIATAN 
-                    @if ($renja->Privilege==1)
-                        <span class="label label-success label-rounded">SUDAH DI TRANSFER KE {{$label_transfer}}</span>
+                    @if ($rkpd->Privilege==1))
+                        <span class="label label-success label-rounded">SUDAH DI TRANSFER</span>
                     @endif
                 </h5>
-                <div class="heading-elements">     
-                    @if ($renja->Privilege==0)
-                    <a href="{{route(Helper::getNameOfPage('edit'),['id'=>$renja->RenjaRincID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Usulan {{$page_title}}">
-                        <i class="icon-pencil7"></i>
-                    </a> 
-                    @endif
-                    <a href="{!!route(Helper::getNameOfPage('index'))!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
+                <div class="heading-elements">   
+                 @if ($rkpd->Privilege==0))
+                     @if ($rkpd->isSKPD)
+                        <a href="{{route(Helper::getNameOfPage('edit4'),['id'=>$rkpd->RKPDRincID])}}" title="Ubah Data {{$page_title}}" class="btn btn-primary btn-icon heading-btn btnEdit">
+                            <i class='icon-pencil7'></i>
+                        </a> 
+                    @elseif($rkpd->isReses)
+                        <a href="{{route(Helper::getNameOfPage('edit3'),['id'=>$rkpd->RKPDRincID])}}" title="Ubah Data {{$page_title}}" class="btn btn-primary btn-icon heading-btn btnEdit">
+                            <i class='icon-pencil7'></i>
+                        </a>
+                    @elseif(!empty($rkpd->UsulanKecID))
+                        <a href="{{route(Helper::getNameOfPage('edit2'),['id'=>$rkpd->RKPDRincID])}}" title="Ubah Data {{$page_title}}" class="btn btn-primary btn-icon heading-btn btnEdit">
+                            <i class='icon-pencil7'></i>
+                        </a>
+                    @else
+                        <a href="{{route(Helper::getNameOfPage('edit4'),['id'=>$rkpd->RKPDRincID])}}" title="Ubah Data {{$page_title}}" class="btn btn-primary btn-icon heading-btn btnEdit">
+                            <i class='icon-pencil7'></i>
+                        </a>
+                    @endif                    
+                    @endif{{-- akhir privilege --}}
+                    <a href="{!!route(Helper::getNameOfPage('show'),['id'=>$rkpd->RKPDID])!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
                         <i class="icon-close2"></i>
-                    </a>                      
+                    </a>  
                 </div>
             </div>
             <div class="panel-body">
@@ -46,31 +60,31 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>RENJA RINCIAN ID: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$renja->RenjaRincID}}</p>
+                                    <p class="form-control-static">{{$rkpd->RKPDRincID}}</p>
                                 </div>                            
                             </div> 
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>NO: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$renja->No}}</p>
+                                    <p class="form-control-static">{{$rkpd->No}}</p>
                                 </div>                            
                             </div> 
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>URAIAN : </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$renja->Uraian}}</p>
+                                    <p class="form-control-static">{{$rkpd->Uraian}}</p>
                                 </div>                            
                             </div>  
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>NILAI PAGU: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::formatUang($renja->Jumlah)}}</p>                               
+                                    <p class="form-control-static">{{Helper::formatUang($rkpd->Jumlah)}}</p>                               
                                 </div>                            
                             </div> 
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>SASARAN KEGIATAN: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::formatAngka($renja->Sasaran_Angka)}} {{$renja->Sasaran_Uraian}}</p>
+                                    <p class="form-control-static">{{Helper::formatAngka($rkpd->Sasaran_Angka)}} {{$rkpd->Sasaran_Uraian}}</p>
                                 </div>                            
                             </div>                                
                         </div>                        
@@ -80,9 +94,17 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>TARGET (%): </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::formatAngka($renja->Target)}}</p>
+                                    <p class="form-control-static">{{Helper::formatAngka($rkpd->Target)}}</p>
                                 </div>                            
                             </div>                             
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>STATUS: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">
+                                        @include('layouts.limitless.l_status_rkpd')
+                                    </p>
+                                </div>                            
+                            </div>  
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>PRIORITAS: </strong></label>
                                 <div class="col-md-8">
@@ -94,23 +116,15 @@
                                 </div>                            
                             </div>  
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>STATUS: </strong></label>
+                                <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">
-                                        @include('layouts.limitless.l_status_kegiatan')
-                                    </p>
+                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$rkpd->created_at)}}</p>
                                 </div>                            
                             </div>  
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>KETERANGAN: </strong></label>
+                                <label class="col-md-4 control-label"><strong>TGL. UBAH: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$renja->Descr}}</p>
-                                </div>                            
-                            </div>  
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>TGL. BUAT / UBAH: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$renja->created_at)}} / {{Helper::tanggal('d/m/Y H:m',$renja->updated_at)}}</p>
+                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$rkpd->updated_at)}}</p>
                                 </div>                            
                             </div>                     
                         </div>

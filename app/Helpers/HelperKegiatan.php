@@ -424,7 +424,6 @@ class HelperKegiatan {
                                     "Descr"');
             break;
             case 'rkpdperubahan' :
-            case 'pembahasanrkpdp' :
                 $rawSql = \DB::raw('"RKPDRincID",
                                     "RKPDID",
                                     "UsulanKecID",
@@ -441,6 +440,36 @@ class HelperKegiatan {
                                     "Target1",
                                     "NilaiUsulan1" AS "Jumlah",
                                     "NilaiUsulan2" AS "Jumlah2",
+                                    "isSKPD",
+                                    "isReses",
+                                    "isReses_Uraian",
+                                    "Status",
+                                    "Privilege",
+                                    "Status_Indikator",
+                                    "EntryLvl",
+                                    "Descr"');
+            break;
+            case 'pembahasanrkpdp' :
+                $rawSql = \DB::raw('"RKPDRincID",
+                                    "RKPDID",
+                                    "UsulanKecID",
+                                    "No",
+                                    "Nm_Kecamatan",
+                                    "kode_kegiatan",
+                                    "KgtNm",
+                                    "Uraian",
+                                    "Sasaran_Angka3" AS "Sasaran_Angka",
+                                    "Sasaran_Angka2",
+                                    "Sasaran_Angka1",
+                                    "Sasaran_Uraian3" AS "Sasaran_Uraian",
+                                    "Sasaran_Uraian2",
+                                    "Sasaran_Uraian1",
+                                    "Target3" AS "Target",
+                                    "Target2",
+                                    "Target1",
+                                    "NilaiUsulan1" AS "Jumlah",
+                                    "NilaiUsulan2" AS "Jumlah2",
+                                    "NilaiUsulan3" AS "Jumlah3",
                                     "isSKPD",
                                     "isReses",
                                     "isReses_Uraian",
