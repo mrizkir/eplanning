@@ -75,7 +75,8 @@
                 <div class="col-md-10">
                     <select name="UsulanKecID" id="UsulanKecID" class="select">
                         <option></option>                                                
-                    </select>                            
+                    </select>             
+                    <span class="help-block">Bila usulan kegiatan tidak ada, barangkali sudah di inputkan coba cek di rincian.</span>                             
                 </div>
             </div>                          
         </div>        

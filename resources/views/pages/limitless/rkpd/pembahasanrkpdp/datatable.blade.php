@@ -40,15 +40,12 @@
                     <th>                        
                         TARGET (%)                        
                     </th> 
-                    <th class="text-right">
+                    <th width="150" class="text-right">
                         <a class="column-sort text-white" id="col-Jumlah" data-order="{{$direction}}" href="#">
-                            NILAI  
+                            NILAI M / <br>NILAI P
                         </a>                                             
-                    </th> 
-                    <th>                        
-                        PRIO.                          
-                    </th>          
-                    <th>
+                    </th>            
+                    <th width="80">
                         <a class="column-sort text-white" id="col-Status" data-order="{{$direction}}" href="#">
                             STATUS  
                         </a>
@@ -103,14 +100,12 @@
                     </td>
                     <td>{{Helper::formatAngka($item->Sasaran_Angka)}} {{$item->Sasaran_Uraian}}</td>
                     <td>{{$item->Target}}</td>
-                    <td class="text-right">{{Helper::formatuang($item->Jumlah)}}</td>
+                    <td class="text-right">
+                        <span class="text-success">{{Helper::formatuang($item->Jumlah)}}</span><br>
+                        <span class="text-danger">{{Helper::formatuang($item->Jumlah2)}}</span>
+                    </td>                    
                     <td>
-                        <span class="label label-flat border-pink text-pink-600">
-                            {{HelperKegiatan::getNamaPrioritas($item->Prioritas)}}
-                        </span>
-                    </td>
-                    <td>
-                        @include('layouts.limitless.l_status_kegiatan')
+                        @include('layouts.limitless.l_status_rkpd') 
                     </td>                    
                     <td>                    
                         @if ($item->Privilege==0)
@@ -125,27 +120,24 @@
                     </td>
                     <td>
                         <ul class="icons-list">
-                            @include('layouts.limitless.l_ubah_status')
+                            @include('layouts.limitless.l_ubah_status_rkpdp')
                         </ul>
                     </td>                                
                 </tr>
                 <tr class="text-center info">
                     <td colspan="11">
                         <span class="label label-warning label-rounded" style="text-transform: none">
-                            <strong>RENJAID:</strong>
-                            {{$item->RenjaID}}
+                            <strong>RKPDID:</strong>
+                            {{$item->RKPDID}}
                         </span>
                         <span class="label label-warning label-rounded" style="text-transform: none">
-                            <strong>RENJARINCID:</strong>
-                            {{$item->RenjaRincID}}
+                            <strong>RKPDRINCID:</strong>
+                            {{$item->RKPDRincID}}
                         </span>
                         <span class="label label-warning label-rounded">
                             <strong>KET:</strong>
                             {{empty($item->Descr)?'-':$item->Descr}}
                         </span>
-                        <a href="{{route(HelperKegiatan::getRouteUsulanFromPembahasan($page_active,'show'),['id'=>$item->RenjaID])}}">
-                            LIAT DI USULAN
-                        </a>
                     </td>
                 </tr>
             @endforeach                    

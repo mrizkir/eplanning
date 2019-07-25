@@ -28,12 +28,15 @@ class CreateUsulanrkpdabpdTable extends Migration
             $table->text('Sasaran_Uraian2')->nullable();
             $table->decimal('Sasaran_Angka1',15,2);
             $table->decimal('Sasaran_Angka2',15,2)->nullable();
+            $table->decimal('Sasaran_Angka3',15,2)->nullable();
 
             $table->decimal('NilaiUsulan1',15,2);
             $table->decimal('NilaiUsulan2',15,2)->nullable();
+            $table->decimal('NilaiUsulan3',15,2)->nullable();
 
             $table->decimal('Target1',15,2);
             $table->decimal('Target2',15,2)->nullable();
+            $table->decimal('Target3',15,2)->nullable();
 
             $table->decimal('Sasaran_AngkaSetelah',15,2);
             $table->text('Sasaran_UraianSetelah');
@@ -158,12 +161,15 @@ class CreateUsulanrkpdabpdTable extends Migration
                 $table->text('Sasaran_Uraian2')->nullable();
                 $table->decimal('Sasaran_Angka1',15,2);
                 $table->decimal('Sasaran_Angka2',15,2)->nullable();
+                $table->decimal('Sasaran_Angka3',15,2)->nullable();
 
                 $table->decimal('NilaiUsulan1',15,2);
                 $table->decimal('NilaiUsulan2',15,2)->nullable();
+                $table->decimal('NilaiUsulan3',15,2)->nullable();
 
                 $table->decimal('Target1',15,2);
                 $table->decimal('Target2',15,2)->nullable();
+                $table->decimal('Target3',15,2)->nullable();
 
                 $table->date('Tgl_Posting');
                 $table->boolean('isReses')->nullable();

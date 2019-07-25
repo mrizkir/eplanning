@@ -472,7 +472,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     
     //workflow - Pembahasan RKPD Perubahan [pembahasan]
     Route::resource('/workflow/rkpd/pembahasanrkpdp','RKPD\PembahasanRKPDPController',['parameters'=>['pembahasanrkpdp'=>'uuid'],
-                                                                                        'only'=>['index','edit','update']]);
+                                                                                        'only'=>['index','edit','update','show']]);
     Route::put('/workflow/rkpd/pembahasanrkpdp/update2/{uuid}',['uses'=>'RKPD\PembahasanRKPDPController@update2','as'=>'pembahasanrkpdp.update2']);
     Route::get('/workflow/rkpd/pembahasanrkpdp/showrincian/{uuid}',['uses'=>'RKPD\PembahasanRKPDPController@showrincian','as'=>'pembahasanrkpdp.showrincian']); 
     Route::post('/workflow/rkpd/pembahasanrkpdp/search',['uses'=>'RKPD\PembahasanRKPDPController@search','as'=>'pembahasanrkpdp.search']);  

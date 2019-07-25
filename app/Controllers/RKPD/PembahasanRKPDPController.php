@@ -81,7 +81,6 @@ class PembahasanRKPDPController extends Controller {
                                 ->where('KgtNm', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                 ->where('SOrgID',$SOrgID)
                                 ->where('TA', \HelperKegiatan::getTahunPerencanaan())
-                                ->orderBy('Prioritas','ASC')
                                 ->orderBy($column_order,$direction);                                        
                 break;
                 case 'Uraian' :
@@ -90,7 +89,6 @@ class PembahasanRKPDPController extends Controller {
                                 ->where('Uraian', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                 ->where('SOrgID',$SOrgID)
                                 ->where('TA', \HelperKegiatan::getTahunPerencanaan())
-                                ->orderBy('Prioritas','ASC')
                                 ->orderBy($column_order,$direction);                                        
                 break;
             }           
@@ -102,7 +100,6 @@ class PembahasanRKPDPController extends Controller {
                         ->select(\HelperKegiatan::getField($this->NameOfPage))
                         ->where('SOrgID',$SOrgID)                                     
                         ->where('TA', \HelperKegiatan::getTahunPerencanaan())                                            
-                        ->orderBy('Prioritas','ASC')
                         ->orderBy($column_order,$direction)                                            
                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);             
         }        
