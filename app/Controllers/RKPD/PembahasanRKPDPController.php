@@ -646,37 +646,35 @@ class PembahasanRKPDPController extends Controller
                                 ->findOrFail($rkpdid);
             
             
-            // $kegiatan=\App\Models\DMaster\ProgramKegiatanModel::select(\DB::raw('"trUrsPrg"."UrsID","trUrsPrg"."PrgID"'))
-            //                                                     ->join('trUrsPrg','trUrsPrg.PrgID','tmKgt.PrgID')
-            //                                                     ->find($rkpd->KgtID);                                            
+            $kegiatan=\App\Models\DMaster\ProgramKegiatanModel::select(\DB::raw('"trUrsPrg"."UrsID","trUrsPrg"."PrgID"'))
+                                                                ->join('trUrsPrg','trUrsPrg.PrgID','tmKgt.PrgID')
+                                                                ->find($rkpd->KgtID);                                            
             
-            // $UrsID=$kegiatan->UrsID;    
-            // $PrgID=$kegiatan->PrgID;          
-            // $daftar_indikatorkinerja = \DB::table('trIndikatorKinerja')
-            //                             ->where('UrsID',$UrsID)
-            //                             ->where('PrgID',$PrgID)
-            //                             ->orWhere('OrgID',$OrgID)
-            //                             ->orWhere('OrgID2',$OrgID)
-            //                             ->orWhere('OrgID3',$OrgID)
-            //                             ->where('TA_N',config('eplanning.rpjmd_tahun_mulai'))
-            //                             ->WhereNotIn('IndikatorKinerjaID',function($query) use ($rkpdid){
-            //                                 $query->select('IndikatorKinerjaID')
-            //                                         ->from('trRKPDIndikator')
-            //                                         ->where('RKPDID', $rkpdid);
-            //                             })
-            //                             ->get()
-            //                             ->pluck('NamaIndikator','IndikatorKinerjaID')
-            //                             ->toArray();     
+            $UrsID=$kegiatan->UrsID;    
+            $PrgID=$kegiatan->PrgID;          
+            $daftar_indikatorkinerja = \DB::table('trIndikatorKinerja')
+                                        ->where('UrsID',$UrsID)
+                                        ->where('PrgID',$PrgID)
+                                        ->orWhere('OrgID',$OrgID)
+                                        ->orWhere('OrgID2',$OrgID)
+                                        ->orWhere('OrgID3',$OrgID)
+                                        ->where('TA_N',config('eplanning.rpjmd_tahun_mulai'))
+                                        ->WhereNotIn('IndikatorKinerjaID',function($query) use ($rkpdid){
+                                            $query->select('IndikatorKinerjaID')
+                                                    ->from('trRKPDIndikator')
+                                                    ->where('RKPDID', $rkpdid);
+                                        })
+                                        ->get()
+                                        ->pluck('NamaIndikator','IndikatorKinerjaID')
+                                        ->toArray();     
             
-            // $dataindikatorkinerja = $this->populateIndikatorKegiatan($rkpdid);
+            $dataindikatorkinerja = $this->populateIndikatorKegiatan($rkpdid);
 
             return view("pages.$theme.rkpd.pembahasanrkpdp.create1")->with(['page_active'=>$this->NameOfPage,
                                                                     'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
-                                                                    // 'daftar_indikatorkinerja'=>$daftar_indikatorkinerja,
-                                                                    'daftar_indikatorkinerja'=>[],
+                                                                    'daftar_indikatorkinerja'=>$daftar_indikatorkinerja,
                                                                     'rkpd'=>$rkpd,
-                                                                    // 'dataindikatorkinerja'=>$dataindikatorkinerja
-                                                                    'dataindikatorkinerja'=>[]
+                                                                    'dataindikatorkinerja'=>$dataindikatorkinerja
                                                                     ]);  
         }
         else
@@ -1193,7 +1191,122 @@ class PembahasanRKPDPController extends Controller
                                                                 'dataindikatorkinerja'=>$dataindikatorkinerja
                                                                 ]);
         }        
-    }    
+    }  
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit2($id)
+    {
+        $theme = \Auth::user()->theme;
+
+        $auth=\Auth::user();
+        $theme = $auth->theme;
+        $roles = $auth->getRoleNames();
+        
+        switch ($this->NameOfPage) 
+        {            
+            case 'pembahasanrkpdp' :
+                switch ($roles[0])
+                {
+                    case 'superadmin' :
+                        $rkpd = RKPDRincianModel::select(\DB::raw('"trRKPDRinc"."RKPDRincID",
+                                                                    "tmPMProv"."Nm_Prov",
+                                                                    "tmPmKota"."Nm_Kota",
+                                                                    "tmPmKecamatan"."Nm_Kecamatan",
+                                                                    "trRKPDRinc"."RKPDID",
+                                                                    "trRKPDRinc"."No",
+                                                                    "tmKgt"."KgtNm" AS "NamaKegiatan",
+                                                                    "trRKPDRinc"."Uraian",
+                                                                    "trRKPDRinc"."Sasaran_Angka3" AS "Sasaran_Angka",
+                                                                    "trRKPDRinc"."Sasaran_Uraian3" AS "Sasaran_Uraian",
+                                                                    "trRKPDRinc"."Target3" AS "Target",
+                                                                    "trRKPDRinc"."NilaiUsulan3" AS "Jumlah",
+                                                                    "trRKPDRinc"."Descr",
+                                                                    "trRKPDRinc"."isSKPD",
+                                                                    "trRKPDRinc"."EntryLvl",
+                                                                    "trRKPDRinc"."isReses"'))                                            
+                                                    ->join('trRKPD','trRKPDRinc.RKPDID','trRKPD.RKPDID')
+                                                    ->join('tmKgt','tmKgt.KgtID','trRKPD.KgtID')
+                                                    ->join('trUsulanKec','trUsulanKec.UsulanKecID','trRKPDRinc.UsulanKecID')
+                                                    ->join('tmPMProv','tmPMProv.PMProvID','trRKPDRinc.PMProvID')
+                                                    ->join('tmPmKota','tmPmKota.PmKotaID','trRKPDRinc.PmKotaID')
+                                                    ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRKPDRinc.PmKecamatanID')                                            
+                                                    ->find($id);                                                     
+                    break;
+                    case 'opd' :
+                        $filters=$this->getControllerStateSession($this->SessionName,'filters');
+                        $OrgID = $filters['OrgID'];
+                        $SOrgID = $filters['SOrgID'];
+                        $rkpd = empty($SOrgID)?RKPDRincianModel::select(\DB::raw('"trRKPDRinc"."RKPDRincID",
+                                                                    "tmPMProv"."Nm_Prov",
+                                                                    "tmPmKota"."Nm_Kota",
+                                                                    "tmPmKecamatan"."Nm_Kecamatan",
+                                                                    "trRKPDRinc"."RKPDID",
+                                                                    "trRKPDRinc"."No",
+                                                                    "tmKgt"."KgtNm" AS "NamaKegiatan",
+                                                                    "trRKPDRinc"."Uraian",
+                                                                    "trRKPDRinc"."Sasaran_Angka3" AS "Sasaran_Angka",
+                                                                    "trRKPDRinc"."Sasaran_Uraian3" AS "Sasaran_Uraian",
+                                                                    "trRKPDRinc"."Target3" AS "Target",
+                                                                    "trRKPDRinc"."NilaiUsulan3" AS "Jumlah",
+                                                                    "trRKPDRinc"."Descr",
+                                                                    "trRKPDRinc"."isSKPD",
+                                                                    "trRKPDRinc"."EntryLvl",
+                                                                    "trRKPDRinc"."isReses"'))                                            
+                                                                ->join('trRKPD','trRKPDRinc.RKPDID','trRKPD.RKPDID')
+                                                                ->join('tmKgt','tmKgt.KgtID','trRKPD.KgtID')
+                                                                ->join('trUsulanKec','trUsulanKec.UsulanKecID','trRKPDRinc.UsulanKecID')                                                                                        
+                                                                ->join('tmPMProv','tmPMProv.PMProvID','trRKPDRinc.PMProvID')
+                                                                ->join('tmPmKota','tmPmKota.PmKotaID','trRKPDRinc.PmKotaID')
+                                                                ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRKPDRinc.PmKecamatanID')                                            
+                                                                ->where('trRKPD.SOrgID',$SOrgID)
+                                                                ->find($id)
+                                            :RKPDRincianModel::select(\DB::raw('"trRKPDRinc"."RKPDRincID",
+                                                                    "tmPMProv"."Nm_Prov",
+                                                                    "tmPmKota"."Nm_Kota",
+                                                                    "tmPmKecamatan"."Nm_Kecamatan",
+                                                                    "trRKPDRinc"."RKPDID",
+                                                                    "trRKPDRinc"."No",
+                                                                    "tmKgt"."KgtNm" AS "NamaKegiatan",
+                                                                    "trRKPDRinc"."Uraian",
+                                                                    "trRKPDRinc"."Sasaran_Angka3" AS "Sasaran_Angka",
+                                                                    "trRKPDRinc"."Sasaran_Uraian3" AS "Sasaran_Uraian",
+                                                                    "trRKPDRinc"."Target3" AS "Target",
+                                                                    "trRKPDRinc"."NilaiUsulan3" AS "Jumlah",
+                                                                    "trRKPDRinc"."Descr",
+                                                                    "trRKPDRinc"."isSKPD",
+                                                                    "trRKPDRinc"."EntryLvl",
+                                                                    "trRKPDRinc"."isReses"'))                                               
+                                                                ->join('trRKPD','trRKPD.RenjaID','trRKPDRinc.RKPDID')
+                                                                ->join('tmKgt','tmKgt.KgtID','trRKPD.KgtID')
+                                                                ->join('trUsulanKec','trUsulanKec.UsulanKecID','trRKPDRinc.UsulanKecID')                                                                                        
+                                                                ->join('tmPMProv','tmPMProv.PMProvID','trRKPDRinc.PMProvID')
+                                                                ->join('tmPmKota','tmPmKota.PmKotaID','trRKPDRinc.PmKotaID')
+                                                                ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')                                            
+                                                                ->where('trRKPD.OrgID',$OrgID)
+                                                                ->find($id);        
+                    break;
+                }    
+            break;            
+        }           
+        if (is_null($rkpd) )
+        {
+            return redirect(route(\Helper::getNameOfPage('edit4'),['id'=>$id]))->with('error',"Data rincian kegiatan dari musrenbang Kec dengan ID ($id)  gagal diperoleh, diarahkan menjadi rincian usulan OPD / SKPD .");
+        } 
+        else 
+        {               
+            $datarinciankegiatan = $this->populateRincianKegiatan($rkpd->RKPDID);
+
+            return view("pages.$theme.rkpd.pembahasanrkpdp.edit2")->with(['page_active'=>$this->NameOfPage,
+                                                                            'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
+                                                                            'rkpd'=>$rkpd,
+                                                                            'datarinciankegiatan'=>$datarinciankegiatan
+                                                                        ]);
+        }             
+    }  
     /**
      * Show the form for editing the specified resource.
      *
@@ -1476,7 +1589,63 @@ class PembahasanRKPDPController extends Controller
         {
             return redirect(route(\Helper::getNameOfPage('show'),['id'=>$indikatorkinerja->RKPDID]))->with('success','Data Indikator kegiatan telah berhasil disimpan. Selanjutnya isi Rincian Kegiatan');
         }
-    }    
+    } 
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update2(Request $request, $id)
+    {
+        $rinciankegiatan = RKPDRincianModel::find($id);        
+        $this->validate($request, [
+            'No'=>'required',
+            'Uraian'=>'required',
+            'Sasaran_Angka'=>'required',
+            'Sasaran_Uraian'=>'required',
+            'Target'=>'required',
+            'Jumlah'=>'required',
+        ]);
+        
+        \DB::transaction(function () use ($request,$rinciankegiatan) {
+            switch ($this->NameOfPage) 
+            {            
+                case 'pembahasanrkpdp' :
+                    $rinciankegiatan->Uraian = $request->input('Uraian');
+                    $rinciankegiatan->Sasaran_Angka3 = $request->input('Sasaran_Angka'); 
+                    $rinciankegiatan->Sasaran_Uraian3 = $request->input('Sasaran_Uraian');
+                    $rinciankegiatan->Target3 = $request->input('Target');
+                    $rinciankegiatan->NilaiUsulan3 = $request->input('Jumlah');  
+                    $rinciankegiatan->Descr = $request->input('Descr');
+                    if($rinciankegiatan->EntryLvl == 4 && ($rinciankegiatan->NilaiUsulan3!=$rinciankegiatan->NilaiUsulan1 || $rinciankegiatan->NilaiUsulan3!=$rinciankegiatan->NilaiUsulan2))
+                    {
+                        $rinciankegiatan->Status=4;               
+                    }
+                    elseif ($rinciankegiatan->EntryLvl == 5 && $rinciankegiatan->NilaiUsulan3!=$rinciankegiatan->NilaiUsulan2)
+                    {
+                        $rinciankegiatan->Status=5;               
+                    }      
+                    $rinciankegiatan->save();
+
+                    $rkpd = $rinciankegiatan->rkpd;            
+                    $rkpd->NilaiUsulan3=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('NilaiUsulan3');            
+                    $rkpd->save();
+                break;                
+            }   
+        });
+        if ($request->ajax()) 
+        {
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data ini telah berhasil disimpan.'
+            ]);
+        }
+        else
+        {
+            return redirect(route(\Helper::getNameOfPage('show'),['id'=>$rinciankegiatan->RKPDID]))->with('success','Data Rincian kegiatan telah berhasil disimpan.');
+        } 
+    }   
     /**
      * Store a newly created resource in storage.
      *
@@ -1618,7 +1787,13 @@ class PembahasanRKPDPController extends Controller
             {
                 $data = $this->populateIndikatorKegiatan($rkpdid);
 
-                $datatable = view("pages.$theme.rkpd.pembahasanrkpdp.datatableindikatorkinerja")->with(['dataindikatorkinerja'=>$data])->render();     
+                $datatable = view("pages.$theme.rkpd.pembahasanrkpdp.datatableindikatorkinerja")
+                                ->with([
+                                    'page_active'=>$this->NameOfPage,
+                                    'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
+                                    'rkpd'=>$rkpd,
+                                    'dataindikatorkinerja'=>$data])
+                                ->render();       
                 
                 return response()->json(['success'=>true,'datatable'=>$datatable],200); 
             }
