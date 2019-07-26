@@ -1965,7 +1965,7 @@ class UsulanRenjaController extends Controller
                                                     ->join('tmPMProv','tmPMProv.PMProvID','trRenjaRinc.PMProvID')
                                                     ->join('tmPmKota','tmPmKota.PmKotaID','trRenjaRinc.PmKotaID')
                                                     ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')                                            
-                                                    ->findOrFail($id);                                                     
+                                                    ->find($id);                                                     
                     break;
                     case 'opd' :
                         $filters=$this->getControllerStateSession($this->SessionName,'filters');
@@ -1992,8 +1992,9 @@ class UsulanRenjaController extends Controller
                                                                 ->join('tmPMProv','tmPMProv.PMProvID','trRenjaRinc.PMProvID')
                                                                 ->join('tmPmKota','tmPmKota.PmKotaID','trRenjaRinc.PmKotaID')
                                                                 ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')                                            
-                                                                ->where('trRenja.SOrgID',$SOrgID)->find($id)
-                                            :RenjaRincianModel::select(\DB::raw(\DB::raw('"trRenjaRinc"."RenjaRincID",
+                                                                ->where('trRenja.SOrgID',$SOrgID)
+                                                                ->find($id)
+                                            :RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                     "tmPMProv"."Nm_Prov",
                                                                     "tmPmKota"."Nm_Kota",
                                                                     "tmPmKecamatan"."Nm_Kecamatan",
@@ -2008,7 +2009,7 @@ class UsulanRenjaController extends Controller
                                                                     "trRenjaRinc"."Prioritas",
                                                                     "trRenjaRinc"."Descr",
                                                                     "trRenjaRinc"."isSKPD",
-                                                                    "trRenjaRinc"."isReses"')))                                            
+                                                                    "trRenjaRinc"."isReses"'))                                           
                                                                 ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')
                                                                 ->join('trUsulanKec','trUsulanKec.UsulanKecID','trRenjaRinc.UsulanKecID')                                                                                        
                                                                 ->join('tmPMProv','tmPMProv.PMProvID','trRenjaRinc.PMProvID')
@@ -2071,7 +2072,7 @@ class UsulanRenjaController extends Controller
                                                                 ->join('tmPmKota','tmPmKota.PmKotaID','trRenjaRinc.PmKotaID')
                                                                 ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')                                            
                                                                 ->where('trRenja.SOrgID',$SOrgID)->find($id)
-                                            :RenjaRincianModel::select(\DB::raw(\DB::raw('"trRenjaRinc"."RenjaRincID",
+                                            :RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                     "tmPMProv"."Nm_Prov",
                                                                     "tmPmKota"."Nm_Kota",
                                                                     "tmPmKecamatan"."Nm_Kecamatan",
@@ -2086,7 +2087,7 @@ class UsulanRenjaController extends Controller
                                                                     "trRenjaRinc"."Prioritas",
                                                                     "trRenjaRinc"."Descr",
                                                                     "trRenjaRinc"."isSKPD",
-                                                                    "trRenjaRinc"."isReses"')))                                            
+                                                                    "trRenjaRinc"."isReses"'))                                   
                                                                 ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')
                                                                 ->join('trUsulanKec','trUsulanKec.UsulanKecID','trRenjaRinc.UsulanKecID')                                                                                        
                                                                 ->join('tmPMProv','tmPMProv.PMProvID','trRenjaRinc.PMProvID')
@@ -2148,8 +2149,9 @@ class UsulanRenjaController extends Controller
                                                                 ->join('tmPMProv','tmPMProv.PMProvID','trRenjaRinc.PMProvID')
                                                                 ->join('tmPmKota','tmPmKota.PmKotaID','trRenjaRinc.PmKotaID')
                                                                 ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')                                            
-                                                                ->where('trRenja.SOrgID',$SOrgID)->find($id)
-                                            :RenjaRincianModel::select(\DB::raw(\DB::raw('"trRenjaRinc"."RenjaRincID",
+                                                                ->where('trRenja.SOrgID',$SOrgID)
+                                                                ->find($id)
+                                            :RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                     "tmPMProv"."Nm_Prov",
                                                                     "tmPmKota"."Nm_Kota",
                                                                     "tmPmKecamatan"."Nm_Kecamatan",
@@ -2164,7 +2166,7 @@ class UsulanRenjaController extends Controller
                                                                     "trRenjaRinc"."Prioritas",
                                                                     "trRenjaRinc"."Descr",
                                                                     "trRenjaRinc"."isSKPD",
-                                                                    "trRenjaRinc"."isReses"')))                                            
+                                                                    "trRenjaRinc"."isReses"'))                                        
                                                                 ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')
                                                                 ->join('trUsulanKec','trUsulanKec.UsulanKecID','trRenjaRinc.UsulanKecID')                                                                                        
                                                                 ->join('tmPMProv','tmPMProv.PMProvID','trRenjaRinc.PMProvID')
@@ -2227,7 +2229,7 @@ class UsulanRenjaController extends Controller
                                                                 ->join('tmPmKota','tmPmKota.PmKotaID','trRenjaRinc.PmKotaID')
                                                                 ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')                                            
                                                                 ->where('trRenja.SOrgID',$SOrgID)->find($id)
-                                            :RenjaRincianModel::select(\DB::raw(\DB::raw('"trRenjaRinc"."RenjaRincID",
+                                            :RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                     "tmPMProv"."Nm_Prov",
                                                                     "tmPmKota"."Nm_Kota",
                                                                     "tmPmKecamatan"."Nm_Kecamatan",
@@ -2242,7 +2244,7 @@ class UsulanRenjaController extends Controller
                                                                     "trRenjaRinc"."Prioritas",
                                                                     "trRenjaRinc"."Descr",
                                                                     "trRenjaRinc"."isSKPD",
-                                                                    "trRenjaRinc"."isReses"')))                                            
+                                                                    "trRenjaRinc"."isReses"'))                                  
                                                                 ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')
                                                                 ->join('trUsulanKec','trUsulanKec.UsulanKecID','trRenjaRinc.UsulanKecID')                                                                                        
                                                                 ->join('tmPMProv','tmPMProv.PMProvID','trRenjaRinc.PMProvID')
@@ -3209,7 +3211,13 @@ class UsulanRenjaController extends Controller
             {
                 $data = $this->populateIndikatorKegiatan($renjaid);
 
-                $datatable = view("pages.$theme.rkpd.usulanrenja.datatableindikatorkinerja")->with(['dataindikatorkinerja'=>$data])->render();     
+                $datatable = view("pages.$theme.rkpd.usulanrenja.datatableindikatorkinerja")
+                                ->with([
+                                    'page_active'=>$this->NameOfPage,
+                                    'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
+                                    'renja'=>$renja,
+                                    'dataindikatorkinerja'=>$data])
+                                ->render(); 
                 
                 return response()->json(['success'=>true,'datatable'=>$datatable],200); 
             }

@@ -26,6 +26,7 @@ class RKPDIndikatorModel extends Model {
        'Target_Uraian',  
        'Tahun',      
        'Descr',
+       'TA',
        'Privilege',
        'RKPDIndikatorID_Src'
    ];
@@ -64,4 +65,9 @@ class RKPDIndikatorModel extends Model {
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
+
+    public function rkpd()
+    {
+        return $this->belongsTo('\App\Models\RKPD\RKPDModel','RKPDID');
+    }
 }

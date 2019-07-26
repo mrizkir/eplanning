@@ -57,7 +57,7 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label">PAGU DANA TA {{$rkpd->TA}} (RPJMD): </label>
                     <div class="col-md-10">
-                        <p class="form-control-static" id="pPaguDana">{{$dataindikator_rpjmd['PaguDana']}}</p>
+                        <p class="form-control-static" id="pPaguDana">{{Helper::formatUang($dataindikator_rpjmd['PaguDana'])}}</p>
                     </div>                            
                 </div>    
                 <div class="form-group">

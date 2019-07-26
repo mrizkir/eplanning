@@ -14,16 +14,11 @@
                             <i class="icon-info3"></i><span>DETAIL USULAN KEGIATAN</span>
                         </a>
                     </li> 
-                    {{-- <li{!!Request::route()->getName()==Helper::getNameOfPage('create1') ? ' class="active"':""!!}>
+                    <li{!!Request::route()->getName()==Helper::getNameOfPage('create1') ? ' class="active"':""!!}>
                         <a href="{{route(Helper::getNameOfPage('create1'),['id'=>$rkpd->RKPDID])}}">
                             <i class="icon-info3"></i><span>INDIKATOR KEGIATAN</span>
                         </a>
-                    </li>  
-                    <li{!!Request::route()->getName()==Helper::getNameOfPage('create2') ? ' class="active"':""!!}>
-                        <a href="{{route(Helper::getNameOfPage('create2'),['id'=>$rkpd->RKPDID])}}">
-                            <i class="icon-info3"></i><span>RINCIAN KEGIATAN MUSREN KEC.</span>
-                        </a>
-                    </li>             --}}       
+                    </li>                       
                     <li{!!Request::route()->getName()==Helper::getNameOfPage('create3') ? ' class="active"':""!!}>
                         <a href="{{route(Helper::getNameOfPage('create3'),['id'=>$rkpd->RKPDID])}}">
                             <i class="icon-info3"></i><span>RINCIAN KEGIATAN POKIR.</span>

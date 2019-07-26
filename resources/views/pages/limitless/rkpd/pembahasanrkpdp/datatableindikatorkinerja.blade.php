@@ -3,13 +3,13 @@
         <h5>DAFTAR INDIKATOR KEGIATAN</h5>
     </div>
     <div class="heading-elements">
-        {{-- @if ($rkpd->Privilege==0)
+        @if ($rkpd->Privilege==0)
         <div class="heading-btn">
             <a href="{!!route(Helper::getNameOfPage('create1'),['id'=>$rkpd->RKPDID])!!}" class="btn btn-info btn-xs" title="Tambah Indikator Kegiatan">
                 <i class="icon-googleplus5"></i>           
             </a>           
         </div>  
-        @endif   --}}
+        @endif  
     </div>
 </div>
 @if (count($dataindikatorkinerja) > 0)
