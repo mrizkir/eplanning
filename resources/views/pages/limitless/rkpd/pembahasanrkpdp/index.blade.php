@@ -137,10 +137,10 @@
                         <td colspan="2">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td class="text-right">SELISIH [3-2]</td>
+                        <td class="text-right">SELISIH [3-1]</td>
                         <td id="selisihppopd" class="text-right">{{Helper::formatUang($totalpaguopd['selisihpp'])}}</td> 
                         <td colspan="2">&nbsp;</td>
-                        <td class="text-right">SELISIH [3-2]</td>
+                        <td class="text-right">SELISIH [3-1]</td>
                         <td id="selisihppunitkerja" class="text-right">{{Helper::formatUang($totalpaguunitkerja['selisihpp'])}}</td> 
                         <td colspan="2">&nbsp;</td>
                     </tr>

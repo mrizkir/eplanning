@@ -1721,6 +1721,7 @@ class PembahasanRKPDPController extends Controller
             $data_report['SOrgNm']=$unitkerja->SOrgNm;
             $data_report['NamaKepalaSKPD']=$unitkerja->NamaKepalaSKPD;
             $data_report['NIPKepalaSKPD']=$unitkerja->NIPKepalaSKPD;
+            $data_report['mode']='pembahasanrkpd';
             
             $report= new \App\Models\Report\ReportRKPDPerubahanModel ($data_report);
             return $report->download("rkpdp_$generate_date.xlsx");
@@ -1740,8 +1741,9 @@ class PembahasanRKPDPController extends Controller
             $data_report['OrgNm']=$opd->OrgNm;
             $data_report['NamaKepalaSKPD']=$opd->NamaKepalaSKPD;
             $data_report['NIPKepalaSKPD']=$opd->NIPKepalaSKPD;
+            $data_report['mode']='pembahasanrkpd';
             
-            $report= new \App\Models\Report\ReportRKPDPerubahanModel ($data_report);
+            $report= new \App\Models\Report\ReportRKPDPerubahanModel($data_report);
             return $report->download("rkpdp_$generate_date.xlsx");
         }
         else

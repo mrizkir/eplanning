@@ -117,7 +117,7 @@ class RKPDRincianModel extends Model {
         $totalpagu['perubahan']=is_null($data[0]->NilaiUsulan2)?0:$data[0]->NilaiUsulan2;  
         $totalpagu['selisih']=$totalpagu['perubahan']-$totalpagu['murni'];
         $totalpagu['pembahasanp']=is_null($data[0]->NilaiUsulan3)?0:$data[0]->NilaiUsulan3;  
-        $totalpagu['selisihpp']=$totalpagu['pembahasanp']-$totalpagu['perubahan'];
+        $totalpagu['selisihpp']=$totalpagu['pembahasanp']-$totalpagu['murni'];
         return $totalpagu;
     }
     /**
@@ -137,7 +137,7 @@ class RKPDRincianModel extends Model {
         $totalpagu['perubahan']=is_null($data[0]->NilaiUsulan2)?0:$data[0]->NilaiUsulan2;  
         $totalpagu['selisih']=$totalpagu['perubahan']-$totalpagu['murni'];
         $totalpagu['pembahasanp']=is_null($data[0]->NilaiUsulan3)?0:$data[0]->NilaiUsulan3;          
-        $totalpagu['selisihpp']=$totalpagu['pembahasanp']-$totalpagu['perubahan'];
+        $totalpagu['selisihpp']=$totalpagu['pembahasanp']-$totalpagu['murni'];
           
         return $totalpagu;
     }
