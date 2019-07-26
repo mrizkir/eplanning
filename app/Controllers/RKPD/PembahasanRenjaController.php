@@ -1900,7 +1900,7 @@ class PembahasanRenjaController extends Controller {
                                 "TA",
                                 1 AS "Status", 
                                 4 AS "EntryLvl",
-                                0 AS "Privilege",                        
+                                1 AS "Privilege",  
                                 NOW() AS created_at,
                                 NOW() AS updated_at
                             FROM 
@@ -1934,7 +1934,7 @@ class PembahasanRenjaController extends Controller {
                                 "Target_Uraian",
                                 "Tahun",
                                 "Descr",
-                                0 AS "Privilege",                        
+                                1 AS "Privilege",  
                                 "TA",
                                 NOW() AS created_at,
                                 NOW() AS updated_at
@@ -1942,7 +1942,7 @@ class PembahasanRenjaController extends Controller {
                                 "trRenjaIndikator" 
                             WHERE 
                                 "RenjaID"=\''.$renja->RenjaID.'\' AND 
-                                "Privilege"=0
+                                "Privilege"=1
                         ';
 
                         \DB::statement($str_kinerja);
