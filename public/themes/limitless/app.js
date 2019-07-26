@@ -166,6 +166,16 @@ function formatPaguRKPDPerubahanOPD(totalpagu)
         $('#datapagu #selisihopd').html(totalpagu['selisih']);                        
         new AutoNumeric ('#datapagu #selisihopd',optionnumeric); 
     }    
+    if (checkExistsID('#datapagu #pembahasanpopd'))
+    {
+        $('#datapagu #pembahasanpopd').html(totalpagu['pembahasanp']);                        
+        new AutoNumeric ('#datapagu #pembahasanpopd',optionnumeric); 
+    }    
+    if (checkExistsID('#datapagu #selisihppopd'))
+    {
+        $('#datapagu #selisihppopd').html(totalpagu['selisihpp']);                        
+        new AutoNumeric ('#datapagu #selisihppopd',optionnumeric); 
+    }    
 }
 function formatPaguRKPDPerubahanUnitKerja(totalpagu)
 {
@@ -190,6 +200,16 @@ function formatPaguRKPDPerubahanUnitKerja(totalpagu)
     {
         $('#datapagu #selisihunitkerja').html(totalpagu['selisih']);                        
         new AutoNumeric ('#datapagu #selisihunitkerja',optionnumeric); 
+    }    
+    if (checkExistsID('#datapagu #pembahasanpunitkerja'))
+    {
+        $('#datapagu #pembahasanpunitkerja').html(totalpagu['pembahasanp']);                        
+        new AutoNumeric ('#datapagu #pembahasanpunitkerja',optionnumeric); 
+    }    
+    if (checkExistsID('#datapagu #selisihppunitkerja'))
+    {
+        $('#datapagu #selisihppunitkerja').html(totalpagu['selisihpp']);                        
+        new AutoNumeric ('#datapagu #selisihppunitkerja',optionnumeric); 
     }    
 }
 //checking data type is json
