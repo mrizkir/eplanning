@@ -5,9 +5,6 @@
     <div class="heading-elements">    
         @if ($rkpd->Privilege==0)
         <div class="heading-btn">
-            {{-- <a href="{!!route(Helper::getNameOfPage('create2'),['id'=>$rkpd->RKPDID])!!}" class="btn btn-info btn-xs" title="Tambah Rincian Kegiatan dari Musren. Kec.">
-                <i class="icon-googleplus5"></i>
-            </a> --}}
             <a href="{!!route(Helper::getNameOfPage('create3'),['id'=>$rkpd->RKPDID])!!}" class="btn btn-success btn-xs" title="Tambah Rincian Kegiatan dari POKIR">
                 <i class="icon-googleplus5"></i>
             </a>
@@ -27,8 +24,8 @@
                 <th>NAMA URAIAN</th>                
                 <th>SASARAN URAIAN</th>  
                 <th>TARGET (%)</th> 
-                <th class="text-right">NILAI USULAN<br>SEBELUM</th>                
-                <th class="text-right">NILAI USULAN<br>SETELAH</th>                
+                <th class="text-right">NILAI USULAN<br>RKPDP</th>                
+                <th class="text-right">NILAI USULAN<br>RKPDP PEMBAHASAN</th>                
                 <th width="80">STATUS</th>                                       
                 <th width="80">VERIFIKASI</th>                                       
                 <th width="120">AKSI</th>
@@ -68,10 +65,10 @@
                 <td>{{Helper::formatAngka($item->Sasaran_Angka)}} {{ucwords($item->Sasaran_Uraian)}}</td>
                 <td>{{$item->Target}}</td>               
                 <td class="text-right">
-                    <span class="text-success">{{Helper::formatuang($item->Jumlah)}}</span><br>                
+                    <span class="text-success">{{Helper::formatuang($item->Jumlah2)}}</span><br>                
                 </td>  
                 <td class="text-right">                    
-                    <span class="text-danger">{{Helper::formatuang($item->Jumlah2)}}</span>
+                    <span class="text-danger">{{Helper::formatuang($item->Jumlah3)}}</span>
                 </td>  
                 <td>
                     @include('layouts.limitless.l_status_rkpd')
@@ -114,7 +111,7 @@
                                 </a>
                             @endif
                         </li>
-                        @if ($item->EntryLvl==5 && $item->Status==3)                   
+                        @if ($item->EntryLvl==6 && $item->Status==6)                   
                         <li class="text-danger-600">
                             <a class="btnDelete" href="javascript:;" title="Hapus Data Rincian Kegiatan" data-id="{{$item->RKPDRincID}}" data-url="{{route(Helper::getNameOfPage('index'))}}">
                                 <i class='icon-trash'></i>
@@ -141,8 +138,8 @@
         </tbody>
         <tfoot>
             @php
-                $jumlah=$datarinciankegiatan->sum('Jumlah');
-                $jumlah2=$datarinciankegiatan->sum('Jumlah2');
+                $jumlah=$datarinciankegiatan->sum('Jumlah2');
+                $jumlah2=$datarinciankegiatan->sum('Jumlah3');
             @endphp
             <tr class="bg-grey-300" style="font-weight:bold">
                 <td colspan="4" class="text-right">TOTAL</td>
@@ -151,7 +148,7 @@
                 <td colspan="3"></td>
             </tr>
             <tr class="bg-grey-300" style="font-weight:bold">
-                <td colspan="4" class="text-right">SISA</td>
+                <td colspan="4" class="text-right">SELISIH</td>
                 <td class="text-right">{{Helper::formatUang($jumlah2-$jumlah)}}</td> 
                 <td colspan="4"></td>
             </tr>

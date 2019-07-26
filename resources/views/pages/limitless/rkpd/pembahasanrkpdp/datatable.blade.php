@@ -62,7 +62,7 @@
                     </th> 
                     <th width="150" class="text-right">
                         <a class="column-sort text-white" id="col-Jumlah" data-order="{{$direction}}" href="#">
-                            NILAI M / <br>NILAI P
+                            NILAI M/<br>NILAI P/<br>NILAI PP
                         </a>                                             
                     </th>                     
                     <th width="80">
@@ -138,7 +138,8 @@
                     <td>{{$item->Target}}</td>
                     <td class="text-right">
                         <span class="text-success">{{Helper::formatuang($item->Jumlah)}}</span><br>
-                        <span class="text-danger">{{Helper::formatuang($item->Jumlah2)}}</span>
+                        <span class="text-danger">{{Helper::formatuang($item->Jumlah2)}}</span><br/>
+                        <span class="text-info">{{Helper::formatuang($item->Jumlah3)}}</span>
                     </td>                                    
                     <td>
                         @include('layouts.limitless.l_status_rkpd')    
@@ -181,7 +182,7 @@
                                     </a>
                                 @endif
                             </li>      
-                            @if ($item->EntryLvl==5 && $item->Status==3)                  
+                            @if ($item->EntryLvl==6 && $item->Status==6)                  
                             <li class="text-danger-600">
                                 <a class="btnDelete" href="javascript:;" title="Hapus Data Usulan {{$page_title}}" data-id="{{$item->RKPDRincID}}" data-url="{{route(Helper::getNameOfPage('index'))}}" data-pid="rincian">
                                     <i class='icon-trash'></i>

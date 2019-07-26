@@ -5,9 +5,6 @@
     <div class="heading-elements">    
         @if ($rkpd->Privilege==0)
         <div class="heading-btn">
-            {{-- <a href="{!!route(Helper::getNameOfPage('create2'),['id'=>$rkpd->RKPDID])!!}" class="btn btn-info btn-xs" title="Tambah Rincian Kegiatan dari Musren. Kec.">
-                <i class="icon-googleplus5"></i>
-            </a> --}}
             <a href="{!!route(Helper::getNameOfPage('create3'),['id'=>$rkpd->RKPDID])!!}" class="btn btn-success btn-xs" title="Tambah Rincian Kegiatan dari POKIR">
                 <i class="icon-googleplus5"></i>
             </a>
@@ -151,7 +148,7 @@
                 <td colspan="3"></td>
             </tr>
             <tr class="bg-grey-300" style="font-weight:bold">
-                <td colspan="4" class="text-right">SISA</td>
+                <td colspan="4" class="text-right">SELISIH</td>
                 <td class="text-right">{{Helper::formatUang($jumlah2-$jumlah)}}</td> 
                 <td colspan="4"></td>
             </tr>

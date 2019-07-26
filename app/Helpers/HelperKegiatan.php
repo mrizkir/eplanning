@@ -36,9 +36,12 @@ class HelperKegiatan {
     /**
      * Daftar Status RKPD
      */ 
-    private static $StatusRKPD =[1=>'MURNI',
-                                2=>'PERUBAHAN',//record perubahan tidak bisa bisa dihapus
-                                3=>'PERUBAHAN' //record perubahan bisa dihapus
+    private static $StatusRKPD =[1=>'RKPDM', //Murni baru naik dari trRenja di RKPDMurniController
+                                2=>'RKPDMP',//Kegiatan Murni dirubah di RKPDPerubahanController atau di PembahasanRKPDController
+                                3=>'RKPDPB', //Tambah Kegiatan baru di RKPDPerubahanController
+                                4=>'PEMRKPDMP', //Perubahan Kegiatan Murni Menjadi Perubahan di Pembahasan RKPD
+                                5=>'PEMRKPDMP', //Perubahan Kegiatan Perubahan Menjadi Perubahan di Pembahasan RKPD
+                                6=>'PBARU' //Tambah Record baru di Pembahasan RKPD
                                 ];
     /**
      * digunakan untuk mendapatkan tahun perencanaan saat user login

@@ -1,7 +1,7 @@
 <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
         <div class="panel-heading">
             <div class="panel-title">
-                <h6 class="panel-title">DAFTAR RINCIAN KEGIATAN</h6>            
+                <h6 class="panel-title">DAFTAR KEGIATAN</h6>            
             </div>
             <div class="heading-elements">
                 {!! Form::open(['url'=>'#','method'=>'post','class'=>'heading-form','id'=>'frmheading','name'=>'frmheading'])!!}                     

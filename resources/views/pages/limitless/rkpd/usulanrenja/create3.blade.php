@@ -65,7 +65,7 @@
                     <select name="PokPirID" id="PokPirID" class="select">
                         <option></option>  
                     </select>   
-                    <span class="help-block">Bila usulan kegiatan tidak ada, barangkali sudah di inputkan coba cek di rincian.</span>                             
+                    <span class="help-block">Bila usulan kegiatan tidak ada, barangkali sudah di inputkan atau OPD/SKPD tidak mendapatkan kegiatan ini dari Pemilik POKIR</span>                                                        
                 </div>
             </div>    
         </div>
