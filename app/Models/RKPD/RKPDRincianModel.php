@@ -106,7 +106,7 @@ class RKPDRincianModel extends Model {
     public static function getTotalPaguByOPD ($tahun_perencanaan,$EntryLvl,string $OrgID=null)
     {             
         $data=\DB::table('trRKPDRinc')
-                ->select(\DB::raw('SUM("trRKPDRinc"."NilaiUsulan1") AS "NilaiUsulan1",SUM("trRKPDRinc"."NilaiUsulan2") AS "NilaiUsulan2"'))
+                ->select(\DB::raw('SUM("trRKPDRinc"."NilaiUsulan1") AS "NilaiUsulan1",SUM("trRKPDRinc"."NilaiUsulan2") AS "NilaiUsulan2",SUM("trRKPDRinc"."NilaiUsulan3") AS "NilaiUsulan3"'))
                 ->join('trRKPD','trRKPDRinc.RKPDID','trRKPD.RKPDID')
                 ->where('trRKPDRinc.TA',$tahun_perencanaan)
                 ->where('trRKPD.OrgID',$OrgID)
@@ -116,7 +116,8 @@ class RKPDRincianModel extends Model {
         $totalpagu['murni']=is_null($data[0]->NilaiUsulan1)?0:$data[0]->NilaiUsulan1;        
         $totalpagu['perubahan']=is_null($data[0]->NilaiUsulan2)?0:$data[0]->NilaiUsulan2;  
         $totalpagu['selisih']=$totalpagu['perubahan']-$totalpagu['murni'];
-        
+        $totalpagu['pembahasanp']=is_null($data[0]->NilaiUsulan3)?0:$data[0]->NilaiUsulan3;  
+        $totalpagu['selisihpp']=$totalpagu['pembahasanp']-$totalpagu['perubahan'];
         return $totalpagu;
     }
     /**
@@ -125,7 +126,7 @@ class RKPDRincianModel extends Model {
     public static function getTotalPaguByUnitKerja ($tahun_perencanaan,$EntryLvl,string $SOrgID=null)
     {
         $data=\DB::table('trRKPDRinc')
-                ->select(\DB::raw('SUM("trRKPDRinc"."NilaiUsulan1") AS "NilaiUsulan1",SUM("trRKPDRinc"."NilaiUsulan2") AS "NilaiUsulan2"'))
+                ->select(\DB::raw('SUM("trRKPDRinc"."NilaiUsulan1") AS "NilaiUsulan1",SUM("trRKPDRinc"."NilaiUsulan2") AS "NilaiUsulan2",SUM("trRKPDRinc"."NilaiUsulan3") AS "NilaiUsulan3"'))
                 ->join('trRKPD','trRKPDRinc.RKPDID','trRKPD.RKPDID')
                 ->where('trRKPDRinc.TA',$tahun_perencanaan)
                 ->where('trRKPD.SOrgID',$SOrgID)
@@ -135,6 +136,8 @@ class RKPDRincianModel extends Model {
         $totalpagu['murni']=is_null($data[0]->NilaiUsulan1)?0:$data[0]->NilaiUsulan1;        
         $totalpagu['perubahan']=is_null($data[0]->NilaiUsulan2)?0:$data[0]->NilaiUsulan2;  
         $totalpagu['selisih']=$totalpagu['perubahan']-$totalpagu['murni'];
+        $totalpagu['pembahasanp']=is_null($data[0]->NilaiUsulan3)?0:$data[0]->NilaiUsulan3;          
+        $totalpagu['selisihpp']=$totalpagu['pembahasanp']-$totalpagu['perubahan'];
           
         return $totalpagu;
     }

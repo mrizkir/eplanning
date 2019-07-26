@@ -32,7 +32,7 @@
                     <a href="{{route(Helper::getNameOfPage('edit'),['id'=>$rkpd->RKPDID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Usulan {{$page_title}}">
                         <i class="icon-pencil7"></i>
                     </a>                    
-                    @if ($rkpd->EntryLvl==5 && $rkpd->Status==3)    
+                    @if ($rkpd->EntryLvl==6 && $rkpd->Status==6)    
                     <a href="javascript:;" title="Hapus Data Usulan {{$page_title}}" data-id="{{$rkpd->RKPDID}}" data-url="{{route(Helper::getNameOfPage('index'))}}" class="btn btn-danger btn-icon heading-btn btnDeleteRenja">
                         <i class='icon-trash'></i>
                     </a>

@@ -105,27 +105,43 @@
                 </thead>
                 <tbody class="bg-grey-300" style="font-weight:bold">   
                     <tr>
-                        <td class="text-right">JUMLAH PAGU MURNI</td>
+                        <td class="text-right">JUMLAH PAGU MURNI [1]</td>
                         <td id="totalpagumurniopd" class="text-right">{{Helper::formatUang($totalpaguopd['murni'])}}</td>                     
                         <td colspan="2">&nbsp;</td>
-                        <td class="text-right">JUMLAH PAGU MURNI</td>
+                        <td class="text-right">JUMLAH PAGU MURNI [1]</td>
                         <td id="totalpagumurniunitkerja" class="text-right">{{Helper::formatUang($totalpaguunitkerja['murni'])}}</td>                     
                         <td colspan="2">&nbsp;</td>
                     </tr>               
                     <tr>
-                        <td class="text-right">JUMLAH PAGU PERUBAHAN</td>
+                        <td class="text-right">JUMLAH PAGU PERUBAHAN [2]</td>
                         <td id="totalpaguperubahanopd" class="text-right">{{Helper::formatUang($totalpaguopd['perubahan'])}}</td> 
                         <td colspan="2">&nbsp;</td>
-                        <td class="text-right">JUMLAH PAGU PERUBAHAN</td>
+                        <td class="text-right">JUMLAH PAGU PERUBAHAN [2]</td>
                         <td id="totalpaguperubahanunitkerja" class="text-right">{{Helper::formatUang($totalpaguunitkerja['perubahan'])}}</td> 
                         <td colspan="2">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td class="text-right">SELISIH</td>
+                        <td class="text-right">SELISIH [2-1]</td>
                         <td id="selisihopd" class="text-right">{{Helper::formatUang($totalpaguopd['selisih'])}}</td> 
                         <td colspan="2">&nbsp;</td>
-                        <td class="text-right">SELISIH</td>
+                        <td class="text-right">SELISIH [2-1]</td>
                         <td id="selisihunitkerja" class="text-right">{{Helper::formatUang($totalpaguunitkerja['selisih'])}}</td> 
+                        <td colspan="2">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">JUMLAH PAGU PERUBAHAN<br> SETELAH PEMBAHASAN [3]</td>
+                        <td id="totalpaguperubahanopd3" class="text-right">{{Helper::formatUang($totalpaguopd['pembahasanp'])}}</td> 
+                        <td colspan="2">&nbsp;</td>
+                        <td class="text-right">JUMLAH PAGU PERUBAHAN<br> SETELAH PEMBAHASAN [3]</td>
+                        <td id="totalpaguperubahanunitkerja3" class="text-right">{{Helper::formatUang($totalpaguunitkerja['pembahasanp'])}}</td> 
+                        <td colspan="2">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">SELISIH [3-2]</td>
+                        <td id="selisihopd3" class="text-right">{{Helper::formatUang($totalpaguopd['selisihpp'])}}</td> 
+                        <td colspan="2">&nbsp;</td>
+                        <td class="text-right">SELISIH [3-2]</td>
+                        <td id="selisihunitkerja3" class="text-right">{{Helper::formatUang($totalpaguunitkerja['selisihpp'])}}</td> 
                         <td colspan="2">&nbsp;</td>
                     </tr>
                 </tbody>            
