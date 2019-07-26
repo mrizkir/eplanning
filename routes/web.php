@@ -471,17 +471,34 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::get('/workflow/rkpd/rkpdperubahan/printtopdf',['uses'=>'RKPD\RKPDPerubahanController@printtopdf','as'=>'rkpdperubahan.printtopdf']);
     
     //workflow - Pembahasan RKPD Perubahan [pembahasan]
-    Route::resource('/workflow/rkpd/pembahasanrkpdp','RKPD\PembahasanRKPDPController',['parameters'=>['pembahasanrkpdp'=>'uuid'],
-                                                                                        'only'=>['index','edit','update','show']]);
-    Route::put('/workflow/rkpd/pembahasanrkpdp/update2/{uuid}',['uses'=>'RKPD\PembahasanRKPDPController@update2','as'=>'pembahasanrkpdp.update2']);
+    Route::resource('/workflow/rkpd/pembahasanrkpdp','RKPD\PembahasanRKPDPController',['parameters'=>['pembahasanrkpdp'=>'uuid']]);        
+    Route::post('/workflow/rkpd/pembahasanrkpdp/pilihusulankegiatan',['uses'=>'RKPD\PembahasanRKPDPController@pilihusulankegiatan','as'=>'pembahasanrkpdp.pilihusulankegiatan']);                  
+    Route::post('/workflow/rkpd/pembahasanrkpdp/pilihindikatorkinerja',['uses'=>'RKPD\PembahasanRKPDPController@pilihindikatorkinerja','as'=>'pembahasanrkpdp.pilihindikatorkinerja']);                  
+    Route::get('/workflow/rkpd/pembahasanrkpdp/create1/{uuid}',['uses'=>'RKPD\PembahasanRKPDPController@create1','as'=>'pembahasanrkpdp.create1']);              
+    Route::get('/workflow/rkpd/pembahasanrkpdp/create2/{uuid}',['uses'=>'RKPD\PembahasanRKPDPController@create2','as'=>'pembahasanrkpdp.create2']);              
+    Route::get('/workflow/rkpd/pembahasanrkpdp/create3/{uuid}',['uses'=>'RKPD\PembahasanRKPDPController@create3','as'=>'pembahasanrkpdp.create3']);              
+    Route::get('/workflow/rkpd/pembahasanrkpdp/create4/{uuid}',['uses'=>'RKPD\PembahasanRKPDPController@create4','as'=>'pembahasanrkpdp.create4']);              
+    Route::post('/workflow/rkpd/pembahasanrkpdp/store1',['uses'=>'RKPD\PembahasanRKPDPController@store1','as'=>'pembahasanrkpdp.store1']);  
+    Route::post('/workflow/rkpd/pembahasanrkpdp/store2',['uses'=>'RKPD\PembahasanRKPDPController@store2','as'=>'pembahasanrkpdp.store2']);  
+    Route::post('/workflow/rkpd/pembahasanrkpdp/store3',['uses'=>'RKPD\PembahasanRKPDPController@store3','as'=>'pembahasanrkpdp.store3']); 
+    Route::post('/workflow/rkpd/pembahasanrkpdp/store4',['uses'=>'RKPD\PembahasanRKPDPController@store4','as'=>'pembahasanrkpdp.store4']); 
+    Route::get('/workflow/rkpd/pembahasanrkpdp/{uuid}/edit1',['uses'=>'RKPD\PembahasanRKPDPController@edit1','as'=>'pembahasanrkpdp.edit1']);              
+    Route::get('/workflow/rkpd/pembahasanrkpdp/{uuid}/edit2',['uses'=>'RKPD\PembahasanRKPDPController@edit2','as'=>'pembahasanrkpdp.edit2']);              
+    Route::get('/workflow/rkpd/pembahasanrkpdp/{uuid}/edit3',['uses'=>'RKPD\PembahasanRKPDPController@edit3','as'=>'pembahasanrkpdp.edit3']);              
+    Route::get('/workflow/rkpd/pembahasanrkpdp/{uuid}/edit4',['uses'=>'RKPD\PembahasanRKPDPController@edit4','as'=>'pembahasanrkpdp.edit4']);              
+    Route::put('/workflow/rkpd/pembahasanrkpdp/update1/{uuid}',['uses'=>'RKPD\PembahasanRKPDPController@update1','as'=>'pembahasanrkpdp.update1']);  
+    Route::put('/workflow/rkpd/pembahasanrkpdp/update2/{uuid}',['uses'=>'RKPD\PembahasanRKPDPController@update2','as'=>'pembahasanrkpdp.update2']);  
+    Route::put('/workflow/rkpd/pembahasanrkpdp/update3/{uuid}',['uses'=>'RKPD\PembahasanRKPDPController@update3','as'=>'pembahasanrkpdp.update3']); 
+    Route::put('/workflow/rkpd/pembahasanrkpdp/update4/{uuid}',['uses'=>'RKPD\PembahasanRKPDPController@update4','as'=>'pembahasanrkpdp.update4']); 
     Route::get('/workflow/rkpd/pembahasanrkpdp/showrincian/{uuid}',['uses'=>'RKPD\PembahasanRKPDPController@showrincian','as'=>'pembahasanrkpdp.showrincian']); 
     Route::post('/workflow/rkpd/pembahasanrkpdp/search',['uses'=>'RKPD\PembahasanRKPDPController@search','as'=>'pembahasanrkpdp.search']);  
-    Route::post('/workflow/rkpd/pembahasanrkpdp/filter',['uses'=>'RKPD\PembahasanRKPDPController@filter','as'=>'pembahasanrkpdp.filter']);              
+    Route::post('/workflow/rkpd/pembahasanrkpdp/filter',['uses'=>'RKPD\PembahasanRKPDPController@filter','as'=>'pembahasanrkpdp.filter']);                  
     Route::get('/workflow/rkpd/pembahasanrkpdp/paginate/{id}',['uses'=>'RKPD\PembahasanRKPDPController@paginate','as'=>'pembahasanrkpdp.paginate']);              
     Route::post('/workflow/rkpd/pembahasanrkpdp/changenumberrecordperpage',['uses'=>'RKPD\PembahasanRKPDPController@changenumberrecordperpage','as'=>'pembahasanrkpdp.changenumberrecordperpage']);  
-    Route::post('/workflow/rkpd/pembahasanrkpdp/orderby',['uses'=>'RKPD\PembahasanRKPDPController@orderby','as'=>'pembahasanrkpdp.orderby']);  
-    Route::post('/workflow/rkpd/pembahasanrkpdp/transfer',['uses'=>'RKPD\PembahasanRKPDPController@transfer','as'=>'pembahasanrkpdp.transfer']);
-    
+    Route::post('/workflow/rkpd/pembahasanrkpdp/orderby',['uses'=>'RKPD\PembahasanRKPDPController@orderby','as'=>'pembahasanrkpdp.orderby']);
+    Route::get('/workflow/rkpd/pembahasanrkpdp/printtoexcel',['uses'=>'RKPD\PembahasanRKPDPController@printtoexcel','as'=>'pembahasanrkpdp.printtoexcel']);
+    Route::get('/workflow/rkpd/pembahasanrkpdp/printtopdf',['uses'=>'RKPD\PembahasanRKPDPController@printtopdf','as'=>'pembahasanrkpdp.printtopdf']);
+
     //Report - RENCANA KERJA OPD / SKPD - RKPD MURNI PER OPD   
     Route::resource('/report/rkpd/reportrkpdmurniopd','Report\ReportRKPDMurniOPDController',[
                                                                 'parameters'=>['reportrkpdmurniopd'=>'id'],
