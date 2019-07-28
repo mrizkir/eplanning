@@ -484,7 +484,7 @@ class RPJMDTujuanController extends Controller {
             {                
                 $dataindikatortujuan = $this->populateIndikatorTujuan($PrioritasTujuanKabID);                
                 $datatable = view("pages.$theme.rpjmd.rpjmdtujuan.datatableindikatortujuan")->with(['page_active'=>'rpjmdtujuan',                                                                                    
-                                                                                    'dataindikatortujuan'=>$dataindikatortujuan])->render();      
+                                                                                                    'dataindikatortujuan'=>$dataindikatortujuan])->render();      
                 
                 return response()->json(['success'=>true,'datatable'=>$datatable],200); 
             }

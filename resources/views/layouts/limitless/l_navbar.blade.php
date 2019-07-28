@@ -165,17 +165,7 @@
                             @hasrole('superadmin|bapelitbang|opd')
                             <div class="col-md-3">
                                 <span class="menu-heading underlined"><i class="icon-strategy"></i> RENSTRA OPD / SKPD</span>
-                                <ul class="menu-list">
-                                    <li{!!Helper::isMenuActive ($page_active,'renstravisi',' class="active"')!!}>
-                                        <a href="{{route('renstravisi.index')}}">
-                                            <i class="icon-strategy"></i> VISI <span class="text-violet"><strong>[1]</strong></span>
-                                        </a>
-                                    </li>     
-                                    <li{!!Helper::isMenuActive ($page_active,'renstramisi',' class="active"')!!}>
-                                        <a href="{{route('renstramisi.index')}}">
-                                            <i class="icon-strategy"></i> MISI <span class="text-violet"><strong>[2]</strong></span>
-                                        </a>
-                                    </li>     
+                                <ul class="menu-list">                                   
                                     <li{!!Helper::isMenuActive ($page_active,'renstratujuan',' class="active"')!!}>
                                         <a href="{{route('renstratujuan.index')}}">
                                             <i class="icon-strategy"></i> TUJUAN <span class="text-violet"><strong>[3]</strong></span>

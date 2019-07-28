@@ -5,6 +5,7 @@ namespace App\Controllers\RPJMD;
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Models\RPJMD\RPJMDSasaranModel;
+use App\Models\RPJMD\RPJMDSasaranIndikatorModel;
 use App\Rules\CheckRecordIsExistValidation;
 use App\Rules\IgnoreIfDataIsEqualValidation;
 
@@ -18,6 +19,14 @@ class RPJMDSasaranController extends Controller {
     {
         parent::__construct();
         $this->middleware(['auth','role:superadmin|bapelitbang']);
+    }
+    private function populateIndikatorSasaran($PrioritasSasaranKabID)
+    {
+      
+        $data = RPJMDSasaranIndikatorModel::where('PrioritasSasaranKabID',$PrioritasSasaranKabID)
+                                            ->get();
+
+        return $data;
     }
     /**
      * collect data from resources for index view
@@ -256,6 +265,57 @@ class RPJMDSasaranController extends Controller {
     }
     
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store1(Request $request)
+    {
+        $this->validate($request, [            
+            'NamaIndikator'=>'required',
+            'KondisiAwal'=>'required',
+            'N1'=>'required',
+            'N2'=>'required',
+            'N3'=>'required',
+            'N4'=>'required',
+            'N5'=>'required',
+            'KondisiAkhir'=>'required',
+            'Satuan'=>'required',
+        ]);
+        
+        $rpjmdindikatorsasaran = RPJMDSasaranIndikatorModel::create([
+            'PrioritasIndikatorSasaranID'=> uniqid ('uid'),
+            'PrioritasSasaranKabID' => $request->input('PrioritasSasaranKabID'),
+            'NamaIndikator' => $request->input('NamaIndikator'),
+            'KondisiAwal' => $request->input('KondisiAwal'),
+            'N1' => $request->input('N1'),
+            'N2' => $request->input('N2'),
+            'N3' => $request->input('N3'),
+            'N4' => $request->input('N4'),
+            'N5' => $request->input('N5'),
+            'KondisiAkhir' => $request->input('KondisiAkhir'),
+            'Satuan' => $request->input('Satuan'),
+            'Operator' => $request->input('Operator'),
+            'Descr' => $request->input('Descr'),
+            'TA' => \HelperKegiatan::getTahunPerencanaan()
+        ]);        
+        
+        if ($request->ajax()) 
+        {
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data ini telah berhasil disimpan.'
+            ]);
+        }
+        else
+        {
+            return redirect(route('rpjmdsasaran.show',['id'=>$rpjmdindikatorsasaran->PrioritasSasaranKabID]))->with('success','Data ini telah berhasil disimpan.');
+        }
+
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -278,8 +338,10 @@ class RPJMDSasaranController extends Controller {
                                 ->findOrFail($id);
         if (!is_null($data) )  
         {
+            $dataindikatorsasaran=$this->populateIndikatorSasaran($id);
             return view("pages.$theme.rpjmd.rpjmdsasaran.show")->with(['page_active'=>'rpjmdsasaran',
-                                                                        'data'=>$data
+                                                                        'data'=>$data,
+                                                                        'dataindikatorsasaran'=>$dataindikatorsasaran
                                                                     ]);
         }        
     }
@@ -309,7 +371,28 @@ class RPJMDSasaranController extends Controller {
                                                                         ]);
         }        
     }
-
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit1($id)
+    {
+        $theme = \Auth::user()->theme;
+        
+        $data_indikator = RPJMDSasaranIndikatorModel::findOrFail($id);
+        $data = RPJMDSasaranModel::find($data_indikator->PrioritasSasaranKabID);
+        if (!is_null($data) ) 
+        {        
+            $dataindikatorsasaran=$this->populateIndikatorSasaran($data_indikator->PrioritasSasaranKabID);
+            return view("pages.$theme.rpjmd.rpjmdsasaran.edit1")->with(['page_active'=>'rpjmdsasaran',
+                                                                        'dataindikatorsasaran'=>$dataindikatorsasaran,
+                                                                        'data'=>$data,
+                                                                        'data_indikator'=>$data_indikator
+                                                                    ]);
+        }        
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -349,7 +432,54 @@ class RPJMDSasaranController extends Controller {
         }
 
     }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update1(Request $request, $id)
+    {
+        $rpjmdindikatorsasaran = RPJMDSasaranIndikatorModel::find($id);
 
+        $this->validate($request, [            
+            'NamaIndikator'=>'required',
+            'KondisiAwal'=>'required',
+            'N1'=>'required',
+            'N2'=>'required',
+            'N3'=>'required',
+            'N4'=>'required',
+            'N5'=>'required',
+            'KondisiAkhir'=>'required',
+            'Satuan'=>'required',
+        ]);
+        
+        $rpjmdindikatorsasaran->NamaIndikator = $request->input('NamaIndikator');
+        $rpjmdindikatorsasaran->KondisiAwal = $request->input('KondisiAwal');
+        $rpjmdindikatorsasaran->N1 = $request->input('KondisiAwal');
+        $rpjmdindikatorsasaran->N2 = $request->input('N2');
+        $rpjmdindikatorsasaran->N3 = $request->input('N3');
+        $rpjmdindikatorsasaran->N4 = $request->input('N4');
+        $rpjmdindikatorsasaran->N5 = $request->input('N5');
+        $rpjmdindikatorsasaran->KondisiAkhir = $request->input('KondisiAkhir');
+        $rpjmdindikatorsasaran->Satuan = $request->input('Satuan');
+        $rpjmdindikatorsasaran->Operator = $request->input('Operator');
+        $rpjmdindikatorsasaran->Descr = $request->input('Descr');
+        $rpjmdindikatorsasaran->save();
+        
+        if ($request->ajax()) 
+        {
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data ini telah berhasil disimpan.'
+            ]);
+        }
+        else
+        {
+            return redirect(route('rpjmdsasaran.show',['id'=>$rpjmdindikatorsasaran->PrioritasSasaranKabID]))->with('success','Data ini telah berhasil disimpan.');
+        }
+
+    }
      /**
      * Remove the specified resource from storage.
      *
@@ -359,29 +489,49 @@ class RPJMDSasaranController extends Controller {
     public function destroy(Request $request,$id)
     {
         $theme = \Auth::user()->theme;
-        
-        $rpjmdsasaran = RPJMDSasaranModel::find($id);
-        $result=$rpjmdsasaran->delete();
-        if ($request->ajax()) 
+        if ($request->exists('indikatorsasaran'))
         {
-            $currentpage=$this->getCurrentPageInsideSession('rpjmdsasaran'); 
-            $data=$this->populateData($currentpage);
-            if ($currentpage > $data->lastPage())
-            {            
-                $data = $this->populateData($data->lastPage());
+            $rpjmdsasaran = RPJMDSasaranIndikatorModel::find($id);
+            $PrioritasSasaranKabID=$rpjmdsasaran->PrioritasSasaranKabID;
+            $result=$rpjmdsasaran->delete();
+            if ($request->ajax()) 
+            {                
+                $dataindikatorsasaran = $this->populateIndikatorSasaran($PrioritasSasaranKabID);                
+                $datatable = view("pages.$theme.rpjmd.rpjmdsasaran.datatableindikatorsasaran")->with(['page_active'=>'rpjmdsasaran',                                                                                    
+                                                                                                    'dataindikatorsasaran'=>$dataindikatorsasaran])->render();      
+                
+                return response()->json(['success'=>true,'datatable'=>$datatable],200); 
             }
-            $datatable = view("pages.$theme.rpjmd.rpjmdsasaran.datatable")->with(['page_active'=>'rpjmdsasaran',
-                                                            'search'=>$this->getControllerStateSession('rpjmdsasaran','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                            'column_order'=>$this->getControllerStateSession('rpjmdsasaran.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('rpjmdsasaran.orderby','order'),
-                                                            'data'=>$data])->render();      
-            
-            return response()->json(['success'=>true,'datatable'=>$datatable],200); 
+            else
+            {
+                return redirect(route('rpjmdsasaran.show',['id'=>$PrioritasSasaranKabID]))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+            }       
         }
         else
         {
-            return redirect(route('rpjmdsasaran.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+            $rpjmdsasaran = RPJMDSasaranModel::find($id);
+            $result=$rpjmdsasaran->delete();
+            if ($request->ajax()) 
+            {
+                $currentpage=$this->getCurrentPageInsideSession('rpjmdsasaran'); 
+                $data=$this->populateData($currentpage);
+                if ($currentpage > $data->lastPage())
+                {            
+                    $data = $this->populateData($data->lastPage());
+                }
+                $datatable = view("pages.$theme.rpjmd.rpjmdsasaran.datatable")->with(['page_active'=>'rpjmdsasaran',
+                                                                'search'=>$this->getControllerStateSession('rpjmdsasaran','search'),
+                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                'column_order'=>$this->getControllerStateSession('rpjmdsasaran.orderby','column_name'),
+                                                                'direction'=>$this->getControllerStateSession('rpjmdsasaran.orderby','order'),
+                                                                'data'=>$data])->render();      
+                
+                return response()->json(['success'=>true,'datatable'=>$datatable],200); 
+            }
+            else
+            {
+                return redirect(route('rpjmdsasaran.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+            }
         }        
     }
 }

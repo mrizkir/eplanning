@@ -123,6 +123,10 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     
     //RPJMD - Sasaran
     Route::resource('/perencanaan/rpjmd/rpjmdsasaran','RPJMD\RPJMDSasaranController',['parameters'=>['rpjmdsasaran'=>'uuid']]); 
+    Route::post('/perencanaan/rpjmd/rpjmdsasaran/store1',['uses'=>'RPJMD\RPJMDSasaranController@store1','as'=>'rpjmdsasaran.store1']);  
+    Route::get('/perencanaan/rpjmd/rpjmdsasaran/getkodetujuan/{uuid}',['uses'=>'RPJMD\RPJMDSasaranController@getkodetujuan','as'=>'rpjmdsasaran.getkodetujuan']);              
+    Route::get('/perencanaan/rpjmd/rpjmdsasaran/edit1/{uuid}',['uses'=>'RPJMD\RPJMDSasaranController@edit1','as'=>'rpjmdsasaran.edit1']);  
+    Route::put('/perencanaan/rpjmd/rpjmdsasaran/update1/{uuid}',['uses'=>'RPJMD\RPJMDSasaranController@update1','as'=>'rpjmdsasaran.update1']);  
     Route::post('/perencanaan/rpjmd/rpjmdsasaran/search',['uses'=>'RPJMD\RPJMDSasaranController@search','as'=>'rpjmdsasaran.search']); 
     Route::get('/perencanaan/rpjmd/rpjmdsasaran/paginate/{id}',['uses'=>'RPJMD\RPJMDSasaranController@paginate','as'=>'rpjmdsasaran.paginate']);              
     Route::post('/perencanaan/rpjmd/rpjmdsasaran/changenumberrecordperpage',['uses'=>'RPJMD\RPJMDSasaranController@changenumberrecordperpage','as'=>'rpjmdsasaran.changenumberrecordperpage']);  

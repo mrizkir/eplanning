@@ -157,7 +157,7 @@
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
-    AutoNumeric.multiple(['#KondisiAwal,#KondisiAkhir'], {
+    AutoNumeric.multiple(['#KondisiAwal','#KondisiAkhir'], {
                             allowDecimalPadding: false,                            
                             numericPos:true,
                             decimalPlaces : 2,
