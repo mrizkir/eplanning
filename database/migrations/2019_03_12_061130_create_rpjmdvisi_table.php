@@ -13,9 +13,14 @@ class CreateRpjmdvisiTable extends Migration
      */
     public function up()
     {
-        Schema::create('tmVisi', function (Blueprint $table) {
-            $table->bigIncrements('VisiID');
+        Schema::create('tmRpjmdVisi', function (Blueprint $table) {
+            $table->string('RpjmdVisiID',19);
+            $table->string('Nm_RpjmdVisi');           
+            $table->string('Descr')->nullable();
+            $table->year('TA_Awal');
+            $table->boolean('Locked')->default(0);
             $table->timestamps();
+            $table->primary('RpjmdVisiID');
         });
     }
 
@@ -26,6 +31,6 @@ class CreateRpjmdvisiTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tmVisi');
+        Schema::dropIfExists('tmRpjmdVisi');
     }
 }

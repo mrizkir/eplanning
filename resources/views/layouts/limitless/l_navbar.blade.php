@@ -129,34 +129,39 @@
                             <div class="col-md-3">
                                 <span class="menu-heading underlined"><i class="icon-strategy"></i> RPJMD</span>
                                 <ul class="menu-list">
+                                    <li{!!Helper::isMenuActive ($page_active,'rpjmdvisi',' class="active"')!!}>
+                                        <a href="{{route('rpjmdvisi.index')}}">
+                                            <i class="icon-strategy"></i> VISI <span class="text-violet"><strong>[1]</strong></span>
+                                        </a>
+                                    </li> 
                                     <li{!!Helper::isMenuActive ($page_active,'rpjmdmisi',' class="active"')!!}>
                                         <a href="{{route('rpjmdmisi.index')}}">
-                                            <i class="icon-strategy"></i> MISI <span class="text-violet"><strong>[1]</strong></span>
+                                            <i class="icon-strategy"></i> MISI <span class="text-violet"><strong>[2]</strong></span>
                                         </a>
                                     </li>     
                                     <li{!!Helper::isMenuActive ($page_active,'rpjmdtujuan',' class="active"')!!}>
                                         <a href="{{route('rpjmdtujuan.index')}}">
-                                            <i class="icon-strategy"></i> TUJUAN <span class="text-violet"><strong>[2]</strong></span>
+                                            <i class="icon-strategy"></i> TUJUAN <span class="text-violet"><strong>[3]</strong></span>
                                         </a>
                                     </li>  
                                     <li{!!Helper::isMenuActive ($page_active,'rpjmdsasaran',' class="active"')!!}>
                                         <a href="{{route('rpjmdsasaran.index')}}">
-                                            <i class="icon-strategy"></i> SASARAN <span class="text-violet"><strong>[3]</strong></span>
+                                            <i class="icon-strategy"></i> SASARAN <span class="text-violet"><strong>[4]</strong></span>
                                         </a>
                                     </li>   
                                     <li{!!Helper::isMenuActive ($page_active,'rpjmdstrategi',' class="active"')!!}>
                                         <a href="{{route('rpjmdstrategi.index')}}">
-                                            <i class="icon-strategy"></i> STRATEGI <span class="text-violet"><strong>[4]</strong></span>
+                                            <i class="icon-strategy"></i> STRATEGI <span class="text-violet"><strong>[5]</strong></span>
                                         </a>
                                     </li>           
                                     <li{!!Helper::isMenuActive ($page_active,'rpjmdkebijakan',' class="active"')!!}>
                                         <a href="{{route('rpjmdkebijakan.index')}}">
-                                            <i class="icon-strategy"></i> PRIORITAS / ARAH KEBIJAKAN <span class="text-violet"><strong>[5]</strong></span>
+                                            <i class="icon-strategy"></i> PRIORITAS / ARAH KEBIJAKAN <span class="text-violet"><strong>[6]</strong></span>
                                         </a>
                                     </li>  
                                     <li{!!Helper::isMenuActive ($page_active,'rpjmdindikatorkinerja',' class="active"')!!}>
                                         <a href="{{route('rpjmdindikatorkinerja.index')}}">
-                                            <i class="icon-strategy"></i> INDIKASI RENCANA PROGRAM <span class="text-violet"><strong>[6]</strong></span>
+                                            <i class="icon-strategy"></i> INDIKASI RENCANA PROGRAM <span class="text-violet"><strong>[7]</strong></span>
                                         </a>
                                     </li> 
                                 </ul>
