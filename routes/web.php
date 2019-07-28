@@ -105,6 +105,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
 
     //RPJMD - Misi
     Route::resource('/perencanaan/rpjmd/rpjmdmisi','RPJMD\RPJMDMisiController',['parameters'=>['rpjmdmisi'=>'uuid']]); 
+    Route::get('/perencanaan/rpjmd/rpjmdmisi/getkodemisi/{uuid}',['uses'=>'RPJMD\RPJMDMisiController@getkodemisi','as'=>'rpjmdmisi.getkodemisi']);              
     Route::post('/perencanaan/rpjmd/rpjmdmisi/search',['uses'=>'RPJMD\RPJMDMisiController@search','as'=>'rpjmdmisi.search']); 
     Route::get('/perencanaan/rpjmd/rpjmdmisi/paginate/{id}',['uses'=>'RPJMD\RPJMDMisiController@paginate','as'=>'rpjmdmisi.paginate']);              
     Route::post('/perencanaan/rpjmd/rpjmdmisi/changenumberrecordperpage',['uses'=>'RPJMD\RPJMDMisiController@changenumberrecordperpage','as'=>'rpjmdmisi.changenumberrecordperpage']);  

@@ -36,15 +36,21 @@
         <div class="panel-body">
             {!! Form::open(['action'=>'RPJMD\RPJMDMisiController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
                 <div class="form-group">
-                    {{Form::label('Kd_PrioritasKab','KODE',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('RpjmdVisiID','VISI',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('Kd_PrioritasKab','',['class'=>'form-control','placeholder'=>'Kode Misi','maxlength'=>'4'])}}
+                        {{Form::select('RpjmdVisiID', $daftar_visi, '',['class'=>'select','id'=>'RpjmdVisiID'])}}
                     </div>
                 </div>
                 <div class="form-group">
-                    {{Form::label('Nm_PrioritasKab','NAMA',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('Kd_PrioritasKab','KODE',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('Nm_PrioritasKab','',['class'=>'form-control','placeholder'=>'Nama Misi'])}}
+                        {{Form::text('Kd_PrioritasKab','',['class'=>'form-control','placeholder'=>'KODE MISI','maxlength'=>'4'])}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('Nm_PrioritasKab','MISI',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('Nm_PrioritasKab','',['class'=>'form-control','placeholder'=>'MISI'])}}
                     </div>
                 </div>
                 <div class="form-group">
@@ -66,6 +72,7 @@
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/autoNumeric.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
@@ -82,6 +89,32 @@ $(document).ready(function () {
                                         unformatOnSubmit: true,
                                         modifyValueOnWheel:false
                                     });
+    $('#RpjmdVisiID.select').select2({
+        placeholder: "PILIH VISI RPJMD",
+        allowClear:true
+    });
+    $(document).on('change','#RpjmdVisiID',function(ev) {
+        ev.preventDefault();
+        RpjmdVisiID=$(this).val();        
+        $.ajax({
+            type:'get',
+            url: url_current_page+'/getkodemisi/'+RpjmdVisiID,
+            dataType: 'json',
+            data: {
+                "_token": token,
+                "RpjmdVisiID": RpjmdVisiID,
+            },
+            success:function(result)
+            {   
+                const element = AutoNumeric.getAutoNumericElement('#Kd_PrioritasKab');
+                element.set(result.Kd_PrioritasKab);                                
+            },
+            error:function(xhr, status, error)
+            {   
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    });   
     $('#frmdata').validate({
         rules: {
             Kd_PrioritasKab : {
