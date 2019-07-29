@@ -64,7 +64,10 @@ class RPJMDTujuanController extends Controller {
         }
         else
         {
-            $data = RPJMDTujuanModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data = RPJMDTujuanModel::select(\DB::raw('"tmPrioritasTujuanKab"."PrioritasTujuanKabID",CONCAT("tmPrioritasKab"."Kd_PrioritasKab",\'.\',"tmPrioritasTujuanKab"."Kd_Tujuan") AS "Kd_Tujuan","tmPrioritasTujuanKab"."Nm_Tujuan","tmPrioritasTujuanKab"."TA"'))
+                                    ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmPrioritasTujuanKab.PrioritasKabID')
+                                    ->orderBy($column_order,$direction)
+                                    ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('rpjmdtujuan.index'));
         return $data;
