@@ -222,7 +222,7 @@ class OrganisasiController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $daftar_urusan=UrusanModel::getDaftarUrusan(\HelperKegiatan::getTahunPerencanaan(),false);
+        $daftar_urusan=UrusanModel::getDaftarUrusan(\HelperKegiatan::getRPJMDTahunMulai(),false);
         return view("pages.$theme.dmaster.organisasi.create")->with(['page_active'=>'organisasi',
                                                                     'daftar_urusan'=>$daftar_urusan
                                                                     ]);  
@@ -315,7 +315,7 @@ class OrganisasiController extends Controller {
         $data = OrganisasiModel::findOrFail($id);
         if (!is_null($data) ) 
         {
-            $daftar_urusan=UrusanModel::getDaftarUrusan(\HelperKegiatan::getTahunPerencanaan(),false);
+            $daftar_urusan=UrusanModel::getDaftarUrusan(\HelperKegiatan::getRPJMDTahunMulai(),false);
             return view("pages.$theme.dmaster.organisasi.edit")->with(['page_active'=>'organisasi',
                                                                     'daftar_urusan'=>$daftar_urusan,
                                                                     'data'=>$data

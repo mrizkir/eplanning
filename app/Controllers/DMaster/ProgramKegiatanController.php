@@ -273,7 +273,7 @@ class ProgramKegiatanController extends Controller {
     public function index(Request $request)
     {                
         $theme = \Auth::user()->theme;
-        $daftar_program=ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan());
+        $daftar_program=ProgramModel::getDaftarProgram(\HelperKegiatan::getRPJMDTahunMulai());
         $daftar_program['none']='SELURUH PROGRAM';
 
         $search=$this->getControllerStateSession('programkegiatan','search');
@@ -304,7 +304,7 @@ class ProgramKegiatanController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $daftar_program=ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan(),false);
+        $daftar_program=ProgramModel::getDaftarProgram(\HelperKegiatan::getRPJMDTahunMulai(),false);
         return view("pages.$theme.dmaster.programkegiatan.create")->with(['page_active'=>'programkegiatan',
                                                                           'daftar_program'=>$daftar_program
                                                                         ]);  
@@ -386,7 +386,7 @@ class ProgramKegiatanController extends Controller {
         $data = ProgramKegiatanModel::findOrFail($id);
         if (!is_null($data) ) 
         {
-            $daftar_program=ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan(),false);
+            $daftar_program=ProgramModel::getDaftarProgram(\HelperKegiatan::getRPJMDTahunMulai(),false);
             return view("pages.$theme.dmaster.programkegiatan.edit")->with(['page_active'=>'programkegiatan',
                                                                                 'daftar_program'=>$daftar_program,
                                                                                 'data'=>$data

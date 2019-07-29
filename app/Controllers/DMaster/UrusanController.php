@@ -47,13 +47,13 @@ class UrusanController extends Controller {
             {
                 case 'Kode_Bidang' :
                     $data = UrusanModel::join('v_urusan','v_urusan.UrsID','tmUrs.UrsID')
-                                        ->where('tmUrs.TA',\HelperKegiatan::getTahunPerencanaan())
+                                        ->where('tmUrs.TA',\HelperKegiatan::getRPJMDTahunMulai())
                                         ->where(['Kode_Bidang'=>$search['isikriteria']])
                                         ->orderBy($column_order,$direction); 
                 break;
                 case 'Nm_Bidang' :
                     $data = UrusanModel::join('v_urusan','v_urusan.UrsID','tmUrs.UrsID')
-                                        ->where('tmUrs.TA',\HelperKegiatan::getTahunPerencanaan())
+                                        ->where('tmUrs.TA',\HelperKegiatan::getRPJMDTahunMulai())
                                         ->where('tmUrs.Nm_Bidang', SQL::like(), '%' . $search['isikriteria'] . '%')
                                         ->orderBy($column_order,$direction);                                        
                 break;
@@ -64,7 +64,7 @@ class UrusanController extends Controller {
         {
             $data = UrusanModel::join('v_urusan','v_urusan.UrsID','tmUrs.UrsID')
                                 ->select(\DB::raw('"tmUrs"."UrsID","tmUrs"."KUrsID",v_urusan."Nm_Urusan",v_urusan."Kode_Bidang","tmUrs"."Nm_Bidang","tmUrs"."Descr","tmUrs"."created_at","tmUrs"."updated_at"'))
-                                ->where('tmUrs.TA',\HelperKegiatan::getTahunPerencanaan())
+                                ->where('tmUrs.TA',\HelperKegiatan::getRPJMDTahunMulai())
                                 ->orderBy($column_order,$direction)
                                 ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
             
@@ -222,7 +222,7 @@ class UrusanController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $kelompok_urusan=KelompokUrusanModel::getKelompokUrusan(\HelperKegiatan::getTahunPerencanaan());
+        $kelompok_urusan=KelompokUrusanModel::getKelompokUrusan(\HelperKegiatan::getRPJMDTahunMulai());
         return view("pages.$theme.dmaster.urusan.create")->with(['page_active'=>'urusan',
                                                                 'kelompok_urusan'=>$kelompok_urusan
                                                             ]);  
@@ -245,7 +245,7 @@ class UrusanController extends Controller {
             'Kd_Bidang'=>'required|min:1|max:4|regex:/^[0-9]+$/', 
             'Kode_Bidang'=>['required',new IgnoreIfDataIsEqualValidation('v_urusan',
                                                                         null,
-                                                                        ['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]                                                                                
+                                                                        ['where'=>['TA','=',\HelperKegiatan::getRPJMDTahunMulai()]                                                                                
                                                                         ],
                                                                         'Kode Urusan')],   
             'KUrsID'=>'required|not_in:none', 
@@ -271,7 +271,7 @@ class UrusanController extends Controller {
             'Kd_Bidang'=>$request->input('Kd_Bidang'),        
             'Nm_Bidang'=>$request->input('Nm_Bidang'),
             'Descr'=>$request->input('Descr'),
-            'TA'=>\HelperKegiatan::getTahunPerencanaan(),
+            'TA'=>\HelperKegiatan::getRPJMDTahunMulai(),
         ]);
 
         if ($request->ajax()) 
@@ -321,7 +321,7 @@ class UrusanController extends Controller {
         $data = UrusanModel::with('kelompokurusan')->findOrFail($id);
         if (!is_null($data) ) 
         {   
-            $kelompok_urusan=KelompokUrusanModel::getKelompokUrusan(\HelperKegiatan::getTahunPerencanaan(),false);
+            $kelompok_urusan=KelompokUrusanModel::getKelompokUrusan(\HelperKegiatan::getRPJMDTahunMulai(),false);
             return view("pages.$theme.dmaster.urusan.edit")->with(['page_active'=>'urusan',
                                                                     'kelompok_urusan'=>$kelompok_urusan,
                                                                     'data'=>$data                                                                    
@@ -349,7 +349,7 @@ class UrusanController extends Controller {
             'Kd_Bidang'=>'required|min:1|max:4|regex:/^[0-9]+$/', 
             'Kode_Bidang'=>['required',new IgnoreIfDataIsEqualValidation('v_urusan',
                                                                         $urusan->kelompokurusan->Kd_Urusan.'.'.$urusan->Kd_Bidang,
-                                                                        ['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]],
+                                                                        ['where'=>['TA','=',\HelperKegiatan::getRPJMDTahunMulai()]],
                                                                         'Kode Urusan')],   
             'KUrsID'=>'required|not_in:none', 
             'Nm_Bidang'=>'required|min:5', 

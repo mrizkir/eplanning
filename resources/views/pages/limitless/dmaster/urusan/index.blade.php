@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-chess-king position-left"></i>
     <span class="text-semibold">
-        URUSAN TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}  
+        URUSAN TAHUN PERENCANAAN {{HelperKegiatan::getRPJMDTahunMulai()}} - {{HelperKegiatan::getRPJMDTahunAkhir()}}  
     </span>
 @endsection
 @section('page_info')

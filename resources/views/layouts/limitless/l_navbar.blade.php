@@ -50,35 +50,35 @@
                                     @can('browse_kelompokurusan')
                                     <li{!!Helper::isMenuActive ($page_active,'kelompokurusan',' class="active"')!!}>
                                         <a href="{{route('kelompokurusan.index')}}" title="Data Kelompok Urusan">
-                                            <i class="icon-chess-queen"></i> KELOMPOK URUSAN <span class="text-violet"><strong>[1]</strong></span>
+                                            <i class="icon-chess-queen"></i> <span class="text-violet"><strong>[1].</strong></span> KELOMPOK URUSAN
                                         </a>
                                     </li>    
                                     @endcan                      
                                     @can('browse_urusan')              
                                     <li{!!Helper::isMenuActive ($page_active,'urusan',' class="active"')!!}>
                                         <a href="{{route('urusan.index')}}" title="Data Urusan">
-                                            <i class="icon-chess-king"></i> URUSAN <span class="text-violet"><strong>[2]</strong></span>
+                                            <i class="icon-chess-king"></i> <span class="text-violet"><strong>[2].</strong></span>  URUSAN
                                         </a>
                                     </li>    
                                     @endcan
                                     <li{!!Helper::isMenuActive ($page_active,'organisasi',' class="active"')!!}>
                                         <a href="{{route('organisasi.index')}}" title="Data Organisasi">
-                                            <i class="icon-office"></i> ORGANISASI <span class="text-violet"><strong>[2.1]</strong></span>
+                                            <i class="icon-office"></i> <span class="text-violet"><strong>[2.1].</strong></span> ORGANISASI
                                         </a>
                                     </li>  
                                     <li{!!Helper::isMenuActive ($page_active,'suborganisasi',' class="active"')!!}>
                                         <a href="{{route('suborganisasi.index')}}" title="Data Organisasi">
-                                            <i class="icon-office"></i> UNIT KERJA <span class="text-violet"><strong>[2.1.1]</strong></span>
+                                            <i class="icon-office"></i> <span class="text-violet"><strong>[2.1.1].</strong></span> UNIT KERJA
                                         </a>
                                     </li>                                
                                     <li{!!Helper::isMenuActive ($page_active,'program',' class="active"')!!}>
                                         <a href="{{route('program.index')}}" title="Data Program">
-                                            <i class="icon-codepen"></i> PROGAM <span class="text-violet"><strong>[2.2]</strong></span>
+                                            <i class="icon-codepen"></i> <span class="text-violet"><strong>[2.2].</strong></span> PROGAM
                                         </a>
                                     </li>
                                     <li{!!Helper::isMenuActive ($page_active,'programkegiatan',' class="active"')!!}>
                                         <a href="{{route('programkegiatan.index')}}" title="Data Program Kegiatan">
-                                            <i class="icon-code"></i> KEGIATAN <span class="text-violet"><strong>[2.2.1]</strong></span>
+                                            <i class="icon-code"></i> <span class="text-violet"><strong>[2.2.1]</strong></span> KEGIATAN
                                         </a>    
                                     </li>
                                 </ul>
