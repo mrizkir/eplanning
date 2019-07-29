@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        RPJMD INDIKASI RENCANA PROGRAM TAHUN {{config('eplanning.rpjmd_tahun_mulai')}} - {{config('eplanning.rpjmd_tahun_akhir')}}  
+        RPJMD INDIKASI RENCANA PROGRAM TAHUN {{HelperKegiatan::getRPJMDTahunMulai()}} - {{HelperKegiatan::getRPJMDTahunAkhir()}}  
     </span>
 @endsection
 @section('page_info')
@@ -91,7 +91,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        {{Form::label('TargetAwal','KONDISI KINERJA AWAL ('.(config('eplanning.rpjmd_tahun_mulai')-1).')',['class'=>'control-label col-md-4'])}}
+                        {{Form::label('TargetAwal','KONDISI KINERJA AWAL ('.(HelperKegiatan::getRPJMDTahunMulai()-1).')',['class'=>'control-label col-md-4'])}}
                         <div class="col-md-8">
                             {{Form::text('TargetAwal','',['class'=>'form-control','placeholder'=>'KONDISI KINERJA AWAL','rows' => 2, 'cols' => 40])}}
                         </div>

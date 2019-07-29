@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        RPJMD SASARAN TAHUN {{config('eplanning.rpjmd_tahun_mulai')}} - {{config('eplanning.rpjmd_tahun_akhir')}}  
+        RPJMD SASARAN TAHUN {{HelperKegiatan::getRPJMDTahunAwal()}} - {{HelperKegiatan::getRPJMDTahunAkhir()}}  
     </span>     
 @endsection
 @section('page_info')
@@ -115,7 +115,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    {{Form::label('KondisiAwal','KONDISI KINERJA AWAL ('.(config('eplanning.rpjmd_tahun_mulai')-1).')',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('KondisiAwal','KONDISI KINERJA AWAL ('.(HelperKegiatan::getRPJMDTahunAwal()).')',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
                         {{Form::text('KondisiAwal','',['class'=>'form-control','placeholder'=>'KONDISI KINERJA AWAL'])}}
                     </div>
@@ -151,7 +151,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    {{Form::label('KondisiAkhir','KONDISI AKHIR RPJMD ('.(config('eplanning.rpjmd_tahun_akhir')+1).')',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('KondisiAkhir','KONDISI AKHIR RPJMD ('.(HelperKegiatan::getRPJMDTahunAkhir()+1).')',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
                         <div class="row">
                             <div class="col-md-1">

@@ -9,11 +9,7 @@ return [
     'defaul_kota_atau_kab'=>env('EPLANNING_DEFAULT_KOTA_KAB'),
 
     //setting rpjmd
-    'rpjmd_tahun_mulai'=>env('EPLANNING_RPJMD_TAHUN_MULAI'),
-    'rpjmd_tahun_akhir'=>env('EPLANNING_RPJMD_TAHUN_AKHIR'),
-    'renstra_tahun_mulai'=>env('EPLANNING_RENSTRA_TAHUN_MULAI'),
-    'renstra_tahun_akhir'=>env('EPLANNING_RENSTRA_TAHUN_AKHIR'),
-
+    'rpjmd_visi_id'=>env('EPLANNING_RPJMD_VISI_ID'),
     /**
      * Saat mengekspor dan mingimpor file, e-Planning membutuhkan lokasi tempat penyimpanan sementara
      * disini anda bisa mengganti lokasinya.

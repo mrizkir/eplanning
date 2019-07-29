@@ -220,7 +220,7 @@ class RPJMDTujuanController extends Controller {
     {        
         $theme = \Auth::user()->theme;
         $daftar_misi=\App\Models\RPJMD\RPJMDMisiModel::select(\DB::raw('"PrioritasKabID",CONCAT(\'[\',"Kd_PrioritasKab",\']. \',"Nm_PrioritasKab") AS "Nm_PrioritasKab"'))
-                                                    ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                                    ->where('TA',\HelperKegiatan::getRPJMDTahunMulai())
                                                     ->orderBy('Kd_PrioritasKab','ASC')
                                                     ->get()
                                                     ->pluck('Nm_PrioritasKab','PrioritasKabID')
@@ -254,7 +254,7 @@ class RPJMDTujuanController extends Controller {
             'Kd_Tujuan' => $request->input('Kd_Tujuan'),
             'Nm_Tujuan' => $request->input('Nm_Tujuan'),
             'Descr' => $request->input('Descr'),
-            'TA' => \HelperKegiatan::getTahunPerencanaan()
+            'TA' => \HelperKegiatan::getRPJMDTahunMulai()
         ]);        
         
         if ($request->ajax()) 
@@ -294,7 +294,7 @@ class RPJMDTujuanController extends Controller {
             'Satuan' => $request->input('Satuan'),
             'Operator' => $request->input('Operator'),
             'Descr' => $request->input('Descr'),
-            'TA' => \HelperKegiatan::getTahunPerencanaan()
+            'TA' => \HelperKegiatan::getRPJMDTahunMulai()
         ]);        
         
         if ($request->ajax()) 

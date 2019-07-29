@@ -65,7 +65,9 @@ class RPJMDVisiController extends Controller {
         $this->validate($request, [
             'Nm_RpjmdVisi'=>'required',
             'Descr'=>'required',
-            'TA_Awal'=>'required',
+            'TA_Awal'=>[new CheckRecordIsExistValidation('tmRpjmdVisi'),
+                        'required'
+                        ],
         ]);
         
         $rpjmdvisi = RPJMDVisiModel::create([
@@ -137,7 +139,9 @@ class RPJMDVisiController extends Controller {
         $this->validate($request, [
             'Nm_RpjmdVisi'=>'required',
             'Descr'=>'required',
-            'TA_Awal'=>'required',
+            'TA_Awal'=>[new IgnoreIfDataIsEqualValidation('tmRpjmdVisi',$rpjmdvisi->TA_Awal),
+                        'required'
+                        ],
         ]);
         
         $rpjmdvisi->Nm_RpjmdVisi = $request->input('Nm_RpjmdVisi');

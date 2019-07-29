@@ -16,7 +16,7 @@
                 <th width="100">SATUAN</th>
                 <th width="150">
                     KONDISI KINERJA AWAL
-                    ({{config('eplanning.rpjmd_tahun_mulai')-1}})
+                    ({{HelperKegiatan::getRPJMDTahunMulai()-1}})
                 </th>   
                 <th>N1</th>                     
                 <th>N2</th>                     
@@ -25,7 +25,7 @@
                 <th>N5</th>                     
                 <th width="150">
                     KONDISI AKHIR RPJMD 
-                    ({{config('eplanning.rpjmd_tahun_akhir')+1}})
+                    ({{HelperKegiatan::getRPJMDTahunAkhir()+1}})
                 </th> 
                 <th width="100">AKSI</th>
             </tr>

@@ -55,7 +55,8 @@ class RPJMDMisiController extends Controller {
         }
         else
         {
-            $data = RPJMDMisiModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data = RPJMDMisiModel::where('TA',\HelperKegiatan::getRPJMDTahunMulai())
+                                    ->orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('rpjmdmisi.index'));
         return $data;
@@ -239,14 +240,13 @@ class RPJMDMisiController extends Controller {
             'Nm_PrioritasKab'=>'required',
         ]);        
         
-        $rpjmd_visi = \App\Models\RPJMD\RPJMDVisiModel::find($RpjmdVisiID);
         $rpjmdmisi = RPJMDMisiModel::create([
             'PrioritasKabID'=> uniqid ('uid'),
             'RpjmdVisiID' => $RpjmdVisiID,
             'Kd_PrioritasKab' => $request->input('Kd_PrioritasKab'),
             'Nm_PrioritasKab' => $request->input('Nm_PrioritasKab'),
             'Descr' => $request->input('Descr'),
-            'TA' => $rpjmd_visi->TA_Awal
+            'TA' => \HelperKegiatan::getRPJMDTahunMulai()
         ]);        
         
         if ($request->ajax()) 
