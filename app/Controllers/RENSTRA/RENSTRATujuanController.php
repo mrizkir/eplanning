@@ -247,9 +247,9 @@ class RENSTRATujuanController extends Controller {
                 if (!(count($daftar_opd) > 0))
                 {  
                     return view("pages.$theme.renstra.renstratujuan.error")->with(['page_active'=>'renstratujuan', 
-                                                                        'page_title'=>\HelperKegiatan::getPageTitle('renstratujuan'),
-                                                                        'errormessage'=>'Anda Tidak Diperkenankan Mengakses Halaman ini, karena Sudah dikunci oleh BAPELITBANG',
-                                                                        ]);
+                                                                                    'page_title'=>'RENSTRA TUJUAN',
+                                                                                    'errormessage'=>'Anda Tidak Diperkenankan Mengakses Halaman ini, karena Sudah dikunci oleh BAPELITBANG',
+                                                                                ]);
                 }          
             break;
         }
@@ -283,7 +283,7 @@ class RENSTRATujuanController extends Controller {
         if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
         {
             $daftar_misi=\App\Models\RPJMD\RPJMDMisiModel::select(\DB::raw('"PrioritasKabID",CONCAT(\'[\',"Kd_PrioritasKab",\']. \',"Nm_PrioritasKab") AS "Nm_PrioritasKab"'))
-                                                            ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                                            ->where('TA',\HelperKegiatan::getRPJMDTahunMulai())
                                                             ->orderBy('Kd_PrioritasKab','ASC')
                                                             ->get()
                                                             ->pluck('Nm_PrioritasKab','PrioritasKabID')
@@ -311,7 +311,7 @@ class RENSTRATujuanController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_RenstraTujuan'=>[new CheckRecordIsExistValidation('tmRenstraTujuan',['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]]),
+            'Kd_RenstraTujuan'=>[new CheckRecordIsExistValidation('tmRenstraTujuan',['where'=>['TA','=',\HelperKegiatan::getRENSTRATahunMulai()]]),
                             'required'
                         ],
             'PrioritasKabID'=>'required',
@@ -325,7 +325,7 @@ class RENSTRATujuanController extends Controller {
             'Kd_RenstraTujuan' => $request->input('Kd_RenstraTujuan'),
             'Nm_RenstraTujuan' => $request->input('Nm_RenstraTujuan'),
             'Descr' => $request->input('Descr'),
-            'TA' => \HelperKegiatan::getTahunPerencanaan()
+            'TA' => \HelperKegiatan::getRENSTRATahunMulai()
         ]);        
         
         if ($request->ajax()) 
@@ -384,8 +384,8 @@ class RENSTRATujuanController extends Controller {
         $data = RENSTRATujuanModel::findOrFail($id);
         if (!is_null($data) ) 
         {
-            $daftar_misi=\App\Models\RENSTRA\RENSTRAMisiModel::select(\DB::raw('"PrioritasKabID",CONCAT(\'[\',"Kd_PrioritasKab",\']. \',"Nm_PrioritasKab") AS "Nm_PrioritasKab"'))
-                                                            ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+            $daftar_misi=\App\Models\RPJMD\RPJMDMisiModel::select(\DB::raw('"PrioritasKabID",CONCAT(\'[\',"Kd_PrioritasKab",\']. \',"Nm_PrioritasKab") AS "Nm_PrioritasKab"'))
+                                                            ->where('TA',\HelperKegiatan::getRPJMDTahunMulai())
                                                             ->orderBy('Kd_PrioritasKab','ASC')
                                                             ->get()
                                                             ->pluck('Nm_PrioritasKab','PrioritasKabID')
@@ -412,7 +412,7 @@ class RENSTRATujuanController extends Controller {
         $this->validate($request, [
             'Kd_RenstraTujuan'=>['required',new IgnoreIfDataIsEqualValidation('tmRenstraTujuan',
                                                                         $renstratujuan->Kd_RenstraTujuan,
-                                                                        ['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]],
+                                                                        ['where'=>['TA','=',\HelperKegiatan::getRENSTRATahunMulai()]],
                                                                         'Kode Tujuan')],
             'PrioritasKabID'=>'required',
             'Nm_RenstraTujuan'=>'required',

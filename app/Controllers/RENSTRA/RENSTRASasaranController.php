@@ -279,7 +279,7 @@ class RENSTRASasaranController extends Controller {
         if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
         {
             $daftar_tujuan=\App\Models\RENSTRA\RENSTRATujuanModel::select(\DB::raw('"RenstraTujuanID",CONCAT(\'[\',"Kd_RenstraTujuan",\']. \',"Nm_RenstraTujuan") AS "Nm_RenstraTujuan"'))
-                                                                ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                                                ->where('TA',\HelperKegiatan::getRENSTRATahunMulai())
                                                                 ->orderBy('Kd_RenstraTujuan','ASC')
                                                                 ->get()
                                                                 ->pluck('Nm_RenstraTujuan','RenstraTujuanID')
@@ -306,7 +306,7 @@ class RENSTRASasaranController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_RenstraSasaran'=>[new CheckRecordIsExistValidation('tmRenstraSasaran',['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]]),
+            'Kd_RenstraSasaran'=>[new CheckRecordIsExistValidation('tmRenstraSasaran',['where'=>['TA','=',\HelperKegiatan::getRENSTRATahunMulai()]]),
                             'required'
                         ],
             'RenstraTujuanID'=>'required',
@@ -320,7 +320,7 @@ class RENSTRASasaranController extends Controller {
             'Kd_RenstraSasaran' => $request->input('Kd_RenstraSasaran'),
             'Nm_RenstraSasaran' => $request->input('Nm_RenstraSasaran'),
             'Descr' => $request->input('Descr'),
-            'TA' => \HelperKegiatan::getTahunPerencanaan()
+            'TA' => \HelperKegiatan::getRENSTRATahunMulai()
         ]);        
         
         if ($request->ajax()) 
@@ -378,7 +378,7 @@ class RENSTRASasaranController extends Controller {
         if (!is_null($data) ) 
         {
             $daftar_tujuan=\App\Models\RENSTRA\RENSTRATujuanModel::select(\DB::raw('"RenstraTujuanID",CONCAT(\'[\',"Kd_RenstraTujuan",\']. \',"Nm_RenstraTujuan") AS "Nm_RenstraTujuan"'))
-                                                            ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                                            ->where('TA',\HelperKegiatan::getRENSTRATahunMulai())
                                                             ->orderBy('Kd_RenstraTujuan','ASC')
                                                             ->get()
                                                             ->pluck('Nm_RenstraTujuan','RenstraTujuanID')
@@ -404,7 +404,7 @@ class RENSTRASasaranController extends Controller {
         $this->validate($request, [
             'Kd_RenstraSasaran'=>['required',new IgnoreIfDataIsEqualValidation('tmRenstraSasaran',
                                                                         $renstrasasaran->Kd_RenstraSasaran,
-                                                                        ['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]],
+                                                                        ['where'=>['TA','=',\HelperKegiatan::getRENSTRATahunMulai()]],
                                                                         'Kode Sasaran')],
             'RenstraTujuanID'=>'required',
             'Nm_RenstraSasaran'=>'required',

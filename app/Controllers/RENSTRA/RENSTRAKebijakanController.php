@@ -233,7 +233,7 @@ class RENSTRAKebijakanController extends Controller {
             case 'superadmin' :     
             case 'bapelitbang' :     
             case 'tapd' :     
-                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);   
+                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getRENSTRATahunMulai(),false);   
             break;
             case 'opd' :               
                 $daftar_opd=\App\Models\UserOPD::getOPD();                      
@@ -277,7 +277,7 @@ class RENSTRAKebijakanController extends Controller {
         if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
         {
             $daftar_strategi=\App\Models\RENSTRA\RENSTRAStrategiModel::select(\DB::raw('"RenstraStrategiID",CONCAT(\'[\',"Kd_RenstraStrategi",\']. \',"Nm_RenstraStrategi") AS "Nm_RenstraStrategi"'))
-                                                                ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                                                ->where('TA',\HelperKegiatan::getRENSTRATahunMulai())
                                                                 ->orderBy('Kd_RenstraStrategi','ASC')
                                                                 ->get()
                                                                 ->pluck('Nm_RenstraStrategi','RenstraStrategiID')
@@ -304,7 +304,7 @@ class RENSTRAKebijakanController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_RenstraKebijakan'=>[new CheckRecordIsExistValidation('tmRenstraKebijakan',['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]]),
+            'Kd_RenstraKebijakan'=>[new CheckRecordIsExistValidation('tmRenstraKebijakan',['where'=>['TA','=',\HelperKegiatan::getRENSTRATahunMulai()]]),
                             'required'
                         ],
             'RenstraStrategiID'=>'required',
@@ -318,7 +318,7 @@ class RENSTRAKebijakanController extends Controller {
             'Kd_RenstraKebijakan' => $request->input('Kd_RenstraKebijakan'),
             'Nm_RenstraKebijakan' => $request->input('Nm_RenstraKebijakan'),
             'Descr' => $request->input('Descr'),
-            'TA' => \HelperKegiatan::getTahunPerencanaan()
+            'TA' => \HelperKegiatan::getRENSTRATahunMulai()
         ]);        
         
         if ($request->ajax()) 
@@ -378,7 +378,7 @@ class RENSTRAKebijakanController extends Controller {
         if (!is_null($data) ) 
         {
             $daftar_strategi=\App\Models\RENSTRA\RENSTRAStrategiModel::select(\DB::raw('"RenstraStrategiID",CONCAT(\'[\',"Kd_RenstraStrategi",\']. \',"Nm_RenstraStrategi") AS "Nm_RenstraStrategi"'))
-                                                                ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                                                ->where('TA',\HelperKegiatan::getRENSTRATahunMulai())
                                                                 ->orderBy('Kd_RenstraStrategi','ASC')
                                                                 ->get()
                                                                 ->pluck('Nm_RenstraStrategi','RenstraStrategiID')
@@ -405,7 +405,7 @@ class RENSTRAKebijakanController extends Controller {
         $this->validate($request, [
             'Kd_RenstraKebijakan'=>['required',new IgnoreIfDataIsEqualValidation('tmRenstraKebijakan',
                                                                         $renstrakebijakan->Kd_RenstraKebijakan,
-                                                                        ['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]],
+                                                                        ['where'=>['TA','=',\HelperKegiatan::getRENSTRATahunMulai()]],
                                                                         'Kode Kebijakan')],
             'RenstraStrategiID'=>'required',
             'Nm_RenstraKebijakan'=>'required',

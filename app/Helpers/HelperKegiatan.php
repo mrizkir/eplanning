@@ -93,6 +93,13 @@ class HelperKegiatan {
         return request()->session()->get("global_controller.tahun_penyerapan");
     }
     /**
+     * digunakan untuk mendapatkan tahun penyerapan saat user login
+     */ 
+    public static function getTahunN ()
+    {
+        return request()->session()->get("global_controller.tahun_N");
+    }
+    /**
     * digunakan untuk mendapatkan entri level
     */
     public static function getDaftarLevelEntri () {
