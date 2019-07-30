@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-codepen position-left"></i>
     <span class="text-semibold"> 
-        PROGRAM TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}
+        PROGRAM TAHUN PERENCANAAN {{HelperKegiatan::getRPJMDTahunMulai()}} - {{HelperKegiatan::getRPJMDTahunAkhir()}}
     </span>     
 @endsection
 @section('page_info')

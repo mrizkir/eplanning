@@ -50,35 +50,35 @@
                                     @can('browse_kelompokurusan')
                                     <li{!!Helper::isMenuActive ($page_active,'kelompokurusan',' class="active"')!!}>
                                         <a href="{{route('kelompokurusan.index')}}" title="Data Kelompok Urusan">
-                                            <i class="icon-chess-queen"></i> KELOMPOK URUSAN <span class="text-violet"><strong>[1]</strong></span>
+                                            <i class="icon-chess-queen"></i> <span class="text-violet"><strong>[1].</strong></span> KELOMPOK URUSAN
                                         </a>
                                     </li>    
                                     @endcan                      
                                     @can('browse_urusan')              
                                     <li{!!Helper::isMenuActive ($page_active,'urusan',' class="active"')!!}>
                                         <a href="{{route('urusan.index')}}" title="Data Urusan">
-                                            <i class="icon-chess-king"></i> URUSAN <span class="text-violet"><strong>[2]</strong></span>
+                                            <i class="icon-chess-king"></i> <span class="text-violet"><strong>[2].</strong></span>  URUSAN
                                         </a>
                                     </li>    
                                     @endcan
                                     <li{!!Helper::isMenuActive ($page_active,'organisasi',' class="active"')!!}>
                                         <a href="{{route('organisasi.index')}}" title="Data Organisasi">
-                                            <i class="icon-office"></i> ORGANISASI <span class="text-violet"><strong>[2.1]</strong></span>
+                                            <i class="icon-office"></i> <span class="text-violet"><strong>[2.1].</strong></span> ORGANISASI
                                         </a>
                                     </li>  
                                     <li{!!Helper::isMenuActive ($page_active,'suborganisasi',' class="active"')!!}>
                                         <a href="{{route('suborganisasi.index')}}" title="Data Organisasi">
-                                            <i class="icon-office"></i> UNIT KERJA <span class="text-violet"><strong>[2.1.1]</strong></span>
+                                            <i class="icon-office"></i> <span class="text-violet"><strong>[2.1.1].</strong></span> UNIT KERJA
                                         </a>
                                     </li>                                
                                     <li{!!Helper::isMenuActive ($page_active,'program',' class="active"')!!}>
                                         <a href="{{route('program.index')}}" title="Data Program">
-                                            <i class="icon-codepen"></i> PROGAM <span class="text-violet"><strong>[2.2]</strong></span>
+                                            <i class="icon-codepen"></i> <span class="text-violet"><strong>[2.2].</strong></span> PROGAM
                                         </a>
                                     </li>
                                     <li{!!Helper::isMenuActive ($page_active,'programkegiatan',' class="active"')!!}>
                                         <a href="{{route('programkegiatan.index')}}" title="Data Program Kegiatan">
-                                            <i class="icon-code"></i> KEGIATAN <span class="text-violet"><strong>[2.2.1]</strong></span>
+                                            <i class="icon-code"></i> <span class="text-violet"><strong>[2.2.1]</strong></span> KEGIATAN
                                         </a>    
                                     </li>
                                 </ul>
@@ -129,34 +129,39 @@
                             <div class="col-md-3">
                                 <span class="menu-heading underlined"><i class="icon-strategy"></i> RPJMD</span>
                                 <ul class="menu-list">
+                                    <li{!!Helper::isMenuActive ($page_active,'rpjmdvisi',' class="active"')!!}>
+                                        <a href="{{route('rpjmdvisi.index')}}">
+                                            <i class="icon-strategy"></i> VISI <span class="text-violet"><strong>[1]</strong></span>
+                                        </a>
+                                    </li> 
                                     <li{!!Helper::isMenuActive ($page_active,'rpjmdmisi',' class="active"')!!}>
                                         <a href="{{route('rpjmdmisi.index')}}">
-                                            <i class="icon-strategy"></i> MISI <span class="text-violet"><strong>[1]</strong></span>
+                                            <i class="icon-strategy"></i> MISI <span class="text-violet"><strong>[2]</strong></span>
                                         </a>
                                     </li>     
                                     <li{!!Helper::isMenuActive ($page_active,'rpjmdtujuan',' class="active"')!!}>
                                         <a href="{{route('rpjmdtujuan.index')}}">
-                                            <i class="icon-strategy"></i> TUJUAN <span class="text-violet"><strong>[2]</strong></span>
+                                            <i class="icon-strategy"></i> TUJUAN <span class="text-violet"><strong>[3]</strong></span>
                                         </a>
                                     </li>  
                                     <li{!!Helper::isMenuActive ($page_active,'rpjmdsasaran',' class="active"')!!}>
                                         <a href="{{route('rpjmdsasaran.index')}}">
-                                            <i class="icon-strategy"></i> SASARAN <span class="text-violet"><strong>[3]</strong></span>
+                                            <i class="icon-strategy"></i> SASARAN <span class="text-violet"><strong>[4]</strong></span>
                                         </a>
                                     </li>   
                                     <li{!!Helper::isMenuActive ($page_active,'rpjmdstrategi',' class="active"')!!}>
                                         <a href="{{route('rpjmdstrategi.index')}}">
-                                            <i class="icon-strategy"></i> STRATEGI <span class="text-violet"><strong>[4]</strong></span>
+                                            <i class="icon-strategy"></i> STRATEGI <span class="text-violet"><strong>[5]</strong></span>
                                         </a>
                                     </li>           
                                     <li{!!Helper::isMenuActive ($page_active,'rpjmdkebijakan',' class="active"')!!}>
                                         <a href="{{route('rpjmdkebijakan.index')}}">
-                                            <i class="icon-strategy"></i> PRIORITAS / ARAH KEBIJAKAN <span class="text-violet"><strong>[5]</strong></span>
+                                            <i class="icon-strategy"></i> PRIORITAS / ARAH KEBIJAKAN <span class="text-violet"><strong>[6]</strong></span>
                                         </a>
                                     </li>  
                                     <li{!!Helper::isMenuActive ($page_active,'rpjmdindikatorkinerja',' class="active"')!!}>
                                         <a href="{{route('rpjmdindikatorkinerja.index')}}">
-                                            <i class="icon-strategy"></i> INDIKASI RENCANA PROGRAM <span class="text-violet"><strong>[6]</strong></span>
+                                            <i class="icon-strategy"></i> INDIKASI RENCANA PROGRAM <span class="text-violet"><strong>[7]</strong></span>
                                         </a>
                                     </li> 
                                 </ul>
@@ -165,17 +170,7 @@
                             @hasrole('superadmin|bapelitbang|opd')
                             <div class="col-md-3">
                                 <span class="menu-heading underlined"><i class="icon-strategy"></i> RENSTRA OPD / SKPD</span>
-                                <ul class="menu-list">
-                                    <li{!!Helper::isMenuActive ($page_active,'renstravisi',' class="active"')!!}>
-                                        <a href="{{route('renstravisi.index')}}">
-                                            <i class="icon-strategy"></i> VISI <span class="text-violet"><strong>[1]</strong></span>
-                                        </a>
-                                    </li>     
-                                    <li{!!Helper::isMenuActive ($page_active,'renstramisi',' class="active"')!!}>
-                                        <a href="{{route('renstramisi.index')}}">
-                                            <i class="icon-strategy"></i> MISI <span class="text-violet"><strong>[2]</strong></span>
-                                        </a>
-                                    </li>     
+                                <ul class="menu-list">                                   
                                     <li{!!Helper::isMenuActive ($page_active,'renstratujuan',' class="active"')!!}>
                                         <a href="{{route('renstratujuan.index')}}">
                                             <i class="icon-strategy"></i> TUJUAN <span class="text-violet"><strong>[3]</strong></span>

@@ -28,7 +28,7 @@
                         </a>                                             
                     </th> 
                     <th width="150">                        
-                        AWAL ({{config('eplanning.rpjmd_tahun_mulai')-1}})                
+                        AWAL ({{HelperKegiatan::getRPJMDTahunMulai()-1}})                
                     </th>
                     <th>
                         DATA INDIKATOR

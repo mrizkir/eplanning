@@ -586,7 +586,7 @@ class UsulanRenjaController extends Controller
         if ($request->exists('UrsID'))
         {
             $UrsID = $request->input('UrsID')==''?'none':$request->input('UrsID');
-            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan(),false,$UrsID);
+            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getRPJMDTahunMulai(),false,$UrsID);
             $json_data['success']=true;
             $json_data['UrsID']=$UrsID;
             $json_data['daftar_program']=$daftar_program;
@@ -661,7 +661,7 @@ class UsulanRenjaController extends Controller
             
             $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusanByOPD(\HelperKegiatan::getTahunPerencanaan(),$filters['OrgID'],false);   
             $daftar_urusan['all']='SEMUA URUSAN';
-            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan(),false,$UrsID);
+            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getRPJMDTahunMulai(),false,$UrsID);
             $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunPerencanaan(),false);     
             
             return view("pages.$theme.rkpd.usulanrenja.create")->with(['page_active'=>$this->NameOfPage,
@@ -1861,7 +1861,7 @@ class UsulanRenjaController extends Controller
             $UrsID_selected=$renja->UrsID==null?'all':$renja->UrsID;
             $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusanByOPD(\HelperKegiatan::getTahunPerencanaan(),$UrsID_selected,false);   
             $daftar_urusan['all']='SEMUA URUSAN';
-            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan(),false,$UrsID_selected);
+            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getRPJMDTahunMulai(),false,$UrsID_selected);
             $r=\DB::table('v_program_kegiatan')
                     ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                     ->where('PrgID',$renja->PrgID)                    

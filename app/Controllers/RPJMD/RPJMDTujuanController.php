@@ -54,17 +54,24 @@ class RPJMDTujuanController extends Controller {
             switch ($search['kriteria']) 
             {
                 case 'Kd_Tujuan' :
-                    $data = RPJMDTujuanModel::where(['Kd_Tujuan'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                    $data = RPJMDTujuanModel::select(\DB::raw('"tmPrioritasTujuanKab"."PrioritasTujuanKabID","tmPrioritasTujuanKab"."PrioritasKabID",CONCAT("tmPrioritasKab"."Kd_PrioritasKab",\'.\',"tmPrioritasTujuanKab"."Kd_Tujuan") AS "Kd_Tujuan","tmPrioritasTujuanKab"."Nm_Tujuan","tmPrioritasTujuanKab"."TA"'))
+                                            ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmPrioritasTujuanKab.PrioritasKabID')
+                                            ->where(['Kd_Tujuan'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
                 case 'Nm_Tujuan' :
-                    $data = RPJMDTujuanModel::where('Nm_Tujuan', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = RPJMDTujuanModel::select(\DB::raw('"tmPrioritasTujuanKab"."PrioritasTujuanKabID","tmPrioritasTujuanKab"."PrioritasKabID",CONCAT("tmPrioritasKab"."Kd_PrioritasKab",\'.\',"tmPrioritasTujuanKab"."Kd_Tujuan") AS "Kd_Tujuan","tmPrioritasTujuanKab"."Nm_Tujuan","tmPrioritasTujuanKab"."TA"'))
+                                            ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmPrioritasTujuanKab.PrioritasKabID')
+                                            ->where('Nm_Tujuan', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = RPJMDTujuanModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data = RPJMDTujuanModel::select(\DB::raw('"tmPrioritasTujuanKab"."PrioritasTujuanKabID","tmPrioritasTujuanKab"."PrioritasKabID",CONCAT("tmPrioritasKab"."Kd_PrioritasKab",\'.\',"tmPrioritasTujuanKab"."Kd_Tujuan") AS "Kd_Tujuan","tmPrioritasTujuanKab"."Nm_Tujuan","tmPrioritasTujuanKab"."TA"'))
+                                    ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmPrioritasTujuanKab.PrioritasKabID')
+                                    ->orderBy($column_order,$direction)
+                                    ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('rpjmdtujuan.index'));
         return $data;
@@ -220,7 +227,7 @@ class RPJMDTujuanController extends Controller {
     {        
         $theme = \Auth::user()->theme;
         $daftar_misi=\App\Models\RPJMD\RPJMDMisiModel::select(\DB::raw('"PrioritasKabID",CONCAT(\'[\',"Kd_PrioritasKab",\']. \',"Nm_PrioritasKab") AS "Nm_PrioritasKab"'))
-                                                    ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                                    ->where('TA',\HelperKegiatan::getRPJMDTahunMulai())
                                                     ->orderBy('Kd_PrioritasKab','ASC')
                                                     ->get()
                                                     ->pluck('Nm_PrioritasKab','PrioritasKabID')
@@ -254,7 +261,7 @@ class RPJMDTujuanController extends Controller {
             'Kd_Tujuan' => $request->input('Kd_Tujuan'),
             'Nm_Tujuan' => $request->input('Nm_Tujuan'),
             'Descr' => $request->input('Descr'),
-            'TA' => \HelperKegiatan::getTahunPerencanaan()
+            'TA' => \HelperKegiatan::getRPJMDTahunMulai()
         ]);        
         
         if ($request->ajax()) 
@@ -294,7 +301,7 @@ class RPJMDTujuanController extends Controller {
             'Satuan' => $request->input('Satuan'),
             'Operator' => $request->input('Operator'),
             'Descr' => $request->input('Descr'),
-            'TA' => \HelperKegiatan::getTahunPerencanaan()
+            'TA' => \HelperKegiatan::getRPJMDTahunMulai()
         ]);        
         
         if ($request->ajax()) 
@@ -484,7 +491,7 @@ class RPJMDTujuanController extends Controller {
             {                
                 $dataindikatortujuan = $this->populateIndikatorTujuan($PrioritasTujuanKabID);                
                 $datatable = view("pages.$theme.rpjmd.rpjmdtujuan.datatableindikatortujuan")->with(['page_active'=>'rpjmdtujuan',                                                                                    
-                                                                                    'dataindikatortujuan'=>$dataindikatortujuan])->render();      
+                                                                                                    'dataindikatortujuan'=>$dataindikatortujuan])->render();      
                 
                 return response()->json(['success'=>true,'datatable'=>$datatable],200); 
             }

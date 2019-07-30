@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        RENSTRA TUJUAN TAHUN {{config('eplanning.renstra_tahun_mulai')}} - {{config('eplanning.renstra_tahun_akhir')}}
+        RENSTRA TUJUAN TAHUN {{HelperKegiatan::getRENSTRATahunMulai()}} - {{HelperKegiatan::getRENSTRATahunAkhir()}}
     </span>     
 @endsection
 @section('page_info')
@@ -69,13 +69,13 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>KODE MISI : </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->Kd_RenstraMisi}}</p>
+                                    <p class="form-control-static">{{$data->Kd_PrioritasKab}}</p>
                                 </div>                            
                             </div>                            
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>NAMA MISI: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->Nm_RenstraMisi}}</p>
+                                    <p class="form-control-static">{{$data->Nm_PrioritasKab}}</p>
                                 </div>                            
                             </div>     
                             <div class="form-group">

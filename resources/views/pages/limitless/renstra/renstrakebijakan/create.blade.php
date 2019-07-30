@@ -1,11 +1,11 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RENSTRA ARAH KEBIJAKAN  {{config('eplanning.renstra_tahun_mulai')}} - {{config('eplanning.renstra_tahun_akhir')}}
+    RENSTRA ARAH KEBIJAKAN  {{HelperKegiatan::getRENSTRATahunMulai()}} - {{HelperKegiatan::getRENSTRATahunAkhir()}}
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        RENSTRA ARAH KEBIJAKAN TAHUN {{config('eplanning.renstra_tahun_mulai')}} - {{config('eplanning.renstra_tahun_akhir')}}  
+        RENSTRA ARAH KEBIJAKAN TAHUN {{HelperKegiatan::getRENSTRATahunMulai()}} - {{HelperKegiatan::getRENSTRATahunAkhir()}}  
     </span>
 @endsection
 @section('page_info')

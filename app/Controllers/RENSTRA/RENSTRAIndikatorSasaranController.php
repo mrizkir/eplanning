@@ -59,7 +59,7 @@ class RENSTRAIndikatorSasaranController extends Controller {
                                                 ->join('tmOrg','tmOrg.OrgID','trRenstraIndikator.OrgID')
                                                 ->join('trIndikatorKinerja','trIndikatorKinerja.IndikatorKinerjaID','trRenstraIndikator.IndikatorKinerjaID')
                                                 ->join('tmRenstraKebijakan','tmRenstraKebijakan.RenstraKebijakanID','trRenstraIndikator.RenstraKebijakanID')
-                                                ->where('trRenstraIndikator.TA',\HelperKegiatan::getTahunPerencanaan())
+                                                ->where('trRenstraIndikator.TA',\HelperKegiatan::getRENSTRATahunMulai())
                                                 ->orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('renstraindikatorsasaran.index'));
@@ -220,7 +220,7 @@ class RENSTRAIndikatorSasaranController extends Controller {
         if ($request->exists('UrsID'))
         {
             $UrsID = $request->input('UrsID')==''?'none':$request->input('UrsID');
-            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan(),false,$UrsID);
+            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getRENSTRATahunMulai(),false,$UrsID);
             $json_data['success']=true;
             $json_data['UrsID']=$UrsID;
             $json_data['daftar_program']=$daftar_program;
@@ -230,7 +230,7 @@ class RENSTRAIndikatorSasaranController extends Controller {
             $PrgID = $request->input('PrgID')==''?'none':$request->input('PrgID');
             $r=\DB::table('trIndikatorKinerja')
                     ->select(\DB::raw('"IndikatorKinerjaID","NamaIndikator"'))
-                    ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                    ->where('TA',\HelperKegiatan::getRENSTRATahunMulai())
                     ->where('PrgID',$PrgID)                    
                     ->orderBy('NamaIndikator')
                     ->get();
@@ -305,18 +305,18 @@ class RENSTRAIndikatorSasaranController extends Controller {
         $filters=$this->getControllerStateSession('renstraindikatorsasaran','filters');  
         if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
         {   
-            $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusanByOPD(\HelperKegiatan::getTahunPerencanaan(),$filters['OrgID'],false);   
+            $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusanByOPD(\HelperKegiatan::getRENSTRATahunMulai(),$filters['OrgID'],false);   
             $daftar_urusan['all']='SEMUA URUSAN';            
             $organisasi=\App\Models\DMaster\OrganisasiModel::find($filters['OrgID']);                        
             $UrsID=$organisasi->UrsID;
             $daftar_program=[];
             if (isset($daftar_urusan[$UrsID]))
             {
-                $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan(),false,$UrsID);
+                $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getRENSTRATahunMulai(),false,$UrsID);
             }            
 
             $daftar_kebijakan=\App\Models\RENSTRA\RENSTRAKebijakanModel::select(\DB::raw('"RenstraKebijakanID",CONCAT(\'[\',"Kd_RenstraKebijakan",\']. \',"Nm_RenstraKebijakan") AS "Nm_RenstraKebijakan"'))
-                                                                        ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                                                        ->where('TA',\HelperKegiatan::getRENSTRATahunMulai())
                                                                         ->orderBy('Kd_RenstraKebijakan','ASC')
                                                                         ->get()
                                                                         ->pluck('Nm_RenstraKebijakan','RenstraKebijakanID')
@@ -364,7 +364,7 @@ class RENSTRAIndikatorSasaranController extends Controller {
             'OrgID' => $request->input('OrgID'), 
             'NamaIndikator' => $request->input('NamaIndikator'),                      
             'Descr' => $request->input('Descr'),
-            'TA' => \HelperKegiatan::getTahunPerencanaan()            
+            'TA' => \HelperKegiatan::getRENSTRATahunMulai()            
         ]);        
         
         if ($request->ajax()) 
@@ -430,16 +430,16 @@ class RENSTRAIndikatorSasaranController extends Controller {
                                             ->findOrFail($id);
         if (!is_null($data) ) 
         {
-            $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusanByOPD(\HelperKegiatan::getTahunPerencanaan(),$data->OrgID,false);   
+            $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusanByOPD(\HelperKegiatan::getRENSTRATahunMulai(),$data->OrgID,false);   
             $daftar_urusan['all']='SEMUA URUSAN';                                                        
             $daftar_program=[];
             if (isset($daftar_urusan[$data->UrsID]))
             {
-                $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan(),false,$data->UrsID);
+                $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getRENSTRATahunMulai(),false,$data->UrsID);
             }            
 
             $daftar_indikator=\App\Models\RPJMD\RPJMDIndikatorKinerjaModel::select(\DB::raw('"IndikatorKinerjaID","NamaIndikator"'))
-                                                                        ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                                                        ->where('TA',\HelperKegiatan::getRENSTRATahunMulai())
                                                                         ->where('PrgID',$data->PrgID)                    
                                                                         ->orderBy('NamaIndikator')
                                                                         ->get()
@@ -447,7 +447,7 @@ class RENSTRAIndikatorSasaranController extends Controller {
                                                                         ->toArray();
 
             $daftar_kebijakan=\App\Models\RENSTRA\RENSTRAKebijakanModel::select(\DB::raw('"RenstraKebijakanID",CONCAT(\'[\',"Kd_RenstraKebijakan",\']. \',"Nm_RenstraKebijakan") AS "Nm_RenstraKebijakan"'))
-                                                                        ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                                                        ->where('TA',\HelperKegiatan::getRENSTRATahunMulai())
                                                                         ->orderBy('Kd_RenstraKebijakan','ASC')
                                                                         ->get()
                                                                         ->pluck('Nm_RenstraKebijakan','RenstraKebijakanID')

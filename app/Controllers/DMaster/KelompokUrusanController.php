@@ -40,7 +40,7 @@ class KelompokUrusanController extends Controller {
         }
         $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
   
-        $data = KelompokUrusanModel::where('TA',\HelperKegiatan::getTahunPerencanaan())->orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+        $data = KelompokUrusanModel::where('TA',\HelperKegiatan::getRPJMDTahunMulai())->orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         
         $data->setPath(route('kelompokurusan.index'));
         return $data;
@@ -210,7 +210,7 @@ class KelompokUrusanController extends Controller {
     {
         $this->validate($request,
         [
-            'Kd_Urusan'=>[new CheckRecordIsExistValidation('tmKUrs',['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]]),
+            'Kd_Urusan'=>[new CheckRecordIsExistValidation('tmKUrs',['where'=>['TA','=',\HelperKegiatan::getRPJMDTahunMulai()]]),
                             'required',
                             'min:1',
                             'max:4',
@@ -231,7 +231,7 @@ class KelompokUrusanController extends Controller {
             'Kd_Urusan'=>$request->input('Kd_Urusan'),
             'Nm_Urusan'=>$request->input('Nm_Urusan'),
             'Descr'=>$request->input('Descr'),
-            'TA'=>\HelperKegiatan::getTahunPerencanaan(),
+            'TA'=>\HelperKegiatan::getRPJMDTahunMulai(),
         ]);
         if ($request->ajax()) 
         {
@@ -278,7 +278,7 @@ class KelompokUrusanController extends Controller {
     {        
         $theme = \Auth::user()->theme;
         
-        $data = KelompokUrusanModel::where('TA',\HelperKegiatan::getTahunPerencanaan())
+        $data = KelompokUrusanModel::where('TA',\HelperKegiatan::getRPJMDTahunMulai())
                                     ->where('KUrsID',$id)
                                     ->firstOrFail();
         if (!is_null($data) ) 
@@ -301,7 +301,7 @@ class KelompokUrusanController extends Controller {
         $kelompokurusan = KelompokUrusanModel::find($id);
         $this->validate($request, 
         [
-            'Kd_Urusan'=>[new IgnoreIfDataIsEqualValidation('tmKUrs',$kelompokurusan->Kd_Urusan,['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]]),
+            'Kd_Urusan'=>[new IgnoreIfDataIsEqualValidation('tmKUrs',$kelompokurusan->Kd_Urusan,['where'=>['TA','=',\HelperKegiatan::getRPJMDTahunMulai()]]),
                             'required',
                             'min:1',
                             'max:4',

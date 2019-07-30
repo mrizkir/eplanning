@@ -65,6 +65,26 @@
                         </ul>
                     </td>
                 </tr>
+                <tr class="text-center info">
+                    <td colspan="11">
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>PRIORITASKABID:</strong>
+                            {{$item->PrioritasKabID}}
+                        </span>                        
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>RPJMDVISIID:</strong>
+                            {{$item->RpjmdVisiID}}
+                        </span>                       
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>CREATED:</strong>
+                            {{Helper::tanggal('d/m/Y H:m',$item->created_at)}}
+                        </span>
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>UPDATED:</strong>
+                            {{Helper::tanggal('d/m/Y H:m',$item->updated_at)}}
+                        </span>
+                    </td>
+                </tr>
             @endforeach                    
             </tbody>
         </table>               

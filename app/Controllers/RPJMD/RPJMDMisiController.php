@@ -29,7 +29,7 @@ class RPJMDMisiController extends Controller {
         $columns=['*'];       
         if (!$this->checkStateIsExistSession('rpjmdmisi','orderby')) 
         {            
-           $this->putControllerStateSession('rpjmdmisi','orderby',['column_name'=>'Nm_PrioritasKab','order'=>'asc']);
+           $this->putControllerStateSession('rpjmdmisi','orderby',['column_name'=>'Kd_PrioritasKab','order'=>'asc']);
         }
         $column_order=$this->getControllerStateSession('rpjmdmisi.orderby','column_name'); 
         $direction=$this->getControllerStateSession('rpjmdmisi.orderby','order'); 
@@ -55,7 +55,8 @@ class RPJMDMisiController extends Controller {
         }
         else
         {
-            $data = RPJMDMisiModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data = RPJMDMisiModel::where('TA',\HelperKegiatan::getRPJMDTahunMulai())
+                                    ->orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('rpjmdmisi.index'));
         return $data;
@@ -96,6 +97,9 @@ class RPJMDMisiController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
+            case 'col-Kd_PrioritasKab' :
+                $column_name = 'Kd_PrioritasKab';
+            break;           
             case 'col-Nm_PrioritasKab' :
                 $column_name = 'Nm_PrioritasKab';
             break;           
@@ -194,6 +198,11 @@ class RPJMDMisiController extends Controller {
                                                 'direction'=>$this->getControllerStateSession('rpjmdmisi.orderby','order'),
                                                 'data'=>$data]);               
     }
+    public function getkodemisi($id)
+    {
+        $Kd_PrioritasKab = RPJMDMisiModel::where('RpjmdVisiID',$id)->count('Kd_PrioritasKab')+1;
+        return response()->json(['success'=>true,'Kd_PrioritasKab'=>$Kd_PrioritasKab],200);
+    }  
     /**
      * Show the form for creating a new resource.
      *
@@ -202,10 +211,15 @@ class RPJMDMisiController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-
+        $daftar_visi = \App\Models\RPJMD\RPJMDVisiModel::select(\DB::raw('"RpjmdVisiID","Nm_RpjmdVisi"'))
+                                                                ->get()
+                                                                ->pluck('Nm_RpjmdVisi','RpjmdVisiID')
+                                                                ->prepend('','')
+                                                                ->toArray();
+        
         return view("pages.$theme.rpjmd.rpjmdmisi.create")->with(['page_active'=>'rpjmdmisi',
-                                                                    
-                                                ]);  
+                                                                    'daftar_visi'=>$daftar_visi,
+                                                                ]);  
     }
     
     /**
@@ -216,19 +230,23 @@ class RPJMDMisiController extends Controller {
      */
     public function store(Request $request)
     {
+        $RpjmdVisiID = $request->input('RpjmdVisiID');
+
         $this->validate($request, [
-            'Kd_PrioritasKab'=>[new CheckRecordIsExistValidation('tmPrioritasKab',['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]]),
+            'Kd_PrioritasKab'=>[new CheckRecordIsExistValidation('tmPrioritasKab',['where'=>['RpjmdVisiID','=',$RpjmdVisiID]]),
                         'required'
                     ],
+            'RpjmdVisiID'=>'required',
             'Nm_PrioritasKab'=>'required',
-        ]);
+        ]);        
         
         $rpjmdmisi = RPJMDMisiModel::create([
             'PrioritasKabID'=> uniqid ('uid'),
+            'RpjmdVisiID' => $RpjmdVisiID,
             'Kd_PrioritasKab' => $request->input('Kd_PrioritasKab'),
             'Nm_PrioritasKab' => $request->input('Nm_PrioritasKab'),
             'Descr' => $request->input('Descr'),
-            'TA' => \HelperKegiatan::getTahunPerencanaan()
+            'TA' => \HelperKegiatan::getRPJMDTahunMulai()
         ]);        
         
         if ($request->ajax()) 
@@ -258,8 +276,9 @@ class RPJMDMisiController extends Controller {
         $data = RPJMDMisiModel::findOrFail($id);
         if (!is_null($data) )  
         {
+            
             return view("pages.$theme.rpjmd.rpjmdmisi.show")->with(['page_active'=>'rpjmdmisi',
-                                                                    'data'=>$data
+                                                                    'data'=>$data,
                                                                 ]);
         }        
     }
@@ -277,8 +296,14 @@ class RPJMDMisiController extends Controller {
         $data = RPJMDMisiModel::findOrFail($id);
         if (!is_null($data) ) 
         {
+             $daftar_visi = \App\Models\RPJMD\RPJMDVisiModel::select(\DB::raw('"RpjmdVisiID","Nm_RpjmdVisi"'))
+                                                                ->get()
+                                                                ->pluck('Nm_RpjmdVisi','RpjmdVisiID')
+                                                                ->prepend('','')
+                                                                ->toArray();
             return view("pages.$theme.rpjmd.rpjmdmisi.edit")->with(['page_active'=>'rpjmdmisi',
-                                                                    'data'=>$data
+                                                                    'data'=>$data,
+                                                                    'daftar_visi'=>$daftar_visi
                                                                 ]);
         }        
     }
@@ -293,14 +318,16 @@ class RPJMDMisiController extends Controller {
     public function update(Request $request, $id)
     {
         $rpjmdmisi = RPJMDMisiModel::find($id);
-        
+        $RpjmdVisiID=$request->input('RpjmdVisiID');
         $this->validate($request, [
-            'Kd_PrioritasKab'=>[new IgnoreIfDataIsEqualValidation('tmPrioritasKab',$rpjmdmisi->Kd_PrioritasKab,['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]]),
+            'Kd_PrioritasKab'=>[new IgnoreIfDataIsEqualValidation('tmPrioritasKab',$rpjmdmisi->Kd_PrioritasKab,['where'=>['RpjmdVisiID','=',$RpjmdVisiID]]),
                         'required'
                     ],
+            'RpjmdVisiID'=>'required',
             'Nm_PrioritasKab'=>'required|min:2'
         ]);
         
+        $rpjmdmisi->RpjmdVisiID = $RpjmdVisiID;
         $rpjmdmisi->Kd_PrioritasKab = $request->input('Kd_PrioritasKab');
         $rpjmdmisi->Nm_PrioritasKab = $request->input('Nm_PrioritasKab');
         $rpjmdmisi->Descr = $request->input('Descr');

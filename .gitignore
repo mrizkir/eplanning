@@ -5,6 +5,7 @@
 /public/storage
 /storage/logs
 /storage/framework
+/storage/*.key
 /vendor
 /.env
 /.idea

@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-strategy position-left"></i>
     <span class="text-semibold"> 
-        RENSTRA TUJUAN TAHUN {{config('eplanning.renstra_tahun_mulai')}} - {{config('eplanning.renstra_tahun_akhir')}}
+        RENSTRA TUJUAN TAHUN {{HelperKegiatan::getRENSTRATahunMulai()}} - {{HelperKegiatan::getRENSTRATahunAkhir()}}
     </span>     
 @endsection
 @section('page_info')
@@ -38,10 +38,10 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label">MISI :</label> 
                     <div class="col-md-10">
-                        <select name="RenstraMisiID" id="RenstraMisiID" class="select">
+                        <select name="PrioritasKabID" id="PrioritasKabID" class="select">
                             <option></option>
                             @foreach ($daftar_misi as $k=>$item)
-                                <option value="{{$k}}"{{$k==$data->RenstraMisiID ?' selected':''}}>{{$item}}</option>
+                                <option value="{{$k}}"{{$k==$data->PrioritasKabID ?' selected':''}}>{{$item}}</option>
                             @endforeach
                         </select>                                
                     </div>
@@ -94,14 +94,14 @@ $(document).ready(function () {
                                         unformatOnSubmit: true,
                                         modifyValueOnWheel:false
                                     });
-    $('#RenstraMisiID.select').select2({
+    $('#PrioritasKabID.select').select2({
         placeholder: "PILIH MISI",
         allowClear:true
     });
     $('#frmdata').validate({
         ignore: [],
         rules: {
-            RenstraMisiID : {
+            PrioritasKabID : {
                 required: true,
                 valueNotEquals: 'none'
             },
@@ -114,7 +114,7 @@ $(document).ready(function () {
             }
         },
         messages : {
-            RenstraMisiID : {
+            PrioritasKabID : {
                 required: "Mohon untuk di pilih karena ini diperlukan.",
                 valueNotEquals: "Mohon untuk di pilih karena ini diperlukan.",      
             },

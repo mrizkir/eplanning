@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        RENSTRA SASARAN TAHUN {{config('eplanning.renstra_tahun_mulai')}} - {{config('eplanning.renstra_tahun_akhir')}}
+        RENSTRA SASARAN TAHUN {{HelperKegiatan::getRENSTRATahunMulai()}} - {{HelperKegiatan::getRENSTRATahunAkhir()}}
     </span>     
 @endsection
 @section('page_info')

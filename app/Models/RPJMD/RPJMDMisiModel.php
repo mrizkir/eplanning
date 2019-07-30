@@ -19,7 +19,7 @@ class RPJMDMisiModel extends Model {
      * @var array
      */
     protected $fillable = [
-        'PrioritasKabID', 'Kd_PrioritasKab', 'Nm_PrioritasKab', 'Descr', 'TA'
+        'PrioritasKabID', 'RpjmdVisiID', 'Kd_PrioritasKab', 'Nm_PrioritasKab', 'Descr', 'TA'
     ];
     /**
      * primary key tabel ini.

@@ -1,11 +1,11 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RPJMD MISI TAHUN {{config('eplanning.rpjmd_tahun_mulai')}} - {{config('eplanning.rpjmd_tahun_akhir')}}
+    RPJMD MISI TAHUN {{HelperKegiatan::getRPJMDTahunMulai()}} - {{HelperKegiatan::getRPJMDTahunAkhir()}}
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        RPJMD MISI TAHUN {{config('eplanning.rpjmd_tahun_mulai')}} - {{config('eplanning.rpjmd_tahun_akhir')}}
+        RPJMD MISI TAHUN {{HelperKegiatan::getRPJMDTahunMulai()}} - {{HelperKegiatan::getRPJMDTahunAkhir()}}
     </span>
 @endsection
 @section('page_info')
@@ -35,6 +35,12 @@
         </div>
         <div class="panel-body">
             {!! Form::open(['action'=>['RPJMD\RPJMDMisiController@update',$data->PrioritasKabID],'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
+                <div class="form-group">
+                    {{Form::label('RpjmdVisiID','VISI',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::select('RpjmdVisiID', $daftar_visi, $data->RpjmdVisiID,['class'=>'select','id'=>'RpjmdVisiID'])}}
+                    </div>
+                </div>
                 <div class="form-group">
                     {{Form::label('Kd_PrioritasKab','KODE',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
@@ -66,6 +72,7 @@
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/autoNumeric.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
@@ -82,6 +89,10 @@ $(document).ready(function () {
                                         unformatOnSubmit: true,
                                         modifyValueOnWheel:false
                                     });
+    $('#RpjmdVisiID.select').select2({
+        placeholder: "PILIH VISI RPJMD",
+        allowClear:true
+    });
     $('#frmdata').validate({
         rules: {
             Kd_PrioritasKab : {

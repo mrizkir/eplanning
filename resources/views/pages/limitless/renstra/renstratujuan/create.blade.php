@@ -1,11 +1,11 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RENSTRA TUJUAN  {{config('eplanning.renstra_tahun_mulai')}} - {{config('eplanning.renstra_tahun_akhir')}}
+    RENSTRA TUJUAN  {{HelperKegiatan::getRENSTRATahunMulai()}} - {{HelperKegiatan::getRENSTRATahunAkhir()}}
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        RENSTRA TUJUAN TAHUN {{config('eplanning.renstra_tahun_mulai')}} - {{config('eplanning.renstra_tahun_akhir')}}  
+        RENSTRA TUJUAN TAHUN {{HelperKegiatan::getRENSTRATahunMulai()}} - {{HelperKegiatan::getRENSTRATahunAkhir()}}  
     </span>
 @endsection
 @section('page_info')
@@ -36,9 +36,9 @@
         <div class="panel-body">
             {!! Form::open(['action'=>'RENSTRA\RENSTRATujuanController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                            
                 <div class="form-group">
-                    <label class="col-md-2 control-label">MISI :</label> 
+                    <label class="col-md-2 control-label">MISI RPJMD:</label> 
                     <div class="col-md-10">
-                        <select name="RenstraMisiID" id="RenstraMisiID" class="select">
+                        <select name="PrioritasKabID" id="PrioritasKabID" class="select">
                             <option></option>
                             @foreach ($daftar_misi as $k=>$item)
                                 <option value="{{$k}}">{{$item}}</option>
@@ -94,14 +94,14 @@ $(document).ready(function () {
                                         unformatOnSubmit: true,
                                         modifyValueOnWheel:false
                                     });
-    $('#RenstraMisiID.select').select2({
+    $('#PrioritasKabID.select').select2({
         placeholder: "PILIH MISI",
         allowClear:true
     });
     $('#frmdata').validate({
         ignore: [],
         rules: {
-            RenstraMisiID : {
+            PrioritasKabID : {
                 required: true,
                 valueNotEquals: 'none'
             },
@@ -114,7 +114,7 @@ $(document).ready(function () {
             }
         },
         messages : {
-            RenstraMisiID : {
+            PrioritasKabID : {
                 required: "Mohon untuk di pilih karena ini diperlukan.",
                 valueNotEquals: "Mohon untuk di pilih karena ini diperlukan.",      
             },

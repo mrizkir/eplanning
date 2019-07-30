@@ -105,6 +105,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
 
     //RPJMD - Misi
     Route::resource('/perencanaan/rpjmd/rpjmdmisi','RPJMD\RPJMDMisiController',['parameters'=>['rpjmdmisi'=>'uuid']]); 
+    Route::get('/perencanaan/rpjmd/rpjmdmisi/getkodemisi/{uuid}',['uses'=>'RPJMD\RPJMDMisiController@getkodemisi','as'=>'rpjmdmisi.getkodemisi']);              
     Route::post('/perencanaan/rpjmd/rpjmdmisi/search',['uses'=>'RPJMD\RPJMDMisiController@search','as'=>'rpjmdmisi.search']); 
     Route::get('/perencanaan/rpjmd/rpjmdmisi/paginate/{id}',['uses'=>'RPJMD\RPJMDMisiController@paginate','as'=>'rpjmdmisi.paginate']);              
     Route::post('/perencanaan/rpjmd/rpjmdmisi/changenumberrecordperpage',['uses'=>'RPJMD\RPJMDMisiController@changenumberrecordperpage','as'=>'rpjmdmisi.changenumberrecordperpage']);  
@@ -123,6 +124,10 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     
     //RPJMD - Sasaran
     Route::resource('/perencanaan/rpjmd/rpjmdsasaran','RPJMD\RPJMDSasaranController',['parameters'=>['rpjmdsasaran'=>'uuid']]); 
+    Route::post('/perencanaan/rpjmd/rpjmdsasaran/store1',['uses'=>'RPJMD\RPJMDSasaranController@store1','as'=>'rpjmdsasaran.store1']);  
+    Route::get('/perencanaan/rpjmd/rpjmdsasaran/getkodetujuan/{uuid}',['uses'=>'RPJMD\RPJMDSasaranController@getkodetujuan','as'=>'rpjmdsasaran.getkodetujuan']);              
+    Route::get('/perencanaan/rpjmd/rpjmdsasaran/edit1/{uuid}',['uses'=>'RPJMD\RPJMDSasaranController@edit1','as'=>'rpjmdsasaran.edit1']);  
+    Route::put('/perencanaan/rpjmd/rpjmdsasaran/update1/{uuid}',['uses'=>'RPJMD\RPJMDSasaranController@update1','as'=>'rpjmdsasaran.update1']);  
     Route::post('/perencanaan/rpjmd/rpjmdsasaran/search',['uses'=>'RPJMD\RPJMDSasaranController@search','as'=>'rpjmdsasaran.search']); 
     Route::get('/perencanaan/rpjmd/rpjmdsasaran/paginate/{id}',['uses'=>'RPJMD\RPJMDSasaranController@paginate','as'=>'rpjmdsasaran.paginate']);              
     Route::post('/perencanaan/rpjmd/rpjmdsasaran/changenumberrecordperpage',['uses'=>'RPJMD\RPJMDSasaranController@changenumberrecordperpage','as'=>'rpjmdsasaran.changenumberrecordperpage']);  
@@ -149,23 +154,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::get('/perencanaan/rpjmd/rpjmdindikatorkinerja/paginate/{id}',['uses'=>'RPJMD\RPJMDIndikatorKinerjaController@paginate','as'=>'rpjmdindikatorkinerja.paginate']);              
     Route::post('/perencanaan/rpjmd/rpjmdindikatorkinerja/changenumberrecordperpage',['uses'=>'RPJMD\RPJMDIndikatorKinerjaController@changenumberrecordperpage','as'=>'rpjmdindikatorkinerja.changenumberrecordperpage']);  
     Route::post('/perencanaan/rpjmd/rpjmdindikatorkinerja/orderby',['uses'=>'RPJMD\RPJMDIndikatorKinerjaController@orderby','as'=>'rpjmdindikatorkinerja.orderby']);
-   
-    //RENSTRA - Visi
-    Route::resource('/perencanaan/renstra/renstravisi','RENSTRA\RENSTRAVisiController',['parameters'=>['renstravisi'=>'uuid']]); 
-    Route::post('/perencanaan/renstra/renstravisi/filter',['uses'=>'RENSTRA\RENSTRAVisiController@filter','as'=>'renstravisi.filter']);   
-    Route::post('/perencanaan/renstra/renstravisi/search',['uses'=>'RENSTRA\RENSTRAVisiController@search','as'=>'renstravisi.search']); 
-    Route::get('/perencanaan/renstra/renstravisi/paginate/{id}',['uses'=>'RENSTRA\RENSTRAVisiController@paginate','as'=>'renstravisi.paginate']);              
-    Route::post('/perencanaan/renstra/renstravisi/changenumberrecordperpage',['uses'=>'RENSTRA\RENSTRAVisiController@changenumberrecordperpage','as'=>'renstravisi.changenumberrecordperpage']);  
-    Route::post('/perencanaan/renstra/renstravisi/orderby',['uses'=>'RENSTRA\RENSTRAVisiController@orderby','as'=>'renstravisi.orderby']); 
-   
-    //RENSTRA - Misi
-    Route::resource('/perencanaan/renstra/renstramisi','RENSTRA\RENSTRAMisiController',['parameters'=>['renstramisi'=>'uuid']]); 
-    Route::post('/perencanaan/renstra/renstramisi/filter',['uses'=>'RENSTRA\RENSTRAMisiController@filter','as'=>'renstramisi.filter']);   
-    Route::post('/perencanaan/renstra/renstramisi/search',['uses'=>'RENSTRA\RENSTRAMisiController@search','as'=>'renstramisi.search']); 
-    Route::get('/perencanaan/renstra/renstramisi/paginate/{id}',['uses'=>'RENSTRA\RENSTRAMisiController@paginate','as'=>'renstramisi.paginate']);              
-    Route::post('/perencanaan/renstra/renstramisi/changenumberrecordperpage',['uses'=>'RENSTRA\RENSTRAMisiController@changenumberrecordperpage','as'=>'renstramisi.changenumberrecordperpage']);  
-    Route::post('/perencanaan/renstra/renstramisi/orderby',['uses'=>'RENSTRA\RENSTRAMisiController@orderby','as'=>'renstramisi.orderby']); 
-   
+      
     //RENSTRA - Tujuan
     Route::resource('/perencanaan/renstra/renstratujuan','RENSTRA\RENSTRATujuanController',['parameters'=>['renstratujuan'=>'uuid']]); 
     Route::post('/perencanaan/renstra/renstratujuan/filter',['uses'=>'RENSTRA\RENSTRATujuanController@filter','as'=>'renstratujuan.filter']); 

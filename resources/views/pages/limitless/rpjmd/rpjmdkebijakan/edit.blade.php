@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        KEBIJAKAN [RPJMD {{config('eplanning.rpjmd_tahun_mulai')}}-{{config('eplanning.rpjmd_tahun_akhir')}}]
+        KEBIJAKAN [RPJMD {{HelperKegiatan::getRPJMDTahunMulai()}}-{{HelperKegiatan::getRPJMDTahunAkhir()}}]
     </span>     
 @endsection
 @section('page_info')

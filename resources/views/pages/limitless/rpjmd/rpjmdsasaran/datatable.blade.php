@@ -22,7 +22,7 @@
             <thead>
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
-                    <th width="170">
+                    <th width="120">
                         <a class="column-sort text-white" id="col-Kd_Sasaran" data-order="{{$direction}}" href="#">
                             KODE SASARAN 
                         </a>                                             
@@ -32,6 +32,7 @@
                             NAMA SASARAN  
                         </a>                                             
                     </th> 
+                    <th width="100">JUMLAH INDIKATOR</th>
                     <th width="100">TA</th>
                     <th width="100">AKSI</th>
                 </tr>
@@ -44,6 +45,7 @@
                     </td>                  
                     <td>{{$item->Kd_Sasaran}}</td>
                     <td>{{$item->Nm_Sasaran}}</td>
+                    <td>{{DB::table('tmPrioritasIndikatorSasaran')->where('PrioritasSasaranKabID',$item->PrioritasSasaranKabID)->count()}}</td>
                     <td>{{$item->TA}}</td>
                     <td>
                         <ul class="icons-list">
@@ -63,6 +65,26 @@
                                 </a> 
                             </li>
                         </ul>
+                    </td>
+                </tr>
+                <tr class="text-center info">
+                    <td colspan="6">
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>PRIORITASSASARANKABID:</strong>
+                            {{$item->PrioritasSasaranKabID}}
+                        </span>
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>PRIORITASTUJUANKABID:</strong>
+                            {{$item->PrioritasTujuanKabID}}
+                        </span>                       
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>CREATED:</strong>
+                            {{Helper::tanggal('d/m/Y H:m',$item->created_at)}}
+                        </span>
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>UPDATED:</strong>
+                            {{Helper::tanggal('d/m/Y H:m',$item->updated_at)}}
+                        </span>
                     </td>
                 </tr>
             @endforeach                    

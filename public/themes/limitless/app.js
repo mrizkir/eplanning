@@ -8,7 +8,7 @@ let format_uang_options = {
     modifyValueOnWheel:false
 }
 
-let format_angkat_options = {
+let format_angka_options = {
     allowDecimalPadding: false,
     formatOnPageLoad: true,
     minimumValue:0,

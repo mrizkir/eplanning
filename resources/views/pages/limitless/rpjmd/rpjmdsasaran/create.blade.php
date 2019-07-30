@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        RPJMD SASARAN TAHUN {{config('eplanning.rpjmd_tahun_mulai')}} - {{config('eplanning.rpjmd_tahun_akhir')}}  
+        RPJMD SASARAN TAHUN {{HelperKegiatan::getRPJMDTahunMulai()}} - {{HelperKegiatan::getRPJMDTahunAkhir()}}  
     </span>
 @endsection
 @section('page_info')
@@ -36,12 +36,12 @@
         <div class="panel-body">
             {!! Form::open(['action'=>'RPJMD\RPJMDSasaranController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
                 <div class="form-group">
-                    <label class="col-md-2 control-label">MISI :</label> 
+                    <label class="col-md-2 control-label">TUJUAN RPJMD :</label> 
                     <div class="col-md-10">
                         <select name="PrioritasTujuanKabID" id="PrioritasTujuanKabID" class="select">
                             <option></option>
                             @foreach ($daftar_tujuan as $k=>$item)
-                                <option value="{{$k}}">{{$item}}</option>
+                                <option value="{{$k}}"{{$k==old('PrioritasTujuanKabID') ?' selected':''}}>{{$item}}</option>
                             @endforeach
                         </select>                                
                     </div>

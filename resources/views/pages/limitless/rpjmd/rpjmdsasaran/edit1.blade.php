@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        RPJMD SASARAN TAHUN {{HelperKegiatan::getRPJMDTahunAwal()}} - {{HelperKegiatan::getRPJMDTahunAkhir()}}  
+        RPJMD SASARAN TAHUN {{HelperKegiatan::getRPJMDTahunMulai()}} - {{HelperKegiatan::getRPJMDTahunAkhir()}}  
     </span>     
 @endsection
 @section('page_info')
@@ -96,58 +96,57 @@
         <div class="panel-heading">
             <h5 class="panel-title">
                 <i class="icon-pencil7 position-left"></i> 
-                TAMBAH INDIKATOR TUJUAN
+                UBAH INDIKATOR SASARAN
             </h5>            
         </div>
         <div class="panel-body">            
-            {!! Form::open(['action'=>'RPJMD\RPJMDSasaranController@store1','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
-                {{Form::hidden('PrioritasSasaranKabID',$data->PrioritasSasaranKabID)}}                                
+            {!! Form::open(['action'=>['RPJMD\RPJMDSasaranController@update1',$data_indikator->PrioritasIndikatorSasaranID],'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
                 <div class="form-group">
                     {{Form::label('NamaIndikator','NAMA INDIKATOR',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('NamaIndikator','',['class'=>'form-control','placeholder'=>'NAMA INDIKATOR'])}}
+                        {{Form::text('NamaIndikator',$data_indikator->NamaIndikator,['class'=>'form-control','placeholder'=>'NAMA INDIKATOR'])}}
                     </div>
                 </div>
                 <div class="form-group">
                     {{Form::label('Satuan','SATUAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('Satuan','',['class'=>'form-control','placeholder'=>'SATUAN'])}}
+                        {{Form::text('Satuan',$data_indikator->Satuan,['class'=>'form-control','placeholder'=>'SATUAN'])}}
                     </div>
                 </div>
                 <div class="form-group">
-                    {{Form::label('KondisiAwal','KONDISI KINERJA AWAL ('.(HelperKegiatan::getRPJMDTahunAwal()).')',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('KondisiAwal','KONDISI KINERJA AWAL ('.(HelperKegiatan::getRPJMDTahunMulai()-1).')',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('KondisiAwal','',['class'=>'form-control','placeholder'=>'KONDISI KINERJA AWAL'])}}
+                        {{Form::text('KondisiAwal',$data_indikator->KondisiAwal,['class'=>'form-control','placeholder'=>'KONDISI KINERJA AWAL'])}}
                     </div>
                 </div>
                 <div class="form-group">
                     {{Form::label('N1','N1',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('N1','',['class'=>'form-control','placeholder'=>'N1'])}}
+                        {{Form::text('N1',$data_indikator->N1,['class'=>'form-control','placeholder'=>'N1'])}}
                     </div>
                 </div>
                 <div class="form-group">
                     {{Form::label('N2','N2',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('N2','',['class'=>'form-control','placeholder'=>'N2'])}}
+                        {{Form::text('N2',$data_indikator->N2,['class'=>'form-control','placeholder'=>'N2'])}}
                     </div>
                 </div>
                 <div class="form-group">
                     {{Form::label('N3','N3',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('N3','',['class'=>'form-control','placeholder'=>'N3'])}}
+                        {{Form::text('N3',$data_indikator->N3,['class'=>'form-control','placeholder'=>'N3'])}}
                     </div>
                 </div>
                 <div class="form-group">
                     {{Form::label('N4','N4',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('N4','',['class'=>'form-control','placeholder'=>'N4'])}}
+                        {{Form::text('N4',$data_indikator->N4,['class'=>'form-control','placeholder'=>'N4'])}}
                     </div>
                 </div>
                 <div class="form-group">
                     {{Form::label('N5','N5',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('N5','',['class'=>'form-control','placeholder'=>'N5'])}}
+                        {{Form::text('N5',$data_indikator->N5,['class'=>'form-control','placeholder'=>'N5'])}}
                     </div>
                 </div>
                 <div class="form-group">
@@ -155,10 +154,10 @@
                     <div class="col-md-10">
                         <div class="row">
                             <div class="col-md-1">
-                                {{Form::select('Operator',['='=>'=','>'=>'>','>='=>'>=','<'=>'<','<='=>'<='],'',['class'=>'form-control'])}}
+                                {{Form::select('Operator',['='=>'=','>'=>'>','>='=>'>=','<'=>'<','<='=>'<='],$data_indikator->Operator,['class'=>'form-control'])}}
                             </div>
                             <div class="col-md-11">
-                                {{Form::text('KondisiAkhir','',['class'=>'form-control','placeholder'=>'KONDISI AKHIR RPJMD'])}}
+                                {{Form::text('KondisiAkhir',$data_indikator->KondisiAkhir,['class'=>'form-control','placeholder'=>'KONDISI AKHIR RPJMD'])}}
                             </div>
                         </div>                        
                     </div>
@@ -166,7 +165,7 @@
                 <div class="form-group">
                     {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::textarea('Descr','',['class'=>'form-control','placeholder'=>'KETERANGAN','rows' => 2, 'cols' => 40])}}
+                        {{Form::textarea('Descr',$data_indikator->Descr,['class'=>'form-control','placeholder'=>'KETERANGAN','rows' => 2, 'cols' => 40])}}
                     </div>
                 </div>
                 <div class="col-md-10 col-md-offset-2">                        

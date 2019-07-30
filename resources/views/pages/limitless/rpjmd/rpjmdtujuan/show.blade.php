@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        RPJMD TUJUAN TAHUN {{config('eplanning.rpjmd_tahun_mulai')}} - {{config('eplanning.rpjmd_tahun_akhir')}}
+        RPJMD TUJUAN TAHUN {{HelperKegiatan::getRPJMDTahunMulai()}} - {{HelperKegiatan::getRPJMDTahunAkhir()}}
     </span>     
 @endsection
 @section('page_info')
@@ -158,7 +158,7 @@
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
-    AutoNumeric.multiple(['#KondisiAwal,#KondisiAkhir'], {
+    AutoNumeric.multiple(['#KondisiAwal','#KondisiAkhir'], {
                             allowDecimalPadding: false,                            
                             numericPos:true,
                             decimalPlaces : 2,

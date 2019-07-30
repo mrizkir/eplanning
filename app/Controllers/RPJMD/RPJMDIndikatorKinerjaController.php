@@ -53,7 +53,7 @@ class RPJMDIndikatorKinerjaController extends Controller {
         }
         else
         {
-            $data = RPJMDIndikatorKinerjaModel::where('TA_N',config('eplanning.rpjmd_tahun_mulai'))
+            $data = RPJMDIndikatorKinerjaModel::where('TA_N',\HelperKegiatan::getRPJMDTahunMulai())
                                                 ->orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('rpjmdindikatorkinerja.index'));
@@ -186,8 +186,8 @@ class RPJMDIndikatorKinerjaController extends Controller {
         if ($request->exists('UrsID') && $request->exists('create') )
         {
             $UrsID = $request->input('UrsID')==''?'none':$request->input('UrsID');            
-            $daftar_program=\App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getTahunPerencanaan(),false,$UrsID);
-            $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false,$UrsID);
+            $daftar_program=\App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getRPJMDTahunMulai(),false,$UrsID);
+            $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getRPJMDTahunMulai(),false,$UrsID);
             $json_data = ['success'=>true,'daftar_program'=>$daftar_program,'daftar_opd'=>$daftar_opd];
         } 
         return response()->json($json_data,200);  
@@ -225,8 +225,8 @@ class RPJMDIndikatorKinerjaController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $daftar_kebijakan = RPJMDKebijakanModel::getDaftarKebijakan(\HelperKegiatan::getTahunPerencanaan(),false);
-        $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusan(\HelperKegiatan::getTahunPerencanaan(),false);
+        $daftar_kebijakan = RPJMDKebijakanModel::getDaftarKebijakan(\HelperKegiatan::getRPJMDTahunMulai(),false);
+        $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusan(\HelperKegiatan::getRPJMDTahunMulai(),false);
         return view("pages.$theme.rpjmd.rpjmdindikatorkinerja.create")->with(['page_active'=>'rpjmdindikatorkinerja',
                                                                                 'daftar_kebijakan'=>$daftar_kebijakan,
                                                                                 'daftar_urusan'=>$daftar_urusan
@@ -267,7 +267,7 @@ class RPJMDIndikatorKinerjaController extends Controller {
             'UrsID' => $request->input('UrsID'),
             'PrgID' => $request->input('PrgID'),
             'NamaIndikator' => $request->input('NamaIndikator'),
-            'TA_N'=>config('eplanning.rpjmd_tahun_mulai'),
+            'TA_N'=>HelperKegiatan::getRPJMDTahunMulai(),
             'OrgID' => $request->input('OrgID'),
             'OrgID2' => $request->input('OrgID2'),            
             'PaguDanaN1' => $request->input('PaguDanaN1'),
@@ -282,7 +282,7 @@ class RPJMDIndikatorKinerjaController extends Controller {
             'TargetN4' => $request->input('TargetN4'),
             'TargetN5' => $request->input('TargetN5'),
             'Descr' => $request->input('Descr'),
-            'TA' => \HelperKegiatan::getTahunPerencanaan()            
+            'TA' => \HelperKegiatan::getRPJMDTahunMulai()            
         ]);        
         
         if ($request->ajax()) 

@@ -95,7 +95,7 @@
             @else            
                 <div class="alert alert-warning alert-styled-left alert-bordered">
                     <span class="text-semibold">Warning!</span>
-                    Tidak ada Indikator Kinerja RPJMD. Biasanya dari terjadi pada program kegiatan dari SEMUA URUSAN 
+                    Tidak ada Indikator Kinerja RPJMD. Biasanya terjadi pada program kegiatan dari SEMUA URUSAN 
                 </div>               
             @endif
         </div>

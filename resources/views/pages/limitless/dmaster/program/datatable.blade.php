@@ -44,6 +44,9 @@
                             URUSAN  
                         </a>                                             
                     </th>
+                    <th width="100">                       
+                        RPJMD MULAI TAHUN                         
+                    </th>
                     <th width="100">AKSI</th>
                 </tr>
             </thead>
@@ -80,6 +83,7 @@
                             }   
                         @endphp
                     </td>
+                    <td>{{$item->TA}}</td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
