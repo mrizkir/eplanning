@@ -54,17 +54,26 @@ class RPJMDSasaranController extends Controller {
             switch ($search['kriteria']) 
             {
                 case 'Kd_Sasaran' :
-                    $data = RPJMDSasaranModel::where(['Kd_Sasaran'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                    $data = RPJMDSasaranModel::select(\DB::raw('"tmPrioritasSasaranKab"."PrioritasSasaranKabID","tmPrioritasSasaranKab"."PrioritasTujuanKabID",CONCAT("tmPrioritasKab"."Kd_PrioritasKab",\'.\',"tmPrioritasTujuanKab"."Kd_Tujuan",\'.\',"tmPrioritasSasaranKab"."Kd_Sasaran") AS "Kd_Sasaran","tmPrioritasSasaranKab"."Nm_Sasaran","tmPrioritasSasaranKab"."TA"'))
+                                            ->join('tmPrioritasTujuanKab','tmPrioritasTujuanKab.PrioritasTujuanKabID','tmPrioritasSasaranKab.PrioritasTujuanKabID')
+                                            ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmPrioritasTujuanKab.PrioritasKabID')              
+                                            ->where(['Kd_Sasaran'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
                 case 'Nm_Sasaran' :
-                    $data = RPJMDSasaranModel::where('Nm_Sasaran', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = RPJMDSasaranModel::select(\DB::raw('"tmPrioritasSasaranKab"."PrioritasSasaranKabID","tmPrioritasSasaranKab"."PrioritasTujuanKabID",CONCAT("tmPrioritasKab"."Kd_PrioritasKab",\'.\',"tmPrioritasTujuanKab"."Kd_Tujuan",\'.\',"tmPrioritasSasaranKab"."Kd_Sasaran") AS "Kd_Sasaran","tmPrioritasSasaranKab"."Nm_Sasaran","tmPrioritasSasaranKab"."TA"'))
+                                            ->join('tmPrioritasTujuanKab','tmPrioritasTujuanKab.PrioritasTujuanKabID','tmPrioritasSasaranKab.PrioritasTujuanKabID')
+                                            ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmPrioritasTujuanKab.PrioritasKabID')                                    
+                                            ->where('Nm_Sasaran', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = RPJMDSasaranModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data = RPJMDSasaranModel::select(\DB::raw('"tmPrioritasSasaranKab"."PrioritasSasaranKabID","tmPrioritasSasaranKab"."PrioritasTujuanKabID",CONCAT("tmPrioritasKab"."Kd_PrioritasKab",\'.\',"tmPrioritasTujuanKab"."Kd_Tujuan",\'.\',"tmPrioritasSasaranKab"."Kd_Sasaran") AS "Kd_Sasaran","tmPrioritasSasaranKab"."Nm_Sasaran","tmPrioritasSasaranKab"."TA"'))
+                                    ->join('tmPrioritasTujuanKab','tmPrioritasTujuanKab.PrioritasTujuanKabID','tmPrioritasSasaranKab.PrioritasTujuanKabID')
+                                    ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmPrioritasTujuanKab.PrioritasKabID')                                    
+                                    ->orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('rpjmdsasaran.index'));
         return $data;
@@ -214,13 +223,14 @@ class RPJMDSasaranController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $daftar_tujuan=\App\Models\RPJMD\RPJMDTujuanModel::select(\DB::raw('"PrioritasTujuanKabID",CONCAT(\'[\',"Kd_Tujuan",\']. \',"Nm_Tujuan") AS "Nm_Tujuan"'))
-                                                            ->where('TA',\HelperKegiatan::getRPJMDTahunMulai())
-                                                            ->orderBy('Kd_Tujuan','ASC')
+        $daftar_tujuan=\App\Models\RPJMD\RPJMDTujuanModel::select(\DB::raw('"tmPrioritasTujuanKab"."PrioritasTujuanKabID",CONCAT(\'[\',"tmPrioritasKab"."Kd_PrioritasKab",\'.\',"tmPrioritasTujuanKab"."Kd_Tujuan",\']. \',"tmPrioritasTujuanKab"."Nm_Tujuan") AS "Nm_Tujuan"'))
+                                                            ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmPrioritasTujuanKab.PrioritasKabID')
+                                                            ->where('tmPrioritasTujuanKab.TA',\HelperKegiatan::getRPJMDTahunMulai())
+                                                            ->orderBy('tmPrioritasTujuanKab.Kd_Tujuan','ASC')
                                                             ->get()
                                                             ->pluck('Nm_Tujuan','PrioritasTujuanKabID')
                                                             ->toArray();
-
+        
         return view("pages.$theme.rpjmd.rpjmdsasaran.create")->with(['page_active'=>'rpjmdsasaran',
                                                                     'daftar_tujuan'=>$daftar_tujuan
                                                                     ]);  
@@ -235,7 +245,7 @@ class RPJMDSasaranController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_Sasaran'=>[new CheckRecordIsExistValidation('tmPrioritasSasaranKab',['where'=>['TA','=',\HelperKegiatan::getRPJMDTahunMulai()]]),
+            'Kd_Sasaran'=>[new CheckRecordIsExistValidation('tmPrioritasSasaranKab',['where'=>['PrioritasTujuanKabID','=',$request->input('PrioritasTujuanKabID')]]),
                             'required'
                         ],
             'PrioritasTujuanKabID'=>'required',
@@ -359,12 +369,14 @@ class RPJMDSasaranController extends Controller {
         $data = RPJMDSasaranModel::findOrFail($id);
         if (!is_null($data) ) 
         {
-            $daftar_tujuan=\App\Models\RPJMD\RPJMDTujuanModel::select(\DB::raw('"PrioritasTujuanKabID",CONCAT(\'[\',"Kd_Tujuan",\']. \',"Nm_Tujuan") AS "Nm_Tujuan"'))
-                                                            ->where('TA',$data->TA)
-                                                            ->orderBy('Kd_Tujuan','ASC')
+            $daftar_tujuan=\App\Models\RPJMD\RPJMDTujuanModel::select(\DB::raw('"tmPrioritasTujuanKab"."PrioritasTujuanKabID",CONCAT(\'[\',"tmPrioritasKab"."Kd_PrioritasKab",\'.\',"tmPrioritasTujuanKab"."Kd_Tujuan",\']. \',"tmPrioritasTujuanKab"."Nm_Tujuan") AS "Nm_Tujuan"'))
+                                                            ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmPrioritasTujuanKab.PrioritasKabID')
+                                                            ->where('tmPrioritasTujuanKab.TA',\HelperKegiatan::getRPJMDTahunMulai())
+                                                            ->orderBy('tmPrioritasTujuanKab.Kd_Tujuan','ASC')
                                                             ->get()
                                                             ->pluck('Nm_Tujuan','PrioritasTujuanKabID')
                                                             ->toArray();
+
             return view("pages.$theme.rpjmd.rpjmdsasaran.edit")->with(['page_active'=>'rpjmdsasaran',
                                                                         'data'=>$data,
                                                                         'daftar_tujuan'=>$daftar_tujuan
@@ -407,7 +419,7 @@ class RPJMDSasaranController extends Controller {
         $this->validate($request, [
             'Kd_Sasaran'=>['required',new IgnoreIfDataIsEqualValidation('tmPrioritasSasaranKab',
                                                                         $rpjmdsasaran->Kd_Sasaran,
-                                                                        ['where'=>['TA','=',\HelperKegiatan::getRPJMDTahunMulai()]],
+                                                                        ['where'=>['PrioritasTujuanKabID','=',$request->input('PrioritasTujuanKabID')]],
                                                                         'Kode Sasaran')],
             'PrioritasTujuanKabID'=>'required',
             'Nm_Sasaran'=>'required',

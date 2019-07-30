@@ -54,17 +54,21 @@ class RPJMDTujuanController extends Controller {
             switch ($search['kriteria']) 
             {
                 case 'Kd_Tujuan' :
-                    $data = RPJMDTujuanModel::where(['Kd_Tujuan'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                    $data = RPJMDTujuanModel::select(\DB::raw('"tmPrioritasTujuanKab"."PrioritasTujuanKabID","tmPrioritasTujuanKab"."PrioritasKabID",CONCAT("tmPrioritasKab"."Kd_PrioritasKab",\'.\',"tmPrioritasTujuanKab"."Kd_Tujuan") AS "Kd_Tujuan","tmPrioritasTujuanKab"."Nm_Tujuan","tmPrioritasTujuanKab"."TA"'))
+                                            ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmPrioritasTujuanKab.PrioritasKabID')
+                                            ->where(['Kd_Tujuan'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
                 case 'Nm_Tujuan' :
-                    $data = RPJMDTujuanModel::where('Nm_Tujuan', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = RPJMDTujuanModel::select(\DB::raw('"tmPrioritasTujuanKab"."PrioritasTujuanKabID","tmPrioritasTujuanKab"."PrioritasKabID",CONCAT("tmPrioritasKab"."Kd_PrioritasKab",\'.\',"tmPrioritasTujuanKab"."Kd_Tujuan") AS "Kd_Tujuan","tmPrioritasTujuanKab"."Nm_Tujuan","tmPrioritasTujuanKab"."TA"'))
+                                            ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmPrioritasTujuanKab.PrioritasKabID')
+                                            ->where('Nm_Tujuan', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = RPJMDTujuanModel::select(\DB::raw('"tmPrioritasTujuanKab"."PrioritasTujuanKabID",CONCAT("tmPrioritasKab"."Kd_PrioritasKab",\'.\',"tmPrioritasTujuanKab"."Kd_Tujuan") AS "Kd_Tujuan","tmPrioritasTujuanKab"."Nm_Tujuan","tmPrioritasTujuanKab"."TA"'))
+            $data = RPJMDTujuanModel::select(\DB::raw('"tmPrioritasTujuanKab"."PrioritasTujuanKabID","tmPrioritasTujuanKab"."PrioritasKabID",CONCAT("tmPrioritasKab"."Kd_PrioritasKab",\'.\',"tmPrioritasTujuanKab"."Kd_Tujuan") AS "Kd_Tujuan","tmPrioritasTujuanKab"."Nm_Tujuan","tmPrioritasTujuanKab"."TA"'))
                                     ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmPrioritasTujuanKab.PrioritasKabID')
                                     ->orderBy($column_order,$direction)
                                     ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
