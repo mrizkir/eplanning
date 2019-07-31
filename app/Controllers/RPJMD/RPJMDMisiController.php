@@ -45,10 +45,12 @@ class RPJMDMisiController extends Controller {
             switch ($search['kriteria']) 
             {
                 case 'Kd_PrioritasKab' :
-                    $data = RPJMDMisiModel::where(['Kd_PrioritasKab'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                    $data = RPJMDMisiModel::where(['Kd_PrioritasKab'=>$search['isikriteria']])
+                    ->orderBy('Kd_PrioritasKab','ASC'); 
                 break;
                 case 'Nm_PrioritasKab' :
-                    $data = RPJMDMisiModel::where('Nm_PrioritasKab', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = RPJMDMisiModel::where('Nm_PrioritasKab', 'ilike', '%' . $search['isikriteria'] . '%')
+                    ->orderBy('Kd_PrioritasKab','ASC');                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
@@ -56,7 +58,8 @@ class RPJMDMisiController extends Controller {
         else
         {
             $data = RPJMDMisiModel::where('TA',\HelperKegiatan::getRPJMDTahunMulai())
-                                    ->orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+                                    ->orderBy('Kd_PrioritasKab','ASC')
+                                    ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('rpjmdmisi.index'));
         return $data;

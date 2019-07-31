@@ -23,14 +23,10 @@
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
                     <th width="120">
-                        <a class="column-sort text-white" id="col-Kd_PrioritasKab" data-order="{{$direction}}" href="#">
                             KODE MISI 
-                        </a>                                             
                     </th> 
-                    <th>
-                        <a class="column-sort text-white" id="col-Nm_PrioritasKab" data-order="{{$direction}}" href="#">
-                            NAMA MISI  
-                        </a>                                             
+                    <th>                        
+                        NAMA MISI  
                     </th> 
                     <th width="100">TA</th>
                     <th width="100">AKSI</th>

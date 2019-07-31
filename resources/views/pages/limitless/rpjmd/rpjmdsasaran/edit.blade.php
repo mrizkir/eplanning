@@ -98,6 +98,28 @@ $(document).ready(function () {
         placeholder: "PILIH TUJUAN RPJMD",
         allowClear:true
     });
+    $(document).on('change','#PrioritasTujuanKabID',function(ev) {
+        ev.preventDefault();
+        PrioritasTujuanKabID=$(this).val();        
+        $.ajax({
+            type:'get',
+            url: url_current_page+'/getkodesasaran/'+PrioritasTujuanKabID,
+            dataType: 'json',
+            data: {
+                "_token": token,
+                "PrioritasTujuanKabID": PrioritasTujuanKabID,
+            },
+            success:function(result)
+            {   
+                const element = AutoNumeric.getAutoNumericElement('#Kd_Sasaran');
+                element.set(result.Kd_Sasaran);                                
+            },
+            error:function(xhr, status, error)
+            {   
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    });     
     $('#frmdata').validate({
         ignore: [],
         rules: {

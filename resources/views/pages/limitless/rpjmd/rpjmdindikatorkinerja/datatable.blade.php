@@ -23,9 +23,7 @@
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
                     <th width="400">
-                        <a class="column-sort text-white" id="col-NamaIndikator" data-order="{{$direction}}" href="#">
-                            NAMA INDIKATOR  
-                        </a>                                             
+                        NAMA INDIKATOR  
                     </th> 
                     <th width="150">                        
                         AWAL ({{HelperKegiatan::getRPJMDTahunMulai()-1}})                

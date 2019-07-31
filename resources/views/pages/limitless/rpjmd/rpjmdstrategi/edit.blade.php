@@ -98,6 +98,28 @@ $(document).ready(function () {
         placeholder: "PILIH TUJUAN RPJMD",
         allowClear:true
     });
+    $(document).on('change','#PrioritasSasaranKabID',function(ev) {
+        ev.preventDefault();
+        PrioritasSasaranKabID=$(this).val();        
+        $.ajax({
+            type:'get',
+            url: url_current_page+'/getkodestrategi/'+PrioritasSasaranKabID,
+            dataType: 'json',
+            data: {
+                "_token": token,
+                "PrioritasSasaranKabID": PrioritasSasaranKabID,
+            },
+            success:function(result)
+            {   
+                const element = AutoNumeric.getAutoNumericElement('#Kd_Strategi');
+                element.set(result.Kd_Strategi);                                
+            },
+            error:function(xhr, status, error)
+            {   
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    });     
     $('#frmdata').validate({
         ignore: [],
         rules: {

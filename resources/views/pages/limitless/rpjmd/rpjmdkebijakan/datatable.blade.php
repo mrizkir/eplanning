@@ -23,14 +23,10 @@
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
                     <th width="150">
-                        <a class="column-sort text-white" id="col-Kd_Kebijakan" data-order="{{$direction}}" href="#">
-                            KODE KEBIJAKAN  
-                        </a>                                             
+                        KODE KEBIJAKAN  
                     </th> 
                     <th>
-                        <a class="column-sort text-white" id="col-Nm_Kebijakan" data-order="{{$direction}}" href="#">
-                            NAMA KEBIJAKAN  
-                        </a>                                             
+                        NAMA KEBIJAKAN  
                     </th> 
                     <th width="100">TA</th>
                     <th width="100">AKSI</th>

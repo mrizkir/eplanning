@@ -56,12 +56,16 @@ class RPJMDTujuanController extends Controller {
                 case 'Kd_Tujuan' :
                     $data = RPJMDTujuanModel::select(\DB::raw('"tmPrioritasTujuanKab"."PrioritasTujuanKabID","tmPrioritasTujuanKab"."PrioritasKabID",CONCAT("tmPrioritasKab"."Kd_PrioritasKab",\'.\',"tmPrioritasTujuanKab"."Kd_Tujuan") AS "Kd_Tujuan","tmPrioritasTujuanKab"."Nm_Tujuan","tmPrioritasTujuanKab"."TA"'))
                                             ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmPrioritasTujuanKab.PrioritasKabID')
-                                            ->where(['Kd_Tujuan'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                                            ->where(['Kd_Tujuan'=>$search['isikriteria']])
+                                            ->orderBy('Kd_PrioritasKab','ASC')
+                                            ->orderBy('Kd_Tujuan','ASC'); 
                 break;
                 case 'Nm_Tujuan' :
                     $data = RPJMDTujuanModel::select(\DB::raw('"tmPrioritasTujuanKab"."PrioritasTujuanKabID","tmPrioritasTujuanKab"."PrioritasKabID",CONCAT("tmPrioritasKab"."Kd_PrioritasKab",\'.\',"tmPrioritasTujuanKab"."Kd_Tujuan") AS "Kd_Tujuan","tmPrioritasTujuanKab"."Nm_Tujuan","tmPrioritasTujuanKab"."TA"'))
                                             ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmPrioritasTujuanKab.PrioritasKabID')
-                                            ->where('Nm_Tujuan', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                                            ->where('Nm_Tujuan', 'ilike', '%' . $search['isikriteria'] . '%')
+                                            ->orderBy('Kd_PrioritasKab','ASC')
+                                            ->orderBy('Kd_Tujuan','ASC');                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
@@ -70,7 +74,8 @@ class RPJMDTujuanController extends Controller {
         {
             $data = RPJMDTujuanModel::select(\DB::raw('"tmPrioritasTujuanKab"."PrioritasTujuanKabID","tmPrioritasTujuanKab"."PrioritasKabID",CONCAT("tmPrioritasKab"."Kd_PrioritasKab",\'.\',"tmPrioritasTujuanKab"."Kd_Tujuan") AS "Kd_Tujuan","tmPrioritasTujuanKab"."Nm_Tujuan","tmPrioritasTujuanKab"."TA"'))
                                     ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmPrioritasTujuanKab.PrioritasKabID')
-                                    ->orderBy($column_order,$direction)
+                                    ->orderBy('Kd_PrioritasKab','ASC')
+                                    ->orderBy('Kd_Tujuan','ASC')
                                     ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('rpjmdtujuan.index'));
