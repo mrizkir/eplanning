@@ -228,7 +228,7 @@ class KelompokUrusanController extends Controller {
 
         $kelompokurusan = KelompokUrusanModel::create ([
             'KUrsID'=> uniqid ('uid'),
-            'RpjmdVisiID'=>$request->input('RpjmdVisiID'),
+            'RpjmdVisiID'=>config('eplanning.rpjmd_visi_id'),
             'Kd_Urusan'=>$request->input('Kd_Urusan'),
             'Nm_Urusan'=>$request->input('Nm_Urusan'),
             'Descr'=>$request->input('Descr'),
@@ -258,8 +258,7 @@ class KelompokUrusanController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = KelompokUrusanModel::where('TA',\HelperKegiatan::getTahunPerencanaan())
-                                    ->where('KUrsID',$id)
+        $data = KelompokUrusanModel::where('KUrsID',$id)
                                     ->firstOrFail();
         if (!is_null($data) )  
         {

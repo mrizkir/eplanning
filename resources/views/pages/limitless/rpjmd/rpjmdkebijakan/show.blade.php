@@ -126,14 +126,6 @@
                         </select>  
                     </div>
                 </div>
-                <div class="form-group">
-                    {{Form::label('OrgID','NAMA OPD / SKPD',['class'=>'control-label col-md-2'])}}
-                    <div class="col-md-10">
-                        <select name="OrgID" id="OrgID" class="select">
-                            <option></option>
-                        </select>  
-                    </div>
-                </div>
             </div>
             <div class="panel-footer">
                 <div class="form-group">            
@@ -163,10 +155,6 @@ $(document).ready(function () {
     $('#PrgID.select').select2({
         placeholder: "PILIH PROGRAM",
         allowClear:true
-    });    
-    $('#OrgID.select').select2({
-        placeholder: "PILIH OPD / SKPD",
-        allowClear:true
     });
     $(document).on('click',".btnDeleteKebijakan", function(ev) {
         if (confirm('Apakah Anda ingin menghapus Data RPJMD Kebijakan ini ?')) {
@@ -192,7 +180,52 @@ $(document).ready(function () {
             });
         }
     });
-    
+    $(document).on('change','#UrsID',function(ev) {
+        ev.preventDefault();   
+        $.ajax({
+            type:'post',
+            url: "{{route('rpjmdindikatorkinerja.filter')}}",
+            dataType: 'json',
+            data: {              
+                "_token": token,  
+                "UrsID": $('#UrsID').val(),
+                "create":true
+            },
+            success:function(result)
+            { 
+                var daftar_program = result.daftar_program;
+                var daftar_opd = result.daftar_opd;
+                var listitems='<option></option>';
+                $.each(daftar_program,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
+                $('#PrgID').html(listitems);
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    });
+    $('#frmdata').validate({
+        ignore:[],
+        rules: {
+            UrsID : {
+                required: true
+            },
+            PrgID : {
+                required: true
+            }
+        },
+        messages : {         
+            UrsID : {
+                required: "Mohon untuk di pilih Urusan untuk indikator ini."                
+            },
+            PrgID : {
+                required: "Mohon untuk di pilih Program Pembangunan untuk indikator ini."             
+            }                   
+        }      
+    });
 });
 </script>
 @endsection

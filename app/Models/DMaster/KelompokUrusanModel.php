@@ -25,7 +25,7 @@ class KelompokUrusanModel extends Model {
      * @var array
      */
     protected $fillable = [
-        'KUrsID', 'Kd_Urusan', 'Nm_Urusan', 'Descr','TA',
+        'KUrsID', 'RpjmdVisiID', 'Kd_Urusan', 'Nm_Urusan', 'Descr','TA',
     ];
     /**
      * enable auto_increment.

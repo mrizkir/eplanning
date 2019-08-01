@@ -238,7 +238,6 @@ $(document).ready(function () {
             },
             success:function(result)
             { 
-                console.log(result);
                 var daftar_program = result.daftar_program;
                 var daftar_opd = result.daftar_opd;
                 var listitems='<option></option>';

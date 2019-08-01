@@ -36,6 +36,7 @@
                             URUSAN
                         </a>                                             
                     </th>
+                    <th width="70">TA</th>
                     <th width="100">AKSI</th>
                 </tr>
             </thead>
@@ -48,6 +49,7 @@
                     <td>{{$item->kode_organisasi}}</td>
                     <td>{{$item->OrgNm}}</td>
                     <td>{{$item->Nm_Urusan}}</td>
+                    <td>{{$item->TA}}</td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">

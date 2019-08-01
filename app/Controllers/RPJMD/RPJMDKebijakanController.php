@@ -265,7 +265,56 @@ class RPJMDKebijakanController extends Controller {
         }
 
     }
-    
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store1(Request $request)
+    {
+        $this->validate($request, [            
+            'UrsID'=>'required',
+            'PrgID'=>'required',           
+        ]);
+        
+        $rpjmdindikatorkinerja = RPJMDIndikatorKinerjaModel::create([
+            'IndikatorKinerjaID' => uniqid ('uid'),
+            'PrioritasKebijakanKabID' => $request->input('PrioritasKebijakanKabID'),
+            'UrsID' => $request->input('UrsID'),
+            'PrgID' => $request->input('PrgID'),
+            'NamaIndikator' => $request->input('NamaIndikator'),
+            'TA_N'=>HelperKegiatan::getRPJMDTahunMulai(),
+            'OrgID' => $request->input('OrgID'),
+            'OrgID2' => $request->input('OrgID2'),            
+            'PaguDanaN1' => $request->input('PaguDanaN1'),
+            'PaguDanaN2' => $request->input('PaguDanaN2'),
+            'PaguDanaN3' => $request->input('PaguDanaN3'),
+            'PaguDanaN4' => $request->input('PaguDanaN4'),
+            'PaguDanaN5' => $request->input('PaguDanaN5'),
+            'TargetAwal' => $request->input('TargetAwal'),
+            'TargetN1' => $request->input('TargetN1'),
+            'TargetN2' => $request->input('TargetN2'),
+            'TargetN3' => $request->input('TargetN3'),
+            'TargetN4' => $request->input('TargetN4'),
+            'TargetN5' => $request->input('TargetN5'),
+            'Descr' => $request->input('Descr'),
+            'TA' => \HelperKegiatan::getRPJMDTahunMulai()            
+        ]);            
+        
+        if ($request->ajax()) 
+        {
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data ini telah berhasil disimpan.'
+            ]);
+        }
+        else
+        {
+            return redirect(route('rpjmdsasaran.show',['id'=>$rpjmdindikatorsasaran->PrioritasSasaranKabID]))->with('success','Data ini telah berhasil disimpan.');
+        }
+
+    }
     /**
      * Display the specified resource.
      *

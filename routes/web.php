@@ -143,6 +143,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
 
     //RPJMD - Kebijakan
     Route::resource('/perencanaan/rpjmd/rpjmdkebijakan','RPJMD\RPJMDKebijakanController',['parameters'=>['rpjmdkebijakan'=>'uuid']]); 
+    Route::post('/perencanaan/rpjmd/rpjmdkebijakan/store1',['uses'=>'RPJMD\RPJMDKebijakanController@store1','as'=>'rpjmdkebijakan.store1']);  
     Route::get('/perencanaan/rpjmd/rpjmdkebijakan/getkodekebijakan/{uuid}',['uses'=>'RPJMD\RPJMDKebijakanController@getkodekebijakan','as'=>'rpjmdkebijakan.getkodekebijakan']);              
     Route::post('/perencanaan/rpjmd/rpjmdkebijakan/search',['uses'=>'RPJMD\RPJMDKebijakanController@search','as'=>'rpjmdkebijakan.search']); 
     Route::get('/perencanaan/rpjmd/rpjmdkebijakan/paginate/{id}',['uses'=>'RPJMD\RPJMDKebijakanController@paginate','as'=>'rpjmdkebijakan.paginate']);              
