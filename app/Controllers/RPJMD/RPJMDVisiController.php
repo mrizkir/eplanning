@@ -144,10 +144,25 @@ class RPJMDVisiController extends Controller {
                         ],
         ]);
         
+        $ta_awal = $request->input('TA_Awal');
         $rpjmdvisi->Nm_RpjmdVisi = $request->input('Nm_RpjmdVisi');
         $rpjmdvisi->Descr = $request->input('Descr');
-        $rpjmdvisi->TA_Awal = $request->input('TA_Awal');
+        $rpjmdvisi->TA_Awal = $ta_awal;
         $rpjmdvisi->save();
+        
+        $this->putControllerStateSession('global_controller','rpjmd_tahun_awal',$ta_awal);
+        $this->putControllerStateSession('global_controller','rpjmd_tahun_mulai',$ta_awal+1);
+        $this->putControllerStateSession('global_controller','rpjmd_tahun_akhir',$ta_awal+5);
+
+        $this->putControllerStateSession('global_controller','renstra_tahun_awal',$ta_awal);
+        $this->putControllerStateSession('global_controller','renstra_tahun_mulai',$ta_awal+1);
+        $this->putControllerStateSession('global_controller','renstra_tahun_akhir',$ta_awal+5);
+
+        //ubah tahun
+        \DB::table('tmPrioritasKab')
+            ->where('RpjmdVisiID',$id)
+            ->update(['TA'=>$request->input('TA_Awal')+1]);
+
         if ($request->ajax()) 
         {
             return response()->json([

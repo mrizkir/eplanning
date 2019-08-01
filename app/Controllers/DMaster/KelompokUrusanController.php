@@ -228,6 +228,7 @@ class KelompokUrusanController extends Controller {
 
         $kelompokurusan = KelompokUrusanModel::create ([
             'KUrsID'=> uniqid ('uid'),
+            'RpjmdVisiID'=>$request->input('RpjmdVisiID'),
             'Kd_Urusan'=>$request->input('Kd_Urusan'),
             'Nm_Urusan'=>$request->input('Nm_Urusan'),
             'Descr'=>$request->input('Descr'),

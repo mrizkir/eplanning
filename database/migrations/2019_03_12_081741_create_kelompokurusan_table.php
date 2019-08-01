@@ -15,6 +15,7 @@ class CreateKelompokurusanTable extends Migration
     {
         Schema::create('tmKUrs', function (Blueprint $table) {
             $table->string('KUrsID',19);
+            $table->string('RpjmdVisiID',19)->nullable();
             $table->tinyInteger('Kd_Urusan');
             $table->string('Nm_Urusan',100);            
             $table->string('Descr')->nullable();
@@ -26,6 +27,13 @@ class CreateKelompokurusanTable extends Migration
 
             $table->primary('KUrsID');
             $table->index('Kd_Urusan');
+            $table->index('RpjmdVisiID');
+
+            $table->foreign('RpjmdVisiID')
+                    ->references('RpjmdVisiID')
+                    ->on('tmRpjmdVisi')
+                    ->onDelete('set null')
+                    ->onUpdate('cascade');
         });
     }
 

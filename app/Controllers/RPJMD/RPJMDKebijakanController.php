@@ -56,7 +56,17 @@ class RPJMDKebijakanController extends Controller {
         }
         else
         {
-            $data = RPJMDKebijakanModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data = RPJMDKebijakanModel::select(\DB::raw('"tmPrioritasKebijakanKab"."PrioritasKebijakanKabID","tmPrioritasKebijakanKab"."PrioritasStrategiKabID",CONCAT("tmPrioritasKab"."Kd_PrioritasKab",\'.\',"tmPrioritasTujuanKab"."Kd_Tujuan",\'.\',"tmPrioritasSasaranKab"."Kd_Sasaran",\'.\',"tmPrioritasStrategiKab"."Kd_Strategi",\'.\',"tmPrioritasKebijakanKab"."Kd_Kebijakan") AS "Kd_Kebijakan","tmPrioritasKebijakanKab"."Nm_Kebijakan","tmPrioritasKebijakanKab"."TA"'))
+                                        ->join('tmPrioritasStrategiKab','tmPrioritasKebijakanKab.PrioritasStrategiKabID','tmPrioritasStrategiKab.PrioritasStrategiKabID')
+                                        ->join('tmPrioritasSasaranKab','tmPrioritasSasaranKab.PrioritasSasaranKabID','tmPrioritasStrategiKab.PrioritasSasaranKabID')
+                                        ->join('tmPrioritasTujuanKab','tmPrioritasTujuanKab.PrioritasTujuanKabID','tmPrioritasSasaranKab.PrioritasTujuanKabID')
+                                        ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmPrioritasTujuanKab.PrioritasKabID')  
+                                        ->orderBy('Kd_PrioritasKab','ASC')
+                                        ->orderBy('Kd_Tujuan','ASC')
+                                        ->orderBy('Kd_Sasaran','ASC')         
+                                        ->orderBy('Kd_Strategi','ASC')
+                                        ->orderBy('Kd_Kebijakan','ASC')
+                                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('rpjmdkebijakan.index'));
         return $data;
@@ -198,6 +208,11 @@ class RPJMDKebijakanController extends Controller {
                                                 'direction'=>$this->getControllerStateSession('rpjmdkebijakan.orderby','order'),
                                                 'data'=>$data]);               
     }
+    public function getkodekebijakan($id)
+    {
+        $Kd_Kebijakan = RPJMDKebijakanModel::where('PrioritasStrategiKabID',$id)->count('Kd_Kebijakan')+1;
+        return response()->json(['success'=>true,'Kd_Kebijakan'=>$Kd_Kebijakan],200);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -221,7 +236,7 @@ class RPJMDKebijakanController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_Kebijakan'=>[new CheckRecordIsExistValidation('tmPrioritasKebijakanKab',['where'=>['TA','=',\HelperKegiatan::getRPJMDTahunMulai()]]),
+            'Kd_Kebijakan'=>[new CheckRecordIsExistValidation('tmPrioritasKebijakanKab',['where'=>['PrioritasStrategiKabID','=',$request->input('PrioritasStrategiKabID')]]),
                             'required'
                         ],
             'PrioritasStrategiKabID'=>'required',
@@ -277,9 +292,11 @@ class RPJMDKebijakanController extends Controller {
 
         if (!is_null($data) )  
         {
+            $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusan(\HelperKegiatan::getRPJMDTahunMulai(),false);
             return view("pages.$theme.rpjmd.rpjmdkebijakan.show")->with(['page_active'=>'rpjmdkebijakan',
-                                                    'data'=>$data
-                                                    ]);
+                                                                        'data'=>$data,
+                                                                        'daftar_urusan'=>$daftar_urusan
+                                                                    ]);
         }        
     }
 
@@ -318,7 +335,7 @@ class RPJMDKebijakanController extends Controller {
         $this->validate($request, [
             'Kd_Kebijakan'=>['required',new IgnoreIfDataIsEqualValidation('tmPrioritasKebijakanKab',
                                                                         $rpjmdkebijakan->Kd_Kebijakan,
-                                                                        ['where'=>['TA','=',\HelperKegiatan::getRPJMDTahunMulai()]],
+                                                                        ['where'=>['PrioritasStrategiKabID','=',$request->input('PrioritasStrategiKabID')]],
                                                                         'Kode Strategi')],
             'PrioritasStrategiKabID'=>'required',
             'Nm_Kebijakan'=>'required',

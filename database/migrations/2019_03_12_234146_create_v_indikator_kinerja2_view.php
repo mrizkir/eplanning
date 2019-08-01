@@ -30,24 +30,23 @@ class CreateVIndikatorKinerja2View extends Migration
                 E."PrgNm",
                 A."OrgID",
                 F."OrgCd",
-                F."OrgNm",
-                A."OrgID2",
-                G."OrgCd" AS "OrgCD2",
-                G."OrgNm" AS "OrgNm2",
+                F."OrgNm",              
                 A."NamaIndikator",
-                A."TA_N",
-                A."TargetAwal",
+                A."KondisiAwal",
                 A."TargetN1",
                 A."TargetN2",
                 A."TargetN3",
                 A."TargetN4",
                 A."TargetN5",
-                A."PaguDanaN",
                 A."PaguDanaN1",
                 A."PaguDanaN2",
                 A."PaguDanaN3",
                 A."PaguDanaN4",
                 A."PaguDanaN5",
+                A."KondisiAkhirTarget",
+                A."KondisiAkhirPaguDana",
+                A."Satuan",
+                A."Operator",
                 A."Descr",
                 A."TA",
                 A."Locked",
@@ -59,7 +58,6 @@ class CreateVIndikatorKinerja2View extends Migration
                 JOIN "tmKUrs" D ON D."KUrsID"=C."KUrsID"
                 JOIN "tmPrg" E ON E."PrgID"=A."PrgID"
                 JOIN "tmOrg" F ON F."OrgID"=A."OrgID"
-                JOIN "tmOrg" G ON G."OrgID"=A."OrgID2"
         ');			 
 				
     }

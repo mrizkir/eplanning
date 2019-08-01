@@ -41,7 +41,7 @@
                         <select name="PrioritasStrategiKabID" id="PrioritasStrategiKabID" class="select">
                             <option></option>
                             @foreach ($daftar_strategi as $k=>$item)
-                                <option value="{{$k}}">{{$item}}</option>
+                                <option value="{{$k}}"{{$k==old('PrioritasStrategiKabID') ?' selected':''}}>{{$item}}</option>
                             @endforeach
                         </select>  
                     </div>
@@ -98,6 +98,28 @@ $(document).ready(function () {
         placeholder: "PILIH STRATEGI RPJMD",
         allowClear:true
     });
+    $(document).on('change','#PrioritasStrategiKabID',function(ev) {
+        ev.preventDefault();
+        PrioritasStrategiKabID=$(this).val();        
+        $.ajax({
+            type:'get',
+            url: url_current_page+'/getkodekebijakan/'+PrioritasStrategiKabID,
+            dataType: 'json',
+            data: {
+                "_token": token,
+                "PrioritasStrategiKabID": PrioritasStrategiKabID,
+            },
+            success:function(result)
+            {   
+                const element = AutoNumeric.getAutoNumericElement('#Kd_Kebijakan');
+                element.set(result.Kd_Kebijakan);                                
+            },
+            error:function(xhr, status, error)
+            {   
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    });     
     $('#frmdata').validate({
         ignore: [],
         rules: {

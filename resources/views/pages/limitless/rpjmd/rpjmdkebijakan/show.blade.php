@@ -29,7 +29,7 @@
                     <a href="{{route('rpjmdkebijakan.edit',['id'=>$data->PrioritasKebijakanKabID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RPJMD Kebijakan">
                         <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data RPJMD Kebijakan" data-id="{{$data->PrioritasKebijakanKabID}}" data-url="{{route('rpjmdkebijakan.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
+                    <a href="javascript:;" title="Hapus Data RPJMD Kebijakan" data-id="{{$data->PrioritasKebijakanKabID}}" data-url="{{route('rpjmdkebijakan.index')}}" class="btn btn-danger btn-icon heading-btn btnDeleteKebijakan">
                         <i class='icon-trash'></i>
                     </a>
                     <a href="{!!route('rpjmdkebijakan.create')!!}" class="btn btn-primary btn-info heading-btn btnEdit" title="Tambah RPJMD Kebijakan">
@@ -90,12 +90,85 @@
             </div>
         </div>
     </div>
+    <div class="col-md-12">
+        <div class="panel panel-flat">
+            <div class="panel-heading">
+                <h5 class="panel-title">
+                    <i class="icon-pencil7 position-left"></i> 
+                    TAMBAH RELASI KEBIJAKAN DENGAN URUSAN PROGRAM
+                </h5>
+                <div class="heading-elements">
+                    <ul class="icons-list">                    
+                        <li>               
+                            <a href="{!!route('rpjmdindikatorkinerja.index')!!}" data-action="closeredirect" title="keluar"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            {!! Form::open(['action'=>'RPJMD\RPJMDIndikatorKinerjaController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
+            <div class="panel-body">
+                <div class="form-group">
+                    {{Form::label('UrsID','URUSAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        <select name="UrsID" id="UrsID" class="select">
+                            <option></option>
+                            @foreach ($daftar_urusan as $k=>$item)
+                                <option value="{{$k}}">{{$item}}</option>
+                            @endforeach
+                        </select>  
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('PrgID','PROGRAM',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        <select name="PrgID" id="PrgID" class="select">
+                            <option></option>
+                        </select>  
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('OrgID','NAMA OPD / SKPD',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        <select name="OrgID" id="OrgID" class="select">
+                            <option></option>
+                        </select>  
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="form-group">            
+                    <div class="col-md-10 col-md-offset-2">                        
+                        {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}
+                    </div>
+                </div>            
+            </div>
+            {!! Form::close()!!}
+        </div>
+    </div>
 </div>
+@endsection
+@section('page_asset_js')
+<script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/autoNumeric.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
-    $(".btnDelete").click(function(ev) {
+    $('#UrsID.select').select2({
+        placeholder: "PILIH URUSAN",
+        allowClear:true
+    });
+    $('#PrgID.select').select2({
+        placeholder: "PILIH PROGRAM",
+        allowClear:true
+    });    
+    $('#OrgID.select').select2({
+        placeholder: "PILIH OPD / SKPD",
+        allowClear:true
+    });
+    $(document).on('click',".btnDeleteKebijakan", function(ev) {
         if (confirm('Apakah Anda ingin menghapus Data RPJMD Kebijakan ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");

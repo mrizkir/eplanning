@@ -66,7 +66,8 @@ class RPJMDStrategiModel extends Model {
                             ->orderBy('Kd_PrioritasKab')
                             ->orderBy('Kd_Tujuan')
                             ->orderBy('Kd_Sasaran')
-                            ->orderBy('Kd_Strategi')->get();
+                            ->orderBy('Kd_Strategi')
+                            ->get();
         $strategi_rpjmd=($prepend==true)?['none'=>'DAFTAR RPJMD STRATEGI']:[];        
         foreach ($r as $k=>$v)
         {

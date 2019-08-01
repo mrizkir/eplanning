@@ -95,7 +95,7 @@
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
-    $(".btnDelete").click(function(ev) {
+    $(document).on('click',".btnDeleteSasaran", function(ev) {
         if (confirm('Apakah Anda ingin menghapus Data RPJMD Misi ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
