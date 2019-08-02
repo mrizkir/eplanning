@@ -90,54 +90,58 @@
             </div>
         </div>
     </div>
-    <div class="col-md-12">
-        <div class="panel panel-flat">
-            <div class="panel-heading">
-                <h5 class="panel-title">
-                    <i class="icon-pencil7 position-left"></i> 
-                    TAMBAH RELASI KEBIJAKAN DENGAN URUSAN PROGRAM
-                </h5>
-                <div class="heading-elements">
-                    <ul class="icons-list">                    
-                        <li>               
-                            <a href="{!!route('rpjmdindikatorkinerja.index')!!}" data-action="closeredirect" title="keluar"></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            {!! Form::open(['action'=>'RPJMD\RPJMDIndikatorKinerjaController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
-            <div class="panel-body">
-                <div class="form-group">
-                    {{Form::label('UrsID','URUSAN',['class'=>'control-label col-md-2'])}}
-                    <div class="col-md-10">
-                        <select name="UrsID" id="UrsID" class="select">
-                            <option></option>
-                            @foreach ($daftar_urusan as $k=>$item)
-                                <option value="{{$k}}">{{$item}}</option>
-                            @endforeach
-                        </select>  
-                    </div>
-                </div>
-                <div class="form-group">
-                    {{Form::label('PrgID','PROGRAM',['class'=>'control-label col-md-2'])}}
-                    <div class="col-md-10">
-                        <select name="PrgID" id="PrgID" class="select">
-                            <option></option>
-                        </select>  
-                    </div>
-                </div>
-            </div>
-            <div class="panel-footer">
-                <div class="form-group">            
-                    <div class="col-md-10 col-md-offset-2">                        
-                        {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}
-                    </div>
-                </div>            
-            </div>
-            {!! Form::close()!!}
-        </div>
-    </div>
 </div>
+<div class="content">
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h5 class="panel-title">
+                <i class="icon-pencil7 position-left"></i> 
+                TAMBAH RELASI KEBIJAKAN DENGAN URUSAN PROGRAM
+            </h5>
+            <div class="heading-elements">
+                <ul class="icons-list">                    
+                    <li>               
+                        <a href="{!!route('rpjmdindikatorkinerja.index')!!}" data-action="closeredirect" title="keluar"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        {!! Form::open(['action'=>'RPJMD\RPJMDKebijakanController@store1','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
+        {{Form::hidden('PrioritasKebijakanKabID',$data->PrioritasKebijakanKabID)}}                                
+        <div class="panel-body">
+            <div class="form-group">
+                {{Form::label('UrsID','URUSAN',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    <select name="UrsID" id="UrsID" class="select">
+                        <option></option>
+                        @foreach ($daftar_urusan as $k=>$item)
+                            <option value="{{$k}}">{{$item}}</option>
+                        @endforeach
+                    </select>  
+                </div>
+            </div>
+            <div class="form-group">
+                {{Form::label('PrgID','PROGRAM',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    <select name="PrgID" id="PrgID" class="select">
+                        <option></option>
+                    </select>  
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="form-group">            
+                <div class="col-md-10 col-md-offset-2">                        
+                    {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}
+                </div>
+            </div>            
+        </div>
+        {!! Form::close()!!}
+    </div>
+    <div class="panel panel-flat border-top-lg border-top-info border-bottom-info" id="divdatatableprogramkebijakan">
+        @include('pages.limitless.rpjmd.rpjmdkebijakan.datatableprogramkebijakan')
+    </div> 
+</div>    
 @endsection
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
@@ -155,6 +159,34 @@ $(document).ready(function () {
     $('#PrgID.select').select2({
         placeholder: "PILIH PROGRAM",
         allowClear:true
+    });
+    $("#divdatatableprogramkebijakan").on("click",".btnDelete", function(){
+        if (confirm('Apakah Anda ingin menghapus Data Program Kebijakan ini ?')) {
+            let url_ = $(this).attr("data-url");
+            let id = $(this).attr("data-id");
+            $.ajax({            
+                type:'post',
+                url:url_+'/'+id,
+                dataType: 'json',
+                data: {
+                    "_method": 'DELETE',
+                    "_token": token,
+                    "id": id,
+                    'programkebijakan':true
+                },
+                success:function(result){ 
+                    if (result.success==1){
+                        $('#divdatatableprogramkebijakan').html(result.datatable);                        
+                    }else{
+                        console.log("Gagal menghapus data Program Kebijakan dengan id "+id);
+                    }                    
+                },
+                error:function(xhr, status, error){
+                    console.log('ERROR');
+                    console.log(parseMessageAjaxEror(xhr, status, error));                           
+                },
+            });
+        }        
     });
     $(document).on('click',".btnDeleteKebijakan", function(ev) {
         if (confirm('Apakah Anda ingin menghapus Data RPJMD Kebijakan ini ?')) {
@@ -184,17 +216,16 @@ $(document).ready(function () {
         ev.preventDefault();   
         $.ajax({
             type:'post',
-            url: "{{route('rpjmdindikatorkinerja.filter')}}",
+            url: url_current_page +'/filter',
             dataType: 'json',
             data: {              
                 "_token": token,  
                 "UrsID": $('#UrsID').val(),
-                "create":true
+                "programkebijakan":true
             },
             success:function(result)
             { 
                 var daftar_program = result.daftar_program;
-                var daftar_opd = result.daftar_opd;
                 var listitems='<option></option>';
                 $.each(daftar_program,function(key,value){
                     listitems+='<option value="' + key + '">'+value+'</option>';                    
