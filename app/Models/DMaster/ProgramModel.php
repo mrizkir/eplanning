@@ -120,9 +120,4 @@ class ProgramModel extends Model {
             return null;
         }
     }
-
-    public static function getDaftarProgramKebijakan ($ta,$prepend=true,$PrioritasKebijakanKabID=null) 
-    {
-        
-    }
 }

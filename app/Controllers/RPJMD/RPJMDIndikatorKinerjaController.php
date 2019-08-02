@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Models\RPJMD\RPJMDIndikatorKinerjaModel;
 use App\Models\RPJMD\RPJMDKebijakanModel;
+use App\Models\RPJMD\RPJMDProgramKebijakanModel;
 use App\Rules\CheckRecordIsExistValidation;
 use App\Rules\IgnoreIfDataIsEqualValidation;
 
@@ -53,7 +54,7 @@ class RPJMDIndikatorKinerjaController extends Controller {
         }
         else
         {
-            $data = RPJMDIndikatorKinerjaModel::where('TA_N',\HelperKegiatan::getRPJMDTahunMulai())
+            $data = RPJMDIndikatorKinerjaModel::where('TA',\HelperKegiatan::getRPJMDTahunMulai())
                                                 ->orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('rpjmdindikatorkinerja.index'));
@@ -182,14 +183,21 @@ class RPJMDIndikatorKinerjaController extends Controller {
     public function filter(Request $request) 
     {        
         $json_data = [];
-        //create
-        if ($request->exists('UrsID') && $request->exists('create') )
+        //programkebijakan
+        if ($request->exists('PrioritasKebijakanKabID') && $request->exists('prioritaskebijakan') )
         {
-            $UrsID = $request->input('UrsID')==''?'none':$request->input('UrsID');            
-            $daftar_program=\App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getRPJMDTahunMulai(),false,$UrsID);
-            $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getRPJMDTahunMulai(),false,$UrsID);
-            $json_data = ['success'=>true,'daftar_program'=>$daftar_program,'daftar_opd'=>$daftar_opd];
+            $PrioritasKebijakanKabID = $request->input('PrioritasKebijakanKabID')==''?'none':$request->input('PrioritasKebijakanKabID');            
+            $daftar_program=RPJMDProgramKebijakanModel::getDaftarProgramKebijakan($PrioritasKebijakanKabID,false);
+            $json_data = ['success'=>true,'daftar_program'=>$daftar_program];
         } 
+        else if($request->exists('ProgramKebijakanID') && $request->exists('programkebijakan'))
+        {
+            $ProgramKebijakanID = $request->input('ProgramKebijakanID')==''?'none':$request->input('ProgramKebijakanID'); 
+            $programkebijakan=RPJMDProgramKebijakanModel::find($ProgramKebijakanID);
+            $UrsID=is_null($programkebijakan)?'none':$programkebijakan->UrsID;
+            $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false,$UrsID);
+            $json_data = ['success'=>true,'UrsID'=>$UrsID,'daftar_opd'=>$daftar_opd];
+        }
         return response()->json($json_data,200);  
     }
     /**

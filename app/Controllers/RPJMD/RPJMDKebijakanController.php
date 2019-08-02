@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Models\RPJMD\RPJMDStrategiModel;
 use App\Models\RPJMD\RPJMDKebijakanModel;
-use \App\Models\RPJMD\RPJMDProgramKebijakanModel;
+use App\Models\RPJMD\RPJMDProgramKebijakanModel;
 use App\Rules\CheckRecordIsExistValidation;
 use App\Rules\IgnoreIfDataIsEqualValidation;
 

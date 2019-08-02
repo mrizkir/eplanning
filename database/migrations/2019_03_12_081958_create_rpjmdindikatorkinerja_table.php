@@ -18,7 +18,9 @@ class CreateRpjmdindikatorkinerjaTable extends Migration
             $table->string('PrioritasKebijakanKabID',19);            
             $table->string('UrsID',19); 
             $table->string('PrgID',19);
-            $table->string('OrgID',19)->nullabble();                         
+            $table->string('OrgID',19)->nullabble();     
+            $table->string('OrgID2',19)->nullabble(); 
+            $table->string('OrgID3',19)->nullabble();                     
             $table->text('NamaIndikator')->nullable();             
             $table->decimal('KondisiAwal',6,2)->default(0);
             $table->string('TargetN1')->nullable();
@@ -61,7 +63,19 @@ class CreateRpjmdindikatorkinerjaTable extends Migration
             $table->foreign('OrgID')
                     ->references('OrgID')
                     ->on('tmOrg')
-                    ->onDelete('cascade')
+                    ->onDelete('set null')
+                    ->onUpdate('cascade');
+
+            $table->foreign('OrgID2')
+                    ->references('OrgID')
+                    ->on('tmOrg')
+                    ->onDelete('set null')
+                    ->onUpdate('cascade');
+
+            $table->foreign('OrgID3')
+                    ->references('OrgID')
+                    ->on('tmOrg')
+                    ->onDelete('set null')
                     ->onUpdate('cascade');
         });
     }
