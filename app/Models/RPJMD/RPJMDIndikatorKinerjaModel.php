@@ -22,6 +22,7 @@ class RPJMDIndikatorKinerjaModel extends Model {
     protected $fillable = [
         'IndikatorKinerjaID',
         'PrioritasKebijakanKabID', 
+        'ProgramKebijakanID', 
         'UrsID', 
         'PrgID', 
         'OrgID', 

@@ -44,17 +44,11 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>IndikatorKinerjaID: </strong></label>
+                                <label class="col-md-4 control-label"><strong>INDIKATORKINERJAID: </strong></label>
                                 <div class="col-md-8">
                                     <p class="form-control-static">{{$data->IndikatorKinerjaID}}</p>
                                 </div>                            
-                            </div>                            
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>NAMA INDIKATOR: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->NamaIndikator}}</p>
-                                </div>                            
-                            </div>                            
+                            </div>                  
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>KEBIJAKAN: </strong></label>
                                 <div class="col-md-8">
@@ -73,70 +67,22 @@
                                     <p class="form-control-static">{{$data->Nm_Bidang}}</p>
                                 </div>                            
                             </div> 
-                            <div class="form-group">
+                        </div>                        
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-horizontal">  
+                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>PROGRAM: </strong></label>
                                 <div class="col-md-8">
                                     <p class="form-control-static">{{$data->PrgNm}}</p>
                                 </div>                            
-                            </div>                           
+                            </div>  
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>OPD / SKPD 1: </strong></label>
+                                <label class="col-md-4 control-label"><strong>PERANGKAT DAERAH PENANGGUNG JAWAB: </strong></label>
                                 <div class="col-md-8">
                                     <p class="form-control-static">{{$data->OrgNm}}</p>
                                 </div>                            
-                            </div>  
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>OPD / SKPD 2: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->OrgNm2}}</p>
-                                </div>                            
-                            </div>  
-                        </div>                        
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-horizontal">
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>TARGET AWAL: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->TargetAwal}}</p>
-                                </div>                            
-                            </div>    
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>PAGU DANA / TARGET N1: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::formatUang($data->PaguDanaN1)}} / {{$data->TargetN1}}</p>
-                                </div>                            
-                            </div>    
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>PAGU DANA / TARGET N1: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::formatUang($data->PaguDanaN1)}} / {{$data->TargetN1}}</p>
-                                </div>                            
-                            </div>    
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>PAGU DANA / TARGET N2: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::formatUang($data->PaguDanaN2)}} / {{$data->TargetN2}}</p>
-                                </div>                            
-                            </div>    
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>PAGU DANA / TARGET N3: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::formatUang($data->PaguDanaN3)}} / {{$data->TargetN3}}</p>
-                                </div>                            
-                            </div>    
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>PAGU DANA / TARGET N4: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::formatUang($data->PaguDanaN4)}} / {{$data->TargetN4}}</p>
-                                </div>                            
-                            </div>    
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>PAGU DANA / TARGET N5: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::formatUang($data->PaguDanaN5)}} / {{$data->TargetN5}}</p>
-                                </div>                            
-                            </div>    
+                            </div>                         
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>TGL. UBAH: </strong></label>
                                 <div class="col-md-8">
@@ -155,6 +101,64 @@
             </div>
         </div>
     </div>
+</div>
+<div class="content">
+    <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
+        <div class="panel-heading">
+            <div class="panel-title">
+                <h5>INDIKATOR KINERJA PROGRAM (OUTCOME)</h5>
+            </div>            
+        </div>      
+        <div class="table-responsive"> 
+            <table id="data" class="table table-striped table-hover" style="font-size:11px">
+                <caption>
+                    <strong>NAMA INDIKATOR</strong> : {{$data->NamaIndikator}}
+                </caption>
+                <thead>
+                    <tr class="bg-teal-700">
+                        <th rowspan="2">KONDISI KINERJA AWAL RPJMD ({{$data->TA-1}})</th>  
+                        <th colspan="2">{{$data->TA}}</th>
+                        <th colspan="2">{{$data->TA+1}}</th>
+                        <th colspan="2">{{$data->TA+2}}</th>
+                        <th colspan="2">{{$data->TA+3}}</th>
+                        <th colspan="2">{{$data->TA+4}}</th>
+                        <th colspan="2">KONDISI KINERJA AKHIR RPJDM ({{$data->TA+5}}</th>                       
+                    </tr>
+                    <tr class="bg-teal-700">
+                        <th>Target</th>
+                        <th>Rp</th>
+                        <th>Target</th>
+                        <th>Rp</th>
+                        <th>Target</th>
+                        <th>Rp</th>
+                        <th>Target</th>
+                        <th>Rp</th>
+                        <th>Target</th>
+                        <th>Rp</th>
+                        <th>Target</th>
+                        <th>Rp</th>                        
+                    </tr>
+                </thead>
+                <tbody>    
+                    <tr>
+                        <td>{{$data->KondisiAwal}}</td>
+                        <td>{{Helper::formatAngka($data->TargetN1)}}</td>
+                        <td>{{Helper::formatUang($data->PaguDanaN1)}}</td>
+                        <td>{{Helper::formatAngka($data->TargetN2)}}</td>
+                        <td>{{Helper::formatUang($data->PaguDanaN2)}}</td>
+                        <td>{{Helper::formatAngka($data->TargetN3)}}</td>
+                        <td>{{Helper::formatUang($data->PaguDanaN3)}}</td>
+                        <td>{{Helper::formatAngka($data->TargetN4)}}</td>
+                        <td>{{Helper::formatUang($data->PaguDanaN4)}}</td>
+                        <td>{{Helper::formatAngka($data->TargetN5)}}</td>
+                        <td>{{Helper::formatUang($data->PaguDanaN5)}}</td>
+                        <td>{{Helper::formatAngka($data->KondisiAkhirTarget)}}</td>
+                        <td>{{Helper::formatUang($data->KondisiAkhirPaguDana)}}</td>                        
+                    </tr>
+                </tbody>
+            </table>       
+        </div>  
+    </div> 
 </div>
 @endsection
 @section('page_custom_js')

@@ -16,6 +16,7 @@ class CreateRpjmdindikatorkinerjaTable extends Migration
         Schema::create('trIndikatorKinerja', function (Blueprint $table) {
             $table->string('IndikatorKinerjaID',19);
             $table->string('PrioritasKebijakanKabID',19);            
+            $table->string('ProgramKebijakanID',19);            
             $table->string('UrsID',19); 
             $table->string('PrgID',19);
             $table->string('OrgID',19)->nullabble();     
@@ -45,14 +46,23 @@ class CreateRpjmdindikatorkinerjaTable extends Migration
             
             $table->primary('IndikatorKinerjaID');
             $table->index('PrioritasKebijakanKabID');
+            $table->index('ProgramKebijakanID');
             $table->index('UrsID');
-            $table->index('PrgID');
+            $table->index('OrgID');
+            $table->index('OrgID2');
+            $table->index('OrgID3');
 
             $table->foreign('PrioritasKebijakanKabID')
                     ->references('PrioritasKebijakanKabID')
                     ->on('tmPrioritasKebijakanKab')
                     ->onDelete('cascade')
-                    ->onUpdate('cascade');
+                    ->onUpdate('cascade');                    
+
+            $table->foreign('ProgramKebijakanID')
+                    ->references('ProgramKebijakanID')
+                    ->on('tmPrioritasProgramKebijakan')
+                    ->onDelete('cascade')
+                    ->onUpdate('cascade');                    
 
             $table->foreign('PrgID')
                     ->references('PrgID')

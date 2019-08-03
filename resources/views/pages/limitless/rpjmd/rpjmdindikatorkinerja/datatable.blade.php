@@ -18,95 +18,67 @@
     </div>
     @if (count($data) > 0)
     <div class="table-responsive"> 
-        <table id="data" class="table table-striped table-hover">
+        <table id="data" class="table table-hover" style="font-size:10.5px">
             <thead>
                 <tr class="bg-teal-700">
-                    <th width="55">NO</th>
-                    <th width="400">
-                        NAMA INDIKATOR  
-                    </th> 
-                    <th width="150">                        
-                        AWAL ({{HelperKegiatan::getRPJMDTahunMulai()-1}})                
+                    <th width="55" rowspan="2">NO</th>
+                    <th colspan="2">
+                        TAHUN 1
                     </th>
-                    <th>
-                        DATA INDIKATOR
+                    <th colspan="2">
+                        TAHUN 2
                     </th>
-                    <th width="100">AKSI</th>
+                    <th colspan="2">
+                        TAHUN 3
+                    </th>
+                    <th colspan="2">
+                        TAHUN 4
+                    </th>
+                    <th colspan="2">
+                        TAHUN 5
+                    </th>
+                    <th colspan="2">KONDISI KINERJA <br>AKHIR RPJDM ({{HelperKegiatan::getRPJMDTahunAkhir()}}}}</th>
+                    <th width="120" rowspan="2">AKSI</th>
+                </tr>
+                <tr class="bg-teal-700">
+                    <th>Target</th>
+                    <th>Rp</th>
+                    <th width="50">Target</th>
+                    <th>Rp</th>
+                    <th width="50">Target</th>
+                    <th>Rp</th>
+                    <th width="50">Target</th>
+                    <th>Rp</th>
+                    <th width="50">Target</th>
+                    <th>Rp</th>
+                    <th width="50">Target</th>
+                    <th>Rp</th>                        
                 </tr>
             </thead>
             <tbody>                    
             @foreach ($data as $key=>$item)
                 <tr>
+                    <td colspan="15">
+                        <strong>NAMA INDIKATOR:</strong> {{$item->NamaIndikator}} 
+                        <strong>KONDISI KINERJA AWAL RPJMD ({{HelperKegiatan::getRPJMDTahunAwal()}}):</strong>{{$item->KondisiAwal}}
+                    </td>
+                </tr>
+                <tr>
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>                  
-                    <td>{{$item->NamaIndikator}}</td>
-                    <td>{{$item->TargetAwal}}</td>
-                    <td>
-                        <table width="100%">
-                            <tr>
-                                <td width="100">
-                                    TARGET {{$item->TA_N}}
-                                </td>
-                                <td width="120">: {{$item->TargetN1}}</td>
-                                <td width="120">
-                                    PAGU DANA {{$item->TA_N}}
-                                </td>
-                                <td width="120">: {{Helper::formatUang($item->PaguDanaN1)}}</td>
-                            </tr>                            
-                            <tr>
-                                <td width="100">
-                                    TARGET {{$item->TA_N+1}}
-                                </td>
-                                <td width="120">: {{$item->TargetN2}}</td>
-                                <td width="120">
-                                    PAGU DANA {{$item->TA_N+1}}
-                                </td>
-                                <td width="120">: {{Helper::formatUang($item->PaguDanaN1)}}</td>
-                            </tr>
-                            <tr>
-                                <td width="100">
-                                    TARGET {{$item->TA_N+2}}
-                                </td>
-                                <td width="120">: {{$item->TargetN2}}</td>
-                                <td width="120">
-                                    PAGU DANA {{$item->TA_N+2}}
-                                </td>
-                                <td width="120">: {{Helper::formatUang($item->PaguDanaN2)}}</td>
-                            </tr>
-                            <tr>
-                                <td width="100">
-                                    TARGET {{$item->TA_N+3}}
-                                </td>
-                                <td width="120">: {{$item->TargetN3}}</td>
-                                <td width="120">
-                                    PAGU DANA {{$item->TA_N+3}}
-                                </td>
-                                <td width="120">: {{Helper::formatUang($item->PaguDanaN3)}}</td>
-                            </tr>
-                            <tr>
-                                <td width="100">
-                                    TARGET {{$item->TA_N+4}}
-                                </td>
-                                <td width="120">: {{$item->TargetN4}}</td>
-                                <td width="120">
-                                    PAGU DANA {{$item->TA_N+4}}
-                                </td>
-                                <td width="120">: {{Helper::formatUang($item->PaguDanaN4)}}</td>
-                            </tr>
-                            <tr>
-                                <td width="100">
-                                    TARGET {{$item->TA_N+5}}
-                                </td>
-                                <td width="120">: {{$item->TargetN5}}</td>
-                                <td width="120">
-                                    PAGU DANA {{$item->TA_N+5}}
-                                </td>
-                                <td width="120">: {{Helper::formatUang($item->PaguDanaN5)}}</td>
-                            </tr>
-                        </table>
-                    </td>
-
+                    <td>{{Helper::formatAngka($item->TargetN1)}}</td>
+                    <td>{{Helper::formatUang($item->PaguDanaN1)}}</td>
+                    <td>{{Helper::formatAngka($item->TargetN2)}}</td>
+                    <td>{{Helper::formatUang($item->PaguDanaN2)}}</td>
+                    <td>{{Helper::formatAngka($item->TargetN3)}}</td>
+                    <td>{{Helper::formatUang($item->PaguDanaN3)}}</td>
+                    <td>{{Helper::formatAngka($item->TargetN4)}}</td>
+                    <td>{{Helper::formatUang($item->PaguDanaN4)}}</td>
+                    <td>{{Helper::formatAngka($item->TargetN5)}}</td>
+                    <td>{{Helper::formatUang($item->PaguDanaN5)}}</td>
+                    <td>{{Helper::formatAngka($item->KondisiAkhirTarget)}}</td>
+                    <td>{{Helper::formatUang($item->KondisiAkhirPaguDana)}}</td>          
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
@@ -125,6 +97,30 @@
                                 </a> 
                             </li>
                         </ul>
+                    </td>
+                </tr>
+                <tr class="text-center info">
+                    <td colspan="15">
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>PRIORITASINDIKATORSASARANID:</strong>
+                            {{$item->PrioritasIndikatorSasaranID}}
+                        </span>
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>PRIORITASSASARANKABID:</strong>
+                            {{$item->PrioritasSasaranKabID}}
+                        </span>
+                        <span class="label label-warning label-rounded">
+                            <strong>KET:</strong>
+                            {{empty($item->Descr)?'-':$item->Descr}}
+                        </span>
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>CREATED:</strong>
+                            {{Helper::tanggal('d/m/Y H:m',$item->created_at)}}
+                        </span>
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>UPDATED:</strong>
+                            {{Helper::tanggal('d/m/Y H:m',$item->updated_at)}}
+                        </span>
                     </td>
                 </tr>
             @endforeach                    
