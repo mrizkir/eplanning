@@ -116,13 +116,13 @@
                 </caption>
                 <thead>
                     <tr class="bg-teal-700">
-                        <th rowspan="2">KONDISI KINERJA AWAL RPJMD ({{$data->TA-1}})</th>  
+                        <th rowspan="2">KONDISI KINERJA <br>AWAL RPJMD ({{$data->TA-1}})</th>  
                         <th colspan="2">{{$data->TA}}</th>
                         <th colspan="2">{{$data->TA+1}}</th>
                         <th colspan="2">{{$data->TA+2}}</th>
                         <th colspan="2">{{$data->TA+3}}</th>
                         <th colspan="2">{{$data->TA+4}}</th>
-                        <th colspan="2">KONDISI KINERJA AKHIR RPJDM ({{$data->TA+5}}</th>                       
+                        <th colspan="2">KONDISI KINERJA <br>AKHIR RPJDM ({{$data->TA+5}})</th>                       
                     </tr>
                     <tr class="bg-teal-700">
                         <th>Target</th>
