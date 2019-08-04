@@ -18,6 +18,7 @@ class CreateSubOrganisasiTable extends Migration
             $table->string('OrgID',19);
             $table->string('SOrgCd',4);
             $table->string('SOrgNm');
+            $table->string('SOrgAlias');
             $table->string('Alamat');
             $table->string('NamaKepalaSKPD');
             $table->string('NIPKepalaSKPD');

@@ -24,7 +24,7 @@ class RPJMDKebijakanController extends Controller {
     private function populateProgramKebijakan($PrioritasKebijakanKabID)
     {
       
-        $data = RPJMDProgramKebijakanModel::select(\DB::raw('"tmPrioritasProgramKebijakan"."ProgramKebijakanID",v_urusan_program."Nm_Bidang",v_urusan_program."PrgNm","tmPrioritasProgramKebijakan"."TA",created_at,updated_at'))
+        $data = RPJMDProgramKebijakanModel::select(\DB::raw('"tmPrioritasProgramKebijakan"."ProgramKebijakanID",v_urusan_program."Nm_Bidang",v_urusan_program."PrgNm","tmPrioritasProgramKebijakan"."TA","tmPrioritasProgramKebijakan".created_at,"tmPrioritasProgramKebijakan".updated_at'))
                                             ->join('v_urusan_program','v_urusan_program.PrgID','tmPrioritasProgramKebijakan.PrgID')
                                             ->where('PrioritasKebijakanKabID',$PrioritasKebijakanKabID)
                                             ->get();
@@ -206,14 +206,15 @@ class RPJMDKebijakanController extends Controller {
         //create
         if ($request->exists('UrsID') && $request->exists('programkebijakan') )
         {
-            $UrsID = $request->input('UrsID')==''?'none':$request->input('UrsID');            
+            $UrsID = $request->input('UrsID')==''?'none':$request->input('UrsID');   
+            $PrioritasKebijakanKabID=$request->input('PrioritasKebijakanKabID');            
             $daftar_program = \DB::table('v_urusan_program')
                                 ->select(\DB::raw('"PrgID",CONCAT(kode_program,\' \',"PrgNm") AS "PrgNm"'))
                                 ->where('UrsID',$UrsID)
-                                ->WhereNotIn('PrgID',function($query) use ($UrsID){
+                                ->WhereNotIn('PrgID',function($query) use ($PrioritasKebijakanKabID){
                                     $query->select(\DB::raw('"PrgID"'))
                                             ->from('tmPrioritasProgramKebijakan')
-                                            ->where('UrsID', $UrsID);
+                                            ->where('PrioritasKebijakanKabID', $PrioritasKebijakanKabID);
                                 })
                                 ->get()
                                 ->pluck('PrgNm','PrgID')

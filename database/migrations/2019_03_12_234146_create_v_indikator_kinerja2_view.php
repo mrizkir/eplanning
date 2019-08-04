@@ -28,9 +28,7 @@ class CreateVIndikatorKinerja2View extends Migration
                 A."PrgID",
                 E."Kd_Prog",
                 E."PrgNm",
-                A."OrgID",
-                F."OrgCd",
-                F."OrgNm",              
+                A."OrgID",                          
                 A."NamaIndikator",
                 A."KondisiAwal",
                 A."TargetN1",
@@ -57,7 +55,6 @@ class CreateVIndikatorKinerja2View extends Migration
                 JOIN "tmUrs" C ON C."UrsID"=A."UrsID"
                 JOIN "tmKUrs" D ON D."KUrsID"=C."KUrsID"
                 JOIN "tmPrg" E ON E."PrgID"=A."PrgID"
-                JOIN "tmOrg" F ON F."OrgID"=A."OrgID"
         ');			 
 				
     }

@@ -18,6 +18,7 @@ class CreateOrganisasiTable extends Migration
             $table->string('UrsID',19);
             $table->string('OrgCd',4);
             $table->string('OrgNm');
+            $table->string('OrgAlias');
             $table->string('Alamat');
             $table->string('NamaKepalaSKPD');
             $table->string('NIPKepalaSKPD');

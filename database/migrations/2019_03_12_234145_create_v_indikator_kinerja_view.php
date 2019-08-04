@@ -15,46 +15,46 @@ class CreateVIndikatorKinerjaView extends Migration
     {
         \DB::statement('CREATE VIEW v_indikator_kinerja AS
             SELECT 
-                ku."Kd_Urusan",
-                b."Kd_Bidang",               
-                c."Kd_Prog",		
-                CASE WHEN c3."Kd_Urusan" IS NULL THEN 
-                    \'0\'
-                ELSE
-                    c3."Kd_Urusan"
-                END AS "Kd_UrusanPrg", 
-
-                CASE WHEN c2."Kd_Bidang" IS NULL THEN 
-                    \'0\'
-                ELSE
-                    c2."Kd_Bidang"
-                END AS "Kd_BidangPrg", 
-
-                CASE WHEN d3."Kd_Urusan" IS NULL THEN 
-                    \'0\'
-                ELSE
-                    d3."Kd_Urusan"
-                END AS "Kd_UrusanUnit", 
-
-                CASE WHEN d2."Kd_Bidang" IS NULL THEN 
-                    \'0\'
-                ELSE
-                    d2."Kd_Bidang"
-                END AS "Kd_BidangUnit", 
-
-                d."OrgCd",
-                a.*
-
-            FROM "trIndikatorKinerja" a 
-                JOIN "tmUrs" b ON b."UrsID" = a."UrsID"
-                JOIN "tmKUrs" ku ON ku."KUrsID" = b."KUrsID"
-                JOIN "tmPrg" c ON c."PrgID" = a."PrgID"    
-                LEFT JOIN "trUrsPrg" c1 ON c1."PrgID" = c."PrgID" 
-                LEFT JOIN "tmUrs" c2 ON c2."UrsID" = c1."UrsID"
-                LEFT JOIN "tmKUrs" c3 ON c3."KUrsID" = c2."KUrsID"
-                JOIN "tmOrg" d ON d."OrgID" = a."OrgID"
-                LEFT JOIN "tmUrs" d2 ON d2."UrsID" = d."UrsID" 
-                LEFT JOIN "tmKUrs" d3 ON d3."KUrsID" = d2."KUrsID" 
+                A."IndikatorKinerjaID",
+                A."PrioritasKebijakanKabID",
+                B."Kd_Kebijakan",
+                B."Nm_Kebijakan",
+                D."KUrsID",
+                D."Kd_Urusan",
+                D."Nm_Urusan",
+                C."UrsID",
+                C."Kd_Bidang",
+                C."Nm_Bidang",
+                A."PrgID",
+                E."Kd_Prog",
+                E."PrgNm",
+                A."OrgID",                          
+                A."NamaIndikator",
+                A."KondisiAwal",
+                A."TargetN1",
+                A."TargetN2",
+                A."TargetN3",
+                A."TargetN4",
+                A."TargetN5",
+                A."PaguDanaN1",
+                A."PaguDanaN2",
+                A."PaguDanaN3",
+                A."PaguDanaN4",
+                A."PaguDanaN5",
+                A."KondisiAkhirTarget",
+                A."KondisiAkhirPaguDana",
+                A."Satuan",
+                A."Operator",
+                A."Descr",
+                A."TA",
+                A."Locked",
+                A."created_at",
+                A."updated_at"
+            FROM "trIndikatorKinerja" A
+                JOIN "tmPrioritasKebijakanKab" B ON B."PrioritasKebijakanKabID"=A."PrioritasKebijakanKabID"
+                JOIN "tmUrs" C ON C."UrsID"=A."UrsID"
+                JOIN "tmKUrs" D ON D."KUrsID"=C."KUrsID"
+                JOIN "tmPrg" E ON E."PrgID"=A."PrgID"
         ');			 
 				
     }

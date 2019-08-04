@@ -221,6 +221,7 @@ $(document).ready(function () {
             data: {              
                 "_token": token,  
                 "UrsID": $('#UrsID').val(),
+                "PrioritasKebijakanKabID": $('#PrioritasKebijakanKabID').val(),
                 "programkebijakan":true
             },
             success:function(result)
