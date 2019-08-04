@@ -28,6 +28,7 @@
                     <th>
                         NAMA KEBIJAKAN  
                     </th> 
+                    <th width="100">JUMLAH PROGRAM</th>
                     <th width="100">TA</th>
                     <th width="100">AKSI</th>
                 </tr>
@@ -40,6 +41,7 @@
                     </td>                  
                     <td>{{$item->Kd_Kebijakan}}</td>
                     <td>{{$item->Nm_Kebijakan}}</td>
+                    <td>{{DB::table('tmPrioritasProgramKebijakan')->where('PrioritasKebijakanKabID',$item->PrioritasKebijakanKabID)->count()}}</td>
                     <td>{{$item->TA}}</td>
                     <td>
                         <ul class="icons-list">
@@ -62,7 +64,7 @@
                     </td>
                 </tr>
                 <tr class="text-center info">
-                    <td colspan="5">
+                    <td colspan="6">
                         <span class="label label-warning label-rounded" style="text-transform: none">
                             <strong>PRIORITASKEBIJAKANKABID:</strong>
                             {{$item->PrioritasKebijakanKabID}}

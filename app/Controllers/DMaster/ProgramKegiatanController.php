@@ -53,14 +53,18 @@ class ProgramKegiatanController extends Controller {
             switch ($search['kriteria']) 
             {
                 case 'kode_kegiatan' :
-                    $data = \DB::table('v_program_kegiatan')
-                            ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                    $data = \DB::table('tmKgt')
+                            ->select(\DB::raw('"tmKgt"."KgtID","tmKgt"."PrgID","v_program_kegiatan"."kode_kegiatan","tmKgt"."Kd_Keg","tmKgt"."KgtNm","v_program_kegiatan"."Kd_Prog","v_program_kegiatan"."PrgNm","tmKgt"."TA","v_program_kegiatan"."Jns","tmKgt"."created_at","tmKgt"."updated_at"'))
+                            ->join('v_program_kegiatan','v_program_kegiatan.KgtID','tmKgt.KgtID')
+                            ->where('tmKgt.TA',\HelperKegiatan::getTahunPerencanaan())
                             ->where(['kode_kegiatan'=>$search['isikriteria']])
                             ->orderBy($column_order,$direction); 
                 break;
                 case 'KgtNm' :
-                    $data = \DB::table('v_program_kegiatan')
-                            ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                    $data = \DB::table('tmKgt')
+                            ->select(\DB::raw('"tmKgt"."KgtID","tmKgt"."PrgID","v_program_kegiatan"."kode_kegiatan","tmKgt"."Kd_Keg","tmKgt"."KgtNm","v_program_kegiatan"."Kd_Prog","v_program_kegiatan"."PrgNm","tmKgt"."TA","v_program_kegiatan"."Jns","tmKgt"."created_at","tmKgt"."updated_at"'))
+                            ->join('v_program_kegiatan','v_program_kegiatan.KgtID','tmKgt.KgtID')
+                            ->where('tmKgt.TA',\HelperKegiatan::getTahunPerencanaan())
                             ->where('KgtNm', 'ilike', '%' . $search['isikriteria'] . '%')
                             ->orderBy($column_order,$direction);                                        
                 break;
@@ -71,14 +75,14 @@ class ProgramKegiatanController extends Controller {
         {
             $data =$filter_prgid == 'none' ? 
                                             \DB::table('tmKgt')
-                                                    ->select(\DB::raw('"tmKgt"."KgtID","v_program_kegiatan"."kode_kegiatan","tmKgt"."Kd_Keg","tmKgt"."KgtNm","v_program_kegiatan"."Kd_Prog","v_program_kegiatan"."PrgNm","tmKgt"."TA","v_program_kegiatan"."Jns"'))
+                                                    ->select(\DB::raw('"tmKgt"."KgtID","tmKgt"."PrgID","v_program_kegiatan"."kode_kegiatan","tmKgt"."Kd_Keg","tmKgt"."KgtNm","v_program_kegiatan"."Kd_Prog","v_program_kegiatan"."PrgNm","tmKgt"."TA","v_program_kegiatan"."Jns","tmKgt"."created_at","tmKgt"."updated_at"'))
                                                     ->join('v_program_kegiatan','v_program_kegiatan.KgtID','tmKgt.KgtID')
                                                     ->orderBy($column_order,$direction)
                                                     ->where('tmKgt.TA',\HelperKegiatan::getTahunPerencanaan())
                                                     ->paginate($numberRecordPerPage, $columns, 'page', $currentpage)
                                             :
                                             \DB::table('tmKgt')
-                                            ->select(\DB::raw('"tmKgt"."KgtID","v_program_kegiatan"."kode_kegiatan","tmKgt"."Kd_Keg","tmKgt"."KgtNm","v_program_kegiatan"."Kd_Prog","v_program_kegiatan"."PrgNm","tmKgt"."TA","v_program_kegiatan"."Jns"'))
+                                            ->select(\DB::raw('"tmKgt"."KgtID","tmKgt"."PrgID","v_program_kegiatan"."kode_kegiatan","tmKgt"."Kd_Keg","tmKgt"."KgtNm","v_program_kegiatan"."Kd_Prog","v_program_kegiatan"."PrgNm","tmKgt"."TA","v_program_kegiatan"."Jns","tmKgt"."created_at","tmKgt"."updated_at"'))
                                                     ->join('v_program_kegiatan','v_program_kegiatan.KgtID','tmKgt.KgtID')
                                                     ->orderBy($column_order,$direction)
                                                     ->where('tmKgt.TA',\HelperKegiatan::getTahunPerencanaan())

@@ -37,7 +37,9 @@ class CreateVSuborganisasiView extends Migration
                             sub."Alamat",
                             sub."NamaKepalaSKPD",
                             sub."NIPKepalaSKPD",
-                            sub."TA"                            
+                            sub."TA",                            
+                            sub."created_at",                            
+                            sub."updated_at"                            
                             FROM "tmSOrg" AS sub
                                             LEFT JOIN "tmOrg" AS organisasi ON organisasi."OrgID"=sub."OrgID"
                                             LEFT JOIN "tmUrs" AS urusan ON organisasi."UrsID"=urusan."UrsID"

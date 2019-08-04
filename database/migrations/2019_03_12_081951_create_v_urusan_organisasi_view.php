@@ -30,7 +30,9 @@ class CreateVUrusanOrganisasiView extends Migration
                             organisasi."Alamat",
                             organisasi."NamaKepalaSKPD",
                             organisasi."NIPKepalaSKPD",
-                            organisasi."TA"                            
+                            organisasi."TA",                            
+                            organisasi."created_at",                            
+                            organisasi."updated_at"                            
                             FROM "tmOrg" AS organisasi
                                     LEFT JOIN "tmUrs" AS urusan ON organisasi."UrsID"=urusan."UrsID"
                                     LEFT JOIN "tmKUrs" AS kelompok_urusan ON kelompok_urusan."KUrsID"=urusan."KUrsID"');

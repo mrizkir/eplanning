@@ -19,16 +19,14 @@ class CreateRpjmdindikatorkinerjaTable extends Migration
             $table->string('ProgramKebijakanID',19);            
             $table->string('UrsID',19); 
             $table->string('PrgID',19);
-            $table->string('OrgID',19)->nullabble();     
-            $table->string('OrgID2',19)->nullabble(); 
-            $table->string('OrgID3',19)->nullabble();                     
+            $table->string('OrgID',19);                    
             $table->text('NamaIndikator')->nullable();             
             $table->decimal('KondisiAwal',6,2)->default(0);
-            $table->string('TargetN1')->nullable();
-            $table->string('TargetN2')->nullable();
-            $table->string('TargetN3')->nullable();
-            $table->string('TargetN4')->nullable();
-            $table->string('TargetN5')->nullable();
+            $table->string('TargetN1')->default(0);
+            $table->string('TargetN2')->default(0);
+            $table->string('TargetN3')->default(0);
+            $table->string('TargetN4')->default(0);
+            $table->string('TargetN5')->default();
             $table->decimal('PaguDanaN1',15,2)->default(0);
             $table->decimal('PaguDanaN2',15,2)->default(0);
             $table->decimal('PaguDanaN3',15,2)->default(0);
@@ -49,8 +47,6 @@ class CreateRpjmdindikatorkinerjaTable extends Migration
             $table->index('ProgramKebijakanID');
             $table->index('UrsID');
             $table->index('OrgID');
-            $table->index('OrgID2');
-            $table->index('OrgID3');
 
             $table->foreign('PrioritasKebijakanKabID')
                     ->references('PrioritasKebijakanKabID')
@@ -75,18 +71,7 @@ class CreateRpjmdindikatorkinerjaTable extends Migration
                     ->on('tmOrg')
                     ->onDelete('set null')
                     ->onUpdate('cascade');
-
-            $table->foreign('OrgID2')
-                    ->references('OrgID')
-                    ->on('tmOrg')
-                    ->onDelete('set null')
-                    ->onUpdate('cascade');
-
-            $table->foreign('OrgID3')
-                    ->references('OrgID')
-                    ->on('tmOrg')
-                    ->onDelete('set null')
-                    ->onUpdate('cascade');
+                    
         });
     }
 

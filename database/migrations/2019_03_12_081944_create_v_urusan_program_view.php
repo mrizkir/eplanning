@@ -29,7 +29,9 @@ class CreateVUrusanProgramView extends Migration
                         program."PrgNm",
                         program."Jns",
                         program."TA",
-                        program."Locked"
+                        program."Locked",
+                        program."created_at",
+                        program."updated_at"
                         
                         FROM "tmPrg" AS program
                             LEFT JOIN "trUrsPrg" AS urs_program ON program."PrgID"=urs_program."PrgID"

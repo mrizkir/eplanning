@@ -35,6 +35,9 @@
                     <th>
                         KETERANGAN                                            
                     </th> 
+                    <th width="70">
+                        TA                                            
+                    </th> 
                     <th width="100">AKSI</th>
                 </tr>
             </thead>
@@ -48,6 +51,7 @@
                     <td>{{$item->Nm_Bidang}}</td>
                     <td>{{$item->Nm_Urusan}}</td>
                     <td>{{$item->Descr}}</td>
+                    <td>{{$item->TA}}</td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">

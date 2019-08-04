@@ -36,6 +36,7 @@
                             URUSAN
                         </a>                                             
                     </th>
+                    <th width="70">TA</th>
                     <th width="100">AKSI</th>
                 </tr>
             </thead>
@@ -48,6 +49,7 @@
                     <td>{{$item->kode_suborganisasi}}</td>
                     <td>{{$item->SOrgNm}}</td>
                     <td>{{$item->Nm_Urusan}}</td>
+                    <td>{{$item->TA}}</td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
@@ -69,14 +71,22 @@
                     </td>
                 </tr>
 				<tr class="text-center info">
-                    <td colspan="5">
-                        <span class="label label-warning label-rounded" style="text-transform: none">
-                            <strong>ORGID:</strong>
-                            {{$item->OrgID}}
-                        </span>                            
+                    <td colspan="6">
                         <span class="label label-warning label-rounded" style="text-transform: none">
                             <strong>SOrgID:</strong>
                             {{$item->SOrgID}}
+                        </span>
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>ORGID:</strong>
+                            {{$item->OrgID}}
+                        </span> 
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>CREATED:</strong>
+                            {{Helper::tanggal('d/m/Y H:m',$item->created_at)}}
+                        </span>
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>UPDATED:</strong>
+                            {{Helper::tanggal('d/m/Y H:m',$item->updated_at)}}
                         </span>
                     </td>
                 </tr>

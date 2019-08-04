@@ -102,12 +102,12 @@
                 <tr class="text-center info">
                     <td colspan="15">
                         <span class="label label-warning label-rounded" style="text-transform: none">
-                            <strong>PRIORITASINDIKATORSASARANID:</strong>
-                            {{$item->PrioritasIndikatorSasaranID}}
+                            <strong>INDIKATORKINERJAID:</strong>
+                            {{$item->IndikatorKinerjaID}}
                         </span>
                         <span class="label label-warning label-rounded" style="text-transform: none">
-                            <strong>PRIORITASSASARANKABID:</strong>
-                            {{$item->PrioritasSasaranKabID}}
+                            <strong>PRIORITASKEBIJAKANID:</strong>
+                            {{$item->PrioritasKebijakanKabID}}
                         </span>
                         <span class="label label-warning label-rounded">
                             <strong>KET:</strong>

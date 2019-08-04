@@ -33,7 +33,9 @@ class CreateVProgramKegiatanView extends Migration
             kegiatan."KgtNm",
             program."Jns",
             kegiatan."TA",
-            kegiatan."Locked" 			 
+            kegiatan."Locked", 			 
+            kegiatan."created_at", 			 
+            kegiatan."updated_at" 			 
                 FROM "tmKgt" AS kegiatan
                 LEFT JOIN "tmPrg" AS program ON program."PrgID"=kegiatan."PrgID"
                 LEFT JOIN "trUrsPrg" AS urs_program ON program."PrgID"=urs_program."PrgID"

@@ -47,12 +47,14 @@ class UrusanController extends Controller {
             {
                 case 'Kode_Bidang' :
                     $data = UrusanModel::join('v_urusan','v_urusan.UrsID','tmUrs.UrsID')
+                                        ->select(\DB::raw('"tmUrs"."UrsID","tmUrs"."KUrsID",v_urusan."Nm_Urusan",v_urusan."Kode_Bidang","tmUrs"."Nm_Bidang","tmUrs"."Descr","tmUrs"."TA","tmUrs"."created_at","tmUrs"."updated_at"'))
                                         ->where('tmUrs.TA',\HelperKegiatan::getRPJMDTahunMulai())
                                         ->where(['Kode_Bidang'=>$search['isikriteria']])
                                         ->orderBy($column_order,$direction); 
                 break;
                 case 'Nm_Bidang' :
                     $data = UrusanModel::join('v_urusan','v_urusan.UrsID','tmUrs.UrsID')
+                                        ->select(\DB::raw('"tmUrs"."UrsID","tmUrs"."KUrsID",v_urusan."Nm_Urusan",v_urusan."Kode_Bidang","tmUrs"."Nm_Bidang","tmUrs"."Descr","tmUrs"."TA","tmUrs"."created_at","tmUrs"."updated_at"'))
                                         ->where('tmUrs.TA',\HelperKegiatan::getRPJMDTahunMulai())
                                         ->where('tmUrs.Nm_Bidang', SQL::like(), '%' . $search['isikriteria'] . '%')
                                         ->orderBy($column_order,$direction);                                        
@@ -63,7 +65,7 @@ class UrusanController extends Controller {
         else
         {
             $data = UrusanModel::join('v_urusan','v_urusan.UrsID','tmUrs.UrsID')
-                                ->select(\DB::raw('"tmUrs"."UrsID","tmUrs"."KUrsID",v_urusan."Nm_Urusan",v_urusan."Kode_Bidang","tmUrs"."Nm_Bidang","tmUrs"."Descr","tmUrs"."created_at","tmUrs"."updated_at"'))
+                                ->select(\DB::raw('"tmUrs"."UrsID","tmUrs"."KUrsID",v_urusan."Nm_Urusan",v_urusan."Kode_Bidang","tmUrs"."Nm_Bidang","tmUrs"."Descr","tmUrs"."TA","tmUrs"."created_at","tmUrs"."updated_at"'))
                                 ->where('tmUrs.TA',\HelperKegiatan::getRPJMDTahunMulai())
                                 ->orderBy($column_order,$direction)
                                 ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 

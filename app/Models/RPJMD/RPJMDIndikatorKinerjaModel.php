@@ -26,8 +26,6 @@ class RPJMDIndikatorKinerjaModel extends Model {
         'UrsID', 
         'PrgID', 
         'OrgID', 
-        'OrgID2', 
-        'OrgID3', 
         'NamaIndikator',
         'KondisiAwal',
         'TargetN1',
