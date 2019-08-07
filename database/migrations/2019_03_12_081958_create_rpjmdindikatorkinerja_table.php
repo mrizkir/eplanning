@@ -22,11 +22,11 @@ class CreateRpjmdindikatorkinerjaTable extends Migration
             $table->json('OrgID',19);                    
             $table->text('NamaIndikator')->nullable();             
             $table->decimal('KondisiAwal',6,2)->default(0);
-            $table->string('TargetN1')->default(0);
-            $table->string('TargetN2')->default(0);
-            $table->string('TargetN3')->default(0);
-            $table->string('TargetN4')->default(0);
-            $table->string('TargetN5')->default();
+            $table->decimal('TargetN1',6,2)->default(0);
+            $table->decimal('TargetN2',6,2)->default(0);
+            $table->decimal('TargetN3',6,2)->default(0);
+            $table->decimal('TargetN4',6,2)->default(0);
+            $table->decimal('TargetN5',6,2)->default(0);
             $table->decimal('PaguDanaN1',15,2)->default(0);
             $table->decimal('PaguDanaN2',15,2)->default(0);
             $table->decimal('PaguDanaN3',15,2)->default(0);

@@ -44,6 +44,7 @@
                             URUSAN  
                         </a>                                             
                     </th>
+                    <th width="70">TA</th>
                     <th width="100">AKSI</th>
                 </tr>
             </thead>
@@ -80,6 +81,7 @@
                             }   
                         @endphp
                     </td>
+                    <td>{{$item->TA}}</td>
                     <td>
                         <div class="checkbox">
                             {{Form::checkbox("chkprgid[]", $item->PrgID,0,['class'=>'switch'])}}  
@@ -87,11 +89,19 @@
                     </td>
                 </tr>
                 <tr class="text-center info">
-                    <td colspan="5">                     
+                    <td colspan="6">                     
                         <span class="label label-warning label-rounded" style="text-transform: none">
                             <strong>PRGID:</strong>
                             {{$item->PrgID}}
                         </span> 
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>CREATED:</strong>
+                            {{Helper::tanggal('d/m/Y H:m',$item->created_at)}}
+                        </span>
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>UPDATED:</strong>
+                            {{Helper::tanggal('d/m/Y H:m',$item->updated_at)}}
+                        </span>
                     </td>
                 </tr>
             @endforeach                    

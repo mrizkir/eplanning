@@ -107,13 +107,10 @@ class CreateRenjaopdTable extends Migration
         Schema::create('trRenjaIndikator', function (Blueprint $table) {
             $table->string('RenjaIndikatorID',19);            
             $table->string('IndikatorKinerjaID',19);
-            $table->string('RenjaID',19);
+            $table->string('RenjaID',19);            
             $table->decimal('Target_Angka',15,2);
             $table->string('Target_Uraian');
-            $table->year('Tahun');
-
             $table->string('Descr')->nullable();
-            $table->tinyInteger('Privilege')->default(0); 
             $table->year('TA');
             $table->string('RenjaIndikatorID_Src',19)->nullable();
             $table->timestamps();

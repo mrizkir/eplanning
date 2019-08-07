@@ -39,14 +39,16 @@ class CreateVOrganisasiProgramView extends Migration
 				END AS kode_program,
 				program."PrgNm", 
 				program."Jns", 
-				program."TA", 
-				program."Locked"
-				 FROM "trOrgProgram" orgprg
-				 LEFT JOIN "tmOrg" AS organisasi ON organisasi."OrgID"=orgprg."OrgID"
-				 LEFT JOIN "tmPrg" AS program ON program."PrgID"=orgprg."PrgID"
-				 LEFT JOIN "trUrsPrg" AS urs_program ON program."PrgID"=urs_program."PrgID"
-				 LEFT JOIN "tmUrs" AS urusan ON urs_program."UrsID"=urusan."UrsID"
-				 LEFT JOIN "tmKUrs" AS kelompok_urusan ON kelompok_urusan."KUrsID"=urusan."KUrsID"			 
+				orgprg."TA", 
+				program."Locked",
+				orgprg."created_at",
+				orgprg."updated_at"
+				FROM "trOrgProgram" orgprg
+				LEFT JOIN "tmOrg" AS organisasi ON organisasi."OrgID"=orgprg."OrgID"
+				LEFT JOIN "tmPrg" AS program ON program."PrgID"=orgprg."PrgID"
+				LEFT JOIN "trUrsPrg" AS urs_program ON program."PrgID"=urs_program."PrgID"
+				LEFT JOIN "tmUrs" AS urusan ON urs_program."UrsID"=urusan."UrsID"
+				LEFT JOIN "tmKUrs" AS kelompok_urusan ON kelompok_urusan."KUrsID"=urusan."KUrsID"			 
         ');
     }
 

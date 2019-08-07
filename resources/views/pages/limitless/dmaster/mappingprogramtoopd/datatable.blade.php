@@ -46,6 +46,7 @@
                             URUSAN  
                         </a>                                             
                     </th>
+                    <th width="70">TA</th>
                     <th width="80">AKSI</th>
                 </tr>
             </thead>
@@ -80,6 +81,7 @@
                             }   
                         @endphp
                     </td>
+                    <td>{{$item->TA}}</td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
@@ -104,6 +106,14 @@
                         <span class="label label-warning label-rounded" style="text-transform: none">
                             <strong>PRGID:</strong>
                             {{$item->PrgID}}
+                        </span>
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>CREATED:</strong>
+                            {{Helper::tanggal('d/m/Y H:m',$item->created_at)}}
+                        </span>
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>UPDATED:</strong>
+                            {{Helper::tanggal('d/m/Y H:m',$item->updated_at)}}
                         </span>
                     </td>
                 </tr>

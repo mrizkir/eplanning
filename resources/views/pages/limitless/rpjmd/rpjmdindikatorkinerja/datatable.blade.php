@@ -21,7 +21,9 @@
         <table id="data" class="table table-hover" style="font-size:10.5px">
             <thead>
                 <tr class="bg-teal-700">
-                    <th width="55" rowspan="2">NO</th>
+                    <th rowspan="2">
+                        KONDISI KINERJA<br> AWAL RPJMD ({{HelperKegiatan::getRPJMDTahunAwal()}})
+                    </th>
                     <th colspan="2">
                         TAHUN 1
                     </th>
@@ -59,13 +61,12 @@
             @foreach ($data as $key=>$item)
                 <tr>
                     <td colspan="15">
-                        <strong>NAMA INDIKATOR:</strong> {{$item->NamaIndikator}} 
-                        <strong>KONDISI KINERJA AWAL RPJMD ({{HelperKegiatan::getRPJMDTahunAwal()}}):</strong>{{$item->KondisiAwal}}
+                        <strong>NAMA INDIKATOR:</strong> {{$item->NamaIndikator}}       
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
+                        {{$item->KondisiAwal}}
                     </td>                  
                     <td>{{Helper::formatAngka($item->TargetN1)}}</td>
                     <td>{{Helper::formatUang($item->PaguDanaN1)}}</td>
@@ -101,6 +102,10 @@
                 </tr>
                 <tr class="text-center info">
                     <td colspan="15">
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>NO:</strong>
+                            {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}
+                        </span>
                         <span class="label label-warning label-rounded" style="text-transform: none">
                             <strong>INDIKATORKINERJAID:</strong>
                             {{$item->IndikatorKinerjaID}}

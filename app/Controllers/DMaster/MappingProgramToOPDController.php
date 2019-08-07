@@ -66,12 +66,15 @@ class MappingProgramToOPDController extends Controller {
                                 "v_organisasi_program"."PrgID",
                                 "v_organisasi_program"."PrgNm",
                                 "v_organisasi_program"."Nm_Urusan",
-                                "v_organisasi_program"."Jns"
+                                "v_organisasi_program"."Jns",
+                                "v_organisasi_program"."TA",
+                                "v_organisasi_program"."created_at",
+                                "v_organisasi_program"."updated_at"                                
                             '))
                             ->join ('tmOrg','v_organisasi_program.OrgID','tmOrg.OrgID')
                             ->join ('tmUrs','tmOrg.UrsID','tmUrs.UrsID')
                             ->join ('tmKUrs','tmUrs.KUrsID','tmKUrs.KUrsID')
-                            ->where('v_organisasi_program.TA',\HelperKegiatan::getRPJMDTahunMulai())
+                            ->where('v_organisasi_program.TA',\HelperKegiatan::getTahunPerencanaan())
                             ->where(['kode_program'=>$search['isikriteria']])
                             ->orderBy("v_organisasi_program.$column_order",$direction)
                             ->orderBy("v_organisasi_program.kode_program",'ASC');
@@ -88,12 +91,15 @@ class MappingProgramToOPDController extends Controller {
                                 "v_organisasi_program"."PrgID",
                                 "v_organisasi_program"."PrgNm",
                                 "v_organisasi_program"."Nm_Urusan",
-                                "v_organisasi_program"."Jns"
+                                "v_organisasi_program"."Jns",
+                                "v_organisasi_program"."TA",
+                                "v_organisasi_program"."created_at",
+                                "v_organisasi_program"."updated_at"
                             '))
                             ->join ('tmOrg','v_organisasi_program.OrgID','tmOrg.OrgID')
                             ->join ('tmUrs','tmOrg.UrsID','tmUrs.UrsID')
                             ->join ('tmKUrs','tmUrs.KUrsID','tmKUrs.KUrsID')
-                            ->where('v_organisasi_program.TA',\HelperKegiatan::getRPJMDTahunMulai())
+                            ->where('v_organisasi_program.TA',\HelperKegiatan::getTahunPerencanaan())
                             ->where('PrgNm', 'ilike', '%' . $search['isikriteria'] . '%')                                        
                             ->orderBy("v_organisasi_program.kode_program",'ASC')
                             ->orderBy("v_organisasi_program.$column_order",$direction);
@@ -114,12 +120,15 @@ class MappingProgramToOPDController extends Controller {
                         "v_organisasi_program"."PrgID",
                         "v_organisasi_program"."PrgNm",
                         "v_organisasi_program"."Nm_Urusan",
-                        "v_organisasi_program"."Jns"
+                        "v_organisasi_program"."Jns",
+                        "v_organisasi_program"."TA",
+                        "v_organisasi_program"."created_at",
+                        "v_organisasi_program"."updated_at"
                     '))
                     ->join ('tmOrg','v_organisasi_program.OrgID','tmOrg.OrgID')
                     ->join ('tmUrs','tmOrg.UrsID','tmUrs.UrsID')
                     ->join ('tmKUrs','tmUrs.KUrsID','tmKUrs.KUrsID')
-                    ->where('v_organisasi_program.TA',\HelperKegiatan::getRPJMDTahunMulai())
+                    ->where('v_organisasi_program.TA',\HelperKegiatan::getTahunPerencanaan())
                     ->orderBy("v_organisasi_program.kode_program",'ASC')
                     ->orderBy("v_organisasi_program.$column_order",$direction);
             

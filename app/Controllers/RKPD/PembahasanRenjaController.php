@@ -1183,6 +1183,8 @@ class PembahasanRenjaController extends Controller {
                         $newrenja->Status = 0;
                         $newrenja->Privilege = 0;
                         $newrenja->RenjaID_Src = $RenjaID;
+                        $newrenja->created_at = \Carbon\Carbon::now();
+                        $newrenja->updated_at = \Carbon\Carbon::now();
                         $newrenja->save();
 
                         $str_rinciankegiatan = '
@@ -1261,11 +1263,8 @@ class PembahasanRenjaController extends Controller {
                                 "RenjaID",
                                 "Target_Angka",
                                 "Target_Uraian",  
-                                "Tahun",      
                                 "Descr",
-                                "Privilege",
                                 "TA",
-                                "RenjaIndikatorID_Src", 
                                 "created_at", 
                                 "updated_at"
                             )
@@ -1274,26 +1273,22 @@ class PembahasanRenjaController extends Controller {
                                 "IndikatorKinerjaID",
                                 \''.$newRenjaID.'\' AS "RenjaID",
                                 "Target_Angka",
-                                "Target_Uraian",
-                                "Tahun",
-                                "Descr",
-                                1 AS "Privilege",
+                                "Target_Uraian",                                
+                                "Descr",                                
                                 "TA",
-                                "RenjaIndikatorID" AS "RenjaIndikatorID_Src",
                                 NOW() AS created_at,
                                 NOW() AS updated_at
                             FROM 
                                 "trRenjaIndikator" 
                             WHERE 
-                                "RenjaID"=\''.$RenjaID.'\' AND
-                                "Privilege"=0 
+                                "RenjaID"=\''.$RenjaID.'\'
                         ';
 
                         \DB::statement($str_kinerja);
                         RenjaRincianModel::where('RenjaRincID',$RenjaRincID)
-                                            ->update(['Privilege'=>1]);
+                                            ->update(['Privilege'=>1,'updated_at'=>\Carbon\Carbon::now()]);
                         RenjaIndikatorModel::where('RenjaID',$RenjaID)
-                                            ->update(['Privilege'=>1]);
+                                            ->update(['updated_at'=>\Carbon\Carbon::now()]);
 
                     break; //end pembahasanprarenjaopd
                     case 'pembahasanrakorbidang' :
@@ -1329,6 +1324,8 @@ class PembahasanRenjaController extends Controller {
                         $newrenja->Status = 0;
                         $newrenja->Privilege = 0;
                         $newrenja->RenjaID_Src = $RenjaID;
+                        $newrenja->created_at = \Carbon\Carbon::now();
+                        $newrenja->updated_at = \Carbon\Carbon::now();
                         $newrenja->save();
 
                         $str_rinciankegiatan = '
@@ -1414,12 +1411,9 @@ class PembahasanRenjaController extends Controller {
                                 "IndikatorKinerjaID",
                                 "RenjaID",
                                 "Target_Angka",
-                                "Target_Uraian",  
-                                "Tahun",      
-                                "Descr",
-                                "Privilege",
-                                "TA",
-                                "RenjaIndikatorID_Src", 
+                                "Target_Uraian",                                  
+                                "Descr",                                
+                                "TA",                                
                                 "created_at", 
                                 "updated_at"
                             )
@@ -1430,24 +1424,21 @@ class PembahasanRenjaController extends Controller {
                                 "Target_Angka",
                                 "Target_Uraian",
                                 "Tahun",
-                                "Descr",
-                                1 AS "Privilege",
-                                "TA",
-                                "RenjaIndikatorID" AS "RenjaIndikatorID_Src",
+                                "Descr",                                
+                                "TA",                                
                                 NOW() AS created_at,
                                 NOW() AS updated_at
                             FROM 
                                 "trRenjaIndikator" 
                             WHERE 
-                                "RenjaID"=\''.$RenjaID.'\' AND
-                                "Privilege"=0  
+                                "RenjaID"=\''.$RenjaID.'\'
                         ';
 
                         \DB::statement($str_kinerja);
                         RenjaRincianModel::where('RenjaRincID',$RenjaRincID)
-                                            ->update(['Privilege'=>1]);
+                                            ->update(['Privilege'=>1,'updated_at'=>\Carbon\Carbon::now()]);
                         RenjaIndikatorModel::where('RenjaID',$RenjaID)
-                                            ->update(['Privilege'=>1]);
+                                            ->update(['updated_at'=>\Carbon\Carbon::now()]);                                            
                     break;
                     case 'pembahasanforumopd' :
                         //check renja id sudah ada belum di RenjaID_Old
@@ -1482,6 +1473,8 @@ class PembahasanRenjaController extends Controller {
                         $newrenja->Status = 0;
                         $newrenja->Privilege = 0;
                         $newrenja->RenjaID_Src = $RenjaID;
+                        $newrenja->created_at = \Carbon\Carbon::now();
+                        $newrenja->updated_at = \Carbon\Carbon::now();
                         $newrenja->save();
 
                         $str_rinciankegiatan = '
@@ -1576,12 +1569,9 @@ class PembahasanRenjaController extends Controller {
                                 "IndikatorKinerjaID",
                                 "RenjaID",
                                 "Target_Angka",
-                                "Target_Uraian",  
-                                "Tahun",      
+                                "Target_Uraian",                                  
                                 "Descr",
-                                "Privilege",
                                 "TA",
-                                "RenjaIndikatorID_Src", 
                                 "created_at", 
                                 "updated_at"
                             )
@@ -1591,25 +1581,21 @@ class PembahasanRenjaController extends Controller {
                                 \''.$newRenjaID.'\' AS "RenjaID",
                                 "Target_Angka",
                                 "Target_Uraian",
-                                "Tahun",
                                 "Descr",
-                                1 AS "Privilege",
                                 "TA",
-                                "RenjaIndikatorID" AS "RenjaIndikatorID_Src",
                                 NOW() AS created_at,
                                 NOW() AS updated_at
                             FROM 
                                 "trRenjaIndikator" 
                             WHERE 
-                                "RenjaID"=\''.$RenjaID.'\'  AND
-                                "Privilege"=0 
+                                "RenjaID"=\''.$RenjaID.'\'
                         ';
 
                         \DB::statement($str_kinerja);
                         RenjaRincianModel::where('RenjaRincID',$RenjaRincID)
-                                            ->update(['Privilege'=>1]);
+                                            ->update(['Privilege'=>1,'updated_at'=>\Carbon\Carbon::now()]);
                         RenjaIndikatorModel::where('RenjaID',$RenjaID)
-                                            ->update(['Privilege'=>1]);
+                                            ->update(['updated_at'=>\Carbon\Carbon::now()]);
                         
                     break; //end pembahasanforumopd
                     case 'pembahasanmusrenkab' :
@@ -1645,6 +1631,8 @@ class PembahasanRenjaController extends Controller {
                         $newrenja->Status = 0;
                         $newrenja->Privilege = 0;
                         $newrenja->RenjaID_Src = $RenjaID;
+                        $newrenja->created_at = \Carbon\Carbon::now();
+                        $newrenja->updated_at = \Carbon\Carbon::now();
                         $newrenja->save();
 
                         $str_rinciankegiatan = '
@@ -1745,11 +1733,8 @@ class PembahasanRenjaController extends Controller {
                                 "RenjaID",
                                 "Target_Angka",
                                 "Target_Uraian",  
-                                "Tahun",      
                                 "Descr",
-                                "Privilege",
                                 "TA",
-                                "RenjaIndikatorID_Src",
                                 "created_at", 
                                 "updated_at"
                             )
@@ -1759,18 +1744,14 @@ class PembahasanRenjaController extends Controller {
                                 \''.$newRenjaiD.'\' AS "RenjaID",
                                 "Target_Angka",
                                 "Target_Uraian",
-                                "Tahun",
                                 "Descr",
-                                1 AS "Privilege",
                                 "TA",
-                                "RenjaIndikatorID" AS "RenjaIndikatorID_Src",
                                 NOW() AS created_at,
                                 NOW() AS updated_at
                             FROM 
                                 "trRenjaIndikator" 
                             WHERE 
-                                "RenjaID"=\''.$RenjaID.'\' AND
-                                "Privilege"=0 
+                                "RenjaID"=\''.$RenjaID.'\'
                         ';
                         \DB::statement($str_kinerja);
                                     
@@ -1778,9 +1759,9 @@ class PembahasanRenjaController extends Controller {
                         $newrenja->save();
 
                         RenjaRincianModel::where('RenjaRincID',$RenjaRincID)
-                                            ->update(['Privilege'=>1]);
+                                            ->update(['Privilege'=>1,'updated_at'=>\Carbon\Carbon::now()]);
                         RenjaIndikatorModel::where('RenjaID',$RenjaID)
-                                            ->update(['Privilege'=>1]);
+                                            ->update(['updated_at'=>\Carbon\Carbon::now()]);
 
                     break; //end pembahasanmusrenkab       
                     case 'verifikasirenja' :
@@ -1919,10 +1900,8 @@ class PembahasanRenjaController extends Controller {
                                 "IndikatorKinerjaID",                        
                                 "Target_Angka",
                                 "Target_Uraian",  
-                                "Tahun",      
                                 "Descr",
                                 "TA",
-                                "Privilege",
                                 "created_at", 
                                 "updated_at"
                             )
@@ -1932,28 +1911,28 @@ class PembahasanRenjaController extends Controller {
                                 "IndikatorKinerjaID",                        
                                 "Target_Angka",
                                 "Target_Uraian",
-                                "Tahun",
                                 "Descr",
-                                1 AS "Privilege",  
                                 "TA",
                                 NOW() AS created_at,
                                 NOW() AS updated_at
                             FROM 
                                 "trRenjaIndikator" 
                             WHERE 
-                                "RenjaID"=\''.$renja->RenjaID.'\' AND 
-                                "Privilege"=1
+                                "RenjaID"=\''.$renja->RenjaID.'\'
                         ';
 
                         \DB::statement($str_kinerja);
                         
                         //rincian renja finish
                         $rincian_kegiatan->Privilege=1;
+                        $rincian_kegiatan->updated_at=\Carbon\Carbon::now();                        
                         $rincian_kegiatan->save();
 
                         //renja finish
                         $renja->Privilege=1;
+                        $renja->updated_at=\Carbon\Carbon::now();
                         $renja->Status=1;
+                        
                         $renja->save();
                         
                     break; //end verifikasi renja
