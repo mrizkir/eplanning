@@ -78,6 +78,18 @@ Route::group (['prefix'=>'v0'],function() {
     Route::resource('/rkpd/plafon4','API\v0\RKPD\Plafon4Controller',['names'=>'api-v0-master-plafon4',
                                                                     'parameters'=>['plafon4'=>'uuid'],
                                                                     'only'=>['index','show']]);
+    /**
+     * RKPD Murni
+     */
+    Route::resource('/rkpd/plafon5','API\v0\RKPD\Plafon5Controller',['names'=>'api-v0-rkpd-plafon5',
+                                                                    'parameters'=>['plafon5'=>'uuid'],
+                                                                    'only'=>['index','show']]);
+    /**
+     * RKPD Perubahan
+     */
+    Route::resource('/rkpd/plafon6','API\v0\RKPD\Plafon6Controller',['names'=>'api-v0-rkpd-plafon6',
+                                                                    'parameters'=>['plafon6'=>'uuid'],
+                                                                    'only'=>['index','show']]);
 });
 Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {     
 
