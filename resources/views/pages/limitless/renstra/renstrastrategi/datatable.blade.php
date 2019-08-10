@@ -23,14 +23,10 @@
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
                     <th width="150">
-                        <a class="column-sort text-white" id="col-Kd_RenstraStrategi" data-order="{{$direction}}" href="#">
-                            KODE STRATEGI 
-                        </a>                                             
+                        KODE STRATEGI 
                     </th> 
                     <th>
-                        <a class="column-sort text-white" id="col-Nm_RenstraStrategi" data-order="{{$direction}}" href="#">
-                            NAMA STRATEGI  
-                        </a>                                             
+                        NAMA STRATEGI  
                     </th> 
                     <th width="100">TA</th>
                     <th width="100">AKSI</th>

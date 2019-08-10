@@ -33,10 +33,10 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">OPD / SKPD :</label> 
                         <div class="col-md-10">
-                            <select name="OrgID" id="OrgID" class="select">
+                            <select name="OrgIDRPJMD" id="OrgIDRPJMD" class="select">
                                 <option></option>
                                 @foreach ($daftar_opd as $k=>$item)
-                                    <option value="{{$k}}"{{$k==$filters['OrgID']?' selected':''}}>{{$item}}</option>
+                                    <option value="{{$k}}"{{$k==$filters['OrgIDRPJMD']?' selected':''}}>{{$item}}</option>
                                 @endforeach
                             </select>                              
                         </div>
@@ -91,11 +91,11 @@
 <script type="text/javascript">
 $(document).ready(function () {  
     //styling select
-    $('#OrgID.select').select2({
+    $('#OrgIDRPJMD.select').select2({
         placeholder: "PILIH OPD / SKPD",
         allowClear:true
     }); 
-    $(document).on('change','#OrgID',function(ev) {
+    $(document).on('change','#OrgIDRPJMD',function(ev) {
         ev.preventDefault();   
         $.ajax({
             type:'post',
@@ -103,7 +103,7 @@ $(document).ready(function () {
             dataType: 'json',
             data: {                
                 "_token": token,
-                "OrgID": $('#OrgID').val(),
+                "OrgIDRPJMD": $('#OrgIDRPJMD').val(),
             },
             success:function(result)
             { 

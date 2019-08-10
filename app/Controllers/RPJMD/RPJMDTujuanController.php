@@ -111,33 +111,7 @@ class RPJMDTujuanController extends Controller {
      */
     public function orderby (Request $request) 
     {
-        $theme = \Auth::user()->theme;
-
-        $orderby = $request->input('orderby') == 'asc'?'desc':'asc';
-        $column=$request->input('column_name');
-        switch($column) 
-        {
-            case 'col-Kd_Tujuan' :
-                $column_name = 'Kd_Tujuan';
-            break;      
-            case 'col-Nm_Tujuan' :
-                $column_name = 'Nm_Tujuan';
-            break;        
-            default :
-                $column_name = 'Nm_Tujuan';
-        }
-        $this->putControllerStateSession('rpjmdtujuan','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
-
-        $data=$this->populateData();
-
-        $datatable = view("pages.$theme.rpjmd.rpjmdtujuan.datatable")->with(['page_active'=>'rpjmdtujuan',
-                                                            'search'=>$this->getControllerStateSession('rpjmdtujuan','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('rpjmdtujuan.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('rpjmdtujuan.orderby','order'),
-                                                            'data'=>$data])->render();     
-
-        return response()->json(['success'=>true,'datatable'=>$datatable],200);
+        return response()->json(['success'=>true,'datatable'=>null],200);
     }
     /**
      * paginate resource in storage called by ajax

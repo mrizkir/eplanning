@@ -44,10 +44,10 @@ class RENSTRATujuanController extends Controller {
         if (!$this->checkStateIsExistSession('renstratujuan','filters')) 
         {            
             $this->putControllerStateSession('renstratujuan','filters',[
-                                                                    'OrgID'=>'none'
+                                                                    'OrgIDRPJMD'=>'none'
                                                                     ]);
         }        
-        $OrgID= $this->getControllerStateSession(\Helper::getNameOfPage('filters'),'OrgID');        
+        $OrgIDRPJMD= $this->getControllerStateSession(\Helper::getNameOfPage('filters'),'OrgIDRPJMD');        
         
         if ($this->checkStateIsExistSession('renstratujuan','search')) 
         {
@@ -57,14 +57,14 @@ class RENSTRATujuanController extends Controller {
                 case 'Kd_RenstraTujuan' :
                     $data = RENSTRATujuanModel::select(\DB::raw('"tmRenstraTujuan"."RenstraTujuanID","tmRenstraTujuan"."PrioritasKabID",CONCAT("tmPrioritasKab"."Kd_PrioritasKab",\'.\',"tmRenstraTujuan"."Kd_RenstraTujuan") AS "Kd_RenstraTujuan","tmRenstraTujuan"."Nm_RenstraTujuan","tmRenstraTujuan"."TA"'))
                                                 ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmRenstraTujuan.PrioritasKabID')
-                                                ->where('OrgID',$OrgID)
+                                                ->where('OrgIDRPJMD',$OrgIDRPJMD)
                                                 ->where(['Kd_RenstraTujuan'=>$search['isikriteria']])
                                                 ->orderBy($column_order,$direction); 
                 break;
                 case 'Nm_RenstraTujuan' :
                     $data = RENSTRATujuanModel::select(\DB::raw('"tmRenstraTujuan"."RenstraTujuanID","tmRenstraTujuan"."PrioritasKabID",CONCAT("tmPrioritasKab"."Kd_PrioritasKab",\'.\',"tmRenstraTujuan"."Kd_RenstraTujuan") AS "Kd_RenstraTujuan","tmRenstraTujuan"."Nm_RenstraTujuan","tmRenstraTujuan"."TA"'))
                                                 ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmRenstraTujuan.PrioritasKabID')
-                                                ->where('OrgID',$OrgID)
+                                                ->where('OrgIDRPJMD',$OrgIDRPJMD)
                                                 ->where('Nm_RenstraTujuan', 'ilike', '%' . $search['isikriteria'] . '%')
                                                 ->orderBy($column_order,$direction);                                        
                 break;
@@ -75,8 +75,9 @@ class RENSTRATujuanController extends Controller {
         {
             $data = RENSTRATujuanModel::select(\DB::raw('"tmRenstraTujuan"."RenstraTujuanID","tmRenstraTujuan"."PrioritasKabID",CONCAT("tmPrioritasKab"."Kd_PrioritasKab",\'.\',"tmRenstraTujuan"."Kd_RenstraTujuan") AS "Kd_RenstraTujuan","tmRenstraTujuan"."Nm_RenstraTujuan","tmRenstraTujuan"."TA"'))
                                         ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmRenstraTujuan.PrioritasKabID')
-                                        ->where('OrgID',$OrgID)
-                                        ->orderBy($column_order,$direction)
+                                        ->where('OrgIDRPJMD',$OrgIDRPJMD)
+                                        ->orderBy('Kd_PrioritasKab','ASC')
+                                        ->orderBy('Kd_RenstraTujuan','ASC')
                                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('renstratujuan.index'));
@@ -209,10 +210,10 @@ class RENSTRATujuanController extends Controller {
         $json_data = [];
 
         //index
-        if ($request->exists('OrgID'))
+        if ($request->exists('OrgIDRPJMD'))
         {
-            $OrgID = $request->input('OrgID')==''?'none':$request->input('OrgID');
-            $filters['OrgID']=$OrgID;            
+            $OrgIDRPJMD = $request->input('OrgIDRPJMD')==''?'none':$request->input('OrgIDRPJMD');
+            $filters['OrgIDRPJMD']=$OrgIDRPJMD;            
             $this->putControllerStateSession('renstratujuan','filters',$filters);
             
             $data = $this->populateData();
@@ -246,7 +247,7 @@ class RENSTRATujuanController extends Controller {
             case 'superadmin' :     
             case 'bapelitbang' :     
             case 'tapd' :     
-                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);   
+                $daftar_opd=\App\Models\DMaster\OrganisasiRPJMDModel::getDaftarOPDMaster(\HelperKegiatan::getRENSTRATahunMulai(),false);   
             break;
             case 'opd' :               
                 $daftar_opd=\App\Models\UserOPD::getOPD();                      
@@ -279,7 +280,9 @@ class RENSTRATujuanController extends Controller {
     }
     public function getkodetujuan($id)
     {
-        $Kd_RenstraTujuan = RENSTRATujuanModel::where('PrioritasKabID',$id)->count('Kd_RenstraTujuan')+1;
+        $Kd_RenstraTujuan = RENSTRATujuanModel::where('PrioritasKabID',$id)
+                                                ->where('OrgIDRPJMD',$this->getControllerStateSession('renstratujuan','filters.OrgIDRPJMD'))
+                                                ->count('Kd_RenstraTujuan')+1;
         return response()->json(['success'=>true,'Kd_RenstraTujuan'=>$Kd_RenstraTujuan],200);
     }
     /**
@@ -291,7 +294,7 @@ class RENSTRATujuanController extends Controller {
     {        
         $theme = \Auth::user()->theme;
         $filters=$this->getControllerStateSession('renstratujuan','filters');  
-        if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
+        if ($filters['OrgIDRPJMD'] != 'none'&&$filters['OrgIDRPJMD'] != ''&&$filters['OrgIDRPJMD'] != null)
         {
             $daftar_misi=\App\Models\RPJMD\RPJMDMisiModel::select(\DB::raw('"PrioritasKabID",CONCAT(\'[\',"Kd_PrioritasKab",\']. \',"Nm_PrioritasKab") AS "Nm_PrioritasKab"'))
                                                             ->where('TA',\HelperKegiatan::getRPJMDTahunMulai())
@@ -332,7 +335,7 @@ class RENSTRATujuanController extends Controller {
         $renstratujuan = RENSTRATujuanModel::create([
             'RenstraTujuanID'=> uniqid ('uid'),
             'PrioritasKabID' => $request->input('PrioritasKabID'),
-            'OrgID' => $this->getControllerStateSession('renstratujuan','filters.OrgID'),
+            'OrgIDRPJMD' => $this->getControllerStateSession('renstratujuan','filters.OrgIDRPJMD'),
             'Kd_RenstraTujuan' => $request->input('Kd_RenstraTujuan'),
             'Nm_RenstraTujuan' => $request->input('Nm_RenstraTujuan'),
             'Descr' => $request->input('Descr'),

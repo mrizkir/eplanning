@@ -25,7 +25,7 @@ class RENSTRAIndikatorSasaranModel extends Model {
         'IndikatorKinerjaID', 
         'UrsID', 
         'PrgID', 
-        'OrgID',         
+        'OrgIDRPJMD',         
         'NamaIndikator',
         'Descr',        
         'TA',        
@@ -67,7 +67,7 @@ class RENSTRAIndikatorSasaranModel extends Model {
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
 
-    public static function getDaftarIndikatorSasaran($UrsID,$PrgID=null,$OrgID=null,$prepend=true)
+    public static function getDaftarIndikatorSasaran($UrsID,$PrgID=null,$OrgIDRPJMD=null,$prepend=true)
     {   
         $data = RENSTRAIndikatorSasaranModel::where('UrsID',$UrsID)
                                             ->where('TA',config('eplanning.renstra_tahun_mulai'));
@@ -76,9 +76,9 @@ class RENSTRAIndikatorSasaranModel extends Model {
         {
             $data = $data->where('PrgID',$PrgID);
         }
-        if ($OrgID != null)
+        if ($OrgIDRPJMD != null)
         {
-            $data = $data->where('OrgID',$OrgID);
+            $data = $data->where('OrgIDRPJMD',$OrgIDRPJMD);
         }
         
         $daftar_indikator = $prepend==true ? $data->get()

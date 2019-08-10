@@ -92,35 +92,14 @@ class RPJMDMisiController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    /**
+     * digunakan untuk mengurutkan record 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function orderby (Request $request) 
     {
-        $theme = \Auth::user()->theme;
-
-        $orderby = $request->input('orderby') == 'asc'?'desc':'asc';
-        $column=$request->input('column_name');
-        switch($column) 
-        {
-            case 'col-Kd_PrioritasKab' :
-                $column_name = 'Kd_PrioritasKab';
-            break;           
-            case 'col-Nm_PrioritasKab' :
-                $column_name = 'Nm_PrioritasKab';
-            break;           
-            default :
-                $column_name = 'Nm_PrioritasKab';
-        }
-        $this->putControllerStateSession('rpjmdmisi','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
-
-        $data=$this->populateData();
-
-        $datatable = view("pages.$theme.rpjmd.rpjmdmisi.datatable")->with(['page_active'=>'rpjmdmisi',
-                                                            'search'=>$this->getControllerStateSession('rpjmdmisi','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('rpjmdmisi.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('rpjmdmisi.orderby','order'),
-                                                            'data'=>$data])->render();     
-
-        return response()->json(['success'=>true,'datatable'=>$datatable],200);
+        return response()->json(['success'=>true,'datatable'=>null],200);
     }
     /**
      * paginate resource in storage called by ajax

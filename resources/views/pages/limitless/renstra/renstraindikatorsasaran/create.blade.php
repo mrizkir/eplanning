@@ -35,7 +35,7 @@
         </div>
         <div class="panel-body">
             {!! Form::open(['action'=>'RENSTRA\RENSTRAIndikatorSasaranController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                            
-                {{Form::hidden('OrgID',$organisasi->OrgID)}}
+                {{Form::hidden('OrgIDRPJMD',$organisasi->OrgIDRPJMD)}}
                 <div class="form-group">
                     <label class="col-md-2 control-label">OPD / SKPD: </label>
                     <div class="col-md-10">

@@ -19,7 +19,7 @@ class RENSTRASasaranModel extends Model {
      * @var array
      */
     protected $fillable = [
-        'RenstraSasaranID', 'RenstraTujuanID', 'OrgID', 'Kd_RenstraSasaran', 'Nm_RenstraSasaran', 'Descr', 'TA'
+        'RenstraSasaranID', 'RenstraTujuanID', 'OrgIDRPJMD', 'Kd_RenstraSasaran', 'Nm_RenstraSasaran', 'Descr', 'TA'
     ];
     /**
      * primary key tabel ini.

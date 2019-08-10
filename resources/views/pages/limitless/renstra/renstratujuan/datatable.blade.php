@@ -23,14 +23,10 @@
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
                     <th width="150">
-                        <a class="column-sort text-white" id="col-Kd_RenstraTujuan" data-order="{{$direction}}" href="#">
-                            KODE TUJUAN 
-                        </a>                                             
+                        KODE TUJUAN 
                     </th> 
                     <th>
-                        <a class="column-sort text-white" id="col-Nm_RenstraTujuan" data-order="{{$direction}}" href="#">
-                            NAMA TUJUAN  
-                        </a>                                             
+                        NAMA TUJUAN  
                     </th> 
                     <th width="100">TA</th>
                     <th width="100">AKSI</th>

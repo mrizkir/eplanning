@@ -110,35 +110,14 @@ class RPJMDKebijakanController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    /**
+     * digunakan untuk mengurutkan record 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function orderby (Request $request) 
     {
-        $theme = \Auth::user()->theme;
-
-        $orderby = $request->input('orderby') == 'asc'?'desc':'asc';
-        $column=$request->input('column_name');
-        switch($column) 
-        {
-            case 'col-Kd_Kebijakan' :
-                $column_name = 'Kd_Kebijakan';
-            break;           
-            case 'col-Nm_Kebijakan' :
-                $column_name = 'Nm_Kebijakan';
-            break;           
-            default :
-                $column_name = 'Nm_Kebijakan';
-        }
-        $this->putControllerStateSession('rpjmdkebijakan','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
-
-        $data=$this->populateData();
-
-        $datatable = view("pages.$theme.rpjmd.rpjmdkebijakan.datatable")->with(['page_active'=>'rpjmdkebijakan',
-                                                            'search'=>$this->getControllerStateSession('rpjmdkebijakan','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('rpjmdkebijakan.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('rpjmdkebijakan.orderby','order'),
-                                                            'data'=>$data])->render();     
-
-        return response()->json(['success'=>true,'datatable'=>$datatable],200);
+        return response()->json(['success'=>true,'datatable'=>null],200);
     }
     /**
      * paginate resource in storage called by ajax

@@ -22,15 +22,11 @@
             <thead>
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
-                    <th width="150">
-                        <a class="column-sort text-white" id="col-Kd_RenstraSasaran" data-order="{{$direction}}" href="#">
-                            KODE SASARAN 
-                        </a>                                             
+                    <th width="150">                        
+                        KODE SASARAN                                 
                     </th> 
                     <th>
-                        <a class="column-sort text-white" id="col-Nm_RenstraSasaran" data-order="{{$direction}}" href="#">
-                            NAMA SASARAN  
-                        </a>                                             
+                        NAMA SASARAN  
                     </th> 
                     <th width="100">TA</th>
                     <th width="100">AKSI</th>

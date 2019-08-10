@@ -44,10 +44,10 @@ class RENSTRAStrategiController extends Controller {
         if (!$this->checkStateIsExistSession('renstrastrategi','filters')) 
         {            
             $this->putControllerStateSession('renstrastrategi','filters',[
-                                                                    'OrgID'=>'none'
+                                                                    'OrgIDRPJMD'=>'none'
                                                                     ]);
         }        
-        $OrgID= $this->getControllerStateSession(\Helper::getNameOfPage('filters'),'OrgID');
+        $OrgIDRPJMD= $this->getControllerStateSession(\Helper::getNameOfPage('filters'),'OrgIDRPJMD');
 
         if ($this->checkStateIsExistSession('renstrastrategi','search')) 
         {
@@ -61,11 +61,11 @@ class RENSTRAStrategiController extends Controller {
                     $data = RENSTRAStrategiModel::where('Nm_RenstraStrategi', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
-            $data = $data->where('OrgID',$OrgID)->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
+            $data = $data->where('OrgIDRPJMD',$OrgIDRPJMD)->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = RENSTRAStrategiModel::where('OrgID',$OrgID)
+            $data = RENSTRAStrategiModel::where('OrgIDRPJMD',$OrgIDRPJMD)
                                         ->orderBy($column_order,$direction)
                                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
@@ -196,10 +196,10 @@ class RENSTRAStrategiController extends Controller {
         $json_data = [];
 
         //index
-        if ($request->exists('OrgID'))
+        if ($request->exists('OrgIDRPJMD'))
         {
-            $OrgID = $request->input('OrgID')==''?'none':$request->input('OrgID');
-            $filters['OrgID']=$OrgID;            
+            $OrgIDRPJMD = $request->input('OrgIDRPJMD')==''?'none':$request->input('OrgIDRPJMD');
+            $filters['OrgIDRPJMD']=$OrgIDRPJMD;            
             $this->putControllerStateSession('renstrastrategi','filters',$filters);
             
             $data = $this->populateData();
@@ -233,7 +233,7 @@ class RENSTRAStrategiController extends Controller {
             case 'superadmin' :     
             case 'bapelitbang' :     
             case 'tapd' :     
-                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);   
+                $daftar_opd=\App\Models\DMaster\OrganisasiRPJMDModel::getDaftarOPDMaster(\HelperKegiatan::getRENSTRATahunMulai(),false);   
             break;
             case 'opd' :               
                 $daftar_opd=\App\Models\UserOPD::getOPD();                      
@@ -274,7 +274,7 @@ class RENSTRAStrategiController extends Controller {
     {        
         $theme = \Auth::user()->theme;
         $filters=$this->getControllerStateSession('renstrastrategi','filters');  
-        if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
+        if ($filters['OrgIDRPJMD'] != 'none'&&$filters['OrgIDRPJMD'] != ''&&$filters['OrgIDRPJMD'] != null)
         {
             $daftar_sasaran=\App\Models\RENSTRA\RENSTRASasaranModel::select(\DB::raw('"RenstraSasaranID",CONCAT(\'[\',"Kd_RenstraSasaran",\']. \',"Nm_RenstraSasaran") AS "Nm_RenstraSasaran"'))
                                                                 ->where('TA',\HelperKegiatan::getRENSTRATahunMulai())
@@ -314,7 +314,7 @@ class RENSTRAStrategiController extends Controller {
         $renstrastrategi = RENSTRAStrategiModel::create([
             'RenstraStrategiID'=> uniqid ('uid'),
             'RenstraSasaranID' => $request->input('RenstraSasaranID'),
-            'OrgID' => $this->getControllerStateSession('renstrastrategi','filters.OrgID'),
+            'OrgIDRPJMD' => $this->getControllerStateSession('renstrastrategi','filters.OrgIDRPJMD'),
             'Kd_RenstraStrategi' => $request->input('Kd_RenstraStrategi'),
             'Nm_RenstraStrategi' => $request->input('Nm_RenstraStrategi'),
             'Descr' => $request->input('Descr'),

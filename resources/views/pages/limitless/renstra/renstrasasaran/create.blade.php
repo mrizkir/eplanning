@@ -98,6 +98,28 @@ $(document).ready(function () {
         placeholder: "PILIH TUJUAN",
         allowClear:true
     });
+    $(document).on('change','#RenstraTujuanID',function(ev) {
+        ev.preventDefault();
+        RenstraTujuanID=$(this).val();        
+        $.ajax({
+            type:'get',
+            url: url_current_page+'/getkodesasaran/'+RenstraTujuanID,
+            dataType: 'json',
+            data: {
+                "_token": token,
+                "RenstraTujuanID": RenstraTujuanID,
+            },
+            success:function(result)
+            {   
+                const element = AutoNumeric.getAutoNumericElement('#Kd_RenstraSasaran');
+                element.set(result.Kd_RenstraSasaran);                                
+            },
+            error:function(xhr, status, error)
+            {   
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    }); 
     $('#frmdata').validate({
         ignore: [],
         rules: {

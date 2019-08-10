@@ -61,18 +61,18 @@ class OrganisasiRPJMDModel extends Model {
     /**
      * digunakan untuk mendapatkan daftar organisasi master
      */
-    public static function getDaftarOPDMaster ($ta,$prepend=true,$ursid=NULL,$OrgID=NUll) 
+    public static function getDaftarOPDMaster ($ta,$prepend=true,$ursid=NULL,$OrgIDRPJMD=NUll) 
     {
-        $q=\DB::table('v_urusan_organisasi')
+        $q=\DB::table('v_urusan_organisasi_master')
                 ->where('TA',$ta);
         
         if ($ursid !==NULL)
         {
             $q->where('UrsID',$ursid);    
         }
-        if ($OrgID !==NULL)
+        if ($OrgIDRPJMD !==NULL)
         {
-            $q->where('OrgID',$OrgID);    
+            $q->where('OrgIDRPJMD',$OrgIDRPJMD);    
         }
         $q->orderBy('kode_organisasi');
         $q = $q->get();
@@ -80,7 +80,7 @@ class OrganisasiRPJMDModel extends Model {
         $daftar_organisasi=($prepend==true)?['none'=>'DAFTAR OPD / SKPD']:[];        
         foreach ($q as $k=>$v)
         {
-            $daftar_organisasi[$v->OrgID]=$v->kode_organisasi.'. '.$v->OrgNm;
+            $daftar_organisasi[$v->OrgIDRPJMD]=$v->kode_organisasi.'. '.$v->OrgNm;
         } 
         return $daftar_organisasi;
     }
