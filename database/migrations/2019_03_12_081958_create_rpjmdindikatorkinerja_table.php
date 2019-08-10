@@ -19,7 +19,7 @@ class CreateRpjmdindikatorkinerjaTable extends Migration
             $table->string('ProgramKebijakanID',19);            
             $table->string('UrsID',19); 
             $table->string('PrgID',19);
-            $table->json('OrgID',19);                    
+            $table->json('OrgIDRPJMD',19);                    
             $table->text('NamaIndikator')->nullable();             
             $table->decimal('KondisiAwal',6,2)->default(0);
             $table->decimal('TargetN1',6,2)->default(0);
@@ -63,8 +63,7 @@ class CreateRpjmdindikatorkinerjaTable extends Migration
                     ->references('PrgID')
                     ->on('tmPrg')
                     ->onDelete('cascade')
-                    ->onUpdate('cascade');
-                    
+                    ->onUpdate('cascade');                    
                     
         });
     }

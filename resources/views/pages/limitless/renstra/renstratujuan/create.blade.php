@@ -98,6 +98,28 @@ $(document).ready(function () {
         placeholder: "PILIH MISI",
         allowClear:true
     });
+    $(document).on('change','#PrioritasKabID',function(ev) {
+        ev.preventDefault();
+        PrioritasKabID=$(this).val();        
+        $.ajax({
+            type:'get',
+            url: url_current_page+'/getkodetujuan/'+PrioritasKabID,
+            dataType: 'json',
+            data: {
+                "_token": token,
+                "PrioritasKabID": PrioritasKabID,
+            },
+            success:function(result)
+            {   
+                const element = AutoNumeric.getAutoNumericElement('#Kd_RenstraTujuan');
+                element.set(result.Kd_RenstraTujuan);                                
+            },
+            error:function(xhr, status, error)
+            {   
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    }); 
     $('#frmdata').validate({
         ignore: [],
         rules: {

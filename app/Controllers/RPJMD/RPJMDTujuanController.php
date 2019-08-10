@@ -201,7 +201,7 @@ class RPJMDTujuanController extends Controller {
     public function index(Request $request)
     {                
         $theme = \Auth::user()->theme;
-
+        
         $search=$this->getControllerStateSession('rpjmdtujuan','search');
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('rpjmdtujuan'); 
         $data = $this->populateData($currentpage);

@@ -28,7 +28,7 @@ class CreateVIndikatorKinerjaView extends Migration
                 A."PrgID",
                 E."Kd_Prog",
                 E."PrgNm",
-                A."OrgID",                          
+                A."OrgIDRPJMD",                          
                 A."NamaIndikator",
                 A."KondisiAwal",
                 A."TargetN1",

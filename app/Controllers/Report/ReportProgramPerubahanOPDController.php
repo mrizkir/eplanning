@@ -85,7 +85,7 @@ class ReportProgramPerubahanOPDController extends Controller
                 $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);                 
             break;
             case 'opd' :               
-                $daftar_opd=\App\Models\UserOPD::getOPD(false); 
+                $daftar_opd=\App\Models\UserOPD::getOPD(); 
             break;
         }
         return view("pages.$theme.report.reportprogramperubahanopd.index")->with(['page_active'=>$this->NameOfPage, 

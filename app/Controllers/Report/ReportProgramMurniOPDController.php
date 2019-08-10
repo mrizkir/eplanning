@@ -85,7 +85,7 @@ class ReportProgramMurniOPDController extends Controller
                 
             break;
             case 'opd' :               
-                $daftar_opd=\App\Models\UserOPD::getOPD(false);  
+                $daftar_opd=\App\Models\UserOPD::getOPD();  
             break;
         }
         return view("pages.$theme.report.reportprogrammurniopd.index")->with(['page_active'=>$this->NameOfPage, 

@@ -39,7 +39,8 @@
                     <th colspan="2">
                         TAHUN 5
                     </th>
-                    <th colspan="2">KONDISI KINERJA <br>AKHIR RPJDM ({{HelperKegiatan::getRPJMDTahunAkhir()}}}}</th>
+                    <th colspan="2">KONDISI KINERJA <br>AKHIR RPJDM ({{HelperKegiatan::getRPJMDTahunAkhir()}})</th>
+                    <th width="TA" rowspan="2">TA</th>
                     <th width="120" rowspan="2">AKSI</th>
                 </tr>
                 <tr class="bg-teal-700">
@@ -79,7 +80,10 @@
                     <td>{{Helper::formatAngka($item->TargetN5)}}</td>
                     <td>{{Helper::formatUang($item->PaguDanaN5)}}</td>
                     <td>{{Helper::formatAngka($item->KondisiAkhirTarget)}}</td>
-                    <td>{{Helper::formatUang($item->KondisiAkhirPaguDana)}}</td>          
+                    <td>{{Helper::formatUang($item->KondisiAkhirPaguDana)}}</td>   
+                    <td>
+                        {{$item->TA}}
+                    </td>       
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">

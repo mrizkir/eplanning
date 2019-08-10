@@ -233,7 +233,7 @@ class RENSTRAKebijakanController extends Controller {
             case 'superadmin' :     
             case 'bapelitbang' :     
             case 'tapd' :     
-                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getRENSTRATahunMulai(),false);   
+                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);   
             break;
             case 'opd' :               
                 $daftar_opd=\App\Models\UserOPD::getOPD();                      

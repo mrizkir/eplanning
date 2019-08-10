@@ -161,6 +161,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
       
     //RENSTRA - Tujuan
     Route::resource('/perencanaan/renstra/renstratujuan','RENSTRA\RENSTRATujuanController',['parameters'=>['renstratujuan'=>'uuid']]); 
+    Route::get('/perencanaan/renstra/renstratujuan/getkodetujuan/{uuid}',['uses'=>'RENSTRA\RENSTRATujuanController@getkodetujuan','as'=>'renstratujuan.getkodetujuan']);              
     Route::post('/perencanaan/renstra/renstratujuan/filter',['uses'=>'RENSTRA\RENSTRATujuanController@filter','as'=>'renstratujuan.filter']); 
     Route::post('/perencanaan/renstra/renstratujuan/search',['uses'=>'RENSTRA\RENSTRATujuanController@search','as'=>'renstratujuan.search']); 
     Route::get('/perencanaan/renstra/renstratujuan/paginate/{id}',['uses'=>'RENSTRA\RENSTRATujuanController@paginate','as'=>'renstratujuan.paginate']);              
@@ -169,6 +170,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
 
     //RENSTRA - Sasaran
     Route::resource('/perencanaan/renstra/renstrasasaran','RENSTRA\RENSTRASasaranController',['parameters'=>['renstrasasaran'=>'uuid']]); 
+    Route::get('/perencanaan/renstra/renstrasasaran/getkodesasaran/{uuid}',['uses'=>'RENSTRA\RENSTRASasaranController@getkodesasaran','as'=>'renstrasasaran.getkodesasaran']);              
     Route::post('/perencanaan/renstra/renstrasasaran/search',['uses'=>'RENSTRA\RENSTRASasaranController@search','as'=>'renstrasasaran.search']); 
     Route::post('/perencanaan/renstra/renstrasasaran/filter',['uses'=>'RENSTRA\RENSTRASasaranController@filter','as'=>'renstrasasaran.filter']); 
     Route::get('/perencanaan/renstra/renstrasasaran/paginate/{id}',['uses'=>'RENSTRA\RENSTRASasaranController@paginate','as'=>'renstrasasaran.paginate']);              
@@ -177,6 +179,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
 
     //RENSTRA - Strategi
     Route::resource('/perencanaan/renstra/renstrastrategi','RENSTRA\RENSTRAStrategiController',['parameters'=>['renstrastrategi'=>'uuid']]); 
+    Route::get('/perencanaan/renstra/renstrastrategi/getkodestrategi/{uuid}',['uses'=>'RENSTRA\RENSTRAStrategiController@getkodestrategi','as'=>'renstrastrategi.getkodestrategi']);              
     Route::post('/perencanaan/renstra/renstrastrategi/search',['uses'=>'RENSTRA\RENSTRAStrategiController@search','as'=>'renstrastrategi.search']); 
     Route::post('/perencanaan/renstra/renstrastrategi/filter',['uses'=>'RENSTRA\RENSTRAStrategiController@filter','as'=>'renstrastrategi.filter']); 
     Route::get('/perencanaan/renstra/renstrastrategi/paginate/{id}',['uses'=>'RENSTRA\RENSTRAStrategiController@paginate','as'=>'renstrastrategi.paginate']);              
@@ -185,6 +188,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
 
     //RENSTRA - Kebijakan
     Route::resource('/perencanaan/renstra/renstrakebijakan','RENSTRA\RENSTRAKebijakanController',['parameters'=>['renstrakebijakan'=>'uuid']]); 
+    Route::get('/perencanaan/renstra/renstrakebijakan/getkodekebijakan/{uuid}',['uses'=>'RENSTRA\RENSTRAKebijakanController@getkodekebijakan','as'=>'renstrastrategi.getkodekebijakan']);              
     Route::post('/perencanaan/renstra/renstrakebijakan/search',['uses'=>'RENSTRA\RENSTRAKebijakanController@search','as'=>'renstrakebijakan.search']); 
     Route::post('/perencanaan/renstra/renstrakebijakan/filter',['uses'=>'RENSTRA\RENSTRAKebijakanController@filter','as'=>'renstrakebijakan.filter']); 
     Route::get('/perencanaan/renstra/renstrakebijakan/paginate/{id}',['uses'=>'RENSTRA\RENSTRAKebijakanController@paginate','as'=>'renstrakebijakan.paginate']);              

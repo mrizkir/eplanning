@@ -19,7 +19,7 @@ class CreateRenstraindikatorTable extends Migration
             $table->string('IndikatorKinerjaID',19); 
             $table->string('UrsID',19);
             $table->string('PrgID',19);
-            $table->string('OrgID',19);
+            $table->string('OrgIDRPJMD',19);
 
             $table->string('NamaIndikator'); 
 
@@ -36,7 +36,7 @@ class CreateRenstraindikatorTable extends Migration
             $table->index('IndikatorKinerjaID');
             $table->index('UrsID');
             $table->index('PrgID');
-            $table->index('OrgID');
+            $table->index('OrgIDRPJMD');
             $table->index('RenstraIndikatorID_Src');
 
             $table->foreign('RenstraKebijakanID')
@@ -64,9 +64,9 @@ class CreateRenstraindikatorTable extends Migration
                     ->onDelete('cascade')
                     ->onUpdate('cascade');
 
-            $table->foreign('OrgID')
-                    ->references('OrgID')
-                    ->on('tmOrg')
+            $table->foreign('OrgIDRPJMD')
+                    ->references('OrgIDRPJMD')
+                    ->on('tmOrgRPJMD')
                     ->onDelete('cascade')
                     ->onUpdate('cascade');
                     

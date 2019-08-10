@@ -267,6 +267,11 @@ class RENSTRASasaranController extends Controller {
                                                                         'direction'=>$this->getControllerStateSession('renstrasasaran.orderby','order'),
                                                                         'data'=>$data]);               
     }
+    public function getkodesasaran($id)
+    {
+        $Kd_RenstraSasaran = RENSTRASasaranModel::where('RenstraSasaranID',$id)->count('Kd_RenstraSasaran')+1;
+        return response()->json(['success'=>true,'Kd_RenstraSasaran'=>$Kd_RenstraSasaran],200);
+    }
     /**
      * Show the form for creating a new resource.
      *

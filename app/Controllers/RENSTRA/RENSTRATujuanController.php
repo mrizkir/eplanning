@@ -55,12 +55,16 @@ class RENSTRATujuanController extends Controller {
             switch ($search['kriteria']) 
             {
                 case 'Kd_RenstraTujuan' :
-                    $data = RENSTRATujuanModel::where('OrgID',$OrgID)
+                    $data = RENSTRATujuanModel::select(\DB::raw('"tmRenstraTujuan"."RenstraTujuanID","tmRenstraTujuan"."PrioritasKabID",CONCAT("tmPrioritasKab"."Kd_PrioritasKab",\'.\',"tmRenstraTujuan"."Kd_RenstraTujuan") AS "Kd_RenstraTujuan","tmRenstraTujuan"."Nm_RenstraTujuan","tmRenstraTujuan"."TA"'))
+                                                ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmRenstraTujuan.PrioritasKabID')
+                                                ->where('OrgID',$OrgID)
                                                 ->where(['Kd_RenstraTujuan'=>$search['isikriteria']])
                                                 ->orderBy($column_order,$direction); 
                 break;
                 case 'Nm_RenstraTujuan' :
-                    $data = RENSTRATujuanModel::where('OrgID',$OrgID)
+                    $data = RENSTRATujuanModel::select(\DB::raw('"tmRenstraTujuan"."RenstraTujuanID","tmRenstraTujuan"."PrioritasKabID",CONCAT("tmPrioritasKab"."Kd_PrioritasKab",\'.\',"tmRenstraTujuan"."Kd_RenstraTujuan") AS "Kd_RenstraTujuan","tmRenstraTujuan"."Nm_RenstraTujuan","tmRenstraTujuan"."TA"'))
+                                                ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmRenstraTujuan.PrioritasKabID')
+                                                ->where('OrgID',$OrgID)
                                                 ->where('Nm_RenstraTujuan', 'ilike', '%' . $search['isikriteria'] . '%')
                                                 ->orderBy($column_order,$direction);                                        
                 break;
@@ -69,7 +73,9 @@ class RENSTRATujuanController extends Controller {
         }
         else
         {
-            $data = RENSTRATujuanModel::where('OrgID',$OrgID)
+            $data = RENSTRATujuanModel::select(\DB::raw('"tmRenstraTujuan"."RenstraTujuanID","tmRenstraTujuan"."PrioritasKabID",CONCAT("tmPrioritasKab"."Kd_PrioritasKab",\'.\',"tmRenstraTujuan"."Kd_RenstraTujuan") AS "Kd_RenstraTujuan","tmRenstraTujuan"."Nm_RenstraTujuan","tmRenstraTujuan"."TA"'))
+                                        ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmRenstraTujuan.PrioritasKabID')
+                                        ->where('OrgID',$OrgID)
                                         ->orderBy($column_order,$direction)
                                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
@@ -270,6 +276,11 @@ class RENSTRATujuanController extends Controller {
                                                                     'column_order'=>$this->getControllerStateSession('renstratujuan.orderby','column_name'),
                                                                     'direction'=>$this->getControllerStateSession('renstratujuan.orderby','order'),
                                                                     'data'=>$data]);               
+    }
+    public function getkodetujuan($id)
+    {
+        $Kd_RenstraTujuan = RENSTRATujuanModel::where('PrioritasKabID',$id)->count('Kd_RenstraTujuan')+1;
+        return response()->json(['success'=>true,'Kd_RenstraTujuan'=>$Kd_RenstraTujuan],200);
     }
     /**
      * Show the form for creating a new resource.
