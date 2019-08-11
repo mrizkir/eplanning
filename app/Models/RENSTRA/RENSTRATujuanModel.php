@@ -19,7 +19,7 @@ class RENSTRATujuanModel extends Model {
      * @var array
      */
     protected $fillable = [
-        'RenstraTujuanID', 'RenstraMisiID', 'PrioritasKabID', 'OrgIDRPJMD', 'Kd_RenstraTujuan', 'Nm_RenstraTujuan', 'Descr', 'TA'
+        'RenstraTujuanID', 'PrioritasSasaranKabID', 'PrioritasKabID', 'OrgIDRPJMD', 'Kd_RenstraTujuan', 'Nm_RenstraTujuan', 'Descr', 'TA'
     ];
     /**
      * primary key tabel ini.
@@ -49,7 +49,7 @@ class RENSTRATujuanModel extends Model {
     /**
      * log the changed attributes for all these events 
      */
-    protected static $logAttributes = ['RenstraTujuanID', 'Nm_Tujuan'];
+    protected static $logAttributes = ['RenstraTujuanID', 'Nm_RenstraTujuan'];
     /**
      * log changes to all the $fillable attributes of the model
      */

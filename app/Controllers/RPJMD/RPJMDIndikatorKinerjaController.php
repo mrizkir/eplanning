@@ -262,7 +262,6 @@ class RPJMDIndikatorKinerjaController extends Controller {
             'NamaIndikator' => $request->input('NamaIndikator'), 
             'KondisiAwal' => $request->input('KondisiAwal'),             
             'Satuan' => $request->input('Satuan'),             
-            'Operator' => $request->input('Operator'),             
             'TargetN1' => $request->input('TargetN1'),
             'TargetN2' => $request->input('TargetN2'),
             'TargetN3' => $request->input('TargetN3'),
@@ -400,7 +399,6 @@ class RPJMDIndikatorKinerjaController extends Controller {
         $rpjmdindikatorkinerja->NamaIndikator=$request->input('NamaIndikator'); 
         $rpjmdindikatorkinerja->KondisiAwal=$request->input('KondisiAwal');             
         $rpjmdindikatorkinerja->Satuan=$request->input('Satuan');             
-        $rpjmdindikatorkinerja->Operator=$request->input('Operator');             
         $rpjmdindikatorkinerja->TargetN1=$request->input('TargetN1');
         $rpjmdindikatorkinerja->TargetN2=$request->input('TargetN2');
         $rpjmdindikatorkinerja->TargetN3=$request->input('TargetN3');

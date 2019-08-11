@@ -67,15 +67,15 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>KODE MISI : </strong></label>
+                                <label class="col-md-4 control-label"><strong>KODE SASARAN : </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->Kd_PrioritasKab}}</p>
+                                    <p class="form-control-static">{{$data->Kd_Sasaran}}</p>
                                 </div>                            
                             </div>                            
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>NAMA MISI: </strong></label>
+                                <label class="col-md-4 control-label"><strong>NAMA SASARAN: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->Nm_PrioritasKab}}</p>
+                                    <p class="form-control-static">{{$data->Nm_Sasaran}}</p>
                                 </div>                            
                             </div>     
                             <div class="form-group">

@@ -96,7 +96,7 @@
         <div class="panel-heading">
             <h5 class="panel-title">
                 <i class="icon-pencil7 position-left"></i> 
-                TAMBAH INDIKATOR TUJUAN
+                TAMBAH INDIKATOR SASARAN DAN TARGET CAPAIAN
             </h5>            
         </div>
         <div class="panel-body">            
@@ -153,14 +153,7 @@
                 <div class="form-group">
                     {{Form::label('KondisiAkhir','KONDISI AKHIR RPJMD ('.(HelperKegiatan::getRPJMDTahunAkhir()+1).')',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        <div class="row">
-                            <div class="col-md-1">
-                                {{Form::select('Operator',['='=>'=','>'=>'>','>='=>'>=','<'=>'<','<='=>'<='],'',['class'=>'form-control'])}}
-                            </div>
-                            <div class="col-md-11">
-                                {{Form::text('KondisiAkhir','',['class'=>'form-control','placeholder'=>'KONDISI AKHIR RPJMD'])}}
-                            </div>
-                        </div>                        
+                        {{Form::text('KondisiAkhir','',['class'=>'form-control','placeholder'=>'KONDISI AKHIR RPJMD'])}}
                     </div>
                 </div>
                 <div class="form-group">
@@ -183,20 +176,10 @@
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
-<script src="{!!asset('themes/limitless/assets/js/autoNumeric.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
-    AutoNumeric.multiple(['#KondisiAwal','#N1','#N2','#N3','#N4','#N5','#KondisiAkhir'], {
-                            allowDecimalPadding: false,                            
-                            numericPos:true,
-                            decimalPlaces : 2,
-                            digitGroupSeparator : '',
-                            showWarnings:false,
-                            unformatOnSubmit: true,
-                            modifyValueOnWheel:false
-                        });
     $(document).on('click',".btnDeleteSasaran", function(ev) {
         if (confirm('Apakah Anda ingin menghapus Data RPJMD Sasaran ini ?')) {
             let url_ = $(this).attr("data-url");

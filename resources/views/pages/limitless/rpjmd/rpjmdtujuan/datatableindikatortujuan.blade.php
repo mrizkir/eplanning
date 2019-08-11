@@ -28,7 +28,7 @@
                 <td>{{$item->NamaIndikator}}</td>
                 <td>{{$item->Satuan}}</td>
                 <td>{{$item->KondisiAwal}}</td>                        
-                <td>{{$item->Operator}}{{$item->KondisiAkhir}}</td>                                    
+                <td>{{$item->KondisiAkhir}}</td>                                    
                 <td>                    
                     <ul class="icons-list">
                         <li class="text-primary-600">                            

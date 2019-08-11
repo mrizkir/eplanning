@@ -19,7 +19,7 @@ class RPJMDTujuanIndikatorModel extends Model {
      * @var array
      */
     protected $fillable = [
-        'PrioritasIndikatorTujuanID', 'PrioritasTujuanKabID', 'NamaIndikator', 'KondisiAwal', 'KondisiAkhir', 'Satuan', 'Operator','Descr', 'TA', 'PrioritasIndikatorTujuanID_Src'
+        'PrioritasIndikatorTujuanID', 'PrioritasTujuanKabID', 'NamaIndikator', 'KondisiAwal', 'KondisiAkhir', 'Satuan', 'Descr', 'TA', 'PrioritasIndikatorTujuanID_Src'
     ];
     /**
      * primary key tabel ini.

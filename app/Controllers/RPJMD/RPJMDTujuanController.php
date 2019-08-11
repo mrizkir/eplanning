@@ -192,6 +192,17 @@ class RPJMDTujuanController extends Controller {
                                                                     'direction'=>$this->getControllerStateSession('rpjmdtujuan.orderby','order'),
                                                                     'data'=>$data]);               
     }
+    public function getdaftartujuanrpjmd($id)
+    {
+        $daftar_tujuan=\App\Models\RPJMD\RPJMDTujuanModel::select(\DB::raw('"PrioritasTujuanKabID",CONCAT(\'[\',"Kd_PrioritasKab",\'.\',"Kd_Tujuan",\']. \',"Nm_Tujuan") AS "Nm_Tujuan"'))
+                                                        ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmPrioritasTujuanKab.PrioritasKabID')
+                                                        ->where('tmPrioritasTujuanKab.PrioritasKabID',$id)                                                        
+                                                        ->orderBy('Kd_Tujuan','ASC')
+                                                        ->get()
+                                                        ->pluck('Nm_Tujuan','PrioritasTujuanKabID')
+                                                        ->toArray();
+        return response()->json(['success'=>true,'daftar_tujuan'=>$daftar_tujuan],200);
+    }  
     public function getkodetujuan($id)
     {
         $Kd_Tujuan = RPJMDTujuanModel::where('PrioritasKabID',$id)->count('Kd_Tujuan')+1;
@@ -278,7 +289,6 @@ class RPJMDTujuanController extends Controller {
             'KondisiAwal' => $request->input('KondisiAwal'),
             'KondisiAkhir' => $request->input('KondisiAkhir'),
             'Satuan' => $request->input('Satuan'),
-            'Operator' => $request->input('Operator'),
             'Descr' => $request->input('Descr'),
             'TA' => \HelperKegiatan::getRPJMDTahunMulai()
         ]);        
@@ -433,8 +443,7 @@ class RPJMDTujuanController extends Controller {
         $rpjmdindikatortujuan->NamaIndikator = $request->input('NamaIndikator');
         $rpjmdindikatortujuan->KondisiAwal = $request->input('KondisiAwal');
         $rpjmdindikatortujuan->KondisiAkhir = $request->input('KondisiAkhir');
-        $rpjmdindikatortujuan->Satuan = $request->input('Satuan');
-        $rpjmdindikatortujuan->Operator = $request->input('Operator');
+        $rpjmdindikatortujuan->Satuan = $request->input('Satuan');        
         $rpjmdindikatortujuan->Descr = $request->input('Descr');
         $rpjmdindikatortujuan->save();
         

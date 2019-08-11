@@ -41,7 +41,6 @@ class RPJMDIndikatorKinerjaModel extends Model {
         'KondisiAkhirTarget',
         'KondisiAkhirPaguDana',
         'Satuan',
-        'Operator',
         'Descr',
         'TA'
     ];

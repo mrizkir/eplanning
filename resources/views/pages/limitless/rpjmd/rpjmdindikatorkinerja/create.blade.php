@@ -91,12 +91,6 @@
                             {{Form::text('Satuan','',['class'=>'form-control','placeholder'=>'SATUAN'])}}
                         </div>
                     </div>
-                    <div class="form-group">
-                        {{Form::label('Operator','OPERATOR',['class'=>'control-label col-md-2'])}}
-                        <div class="col-md-10">                            
-                            {{Form::select('Operator',['='=>'=','>'=>'>','>='=>'>=','<'=>'<','<='=>'<=','ratio'=>'ratio'],'',['class'=>'form-control'])}}
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="row">                
@@ -208,15 +202,6 @@
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
-    AutoNumeric.multiple(['#KondisiAwal','#TargetN1','#TargetN2','#TargetN3','#TargetN4','#TargetN5','#KondisiAkhirTarget'], {
-                            allowDecimalPadding: false,                            
-                            numericPos:true,
-                            decimalPlaces : 2,
-                            digitGroupSeparator : '',
-                            showWarnings:false,
-                            unformatOnSubmit: true,
-                            modifyValueOnWheel:false
-                        });
     AutoNumeric.multiple(['#PaguDanaN1','#PaguDanaN2','#PaguDanaN3','#PaguDanaN4','#PaguDanaN5','#KondisiAkhirPaguDana'],{
                                             allowDecimalPadding: false,
                                             decimalCharacter: ",",

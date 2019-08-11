@@ -111,9 +111,10 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/perencanaan/rpjmd/rpjmdmisi/changenumberrecordperpage',['uses'=>'RPJMD\RPJMDMisiController@changenumberrecordperpage','as'=>'rpjmdmisi.changenumberrecordperpage']);  
     Route::post('/perencanaan/rpjmd/rpjmdmisi/orderby',['uses'=>'RPJMD\RPJMDMisiController@orderby','as'=>'rpjmdmisi.orderby']); 
 
-    //RPJMD - Tujuan
+    //RPJMD - Tujuan. getdaftartujuanrpjmd yang jadi uuid-nya dari rpjmdmisi
     Route::resource('/perencanaan/rpjmd/rpjmdtujuan','RPJMD\RPJMDTujuanController',['parameters'=>['rpjmdtujuan'=>'uuid']]); 
-    Route::post('/perencanaan/rpjmd/rpjmdtujuan/store1',['uses'=>'RPJMD\RPJMDTujuanController@store1','as'=>'rpjmdtujuan.store1']);  
+    Route::post('/perencanaan/rpjmd/rpjmdtujuan/store1',['uses'=>'RPJMD\RPJMDTujuanController@store1','as'=>'rpjmdtujuan.store1']);      
+    Route::get('/perencanaan/rpjmd/rpjmdtujuan/getdaftartujuanrpjmd/{uuid}',['uses'=>'RPJMD\RPJMDTujuanController@getdaftartujuanrpjmd','as'=>'rpjmdtujuan.getdaftartujuanrpjmd']);              
     Route::get('/perencanaan/rpjmd/rpjmdtujuan/getkodetujuan/{uuid}',['uses'=>'RPJMD\RPJMDTujuanController@getkodetujuan','as'=>'rpjmdtujuan.getkodetujuan']);              
     Route::get('/perencanaan/rpjmd/rpjmdtujuan/edit1/{uuid}',['uses'=>'RPJMD\RPJMDTujuanController@edit1','as'=>'rpjmdtujuan.edit1']);  
     Route::put('/perencanaan/rpjmd/rpjmdtujuan/update1/{uuid}',['uses'=>'RPJMD\RPJMDTujuanController@update1','as'=>'rpjmdtujuan.update1']);  
@@ -122,9 +123,10 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/perencanaan/rpjmd/rpjmdtujuan/changenumberrecordperpage',['uses'=>'RPJMD\RPJMDTujuanController@changenumberrecordperpage','as'=>'rpjmdtujuan.changenumberrecordperpage']);  
     Route::post('/perencanaan/rpjmd/rpjmdtujuan/orderby',['uses'=>'RPJMD\RPJMDTujuanController@orderby','as'=>'rpjmdtujuan.orderby']); 
     
-    //RPJMD - Sasaran
+    //RPJMD - Sasaran getdaftarsasaranrpjmd yang jadi uuid-nya dari rpjmdtujuan
     Route::resource('/perencanaan/rpjmd/rpjmdsasaran','RPJMD\RPJMDSasaranController',['parameters'=>['rpjmdsasaran'=>'uuid']]); 
-    Route::post('/perencanaan/rpjmd/rpjmdsasaran/store1',['uses'=>'RPJMD\RPJMDSasaranController@store1','as'=>'rpjmdsasaran.store1']);  
+    Route::post('/perencanaan/rpjmd/rpjmdsasaran/store1',['uses'=>'RPJMD\RPJMDSasaranController@store1','as'=>'rpjmdsasaran.store1']);
+    Route::get('/perencanaan/rpjmd/rpjmdsasaran/getdaftarsasaranrpjmd/{uuid}',['uses'=>'RPJMD\RPJMDSasaranController@getdaftarsasaranrpjmd','as'=>'rpjmdsasaran.getdaftarsasaranrpjmd']);                
     Route::get('/perencanaan/rpjmd/rpjmdsasaran/getkodesasaran/{uuid}',['uses'=>'RPJMD\RPJMDSasaranController@getkodesasaran','as'=>'rpjmdsasaran.getkodesasaran']);              
     Route::get('/perencanaan/rpjmd/rpjmdsasaran/edit1/{uuid}',['uses'=>'RPJMD\RPJMDSasaranController@edit1','as'=>'rpjmdsasaran.edit1']);  
     Route::put('/perencanaan/rpjmd/rpjmdsasaran/update1/{uuid}',['uses'=>'RPJMD\RPJMDSasaranController@update1','as'=>'rpjmdsasaran.update1']);  
@@ -161,6 +163,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
       
     //RENSTRA - Tujuan
     Route::resource('/perencanaan/renstra/renstratujuan','RENSTRA\RENSTRATujuanController',['parameters'=>['renstratujuan'=>'uuid']]); 
+    Route::get('/perencanaan/renstra/renstratujuan/getdaftarsasaranrpjmd/{uuid}',['uses'=>'RENSTRA\RENSTRATujuanController@getdaftarsasaranrpjmd','as'=>'renstratujuan.getdaftarsasaranrpjmd']);                
     Route::get('/perencanaan/renstra/renstratujuan/getkodetujuan/{uuid}',['uses'=>'RENSTRA\RENSTRATujuanController@getkodetujuan','as'=>'renstratujuan.getkodetujuan']);              
     Route::post('/perencanaan/renstra/renstratujuan/filter',['uses'=>'RENSTRA\RENSTRATujuanController@filter','as'=>'renstratujuan.filter']); 
     Route::post('/perencanaan/renstra/renstratujuan/search',['uses'=>'RENSTRA\RENSTRATujuanController@search','as'=>'renstratujuan.search']); 

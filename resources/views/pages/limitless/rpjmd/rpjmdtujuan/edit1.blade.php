@@ -122,14 +122,7 @@
                 <div class="form-group">
                     {{Form::label('KondisiAkhir','KONDISI AKHIR RPJMD',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        <div class="row">
-                            <div class="col-md-1">
-                                {{Form::select('Operator',['='=>'=','>'=>'>','>='=>'>=','<'=>'<','<='=>'<='],$data_indikator->Operator,['class'=>'form-control'])}}
-                            </div>
-                            <div class="col-md-11">
-                                {{Form::text('KondisiAkhir',$data_indikator->KondisiAkhir,['class'=>'form-control','placeholder'=>'KONDISI AKHIR RPJMD'])}}
-                            </div>
-                        </div>                        
+                        {{Form::text('KondisiAkhir',$data_indikator->KondisiAkhir,['class'=>'form-control','placeholder'=>'KONDISI AKHIR RPJMD'])}}
                     </div>
                 </div>
                 <div class="form-group">

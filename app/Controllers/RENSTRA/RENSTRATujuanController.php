@@ -56,27 +56,29 @@ class RENSTRATujuanController extends Controller {
             {
                 case 'Kd_RenstraTujuan' :
                     $data = RENSTRATujuanModel::select(\DB::raw('"tmRenstraTujuan"."RenstraTujuanID","tmRenstraTujuan"."PrioritasKabID",CONCAT("tmPrioritasKab"."Kd_PrioritasKab",\'.\',"tmRenstraTujuan"."Kd_RenstraTujuan") AS "Kd_RenstraTujuan","tmRenstraTujuan"."Nm_RenstraTujuan","tmRenstraTujuan"."TA"'))
-                                                ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmRenstraTujuan.PrioritasKabID')
+                                                ->join('tmPrioritasSasaranKab','tmPrioritasSasaranKab.PrioritasSasaranKabID','tmRenstraTujuan.PrioritasSasaranKabID')
                                                 ->where('OrgIDRPJMD',$OrgIDRPJMD)
                                                 ->where(['Kd_RenstraTujuan'=>$search['isikriteria']])
-                                                ->orderBy($column_order,$direction); 
+                                                ->orderBy('Kd_Sasaran','ASC')
+                                                ->orderBy('Kd_RenstraTujuan','ASC');
                 break;
                 case 'Nm_RenstraTujuan' :
-                    $data = RENSTRATujuanModel::select(\DB::raw('"tmRenstraTujuan"."RenstraTujuanID","tmRenstraTujuan"."PrioritasKabID",CONCAT("tmPrioritasKab"."Kd_PrioritasKab",\'.\',"tmRenstraTujuan"."Kd_RenstraTujuan") AS "Kd_RenstraTujuan","tmRenstraTujuan"."Nm_RenstraTujuan","tmRenstraTujuan"."TA"'))
-                                                ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmRenstraTujuan.PrioritasKabID')
+                    $data = RENSTRATujuanModel::select(\DB::raw('"tmRenstraTujuan"."RenstraTujuanID","tmRenstraTujuan"."PrioritasSasaranKabID",CONCAT("tmPrioritasSasaranKab"."Kd_Sasaran",\'.\',"tmRenstraTujuan"."Kd_RenstraTujuan") AS "Kd_RenstraTujuan","tmRenstraTujuan"."Nm_RenstraTujuan","tmRenstraTujuan"."TA"'))
+                                                ->join('tmPrioritasSasaranKab','tmPrioritasSasaranKab.PrioritasSasaranKabID','tmRenstraTujuan.PrioritasSasaranKabID')
                                                 ->where('OrgIDRPJMD',$OrgIDRPJMD)
                                                 ->where('Nm_RenstraTujuan', 'ilike', '%' . $search['isikriteria'] . '%')
-                                                ->orderBy($column_order,$direction);                                        
+                                                ->orderBy('Kd_Sasaran','ASC')
+                                                ->orderBy('Kd_RenstraTujuan','ASC');
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = RENSTRATujuanModel::select(\DB::raw('"tmRenstraTujuan"."RenstraTujuanID","tmRenstraTujuan"."PrioritasKabID",CONCAT("tmPrioritasKab"."Kd_PrioritasKab",\'.\',"tmRenstraTujuan"."Kd_RenstraTujuan") AS "Kd_RenstraTujuan","tmRenstraTujuan"."Nm_RenstraTujuan","tmRenstraTujuan"."TA"'))
-                                        ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmRenstraTujuan.PrioritasKabID')
+            $data = RENSTRATujuanModel::select(\DB::raw('"tmRenstraTujuan"."RenstraTujuanID","tmRenstraTujuan"."PrioritasSasaranKabID",CONCAT("tmPrioritasSasaranKab"."Kd_Sasaran",\'.\',"tmRenstraTujuan"."Kd_RenstraTujuan") AS "Kd_RenstraTujuan","tmRenstraTujuan"."Nm_RenstraTujuan","tmRenstraTujuan"."TA"'))
+                                        ->join('tmPrioritasSasaranKab','tmPrioritasSasaranKab.PrioritasSasaranKabID','tmRenstraTujuan.PrioritasSasaranKabID')
                                         ->where('OrgIDRPJMD',$OrgIDRPJMD)
-                                        ->orderBy('Kd_PrioritasKab','ASC')
+                                        ->orderBy('Kd_Sasaran','ASC')
                                         ->orderBy('Kd_RenstraTujuan','ASC')
                                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
@@ -252,12 +254,28 @@ class RENSTRATujuanController extends Controller {
                                                                     'direction'=>$this->getControllerStateSession('renstratujuan.orderby','order'),
                                                                     'data'=>$data]);               
     }
+    public function getdaftarsasaranrpjmd($id)
+    {
+        $daftar_sasaran=\App\Models\RPJMD\RPJMDSasaranModel::select(\DB::raw('"PrioritasSasaranKabID",CONCAT(\'[\',"Kd_PrioritasKab",\'.\',"Kd_Tujuan",\'.\',"Kd_Sasaran",\']. \',"Nm_Sasaran") AS "Nm_Sasaran"'))
+                                                        ->join('tmPrioritasTujuanKab','tmPrioritasTujuanKab.PrioritasTujuanKabID','tmPrioritasSasaranKab.PrioritasTujuanKabID')
+                                                        ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmPrioritasTujuanKab.PrioritasKabID')
+                                                        ->where('tmPrioritasSasaranKab.PrioritasTujuanKabID',$id)                                                        
+                                                        ->orderBy('Kd_Tujuan','ASC')
+                                                        ->orderBy('Kd_Sasaran','ASC')
+                                                        ->get()
+                                                        ->pluck('Nm_Sasaran','PrioritasSasaranKabID')
+                                                        ->toArray();
+        return response()->json(['success'=>true,'daftar_sasaran'=>$daftar_sasaran],200);
+    } 
     public function getkodetujuan($id)
     {
-        $Kd_RenstraTujuan = RENSTRATujuanModel::where('PrioritasKabID',$id)
+        $Kd_RenstraTujuan = RENSTRATujuanModel::where('PrioritasSasaranKabID',$id)
                                                 ->where('OrgIDRPJMD',$this->getControllerStateSession('renstratujuan','filters.OrgIDRPJMD'))
                                                 ->count('Kd_RenstraTujuan')+1;
-        return response()->json(['success'=>true,'Kd_RenstraTujuan'=>$Kd_RenstraTujuan],200);
+
+        $data_sasaran = \App\Models\RPJMD\RPJMDSasaranModel::where('PrioritasSasaranKabID',$id)
+                                                            ->first();
+        return response()->json(['success'=>true,'Kd_RenstraTujuan'=>$Kd_RenstraTujuan,'Nm_Sasaran'=>$data_sasaran->Nm_Sasaran],200);
     }
     /**
      * Show the form for creating a new resource.
@@ -299,16 +317,16 @@ class RENSTRATujuanController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_RenstraTujuan'=>[new CheckRecordIsExistValidation('tmRenstraTujuan',['where'=>['PrioritasKabID','=',$request->input('PrioritasKabID')]]),
+            'Kd_RenstraTujuan'=>[new CheckRecordIsExistValidation('tmRenstraTujuan',['where'=>['PrioritasSasaranKabID','=',$request->input('PrioritasSasaranKabID')]]),
                             'required'
                         ],
-            'PrioritasKabID'=>'required',
+            'PrioritasSasaranKabID'=>'required',
             'Nm_RenstraTujuan'=>'required',
         ]);
         
         $renstratujuan = RENSTRATujuanModel::create([
             'RenstraTujuanID'=> uniqid ('uid'),
-            'PrioritasKabID' => $request->input('PrioritasKabID'),
+            'PrioritasSasaranKabID' => $request->input('PrioritasSasaranKabID'),
             'OrgIDRPJMD' => $this->getControllerStateSession('renstratujuan','filters.OrgIDRPJMD'),
             'Kd_RenstraTujuan' => $request->input('Kd_RenstraTujuan'),
             'Nm_RenstraTujuan' => $request->input('Nm_RenstraTujuan'),
@@ -341,15 +359,15 @@ class RENSTRATujuanController extends Controller {
         $theme = \Auth::user()->theme;
 
         $data = RENSTRATujuanModel::select(\DB::raw('"tmRenstraTujuan"."RenstraTujuanID",
-                                                    "tmPrioritasKab"."Kd_PrioritasKab",
-                                                    "tmPrioritasKab"."Nm_PrioritasKab",
+                                                    "tmPrioritasSasaranKab"."Kd_Sasaran",
+                                                    "tmPrioritasSasaranKab"."Nm_Sasaran",
                                                     "tmRenstraTujuan"."Kd_RenstraTujuan",
                                                     "tmRenstraTujuan"."Nm_RenstraTujuan",
                                                     "tmRenstraTujuan"."Descr",
                                                     "tmRenstraTujuan"."TA",
                                                     "tmRenstraTujuan"."created_at",
                                                     "tmRenstraTujuan"."updated_at"'))
-                                ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmRenstraTujuan.PrioritasKabID')
+                                ->join('tmPrioritasSasaranKab','tmPrioritasSasaranKab.PrioritasSasaranKabID','tmRenstraTujuan.PrioritasSasaranKabID')
                                 ->findOrFail($id);
         if (!is_null($data) )  
         {
@@ -372,15 +390,15 @@ class RENSTRATujuanController extends Controller {
         $data = RENSTRATujuanModel::findOrFail($id);
         if (!is_null($data) ) 
         {
-            $daftar_misi=\App\Models\RPJMD\RPJMDMisiModel::select(\DB::raw('"PrioritasKabID",CONCAT(\'[\',"Kd_PrioritasKab",\']. \',"Nm_PrioritasKab") AS "Nm_PrioritasKab"'))
+            $daftar_sasaran=\App\Models\RPJMD\RPJMDSasaranModel::select(\DB::raw('"PrioritasSasaranKabID",CONCAT(\'[\',"Kd_Sasaran",\']. \',"Nm_Sasaran") AS "Nm_Sasaran"'))
                                                             ->where('TA',\HelperKegiatan::getRPJMDTahunMulai())
-                                                            ->orderBy('Kd_PrioritasKab','ASC')
+                                                            ->orderBy('Kd_Sasaran','ASC')
                                                             ->get()
-                                                            ->pluck('Nm_PrioritasKab','PrioritasKabID')
+                                                            ->pluck('Nm_Sasaran','PrioritasSasaranKabID')
                                                             ->toArray();
 
             return view("pages.$theme.renstra.renstratujuan.edit")->with(['page_active'=>'renstratujuan',
-                                                                        'daftar_misi'=>$daftar_misi,
+                                                                        'daftar_sasaran'=>$daftar_sasaran,
                                                                         'data'=>$data
                                                                     ]);
         }        
@@ -400,13 +418,13 @@ class RENSTRATujuanController extends Controller {
         $this->validate($request, [
             'Kd_RenstraTujuan'=>['required',new IgnoreIfDataIsEqualValidation('tmRenstraTujuan',
                                                                         $renstratujuan->Kd_RenstraTujuan,
-                                                                        ['where'=>['PrioritasKabID','=',$request->input('PrioritasKabID')]],
+                                                                        ['where'=>['PrioritasSasaranKabID','=',$request->input('PrioritasSasaranKabID')]],
                                                                         'Kode Tujuan')],
-            'PrioritasKabID'=>'required',
+            'PrioritasSasaranKabID'=>'required',
             'Nm_RenstraTujuan'=>'required',
         ]);
                
-        $renstratujuan->PrioritasKabID = $request->input('PrioritasKabID');
+        $renstratujuan->PrioritasSasaranKabID = $request->input('PrioritasSasaranKabID');
         $renstratujuan->Kd_RenstraTujuan = $request->input('Kd_RenstraTujuan');
         $renstratujuan->Nm_RenstraTujuan = $request->input('Nm_RenstraTujuan');
         $renstratujuan->Descr = $request->input('Descr');

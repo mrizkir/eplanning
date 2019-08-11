@@ -203,6 +203,19 @@ class RPJMDSasaranController extends Controller {
                                                 'direction'=>$this->getControllerStateSession('rpjmdsasaran.orderby','order'),
                                                 'data'=>$data]);               
     }
+    public function getdaftarsasaranrpjmd($id)
+    {
+        $daftar_sasaran=\App\Models\RPJMD\RPJMDSasaranModel::select(\DB::raw('"PrioritasSasaranKabID",CONCAT(\'[\',"Kd_PrioritasKab",\'.\',"Kd_Tujuan",\'.\',"Kd_Sasaran",\']. \',"Nm_Sasaran") AS "Nm_Sasaran"'))
+                                                        ->join('tmPrioritasTujuanKab','tmPrioritasTujuanKab.PrioritasTujuanKabID','tmPrioritasSasaranKab.PrioritasTujuanKabID')
+                                                        ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmPrioritasTujuanKab.PrioritasKabID')
+                                                        ->where('tmPrioritasSasaranKab.PrioritasTujuanKabID',$id)                                                        
+                                                        ->orderBy('Kd_Tujuan','ASC')
+                                                        ->orderBy('Kd_Sasaran','ASC')
+                                                        ->get()
+                                                        ->pluck('Nm_Sasaran','PrioritasSasaranKabID')
+                                                        ->toArray();
+        return response()->json(['success'=>true,'daftar_sasaran'=>$daftar_sasaran],200);
+    } 
     public function getkodesasaran($id)
     {
         $Kd_Sasaran = RPJMDSasaranModel::where('PrioritasTujuanKabID',$id)->count('Kd_Sasaran')+1;
@@ -300,7 +313,6 @@ class RPJMDSasaranController extends Controller {
             'N5' => $request->input('N5'),
             'KondisiAkhir' => $request->input('KondisiAkhir'),
             'Satuan' => $request->input('Satuan'),
-            'Operator' => $request->input('Operator'),
             'Descr' => $request->input('Descr'),
             'TA' => \HelperKegiatan::getRPJMDTahunMulai()
         ]);        
@@ -470,7 +482,6 @@ class RPJMDSasaranController extends Controller {
         $rpjmdindikatorsasaran->N5 = $request->input('N5');
         $rpjmdindikatorsasaran->KondisiAkhir = $request->input('KondisiAkhir');
         $rpjmdindikatorsasaran->Satuan = $request->input('Satuan');
-        $rpjmdindikatorsasaran->Operator = $request->input('Operator');
         $rpjmdindikatorsasaran->Descr = $request->input('Descr');
         $rpjmdindikatorsasaran->save();
         

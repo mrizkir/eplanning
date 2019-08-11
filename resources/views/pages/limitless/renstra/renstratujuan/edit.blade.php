@@ -36,12 +36,12 @@
         <div class="panel-body">
             {!! Form::open(['action'=>['RENSTRA\RENSTRATujuanController@update',$data->RenstraTujuanID],'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
                 <div class="form-group">
-                    <label class="col-md-2 control-label">MISI :</label> 
+                    <label class="col-md-2 control-label">SASARAN RPJMD :</label> 
                     <div class="col-md-10">
-                        <select name="PrioritasKabID" id="PrioritasKabID" class="select">
+                        <select name="PrioritasSasaranKabID" id="PrioritasSasaranKabID" class="select">
                             <option></option>
-                            @foreach ($daftar_misi as $k=>$item)
-                                <option value="{{$k}}"{{$k==$data->PrioritasKabID ?' selected':''}}>{{$item}}</option>
+                            @foreach ($daftar_sasaran as $k=>$item)
+                                <option value="{{$k}}"{{$k==$data->PrioritasSasaranKabID ?' selected':''}}>{{$item}}</option>
                             @endforeach
                         </select>                                
                     </div>
@@ -94,20 +94,20 @@ $(document).ready(function () {
                                         unformatOnSubmit: true,
                                         modifyValueOnWheel:false
                                     });
-    $('#PrioritasKabID.select').select2({
-        placeholder: "PILIH MISI",
+    $('#PrioritasSasaranKabID.select').select2({
+        placeholder: "PILIH SASARAN RPJMD",
         allowClear:true
     });
-    $(document).on('change','#PrioritasKabID',function(ev) {
+    $(document).on('change','#PrioritasSasaranKabID',function(ev) {
         ev.preventDefault();
-        PrioritasKabID=$(this).val();        
+        PrioritasSasaranKabID=$(this).val();        
         $.ajax({
             type:'get',
-            url: url_current_page+'/getkodetujuan/'+PrioritasKabID,
+            url: url_current_page+'/getkodetujuan/'+PrioritasSasaranKabID,
             dataType: 'json',
             data: {
                 "_token": token,
-                "PrioritasKabID": PrioritasKabID,
+                "PrioritasSasaranKabID": PrioritasSasaranKabID,
             },
             success:function(result)
             {   

@@ -30,7 +30,6 @@ class RPJMDSasaranIndikatorModel extends Model {
         'N5', 
         'KondisiAkhir', 
         'Satuan', 
-        'Operator',
         'Descr', 
         'TA', 
         'PrioritasIndikatorSasaranID_Src'

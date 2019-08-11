@@ -44,7 +44,7 @@
                 <td>{{$item->N3}}</td>                        
                 <td>{{$item->N4}}</td>                        
                 <td>{{$item->N5}}</td>                        
-                <td>{{$item->Operator}}{{$item->KondisiAkhir}}</td>                                    
+                <td>{{$item->KondisiAkhir}}</td>                                    
                 <td>                    
                     <ul class="icons-list">
                         <li class="text-primary-600">                            

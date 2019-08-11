@@ -47,6 +47,22 @@
                     </div>
                 </div>   
                 <div class="form-group">
+                    <label class="col-md-2 control-label">TUJUAN RPJMD:</label> 
+                    <div class="col-md-10">
+                        <select name="PrioritasTujuanKabID" id="PrioritasTujuanKabID" class="select">
+                            <option></option>                           
+                        </select>                                
+                    </div>
+                </div>   
+                <div class="form-group">
+                    <label class="col-md-2 control-label">SASARAN RPJMD:</label> 
+                    <div class="col-md-10">
+                        <select name="PrioritasSasaranKabID" id="PrioritasSasaranKabID" class="select">
+                            <option></option>                           
+                        </select>                                
+                    </div>
+                </div>   
+                <div class="form-group">
                     {{Form::label('Kd_RenstraTujuan','KODE TUJUAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
                         {{Form::text('Kd_RenstraTujuan','',['class'=>'form-control','placeholder'=>'Kode Tujuan','maxlength'=>'4'])}}
@@ -98,12 +114,20 @@ $(document).ready(function () {
         placeholder: "PILIH MISI",
         allowClear:true
     });
+    $('#PrioritasTujuanKabID.select').select2({
+        placeholder: "PILIH TUJUAN",
+        allowClear:true
+    });
+    $('#PrioritasSasaranKabID.select').select2({
+        placeholder: "PILIH SASARAN",
+        allowClear:true
+    });
     $(document).on('change','#PrioritasKabID',function(ev) {
         ev.preventDefault();
         PrioritasKabID=$(this).val();        
         $.ajax({
             type:'get',
-            url: url_current_page+'/getkodetujuan/'+PrioritasKabID,
+            url: '{{route("rpjmdtujuan.index")}}/getdaftartujuanrpjmd/'+PrioritasKabID,
             dataType: 'json',
             data: {
                 "_token": token,
@@ -111,8 +135,62 @@ $(document).ready(function () {
             },
             success:function(result)
             {   
+                var daftar_tujuan = result.daftar_tujuan;
+                var listitems='<option></option>';
+                $('#PrioritasSasaranKabID').html(listitems);
+                $.each(daftar_tujuan,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
+                $('#PrioritasTujuanKabID').html(listitems);
+            },
+            error:function(xhr, status, error)
+            {   
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    }); 
+    $(document).on('change','#PrioritasTujuanKabID',function(ev) {
+        ev.preventDefault();
+        PrioritasTujuanKabID=$(this).val();        
+        $.ajax({
+            type:'get',
+            url: url_current_page+'/getdaftarsasaranrpjmd/'+PrioritasTujuanKabID,
+            dataType: 'json',
+            data: {
+                "_token": token,
+                "PrioritasTujuanKabID": PrioritasTujuanKabID,
+            },
+            success:function(result)
+            {   
+                var daftar_sasaran = result.daftar_sasaran;
+                var listitems='<option></option>';
+                $.each(daftar_sasaran,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
+                $('#PrioritasSasaranKabID').html(listitems);
+            },
+            error:function(xhr, status, error)
+            {   
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    });     
+    $(document).on('change','#PrioritasSasaranKabID',function(ev) {
+        ev.preventDefault();
+        PrioritasSasaranKabID=$(this).val();        
+        $.ajax({
+            type:'get',
+            url: url_current_page+'/getkodetujuan/'+PrioritasSasaranKabID,
+            dataType: 'json',
+            data: {
+                "_token": token,
+                "PrioritasSasaranKabID": PrioritasSasaranKabID,
+            },
+            success:function(result)
+            {   
                 const element = AutoNumeric.getAutoNumericElement('#Kd_RenstraTujuan');
-                element.set(result.Kd_RenstraTujuan);                                
+                element.set(result.Kd_RenstraTujuan);                     
+                $('#Nm_Sasaran').val(result.Nm_Sasaran);
             },
             error:function(xhr, status, error)
             {   
