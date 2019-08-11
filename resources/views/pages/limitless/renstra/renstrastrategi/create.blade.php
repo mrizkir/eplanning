@@ -98,6 +98,28 @@ $(document).ready(function () {
         placeholder: "PILIH SASARAN",
         allowClear:true
     });
+    $(document).on('change','#RenstraSasaranID',function(ev) {
+        ev.preventDefault();
+        RenstraSasaranID=$(this).val();        
+        $.ajax({
+            type:'get',
+            url: url_current_page+'/getkodestrategi/'+RenstraSasaranID,
+            dataType: 'json',
+            data: {
+                "_token": token,
+                "RenstraSasaranID": RenstraSasaranID,
+            },
+            success:function(result)
+            {   
+                const element = AutoNumeric.getAutoNumericElement('#Kd_RenstraStrategi');
+                element.set(result.Kd_RenstraStrategi);                                
+            },
+            error:function(xhr, status, error)
+            {   
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    }); 
     $('#frmdata').validate({
         ignore: [],
         rules: {

@@ -317,7 +317,7 @@ class RENSTRASasaranController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_RenstraSasaran'=>[new CheckRecordIsExistValidation('tmRenstraSasaran',['where'=>['TA','=',\HelperKegiatan::getRENSTRATahunMulai()]]),
+            'Kd_RenstraSasaran'=>[new CheckRecordIsExistValidation('tmRenstraSasaran',['where'=>['RenstraTujuanID','=',$request->input('RenstraTujuanID')]]),
                             'required'
                         ],
             'RenstraTujuanID'=>'required',
@@ -417,7 +417,7 @@ class RENSTRASasaranController extends Controller {
         $this->validate($request, [
             'Kd_RenstraSasaran'=>['required',new IgnoreIfDataIsEqualValidation('tmRenstraSasaran',
                                                                         $renstrasasaran->Kd_RenstraSasaran,
-                                                                        ['where'=>['TA','=',\HelperKegiatan::getRENSTRATahunMulai()]],
+                                                                        ['where'=>['RenstraTujuanID','=',$request->input('RenstraTujuanID')]],
                                                                         'Kode Sasaran')],
             'RenstraTujuanID'=>'required',
             'Nm_RenstraSasaran'=>'required',

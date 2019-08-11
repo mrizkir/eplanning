@@ -325,7 +325,7 @@ class RENSTRATujuanController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_RenstraTujuan'=>[new CheckRecordIsExistValidation('tmRenstraTujuan',['where'=>['TA','=',\HelperKegiatan::getRENSTRATahunMulai()]]),
+            'Kd_RenstraTujuan'=>[new CheckRecordIsExistValidation('tmRenstraTujuan',['where'=>['PrioritasKabID','=',$request->input('PrioritasKabID')]]),
                             'required'
                         ],
             'PrioritasKabID'=>'required',
@@ -426,7 +426,7 @@ class RENSTRATujuanController extends Controller {
         $this->validate($request, [
             'Kd_RenstraTujuan'=>['required',new IgnoreIfDataIsEqualValidation('tmRenstraTujuan',
                                                                         $renstratujuan->Kd_RenstraTujuan,
-                                                                        ['where'=>['TA','=',\HelperKegiatan::getRENSTRATahunMulai()]],
+                                                                        ['where'=>['PrioritasKabID','=',$request->input('PrioritasKabID')]],
                                                                         'Kode Tujuan')],
             'PrioritasKabID'=>'required',
             'Nm_RenstraTujuan'=>'required',
