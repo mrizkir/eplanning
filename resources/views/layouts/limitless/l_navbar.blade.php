@@ -173,27 +173,27 @@
                                 <ul class="menu-list">                                   
                                     <li{!!Helper::isMenuActive ($page_active,'renstratujuan',' class="active"')!!}>
                                         <a href="{{route('renstratujuan.index')}}">
-                                            <i class="icon-strategy"></i> TUJUAN <span class="text-violet"><strong>[3]</strong></span>
+                                            <i class="icon-strategy"></i> TUJUAN <span class="text-violet"><strong>[1]</strong></span>
                                         </a>
                                     </li>  
                                     <li{!!Helper::isMenuActive ($page_active,'renstrasasaran',' class="active"')!!}>
                                         <a href="{{route('renstrasasaran.index')}}">
-                                            <i class="icon-strategy"></i> SASARAN <span class="text-violet"><strong>[4]</strong></span>
+                                            <i class="icon-strategy"></i> SASARAN <span class="text-violet"><strong>[2]</strong></span>
                                         </a>
                                     </li>   
                                     <li{!!Helper::isMenuActive ($page_active,'renstrastrategi',' class="active"')!!}>
                                         <a href="{{route('renstrastrategi.index')}}">
-                                            <i class="icon-strategy"></i> STRATEGI <span class="text-violet"><strong>[5]</strong></span>
+                                            <i class="icon-strategy"></i> STRATEGI <span class="text-violet"><strong>[3]</strong></span>
                                         </a>
                                     </li>           
                                     <li{!!Helper::isMenuActive ($page_active,'renstrakebijakan',' class="active"')!!}>
                                         <a href="{{route('renstrakebijakan.index')}}">
-                                            <i class="icon-strategy"></i> ARAH KEBIJAKAN <span class="text-violet"><strong>[6]</strong></span>
+                                            <i class="icon-strategy"></i> ARAH KEBIJAKAN <span class="text-violet"><strong>[4]</strong></span>
                                         </a>
                                     </li>
                                     <li{!!Helper::isMenuActive ($page_active,'renstraindikatorsasaran',' class="active"')!!}>
                                         <a href="{{route('renstraindikatorsasaran.index')}}">
-                                            <i class="icon-strategy"></i> INDIKATOR SASARAN <span class="text-violet"><strong>[7]</strong></span>
+                                            <i class="icon-strategy"></i> INDIKATOR SASARAN <span class="text-violet"><strong>[5]</strong></span>
                                         </a>
                                     </li>
                                 </ul>

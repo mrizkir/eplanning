@@ -98,6 +98,28 @@ $(document).ready(function () {
         placeholder: "PILIH STRATEGI",
         allowClear:true
     });
+    $(document).on('change','#RenstraStrategiID',function(ev) {
+        ev.preventDefault();
+        RenstraStrategiID=$(this).val();        
+        $.ajax({
+            type:'get',
+            url: url_current_page+'/getkodekebijakan/'+RenstraStrategiID,
+            dataType: 'json',
+            data: {
+                "_token": token,
+                "RenstraStrategiID": RenstraStrategiID,
+            },
+            success:function(result)
+            {   
+                const element = AutoNumeric.getAutoNumericElement('#Kd_RenstraKebijakan');
+                element.set(result.Kd_RenstraKebijakan);                                
+            },
+            error:function(xhr, status, error)
+            {   
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    }); 
     $('#frmdata').validate({
         ignore: [],
         rules: {

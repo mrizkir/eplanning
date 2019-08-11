@@ -107,33 +107,7 @@ class RENSTRASasaranController extends Controller {
      */
     public function orderby (Request $request) 
     {
-        $theme = \Auth::user()->theme;
-
-        $orderby = $request->input('orderby') == 'asc'?'desc':'asc';
-        $column=$request->input('column_name');
-        switch($column) 
-        {
-            case 'col-Kd_RenstraSasaran' :
-                $column_name = 'Kd_RenstraSasaran';
-            break;           
-            case 'col-Nm_RenstraSasaran' :
-                $column_name = 'Nm_RenstraSasaran';
-            break;           
-            default :
-                $column_name = 'Nm_RenstraSasaran';
-        }
-        $this->putControllerStateSession('renstrasasaran','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
-
-        $data=$this->populateData();
-
-        $datatable = view("pages.$theme.renstra.renstrasasaran.datatable")->with(['page_active'=>'renstrasasaran',
-                                                                                    'search'=>$this->getControllerStateSession('renstrasasaran','search'),
-                                                                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                                    'column_order'=>$this->getControllerStateSession('renstrasasaran.orderby','column_name'),
-                                                                                    'direction'=>$this->getControllerStateSession('renstrasasaran.orderby','order'),
-                                                                                    'data'=>$data])->render();     
-
-        return response()->json(['success'=>true,'datatable'=>$datatable],200);
+        return response()->json(['success'=>true,'datatable'=>null],200);
     }
     /**
      * paginate resource in storage called by ajax

@@ -125,31 +125,8 @@ class RENSTRAStrategiController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function orderby (Request $request) 
-    {
-        $theme = \Auth::user()->theme;
-
-        $orderby = $request->input('orderby') == 'asc'?'desc':'asc';
-        $column=$request->input('column_name');
-        switch($column) 
-        {
-            case 'Nm_RenstraStrategi' :
-                $column_name = 'Nm_RenstraStrategi';
-            break;           
-            default :
-                $column_name = 'Nm_RenstraStrategi';
-        }
-        $this->putControllerStateSession('renstrastrategi','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
-
-        $data=$this->populateData();
-
-        $datatable = view("pages.$theme.renstra.renstrastrategi.datatable")->with(['page_active'=>'renstrastrategi',
-                                                            'search'=>$this->getControllerStateSession('renstrastrategi','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('renstrastrategi.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('renstrastrategi.orderby','order'),
-                                                            'data'=>$data])->render();     
-
-        return response()->json(['success'=>true,'datatable'=>$datatable],200);
+    {        
+        return response()->json(['success'=>true,'datatable'=>null],200);
     }
     /**
      * paginate resource in storage called by ajax
@@ -309,6 +286,8 @@ class RENSTRAStrategiController extends Controller {
                                                                 ->join('tmRenstraTujuan','tmRenstraTujuan.RenstraTujuanID','tmRenstraSasaran.RenstraTujuanID')
                                                                 ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmRenstraTujuan.PrioritasKabID')
                                                                 ->where('tmRenstraSasaran.TA',\HelperKegiatan::getRENSTRATahunMulai())
+                                                                ->orderBy('Kd_PrioritasKab','ASC')
+                                                                ->orderBy('Kd_RenstraTujuan','ASC')
                                                                 ->orderBy('Kd_RenstraSasaran','ASC')
                                                                 ->get()
                                                                 ->pluck('Nm_RenstraSasaran','RenstraSasaranID')
@@ -412,6 +391,8 @@ class RENSTRAStrategiController extends Controller {
                                                                     ->join('tmRenstraTujuan','tmRenstraTujuan.RenstraTujuanID','tmRenstraSasaran.RenstraTujuanID')
                                                                     ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmRenstraTujuan.PrioritasKabID')
                                                                     ->where('tmRenstraSasaran.TA',\HelperKegiatan::getRENSTRATahunMulai())
+                                                                    ->orderBy('Kd_PrioritasKab','ASC')
+                                                                    ->orderBy('Kd_RenstraTujuan','ASC')
                                                                     ->orderBy('Kd_RenstraSasaran','ASC')
                                                                     ->get()
                                                                     ->pluck('Nm_RenstraSasaran','RenstraSasaranID')
