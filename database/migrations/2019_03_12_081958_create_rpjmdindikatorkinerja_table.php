@@ -15,8 +15,7 @@ class CreateRpjmdindikatorkinerjaTable extends Migration
     {
         Schema::create('trIndikatorKinerja', function (Blueprint $table) {
             $table->string('IndikatorKinerjaID',19);
-            $table->string('PrioritasKebijakanKabID',19);            
-            $table->string('ProgramKebijakanID',19);            
+            $table->string('PrioritasSasaranKabID',19);            
             $table->string('UrsID',19); 
             $table->string('PrgID',19);
             $table->json('OrgIDRPJMD',19);                    
@@ -43,21 +42,14 @@ class CreateRpjmdindikatorkinerjaTable extends Migration
             $table->timestamps();
             
             $table->primary('IndikatorKinerjaID');
-            $table->index('PrioritasKebijakanKabID');
-            $table->index('ProgramKebijakanID');
+            $table->index('PrioritasSasaranKabID');
             $table->index('UrsID');
 
-            $table->foreign('PrioritasKebijakanKabID')
-                    ->references('PrioritasKebijakanKabID')
-                    ->on('tmPrioritasKebijakanKab')
+            $table->foreign('PrioritasSasaranKabID')
+                    ->references('PrioritasSasaranKabID')
+                    ->on('tmPrioritasSasaranKab')
                     ->onDelete('cascade')
-                    ->onUpdate('cascade');                    
-
-            $table->foreign('ProgramKebijakanID')
-                    ->references('ProgramKebijakanID')
-                    ->on('tmPrioritasProgramKebijakan')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');                    
+                    ->onUpdate('cascade');    
 
             $table->foreign('PrgID')
                     ->references('PrgID')

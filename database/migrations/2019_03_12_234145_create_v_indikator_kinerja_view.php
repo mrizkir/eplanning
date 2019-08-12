@@ -16,9 +16,9 @@ class CreateVIndikatorKinerjaView extends Migration
         \DB::statement('CREATE VIEW v_indikator_kinerja AS
             SELECT 
                 A."IndikatorKinerjaID",
-                A."PrioritasKebijakanKabID",
-                B."Kd_Kebijakan",
-                B."Nm_Kebijakan",
+                A."PrioritasSasaranKabID",
+                B."Kd_Sasaran",
+                B."Nm_Sasaran",
                 D."KUrsID",
                 D."Kd_Urusan",
                 D."Nm_Urusan",
@@ -51,7 +51,7 @@ class CreateVIndikatorKinerjaView extends Migration
                 A."created_at",
                 A."updated_at"
             FROM "trIndikatorKinerja" A
-                JOIN "tmPrioritasKebijakanKab" B ON B."PrioritasKebijakanKabID"=A."PrioritasKebijakanKabID"
+                JOIN "tmPrioritasSasaranKab" B ON B."PrioritasSasaranKabID"=A."PrioritasSasaranKabID"
                 JOIN "tmUrs" C ON C."UrsID"=A."UrsID"
                 JOIN "tmKUrs" D ON D."KUrsID"=C."KUrsID"
                 JOIN "tmPrg" E ON E."PrgID"=A."PrgID"

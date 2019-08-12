@@ -118,16 +118,16 @@
                 </div>
             </li>            
             @endhasrole
+            @hasrole('superadmin|bapelitbang')
             <li class="dropdown mega-menu mega-menu-wide visible">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="icon-airplane3 position-left"></i> PERENCANAAN <span class="caret"></span>
+                    <i class="icon-airplane3 position-left"></i> RPJMD <span class="caret"></span>
                 </a>
                 <div class="dropdown-menu dropdown-content">
                     <div class="dropdown-content-body">
                         <div class="row">         
-                            @hasrole('superadmin|bapelitbang')                   
                             <div class="col-md-3">
-                                <span class="menu-heading underlined"><i class="icon-strategy"></i> RPJMD</span>
+                                <span class="menu-heading underlined"><i class="icon-strategy"></i> BAB V</span>
                                 <ul class="menu-list">
                                     <li{!!Helper::isMenuActive ($page_active,'rpjmdvisi',' class="active"')!!}>
                                         <a href="{{route('rpjmdvisi.index')}}">
@@ -148,7 +148,12 @@
                                         <a href="{{route('rpjmdsasaran.index')}}">
                                             <i class="icon-strategy"></i> SASARAN <span class="text-violet"><strong>[4]</strong></span>
                                         </a>
-                                    </li>   
+                                    </li>                                       
+                                </ul>
+                            </div>  
+                            <div class="col-md-3">
+                                <span class="menu-heading underlined"><i class="icon-strategy"></i> BAB VI</span>
+                                <ul class="menu-list">                                     
                                     <li{!!Helper::isMenuActive ($page_active,'rpjmdstrategi',' class="active"')!!}>
                                         <a href="{{route('rpjmdstrategi.index')}}">
                                             <i class="icon-strategy"></i> STRATEGI <span class="text-violet"><strong>[5]</strong></span>
@@ -156,7 +161,7 @@
                                     </li>           
                                     <li{!!Helper::isMenuActive ($page_active,'rpjmdkebijakan',' class="active"')!!}>
                                         <a href="{{route('rpjmdkebijakan.index')}}">
-                                            <i class="icon-strategy"></i> PRIORITAS / ARAH KEBIJAKAN <span class="text-violet"><strong>[6]</strong></span>
+                                            <i class="icon-strategy"></i> ARAH KEBIJAKAN <span class="text-violet"><strong>[6]</strong></span>
                                         </a>
                                     </li>  
                                     <li{!!Helper::isMenuActive ($page_active,'rpjmdindikatorkinerja',' class="active"')!!}>
@@ -165,11 +170,34 @@
                                         </a>
                                     </li> 
                                 </ul>
-                            </div>
-                            @endhasrole
-                            @hasrole('superadmin|bapelitbang|opd')
+                            </div>                                                        
                             <div class="col-md-3">
-                                <span class="menu-heading underlined"><i class="icon-strategy"></i> RENSTRA OPD / SKPD</span>
+                                <span class="menu-heading underlined"><i class="icon-strategy"></i> BAB VII</span>
+                                <ul class="menu-list">                                
+
+                                </ul>
+                            </div>                                                                                    
+                            <div class="col-md-3">
+                                <span class="menu-heading underlined"><i class="icon-strategy"></i> BAB VIII</span>
+                                <ul class="menu-list">                                
+
+                                </ul>
+                            </div>                                                                                    
+                        </div>
+                    </div>
+                </div>
+            </li>  
+            @endhasrole      
+            @hasrole('superadmin|bapelitbang|opd')
+            <li class="dropdown mega-menu mega-menu-wide visible">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-airplane3 position-left"></i> RENSTRA <span class="caret"></span>
+                </a>
+                <div class="dropdown-menu dropdown-content">
+                    <div class="dropdown-content-body">
+                        <div class="row">                                                       
+                            <div class="col-md-3">
+                                <span class="menu-heading underlined"><i class="icon-strategy"></i> BAB IV</span>
                                 <ul class="menu-list">                                   
                                     <li{!!Helper::isMenuActive ($page_active,'renstratujuan',' class="active"')!!}>
                                         <a href="{{route('renstratujuan.index')}}">
@@ -180,7 +208,12 @@
                                         <a href="{{route('renstrasasaran.index')}}">
                                             <i class="icon-strategy"></i> SASARAN <span class="text-violet"><strong>[2]</strong></span>
                                         </a>
-                                    </li>   
+                                    </li>                                    
+                                </ul>
+                            </div>
+                            <div class="col-md-3">
+                                <span class="menu-heading underlined"><i class="icon-strategy"></i> BAB V</span>
+                                <ul class="menu-list">
                                     <li{!!Helper::isMenuActive ($page_active,'renstrastrategi',' class="active"')!!}>
                                         <a href="{{route('renstrastrategi.index')}}">
                                             <i class="icon-strategy"></i> STRATEGI <span class="text-violet"><strong>[3]</strong></span>
@@ -191,6 +224,11 @@
                                             <i class="icon-strategy"></i> ARAH KEBIJAKAN <span class="text-violet"><strong>[4]</strong></span>
                                         </a>
                                     </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-3">
+                                <span class="menu-heading underlined"><i class="icon-strategy"></i> BAB VI</span>
+                                <ul class="menu-list">
                                     <li{!!Helper::isMenuActive ($page_active,'renstraprogramkegiatanpendanaan',' class="active"')!!}>
                                         <a href="{{route('renstraprogramkegiatanpendanaan.index')}}">
                                             <i class="icon-strategy"></i> PRG., KEG., DAN PENDANAAN <span class="text-violet"><strong>[5]</strong></span>
@@ -198,36 +236,32 @@
                                     </li>
                                 </ul>
                             </div>
-                            @endhasrole                            
-                            <div class="col-md-3">
-                                <span class="menu-heading underlined"><i class="icon-strategy"></i> POKIR / RESES</span>
-                                <ul class="menu-list">
-                                    @hasrole('superadmin|bapelitbang')
-                                    <li{!!Helper::isMenuActive ($page_active,'pemilikpokokpikiran',' class="active"')!!}>
-                                        <a href="{{route('pemilikpokokpikiran.index')}}">
-                                            <i class="icon-strategy"></i> PEMILIK POKOK</span>
-                                        </a>
-                                    </li> 
-                                    @endhasrole
-                                    @hasrole('superadmin|bapelitbang|dewan')
-                                    <li{!!Helper::isMenuActive ($page_active,'pokokpikiran',' class="active"')!!}>
-                                        <a href="{{route('pokokpikiran.index')}}">
-                                            <i class="icon-strategy"></i> POKOK PIKIRAN</span>
-                                        </a>
-                                    </li>
-                                    @endhasrole
-                                </ul>
-                            </div>
-                        </div>
+                        </div>                        
                     </div>
                 </div>
-            </li>         
-            @unlessrole('dewan')      
+            </li>
+            @endhasrole
             <li class="dropdown visible">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="icon-sort-amount-desc position-left"></i> WORKFLOW <span class="caret"></span>
+                    <i class="icon-airplane3 position-left"></i> ASPIRASI <span class="caret"></span>
                 </a>
-                <ul class="dropdown-menu width-450"> 
+                <ul class="dropdown-menu width-450">
+                    <li class="dropdown-header">ANGGOTA DEWAN</li>
+                    @hasrole('superadmin|bapelitbang')
+                    <li{!!Helper::isMenuActive ($page_active,'pemilikpokokpikiran',' class="active"')!!}>
+                        <a href="{{route('pemilikpokokpikiran.index')}}">
+                            <i class="icon-strategy"></i> PEMILIK POKOK</span>
+                        </a>
+                    </li> 
+                    @endhasrole
+                    @hasrole('superadmin|bapelitbang|dewan')
+                    <li{!!Helper::isMenuActive ($page_active,'pokokpikiran',' class="active"')!!}>
+                        <a href="{{route('pokokpikiran.index')}}">
+                            <i class="icon-strategy"></i> POKOK PIKIRAN</span>
+                        </a>
+                    </li>
+                    @endhasrole
+                    <li class="dropdown-header">MUSRENBANG</li>
                     @hasrole('superadmin|bapelitbang|desa')
                     <li{!!Helper::isMenuActive ($page_active,'aspirasimusrendesa',' class="active"')!!}>
                         <a href="{{route('aspirasimusrendesa.index')}}" title="Aspirasi Musrenbang Desa">
@@ -252,67 +286,75 @@
                         </a>
                     </li>
                     @endhasrole
+                </ul>
+            </li>            
+            @unlessrole('dewan')      
+            <li class="dropdown visible">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-sort-amount-desc position-left"></i> WORKFLOW <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu width-450">                     
                     @hasrole('superadmin|bapelitbang|opd|tapd')
                     <li{!!Helper::isMenuActive ($page_active,'usulanprarenjaopd',' class="active"')!!}>
                         <a href="{{route('usulanprarenjaopd.index')}}" title="Usulan Pra Renja OPD/SKPD">
-                            <i class="icon-arrow-down16"></i>USULAN PRA RENJA OPD/SKPD <span class="text-violet"><strong>[5]</strong></span>
+                            <i class="icon-arrow-down16"></i>USULAN PRA RENJA OPD/SKPD <span class="text-violet"><strong>[1]</strong></span>
                         </a>                                        
                     </li>    
                     <li{!!Helper::isMenuActive ($page_active,'pembahasanprarenjaopd',' class="active"')!!}>
                         <a href="{{route('pembahasanprarenjaopd.index')}}" title="Pembahasan Pra Renja OPD/SKPD">
-                            <i class="icon-arrow-down16"></i>PEMBAHASAN PRA RENJA OPD/SKPD <span class="text-violet"><strong>[6]</strong></span>
+                            <i class="icon-arrow-down16"></i>PEMBAHASAN PRA RENJA OPD/SKPD <span class="text-violet"><strong>[2]</strong></span>
                         </a>                                        
                     </li>
                     <li{!!Helper::isMenuActive ($page_active,'usulanrakorbidang',' class="active"')!!}>
                         <a href="{{route('usulanrakorbidang.index')}}" title="Aspirasi Musrenbang Kecamatan">
-                            <i class="icon-arrow-down16"></i>USULAN RAKOR BIDANG <span class="text-violet"><strong>[7]</strong></span>
+                            <i class="icon-arrow-down16"></i>USULAN RAKOR BIDANG <span class="text-violet"><strong>[3]</strong></span>
                         </a>                                        
                     </li>
                     <li{!!Helper::isMenuActive ($page_active,'pembahasanrakorbidang',' class="active"')!!}>
                         <a href="{{route('pembahasanrakorbidang.index')}}" title="Pembahasan Rakor Bidang">
-                            <i class="icon-arrow-down16"></i>PEMBAHASAN RAKOR BIDANG <span class="text-violet"><strong>[8]</strong></span>
+                            <i class="icon-arrow-down16"></i>PEMBAHASAN RAKOR BIDANG <span class="text-violet"><strong>[4]</strong></span>
                         </a>
                     </li>
                     <li{!!Helper::isMenuActive ($page_active,'usulanforumopd',' class="active"')!!}>
                         <a href="{{route('usulanforumopd.index')}}" title="Usulan Forum OPD/SKPD">
-                            <i class="icon-arrow-down16"></i>USULAN FORUM OPD/SKPD <span class="text-violet"><strong>[9]</strong></span>
+                            <i class="icon-arrow-down16"></i>USULAN FORUM OPD/SKPD <span class="text-violet"><strong>[5]</strong></span>
                         </a>                                        
                     </li>
                     <li{!!Helper::isMenuActive ($page_active,'pembahasanforumopd',' class="active"')!!}>
                         <a href="{{route('pembahasanforumopd.index')}}" title="Pembahasan Forum OPD/SKPD">
-                            <i class="icon-arrow-down16"></i>PEMBAHASAN FORUM OPD/SKPD <span class="text-violet"><strong>[10]</strong></span>
+                            <i class="icon-arrow-down16"></i>PEMBAHASAN FORUM OPD/SKPD <span class="text-violet"><strong>[6]</strong></span>
                         </a>                                        
                     </li>
                     <li{!!Helper::isMenuActive ($page_active,'usulanmusrenkab',' class="active"')!!}>
                         <a href="{{route('usulanmusrenkab.index')}}" title="Usulan Musrenbang Kabupaten">
-                            <i class="icon-arrow-down16"></i>USULAN MUSRENBANG KAB. <span class="text-violet"><strong>[11]</strong></span>
+                            <i class="icon-arrow-down16"></i>USULAN MUSRENBANG KAB. <span class="text-violet"><strong>[7]</strong></span>
                         </a>                                        
                     </li>
                     <li{!!Helper::isMenuActive ($page_active,'pembahasanmusrenkab',' class="active"')!!}>
                         <a href="{{route('pembahasanmusrenkab.index')}}" title="Pembahasan Musrenbang Kabupaten">
-                            <i class="icon-arrow-down16"></i>PEMBAHASAN MUSRENBANG KAB. <span class="text-violet"><strong>[12]</strong></span>
+                            <i class="icon-arrow-down16"></i>PEMBAHASAN MUSRENBANG KAB. <span class="text-violet"><strong>[8]</strong></span>
                         </a>
                     </li>
                     @hasrole('superadmin|bapelitbang|tapd')
                     <li{!!Helper::isMenuActive ($page_active,'verifikasirenja',' class="active"')!!}>
                         <a href="{{route('verifikasirenja.index')}}" title="verifikasi tapd">
-                            <i class="icon-arrow-down16"></i>VERIFIKASI TAPD <span class="text-violet"><strong>[13]</strong></span>
+                            <i class="icon-arrow-down16"></i>VERIFIKASI TAPD <span class="text-violet"><strong>[9]</strong></span>
                         </a>                                        
                     </li>  
                     @endhasrole
                     <li{!!Helper::isMenuActive ($page_active,'rkpdmurni',' class="active"')!!}>
                         <a href="{{route('rkpdmurni.index')}}" title="RENCANA KERJA PERANGKAT DAERAH">
-                            <i class="icon-arrow-down16"></i>RKPD <span class="text-violet"><strong>[14]</strong></span>
+                            <i class="icon-arrow-down16"></i>RKPD <span class="text-violet"><strong>[10]</strong></span>
                         </a>                                        
                     </li>
                     <li{!!Helper::isMenuActive ($page_active,'rkpdperubahan',' class="active"')!!}>
                         <a href="{{route('rkpdperubahan.index')}}" title="RENCANA KERJA PERANGKAT DAERAH PERUBAHAN">
-                            <i class="icon-arrow-down16"></i>RKPD PERUBAHAN <span class="text-violet"><strong>[15]</strong></span>
+                            <i class="icon-arrow-down16"></i>RKPD PERUBAHAN <span class="text-violet"><strong>[11]</strong></span>
                         </a>                                        
                     </li>
                     <li{!!Helper::isMenuActive ($page_active,'pembahasanrkpdp',' class="active"')!!}>
                         <a href="{{route('pembahasanrkpdp.index')}}" title="PEMBAHASAN RKPD PERUBAHAN">
-                            <i class="icon-arrow-down16"></i>PEMBAHASAN RKPD PERUBAHAN <span class="text-violet"><strong>[16]</strong></span>
+                            <i class="icon-arrow-down16"></i>PEMBAHASAN RKPD PERUBAHAN <span class="text-violet"><strong>[12]</strong></span>
                         </a>                                        
                     </li>
                     @endhasrole
