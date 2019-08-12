@@ -71,7 +71,7 @@
                 <div class="form-group">
                     {{Form::label('Nm_RenstraTujuan','NAMA TUJUAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('Nm_RenstraTujuan','',['class'=>'form-control','placeholder'=>'Nama Tujuan'])}}
+                        {{Form::text('Nm_RenstraTujuan','',['class'=>'form-control','placeholder'=>'Nama Tujuan','readonly'=>true])}}
                     </div>
                 </div>
                 <div class="form-group">
@@ -124,7 +124,9 @@ $(document).ready(function () {
     });
     $(document).on('change','#PrioritasKabID',function(ev) {
         ev.preventDefault();
-        PrioritasKabID=$(this).val();        
+        PrioritasKabID=$(this).val();      
+        $('#Kd_RenstraTujuan').val('');  
+        $('#Nm_RenstraTujuan').val('');    
         $.ajax({
             type:'get',
             url: '{{route("rpjmdtujuan.index")}}/getdaftartujuanrpjmd/'+PrioritasKabID,
@@ -151,7 +153,9 @@ $(document).ready(function () {
     }); 
     $(document).on('change','#PrioritasTujuanKabID',function(ev) {
         ev.preventDefault();
-        PrioritasTujuanKabID=$(this).val();        
+        PrioritasTujuanKabID=$(this).val();      
+        $('#Kd_RenstraTujuan').val('');  
+        $('#Nm_RenstraTujuan').val('');          
         $.ajax({
             type:'get',
             url: url_current_page+'/getdaftarsasaranrpjmd/'+PrioritasTujuanKabID,
@@ -188,9 +192,9 @@ $(document).ready(function () {
             },
             success:function(result)
             {   
+                $('#Nm_RenstraTujuan').val(result.Nm_Sasaran);
                 const element = AutoNumeric.getAutoNumericElement('#Kd_RenstraTujuan');
-                element.set(result.Kd_RenstraTujuan);                     
-                $('#Nm_Sasaran').val(result.Nm_Sasaran);
+                element.set(result.Kd_RenstraTujuan);   
             },
             error:function(xhr, status, error)
             {   

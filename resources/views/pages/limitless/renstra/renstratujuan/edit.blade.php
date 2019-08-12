@@ -34,18 +34,7 @@
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>['RENSTRA\RENSTRATujuanController@update',$data->RenstraTujuanID],'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
-                <div class="form-group">
-                    <label class="col-md-2 control-label">SASARAN RPJMD :</label> 
-                    <div class="col-md-10">
-                        <select name="PrioritasSasaranKabID" id="PrioritasSasaranKabID" class="select">
-                            <option></option>
-                            @foreach ($daftar_sasaran as $k=>$item)
-                                <option value="{{$k}}"{{$k==$data->PrioritasSasaranKabID ?' selected':''}}>{{$item}}</option>
-                            @endforeach
-                        </select>                                
-                    </div>
-                </div>   
+            {!! Form::open(['action'=>['RENSTRA\RENSTRATujuanController@update',$data->RenstraTujuanID],'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                          
                 <div class="form-group">
                     {{Form::label('Kd_RenstraTujuan','KODE TUJUAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
@@ -55,7 +44,7 @@
                 <div class="form-group">
                     {{Form::label('Nm_RenstraTujuan','NAMA TUJUAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('Nm_RenstraTujuan',$data->Nm_RenstraTujuan,['class'=>'form-control','placeholder'=>'Nama Tujuan'])}}
+                        {{Form::text('Nm_RenstraTujuan',$data->Nm_RenstraTujuan,['class'=>'form-control','placeholder'=>'Nama Tujuan','readonly'=>true])}}
                     </div>
                 </div>
                 <div class="form-group">
@@ -93,40 +82,10 @@ $(document).ready(function () {
                                         showWarnings:false,
                                         unformatOnSubmit: true,
                                         modifyValueOnWheel:false
-                                    });
-    $('#PrioritasSasaranKabID.select').select2({
-        placeholder: "PILIH SASARAN RPJMD",
-        allowClear:true
-    });
-    $(document).on('change','#PrioritasSasaranKabID',function(ev) {
-        ev.preventDefault();
-        PrioritasSasaranKabID=$(this).val();        
-        $.ajax({
-            type:'get',
-            url: url_current_page+'/getkodetujuan/'+PrioritasSasaranKabID,
-            dataType: 'json',
-            data: {
-                "_token": token,
-                "PrioritasSasaranKabID": PrioritasSasaranKabID,
-            },
-            success:function(result)
-            {   
-                const element = AutoNumeric.getAutoNumericElement('#Kd_RenstraTujuan');
-                element.set(result.Kd_RenstraTujuan);                                
-            },
-            error:function(xhr, status, error)
-            {   
-                console.log(parseMessageAjaxEror(xhr, status, error));                           
-            },
-        });
-    }); 
+                                    });    
     $('#frmdata').validate({
         ignore: [],
-        rules: {
-            PrioritasKabID : {
-                required: true,
-                valueNotEquals: 'none'
-            },
+        rules: {           
             Kd_RenstraTujuan : {
                 required: true,
             },
@@ -135,11 +94,7 @@ $(document).ready(function () {
                 minlength: 2
             }
         },
-        messages : {
-            PrioritasKabID : {
-                required: "Mohon untuk di pilih karena ini diperlukan.",
-                valueNotEquals: "Mohon untuk di pilih karena ini diperlukan.",      
-            },
+        messages : {           
             Kd_RenstraTujuan : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
             },

@@ -252,7 +252,6 @@ $(document).ready(function () {
                 },
                 success:function(result)
                 {                    
-                    console.log(result.data_kegiatan)  ;    
                     $('#Uraian').val(result.data_kegiatan.Uraian);   
                     AutoNumeric.getAutoNumericElement('#Sasaran_Angka').set(result.data_kegiatan.Sasaran_Angka);               
                     $('#Sasaran_Uraian').val(result.data_kegiatan.Sasaran_Uraian);                    

@@ -68,8 +68,8 @@
                             {{$item->RenstraTujuanID}}
                         </span>                        
                         <span class="label label-warning label-rounded" style="text-transform: none">
-                            <strong>PRIORITASKABID:</strong>
-                            {{$item->PrioritasKabID}}
+                            <strong>PRIORITASSASARANKABID:</strong>
+                            {{$item->PrioritasSasaranKabID}}
                         </span>                        
                         <span class="label label-warning label-rounded" style="text-transform: none">
                             <strong>CREATED:</strong>

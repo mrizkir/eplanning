@@ -418,15 +418,12 @@ class RENSTRATujuanController extends Controller {
         $this->validate($request, [
             'Kd_RenstraTujuan'=>['required',new IgnoreIfDataIsEqualValidation('tmRenstraTujuan',
                                                                         $renstratujuan->Kd_RenstraTujuan,
-                                                                        ['where'=>['PrioritasSasaranKabID','=',$request->input('PrioritasSasaranKabID')]],
+                                                                        ['where'=>['PrioritasSasaranKabID','=',$renstratujuan->PrioritasSasaranKabID]],
                                                                         'Kode Tujuan')],
-            'PrioritasSasaranKabID'=>'required',
             'Nm_RenstraTujuan'=>'required',
         ]);
                
-        $renstratujuan->PrioritasSasaranKabID = $request->input('PrioritasSasaranKabID');
         $renstratujuan->Kd_RenstraTujuan = $request->input('Kd_RenstraTujuan');
-        $renstratujuan->Nm_RenstraTujuan = $request->input('Nm_RenstraTujuan');
         $renstratujuan->Descr = $request->input('Descr');
         $renstratujuan->save();
 
