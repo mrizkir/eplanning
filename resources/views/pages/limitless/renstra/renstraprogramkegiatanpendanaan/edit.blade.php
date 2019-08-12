@@ -1,20 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RENSTRA INDIKATOR SASARAN  {{HelperKegiatan::getRENSTRATahunMulai()}} - {{HelperKegiatan::getRENSTRATahunAkhir()}}
+    RENSTRA PROGRAM, KEGIATAN, DAN PENDANAAN  {{HelperKegiatan::getRENSTRATahunMulai()}} - {{HelperKegiatan::getRENSTRATahunAkhir()}}
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        RENSTRA INDIKATOR SASARAN TAHUN {{HelperKegiatan::getRENSTRATahunMulai()}} - {{HelperKegiatan::getRENSTRATahunAkhir()}}  
+        RENSTRA PROGRAM, KEGIATAN, DAN PENDANAAN TAHUN {{HelperKegiatan::getRENSTRATahunMulai()}} - {{HelperKegiatan::getRENSTRATahunAkhir()}}  
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.renstra.renstraindikatorsasaran.info')
+    @include('pages.limitless.renstra.renstraprogramkegiatanpendanaan.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">PERENCANAAN</a></li>
     <li><a href="#">RENSTRA</a></li>
-    <li><a href="{!!route('renstraindikatorsasaran.index')!!}">INDIKATOR SASARAN</a></li>
+    <li><a href="{!!route('renstraprogramkegiatanpendanaan.index')!!}">PROGRAM, KEGIATAN, DAN PENDANAAN</a></li>
     <li class="active">UBAH DATA</li>
 @endsection
 @section('page_content')
@@ -28,13 +28,13 @@
             <div class="heading-elements">
                 <ul class="icons-list">                    
                     <li>               
-                        <a href="{!!route('renstraindikatorsasaran.index')!!}" data-action="closeredirect" title="keluar"></a>
+                        <a href="{!!route('renstraprogramkegiatanpendanaan.index')!!}" data-action="closeredirect" title="keluar"></a>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>['RENSTRA\RENSTRAIndikatorSasaranController@update',$data->RenstraIndikatorID],'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                                            
+            {!! Form::open(['action'=>['RENSTRA\RENSTRAProgramKegiatanPendanaanController@update',$data->RenstraIndikatorID],'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                                            
                 <div class="form-group">
                     <label class="col-md-2 control-label">OPD / SKPD: </label>
                     <div class="col-md-10">

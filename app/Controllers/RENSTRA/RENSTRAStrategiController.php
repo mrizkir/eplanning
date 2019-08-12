@@ -55,24 +55,24 @@ class RENSTRAStrategiController extends Controller {
             switch ($search['kriteria']) 
             {
                 case 'Kd_RenstraStrategi' :
-                    $data = RENSTRAStrategiModel::select(\DB::raw('"tmRenstraStrategi"."RenstraStrategiID","tmRenstraSasaran"."RenstraSasaranID",CONCAT("tmPrioritasKab"."Kd_PrioritasKab",\'.\',"tmRenstraTujuan"."Kd_RenstraTujuan",\'.\',"tmRenstraSasaran"."Kd_RenstraSasaran",\'.\',"tmRenstraStrategi"."Kd_RenstraStrategi") AS "Kd_RenstraStrategi","tmRenstraStrategi"."Nm_RenstraStrategi","tmRenstraStrategi"."TA"'))
+                    $data = RENSTRAStrategiModel::select(\DB::raw('"tmRenstraStrategi"."RenstraStrategiID","tmRenstraSasaran"."RenstraSasaranID",CONCAT("tmPrioritasSasaranKab"."Kd_Sasaran",\'.\',"tmRenstraTujuan"."Kd_RenstraTujuan",\'.\',"tmRenstraSasaran"."Kd_RenstraSasaran",\'.\',"tmRenstraStrategi"."Kd_RenstraStrategi") AS "Kd_RenstraStrategi","tmRenstraStrategi"."Nm_RenstraStrategi","tmRenstraStrategi"."TA"'))
                                                 ->join('tmRenstraSasaran','tmRenstraSasaran.RenstraSasaranID','tmRenstraStrategi.RenstraSasaranID')
                                                 ->join('tmRenstraTujuan','tmRenstraTujuan.RenstraTujuanID','tmRenstraSasaran.RenstraTujuanID')
-                                                ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmRenstraTujuan.PrioritasKabID')
+                                                ->join('tmPrioritasSasaranKab','tmPrioritasSasaranKab.PrioritasSasaranKabID','tmRenstraTujuan.PrioritasSasaranKabID')
                                                 ->where(['Kd_RenstraStrategi'=>$search['isikriteria']])
-                                                ->orderBy('Kd_PrioritasKab','ASC')
+                                                ->orderBy('Kd_Sasaran','ASC')
                                                 ->orderBy('Kd_RenstraTujuan','ASC')
                                                 ->orderBy('Kd_RenstraSasaran','ASC')
                                                 ->orderBy('Kd_RenstraStrategi','ASC');
 
                 break;
                 case 'Nm_RenstraStrategi' :
-                    $data = RENSTRAStrategiModel::select(\DB::raw('"tmRenstraStrategi"."RenstraStrategiID","tmRenstraSasaran"."RenstraSasaranID",CONCAT("tmPrioritasKab"."Kd_PrioritasKab",\'.\',"tmRenstraTujuan"."Kd_RenstraTujuan",\'.\',"tmRenstraSasaran"."Kd_RenstraSasaran",\'.\',"tmRenstraStrategi"."Kd_RenstraStrategi") AS "Kd_RenstraStrategi","tmRenstraStrategi"."Nm_RenstraStrategi","tmRenstraStrategi"."TA"'))
+                    $data = RENSTRAStrategiModel::select(\DB::raw('"tmRenstraStrategi"."RenstraStrategiID","tmRenstraSasaran"."RenstraSasaranID",CONCAT("tmPrioritasSasaranKab"."Kd_Sasaran",\'.\',"tmRenstraTujuan"."Kd_RenstraTujuan",\'.\',"tmRenstraSasaran"."Kd_RenstraSasaran",\'.\',"tmRenstraStrategi"."Kd_RenstraStrategi") AS "Kd_RenstraStrategi","tmRenstraStrategi"."Nm_RenstraStrategi","tmRenstraStrategi"."TA"'))
                                                 ->join('tmRenstraSasaran','tmRenstraSasaran.RenstraSasaranID','tmRenstraStrategi.RenstraSasaranID')
                                                 ->join('tmRenstraTujuan','tmRenstraTujuan.RenstraTujuanID','tmRenstraSasaran.RenstraTujuanID')
-                                                ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmRenstraTujuan.PrioritasKabID')
+                                                ->join('tmPrioritasSasaranKab','tmPrioritasSasaranKab.PrioritasSasaranKabID','tmRenstraTujuan.PrioritasSasaranKabID')
                                                 ->where('Nm_RenstraStrategi', 'ilike', '%' . $search['isikriteria'] . '%')
-                                                ->orderBy('Kd_PrioritasKab','ASC')
+                                                ->orderBy('Kd_Sasaran','ASC')
                                                 ->orderBy('Kd_RenstraTujuan','ASC')
                                                 ->orderBy('Kd_RenstraSasaran','ASC')
                                                 ->orderBy('Kd_RenstraStrategi','ASC');
@@ -82,12 +82,12 @@ class RENSTRAStrategiController extends Controller {
         }
         else
         {
-            $data = RENSTRAStrategiModel::select(\DB::raw('"tmRenstraStrategi"."RenstraStrategiID","tmRenstraSasaran"."RenstraSasaranID",CONCAT("tmPrioritasKab"."Kd_PrioritasKab",\'.\',"tmRenstraTujuan"."Kd_RenstraTujuan",\'.\',"tmRenstraSasaran"."Kd_RenstraSasaran",\'.\',"tmRenstraStrategi"."Kd_RenstraStrategi") AS "Kd_RenstraStrategi","tmRenstraStrategi"."Nm_RenstraStrategi","tmRenstraStrategi"."TA"'))
+            $data = RENSTRAStrategiModel::select(\DB::raw('"tmRenstraStrategi"."RenstraStrategiID","tmRenstraSasaran"."RenstraSasaranID",CONCAT("tmPrioritasSasaranKab"."Kd_Sasaran",\'.\',"tmRenstraTujuan"."Kd_RenstraTujuan",\'.\',"tmRenstraSasaran"."Kd_RenstraSasaran",\'.\',"tmRenstraStrategi"."Kd_RenstraStrategi") AS "Kd_RenstraStrategi","tmRenstraStrategi"."Nm_RenstraStrategi","tmRenstraStrategi"."TA"'))
                                         ->join('tmRenstraSasaran','tmRenstraSasaran.RenstraSasaranID','tmRenstraStrategi.RenstraSasaranID')
                                         ->join('tmRenstraTujuan','tmRenstraTujuan.RenstraTujuanID','tmRenstraSasaran.RenstraTujuanID')
-                                        ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmRenstraTujuan.PrioritasKabID')
+                                        ->join('tmPrioritasSasaranKab','tmPrioritasSasaranKab.PrioritasSasaranKabID','tmRenstraTujuan.PrioritasSasaranKabID')
                                         ->where('tmRenstraStrategi.OrgIDRPJMD',$OrgIDRPJMD)
-                                        ->orderBy('Kd_PrioritasKab','ASC')
+                                        ->orderBy('Kd_Sasaran','ASC')
                                         ->orderBy('Kd_RenstraTujuan','ASC')
                                         ->orderBy('Kd_RenstraSasaran','ASC')
                                         ->orderBy('Kd_RenstraStrategi','ASC')
@@ -282,11 +282,11 @@ class RENSTRAStrategiController extends Controller {
         $filters=$this->getControllerStateSession('renstrastrategi','filters');  
         if ($filters['OrgIDRPJMD'] != 'none'&&$filters['OrgIDRPJMD'] != ''&&$filters['OrgIDRPJMD'] != null)
         {
-            $daftar_sasaran=\App\Models\RENSTRA\RENSTRASasaranModel::select(\DB::raw('"RenstraSasaranID",CONCAT(\'[\',"Kd_PrioritasKab",\'.\',"Kd_RenstraTujuan",\'.\',"Kd_RenstraSasaran",\']. \',"Nm_RenstraSasaran") AS "Nm_RenstraSasaran"'))
+            $daftar_sasaran=\App\Models\RENSTRA\RENSTRASasaranModel::select(\DB::raw('"RenstraSasaranID",CONCAT(\'[\',"Kd_Sasaran",\'.\',"Kd_RenstraTujuan",\'.\',"Kd_RenstraSasaran",\']. \',"Nm_RenstraSasaran") AS "Nm_RenstraSasaran"'))
                                                                 ->join('tmRenstraTujuan','tmRenstraTujuan.RenstraTujuanID','tmRenstraSasaran.RenstraTujuanID')
-                                                                ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmRenstraTujuan.PrioritasKabID')
+                                                                ->join('tmPrioritasSasaranKab','tmPrioritasSasaranKab.PrioritasSasaranKabID','tmRenstraTujuan.PrioritasSasaranKabID')
                                                                 ->where('tmRenstraSasaran.TA',\HelperKegiatan::getRENSTRATahunMulai())
-                                                                ->orderBy('Kd_PrioritasKab','ASC')
+                                                                ->orderBy('Kd_Sasaran','ASC')
                                                                 ->orderBy('Kd_RenstraTujuan','ASC')
                                                                 ->orderBy('Kd_RenstraSasaran','ASC')
                                                                 ->get()
@@ -387,11 +387,11 @@ class RENSTRAStrategiController extends Controller {
         $data = RENSTRAStrategiModel::findOrFail($id);
         if (!is_null($data) ) 
         {
-            $daftar_sasaran=\App\Models\RENSTRA\RENSTRASasaranModel::select(\DB::raw('"RenstraSasaranID",CONCAT(\'[\',"Kd_PrioritasKab",\'.\',"Kd_RenstraTujuan",\'.\',"Kd_RenstraSasaran",\']. \',"Nm_RenstraSasaran") AS "Nm_RenstraSasaran"'))
+            $daftar_sasaran=\App\Models\RENSTRA\RENSTRASasaranModel::select(\DB::raw('"RenstraSasaranID",CONCAT(\'[\',"Kd_Sasaran",\'.\',"Kd_RenstraTujuan",\'.\',"Kd_RenstraSasaran",\']. \',"Nm_RenstraSasaran") AS "Nm_RenstraSasaran"'))
                                                                     ->join('tmRenstraTujuan','tmRenstraTujuan.RenstraTujuanID','tmRenstraSasaran.RenstraTujuanID')
-                                                                    ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmRenstraTujuan.PrioritasKabID')
+                                                                    ->join('tmPrioritasSasaranKab','tmPrioritasSasaranKab.PrioritasSasaranKabID','tmRenstraTujuan.PrioritasSasaranKabID')
                                                                     ->where('tmRenstraSasaran.TA',\HelperKegiatan::getRENSTRATahunMulai())
-                                                                    ->orderBy('Kd_PrioritasKab','ASC')
+                                                                    ->orderBy('Kd_Sasaran','ASC')
                                                                     ->orderBy('Kd_RenstraTujuan','ASC')
                                                                     ->orderBy('Kd_RenstraSasaran','ASC')
                                                                     ->get()

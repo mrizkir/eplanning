@@ -198,14 +198,13 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/perencanaan/renstra/renstrakebijakan/changenumberrecordperpage',['uses'=>'RENSTRA\RENSTRAKebijakanController@changenumberrecordperpage','as'=>'renstrakebijakan.changenumberrecordperpage']);  
     Route::post('/perencanaan/renstra/renstrakebijakan/orderby',['uses'=>'RENSTRA\RENSTRAKebijakanController@orderby','as'=>'renstrakebijakan.orderby']); 
     
-    //RENSTRA - Indikator Sasaran
-    Route::resource('/perencanaan/renstra/renstraindikatorsasaran','RENSTRA\RENSTRAIndikatorSasaranController',['parameters'=>['renstraindikatorsasaran'=>'uuid']]); 
-    Route::post('/perencanaan/renstra/renstraindikatorsasaran/search',['uses'=>'RENSTRA\RENSTRAIndikatorSasaranController@search','as'=>'renstraindikatorsasaran.search']); 
-    Route::post('/perencanaan/renstra/renstraindikatorsasaran/filter',['uses'=>'RENSTRA\RENSTRAIndikatorSasaranController@filter','as'=>'renstraindikatorsasaran.filter']); 
-    Route::post('/perencanaan/renstra/renstraindikatorsasaran/pilihindikatorsasaran',['uses'=>'RENSTRA\RENSTRAIndikatorSasaranController@pilihindikatorsasaran','as'=>'renstraindikatorsasaran.pilihindikatorsasaran']); 
-    Route::get('/perencanaan/renstra/renstraindikatorsasaran/paginate/{id}',['uses'=>'RENSTRA\RENSTRAIndikatorSasaranController@paginate','as'=>'renstraindikatorsasaran.paginate']);              
-    Route::post('/perencanaan/renstra/renstraindikatorsasaran/changenumberrecordperpage',['uses'=>'RENSTRA\RENSTRAIndikatorSasaranController@changenumberrecordperpage','as'=>'renstraindikatorsasaran.changenumberrecordperpage']);  
-    Route::post('/perencanaan/renstra/renstraindikatorsasaran/orderby',['uses'=>'RENSTRA\RENSTRAIndikatorSasaranController@orderby','as'=>'renstraindikatorsasaran.orderby']);
+    //RENSTRA - Program, Kegiatan, dan Pendanaan
+    Route::resource('/perencanaan/renstra/renstraprogramkegiatanpendanaan','RENSTRA\RENSTRAProgramKegiatanPendanaanController',['parameters'=>['renstraprogramkegiatanpendanaan'=>'uuid']]); 
+    Route::post('/perencanaan/renstra/renstraprogramkegiatanpendanaan/search',['uses'=>'RENSTRA\RENSTRAProgramKegiatanPendanaanController@search','as'=>'renstraprogramkegiatanpendanaan.search']); 
+    Route::post('/perencanaan/renstra/renstraprogramkegiatanpendanaan/filter',['uses'=>'RENSTRA\RENSTRAProgramKegiatanPendanaanController@filter','as'=>'renstraprogramkegiatanpendanaan.filter']);     
+    Route::get('/perencanaan/renstra/renstraprogramkegiatanpendanaan/paginate/{id}',['uses'=>'RENSTRA\RENSTRAProgramKegiatanPendanaanController@paginate','as'=>'renstraprogramkegiatanpendanaan.paginate']);              
+    Route::post('/perencanaan/renstra/renstraprogramkegiatanpendanaan/changenumberrecordperpage',['uses'=>'RENSTRA\RENSTRAProgramKegiatanPendanaanController@changenumberrecordperpage','as'=>'renstraprogramkegiatanpendanaan.changenumberrecordperpage']);  
+    Route::post('/perencanaan/renstra/renstraprogramkegiatanpendanaan/orderby',['uses'=>'RENSTRA\RENSTRAProgramKegiatanPendanaanController@orderby','as'=>'renstraprogramkegiatanpendanaan.orderby']);
         
     //POKIR - Pemilik Pokok Pikiran
     Route::resource('/perencanaan/pokir/pemilikpokokpikiran','Pokir\PemilikPokokPikiranController',['parameters'=>['pemilikpokokpikiran'=>'uuid']]);        

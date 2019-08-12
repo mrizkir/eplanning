@@ -191,9 +191,9 @@
                                             <i class="icon-strategy"></i> ARAH KEBIJAKAN <span class="text-violet"><strong>[4]</strong></span>
                                         </a>
                                     </li>
-                                    <li{!!Helper::isMenuActive ($page_active,'renstraindikatorsasaran',' class="active"')!!}>
-                                        <a href="{{route('renstraindikatorsasaran.index')}}">
-                                            <i class="icon-strategy"></i> INDIKATOR SASARAN <span class="text-violet"><strong>[5]</strong></span>
+                                    <li{!!Helper::isMenuActive ($page_active,'renstraprogramkegiatanpendanaan',' class="active"')!!}>
+                                        <a href="{{route('renstraprogramkegiatanpendanaan.index')}}">
+                                            <i class="icon-strategy"></i> PRG., KEG., DAN PENDANAAN <span class="text-violet"><strong>[5]</strong></span>
                                         </a>
                                     </li>
                                 </ul>

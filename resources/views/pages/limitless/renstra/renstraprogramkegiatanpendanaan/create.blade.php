@@ -1,20 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RENSTRA INDIKATOR SASARAN  {{HelperKegiatan::getRENSTRATahunMulai()}} - {{HelperKegiatan::getRENSTRATahunAkhir()}}
+    RENSTRA PROGRAM, KEGIATAN, DAN PENDANAAN  {{HelperKegiatan::getRENSTRATahunMulai()}} - {{HelperKegiatan::getRENSTRATahunAkhir()}}
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        RENSTRA INDIKATOR SASARAN TAHUN {{HelperKegiatan::getRENSTRATahunMulai()}} - {{HelperKegiatan::getRENSTRATahunAkhir()}}  
+        RENSTRA PROGRAM, KEGIATAN, DAN PENDANAAN TAHUN {{HelperKegiatan::getRENSTRATahunMulai()}} - {{HelperKegiatan::getRENSTRATahunAkhir()}}  
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.renstra.renstraindikatorsasaran.info')
+    @include('pages.limitless.renstra.renstraprogramkegiatanpendanaan.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">PERENCANAAN</a></li>
     <li><a href="#">RENSTRA</a></li>
-    <li><a href="{!!route('renstraindikatorsasaran.index')!!}">INDIKATOR SASARAN</a></li>
+    <li><a href="{!!route('renstraprogramkegiatanpendanaan.index')!!}">PROGRAM, KEGIATAN, DAN PENDANAAN</a></li>
     <li class="active">TAMBAH DATA</li>
 @endsection
 @section('page_content')
@@ -28,82 +28,82 @@
             <div class="heading-elements">
                 <ul class="icons-list">                    
                     <li>               
-                        <a href="{!!route('renstraindikatorsasaran.index')!!}" data-action="closeredirect" title="keluar"></a>
+                        <a href="{!!route('renstraprogramkegiatanpendanaan.index')!!}" data-action="closeredirect" title="keluar"></a>
                     </li>
                 </ul>
             </div>
         </div>
+        {!! Form::open(['action'=>'RENSTRA\RENSTRAProgramKegiatanPendanaanController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                            
+        {{Form::hidden('OrgIDRPJMD',$organisasi->OrgIDRPJMD)}}
         <div class="panel-body">
-            {!! Form::open(['action'=>'RENSTRA\RENSTRAIndikatorSasaranController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                            
-                {{Form::hidden('OrgIDRPJMD',$organisasi->OrgIDRPJMD)}}
-                <div class="form-group">
-                    <label class="col-md-2 control-label">OPD / SKPD: </label>
-                    <div class="col-md-10">
-                        <p class="form-control-static">
-                            <span class="label border-left-primary label-striped">{{$organisasi->OrgNm}}</span>
-                        </p>
-                    </div>                            
+            <div class="form-group">
+                <label class="col-md-2 control-label">OPD / SKPD: </label>
+                <div class="col-md-10">
+                    <p class="form-control-static">
+                        <span class="label border-left-primary label-striped">{{$organisasi->OrgNm}}</span>
+                    </p>
+                </div>                            
+            </div>
+            <div class="form-group">
+                {{Form::label('UrsID','NAMA URUSAN',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    <select name="UrsID" id="UrsID" class="select">
+                        <option></option>
+                        @foreach ($daftar_urusan as $k=>$item)
+                            <option value="{{$k}}" {{$UrsID_selected == $k?' selected':''}}>{{$item}}</option>
+                        @endforeach
+                    </select>                        
                 </div>
-                <div class="form-group">
-                    {{Form::label('UrsID','NAMA URUSAN',['class'=>'control-label col-md-2'])}}
-                    <div class="col-md-10">
-                        <select name="UrsID" id="UrsID" class="select">
-                            <option></option>
-                            @foreach ($daftar_urusan as $k=>$item)
-                                <option value="{{$k}}" {{$UrsID_selected == $k?' selected':''}}>{{$item}}</option>
-                            @endforeach
-                        </select>                        
-                    </div>
-                </div>         
-                <div class="form-group">
-                    {{Form::label('PrgID','NAMA PROGRAM',['class'=>'control-label col-md-2'])}}
-                    <div class="col-md-10">
-                        <select name="PrgID" id="PrgID" class="select">
-                            <option></option>
-                            @foreach ($daftar_program as $k=>$item)
-                                <option value="{{$k}}"}}>{{$item}}</option>
-                            @endforeach
-                        </select>    
-                    </div>
-                </div> 
-                <div class="form-group">
-                    {{Form::label('IndikatorKinerjaID','INDIKATOR KINERJA RPJMD',['class'=>'control-label col-md-2'])}}
-                    <div class="col-md-10">
-                        <select name="IndikatorKinerjaID" id="IndikatorKinerjaID" class="select">
-                            <option></option>                            
-                        </select>    
-                    </div>
-                </div>       
-                <div class="form-group">
-                    <label class="col-md-2 control-label">ARAH KEBIJAKAN:</label> 
-                    <div class="col-md-10">
-                        <select name="RenstraKebijakanID" id="RenstraKebijakanID" class="select">
-                            <option></option>
-                            @foreach ($daftar_kebijakan as $k=>$item)
-                                <option value="{{$k}}">{{$item}}</option>
-                            @endforeach
-                        </select>                                
-                    </div>
-                </div>   
-                <div class="form-group">
-                    {{Form::label('NamaIndikator','NAMA INDIKATOR',['class'=>'control-label col-md-2'])}}
-                    <div class="col-md-10">
-                        {{Form::text('NamaIndikator','',['class'=>'form-control','placeholder'=>'Nama Indikator'])}}
-                    </div>
+            </div>         
+            <div class="form-group">
+                {{Form::label('PrgID','NAMA PROGRAM',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    <select name="PrgID" id="PrgID" class="select">
+                        <option></option>
+                        @foreach ($daftar_program as $k=>$item)
+                            <option value="{{$k}}"}}>{{$item}}</option>
+                        @endforeach
+                    </select>    
                 </div>
-                <div class="form-group">
-                    {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
-                    <div class="col-md-10">
-                        {{Form::textarea('Descr','',['class'=>'form-control','placeholder'=>'KETERANGAN','rows' => 2, 'cols' => 40])}}
-                    </div>
+            </div> 
+            <div class="form-group">
+                {{Form::label('IndikatorKinerjaID','INDIKATOR KINERJA RPJMD',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    <select name="IndikatorKinerjaID" id="IndikatorKinerjaID" class="select">
+                        <option></option>                            
+                    </select>    
                 </div>
-                <div class="form-group">            
-                    <div class="col-md-10 col-md-offset-2">                        
-                        {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}
-                    </div>
+            </div>       
+            <div class="form-group">
+                <label class="col-md-2 control-label">ARAH KEBIJAKAN:</label> 
+                <div class="col-md-10">
+                    <select name="RenstraKebijakanID" id="RenstraKebijakanID" class="select">
+                        <option></option>
+                        @foreach ($daftar_kebijakan as $k=>$item)
+                            <option value="{{$k}}">{{$item}}</option>
+                        @endforeach
+                    </select>                                
                 </div>
-            {!! Form::close()!!}
+            </div>   
+            <div class="form-group">
+                {{Form::label('NamaIndikator','NAMA INDIKATOR',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    {{Form::text('NamaIndikator','',['class'=>'form-control','placeholder'=>'Nama Indikator'])}}
+                </div>
+            </div>
+            <div class="form-group">
+                {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    {{Form::textarea('Descr','',['class'=>'form-control','placeholder'=>'KETERANGAN','rows' => 2, 'cols' => 40])}}
+                </div>
+            </div>
+            <div class="form-group">            
+                <div class="col-md-10 col-md-offset-2">                        
+                    {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}
+                </div>
+            </div>            
         </div>
+        {!! Form::close()!!}
     </div>
 </div>   
 @endsection

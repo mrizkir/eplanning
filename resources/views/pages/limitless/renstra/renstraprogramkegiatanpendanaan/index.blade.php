@@ -1,20 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RENSTRA INDIKATOR SASARAN TAHUN {{HelperKegiatan::getRENSTRATahunMulai()}} - {{HelperKegiatan::getRENSTRATahunAkhir()}}
+    RENSTRA PROGRAM, KEGIATAN, DAN PENDANAAN TAHUN {{HelperKegiatan::getRENSTRATahunMulai()}} - {{HelperKegiatan::getRENSTRATahunAkhir()}}
 @endsection
 @section('page_header')
     <i class="icon-strategy position-left"></i>
     <span class="text-semibold">
-        RENSTRA INDIKATOR SASARAN TAHUN {{HelperKegiatan::getRENSTRATahunMulai()}} - {{HelperKegiatan::getRENSTRATahunAkhir()}}  
+        RENSTRA PROGRAM, KEGIATAN, DAN PENDANAAN TAHUN {{HelperKegiatan::getRENSTRATahunMulai()}} - {{HelperKegiatan::getRENSTRATahunAkhir()}}  
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.renstra.renstraindikatorsasaran.info')
+    @include('pages.limitless.renstra.renstraprogramkegiatanpendanaan.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">PERENCANAAN</a></li>
     <li><a href="#">RENSTRA</a></li>
-    <li><a href="{!!route('renstraindikatorsasaran.index')!!}">INDIKATOR SASARAN</a></li>
+    <li><a href="{!!route('renstraprogramkegiatanpendanaan.index')!!}">PROGRAM, KEGIATAN, DAN PENDANAAN</a></li>
 @endsection
 @section('page_content')
 <div class="row">
@@ -54,7 +54,7 @@
                 </h5>
             </div>
             <div class="panel-body">
-                {!! Form::open(['action'=>'RENSTRA\RENSTRAIndikatorSasaranController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
+                {!! Form::open(['action'=>'RENSTRA\RENSTRAProgramKegiatanPendanaanController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">
@@ -80,7 +80,7 @@
         </div>
     </div>       
     <div class="col-md-12" id="divdatatable">
-        @include('pages.limitless.renstra.renstraindikatorsasaran.datatable')
+        @include('pages.limitless.renstra.renstraprogramkegiatanpendanaan.datatable')
     </div>
 </div>
 @endsection

@@ -1,20 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RENSTRA INDIKATOR SASARAN
+    RENSTRA PROGRAM, KEGIATAN, DAN PENDANAAN
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        RENSTRA INDIKATOR SASARAN TAHUN {{HelperKegiatan::getRENSTRATahunMulai()}} - {{HelperKegiatan::getRENSTRATahunAkhir()}}
+        RENSTRA PROGRAM, KEGIATAN, DAN PENDANAAN TAHUN {{HelperKegiatan::getRENSTRATahunMulai()}} - {{HelperKegiatan::getRENSTRATahunAkhir()}}
     </span>     
 @endsection
 @section('page_info')
-    @include('pages.limitless.renstra.renstraindikatorsasaran.info')
+    @include('pages.limitless.renstra.renstraprogramkegiatanpendanaan.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">PERENCANAAN</a></li>
     <li><a href="#">RENSTRA</a></li>
-    <li><a href="{!!route('renstraindikatorsasaran.index')!!}">INDIKATOR SASARAN</a></li>
+    <li><a href="{!!route('renstraprogramkegiatanpendanaan.index')!!}">PROGRAM, KEGIATAN, DAN PENDANAAN</a></li>
     <li class="active">DETAIL DATA</li>
 @endsection
 @section('page_content')
@@ -23,19 +23,19 @@
         <div class="panel panel-flat border-top-info border-bottom-info">
             <div class="panel-heading">
                 <h5 class="panel-title"> 
-                    <i class="icon-eye"></i>  DATA RENSTRA INDIKATOR SASARAN
+                    <i class="icon-eye"></i>  DATA RENSTRA PROGRAM, KEGIATAN, DAN PENDANAAN
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('renstraindikatorsasaran.edit',['id'=>$data->RenstraIndikatorID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RENSTRA Indikator Sasaran">
+                    <a href="{{route('renstraprogramkegiatanpendanaan.edit',['id'=>$data->RenstraIndikatorID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RENSTRA Indikator Sasaran">
                         <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data RENSTRA Indikator Sasaran" data-id="{{$data->RenstraIndikatorID}}" data-url="{{route('renstraindikatorsasaran.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
+                    <a href="javascript:;" title="Hapus Data RENSTRA Indikator Sasaran" data-id="{{$data->RenstraIndikatorID}}" data-url="{{route('renstraprogramkegiatanpendanaan.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
                     </a>
-                    <a href="{!!route('renstraindikatorsasaran.create')!!}" class="btn btn-primary btn-info heading-btn btnEdit" title="Tambah RENSTRA Indikator Sasaran">
+                    <a href="{!!route('renstraprogramkegiatanpendanaan.create')!!}" class="btn btn-primary btn-info heading-btn btnEdit" title="Tambah RENSTRA Indikator Sasaran">
                         <i class="icon-googleplus5"></i>
                     </a>
-                    <a href="{!!route('renstraindikatorsasaran.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
+                    <a href="{!!route('renstraprogramkegiatanpendanaan.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
                         <i class="icon-close2"></i>
                     </a>            
                 </div>

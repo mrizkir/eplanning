@@ -9,7 +9,7 @@
                     {!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control','style'=>'width:70px'])!!}                        
                 </div> 
                 <div class="form-group">
-                    <a href="{!!route('renstraindikatorsasaran.create')!!}" class="btn btn-info btn-xs" title="Tambah RENSTRA INDIKATOR SASARAN">
+                    <a href="{!!route('renstraprogramkegiatanpendanaan.create')!!}" class="btn btn-info btn-xs" title="Tambah RENSTRA PROGRAM, KEGIATAN, DAN PENDANAAN">
                         <i class="icon-googleplus5"></i>
                     </a>
                 </div> 
@@ -48,17 +48,17 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('renstraindikatorsasaran.show',['id'=>$item->RenstraIndikatorID])}}" title="Detail Data RENSTRA Arah Kebijakan">
+                                <a class="btnShow" href="{{route('renstraprogramkegiatanpendanaan.show',['id'=>$item->RenstraIndikatorID])}}" title="Detail Data RENSTRA Arah Kebijakan">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('renstraindikatorsasaran.edit',['id'=>$item->RenstraIndikatorID])}}" title="Ubah Data RENSTRA Arah Kebijakan">
+                                <a class="btnEdit" href="{{route('renstraprogramkegiatanpendanaan.edit',['id'=>$item->RenstraIndikatorID])}}" title="Ubah Data RENSTRA Arah Kebijakan">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data RENSTRA Arah Kebijakan" data-id="{{$item->RenstraIndikatorID}}" data-url="{{route('renstraindikatorsasaran.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data RENSTRA Arah Kebijakan" data-id="{{$item->RenstraIndikatorID}}" data-url="{{route('renstraprogramkegiatanpendanaan.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>
