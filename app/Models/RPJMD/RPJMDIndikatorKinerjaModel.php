@@ -21,8 +21,7 @@ class RPJMDIndikatorKinerjaModel extends Model {
      */
     protected $fillable = [
         'IndikatorKinerjaID',
-        'PrioritasKebijakanKabID', 
-        'ProgramKebijakanID', 
+        'PrioritasSasaranKabID', 
         'UrsID', 
         'PrgID', 
         'OrgID', 
@@ -72,7 +71,7 @@ class RPJMDIndikatorKinerjaModel extends Model {
     /**
      * log the changed attributes for all these events 
      */
-    protected static $logAttributes = ['IndikatorKinerjaID', 'PrioritasKebijakanKabID', 'NamaIndikator'];
+    protected static $logAttributes = ['IndikatorKinerjaID', 'PrioritasSasaranKabID', 'NamaIndikator'];
     /**
      * log changes to all the $fillable attributes of the model
      */

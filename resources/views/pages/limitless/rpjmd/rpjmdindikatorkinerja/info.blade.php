@@ -1,3 +1,3 @@
 <small class="display-block">          
-    <code>Digunakan untuk mengelola data Indikator RPJMD</code>
+    <code>Tabel T-C.16. Indikasi Rencana Program Prioritas yang disertai Kebutuhan Pendanaan. [Permendagri No. 86 Tahun 2017 hal. 380]</code>
 </small>

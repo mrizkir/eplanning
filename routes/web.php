@@ -153,6 +153,23 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/perencanaan/rpjmd/rpjmdkebijakan/changenumberrecordperpage',['uses'=>'RPJMD\RPJMDKebijakanController@changenumberrecordperpage','as'=>'rpjmdkebijakan.changenumberrecordperpage']);  
     Route::post('/perencanaan/rpjmd/rpjmdkebijakan/orderby',['uses'=>'RPJMD\RPJMDKebijakanController@orderby','as'=>'rpjmdkebijakan.orderby']); 
     
+    //RPJMD - Program Pembangunan Daerah
+    Route::resource('/perencanaan/rpjmd/rpjmdprogrampembangunan','RPJMD\RPJMDProgramPembangunan',['parameters'=>['rpjmdprogrampembangunan'=>'uuid']]); 
+    Route::post('/perencanaan/rpjmd/rpjmdprogrampembangunan/search',['uses'=>'RPJMD\RPJMDProgramPembangunan@search','as'=>'rpjmdprogrampembangunan.search']); 
+    Route::post('/perencanaan/rpjmd/rpjmdprogrampembangunan/filter',['uses'=>'RPJMD\RPJMDProgramPembangunan@filter','as'=>'rpjmdprogrampembangunan.filter']);                  
+    Route::get('/perencanaan/rpjmd/rpjmdprogrampembangunan/paginate/{id}',['uses'=>'RPJMD\RPJMDProgramPembangunan@paginate','as'=>'rpjmdprogrampembangunan.paginate']);              
+    Route::post('/perencanaan/rpjmd/rpjmdprogrampembangunan/changenumberrecordperpage',['uses'=>'RPJMD\RPJMDProgramPembangunan@changenumberrecordperpage','as'=>'rpjmdprogrampembangunan.changenumberrecordperpage']);  
+    Route::post('/perencanaan/rpjmd/rpjmdprogrampembangunan/orderby',['uses'=>'RPJMD\RPJMDProgramPembangunan@orderby','as'=>'rpjmdprogrampembangunan.orderby']);
+
+    //RPJMD - Indikator Rencana Program Prioritas atau Indikator Kinerja
+    Route::resource('/perencanaan/rpjmd/rpjmdindikatorkinerja','RPJMD\RPJMDIndikatorKinerjaController',['parameters'=>['rpjmdindikatorkinerja'=>'uuid']]); 
+    Route::post('/perencanaan/rpjmd/rpjmdindikatorkinerja/search',['uses'=>'RPJMD\RPJMDIndikatorKinerjaController@search','as'=>'rpjmdindikatorkinerja.search']); 
+    Route::post('/perencanaan/rpjmd/rpjmdindikatorkinerja/filter',['uses'=>'RPJMD\RPJMDIndikatorKinerjaController@filter','as'=>'rpjmdindikatorkinerja.filter']);                  
+    Route::get('/perencanaan/rpjmd/rpjmdindikatorkinerja/paginate/{id}',['uses'=>'RPJMD\RPJMDIndikatorKinerjaController@paginate','as'=>'rpjmdindikatorkinerja.paginate']);              
+    Route::post('/perencanaan/rpjmd/rpjmdindikatorkinerja/changenumberrecordperpage',['uses'=>'RPJMD\RPJMDIndikatorKinerjaController@changenumberrecordperpage','as'=>'rpjmdindikatorkinerja.changenumberrecordperpage']);  
+    Route::post('/perencanaan/rpjmd/rpjmdindikatorkinerja/orderby',['uses'=>'RPJMD\RPJMDIndikatorKinerjaController@orderby','as'=>'rpjmdindikatorkinerja.orderby']);
+    
+    
     //RPJMD - Indikator Rencana Program Prioritas atau Indikator Kinerja
     Route::resource('/perencanaan/rpjmd/rpjmdindikatorkinerja','RPJMD\RPJMDIndikatorKinerjaController',['parameters'=>['rpjmdindikatorkinerja'=>'uuid']]); 
     Route::post('/perencanaan/rpjmd/rpjmdindikatorkinerja/search',['uses'=>'RPJMD\RPJMDIndikatorKinerjaController@search','as'=>'rpjmdindikatorkinerja.search']); 

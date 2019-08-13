@@ -57,4 +57,37 @@ class RPJMDSasaranModel extends Model {
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
+    public static function getDaftarSasaran($ta,$prepend=true)
+    {
+        $r=RPJMDSasaranModel::select(\DB::raw('
+                                "PrioritasSasaranKabID",
+                                CONCAT(
+                                \'[\',
+                                "Kd_PrioritasKab",
+                                \'.\',
+                                "Kd_Tujuan",
+                                \'.\',
+                                "Kd_Sasaran",                                
+                                \'] \',
+                                "Nm_Sasaran"
+                                ) AS "Nm_Sasaran"'))                                
+                                ->join('tmPrioritasTujuanKab','tmPrioritasTujuanKab.PrioritasTujuanKabID','tmPrioritasSasaranKab.PrioritasTujuanKabID')
+                                ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmPrioritasTujuanKab.PrioritasKabID')
+                                ->where('tmPrioritasSasaranKab.TA',$ta)
+                                ->orderBy('Kd_PrioritasKab')
+                                ->orderBy('Kd_Tujuan')
+                                ->orderBy('Kd_Sasaran')
+                                ->get();
+
+        $daftar_kebijakan=$prepend == true 
+                                        ?
+                                            $r->pluck('Nm_Sasaran','PrioritasSasaranKabID')
+                                            ->prepend('DAFTAR KEBIJAKAN RPJMD')
+                                            ->toArray()
+                                        :
+                                        $r->pluck('Nm_Sasaran','PrioritasSasaranKabID')
+                                            ->toArray();
+       
+        return $daftar_kebijakan;
+    }
 }

@@ -1,19 +1,19 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RPJMD INDIKASI RENCANA PROGRAM
+    RPJMD PROGRAM PEMBANGUNAN DAERAH
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        RPJMD INDIKASI RENCANA PROGRAM TAHUN {{HelperKegiatan::getRPJMDTahunMulai()}} - {{HelperKegiatan::getRPJMDTahunAkhir()}}  
+        RPJMD PROGRAM PEMBANGUNAN DAERAH TAHUN {{HelperKegiatan::getRPJMDTahunMulai()}} - {{HelperKegiatan::getRPJMDTahunAkhir()}}  
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.rpjmd.rpjmdindikatorkinerja.info')
+    @include('pages.limitless.rpjmd.rpjmdprogrampembangunan.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">RPJMD</a></li>
-    <li><a href="{!!route('rpjmdindikatorkinerja.index')!!}">INDIKASI RENCANA PROGRAM</a></li>
+    <li><a href="{!!route('rpjmdprogrampembangunan.index')!!}">PROGRAM PEMBANGUNAN DAERAH</a></li>
     <li class="active">TAMBAH DATA</li>
 @endsection
 @section('page_content')
@@ -27,7 +27,7 @@
             <div class="heading-elements">
                 <ul class="icons-list">                    
                     <li>               
-                        <a href="{!!route('rpjmdindikatorkinerja.index')!!}" data-action="closeredirect" title="keluar"></a>
+                        <a href="{!!route('rpjmdprogrampembangunan.index')!!}" data-action="closeredirect" title="keluar"></a>
                     </li>
                 </ul>
             </div>
@@ -39,36 +39,18 @@
                 <div class="col-md-10">
                     <select name="PrioritasSasaranKabID" id="PrioritasSasaranKabID" class="select">
                         <option></option>
-                        @foreach ($daftar_kebijakan as $k=>$item)
+                        @foreach ($daftar_sasaran as $k=>$item)
                             <option value="{{$k}}">{{$item}}</option>
                         @endforeach
                     </select>  
                 </div>
             </div>
         </div>
-        <div class="panel-body">
+        <div class="panel-body">                    
             <div class="form-group">
-                {{Form::label('ProgramKebijakanID','PROGRAM KEBIJAKAN',['class'=>'control-label col-md-2'])}}
+                {{Form::label('OrgIDRPJMD','OPD PENANGGUNG JAWAB',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
-                    <select name="ProgramKebijakanID" id="ProgramKebijakanID" class="select">
-                        <option></option>
-                    </select>  
-                </div>
-            </div>            
-            <div class="form-group">
-                {{Form::label('OrgID','NAMA OPD / SKPD 1',['class'=>'control-label col-md-2'])}}
-                <div class="col-md-10">
-                    <select name="OrgID" id="OrgID" class="select">
-                        <option></option>
-                    </select>  
-                </div>
-            </div>
-            <div class="form-group">
-                {{Form::label('OrgID2','NAMA OPD / SKPD 2',['class'=>'control-label col-md-2'])}}
-                <div class="col-md-10">
-                    <select name="OrgID2" id="OrgID2" class="select">
-                        <option></option>                        
-                    </select>  
+                    {{Form::textarea('OrgIDRPJMD','',['class'=>'form-control','placeholder'=>'OPD','rows' => 2, 'cols' => 40])}}
                 </div>
             </div>
         </div>
@@ -78,7 +60,7 @@
                     <div class="form-group">
                         {{Form::label('NamaIndikator','NAMA INDIKATOR',['class'=>'control-label col-md-2'])}}
                         <div class="col-md-10">
-                            {{Form::textarea('NamaIndikator','',['class'=>'form-control','placeholder'=>'NAMA INDIKATOR','rows' => 2, 'cols' => 40])}}
+                            <p class="form-control-static">DAFTAR INDIKATOR DARI SASARAN INI</p>
                         </div>
                     </div>
                      <div class="form-group">
@@ -213,11 +195,7 @@ $(document).ready(function () {
                                             modifyValueOnWheel:false
                                         });
     $('#PrioritasSasaranKabID.select').select2({
-        placeholder: "PILIH KEBIJAKAN RPJMD",
-        allowClear:true
-    });
-    $('#ProgramKebijakanID.select').select2({
-        placeholder: "PILIH PROGRAM KEBIJAKAN",
+        placeholder: "PILIH SASARAN RPJMD",
         allowClear:true
     });
     $('#OrgID.select').select2({
@@ -227,60 +205,7 @@ $(document).ready(function () {
     $('#OrgID2.select').select2({
         placeholder: "PILIH OPD / SKPD 2",
         allowClear:true
-    });
-    $(document).on('change','#PrioritasSasaranKabID',function(ev) {
-        ev.preventDefault();   
-        $.ajax({
-            type:'post',
-            url: url_current_page +'/filter',
-            dataType: 'json',
-            data: {              
-                "_token": token,  
-                "PrioritasSasaranKabID": $('#PrioritasSasaranKabID').val(),
-                "prioritaskebijakan":true
-            },
-            success:function(result)
-            { 
-                var daftar_program = result.daftar_program;
-                var listitems='<option></option>';
-                $.each(daftar_program,function(key,value){
-                    listitems+='<option value="' + key + '">'+value+'</option>';                    
-                });
-                $('#ProgramKebijakanID').html(listitems);                
-            },
-            error:function(xhr, status, error){
-                console.log('ERROR');
-                console.log(parseMessageAjaxEror(xhr, status, error));                           
-            },
-        });
-    });
-    $(document).on('change','#ProgramKebijakanID',function(ev) {
-        ev.preventDefault();   
-        $.ajax({
-            type:'post',
-            url: url_current_page +'/filter',
-            dataType: 'json',
-            data: {              
-                "_token": token,  
-                "ProgramKebijakanID": $('#ProgramKebijakanID').val(),
-                "programkebijakan":true
-            },
-            success:function(result)
-            { 
-                var daftar_opd = result.daftar_opd;
-                var listitems='<option></option>';
-                $.each(daftar_opd,function(key,value){
-                    listitems+='<option value="' + key + '">'+value+'</option>';                    
-                });
-                $('#OrgID').html(listitems);
-                $('#OrgID2').html(listitems);      
-            },
-            error:function(xhr, status, error){
-                console.log('ERROR');
-                console.log(parseMessageAjaxEror(xhr, status, error));                           
-            },
-        });
-    });
+    });   
     $('#frmdata').validate({
         ignore:[],
         rules: {

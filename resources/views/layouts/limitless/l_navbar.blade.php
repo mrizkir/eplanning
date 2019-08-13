@@ -164,17 +164,21 @@
                                             <i class="icon-strategy"></i> ARAH KEBIJAKAN <span class="text-violet"><strong>[6]</strong></span>
                                         </a>
                                     </li>  
-                                    <li{!!Helper::isMenuActive ($page_active,'rpjmdindikatorkinerja',' class="active"')!!}>
-                                        <a href="{{route('rpjmdindikatorkinerja.index')}}">
-                                            <i class="icon-strategy"></i> INDIKASI RENCANA PROGRAM <span class="text-violet"><strong>[7]</strong></span>
+                                    <li{!!Helper::isMenuActive ($page_active,'rpjmdprogrampembangunan',' class="active"')!!}>
+                                        <a href="{{route('rpjmdprogrampembangunan.index')}}">
+                                            <i class="icon-strategy"></i> PRG. PEMBANGUNAN DAERAH <span class="text-violet"><strong>[7]</strong></span>
                                         </a>
-                                    </li> 
+                                    </li>                                
                                 </ul>
                             </div>                                                        
                             <div class="col-md-3">
                                 <span class="menu-heading underlined"><i class="icon-strategy"></i> BAB VII</span>
                                 <ul class="menu-list">                                
-
+                                    <li{!!Helper::isMenuActive ($page_active,'rpjmdindikatorkinerja',' class="active"')!!}>
+                                        <a href="{{route('rpjmdindikatorkinerja.index')}}">
+                                            <i class="icon-strategy"></i> INDIKASI RENCANA PROGRAM <span class="text-violet"><strong>[8]</strong></span>
+                                        </a>
+                                    </li> 
                                 </ul>
                             </div>                                                                                    
                             <div class="col-md-3">
