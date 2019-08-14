@@ -159,21 +159,13 @@ class RPJMDProgramPembangunan extends Controller {
     public function filter(Request $request) 
     {        
         $json_data = [];
-        //programkebijakan
-        if ($request->exists('PrioritasSasaranKabID') && $request->exists('prioritaskebijakan') )
+        //create
+        if ($request->exists('UrsID') && $request->exists('create') )
         {
-            $PrioritasSasaranKabID = $request->input('PrioritasSasaranKabID')==''?'none':$request->input('PrioritasSasaranKabID');            
-            $daftar_program=RPJMDProgramSasaranModel::getDaftarProgramSasaran($PrioritasSasaranKabID,false);
+            $UrsID = $request->input('UrsID')==''?'none':$request->input('UrsID');            
+            $daftar_program=\App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getRPJMDTahunMulai(),false,$UrsID);            
             $json_data = ['success'=>true,'daftar_program'=>$daftar_program];
         } 
-        else if($request->exists('ProgramSasaranID') && $request->exists('programkebijakan'))
-        {
-            $ProgramSasaranID = $request->input('ProgramSasaranID')==''?'none':$request->input('ProgramSasaranID'); 
-            $programkebijakan=RPJMDProgramSasaranModel::find($ProgramSasaranID);
-            $UrsID=is_null($programkebijakan)?'none':$programkebijakan->UrsID;
-            $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false,$UrsID);
-            $json_data = ['success'=>true,'daftar_opd'=>$daftar_opd];
-        }
         return response()->json($json_data,200);  
     }
     /**
@@ -210,10 +202,12 @@ class RPJMDProgramPembangunan extends Controller {
     {        
         $theme = \Auth::user()->theme;
         $daftar_sasaran = RPJMDSasaranModel::getDaftarSasaran(\HelperKegiatan::getRPJMDTahunMulai(),false);
-        $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusan(\HelperKegiatan::getRPJMDTahunMulai(),false);
+        $daftar_opd=\App\Models\DMaster\OrganisasiRPJMDModel::getDaftarOPDMaster(\HelperKegiatan::getRPJMDTahunMulai(),false); 
+        $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusan(\HelperKegiatan::getRPJMDTahunMulai(),false);  
         return view("pages.$theme.rpjmd.rpjmdprogrampembangunan.create")->with(['page_active'=>'rpjmdprogrampembangunan',
                                                                                 'daftar_sasaran'=>$daftar_sasaran,
-                                                                                'daftar_urusan'=>$daftar_urusan
+                                                                                'daftar_urusan'=>$daftar_urusan,
+                                                                                'daftar_opd'=>$daftar_opd
                                                                             ]);  
     }
     

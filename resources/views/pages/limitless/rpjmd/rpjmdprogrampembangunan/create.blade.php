@@ -45,126 +45,83 @@
                     </select>  
                 </div>
             </div>
+            <div class="form-group">
+                {{Form::label('UrsID','URUSAN',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    <select name="UrsID" id="UrsID" class="select">
+                        <option></option>
+                        @foreach ($daftar_urusan as $k=>$item)
+                            <option value="{{$k}}"">{{$item}}</option>
+                        @endforeach
+                    </select>  
+                </div>
+            </div>
+            <div class="form-group">
+                {{Form::label('PrgID','PROGRAM',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    <select name="PrgID" id="PrgID" class="select">
+                        <option></option>
+                    </select>  
+                </div>
+            </div>
         </div>
         <div class="panel-body">                    
             <div class="form-group">
                 {{Form::label('OrgIDRPJMD','OPD PENANGGUNG JAWAB',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
-                    {{Form::textarea('OrgIDRPJMD','',['class'=>'form-control','placeholder'=>'OPD','rows' => 2, 'cols' => 40])}}
+                    {{Form::select('OrgIDRPJMD',$daftar_opd,null,['class'=>'select','multiple' => 'multiple','name'=>'OrgIDRPJMD[]'])}}
                 </div>
             </div>
         </div>
         <div class="panel-body">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        {{Form::label('NamaIndikator','NAMA INDIKATOR',['class'=>'control-label col-md-2'])}}
-                        <div class="col-md-10">
-                            <p class="form-control-static">DAFTAR INDIKATOR DARI SASARAN INI</p>
-                        </div>
-                    </div>
-                     <div class="form-group">
-                        {{Form::label('KondisiAwal','KONDISI KINERJA AWAL ('.(HelperKegiatan::getRPJMDTahunAwal()).')',['class'=>'control-label col-md-2'])}}
-                        <div class="col-md-10">
-                            {{Form::text('KondisiAwal','',['class'=>'form-control','placeholder'=>'KONDISI KINERJA AWAL','rows' => 2, 'cols' => 40])}}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        {{Form::label('Satuan','SATUAN',['class'=>'control-label col-md-2'])}}
-                        <div class="col-md-10">
-                            {{Form::text('Satuan','',['class'=>'form-control','placeholder'=>'SATUAN'])}}
-                        </div>
-                    </div>
+            <div class="form-group">
+                {{Form::label('NamaIndikator','NAMA INDIKATOR',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    <p class="form-control-static">DAFTAR INDIKATOR DARI SASARAN INI</p>
                 </div>
             </div>
-            <div class="row">                
-                <div class="col-md-6">
-                    <div class="form-group">
-                        {{Form::label('TargetN1','TARGET TAHUN '.(HelperKegiatan::getRPJMDTahunMulai()),['class'=>'control-label col-md-4'])}}
-                        <div class="col-md-8">
-                            {{Form::text('TargetN1','',['class'=>'form-control','placeholder'=>'TARGET TAHUN KE 1','rows' => 2, 'cols' => 40])}}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        {{Form::label('TargetN2','TARGET TAHUN '.(HelperKegiatan::getRPJMDTahunMulai()+1),['class'=>'control-label col-md-4'])}}
-                        <div class="col-md-8">
-                            {{Form::text('TargetN2','',['class'=>'form-control','placeholder'=>'TARGET TAHUN KE 2','rows' => 2, 'cols' => 40])}}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        {{Form::label('TargetN3','TARGET TAHUN '.(HelperKegiatan::getRPJMDTahunMulai()+2),['class'=>'control-label col-md-4'])}}
-                        <div class="col-md-8">
-                            {{Form::text('TargetN3','',['class'=>'form-control','placeholder'=>'TARGET TAHUN KE 3','rows' => 2, 'cols' => 40])}}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        {{Form::label('TargetN4','TARGET TAHUN '.(HelperKegiatan::getRPJMDTahunMulai()+3),['class'=>'control-label col-md-4'])}}
-                        <div class="col-md-8">
-                            {{Form::text('TargetN4','',['class'=>'form-control','placeholder'=>'TARGET TAHUN KE 4','rows' => 2, 'cols' => 40])}}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        {{Form::label('TargetN5','TARGET TAHUN '.(HelperKegiatan::getRPJMDTahunMulai()+4),['class'=>'control-label col-md-4'])}}
-                        <div class="col-md-8">
-                            {{Form::text('TargetN5','',['class'=>'form-control','placeholder'=>'TARGET TAHUN KE 5','rows' => 2, 'cols' => 40])}}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        {{Form::label('KondisiAkhirTarget','KONDISI AKHIR TARGET '.(HelperKegiatan::getRPJMDTahunAkhir()+1),['class'=>'control-label col-md-4'])}}
-                        <div class="col-md-8">
-                            {{Form::text('KondisiAkhirTarget','',['class'=>'form-control','placeholder'=>'TARGET TAHUN KE 5','rows' => 2, 'cols' => 40])}}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">                   
-                    <div class="form-group">
-                        {{Form::label('PaguDanaN1','PAGU DANA TAHUN '.HelperKegiatan::getRPJMDTahunMulai(),['class'=>'control-label col-md-4'])}}
-                        <div class="col-md-8">
-                            {{Form::text('PaguDanaN1','',['class'=>'form-control','placeholder'=>'PAGU DANA TAHUN KE 1','rows' => 2, 'cols' => 40])}}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        {{Form::label('PaguDanaN2','PAGU DANA TAHUN '.(HelperKegiatan::getRPJMDTahunMulai()+1),['class'=>'control-label col-md-4'])}}
-                        <div class="col-md-8">
-                            {{Form::text('PaguDanaN2','',['class'=>'form-control','placeholder'=>'PAGU DANA TAHUN KE 2','rows' => 2, 'cols' => 40])}}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        {{Form::label('PaguDanaN3','PAGU DANA TAHUN '.(HelperKegiatan::getRPJMDTahunMulai()+2),['class'=>'control-label col-md-4'])}}
-                        <div class="col-md-8">
-                            {{Form::text('PaguDanaN3','',['class'=>'form-control','placeholder'=>'PAGU DANA TAHUN KE 3','rows' => 2, 'cols' => 40])}}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        {{Form::label('PaguDanaN4','PAGU DANA TAHUN '.(HelperKegiatan::getRPJMDTahunMulai()+3),['class'=>'control-label col-md-4'])}}
-                        <div class="col-md-8">
-                            {{Form::text('PaguDanaN4','',['class'=>'form-control','placeholder'=>'PAGU DANA TAHUN KE 4','rows' => 2, 'cols' => 40])}}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        {{Form::label('PaguDanaN5','PAGU DANA TAHUN '.(HelperKegiatan::getRPJMDTahunMulai()+4),['class'=>'control-label col-md-4'])}}
-                        <div class="col-md-8">
-                            {{Form::text('PaguDanaN5','',['class'=>'form-control','placeholder'=>'PAGU DANA TAHUN KE 5','rows' => 2, 'cols' => 40])}}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        {{Form::label('KondisiAkhirPaguDana','KONDISI AKHIR PAGU DANA TAHUN '.(HelperKegiatan::getRPJMDTahunAkhir()+1),['class'=>'control-label col-md-4'])}}
-                        <div class="col-md-8">
-                            {{Form::text('KondisiAkhirPaguDana','',['class'=>'form-control','placeholder'=>'PAGU DANA AKHIR TAHUN '.(HelperKegiatan::getRPJMDTahunAkhir()+1),'rows' => 2, 'cols' => 40])}}
-                        </div>
-                    </div>
+            <div class="form-group">
+                {{Form::label('PaguDanaN1','PAGU DANA TAHUN '.HelperKegiatan::getRPJMDTahunMulai(),['class'=>'control-label col-md-2'])}}
+                <div class="col-md-8">
+                    {{Form::text('PaguDanaN1','',['class'=>'form-control','placeholder'=>'PAGU DANA'])}}
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12">                    
-                    <div class="form-group">
-                        {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
-                        <div class="col-md-10">
-                            {{Form::textarea('Descr','',['class'=>'form-control','placeholder'=>'KETERANGAN','rows' => 2, 'cols' => 40])}}
-                        </div>
-                    </div>
+            <div class="form-group">
+                {{Form::label('PaguDanaN2','PAGU DANA TAHUN '.(HelperKegiatan::getRPJMDTahunMulai()+1),['class'=>'control-label col-md-2'])}}
+                <div class="col-md-8">
+                    {{Form::text('PaguDanaN2','',['class'=>'form-control','placeholder'=>'PAGU DANA'])}}
                 </div>
             </div>
+            <div class="form-group">
+                {{Form::label('PaguDanaN3','PAGU DANA TAHUN '.(HelperKegiatan::getRPJMDTahunMulai()+2),['class'=>'control-label col-md-2'])}}
+                <div class="col-md-8">
+                    {{Form::text('PaguDanaN3','',['class'=>'form-control','placeholder'=>'PAGU DANA'])}}
+                </div>
+            </div>
+            <div class="form-group">
+                {{Form::label('PaguDanaN4','PAGU DANA TAHUN '.(HelperKegiatan::getRPJMDTahunMulai()+3),['class'=>'control-label col-md-2'])}}
+                <div class="col-md-8">
+                    {{Form::text('PaguDanaN4','',['class'=>'form-control','placeholder'=>'PAGU DANA'])}}
+                </div>
+            </div>
+            <div class="form-group">
+                {{Form::label('PaguDanaN5','PAGU DANA TAHUN '.(HelperKegiatan::getRPJMDTahunMulai()+4),['class'=>'control-label col-md-2'])}}
+                <div class="col-md-8">
+                    {{Form::text('PaguDanaN5','',['class'=>'form-control','placeholder'=>'PAGU DANA'])}}
+                </div>
+            </div>
+            <div class="form-group">
+                {{Form::label('KondisiAkhirPaguDana','KONDISI AKHIR PAGU DANA TAHUN '.(HelperKegiatan::getRPJMDTahunAkhir()+1),['class'=>'control-label col-md-2'])}}
+                <div class="col-md-8">
+                    {{Form::text('KondisiAkhirPaguDana','',['class'=>'form-control','placeholder'=>'PAGU DANA AKHIR'])}}
+                </div>
+            </div>                        
+            <div class="form-group">
+                {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    {{Form::textarea('Descr','',['class'=>'form-control','placeholder'=>'KETERANGAN','rows' => 2, 'cols' => 40])}}
+                </div>
+            </div>    
         </div>
         <div class="panel-footer">
             <div class="form-group">            
@@ -198,32 +155,50 @@ $(document).ready(function () {
         placeholder: "PILIH SASARAN RPJMD",
         allowClear:true
     });
-    $('#OrgID.select').select2({
-        placeholder: "PILIH OPD / SKPD 1",
+    $('#UrsID.select').select2({
+        placeholder: "PILIH URUSAN",
         allowClear:true
     });
-    $('#OrgID2.select').select2({
-        placeholder: "PILIH OPD / SKPD 2",
+    $('#PrgID.select').select2({
+        placeholder: "PILIH PROGRAM",
         allowClear:true
-    });   
+    });
+    $('#OrgIDRPJMD.select').select2({
+        placeholder: "PILIH OPD / SKPD",
+        allowClear:true
+    });
+    $(document).on('change','#UrsID',function(ev) {
+        ev.preventDefault();   
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/filter',
+            dataType: 'json',
+            data: {              
+                "_token": token,  
+                "UrsID": $('#UrsID').val(),
+                "create":true
+            },
+            success:function(result)
+            { 
+                var daftar_program = result.daftar_program;
+                var listitems='<option></option>';
+                $.each(daftar_program,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
+                $('#PrgID').html(listitems);                
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    });
     $('#frmdata').validate({
         ignore:[],
         rules: {
             PrioritasSasaranKabID : {
                 required: true
-            },          
-            ProgramKebijakanID : {
-                required: true
-            },  
-            OrgID : {
-                required: true
-            },
-            OrgID2 : {
-                required: true
-            },
-            NamaIndikator : {
-                required: true,
-            },
+            },                        
             KondisiAwal : {
                 required: true,
             },
@@ -270,19 +245,7 @@ $(document).ready(function () {
         messages : {
             PrioritasSasaranKabID : {
                 required: "Mohon untuk di pilih RPJMD Kebijakan untuk indiaktor ini."                
-            },            
-            ProgramKebijakanID : {
-                required: "Mohon untuk di pilih Urusan untuk indikator ini."                
-            },            
-            OrgID : {
-                required: "Mohon untuk di pilih OPD / SKPD untuk indikator ini."                
-            },
-            OrgID2 : {
-                required: "Mohon untuk di pilih OPD / SKPD untuk indikator ini."                
-            },
-            NamaIndikator : {
-                required: "Mohon untuk di isi nama indikator."              
-            },
+            },             
             KondisiAwal : {
                 required: "Mohon untuk di isi kondisi awal RPJMD."              
             },
