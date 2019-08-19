@@ -57,6 +57,9 @@ class RPJMDSasaranModel extends Model {
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
+    /**
+     * digunakan untuk mendapatkan daftar sasaran
+     */
     public static function getDaftarSasaran($ta,$prepend=true)
     {
         $r=RPJMDSasaranModel::select(\DB::raw('
@@ -79,15 +82,56 @@ class RPJMDSasaranModel extends Model {
                                 ->orderBy('Kd_Sasaran')
                                 ->get();
 
-        $daftar_kebijakan=$prepend == true 
+        $daftar_sasaran=$prepend == true 
                                         ?
                                             $r->pluck('Nm_Sasaran','PrioritasSasaranKabID')
-                                            ->prepend('DAFTAR KEBIJAKAN RPJMD')
+                                            ->prepend('DAFTAR SASARAN RPJMD')
                                             ->toArray()
                                         :
                                         $r->pluck('Nm_Sasaran','PrioritasSasaranKabID')
                                             ->toArray();
        
-        return $daftar_kebijakan;
+        return $daftar_sasaran;
+    }
+    /**
+     * digunakan untuk mendapatkan daftar sasaran
+     */
+    public static function getDaftarSasaranNotInIndikatorSasaran($ta,$prepend=true)
+    {
+        $r=RPJMDSasaranModel::select(\DB::raw('
+                                "PrioritasSasaranKabID",
+                                CONCAT(
+                                \'[\',
+                                "Kd_PrioritasKab",
+                                \'.\',
+                                "Kd_Tujuan",
+                                \'.\',
+                                "Kd_Sasaran",                                
+                                \'] \',
+                                "Nm_Sasaran"
+                                ) AS "Nm_Sasaran"'))                                
+                                ->join('tmPrioritasTujuanKab','tmPrioritasTujuanKab.PrioritasTujuanKabID','tmPrioritasSasaranKab.PrioritasTujuanKabID')
+                                ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmPrioritasTujuanKab.PrioritasKabID')
+                                ->where('tmPrioritasSasaranKab.TA',$ta)
+                                ->WhereNotIn('PrioritasSasaranKabID',function($query) use ($ta){
+                                    $query->select('PrioritasSasaranKabID')
+                                                        ->from('trRenjaIndikator')
+                                                        ->where('TA', $ta);
+                                })
+                                ->orderBy('Kd_PrioritasKab')
+                                ->orderBy('Kd_Tujuan')
+                                ->orderBy('Kd_Sasaran')
+                                ->get();
+
+        $daftar_sasaran=$prepend == true 
+                                        ?
+                                            $r->pluck('Nm_Sasaran','PrioritasSasaranKabID')
+                                            ->prepend('DAFTAR SASARAN RPJMD')
+                                            ->toArray()
+                                        :
+                                        $r->pluck('Nm_Sasaran','PrioritasSasaranKabID')
+                                            ->toArray();
+       
+        return $daftar_sasaran;
     }
 }

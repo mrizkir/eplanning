@@ -32,7 +32,7 @@
                 </ul>
             </div>
         </div>
-        {!! Form::open(['action'=>'RPJMD\RPJMDIndikatorKinerjaController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
+        {!! Form::open(['action'=>'RPJMD\RPJMDProgramPembangunanController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
         <div class="panel-body">
             <div class="form-group">
                 {{Form::label('PrioritasSasaranKabID','SASARAN RPJMD',['class'=>'control-label col-md-2'])}}
@@ -45,6 +45,16 @@
                     </select>  
                 </div>
             </div>
+            <div class="form-group">
+                {{Form::label('PrioritasIndikatorSasaranID','INDIKATOR SASARAN',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    <select name="PrioritasIndikatorSasaranID" id="PrioritasIndikatorSasaranID" class="select">
+                        <option></option>
+                    </select>  
+                </div>
+            </div>            
+        </div>
+        <div class="panel-body">         
             <div class="form-group">
                 {{Form::label('UrsID','URUSAN',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
@@ -63,23 +73,16 @@
                         <option></option>
                     </select>  
                 </div>
-            </div>
-        </div>
-        <div class="panel-body">                    
+            </div>           
             <div class="form-group">
                 {{Form::label('OrgIDRPJMD','OPD PENANGGUNG JAWAB',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
                     {{Form::select('OrgIDRPJMD',$daftar_opd,null,['class'=>'select','multiple' => 'multiple','name'=>'OrgIDRPJMD[]'])}}
-                </div>
+                    <span class="help-block">Bila OPD Penanggung Jawab tidak ada, indikator ini diasumsikan untuk seluruh OPD / SKPD. </span>              
+                </div>                
             </div>
         </div>
-        <div class="panel-body">
-            <div class="form-group">
-                {{Form::label('NamaIndikator','NAMA INDIKATOR',['class'=>'control-label col-md-2'])}}
-                <div class="col-md-10">
-                    <p class="form-control-static">DAFTAR INDIKATOR DARI SASARAN INI</p>
-                </div>
-            </div>
+        <div class="panel-body">            
             <div class="form-group">
                 {{Form::label('PaguDanaN1','PAGU DANA TAHUN '.HelperKegiatan::getRPJMDTahunMulai(),['class'=>'control-label col-md-2'])}}
                 <div class="col-md-8">
@@ -155,6 +158,10 @@ $(document).ready(function () {
         placeholder: "PILIH SASARAN RPJMD",
         allowClear:true
     });
+    $('#PrioritasIndikatorSasaranID.select').select2({
+        placeholder: "PILIH INDIKATOR SASARAN RPJMD",
+        allowClear:true
+    });
     $('#UrsID.select').select2({
         placeholder: "PILIH URUSAN",
         allowClear:true
@@ -166,6 +173,32 @@ $(document).ready(function () {
     $('#OrgIDRPJMD.select').select2({
         placeholder: "PILIH OPD / SKPD",
         allowClear:true
+    });
+    $(document).on('change','#PrioritasSasaranKabID',function(ev) {
+        ev.preventDefault();   
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/filter',
+            dataType: 'json',
+            data: {              
+                "_token": token,  
+                "PrioritasSasaranKabID": $('#PrioritasSasaranKabID').val(),
+                "create":true
+            },
+            success:function(result)
+            { 
+                var daftar_indikatorsasaran = result.daftar_indikatorsasaran;
+                var listitems='<option></option>';
+                $.each(daftar_indikatorsasaran,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
+                $('#PrioritasIndikatorSasaranID').html(listitems);                
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
     });
     $(document).on('change','#UrsID',function(ev) {
         ev.preventDefault();   
@@ -197,6 +230,12 @@ $(document).ready(function () {
         ignore:[],
         rules: {
             PrioritasSasaranKabID : {
+                required: true
+            },                        
+            PrioritasIndikatorSasaranID : {
+                required: true
+            },                        
+            PrgID : {
                 required: true
             },                        
             KondisiAwal : {
@@ -244,8 +283,14 @@ $(document).ready(function () {
         },
         messages : {
             PrioritasSasaranKabID : {
-                required: "Mohon untuk di pilih RPJMD Kebijakan untuk indiaktor ini."                
+                required: "Mohon untuk di pilih RPJMD Sasaran untuk indiaktor ini."                
             },             
+            PrioritasIndikatorSasaranID : {
+                required: "Mohon untuk di pilih RPJMD Indikator Sasaran untuk indiaktor ini."                
+            },             
+            PrgID : {
+                required: "Mohon untuk di pilih Program Urusan."              
+            },
             KondisiAwal : {
                 required: "Mohon untuk di isi kondisi awal RPJMD."              
             },

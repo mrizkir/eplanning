@@ -950,7 +950,7 @@ class PembahasanRKPDPController extends Controller
 
                     $rinciankegiatan= RKPDRincianModel::create($data);
                     $rkpd = $rinciankegiatan->rkpd;            
-                    $rkpd->NilaiUsulan2=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('NilaiUsulan2');            
+                    $rkpd->NilaiUsulan3=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('NilaiUsulan3');            
                     $rkpd->save();
                 break;                
             }

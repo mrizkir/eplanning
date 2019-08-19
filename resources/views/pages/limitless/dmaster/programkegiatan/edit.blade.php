@@ -107,10 +107,6 @@ $(document).ready(function () {
                 number: "Mohon input dengan tipe data bilangan bulat",
                 maxlength: "Nilai untuk Kode Urusan maksimal 4 digit"
             },
-            Kode_Program : {
-                required: true,  
-                valueNotEquals : 'none'           
-            },
             KgtNm : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 5 karakter atau lebih."

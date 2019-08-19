@@ -154,12 +154,12 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/perencanaan/rpjmd/rpjmdkebijakan/orderby',['uses'=>'RPJMD\RPJMDKebijakanController@orderby','as'=>'rpjmdkebijakan.orderby']); 
     
     //RPJMD - Program Pembangunan Daerah
-    Route::resource('/perencanaan/rpjmd/rpjmdprogrampembangunan','RPJMD\RPJMDProgramPembangunan',['parameters'=>['rpjmdprogrampembangunan'=>'uuid']]); 
-    Route::post('/perencanaan/rpjmd/rpjmdprogrampembangunan/search',['uses'=>'RPJMD\RPJMDProgramPembangunan@search','as'=>'rpjmdprogrampembangunan.search']); 
-    Route::post('/perencanaan/rpjmd/rpjmdprogrampembangunan/filter',['uses'=>'RPJMD\RPJMDProgramPembangunan@filter','as'=>'rpjmdprogrampembangunan.filter']);                  
-    Route::get('/perencanaan/rpjmd/rpjmdprogrampembangunan/paginate/{id}',['uses'=>'RPJMD\RPJMDProgramPembangunan@paginate','as'=>'rpjmdprogrampembangunan.paginate']);              
-    Route::post('/perencanaan/rpjmd/rpjmdprogrampembangunan/changenumberrecordperpage',['uses'=>'RPJMD\RPJMDProgramPembangunan@changenumberrecordperpage','as'=>'rpjmdprogrampembangunan.changenumberrecordperpage']);  
-    Route::post('/perencanaan/rpjmd/rpjmdprogrampembangunan/orderby',['uses'=>'RPJMD\RPJMDProgramPembangunan@orderby','as'=>'rpjmdprogrampembangunan.orderby']);
+    Route::resource('/perencanaan/rpjmd/rpjmdprogrampembangunan','RPJMD\RPJMDProgramPembangunanController',['parameters'=>['rpjmdprogrampembangunan'=>'uuid']]); 
+    Route::post('/perencanaan/rpjmd/rpjmdprogrampembangunan/search',['uses'=>'RPJMD\RPJMDProgramPembangunanController@search','as'=>'rpjmdprogrampembangunan.search']); 
+    Route::post('/perencanaan/rpjmd/rpjmdprogrampembangunan/filter',['uses'=>'RPJMD\RPJMDProgramPembangunanController@filter','as'=>'rpjmdprogrampembangunan.filter']);                  
+    Route::get('/perencanaan/rpjmd/rpjmdprogrampembangunan/paginate/{id}',['uses'=>'RPJMD\RPJMDProgramPembangunanController@paginate','as'=>'rpjmdprogrampembangunan.paginate']);              
+    Route::post('/perencanaan/rpjmd/rpjmdprogrampembangunan/changenumberrecordperpage',['uses'=>'RPJMD\RPJMDProgramPembangunanController@changenumberrecordperpage','as'=>'rpjmdprogrampembangunan.changenumberrecordperpage']);  
+    Route::post('/perencanaan/rpjmd/rpjmdprogrampembangunan/orderby',['uses'=>'RPJMD\RPJMDProgramPembangunanController@orderby','as'=>'rpjmdprogrampembangunan.orderby']);
 
     //RPJMD - Indikator Rencana Program Prioritas atau Indikator Kinerja
     Route::resource('/perencanaan/rpjmd/rpjmdindikatorkinerja','RPJMD\RPJMDIndikatorKinerjaController',['parameters'=>['rpjmdindikatorkinerja'=>'uuid']]); 

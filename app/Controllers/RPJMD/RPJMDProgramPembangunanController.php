@@ -9,7 +9,7 @@ use App\Models\RPJMD\RPJMDSasaranModel;
 use App\Rules\CheckRecordIsExistValidation;
 use App\Rules\IgnoreIfDataIsEqualValidation;
 
-class RPJMDProgramPembangunan extends Controller {
+class RPJMDProgramPembangunanController extends Controller {
      /**
      * Membuat sebuah objek
      *
@@ -160,6 +160,19 @@ class RPJMDProgramPembangunan extends Controller {
     {        
         $json_data = [];
         //create
+        
+        if ($request->exists('PrioritasSasaranKabID') && $request->exists('create') )
+        {
+            $PrioritasSasaranKabID = $request->input('PrioritasSasaranKabID')==''?'none':$request->input('PrioritasSasaranKabID');            
+            $daftar_indikatorsasaran=\App\Models\RPJMD\RPJMDSasaranIndikatorModel::select(\DB::raw('"PrioritasIndikatorSasaranID","NamaIndikator"'))
+                                                                                ->where('PrioritasSasaranKabID',$PrioritasSasaranKabID)
+                                                                                ->get()
+                                                                                ->pluck('NamaIndikator','PrioritasIndikatorSasaranID')
+                                                                                ->toArray();
+
+            $json_data = ['success'=>true,'daftar_indikatorsasaran'=>$daftar_indikatorsasaran];
+        } 
+
         if ($request->exists('UrsID') && $request->exists('create') )
         {
             $UrsID = $request->input('UrsID')==''?'none':$request->input('UrsID');            
@@ -201,7 +214,7 @@ class RPJMDProgramPembangunan extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $daftar_sasaran = RPJMDSasaranModel::getDaftarSasaran(\HelperKegiatan::getRPJMDTahunMulai(),false);
+        $daftar_sasaran = RPJMDSasaranModel::getDaftarSasaranNotInIndikatorSasaran(\HelperKegiatan::getRPJMDTahunMulai(),false);
         $daftar_opd=\App\Models\DMaster\OrganisasiRPJMDModel::getDaftarOPDMaster(\HelperKegiatan::getRPJMDTahunMulai(),false); 
         $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusan(\HelperKegiatan::getRPJMDTahunMulai(),false);  
         return view("pages.$theme.rpjmd.rpjmdprogrampembangunan.create")->with(['page_active'=>'rpjmdprogrampembangunan',
@@ -221,18 +234,7 @@ class RPJMDProgramPembangunan extends Controller {
     {
         $this->validate($request, [
             'PrioritasSasaranKabID'=>'required',
-            'ProgramSasaranID'=>'required',            
-            'OrgID'=>'required',
-            'OrgID2'=>'required',
-            'NamaIndikator'=>'required',
-            'KondisiAwal'=>'required',
-            'Satuan'=>'required',        
-            'TargetN1'=>'required',
-            'TargetN2'=>'required',
-            'TargetN3'=>'required',
-            'TargetN4'=>'required',
-            'TargetN5'=>'required',    
-            'KondisiAkhirTarget'=>'required',    
+            'PrgID'=>'required',            
             'PaguDanaN1'=>'required',
             'PaguDanaN2'=>'required',
             'PaguDanaN3'=>'required',
@@ -240,57 +242,58 @@ class RPJMDProgramPembangunan extends Controller {
             'PaguDanaN5'=>'required',
             'KondisiAkhirPaguDana'=>'required',            
         ]);
-        $ProgramSasaranID = $request->input('ProgramSasaranID');
-        $program_kebijakan = RPJMDProgramSasaranModel::find($ProgramSasaranID);
+        $PrioritasSasaranKabID=$request->input('PrioritasSasaranKabID');
+        $daftar_indikator=\App\Models\RPJMD\RPJMDSasaranIndikatorModel::where('PrioritasSasaranKabID',$PrioritasSasaranKabID)
+                                                                    ->get();
+        dd($daftar_indikator);
+        // $rpjmdprogrampembangunan = RPJMDIndikatorKinerjaModel::create([
+        //     'IndikatorKinerjaID' => uniqid ('uid'),
+        //     'PrioritasSasaranKabID' => $request->input('PrioritasSasaranKabID'),
+        //     'ProgramSasaranID' => $ProgramSasaranID,
+        //     'UrsID' => $program_kebijakan->UrsID,
+        //     'PrgID' => $program_kebijakan->PrgID,                       
+        //     'OrgID' => $request->input('OrgID'),
+        //     'OrgID2' => $request->input('OrgID2'),            
+        //     'OrgID3' => $request->input('OrgID2'),            
+        //     'NamaIndikator' => $request->input('NamaIndikator'), 
+        //     'KondisiAwal' => $request->input('KondisiAwal'),             
+        //     'Satuan' => $request->input('Satuan'),             
+        //     'TargetN1' => $request->input('TargetN1'),
+        //     'TargetN2' => $request->input('TargetN2'),
+        //     'TargetN3' => $request->input('TargetN3'),
+        //     'TargetN4' => $request->input('TargetN4'),
+        //     'TargetN5' => $request->input('TargetN5'),
+        //     'KondisiAkhirTarget' => $request->input('KondisiAkhirTarget'),
+        //     'PaguDanaN1' => $request->input('PaguDanaN1'),
+        //     'PaguDanaN2' => $request->input('PaguDanaN2'),
+        //     'PaguDanaN3' => $request->input('PaguDanaN3'),
+        //     'PaguDanaN4' => $request->input('PaguDanaN4'),
+        //     'PaguDanaN5' => $request->input('PaguDanaN5'),            
+        //     'KondisiAkhirPaguDana' => $request->input('KondisiAkhirPaguDana'),
+        //     'Descr' => $request->input('Descr'),
+        //     'TA' => \HelperKegiatan::getRPJMDTahunMulai()            
+        // ]);        
         
-        $rpjmdprogrampembangunan = RPJMDIndikatorKinerjaModel::create([
-            'IndikatorKinerjaID' => uniqid ('uid'),
-            'PrioritasSasaranKabID' => $request->input('PrioritasSasaranKabID'),
-            'ProgramSasaranID' => $ProgramSasaranID,
-            'UrsID' => $program_kebijakan->UrsID,
-            'PrgID' => $program_kebijakan->PrgID,                       
-            'OrgID' => $request->input('OrgID'),
-            'OrgID2' => $request->input('OrgID2'),            
-            'OrgID3' => $request->input('OrgID2'),            
-            'NamaIndikator' => $request->input('NamaIndikator'), 
-            'KondisiAwal' => $request->input('KondisiAwal'),             
-            'Satuan' => $request->input('Satuan'),             
-            'TargetN1' => $request->input('TargetN1'),
-            'TargetN2' => $request->input('TargetN2'),
-            'TargetN3' => $request->input('TargetN3'),
-            'TargetN4' => $request->input('TargetN4'),
-            'TargetN5' => $request->input('TargetN5'),
-            'KondisiAkhirTarget' => $request->input('KondisiAkhirTarget'),
-            'PaguDanaN1' => $request->input('PaguDanaN1'),
-            'PaguDanaN2' => $request->input('PaguDanaN2'),
-            'PaguDanaN3' => $request->input('PaguDanaN3'),
-            'PaguDanaN4' => $request->input('PaguDanaN4'),
-            'PaguDanaN5' => $request->input('PaguDanaN5'),            
-            'KondisiAkhirPaguDana' => $request->input('KondisiAkhirPaguDana'),
-            'Descr' => $request->input('Descr'),
-            'TA' => \HelperKegiatan::getRPJMDTahunMulai()            
-        ]);        
-        
-        \DB::table('trIndikatorKinerja')
-            ->where('PrgID',$program_kebijakan->PrgID)
-            ->update(['PaguDanaN1' => $request->input('PaguDanaN1'),
-                    'PaguDanaN2' => $request->input('PaguDanaN2'),
-                    'PaguDanaN3' => $request->input('PaguDanaN3'),
-                    'PaguDanaN4' => $request->input('PaguDanaN4'),
-                    'PaguDanaN5' => $request->input('PaguDanaN5'),            
-                    'KondisiAkhirPaguDana' => $request->input('KondisiAkhirPaguDana')]);
+        // \DB::table('trIndikatorKinerja')
+        //     ->where('PrgID',$program_kebijakan->PrgID)
+        //     ->update(['PaguDanaN1' => $request->input('PaguDanaN1'),
+        //             'PaguDanaN2' => $request->input('PaguDanaN2'),
+        //             'PaguDanaN3' => $request->input('PaguDanaN3'),
+        //             'PaguDanaN4' => $request->input('PaguDanaN4'),
+        //             'PaguDanaN5' => $request->input('PaguDanaN5'),            
+        //             'KondisiAkhirPaguDana' => $request->input('KondisiAkhirPaguDana')]);
                     
-        if ($request->ajax()) 
-        {
-            return response()->json([
-                'success'=>true,
-                'message'=>'Data ini telah berhasil disimpan.'
-            ]);
-        }
-        else
-        {
-            return redirect(route('rpjmdprogrampembangunan.show',['id'=>$rpjmdprogrampembangunan->IndikatorKinerjaID]))->with('success','Data ini telah berhasil disimpan.');
-        }
+        // if ($request->ajax()) 
+        // {
+        //     return response()->json([
+        //         'success'=>true,
+        //         'message'=>'Data ini telah berhasil disimpan.'
+        //     ]);
+        // }
+        // else
+        // {
+        //     return redirect(route('rpjmdprogrampembangunan.show',['id'=>$rpjmdprogrampembangunan->IndikatorKinerjaID]))->with('success','Data ini telah berhasil disimpan.');
+        // }
 
     }
     
