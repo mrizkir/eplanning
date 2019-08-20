@@ -1,3 +1,3 @@
 <small class="display-block">          
-    <code>RENCANA KERJA PERANGKAT DAERAH (RKPD)</code>
+    <code>RENCANA KERJA PEMERINTAH DAERAH (RKPD)</code>
 </small>
