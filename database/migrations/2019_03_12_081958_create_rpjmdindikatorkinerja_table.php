@@ -19,23 +19,13 @@ class CreateRpjmdindikatorkinerjaTable extends Migration
             $table->string('UrsID',19); 
             $table->string('PrgID',19);
             $table->json('OrgIDRPJMD',19);                    
-            $table->text('NamaIndikator')->nullable();             
-            $table->decimal('KondisiAwal',6,2)->default(0);
-            $table->decimal('TargetN1',6,2)->default(0);
-            $table->decimal('TargetN2',6,2)->default(0);
-            $table->decimal('TargetN3',6,2)->default(0);
-            $table->decimal('TargetN4',6,2)->default(0);
-            $table->decimal('TargetN5',6,2)->default(0);
             $table->decimal('PaguDanaN1',15,2)->default(0);
             $table->decimal('PaguDanaN2',15,2)->default(0);
             $table->decimal('PaguDanaN3',15,2)->default(0);
             $table->decimal('PaguDanaN4',15,2)->default(0);
             $table->decimal('PaguDanaN5',15,2)->default(0);             
-            $table->decimal('KondisiAkhirTarget',6,2)->default(0);
             $table->decimal('KondisiAkhirPaguDana',15,2)->default(0); 
-            $table->string('Satuan',10);           
-            $table->string('Operator',10);                  
-            $table->string('Descr')->nullable();
+            $table->string('Desc')->nullable();
             $table->year('TA');            
             $table->boolean('Locked')->default(0);
 

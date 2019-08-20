@@ -24,22 +24,13 @@ class RPJMDIndikatorKinerjaModel extends Model {
         'PrioritasSasaranKabID', 
         'UrsID', 
         'PrgID', 
-        'OrgID', 
-        'NamaIndikator',
-        'KondisiAwal',
-        'TargetN1',
-        'TargetN2',
-        'TargetN3',
-        'TargetN4',
-        'TargetN5',
+        'OrgIDRPJMD',        
         'PaguDanaN1',
         'PaguDanaN2',
         'PaguDanaN3',
         'PaguDanaN4',
         'PaguDanaN5',
-        'KondisiAkhirTarget',
-        'KondisiAkhirPaguDana',
-        'Satuan',
+        'KondisiAkhirPaguDana',        
         'Descr',
         'TA'
     ];
@@ -71,7 +62,7 @@ class RPJMDIndikatorKinerjaModel extends Model {
     /**
      * log the changed attributes for all these events 
      */
-    protected static $logAttributes = ['IndikatorKinerjaID', 'PrioritasSasaranKabID', 'NamaIndikator'];
+    protected static $logAttributes = ['IndikatorKinerjaID', 'PrioritasSasaranKabID'];
     /**
      * log changes to all the $fillable attributes of the model
      */

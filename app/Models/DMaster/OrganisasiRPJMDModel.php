@@ -12,14 +12,14 @@ class OrganisasiRPJMDModel extends Model {
      *
      * @var string
      */
-    protected $table = 'tmOrg';
+    protected $table = 'tmOrgRPJMD';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'OrgIDRPJMD', 'UrsID', 'OrgCd', 'OrgNm', 'Alamat', 'Descr', 'TA'
+        'OrgIDRPJMD', 'UrsID', 'OrgCd', 'OrgNm', 'OrgAlias', 'Alamat', 'Descr', 'TA'
     ];
     /**
      * primary key tabel ini.

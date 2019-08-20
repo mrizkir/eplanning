@@ -12,3 +12,6 @@
 .noclose .ui-dialog-titlebar-close {
     display:none;
 }
+.table tbody tr:hover td, .table tbody tr:hover th {
+    background-color: #eeeeea;
+}

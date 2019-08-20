@@ -59,7 +59,7 @@
                 </tr>
             </thead>
             <tbody>                    
-            @foreach ($data as $key=>$item)
+            @foreach ($data as $key=>$item)                
                 <tr>
                     <td colspan="15">
                         <strong>NAMA INDIKATOR:</strong> {{$item->NamaIndikator}}       
@@ -115,8 +115,8 @@
                             {{$item->IndikatorKinerjaID}}
                         </span>
                         <span class="label label-warning label-rounded" style="text-transform: none">
-                            <strong>PRIORITASKEBIJAKANID:</strong>
-                            {{$item->PrioritasKebijakanKabID}}
+                            <strong>PRIORITASSASARANID:</strong>
+                            {{$item->PrioritasSasaranKabID}}
                         </span>
                         <span class="label label-warning label-rounded">
                             <strong>KET:</strong>

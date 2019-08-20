@@ -39,7 +39,7 @@
                     <th colspan="2">
                         TAHUN 5
                     </th>
-                    <th colspan="2">KONDISI KINERJA <br>AKHIR RPJDM ({{HelperKegiatan::getRPJMDTahunAkhir()}})</th>
+                    <th colspan="2">KONDISI KINERJA <br>AKHIR RPJDM ({{HelperKegiatan::getRPJMDTahunAkhir()+1}})</th>
                     <th width="TA" rowspan="2">TA</th>
                     <th width="120" rowspan="2">AKSI</th>
                 </tr>
@@ -62,24 +62,61 @@
             @foreach ($data as $key=>$item)
                 <tr>
                     <td colspan="15">
-                        <strong>NAMA INDIKATOR:</strong> {{$item->NamaIndikator}}       
+                        <table width="100%">
+                            <tr>
+                                <td width="120"><strong>MISI:</strong></td>
+                                <td>{{$item->Nm_PrioritasKab}}  </td>
+                            </tr>
+                            <tr>
+                                <td><strong>TUJUAN:</strong></td>
+                                <td>{{$item->Nm_Tujuan}}  </td>
+                            </tr>
+                            <tr>
+                                <td><strong>SASARAN:</strong></td>
+                                <td>{{$item->Nm_Sasaran}}  </td>
+                            </tr>
+                            <tr>
+                                <td><strong>PROGRAM:</strong></td>
+                                <td>{{$item->PrgNm}}  </td>
+                            </tr>
+                            <tr>
+                                <td><strong>NAMA INDIKATOR:</strong></td>
+                                <td>{{$item->NamaIndikator}}  </td>
+                            </tr>
+                            <tr>
+                                <td><strong>SATUAN:</strong></td>
+                                <td>{{$item->Satuan}}  </td>
+                            </tr>
+                            <tr>
+                                <td><strong>PERANGKAT DAERAH PENANGGUNGJAWAB:</strong></td>
+                                <td>
+                                @php
+                                    $orgid=json_decode($item->OrgIDRPJMD,true);
+                                    foreach($orgid as $v)
+                                    {
+                                        echo '['.$v['OrgNm'].'] ';
+                                    }
+                                @endphp    
+                                </td>
+                            </tr>
+                        </table>                              
                     </td>
                 </tr>
                 <tr>
                     <td>
                         {{$item->KondisiAwal}}
                     </td>                  
-                    <td>{{Helper::formatAngka($item->TargetN1)}}</td>
+                    <td>{{$item->TargetN1}}</td>
                     <td>{{Helper::formatUang($item->PaguDanaN1)}}</td>
-                    <td>{{Helper::formatAngka($item->TargetN2)}}</td>
+                    <td>{{$item->TargetN2}}</td>
                     <td>{{Helper::formatUang($item->PaguDanaN2)}}</td>
-                    <td>{{Helper::formatAngka($item->TargetN3)}}</td>
+                    <td>{{$item->TargetN3}}</td>
                     <td>{{Helper::formatUang($item->PaguDanaN3)}}</td>
-                    <td>{{Helper::formatAngka($item->TargetN4)}}</td>
+                    <td>{{$item->TargetN4}}</td>
                     <td>{{Helper::formatUang($item->PaguDanaN4)}}</td>
-                    <td>{{Helper::formatAngka($item->TargetN5)}}</td>
+                    <td>{{$item->TargetN5}}</td>
                     <td>{{Helper::formatUang($item->PaguDanaN5)}}</td>
-                    <td>{{Helper::formatAngka($item->KondisiAkhirTarget)}}</td>
+                    <td>{{$item->KondisiAkhirTarget}}</td>
                     <td>{{Helper::formatUang($item->KondisiAkhirPaguDana)}}</td>   
                     <td>
                         {{$item->TA}}
@@ -115,8 +152,8 @@
                             {{$item->IndikatorKinerjaID}}
                         </span>
                         <span class="label label-warning label-rounded" style="text-transform: none">
-                            <strong>PRIORITASKEBIJAKANID:</strong>
-                            {{$item->PrioritasKebijakanKabID}}
+                            <strong>PRIORITASSASARANID:</strong>
+                            {{$item->PrioritasSasaranKabID}}
                         </span>
                         <span class="label label-warning label-rounded">
                             <strong>KET:</strong>
