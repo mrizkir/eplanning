@@ -25,7 +25,7 @@ class CreateRpjmdindikatorkinerjaTable extends Migration
             $table->decimal('PaguDanaN4',15,2)->default(0);
             $table->decimal('PaguDanaN5',15,2)->default(0);             
             $table->decimal('KondisiAkhirPaguDana',15,2)->default(0); 
-            $table->string('Desc')->nullable();
+            $table->string('Descr')->nullable();
             $table->year('TA');            
             $table->boolean('Locked')->default(0);
 

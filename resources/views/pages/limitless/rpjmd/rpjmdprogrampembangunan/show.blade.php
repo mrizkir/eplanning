@@ -50,9 +50,9 @@
                                 </div>                            
                             </div>                  
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>KEBIJAKAN: </strong></label>
+                                <label class="col-md-4 control-label"><strong>SASARAN: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->Nm_Kebijakan}}</p>
+                                    <p class="form-control-static">{{$data->Nm_Sasaran}}</p>
                                 </div>                            
                             </div>                            
                             <div class="form-group">
@@ -80,7 +80,15 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>PERANGKAT DAERAH PENANGGUNG JAWAB: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->OrgNm}}</p>
+                                    <p class="form-control-static">
+                                        @php
+                                        $orgid=json_decode($data->OrgIDRPJMD,true);
+                                        foreach($orgid as $v)
+                                        {
+                                            echo '['.$v['OrgNm'].'] ';
+                                        }
+                                        @endphp                                           
+                                    </p>
                                 </div>                            
                             </div>                         
                             <div class="form-group">
@@ -110,10 +118,7 @@
             </div>            
         </div>      
         <div class="table-responsive"> 
-            <table id="data" class="table table-striped table-hover" style="font-size:11px">
-                <caption>
-                    <strong>NAMA INDIKATOR</strong> : {{$data->NamaIndikator}}
-                </caption>
+            <table id="data" class="table table-striped table-hover" style="font-size:11px">                
                 <thead>
                     <tr class="bg-teal-700">
                         <th rowspan="2">KONDISI KINERJA <br>AWAL RPJMD ({{$data->TA-1}})</th>  
@@ -139,20 +144,62 @@
                         <th>Rp</th>                        
                     </tr>
                 </thead>
-                <tbody>    
+                <tbody>   
+                    <tr>
+                        <td colspan="15">
+                            <table width="100%">
+                                <tr>
+                                    <td width="120"><strong>MISI:</strong></td>
+                                    <td>{{$data->Nm_PrioritasKab}}  </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>TUJUAN:</strong></td>
+                                    <td>{{$data->Nm_Tujuan}}  </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>SASARAN:</strong></td>
+                                    <td>{{$data->Nm_Sasaran}}  </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>PROGRAM:</strong></td>
+                                    <td>{{$data->PrgNm}}  </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>NAMA INDIKATOR:</strong></td>
+                                    <td>{{$data->NamaIndikator}}  </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>SATUAN:</strong></td>
+                                    <td>{{$data->Satuan}}  </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>PERANGKAT DAERAH PENANGGUNGJAWAB:</strong></td>
+                                    <td>
+                                    @php
+                                        $orgid=json_decode($data->OrgIDRPJMD,true);
+                                        foreach($orgid as $v)
+                                        {
+                                            echo '['.$v['OrgNm'].'] ';
+                                        }
+                                    @endphp    
+                                    </td>
+                                </tr>
+                            </table>                              
+                        </td>
+                    </tr> 
                     <tr>
                         <td>{{$data->KondisiAwal}}</td>
-                        <td>{{Helper::formatAngka($data->TargetN1)}}</td>
+                        <td>{{$data->TargetN1}}</td>
                         <td>{{Helper::formatUang($data->PaguDanaN1)}}</td>
-                        <td>{{Helper::formatAngka($data->TargetN2)}}</td>
+                        <td>{{$data->TargetN2}}</td>
                         <td>{{Helper::formatUang($data->PaguDanaN2)}}</td>
-                        <td>{{Helper::formatAngka($data->TargetN3)}}</td>
+                        <td>{{$data->TargetN3}}</td>
                         <td>{{Helper::formatUang($data->PaguDanaN3)}}</td>
-                        <td>{{Helper::formatAngka($data->TargetN4)}}</td>
+                        <td>{{$data->TargetN4}}</td>
                         <td>{{Helper::formatUang($data->PaguDanaN4)}}</td>
-                        <td>{{Helper::formatAngka($data->TargetN5)}}</td>
+                        <td>{{$data->TargetN5}}</td>
                         <td>{{Helper::formatUang($data->PaguDanaN5)}}</td>
-                        <td>{{Helper::formatAngka($data->KondisiAkhirTarget)}}</td>
+                        <td>{{$data->KondisiAkhirTarget}}</td>
                         <td>{{Helper::formatUang($data->KondisiAkhirPaguDana)}}</td>                        
                     </tr>
                 </tbody>

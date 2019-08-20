@@ -32,164 +32,93 @@
                 </ul>
             </div>
         </div>
-        {!! Form::open(['action'=>['RPJMD\RPJMDIndikatorKinerjaController@update',$data->IndikatorKinerjaID],'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
+        {!! Form::open(['action'=>['RPJMD\RPJMDProgramPembangunanController@update',$data->IndikatorKinerjaID],'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
         <div class="panel-body">
             <div class="form-group">
-                {{Form::label('PrioritasKebijakanKabID','KEBIJAKAN RPJMD',['class'=>'control-label col-md-2'])}}
-                <div class="col-md-10">
-                    <select name="PrioritasKebijakanKabID" id="PrioritasKebijakanKabID" class="select">
-                        <option></option>
-                        @foreach ($daftar_kebijakan as $k=>$item)
-                            <option value="{{$k}}"{{$k==$data->PrioritasKebijakanKabID ?' selected':''}}>{{$item}}</option>
-                        @endforeach
-                    </select>  
+                {{Form::label('PrioritasSasaranKabID','SASARAN RPJMD',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">                    
+                    {{Form::select('PrioritasSasaranKabID', $daftar_sasaran, $data->PrioritasSasaranKabID,['class'=>'select','id'=>'PrioritasSasaranKabID'])}}                  
                 </div>
             </div>
             <div class="form-group">
-                {{Form::label('ProgramKebijakanID','PROGRAM KEBIJAKAN',['class'=>'control-label col-md-2'])}}
-                <div class="col-md-10">
-                    <select name="ProgramKebijakanID" id="ProgramKebijakanID" class="select">
-                        <option></option>
-                        @foreach ($daftar_program as $k=>$item)
-                            <option value="{{$k}}"{{$k==$data->ProgramKebijakanID ?' selected':''}}>{{$item}}</option>
-                        @endforeach
-                    </select>  
+                {{Form::label('PrioritasIndikatorSasaranID','INDIKATOR SASARAN',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">  
+                    {{Form::select('PrioritasIndikatorSasaranID', $daftar_indikatorsasaran, 1,['class'=>'select','id'=>'PrioritasIndikatorSasaranID'])}}                  
                 </div>
             </div>            
+        </div>
+        <div class="panel-body">         
             <div class="form-group">
-                {{Form::label('OrgID','NAMA OPD / SKPD 1',['class'=>'control-label col-md-2'])}}
+                {{Form::label('UrsID','URUSAN',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
-                    <select name="OrgID" id="OrgID" class="select">
-                        <option></option>
-                        @foreach ($daftar_opd as $k=>$item)
-                            <option value="{{$k}}"{{$k==$data->OrgID ?' selected':''}}>{{$item}}</option>
-                        @endforeach
-                    </select>  
+                    {{Form::select('UrsID', $daftar_urusan, $data->UrsID,['class'=>'select','id'=>'UrsID'])}}                  
                 </div>
             </div>
             <div class="form-group">
-                {{Form::label('OrgID2','NAMA OPD / SKPD 2',['class'=>'control-label col-md-2'])}}
+                {{Form::label('PrgID','PROGRAM',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
-                    <select name="OrgID2" id="OrgID2" class="select">
-                        <option></option>
-                        @foreach ($daftar_opd as $k=>$item)
-                            <option value="{{$k}}"{{$k==$data->OrgID2 ?' selected':''}}>{{$item}}</option>
-                        @endforeach                        
-                    </select>  
+                    {{Form::select('PrgID', $daftar_program, $data->PrgID,['class'=>'select','id'=>'PrgID'])}}
                 </div>
+            </div>           
+            <div class="form-group">
+                {{Form::label('OrgIDRPJMD','OPD PENANGGUNG JAWAB',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    @php
+                        $orgid=json_decode($data->OrgIDRPJMD,true);
+                        $OrgIDRPJMD=[];                        
+                        foreach($orgid as $v)
+                        {
+                            $OrgIDRPJMD[]=$v['OrgIDRPJMD'];
+                        }
+                    @endphp
+                    {{Form::select('OrgIDRPJMD',$daftar_opd,$OrgIDRPJMD,['class'=>'select','multiple' => 'multiple','name'=>'OrgIDRPJMD[]'])}}
+                    <span class="help-block">Bila OPD Penanggung Jawab tidak ada, indikator ini diasumsikan untuk seluruh OPD / SKPD. </span>              
+                </div>                
             </div>
         </div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        {{Form::label('NamaIndikator','NAMA INDIKATOR',['class'=>'control-label col-md-2'])}}
-                        <div class="col-md-10">
-                            {{Form::textarea('NamaIndikator',$data->NamaIndikator,['class'=>'form-control','placeholder'=>'NAMA INDIKATOR','rows' => 2, 'cols' => 40])}}
-                        </div>
-                    </div>
-                     <div class="form-group">
-                        {{Form::label('KondisiAwal','KONDISI KINERJA AWAL ('.(HelperKegiatan::getRPJMDTahunAwal()).')',['class'=>'control-label col-md-2'])}}
-                        <div class="col-md-10">
-                            {{Form::text('KondisiAwal',$data->KondisiAwal,['class'=>'form-control','placeholder'=>'KONDISI KINERJA AWAL','rows' => 2, 'cols' => 40])}}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        {{Form::label('Satuan','SATUAN',['class'=>'control-label col-md-2'])}}
-                        <div class="col-md-10">
-                            {{Form::text('Satuan',$data->Satuan,['class'=>'form-control','placeholder'=>'SATUAN'])}}
-                        </div>
-                    </div>
+        <div class="panel-body">            
+            <div class="form-group">
+                {{Form::label('PaguDanaN1','PAGU DANA TAHUN '.HelperKegiatan::getRPJMDTahunMulai(),['class'=>'control-label col-md-2'])}}
+                <div class="col-md-8">
+                    {{Form::text('PaguDanaN1',$data->PaguDanaN1,['class'=>'form-control','placeholder'=>'PAGU DANA'])}}
                 </div>
             </div>
-            <div class="row">                
-                <div class="col-md-6">
-                    <div class="form-group">
-                        {{Form::label('TargetN1','TARGET TAHUN '.(HelperKegiatan::getRPJMDTahunMulai()),['class'=>'control-label col-md-4'])}}
-                        <div class="col-md-8">
-                            {{Form::text('TargetN1',$data->TargetN1,['class'=>'form-control','placeholder'=>'TARGET TAHUN KE 1','rows' => 2, 'cols' => 40])}}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        {{Form::label('TargetN2','TARGET TAHUN '.(HelperKegiatan::getRPJMDTahunMulai()+1),['class'=>'control-label col-md-4'])}}
-                        <div class="col-md-8">
-                            {{Form::text('TargetN2',$data->TargetN2,['class'=>'form-control','placeholder'=>'TARGET TAHUN KE 2','rows' => 2, 'cols' => 40])}}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        {{Form::label('TargetN3','TARGET TAHUN '.(HelperKegiatan::getRPJMDTahunMulai()+2),['class'=>'control-label col-md-4'])}}
-                        <div class="col-md-8">
-                            {{Form::text('TargetN3',$data->TargetN3,['class'=>'form-control','placeholder'=>'TARGET TAHUN KE 3','rows' => 2, 'cols' => 40])}}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        {{Form::label('TargetN4','TARGET TAHUN '.(HelperKegiatan::getRPJMDTahunMulai()+3),['class'=>'control-label col-md-4'])}}
-                        <div class="col-md-8">
-                            {{Form::text('TargetN4',$data->TargetN4,['class'=>'form-control','placeholder'=>'TARGET TAHUN KE 4','rows' => 2, 'cols' => 40])}}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        {{Form::label('TargetN5','TARGET TAHUN '.(HelperKegiatan::getRPJMDTahunMulai()+4),['class'=>'control-label col-md-4'])}}
-                        <div class="col-md-8">
-                            {{Form::text('TargetN5',$data->TargetN5,['class'=>'form-control','placeholder'=>'TARGET TAHUN KE 5','rows' => 2, 'cols' => 40])}}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        {{Form::label('KondisiAkhirTarget','KONDISI AKHIR TARGET '.(HelperKegiatan::getRPJMDTahunAkhir()+1),['class'=>'control-label col-md-4'])}}
-                        <div class="col-md-8">
-                            {{Form::text('KondisiAkhirTarget',$data->KondisiAkhirTarget,['class'=>'form-control','placeholder'=>'TARGET TAHUN KE 5','rows' => 2, 'cols' => 40])}}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">                   
-                    <div class="form-group">
-                        {{Form::label('PaguDanaN1','PAGU DANA TAHUN '.HelperKegiatan::getRPJMDTahunMulai(),['class'=>'control-label col-md-4'])}}
-                        <div class="col-md-8">
-                            {{Form::text('PaguDanaN1',$data->PaguDanaN1,['class'=>'form-control','placeholder'=>'PAGU DANA TAHUN KE 1','rows' => 2, 'cols' => 40])}}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        {{Form::label('PaguDanaN2','PAGU DANA TAHUN '.(HelperKegiatan::getRPJMDTahunMulai()+1),['class'=>'control-label col-md-4'])}}
-                        <div class="col-md-8">
-                            {{Form::text('PaguDanaN2',$data->PaguDanaN2,['class'=>'form-control','placeholder'=>'PAGU DANA TAHUN KE 2','rows' => 2, 'cols' => 40])}}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        {{Form::label('PaguDanaN3','PAGU DANA TAHUN '.(HelperKegiatan::getRPJMDTahunMulai()+2),['class'=>'control-label col-md-4'])}}
-                        <div class="col-md-8">
-                            {{Form::text('PaguDanaN3',$data->PaguDanaN3,['class'=>'form-control','placeholder'=>'PAGU DANA TAHUN KE 3','rows' => 2, 'cols' => 40])}}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        {{Form::label('PaguDanaN4','PAGU DANA TAHUN '.(HelperKegiatan::getRPJMDTahunMulai()+3),['class'=>'control-label col-md-4'])}}
-                        <div class="col-md-8">
-                            {{Form::text('PaguDanaN4',$data->PaguDanaN4,['class'=>'form-control','placeholder'=>'PAGU DANA TAHUN KE 4','rows' => 2, 'cols' => 40])}}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        {{Form::label('PaguDanaN5','PAGU DANA TAHUN '.(HelperKegiatan::getRPJMDTahunMulai()+4),['class'=>'control-label col-md-4'])}}
-                        <div class="col-md-8">
-                            {{Form::text('PaguDanaN5',$data->PaguDanaN5,['class'=>'form-control','placeholder'=>'PAGU DANA TAHUN KE 5','rows' => 2, 'cols' => 40])}}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        {{Form::label('KondisiAkhirPaguDana','KONDISI AKHIR PAGU DANA TAHUN '.(HelperKegiatan::getRPJMDTahunAkhir()+1),['class'=>'control-label col-md-4'])}}
-                        <div class="col-md-8">
-                            {{Form::text('KondisiAkhirPaguDana',$data->KondisiAkhirPaguDana,['class'=>'form-control','placeholder'=>'PAGU DANA AKHIR TAHUN '.(HelperKegiatan::getRPJMDTahunAkhir()+1),'rows' => 2, 'cols' => 40])}}
-                        </div>
-                    </div>
+            <div class="form-group">
+                {{Form::label('PaguDanaN2','PAGU DANA TAHUN '.(HelperKegiatan::getRPJMDTahunMulai()+1),['class'=>'control-label col-md-2'])}}
+                <div class="col-md-8">
+                    {{Form::text('PaguDanaN2',$data->PaguDanaN2,['class'=>'form-control','placeholder'=>'PAGU DANA'])}}
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12">                    
-                    <div class="form-group">
-                        {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
-                        <div class="col-md-10">
-                            {{Form::textarea('Descr',$data->Descr,['class'=>'form-control','placeholder'=>'KETERANGAN','rows' => 2, 'cols' => 40])}}
-                        </div>
-                    </div>
+            <div class="form-group">
+                {{Form::label('PaguDanaN3','PAGU DANA TAHUN '.(HelperKegiatan::getRPJMDTahunMulai()+2),['class'=>'control-label col-md-2'])}}
+                <div class="col-md-8">
+                    {{Form::text('PaguDanaN3',$data->PaguDanaN3,['class'=>'form-control','placeholder'=>'PAGU DANA'])}}
                 </div>
             </div>
+            <div class="form-group">
+                {{Form::label('PaguDanaN4','PAGU DANA TAHUN '.(HelperKegiatan::getRPJMDTahunMulai()+3),['class'=>'control-label col-md-2'])}}
+                <div class="col-md-8">
+                    {{Form::text('PaguDanaN4',$data->PaguDanaN4,['class'=>'form-control','placeholder'=>'PAGU DANA'])}}
+                </div>
+            </div>
+            <div class="form-group">
+                {{Form::label('PaguDanaN5','PAGU DANA TAHUN '.(HelperKegiatan::getRPJMDTahunMulai()+4),['class'=>'control-label col-md-2'])}}
+                <div class="col-md-8">
+                    {{Form::text('PaguDanaN5',$data->PaguDanaN5,['class'=>'form-control','placeholder'=>'PAGU DANA'])}}
+                </div>
+            </div>
+            <div class="form-group">
+                {{Form::label('KondisiAkhirPaguDana','KONDISI AKHIR PAGU DANA TAHUN '.(HelperKegiatan::getRPJMDTahunAkhir()+1),['class'=>'control-label col-md-2'])}}
+                <div class="col-md-8">
+                    {{Form::text('KondisiAkhirPaguDana',$data->KondisiAkhirPaguDana,['class'=>'form-control','placeholder'=>'PAGU DANA AKHIR'])}}
+                </div>
+            </div>                        
+            <div class="form-group">
+                {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    {{Form::textarea('Descr',$data->Descr,['class'=>'form-control','placeholder'=>'KETERANGAN','rows' => 2, 'cols' => 40])}}
+                </div>
+            </div>    
         </div>
         <div class="panel-footer">
             <div class="form-group">            
@@ -219,23 +148,27 @@ $(document).ready(function () {
                                             showWarnings:false,
                                             modifyValueOnWheel:false
                                         });
-    $('#PrioritasKebijakanKabID.select').select2({
-        placeholder: "PILIH KEBIJAKAN RPJMD",
+    $('#PrioritasSasaranKabID.select').select2({
+        placeholder: "PILIH SASARAN RPJMD",
         allowClear:true
     });
-    $('#ProgramKebijakanID.select').select2({
-        placeholder: "PILIH PROGRAM KEBIJAKAN",
+    $('#PrioritasIndikatorSasaranID.select').select2({
+        placeholder: "PILIH INDIKATOR SASARAN RPJMD",
         allowClear:true
     });
-    $('#OrgID.select').select2({
-        placeholder: "PILIH OPD / SKPD 1",
+    $('#UrsID.select').select2({
+        placeholder: "PILIH URUSAN",
         allowClear:true
     });
-    $('#OrgID2.select').select2({
-        placeholder: "PILIH OPD / SKPD 2",
+    $('#PrgID.select').select2({
+        placeholder: "PILIH PROGRAM",
         allowClear:true
     });
-    $(document).on('change','#PrioritasKebijakanKabID',function(ev) {
+    $('#OrgIDRPJMD.select').select2({
+        placeholder: "PILIH OPD / SKPD",
+        allowClear:true
+    });
+    $(document).on('change','#PrioritasSasaranKabID',function(ev) {
         ev.preventDefault();   
         $.ajax({
             type:'post',
@@ -243,8 +176,34 @@ $(document).ready(function () {
             dataType: 'json',
             data: {              
                 "_token": token,  
-                "PrioritasKebijakanKabID": $('#PrioritasKebijakanKabID').val(),
-                "prioritaskebijakan":true
+                "PrioritasSasaranKabID": $('#PrioritasSasaranKabID').val(),
+                "create":true
+            },
+            success:function(result)
+            { 
+                var daftar_indikatorsasaran = result.daftar_indikatorsasaran;
+                var listitems='<option></option>';
+                $.each(daftar_indikatorsasaran,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
+                $('#PrioritasIndikatorSasaranID').html(listitems);                
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    });
+    $(document).on('change','#UrsID',function(ev) {
+        ev.preventDefault();   
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/filter',
+            dataType: 'json',
+            data: {              
+                "_token": token,  
+                "UrsID": $('#UrsID').val(),
+                "create":true
             },
             success:function(result)
             { 
@@ -253,34 +212,7 @@ $(document).ready(function () {
                 $.each(daftar_program,function(key,value){
                     listitems+='<option value="' + key + '">'+value+'</option>';                    
                 });
-                $('#ProgramKebijakanID').html(listitems);                
-            },
-            error:function(xhr, status, error){
-                console.log('ERROR');
-                console.log(parseMessageAjaxEror(xhr, status, error));                           
-            },
-        });
-    });
-    $(document).on('change','#ProgramKebijakanID',function(ev) {
-        ev.preventDefault();   
-        $.ajax({
-            type:'post',
-            url: url_current_page +'/filter',
-            dataType: 'json',
-            data: {              
-                "_token": token,  
-                "ProgramKebijakanID": $('#ProgramKebijakanID').val(),
-                "programkebijakan":true
-            },
-            success:function(result)
-            { 
-                var daftar_opd = result.daftar_opd;
-                var listitems='<option></option>';
-                $.each(daftar_opd,function(key,value){
-                    listitems+='<option value="' + key + '">'+value+'</option>';                    
-                });
-                $('#OrgID').html(listitems);
-                $('#OrgID2').html(listitems);      
+                $('#PrgID').html(listitems);                
             },
             error:function(xhr, status, error){
                 console.log('ERROR');
@@ -291,21 +223,15 @@ $(document).ready(function () {
     $('#frmdata').validate({
         ignore:[],
         rules: {
-            PrioritasKebijakanKabID : {
+            PrioritasSasaranKabID : {
                 required: true
-            },          
-            ProgramKebijakanID : {
+            },                        
+            PrioritasIndikatorSasaranID : {
                 required: true
-            },  
-            OrgID : {
+            },                        
+            PrgID : {
                 required: true
-            },
-            OrgID2 : {
-                required: true
-            },
-            NamaIndikator : {
-                required: true,
-            },
+            },                        
             KondisiAwal : {
                 required: true,
             },
@@ -350,20 +276,14 @@ $(document).ready(function () {
             }, 
         },
         messages : {
-            PrioritasKebijakanKabID : {
-                required: "Mohon untuk di pilih RPJMD Kebijakan untuk indiaktor ini."                
-            },            
-            ProgramKebijakanID : {
-                required: "Mohon untuk di pilih Urusan untuk indikator ini."                
-            },            
-            OrgID : {
-                required: "Mohon untuk di pilih OPD / SKPD untuk indikator ini."                
-            },
-            OrgID2 : {
-                required: "Mohon untuk di pilih OPD / SKPD untuk indikator ini."                
-            },
-            NamaIndikator : {
-                required: "Mohon untuk di isi nama indikator."              
+            PrioritasSasaranKabID : {
+                required: "Mohon untuk di pilih RPJMD Sasaran untuk indiaktor ini."                
+            },             
+            PrioritasIndikatorSasaranID : {
+                required: "Mohon untuk di pilih RPJMD Indikator Sasaran untuk indiaktor ini."                
+            },             
+            PrgID : {
+                required: "Mohon untuk di pilih Program Urusan."              
             },
             KondisiAwal : {
                 required: "Mohon untuk di isi kondisi awal RPJMD."              
