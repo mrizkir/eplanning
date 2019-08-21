@@ -46,7 +46,7 @@ class CreateVIndikatorKinerja2View extends Migration
                 A."PaguDanaN5",
                 B."KondisiAkhir" AS "KondisiAkhirTarget",
                 A."KondisiAkhirPaguDana",
-                A."Desc",
+                A."Descr",
                 A."TA",
                 C."Jns",
                 H."PrioritasKabID",

@@ -13,7 +13,7 @@
                     <div class="dropdown-content-body">
                         <div class="row">
                             <div class="col-md-3">
-                                <span class="menu-heading underlined"><i class="icon-map4"></i> RINGKASAN UMUM</span>
+                                <span class="menu-heading underlined bg-blue-300" style="padding:10px"><i class="icon-map4"></i> RINGKASAN UMUM</span>
                                 <ul class="menu-list">
                                     <li{!!Helper::isMenuActive ($page_active,'dashboard',' class="active"')!!}>
                                         <a href="{!!route('dashboard.index')!!}">
@@ -23,7 +23,7 @@
                                 </ul>
                             </div>
                             <div class="col-md-3">
-                                <span class="menu-heading underlined"><i class="icon-map4"></i> PERENCANAAN</span>
+                                <span class="menu-heading underlined bg-blue-300" style="padding:10px"><i class="icon-map4"></i> PERENCANAAN</span>
                                 <ul class="menu-list">
                                     <li{!!Helper::isMenuActive ($page_active,'rekappaguindikatifopd',' class="active"')!!}>
                                         <a href="{!!route('rekappaguindikatifopd.index')!!}">
@@ -45,46 +45,13 @@
                     <div class="dropdown-content-body">
                         <div class="row">                            
                             <div class="col-md-3">
-                                <span class="menu-heading underlined"><i class="icon-office"></i> DATA</span>
+                                <span class="menu-heading underlined bg-blue-300" style="padding:10px"><i class="icon-office"></i> DATA</span>
                                 <ul class="menu-list">
-                                    @can('browse_kelompokurusan')
-                                    <li{!!Helper::isMenuActive ($page_active,'kelompokurusan',' class="active"')!!}>
-                                        <a href="{{route('kelompokurusan.index')}}" title="Data Kelompok Urusan">
-                                            <i class="icon-chess-queen"></i> <span class="text-violet"><strong>[1].</strong></span> KELOMPOK URUSAN
-                                        </a>
-                                    </li>    
-                                    @endcan                      
-                                    @can('browse_urusan')              
-                                    <li{!!Helper::isMenuActive ($page_active,'urusan',' class="active"')!!}>
-                                        <a href="{{route('urusan.index')}}" title="Data Urusan">
-                                            <i class="icon-chess-king"></i> <span class="text-violet"><strong>[2].</strong></span>  URUSAN
-                                        </a>
-                                    </li>    
-                                    @endcan
-                                    <li{!!Helper::isMenuActive ($page_active,'organisasi',' class="active"')!!}>
-                                        <a href="{{route('organisasi.index')}}" title="Data Organisasi">
-                                            <i class="icon-office"></i> <span class="text-violet"><strong>[2.1].</strong></span> ORGANISASI
-                                        </a>
-                                    </li>  
-                                    <li{!!Helper::isMenuActive ($page_active,'suborganisasi',' class="active"')!!}>
-                                        <a href="{{route('suborganisasi.index')}}" title="Data Organisasi">
-                                            <i class="icon-office"></i> <span class="text-violet"><strong>[2.1.1].</strong></span> UNIT KERJA
-                                        </a>
-                                    </li>                                
-                                    <li{!!Helper::isMenuActive ($page_active,'program',' class="active"')!!}>
-                                        <a href="{{route('program.index')}}" title="Data Program">
-                                            <i class="icon-codepen"></i> <span class="text-violet"><strong>[2.2].</strong></span> PROGAM
-                                        </a>
-                                    </li>
-                                    <li{!!Helper::isMenuActive ($page_active,'programkegiatan',' class="active"')!!}>
-                                        <a href="{{route('programkegiatan.index')}}" title="Data Program Kegiatan">
-                                            <i class="icon-code"></i> <span class="text-violet"><strong>[2.2.1]</strong></span> KEGIATAN
-                                        </a>    
-                                    </li>
+                                        
                                 </ul>
                             </div>
                             <div class="col-md-3">
-                                <span class="menu-heading underlined"><i class="icon-link2"></i> MAPPING</span>
+                                <span class="menu-heading underlined bg-blue-300" style="padding:10px"><i class="icon-link2"></i> MAPPING</span>
                                 <ul class="menu-list">
                                     <li{!!Helper::isMenuActive ($page_active,'mappingprogramtoopd',' class="active"')!!}>
                                         <a href="{{route('mappingprogramtoopd.index')}}" title="Data Program Kegiatan">
@@ -94,7 +61,7 @@
                                 </ul>
                             </div>
                             <div class="col-md-3">
-                                <span class="menu-heading underlined"><i class="icon-link2"></i> ANEKA DATA</span>
+                                <span class="menu-heading underlined bg-blue-300" style="padding:10px"><i class="icon-link2"></i> ANEKA DATA</span>
                                 <ul class="menu-list">
                                     <li{!!Helper::isMenuActive ($page_active,'paguanggaranopd',' class="active"')!!}>
                                         <a href="{{route('paguanggaranopd.index')}}" title="Pagu Anggaran OPD/SKPD">
@@ -127,7 +94,51 @@
                     <div class="dropdown-content-body">
                         <div class="row">         
                             <div class="col-md-3">
-                                <span class="menu-heading underlined"><i class="icon-strategy"></i> BAB V</span>
+                                <span class="menu-heading underlined bg-blue-300" style="padding:10px"><i class="icon-strategy"></i> BAB II & III && IV</span>
+                                <ul class="menu-list">                                
+                                    @can('browse_kelompokurusan')
+                                    <li{!!Helper::isMenuActive ($page_active,'kelompokurusan',' class="active"')!!}>
+                                        <a href="{{route('kelompokurusan.index')}}" title="Data Kelompok Urusan">
+                                            <i class="icon-chess-queen"></i> <span class="text-violet"><strong>[1].</strong></span> KELOMPOK URUSAN
+                                        </a>
+                                    </li>    
+                                    @endcan                      
+                                    @can('browse_urusan')              
+                                    <li{!!Helper::isMenuActive ($page_active,'urusan',' class="active"')!!}>
+                                        <a href="{{route('urusan.index')}}" title="Data Urusan">
+                                            <i class="icon-chess-king"></i> <span class="text-violet"><strong>[2].</strong></span>  URUSAN
+                                        </a>
+                                    </li>    
+                                    @endcan
+                                    <li{!!Helper::isMenuActive ($page_active,'organisasi',' class="active"')!!}>
+                                        <a href="{{route('organisasi.index')}}" title="Data Organisasi">
+                                            <i class="icon-office"></i> <span class="text-violet"><strong>[2.1].</strong></span> ORGANISASI
+                                        </a>
+                                    </li>  
+                                    <li{!!Helper::isMenuActive ($page_active,'suborganisasi',' class="active"')!!}>
+                                        <a href="{{route('suborganisasi.index')}}" title="Data Organisasi">
+                                            <i class="icon-office"></i> <span class="text-violet"><strong>[2.1.1].</strong></span> UNIT KERJA
+                                        </a>
+                                    </li>                                
+                                    <li{!!Helper::isMenuActive ($page_active,'program',' class="active"')!!}>
+                                        <a href="{{route('program.index')}}" title="Data Program">
+                                            <i class="icon-codepen"></i> <span class="text-violet"><strong>[2.2].</strong></span> PROGAM
+                                        </a>
+                                    </li>      
+                                </ul>
+                                <span class="menu-heading underlined bg-blue-300" style="padding:10px">
+                                    <i class="icon-link2"></i> MAPPING
+                                </span>
+                                <ul class="menu-list">
+                                    <li{!!Helper::isMenuActive ($page_active,'mappingprogramtoopd',' class="active"')!!}>
+                                        <a href="{{route('mappingprogramtoopd.index')}}" title="Data Program Kegiatan">
+                                            <i class="icon-link"></i> PROGRAM -> OPD / SKPD <span class="text-violet"><strong>[3]</strong></span>
+                                        </a>    
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-3">
+                                <span class="menu-heading underlined bg-blue-300" style="padding:10px"><i class="icon-strategy"></i> BAB V</span>
                                 <ul class="menu-list">
                                     <li{!!Helper::isMenuActive ($page_active,'rpjmdvisi',' class="active"')!!}>
                                         <a href="{{route('rpjmdvisi.index')}}">
@@ -152,7 +163,7 @@
                                 </ul>
                             </div>  
                             <div class="col-md-3">
-                                <span class="menu-heading underlined"><i class="icon-strategy"></i> BAB VI</span>
+                                <span class="menu-heading underlined bg-blue-300" style="padding:10px"><i class="icon-strategy"></i> BAB VI</span>
                                 <ul class="menu-list">                                     
                                     <li{!!Helper::isMenuActive ($page_active,'rpjmdstrategi',' class="active"')!!}>
                                         <a href="{{route('rpjmdstrategi.index')}}">
@@ -172,7 +183,7 @@
                                 </ul>
                             </div>                                                        
                             <div class="col-md-3">
-                                <span class="menu-heading underlined"><i class="icon-strategy"></i> BAB VII</span>
+                                <span class="menu-heading underlined bg-blue-300" style="padding:10px"><i class="icon-strategy"></i> BAB VII</span>
                                 <ul class="menu-list">                                
                                     <li{!!Helper::isMenuActive ($page_active,'rpjmdindikatorkinerja',' class="active"')!!}>
                                         <a href="{{route('rpjmdindikatorkinerja.index')}}">
@@ -180,13 +191,7 @@
                                         </a>
                                     </li> 
                                 </ul>
-                            </div>                                                                                    
-                            <div class="col-md-3">
-                                <span class="menu-heading underlined"><i class="icon-strategy"></i> BAB VIII</span>
-                                <ul class="menu-list">                                
-
-                                </ul>
-                            </div>                                                                                    
+                            </div>                                                                              
                         </div>
                     </div>
                 </div>
@@ -201,7 +206,7 @@
                     <div class="dropdown-content-body">
                         <div class="row">                                                       
                             <div class="col-md-3">
-                                <span class="menu-heading underlined"><i class="icon-strategy"></i> BAB IV</span>
+                                <span class="menu-heading underlined bg-blue-300" style="padding:10px"><i class="icon-strategy"></i> BAB IV</span>
                                 <ul class="menu-list">                                   
                                     <li{!!Helper::isMenuActive ($page_active,'renstratujuan',' class="active"')!!}>
                                         <a href="{{route('renstratujuan.index')}}">
@@ -216,7 +221,7 @@
                                 </ul>
                             </div>
                             <div class="col-md-3">
-                                <span class="menu-heading underlined"><i class="icon-strategy"></i> BAB V</span>
+                                <span class="menu-heading underlined bg-blue-300" style="padding:10px"><i class="icon-strategy"></i> BAB V</span>
                                 <ul class="menu-list">
                                     <li{!!Helper::isMenuActive ($page_active,'renstrastrategi',' class="active"')!!}>
                                         <a href="{{route('renstrastrategi.index')}}">
@@ -231,11 +236,16 @@
                                 </ul>
                             </div>
                             <div class="col-md-3">
-                                <span class="menu-heading underlined"><i class="icon-strategy"></i> BAB VI</span>
+                                <span class="menu-heading underlined bg-blue-300" style="padding:10px"><i class="icon-strategy"></i> BAB VI</span>
                                 <ul class="menu-list">
+                                    <li{!!Helper::isMenuActive ($page_active,'programkegiatan',' class="active"')!!}>
+                                        <a href="{{route('programkegiatan.index')}}" title="Data Program Kegiatan">
+                                            <i class="icon-strategy"></i> KEGIATAN <span class="text-violet"><strong>[5]</strong></span>
+                                        </a>    
+                                    </li>
                                     <li{!!Helper::isMenuActive ($page_active,'renstraprogramkegiatanpendanaan',' class="active"')!!}>
                                         <a href="{{route('renstraprogramkegiatanpendanaan.index')}}">
-                                            <i class="icon-strategy"></i> PRG., KEG., DAN PENDANAAN <span class="text-violet"><strong>[5]</strong></span>
+                                            <i class="icon-strategy"></i> PRG., KEG., DAN PENDANAAN <span class="text-violet"><strong>[6]</strong></span>
                                         </a>
                                     </li>
                                 </ul>
@@ -373,7 +383,7 @@
                     <div class="dropdown-content-body">
                         <div class="row">
                             <div class="col-md-3">
-                                <span class="menu-heading underlined"><i class="icon-file-empty"></i> RENCANA KERJA OPD / SKPD</span>
+                                <span class="menu-heading underlined bg-blue-300" style="padding:10px"><i class="icon-file-empty"></i> RENCANA KERJA OPD / SKPD</span>
                                 <ul class="menu-list">
                                     <li class="dropdown-header">MURNI</li>
                                     <li{!!Helper::isMenuActive ($page_active,'reportrkpdmurniopd',' class="active"')!!}>
@@ -417,7 +427,7 @@
                         <div class="dropdown-content-body">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <span class="menu-heading underlined"><i class="icon-users"></i> PENGGUNA</span>
+                                    <span class="menu-heading underlined bg-blue-300" style="padding:10px"><i class="icon-users"></i> PENGGUNA</span>
                                     <ul class="menu-list">
                                         @hasrole('superadmin') 
                                         <li class="dropdown-header">ATRIBUT USER</li>                     
@@ -470,7 +480,7 @@
                                     </ul>
                                 </div>
                                 <div class="col-md-3">
-                                    <span class="menu-heading underlined"><i class="icon-database4"></i> PENYIMPANAN</span>
+                                    <span class="menu-heading underlined bg-blue-300" style="padding:10px"><i class="icon-database4"></i> PENYIMPANAN</span>
                                     <ul class="menu-list">
                                         @hasrole('superadmin')    
                                         <li class="dropdown-header">DATA EPLANNING</li>                
@@ -495,7 +505,7 @@
                                     </ul>
                                 </div>
                                 <div class="col-md-3">
-                                    <span class="menu-heading underlined"><i class="icon-wrench"></i> KONFIGURASI</span>
+                                    <span class="menu-heading underlined bg-blue-300" style="padding:10px"><i class="icon-wrench"></i> KONFIGURASI</span>
                                     <ul class="menu-list">
                                         @hasrole('superadmin')                  
                                         <li{!!Helper::isMenuActive ($page_active,'environment',' class="active"')!!}>

@@ -77,11 +77,11 @@ class UrusanModel extends Model {
         return $daftar_urusan;
     }
     public static function getDaftarUrusanByOPD ($ta,$OrgID,$prepend=true) 
-    {
+    {        
         $r=\DB::table('trOrgProgram')
                 ->join('v_urusan_program','v_urusan_program.PrgID','trOrgProgram.PrgID')
                 ->select(\DB::raw('"v_urusan_program"."UrsID","v_urusan_program"."Kd_Urusan","v_urusan_program"."Kd_Bidang","v_urusan_program"."Nm_Bidang"'))
-                ->where('trOrgProgram.OrgID',$OrgID)
+                ->where('trOrgProgram.OrgIDRPJMD',$OrgID)
                 ->where('trOrgProgram.TA',$ta)
                 ->orderBy('Kd_Bidang')->get();
         

@@ -58,11 +58,11 @@ class CreateOrganisasiTable extends Migration
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
-            // $table->foreign('OrgIDRPJMD')
-            //     ->references('OrgIDRPJMD')
-            //     ->on('tmOrgRPJMD')
-            //     ->onDelete('cascade')
-            //     ->onUpdate('cascade');
+            $table->foreign('OrgIDRPJMD')
+                ->references('OrgIDRPJMD')
+                ->on('tmOrgRPJMD')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
 
             
         });        

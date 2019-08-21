@@ -16,7 +16,7 @@ class CreateVOrganisasiProgramView extends Migration
         \DB::statement('CREATE VIEW v_organisasi_program AS
             SELECT 
 				orgprg."orgProgramID",
-				orgprg."OrgID",	
+				orgprg."OrgIDRPJMD",	
 				orgprg."PrgID",			
 				kelompok_urusan."Kd_Urusan",			
 				urusan."Kd_Bidang",			
@@ -29,9 +29,6 @@ class CreateVOrganisasiProgramView extends Migration
 				END AS kode_organisasi,
 				organisasi."OrgCd", 
 				organisasi."OrgNm", 
-				organisasi."Alamat", 
-				organisasi."NamaKepalaSKPD", 
-				organisasi."NIPKepalaSKPD",
 				program."Kd_Prog",
 				CASE 
 					WHEN urusan."UrsID" IS NOT NULL OR  kelompok_urusan."KUrsID" IS NOT NULL THEN
@@ -44,7 +41,7 @@ class CreateVOrganisasiProgramView extends Migration
 				orgprg."created_at",
 				orgprg."updated_at"
 				FROM "trOrgProgram" orgprg
-				LEFT JOIN "tmOrg" AS organisasi ON organisasi."OrgID"=orgprg."OrgID"
+				LEFT JOIN "tmOrgRPJMD" AS organisasi ON organisasi."OrgIDRPJMD"=orgprg."OrgIDRPJMD"
 				LEFT JOIN "tmPrg" AS program ON program."PrgID"=orgprg."PrgID"
 				LEFT JOIN "trUrsPrg" AS urs_program ON program."PrgID"=urs_program."PrgID"
 				LEFT JOIN "tmUrs" AS urusan ON urs_program."UrsID"=urusan."UrsID"

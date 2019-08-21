@@ -15,19 +15,19 @@ class CreateMappingprogramtoopdTable extends Migration
     {
         Schema::create('trOrgProgram', function (Blueprint $table) {
             $table->string('orgProgramID',19);
-            $table->string('OrgID',19);
+            $table->string('OrgIDRPJMD',19);
             $table->string('PrgID',19);
             $table->string('Descr')->nullable();
             $table->year('TA');         
             $table->timestamps();
 
             $table->primary('orgProgramID');
-            $table->index('OrgID');
+            $table->index('OrgIDRPJMD');
             $table->index('PrgID');
 
-            $table->foreign('OrgID')
-                ->references('OrgID')
-                ->on('tmOrg')
+            $table->foreign('OrgIDRPJMD')
+                ->references('OrgIDRPJMD')
+                ->on('tmOrgRPJMD')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
