@@ -18,7 +18,7 @@ class CreateRenstrakebijakanTable extends Migration
             $table->string('RenstraStrategiID',19);
             $table->string('OrgIDRPJMD',19);
             $table->string('Kd_RenstraKebijakan',4);
-            $table->string('Nm_RenstraKebijakan');           
+            $table->text('Nm_RenstraKebijakan');           
             $table->string('Descr')->nullable();
             $table->year('TA');
             $table->boolean('Locked')->default(0);

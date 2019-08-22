@@ -17,7 +17,7 @@ class CreateRpjmdmisiTable extends Migration
             $table->string('PrioritasKabID',19);
             $table->string('RpjmdVisiID',19);
             $table->string('Kd_PrioritasKab',4);
-            $table->string('Nm_PrioritasKab');           
+            $table->text('Nm_PrioritasKab');           
             $table->string('Descr')->nullable();
             $table->year('TA');
             $table->string('PrioritasKabID_Src',19)->nullable();

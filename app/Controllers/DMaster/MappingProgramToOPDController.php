@@ -47,7 +47,7 @@ class MappingProgramToOPDController extends Controller {
                                                                             'OrgIDRPJMD'=>'none'
                                                                             ]);
         }        
-        $OrgID= $this->getControllerStateSession('mappingprogramtoopd.filters','OrgIDRPJMD');
+        $OrgIDRPJMD= $this->getControllerStateSession('mappingprogramtoopd.filters','OrgIDRPJMD');
 
         if ($this->checkStateIsExistSession('mappingprogramtoopd','search')) 
         {
@@ -74,7 +74,7 @@ class MappingProgramToOPDController extends Controller {
                             ->join ('tmOrgRPJMD','v_organisasi_program.OrgIDRPJMD','tmOrgRPJMD.OrgIDRPJMD')
                             ->join ('tmUrs','tmOrgRPJMD.UrsID','tmUrs.UrsID')
                             ->join ('tmKUrs','tmUrs.KUrsID','tmKUrs.KUrsID')
-                            ->where('v_organisasi_program.TA',\HelperKegiatan::getTahunPerencanaan())
+                            ->where('v_organisasi_program.TA',\HelperKegiatan::getRPJMDTahunMulai())
                             ->where(['kode_program'=>$search['isikriteria']])
                             ->orderBy("v_organisasi_program.$column_order",$direction)
                             ->orderBy("v_organisasi_program.kode_program",'ASC');
@@ -99,7 +99,7 @@ class MappingProgramToOPDController extends Controller {
                             ->join ('tmOrgRPJMD','v_organisasi_program.OrgIDRPJMD','tmOrgRPJMD.OrgIDRPJMD')
                             ->join ('tmUrs','tmOrgRPJMD.UrsID','tmUrs.UrsID')
                             ->join ('tmKUrs','tmUrs.KUrsID','tmKUrs.KUrsID')
-                            ->where('v_organisasi_program.TA',\HelperKegiatan::getTahunPerencanaan())
+                            ->where('v_organisasi_program.TA',\HelperKegiatan::getRPJMDTahunMulai())
                             ->where('PrgNm', 'ilike', '%' . $search['isikriteria'] . '%')                                        
                             ->orderBy("v_organisasi_program.kode_program",'ASC')
                             ->orderBy("v_organisasi_program.$column_order",$direction);
@@ -113,7 +113,7 @@ class MappingProgramToOPDController extends Controller {
                     ->select(\DB::raw('
                         "v_organisasi_program"."orgProgramID",
                         CONCAT("tmKUrs"."Kd_Urusan",\'.\',"tmUrs"."Kd_Bidang",\'.\',"tmOrgRPJMD"."OrgCd") AS kode_organisasi_all_urusan,
-                        "v_organisasi_program"."OrgID",
+                        "v_organisasi_program"."OrgIDRPJMD",
                         "v_organisasi_program"."OrgNm",
                         CONCAT("tmKUrs"."Kd_Urusan",\'.\',"tmUrs"."Kd_Bidang",\'.\',"v_organisasi_program"."Kd_Prog") AS kode_program_all_urusan,
                         "v_organisasi_program"."kode_program",
@@ -128,17 +128,17 @@ class MappingProgramToOPDController extends Controller {
                     ->join ('tmOrgRPJMD','v_organisasi_program.OrgIDRPJMD','tmOrgRPJMD.OrgIDRPJMD')
                     ->join ('tmUrs','tmOrgRPJMD.UrsID','tmUrs.UrsID')
                     ->join ('tmKUrs','tmUrs.KUrsID','tmKUrs.KUrsID')
-                    ->where('v_organisasi_program.TA',\HelperKegiatan::getTahunPerencanaan())
+                    ->where('v_organisasi_program.TA',\HelperKegiatan::getRPJMDTahunMulai())
                     ->orderBy("v_organisasi_program.kode_program",'ASC')
                     ->orderBy("v_organisasi_program.$column_order",$direction);
             
-            if ($OrgID=='none'  || $OrgID=='')
+            if ($OrgIDRPJMD=='none'  || $OrgIDRPJMD=='')
             {
                 $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
             }
             else
             {
-                $data->where('v_organisasi_program.OrgIDRPJMD',$OrgID);
+                $data->where('v_organisasi_program.OrgIDRPJMD',$OrgIDRPJMD);
                 $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
             }
         }        
@@ -288,8 +288,8 @@ class MappingProgramToOPDController extends Controller {
         //index
         if ($request->exists('OrgIDRPJMD'))
         {
-            $OrgID = $request->input('OrgIDRPJMD')==''?'none':$request->input('OrgIDRPJMD');
-            $filters['OrgIDRPJMD']=$OrgID;            
+            $OrgIDRPJMD = $request->input('OrgIDRPJMD')==''?'none':$request->input('OrgIDRPJMD');
+            $filters['OrgIDRPJMD']=$OrgIDRPJMD;            
             $this->putControllerStateSession('mappingprogramtoopd','filters',$filters);
 
             $data = $this->populateData();
@@ -323,7 +323,7 @@ class MappingProgramToOPDController extends Controller {
         }
         $this->setCurrentPageInsideSession('mappingprogramtoopd',$data->currentPage());
         
-        $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);
+        $daftar_opd=\App\Models\DMaster\OrganisasiRPJMDModel::getDaftarOPDMaster(\HelperKegiatan::getRPJMDTahunMulai(),false); 
         $filters=$this->getControllerStateSession('mappingprogramtoopd','filters');
         return view("pages.$theme.dmaster.mappingprogramtoopd.index")->with(['page_active'=>'mappingprogramtoopd',
                                                                             'daftar_opd'=>$daftar_opd,
@@ -375,7 +375,7 @@ class MappingProgramToOPDController extends Controller {
     public function paginatecreate ($id) 
     {
         $theme = \Auth::user()->theme;
-        $daftar_urusan=UrusanModel::getDaftarUrusan(\HelperKegiatan::getTahunPerencanaan());
+        $daftar_urusan=UrusanModel::getDaftarUrusan(\HelperKegiatan::getRPJMDTahunMulai());
         $daftar_urusan['none']='SELURUH URUSAN';    
         $filter_kode_urusan_selected=UrusanModel::getKodeUrusanByUrsID($this->getControllerStateSession('mappingprogramtoopd.filters','UrsID'));
 
@@ -407,9 +407,9 @@ class MappingProgramToOPDController extends Controller {
 
         if ($request->exists('OrgIDRPJMD'))
         {
-            $OrgID = $request->input('OrgIDRPJMD');
-            $ursid = UrusanModel::getKodeUrusanByOrgID($OrgID);
-            $this->putControllerStateSession('mappingprogramtoopd','filters',['OrgIDRPJMD'=>$OrgID,
+            $OrgIDRPJMD = $request->input('OrgIDRPJMD');
+            $ursid = UrusanModel::getKodeUrusanByOrgID($OrgIDRPJMD);
+            $this->putControllerStateSession('mappingprogramtoopd','filters',['OrgIDRPJMD'=>$OrgIDRPJMD,
                                                                             'UrsID'=>$ursid]);     
             
             
@@ -481,7 +481,7 @@ class MappingProgramToOPDController extends Controller {
                                                                 $query->select('PrgID')
                                                                     ->from('trOrgProgram')
                                                                     ->where('OrgIDRPJMD', $filter_orgid)
-                                                                    ->where('TA',\HelperKegiatan::getTahunPerencanaan());
+                                                                    ->where('TA',\HelperKegiatan::getRPJMDTahunMulai());
                                                             })
                                                             ->where('TA',\HelperKegiatan::getRPJMDTahunMulai())
                                                             ->orderBy($column_order,$direction)                                                        
@@ -493,7 +493,7 @@ class MappingProgramToOPDController extends Controller {
                                                                 $query->select('PrgID')
                                                                     ->from('trOrgProgram')
                                                                     ->where('OrgIDRPJMD', $filter_orgid)
-                                                                    ->where('TA',\HelperKegiatan::getTahunPerencanaan());
+                                                                    ->where('TA',\HelperKegiatan::getRPJMDTahunMulai());
                                                             })
                                                             ->where('TA',\HelperKegiatan::getRPJMDTahunMulai())                                                            
                                                             ->where('UrsID',$filter_ursid)
@@ -518,7 +518,7 @@ class MappingProgramToOPDController extends Controller {
         $daftar_urusan=UrusanModel::getDaftarUrusan(\HelperKegiatan::getRPJMDTahunMulai());
         $daftar_urusan['none']='SELURUH URUSAN';           
 
-        $daftar_opd=OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);
+        $daftar_opd=\App\Models\DMaster\OrganisasiRPJMDModel::getDaftarOPDMaster(\HelperKegiatan::getRPJMDTahunMulai(),false); 
 
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('mappingprogramtoopd'); 
         $data = $this->populateDataProgram($currentpage);
@@ -564,7 +564,12 @@ class MappingProgramToOPDController extends Controller {
             $now = \Carbon\Carbon::now('utc')->toDateTimeString();
             foreach ($prgid as $v)
             {
-                $data[] = ['orgProgramID'=>uniqid ('uid'),'OrgIDRPJMD'=>$orgid,'PrgID'=>$v,'Descr'=>'-','TA'=>\HelperKegiatan::getTahunPerencanaan(),'created_at'=>$now,'updated_at'=>$now];
+                $data[]=['orgProgramID'=>uniqid ('uid'),
+                        'OrgIDRPJMD'=>$orgid,
+                        'PrgID'=>$v,
+                        'Descr'=>'-',
+                        'TA'=>\HelperKegiatan::getRPJMDTahunMulai(),
+                        'created_at'=>$now,'updated_at'=>$now];
             }
             MappingProgramToOPDModel::insert($data);        
         
@@ -614,7 +619,7 @@ class MappingProgramToOPDController extends Controller {
                                             "v_organisasi_program"."Nm_Urusan",
                                             "v_organisasi_program"."Jns"
                                         '))
-                                        ->where('v_organisasi_program.TA',\HelperKegiatan::getTahunPerencanaan())
+                                        ->where('v_organisasi_program.TA',\HelperKegiatan::getRPJMDTahunMulai())
                                         ->where('v_organisasi_program.orgProgramID',$id)
                                         ->firstOrFail();
         if (!is_null($data) )  

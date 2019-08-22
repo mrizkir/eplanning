@@ -17,7 +17,7 @@ class CreateRpjmdsasaranTable extends Migration
             $table->string('PrioritasSasaranKabID',19);
             $table->string('PrioritasTujuanKabID',19);            
             $table->string('Kd_Sasaran',4);
-            $table->string('Nm_Sasaran');           
+            $table->text('Nm_Sasaran');           
             $table->string('Descr')->nullable();
             $table->year('TA');
             $table->string('PrioritasSasaranKabID_Src',19)->nullable();

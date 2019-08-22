@@ -18,7 +18,7 @@ class CreateRenstrastrategiTable extends Migration
             $table->string('RenstraSasaranID',19);
             $table->string('OrgIDRPJMD',19);
             $table->string('Kd_RenstraStrategi',4);
-            $table->string('Nm_RenstraStrategi');           
+            $table->text('Nm_RenstraStrategi');           
             $table->string('Descr')->nullable();
             $table->year('TA');
             $table->boolean('Locked')->default(0);

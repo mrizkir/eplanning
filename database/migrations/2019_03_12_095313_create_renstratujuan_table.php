@@ -18,7 +18,7 @@ class CreateRenstratujuanTable extends Migration
             $table->string('PrioritasSasaranKabID',19);
             $table->string('OrgIDRPJMD',19);
             $table->string('Kd_RenstraTujuan',4);
-            $table->string('Nm_RenstraTujuan');           
+            $table->text('Nm_RenstraTujuan');           
             $table->string('Descr')->nullable();
             $table->year('TA');
             $table->boolean('Locked')->default(0);

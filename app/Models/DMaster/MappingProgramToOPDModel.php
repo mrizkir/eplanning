@@ -19,7 +19,7 @@ class MappingProgramToOPDModel extends Model {
      * @var array
      */
     protected $fillable = [
-        'orgProgramID', 'OrgID', 'PrgID', 'Descr','TA'
+        'orgProgramID', 'OrgIDRPJDM', 'PrgID', 'Descr','TA'
     ];
     /**
      * primary key tabel ini.
@@ -49,7 +49,7 @@ class MappingProgramToOPDModel extends Model {
     /**
      * log the changed attributes for all these events 
      */
-    protected static $logAttributes = ['orgProgramID', 'OrgID','PrgID'];
+    protected static $logAttributes = ['orgProgramID', 'OrgIDRPJMD','PrgID'];
     /**
      * log changes to all the $fillable attributes of the model
      */

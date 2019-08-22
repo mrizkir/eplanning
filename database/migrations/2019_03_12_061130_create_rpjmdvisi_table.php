@@ -15,7 +15,7 @@ class CreateRpjmdvisiTable extends Migration
     {
         Schema::create('tmRpjmdVisi', function (Blueprint $table) {
             $table->string('RpjmdVisiID',19);
-            $table->string('Nm_RpjmdVisi');           
+            $table->text('Nm_RpjmdVisi');           
             $table->string('Descr')->nullable();
             $table->year('TA_Awal');
             $table->boolean('Locked')->default(0);

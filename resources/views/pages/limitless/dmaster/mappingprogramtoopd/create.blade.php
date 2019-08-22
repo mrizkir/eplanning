@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-link position-left"></i>
     <span class="text-semibold"> 
-        MAPPING PROGRAM KE OPD TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}
+        MAPPING PROGRAM KE OPD PERIODE {{HelperKegiatan::getRPJMDTahunMulai()}} - {{HelperKegiatan::getRPJMDTahunAkhir()+1}}
     </span>
 @endsection
 @section('page_info')
@@ -36,9 +36,9 @@
             <div class="panel-body">
                 <div class="form-horizontal">
                     <div class="form-group">
-                        {{Form::label('OrgID','OPD / SKPD',['class'=>'control-label col-md-2'])}}
+                        {{Form::label('OrgIDRPJMD','OPD / SKPD',['class'=>'control-label col-md-2'])}}
                         <div class="col-md-10">
-                            <select name="OrgID" id="OrgID" class="select2">
+                            <select name="OrgIDRPJMD" id="OrgIDRPJMD" class="select2">
                                 <option></option>
                                 @foreach ($daftar_opd as $k=>$item)
                                     <option value="{{$k}}"{{$k==$filter_orgid_selected?'selected':''}}>{{$item}}</option>
@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', function() {
             },
         });
     });   
-    $(document).on('change','#OrgID', function (ev)
+    $(document).on('change','#OrgIDRPJMD', function (ev)
     {
         ev.preventDefault();        
         $.ajax({
@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', function() {
             dataType:'json',
             data: {
                 "_token": token,
-                "OrgID": $('#OrgID').val(),
+                "OrgIDRPJMD": $('#OrgIDRPJMD').val(),
             },
             success:function(result)
             {
@@ -198,12 +198,12 @@ document.addEventListener('DOMContentLoaded', function() {
     $('#frmdata').validate({
         rules: {
             ignore:[],
-            OrgID : {
+            OrgIDRPJMD : {
                 required : true,
             },
         },
         messages : {
-            OrgID : {
+            OrgIDRPJMD : {
                 required: "Mohon dipilih OPD / SKPD !"
             },
         }      

@@ -22,7 +22,7 @@
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
                     <th width="150">
-                        <a class="column-sort text-white" id="col-OrgID" data-order="{{$direction}}" href="#">
+                        <a class="column-sort text-white" id="col-OrgIDRPJMD" data-order="{{$direction}}" href="#">
                             KODE SKPD / OPD
                         </a>                                             
                     </th> 
@@ -100,8 +100,8 @@
                 <tr class="text-center info">
                     <td colspan="10">
                         <span class="label label-warning label-rounded" style="text-transform: none">
-                            <strong>ORGID:</strong>
-                            {{$item->OrgID}}
+                            <strong>ORGIDRPJMD:</strong>
+                            {{$item->OrgIDRPJMD}}
                         </span>                            
                         <span class="label label-warning label-rounded" style="text-transform: none">
                             <strong>PRGID:</strong>

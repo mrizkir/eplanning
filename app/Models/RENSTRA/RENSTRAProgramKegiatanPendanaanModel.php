@@ -5,7 +5,7 @@ namespace App\Models\RENSTRA;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class RENSTRAIndikatorSasaranModel extends Model {
+class RENSTRAProgramKegiatanPendanaanModel extends Model {
     use LogsActivity;
 
      /**
@@ -13,7 +13,7 @@ class RENSTRAIndikatorSasaranModel extends Model {
      *
      * @var string
      */
-    protected $table = 'trRenstraIndikator';
+    protected $table = 'trRenstraProgramKegiatanPendanaan';
     /**
      * The attributes that are mass assignable.
      *

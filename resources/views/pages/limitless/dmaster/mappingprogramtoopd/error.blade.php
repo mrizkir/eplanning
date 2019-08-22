@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-link position-left"></i>
     <span class="text-semibold">
-        MAPPING PROGRAM KE OPD TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}
+        MAPPING PROGRAM KE OPD PERIODE {{HelperKegiatan::getRPJMDTahunMulai()}} - {{HelperKegiatan::getRPJMDTahunAkhir()+1}}
     </span>
 @endsection
 @section('page_info')

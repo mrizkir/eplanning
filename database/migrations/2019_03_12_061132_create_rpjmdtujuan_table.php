@@ -17,7 +17,7 @@ class CreateRpjmdtujuanTable extends Migration
             $table->string('PrioritasTujuanKabID',19);
             $table->string('PrioritasKabID',19);            
             $table->string('Kd_Tujuan',4);
-            $table->string('Nm_Tujuan');           
+            $table->text('Nm_Tujuan');           
             $table->string('Descr')->nullable();
             $table->year('TA');
             $table->string('PrioritasTujuanKabID_Src',19)->nullable();
