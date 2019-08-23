@@ -4,8 +4,7 @@ namespace App\Controllers\RENSTRA;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
-use App\Models\RENSTRA\RENSTRAIndikatorSasaranModel;
-use App\Models\RENSTRA\RENSTRAKebijakanModel;
+use App\Models\RENSTRA\RENSTRAProgramKegiatanPendanaanModel;
 use App\Rules\CheckRecordIsExistValidation;
 use App\Rules\IgnoreIfDataIsEqualValidation;
 
@@ -46,20 +45,20 @@ class RENSTRAProgramKegiatanPendanaanController extends Controller {
             switch ($search['kriteria']) 
             {                
                 case 'NamaIndikator' :
-                    $data = RENSTRAIndikatorSasaranModel::where('NamaIndikator', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = RENSTRAProgramKegiatanPendanaanModel::where('NamaIndikator', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = RENSTRAIndikatorSasaranModel::select(\DB::raw('"RenstraIndikatorID","tmUrs"."Nm_Bidang","tmPrg"."PrgNm","tmOrg"."OrgNm","trIndikatorKinerja"."NamaIndikator" AS "IndikatorKinerja","tmRenstraKebijakan"."Nm_RenstraKebijakan","trRenstraIndikator"."NamaIndikator","trRenstraIndikator"."Descr","trRenstraIndikator"."TA","trRenstraIndikator"."created_at","trRenstraIndikator"."updated_at"'))
-                                                ->join('tmUrs','tmUrs.UrsID','trRenstraIndikator.UrsID')
-                                                ->join('tmPrg','tmPrg.PrgID','trRenstraIndikator.PrgID')
-                                                ->join('tmOrg','tmOrg.OrgIDRPJMD','trRenstraIndikator.OrgIDRPJMD')
-                                                ->join('trIndikatorKinerja','trIndikatorKinerja.IndikatorKinerjaID','trRenstraIndikator.IndikatorKinerjaID')
-                                                ->join('tmRenstraKebijakan','tmRenstraKebijakan.RenstraKebijakanID','trRenstraIndikator.RenstraKebijakanID')
-                                                ->where('trRenstraIndikator.TA',\HelperKegiatan::getRENSTRATahunMulai())
+            $data = RENSTRAProgramKegiatanPendanaanModel::select(\DB::raw('"RenstraProgramKegiatanPendanaanID","tmUrs"."Nm_Bidang","tmPrg"."PrgNm","tmOrg"."OrgNm","trIndikatorKinerja"."NamaIndikator" AS "IndikatorKinerja","tmRenstraKebijakan"."Nm_RenstraKebijakan","trRenstraProgramKegiatanPendanaan"."NamaIndikator","trRenstraProgramKegiatanPendanaan"."Descr","trRenstraProgramKegiatanPendanaan"."TA","trRenstraProgramKegiatanPendanaan"."created_at","trRenstraProgramKegiatanPendanaan"."updated_at"'))
+                                                ->join('tmUrs','tmUrs.UrsID','trRenstraProgramKegiatanPendanaan.UrsID')
+                                                ->join('tmPrg','tmPrg.PrgID','trRenstraProgramKegiatanPendanaan.PrgID')
+                                                ->join('tmOrg','tmOrg.OrgIDRPJMD','trRenstraProgramKegiatanPendanaan.OrgIDRPJMD')
+                                                ->join('trIndikatorKinerja','trIndikatorKinerja.IndikatorKinerjaID','trRenstraProgramKegiatanPendanaan.IndikatorKinerjaID')
+                                                ->join('tmRenstraKebijakan','tmRenstraKebijakan.RenstraKebijakanID','trRenstraProgramKegiatanPendanaan.RenstraKebijakanID')
+                                                ->where('trRenstraProgramKegiatanPendanaan.TA',\HelperKegiatan::getRENSTRATahunMulai())
                                                 ->orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('renstraprogramkegiatanpendanaan.index'));
@@ -355,8 +354,8 @@ class RENSTRAProgramKegiatanPendanaanController extends Controller {
             'NamaIndikator'=>'required',                       
         ]);
         
-        $renstraprogramkegiatanpendanaan = RENSTRAIndikatorSasaranModel::create([
-            'RenstraIndikatorID' => uniqid ('uid'),
+        $renstraprogramkegiatanpendanaan = RENSTRAProgramKegiatanPendanaanModel::create([
+            'RenstraProgramKegiatanPendanaanID' => uniqid ('uid'),
             'RenstraKebijakanID' => $request->input('RenstraKebijakanID'),
             'IndikatorKinerjaID' => $request->input('IndikatorKinerjaID'),
             'UrsID' => $request->input('UrsID'),
@@ -376,7 +375,7 @@ class RENSTRAProgramKegiatanPendanaanController extends Controller {
         }
         else
         {
-            return redirect(route('renstraprogramkegiatanpendanaan.show',['id'=>$renstraprogramkegiatanpendanaan->RenstraIndikatorID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('renstraprogramkegiatanpendanaan.show',['id'=>$renstraprogramkegiatanpendanaan->RenstraProgramKegiatanPendanaanID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -391,14 +390,14 @@ class RENSTRAProgramKegiatanPendanaanController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = \DB::table('trRenstraIndikator')
-                    ->select(\DB::raw('"RenstraIndikatorID","tmUrs"."Nm_Bidang","tmPrg"."PrgNm","tmOrg"."OrgNm","trIndikatorKinerja"."NamaIndikator" AS "IndikatorKinerja","tmRenstraKebijakan"."Nm_RenstraKebijakan","trRenstraIndikator"."NamaIndikator","trRenstraIndikator"."Descr","trRenstraIndikator"."TA","trRenstraIndikator"."created_at","trRenstraIndikator"."updated_at"'))
-                    ->join('tmUrs','tmUrs.UrsID','trRenstraIndikator.UrsID')
-                    ->join('tmPrg','tmPrg.PrgID','trRenstraIndikator.PrgID')
-                    ->join('tmOrg','tmOrg.OrgIDRPJMD','trRenstraIndikator.OrgIDRPJMD')
-                    ->join('trIndikatorKinerja','trIndikatorKinerja.IndikatorKinerjaID','trRenstraIndikator.IndikatorKinerjaID')
-                    ->join('tmRenstraKebijakan','tmRenstraKebijakan.RenstraKebijakanID','trRenstraIndikator.RenstraKebijakanID')
-                    ->where('RenstraIndikatorID',$id)
+        $data = \DB::table('trRenstraProgramKegiatanPendanaan')
+                    ->select(\DB::raw('"RenstraProgramKegiatanPendanaanID","tmUrs"."Nm_Bidang","tmPrg"."PrgNm","tmOrg"."OrgNm","trIndikatorKinerja"."NamaIndikator" AS "IndikatorKinerja","tmRenstraKebijakan"."Nm_RenstraKebijakan","trRenstraProgramKegiatanPendanaan"."NamaIndikator","trRenstraProgramKegiatanPendanaan"."Descr","trRenstraProgramKegiatanPendanaan"."TA","trRenstraProgramKegiatanPendanaan"."created_at","trRenstraProgramKegiatanPendanaan"."updated_at"'))
+                    ->join('tmUrs','tmUrs.UrsID','trRenstraProgramKegiatanPendanaan.UrsID')
+                    ->join('tmPrg','tmPrg.PrgID','trRenstraProgramKegiatanPendanaan.PrgID')
+                    ->join('tmOrg','tmOrg.OrgIDRPJMD','trRenstraProgramKegiatanPendanaan.OrgIDRPJMD')
+                    ->join('trIndikatorKinerja','trIndikatorKinerja.IndikatorKinerjaID','trRenstraProgramKegiatanPendanaan.IndikatorKinerjaID')
+                    ->join('tmRenstraKebijakan','tmRenstraKebijakan.RenstraKebijakanID','trRenstraProgramKegiatanPendanaan.RenstraKebijakanID')
+                    ->where('RenstraProgramKegiatanPendanaanID',$id)
                     ->first();
         
         if (!is_null($data) )  
@@ -425,8 +424,8 @@ class RENSTRAProgramKegiatanPendanaanController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $data = RENSTRAIndikatorSasaranModel::select(\DB::raw('"RenstraIndikatorID","RenstraKebijakanID","IndikatorKinerjaID","trRenstraIndikator"."UrsID","PrgID","trRenstraIndikator"."OrgIDRPJMD","OrgNm","trRenstraIndikator"."NamaIndikator","trRenstraIndikator"."Descr"'))
-                                            ->join('tmOrg','tmOrg.OrgIDRPJMD','trRenstraIndikator.OrgIDRPJMD')
+        $data = RENSTRAProgramKegiatanPendanaanModel::select(\DB::raw('"RenstraProgramKegiatanPendanaanID","RenstraKebijakanID","IndikatorKinerjaID","trRenstraProgramKegiatanPendanaan"."UrsID","PrgID","trRenstraProgramKegiatanPendanaan"."OrgIDRPJMD","OrgNm","trRenstraProgramKegiatanPendanaan"."NamaIndikator","trRenstraProgramKegiatanPendanaan"."Descr"'))
+                                            ->join('tmOrg','tmOrg.OrgIDRPJMD','trRenstraProgramKegiatanPendanaan.OrgIDRPJMD')
                                             ->findOrFail($id);
         if (!is_null($data) ) 
         {
@@ -472,7 +471,7 @@ class RENSTRAProgramKegiatanPendanaanController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $renstraprogramkegiatanpendanaan = RENSTRAIndikatorSasaranModel::find($id);
+        $renstraprogramkegiatanpendanaan = RENSTRAProgramKegiatanPendanaanModel::find($id);
         
         $this->validate($request, [
             'RenstraKebijakanID'=>'required',
@@ -513,7 +512,7 @@ class RENSTRAProgramKegiatanPendanaanController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $renstraprogramkegiatanpendanaan = RENSTRAIndikatorSasaranModel::find($id);
+        $renstraprogramkegiatanpendanaan = RENSTRAProgramKegiatanPendanaanModel::find($id);
         $result=$renstraprogramkegiatanpendanaan->delete();
         if ($request->ajax()) 
         {

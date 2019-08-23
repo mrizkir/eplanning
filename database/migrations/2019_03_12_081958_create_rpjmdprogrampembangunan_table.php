@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRpjmdindikatorkinerjaTable extends Migration
+class CreateRpjmdprogrampembangunanTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateRpjmdindikatorkinerjaTable extends Migration
      */
     public function up()
     {
-        Schema::create('trIndikatorKinerja', function (Blueprint $table) {
-            $table->string('IndikatorKinerjaID',19);
-            $table->string('UrsID',19)->nullable();  //bila yang dipilih seluruh urusan maka isinya null
+        Schema::create('trRpjmdProgramPembangunan', function (Blueprint $table) {
+            $table->string('RPJMDProgramPembangunanID',19);
+            $table->string('PrioritasSasaranKabID',19);            
+            $table->string('UrsID',19)->nullable();  
             $table->string('PrgID',19);            
-            $table->string('OrgIDRPJMD',19);            
             $table->decimal('PaguDanaN1',15,2)->default(0);
             $table->decimal('PaguDanaN2',15,2)->default(0);
             $table->decimal('PaguDanaN3',15,2)->default(0);
@@ -30,7 +30,7 @@ class CreateRpjmdindikatorkinerjaTable extends Migration
 
             $table->timestamps();
             
-            $table->primary('IndikatorKinerjaID');
+            $table->primary('RPJMDProgramPembangunanID');
             $table->index('PrioritasSasaranKabID');
             $table->index('UrsID');
 

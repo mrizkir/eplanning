@@ -73,14 +73,7 @@
                         <option></option>
                     </select>  
                 </div>
-            </div>           
-            <div class="form-group">
-                {{Form::label('OrgIDRPJMD','OPD PENANGGUNG JAWAB',['class'=>'control-label col-md-2'])}}
-                <div class="col-md-10">
-                    {{Form::select('OrgIDRPJMD',$daftar_opd,null,['class'=>'select','multiple' => 'multiple','name'=>'OrgIDRPJMD[]'])}}
-                    <span class="help-block">Bila OPD Penanggung Jawab tidak ada, indikator ini diasumsikan untuk seluruh OPD / SKPD. </span>              
-                </div>                
-            </div>
+            </div> 
         </div>
         <div class="panel-body">            
             <div class="form-group">
@@ -168,10 +161,6 @@ $(document).ready(function () {
     });
     $('#PrgID.select').select2({
         placeholder: "PILIH PROGRAM",
-        allowClear:true
-    });
-    $('#OrgIDRPJMD.select').select2({
-        placeholder: "PILIH OPD / SKPD",
         allowClear:true
     });
     $(document).on('change','#PrioritasSasaranKabID',function(ev) {

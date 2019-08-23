@@ -32,7 +32,7 @@
                 </ul>
             </div>
         </div>
-        {!! Form::open(['action'=>['RPJMD\RPJMDProgramPembangunanController@update',$data->IndikatorKinerjaID],'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
+        {!! Form::open(['action'=>['RPJMD\RPJMDProgramPembangunanController@update',$data->RPJMDProgramPembangunanID],'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
         <div class="panel-body">
             <div class="form-group">
                 {{Form::label('PrioritasSasaranKabID','SASARAN RPJMD',['class'=>'control-label col-md-2'])}}
@@ -59,22 +59,7 @@
                 <div class="col-md-10">
                     {{Form::select('PrgID', $daftar_program, $data->PrgID,['class'=>'select','id'=>'PrgID'])}}
                 </div>
-            </div>           
-            <div class="form-group">
-                {{Form::label('OrgIDRPJMD','OPD PENANGGUNG JAWAB',['class'=>'control-label col-md-2'])}}
-                <div class="col-md-10">
-                    @php
-                        $orgid=json_decode($data->OrgIDRPJMD,true);
-                        $OrgIDRPJMD=[];                        
-                        foreach($orgid as $v)
-                        {
-                            $OrgIDRPJMD[]=$v['OrgIDRPJMD'];
-                        }
-                    @endphp
-                    {{Form::select('OrgIDRPJMD',$daftar_opd,$OrgIDRPJMD,['class'=>'select','multiple' => 'multiple','name'=>'OrgIDRPJMD[]'])}}
-                    <span class="help-block">Bila OPD Penanggung Jawab tidak ada, indikator ini diasumsikan untuk seluruh OPD / SKPD. </span>              
-                </div>                
-            </div>
+            </div>  
         </div>
         <div class="panel-body">            
             <div class="form-group">
@@ -162,10 +147,6 @@ $(document).ready(function () {
     });
     $('#PrgID.select').select2({
         placeholder: "PILIH PROGRAM",
-        allowClear:true
-    });
-    $('#OrgIDRPJMD.select').select2({
-        placeholder: "PILIH OPD / SKPD",
         allowClear:true
     });
     $(document).on('change','#PrioritasSasaranKabID',function(ev) {

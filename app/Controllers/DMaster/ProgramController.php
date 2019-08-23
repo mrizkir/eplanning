@@ -69,6 +69,7 @@ class ProgramController extends Controller {
         }
         else
         {
+            echo $filter_ursid;
             $data =$filter_ursid == 'none' || $filter_ursid == null ? 
                                             \DB::table('v_urusan_program')
                                                         ->where('TA',\HelperKegiatan::getRPJMDTahunMulai())

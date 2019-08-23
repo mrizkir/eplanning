@@ -22,7 +22,7 @@ class UsersTableSeeder extends Seeder
             'password'=>Hash::make('1234'),                
             'name'=>'rizki',                
             'email'=>'support@yacanet.com',                
-            'theme'=>'default',
+            'theme'=>'limitless',
             'email_verified_at'=>Carbon::now(),
             'isdeleted'=>'false',
             'created_at'=>Carbon::now(),

@@ -18,10 +18,10 @@ class RPJMDVisiTableSeeder extends Seeder
         SQL::truncate('"tmRpjmdVisi"');
 
         $ta = RPJMDVisiModel::create ([
-            'RpjmdVisiID'=> uniqid ('uid'),
-            'Nm_RpjmdVisi'=>'default',
-            'Descr'=>'default',
-            'TA_Awal'=>date('Y'),
+            'RpjmdVisiID'=> 'uid5d45a8c234042',
+            'Nm_RpjmdVisi'=>'Terwujudnya Kabupaten Bintan yang Madani dan Sejahtera Melalui Pencapaian Bintan Gemilang 2025 (Gerakan Melangkah Maju di Bidang Kelautan, Pariwisata, dan Kebudayaan',
+            'Descr'=>'PERDA KAB. BINTAN NOMOR 5 TAHUN 2016',
+            'TA_Awal'=>2015,
             'Descr'=>'default'
         ]);        
     }

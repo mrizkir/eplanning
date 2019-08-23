@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateVIndikatorKinerja2View extends Migration
+class CreateVIndikatorKinerja1View extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateVIndikatorKinerja2View extends Migration
      */
     public function up()
     {
-        \DB::statement('CREATE VIEW v_indikator_kinerja2 AS
+        \DB::statement('CREATE VIEW v_indikator_kinerja1 AS
             SELECT 
                 E."Kd_Urusan",
                 E."Nm_Urusan",
@@ -52,13 +52,12 @@ class CreateVIndikatorKinerja2View extends Migration
                 H."PrioritasKabID",
                 G."PrioritasTujuanKabID",
                 A."PrioritasSasaranKabID",
-                A."IndikatorKinerjaID",                
+                A."RPJMDProgramPembangunanID",                
                 A."UrsID",
                 A."PrgID",
-                A."OrgIDRPJMD",
                 A.created_at,
                 A.updated_at
-            FROM "trIndikatorKinerja" A 
+            FROM "trRpjmdProgramPembangunan" A 
                 JOIN "tmPrioritasIndikatorSasaran" B ON B."PrioritasSasaranKabID" = A."PrioritasSasaranKabID"
                 JOIN "tmPrg" C ON C."PrgID" = A."PrgID"
                 JOIN "tmUrs" D ON D."UrsID" = A."UrsID"
@@ -77,6 +76,6 @@ class CreateVIndikatorKinerja2View extends Migration
      */
     public function down()
     {
-        \DB::statement('DROP VIEW v_indikator_kinerja2');
+        \DB::statement('DROP VIEW v_indikator_kinerja1');
     }
 }

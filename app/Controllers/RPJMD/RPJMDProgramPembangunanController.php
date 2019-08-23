@@ -4,7 +4,7 @@ namespace App\Controllers\RPJMD;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
-use App\Models\RPJMD\RPJMDIndikatorKinerjaModel;
+use App\Models\RPJMD\RPJMDProgramPembangunanModel;
 use App\Models\RPJMD\RPJMDSasaranModel;
 use App\Rules\CheckRecordIsExistValidation;
 use App\Rules\IgnoreIfDataIsEqualValidation;
@@ -23,19 +23,18 @@ class RPJMDProgramPembangunanController extends Controller {
     /**
      * collect data from resources for index view
      *
-     * @return resources
+     * @return resourcesIndikatorKinerjaID  
      */
     public function populateData ($currentpage=1) 
     {        
-        $select=\DB::raw('"IndikatorKinerjaID",
+        $select=\DB::raw('"RPJMDProgramPembangunanID",
                             "PrioritasSasaranKabID",
                             "Nm_PrioritasKab",
                             "Nm_Tujuan",
                             "Nm_Sasaran",
                             "PrgNm",
                             "NamaIndikator",
-                            "Satuan",
-                            "OrgIDRPJMD",
+                            "Satuan",                            
                             "KondisiAwal",
                             "TargetN1",
                             "PaguDanaN1",
@@ -49,7 +48,7 @@ class RPJMDProgramPembangunanController extends Controller {
                             "PaguDanaN5",
                             "KondisiAkhirTarget",
                             "KondisiAkhirPaguDana",
-                            "Desc",
+                            "Descr",
                             "TA",
                             "created_at",
                             "updated_at"
@@ -73,7 +72,7 @@ class RPJMDProgramPembangunanController extends Controller {
             switch ($search['kriteria']) 
             {                
                 case 'NamaIndikator' :
-                    $data = \DB::table('v_indikator_kinerja2')
+                    $data = \DB::table('v_indikator_kinerja1')
                                 ->where('NamaIndikator', 'ilike', '%' . $search['isikriteria'] . '%')
                                 ->orderBy($column_order,$direction);                                        
                 break;
@@ -82,7 +81,7 @@ class RPJMDProgramPembangunanController extends Controller {
         }
         else
         {
-            $data = \DB::table('v_indikator_kinerja2') 
+            $data = \DB::table('v_indikator_kinerja1') 
                     ->select($select)                   
                     ->where('TA',\HelperKegiatan::getRPJMDTahunMulai())
                     ->orderBy($column_order,$direction)
@@ -247,12 +246,10 @@ class RPJMDProgramPembangunanController extends Controller {
     {        
         $theme = \Auth::user()->theme;
         $daftar_sasaran = RPJMDSasaranModel::getDaftarSasaranNotInIndikatorSasaran(\HelperKegiatan::getRPJMDTahunMulai(),false);
-        $daftar_opd=\App\Models\DMaster\OrganisasiRPJMDModel::getDaftarOPDMaster(\HelperKegiatan::getRPJMDTahunMulai(),false); 
         $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusan(\HelperKegiatan::getRPJMDTahunMulai(),false);  
         return view("pages.$theme.rpjmd.rpjmdprogrampembangunan.create")->with(['page_active'=>'rpjmdprogrampembangunan',
                                                                                 'daftar_sasaran'=>$daftar_sasaran,
                                                                                 'daftar_urusan'=>$daftar_urusan,
-                                                                                'daftar_opd'=>$daftar_opd
                                                                             ]);  
     }
     
@@ -274,29 +271,11 @@ class RPJMDProgramPembangunanController extends Controller {
             'PaguDanaN5'=>'required',
             'KondisiAkhirPaguDana'=>'required',            
         ]);
-        $PrioritasSasaranKabID=$request->input('PrioritasSasaranKabID');        
-        $orgid_selected=$request->input('OrgIDRPJMD');
-        if (count($orgid_selected) > 0)
-        {
-            
-            $OrgIDRPJMD=\App\Models\DMaster\OrganisasiRPJMDModel::select(\DB::raw('"OrgIDRPJMD","OrgNm","OrgAlias"'))
-                                                                ->whereIn('OrgIDRPJMD',$orgid_selected)
-                                                                ->get()
-                                                                ->toJson();
-            
-
-        }
-        else
-        {
-            $OrgIDRPJMD=json_encode(['OrgID'=>'all','OrgNm'=>'all','OrgAlias'=>'all']);
-        }
-        
-        $rpjmdprogrampembangunan = RPJMDIndikatorKinerjaModel::create([
-            'IndikatorKinerjaID' => uniqid ('uid'),
+        $rpjmdprogrampembangunan = RPJMDProgramPembangunanModel::create([
+            'RPJMDProgramPembangunanID' => uniqid ('uid'),
             'PrioritasSasaranKabID' => $request->input('PrioritasSasaranKabID'),
             'UrsID' => $request->input('UrsID'),
             'PrgID' => $request->input('PrgID'),                       
-            'OrgIDRPJMD' => $OrgIDRPJMD,              
             'PaguDanaN1' => $request->input('PaguDanaN1'),
             'PaguDanaN2' => $request->input('PaguDanaN2'),
             'PaguDanaN3' => $request->input('PaguDanaN3'),
@@ -316,7 +295,7 @@ class RPJMDProgramPembangunanController extends Controller {
         }
         else
         {
-            return redirect(route('rpjmdprogrampembangunan.show',['id'=>$rpjmdprogrampembangunan->IndikatorKinerjaID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rpjmdprogrampembangunan.show',['id'=>$rpjmdprogrampembangunan->RPJMDProgramPembangunanID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -331,8 +310,8 @@ class RPJMDProgramPembangunanController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = \DB::table('v_indikator_kinerja2')
-                    ->where('IndikatorKinerjaID',$id)
+        $data = \DB::table('v_indikator_kinerja1')
+                    ->where('RPJMDProgramPembangunanID',$id)
                     ->first();
 
         if (!is_null($data) )  
@@ -359,7 +338,7 @@ class RPJMDProgramPembangunanController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $data = RPJMDIndikatorKinerjaModel::findOrFail($id);
+        $data = RPJMDProgramPembangunanModel::findOrFail($id);
         if (!is_null($data) ) 
         {
             $daftar_sasaran = RPJMDSasaranModel::getDaftarSasaranNotInIndikatorSasaran(\HelperKegiatan::getRPJMDTahunMulai(),false);
@@ -369,16 +348,14 @@ class RPJMDProgramPembangunanController extends Controller {
                                                                                 ->pluck('NamaIndikator','PrioritasIndikatorSasaranID')
                                                                                 ->toArray();
             $indikatorsasaranid=1;
-            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getRPJMDTahunMulai(),false,$data->UrsID);
-            $daftar_opd=\App\Models\DMaster\OrganisasiRPJMDModel::getDaftarOPDMaster(\HelperKegiatan::getRPJMDTahunMulai(),false); 
+            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getRPJMDTahunMulai(),false,$data->UrsID);            
             $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusan(\HelperKegiatan::getRPJMDTahunMulai(),false);  
             return view("pages.$theme.rpjmd.rpjmdprogrampembangunan.edit")->with(['page_active'=>'rpjmdprogrampembangunan',
                                                                                 'data'=>$data,
                                                                                 'daftar_sasaran'=>$daftar_sasaran,
                                                                                 'daftar_indikatorsasaran'=>$daftar_indikatorsasaran,
                                                                                 'daftar_urusan'=>$daftar_urusan,
-                                                                                'daftar_program'=>$daftar_program,
-                                                                                'daftar_opd'=>$daftar_opd                                                                                
+                                                                                'daftar_program'=>$daftar_program,                                                                                                                              
                                                                                 ]);
                                     }        
     }
@@ -392,7 +369,7 @@ class RPJMDProgramPembangunanController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $rpjmdprogrampembangunan = RPJMDIndikatorKinerjaModel::find($id);
+        $rpjmdprogrampembangunan = RPJMDProgramPembangunanModel::find($id);
 
         $this->validate($request, [
             'PrioritasSasaranKabID'=>'required',
@@ -404,29 +381,10 @@ class RPJMDProgramPembangunanController extends Controller {
             'PaguDanaN5'=>'required',
             'KondisiAkhirPaguDana'=>'required',            
         ]);
-        $PrioritasSasaranKabID=$request->input('PrioritasSasaranKabID');        
-        $orgid_selected=$request->input('OrgIDRPJMD');
-        if (count($orgid_selected) > 0)
-        {
-            
-            $OrgIDRPJMD=\App\Models\DMaster\OrganisasiRPJMDModel::select(\DB::raw('"OrgIDRPJMD","OrgNm","OrgAlias"'))
-                                                                ->whereIn('OrgIDRPJMD',$orgid_selected)
-                                                                ->get()
-                                                                ->toJson();
-            
-
-        }
-        else
-        {
-            $OrgIDRPJMD=json_encode(['OrgID'=>'all','OrgNm'=>'all','OrgAlias'=>'all']);
-        }
-       
-        
         
         $rpjmdprogrampembangunan->PrioritasSasaranKabID=$request->input('PrioritasSasaranKabID');
         $rpjmdprogrampembangunan->UrsID=$request->input('UrsID');
         $rpjmdprogrampembangunan->PrgID=$request->input('PrgID');                       
-        $rpjmdprogrampembangunan->OrgIDRPJMD=$OrgIDRPJMD;              
         $rpjmdprogrampembangunan->PaguDanaN1=$request->input('PaguDanaN1');
         $rpjmdprogrampembangunan->PaguDanaN2=$request->input('PaguDanaN2');
         $rpjmdprogrampembangunan->PaguDanaN3=$request->input('PaguDanaN3');
@@ -459,7 +417,7 @@ class RPJMDProgramPembangunanController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $rpjmdprogrampembangunan = RPJMDIndikatorKinerjaModel::find($id);
+        $rpjmdprogrampembangunan = RPJMDProgramPembangunanModel::find($id);
         $result=$rpjmdprogrampembangunan->delete();
         if ($request->ajax()) 
         {

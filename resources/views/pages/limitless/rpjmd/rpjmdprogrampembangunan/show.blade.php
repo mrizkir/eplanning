@@ -28,10 +28,10 @@
                     <a href="{!!route('rpjmdprogrampembangunan.create')!!}" class="btn btn-info btn-icon heading-btn btnAdd" title="Tambah Indikasi">
                         <i class="icon-googleplus5"></i>
                     </a>
-                    <a href="{{route('rpjmdprogrampembangunan.edit',['id'=>$data->IndikatorKinerjaID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RpjmdIndikatorKinerja">
+                    <a href="{{route('rpjmdprogrampembangunan.edit',['id'=>$data->RPJMDProgramPembangunanID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RpjmdIndikatorKinerja">
                         <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data RpjmdIndikatorKinerja" data-id="{{$data->IndikatorKinerjaID}}" data-url="{{route('rpjmdprogrampembangunan.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
+                    <a href="javascript:;" title="Hapus Data RpjmdIndikatorKinerja" data-id="{{$data->RPJMDProgramPembangunanID}}" data-url="{{route('rpjmdprogrampembangunan.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
                     </a>
                     <a href="{!!route('rpjmdprogrampembangunan.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
@@ -44,9 +44,9 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>INDIKATORKINERJAID: </strong></label>
+                                <label class="col-md-4 control-label"><strong>RPJMDPROGRAMPEMBANGUNANID: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->IndikatorKinerjaID}}</p>
+                                    <p class="form-control-static">{{$data->RPJMDProgramPembangunanID}}</p>
                                 </div>                            
                             </div>                  
                             <div class="form-group">
@@ -81,13 +81,7 @@
                                 <label class="col-md-4 control-label"><strong>PERANGKAT DAERAH PENANGGUNG JAWAB: </strong></label>
                                 <div class="col-md-8">
                                     <p class="form-control-static">
-                                        @php
-                                        $orgid=json_decode($data->OrgIDRPJMD,true);
-                                        foreach($orgid as $v)
-                                        {
-                                            echo '['.$v['OrgNm'].'] ';
-                                        }
-                                        @endphp                                           
+                                        -                               
                                     </p>
                                 </div>                            
                             </div>                         
@@ -175,13 +169,7 @@
                                 <tr>
                                     <td><strong>PERANGKAT DAERAH PENANGGUNGJAWAB:</strong></td>
                                     <td>
-                                    @php
-                                        $orgid=json_decode($data->OrgIDRPJMD,true);
-                                        foreach($orgid as $v)
-                                        {
-                                            echo '['.$v['OrgNm'].'] ';
-                                        }
-                                    @endphp    
+                                      
                                     </td>
                                 </tr>
                             </table>                              

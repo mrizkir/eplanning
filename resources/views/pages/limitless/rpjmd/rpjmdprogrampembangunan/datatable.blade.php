@@ -90,13 +90,7 @@
                             <tr>
                                 <td><strong>PERANGKAT DAERAH PENANGGUNGJAWAB:</strong></td>
                                 <td>
-                                @php
-                                    $orgid=json_decode($item->OrgIDRPJMD,true);
-                                    foreach($orgid as $v)
-                                    {
-                                        echo '['.$v['OrgNm'].'] ';
-                                    }
-                                @endphp    
+                                -  
                                 </td>
                             </tr>
                         </table>                              
@@ -124,17 +118,17 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('rpjmdprogrampembangunan.show',['id'=>$item->IndikatorKinerjaID])}}" title="Detail Data Indikasi Rencana Program">
+                                <a class="btnShow" href="{{route('rpjmdprogrampembangunan.show',['id'=>$item->RPJMDProgramPembangunanID])}}" title="Detail Data Indikasi Rencana Program">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('rpjmdprogrampembangunan.edit',['id'=>$item->IndikatorKinerjaID])}}" title="Ubah Data Indikasi Rencana Program">
+                                <a class="btnEdit" href="{{route('rpjmdprogrampembangunan.edit',['id'=>$item->RPJMDProgramPembangunanID])}}" title="Ubah Data Indikasi Rencana Program">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data Indikasi Rencana Program" data-id="{{$item->IndikatorKinerjaID}}" data-url="{{route('rpjmdprogrampembangunan.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data Indikasi Rencana Program" data-id="{{$item->RPJMDProgramPembangunanID}}" data-url="{{route('rpjmdprogrampembangunan.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>
@@ -148,8 +142,8 @@
                             {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}
                         </span>
                         <span class="label label-warning label-rounded" style="text-transform: none">
-                            <strong>INDIKATORKINERJAID:</strong>
-                            {{$item->IndikatorKinerjaID}}
+                            <strong>RPJMDPROGRAMPEMBANGUNANID:</strong>
+                            {{$item->RPJMDProgramPembangunanID}}
                         </span>
                         <span class="label label-warning label-rounded" style="text-transform: none">
                             <strong>PRIORITASSASARANID:</strong>

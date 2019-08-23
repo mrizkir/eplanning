@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models\RENSTRA;
+namespace App\Models\RPJMD;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class RENSTRAProgramKegiatanPendanaanModel extends Model {
+class RPJMDProgramPembangunanModel extends Model {
     use LogsActivity;
 
      /**
@@ -13,46 +13,32 @@ class RENSTRAProgramKegiatanPendanaanModel extends Model {
      *
      * @var string
      */
-    protected $table = 'trRenstraProgramKegiatanPendanaan';
+    protected $table = 'trRpjmdProgramPembangunan';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'RenstraProgramKegiatanPendanaanID',
-        'RenstraSasaranID', 
+        'RPJMDProgramPembangunanID',
+        'PrioritasSasaranKabID', 
         'UrsID', 
-        'PrgID', 
-        'KgtID', 
-        'OrgIDRPJMD',         
-        'output',
-        'Satuan',
-        'KondisiAwal',
-        'TargetN1',
-        'TargetN2',
-        'TargetN3',
-        'TargetN4',
-        'TargetN5',
+        'PrgID',    
         'PaguDanaN1',
         'PaguDanaN2',
         'PaguDanaN3',
         'PaguDanaN4',
         'PaguDanaN5',
-        'KondisiAkhirTarget',
-        'KondisiAkhirPaguDana',
-        'Lokasi',
+        'KondisiAkhirPaguDana',        
         'Descr',
-        'TA',        
-        'Locked',        
-        'RenstraProgramKegiatanPendanaanID_Src',        
+        'TA'
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'RenstraProgramKegiatanPendanaanID';
+    protected $primaryKey = 'RPJMDProgramPembangunanID';
     /**
      * enable auto_increment.
      *
@@ -71,11 +57,11 @@ class RENSTRAProgramKegiatanPendanaanModel extends Model {
      *
      * @var string
      */
-    protected static $logName = 'RENSTRAProgramKegiatanPendanaanController';
+    protected static $logName = 'RPJMDProgramPembangunanController';
     /**
      * log the changed attributes for all these events 
      */
-    protected static $logAttributes = ['RenstraProgramKegiatanPendanaanID', 'KgtID', 'OrgIDRPJMD'];
+    protected static $logAttributes = ['RPJMDProgramPembangunanID', 'PrioritasSasaranKabID'];
     /**
      * log changes to all the $fillable attributes of the model
      */
@@ -84,38 +70,38 @@ class RENSTRAProgramKegiatanPendanaanModel extends Model {
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
 
-    public static function getDaftarIndikatorSasaran($UrsID,$PrgID=null,$OrgIDRPJMD=null,$prepend=true)
+    public static function getDaftarIndikatorKinerja($UrsID,$PrgID=null,$OrgID=null,$prepend=true)
     {   
-        $data = RENSTRAIndikatorSasaranModel::where('UrsID',$UrsID)
-                                            ->where('TA',config('eplanning.renstra_tahun_mulai'));
+        $data = RPJMDIndikatorKinerjaModel::where('UrsID',$UrsID)
+                                            ->where('TA_N',config('eplanning.rpjmd_tahun_mulai'));
 
         if ($PrgID != null)
         {
             $data = $data->where('PrgID',$PrgID);
         }
-        if ($OrgIDRPJMD != null)
+        if ($OrgID != null)
         {
-            $data = $data->where('OrgIDRPJMD',$OrgIDRPJMD);
+            $data = $data->where('OrgID',$OrgID);
         }
         
         $daftar_indikator = $prepend==true ? $data->get()
-                ->pluck('NamaIndikator','RenstraIndikatorID')
-                ->prepend('DAFTAR INDIKATOR SASARAN','none')
+                ->pluck('NamaIndikator','IndikatorKinerjaID')
+                ->prepend('DAFTAR INDIKATOR KINERJA','none')
                 ->toArray()
                 :
                 $data->get()
-                ->pluck('NamaIndikator','RenstraIndikatorID')
+                ->pluck('NamaIndikator','IndikatorKinerjaID')
                 ->toArray();
         
         return $daftar_indikator;
     }
-    public static function getIndikatorSasaranByID($RenstraIndikatorID,$ta)
+    public static function getIndikatorKinerjaByID($IndikatorKinerjaID,$ta)
     {
-        $data = RENSTRAIndikatorSasaranModel::find($RenstraIndikatorID);
+        $data = RPJMDIndikatorKinerjaModel::find($IndikatorKinerjaID);
         $data_indikator=null;
         if (!is_null($data) )  
         {   
-            $tahun_n=($ta-config('eplanning.renstra_tahun_mulai'))+1;
+            $tahun_n=($ta-config('eplanning.rpjmd_tahun_mulai'))+1;
             $target_n="TargetN$tahun_n";
             $pagudana_n="PaguDanaN$tahun_n";
             $data_indikator=[
