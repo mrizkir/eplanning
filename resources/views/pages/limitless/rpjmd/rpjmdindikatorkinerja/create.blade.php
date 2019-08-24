@@ -51,6 +51,7 @@
                     <select name="PrgID" id="PrgID" class="select">
                         <option></option>                        
                     </select>  
+                    <span class="help-block">Daftar Program diambil dari "Mapping Program->OPD/SKPD [3]". Nilai "Pagu Dana N1" s.d "Kondisi Akhir Pagu Dana" di ambil dari Menu Nomor [7], kecuali untuk program semua urusan di isi sendiri.</span>              
                 </div>
             </div>      
         </div>
@@ -120,37 +121,37 @@
                     <div class="form-group">
                         {{Form::label('PaguDanaN1','PAGU DANA TAHUN '.HelperKegiatan::getRPJMDTahunMulai(),['class'=>'control-label col-md-4'])}}
                         <div class="col-md-8">
-                            {{Form::text('PaguDanaN1','',['class'=>'form-control','placeholder'=>'PAGU DANA TAHUN KE 1','rows' => 2, 'cols' => 40])}}
+                            {{Form::text('PaguDanaN1','',['class'=>'form-control','placeholder'=>'PAGU DANA TAHUN KE 1','rows' => 2, 'cols' => 40,'readonly'=>true])}}
                         </div>
                     </div>
                     <div class="form-group">
                         {{Form::label('PaguDanaN2','PAGU DANA TAHUN '.(HelperKegiatan::getRPJMDTahunMulai()+1),['class'=>'control-label col-md-4'])}}
                         <div class="col-md-8">
-                            {{Form::text('PaguDanaN2','',['class'=>'form-control','placeholder'=>'PAGU DANA TAHUN KE 2','rows' => 2, 'cols' => 40])}}
+                            {{Form::text('PaguDanaN2','',['class'=>'form-control','placeholder'=>'PAGU DANA TAHUN KE 2','rows' => 2, 'cols' => 40,'readonly'=>true])}}
                         </div>
                     </div>
                     <div class="form-group">
                         {{Form::label('PaguDanaN3','PAGU DANA TAHUN '.(HelperKegiatan::getRPJMDTahunMulai()+2),['class'=>'control-label col-md-4'])}}
                         <div class="col-md-8">
-                            {{Form::text('PaguDanaN3','',['class'=>'form-control','placeholder'=>'PAGU DANA TAHUN KE 3','rows' => 2, 'cols' => 40])}}
+                            {{Form::text('PaguDanaN3','',['class'=>'form-control','placeholder'=>'PAGU DANA TAHUN KE 3','rows' => 2, 'cols' => 40,'readonly'=>true])}}
                         </div>
                     </div>
                     <div class="form-group">
                         {{Form::label('PaguDanaN4','PAGU DANA TAHUN '.(HelperKegiatan::getRPJMDTahunMulai()+3),['class'=>'control-label col-md-4'])}}
                         <div class="col-md-8">
-                            {{Form::text('PaguDanaN4','',['class'=>'form-control','placeholder'=>'PAGU DANA TAHUN KE 4','rows' => 2, 'cols' => 40])}}
+                            {{Form::text('PaguDanaN4','',['class'=>'form-control','placeholder'=>'PAGU DANA TAHUN KE 4','rows' => 2, 'cols' => 40,'readonly'=>true])}}
                         </div>
                     </div>
                     <div class="form-group">
                         {{Form::label('PaguDanaN5','PAGU DANA TAHUN '.(HelperKegiatan::getRPJMDTahunMulai()+4),['class'=>'control-label col-md-4'])}}
                         <div class="col-md-8">
-                            {{Form::text('PaguDanaN5','',['class'=>'form-control','placeholder'=>'PAGU DANA TAHUN KE 5','rows' => 2, 'cols' => 40])}}
+                            {{Form::text('PaguDanaN5','',['class'=>'form-control','placeholder'=>'PAGU DANA TAHUN KE 5','rows' => 2, 'cols' => 40,'readonly'=>true])}}
                         </div>
                     </div>
                     <div class="form-group">
                         {{Form::label('KondisiAkhirPaguDana','KONDISI AKHIR PAGU DANA TAHUN '.(HelperKegiatan::getRPJMDTahunAkhir()+1),['class'=>'control-label col-md-4'])}}
                         <div class="col-md-8">
-                            {{Form::text('KondisiAkhirPaguDana','',['class'=>'form-control','placeholder'=>'PAGU DANA AKHIR TAHUN '.(HelperKegiatan::getRPJMDTahunAkhir()+1),'rows' => 2, 'cols' => 40])}}
+                            {{Form::text('KondisiAkhirPaguDana','',['class'=>'form-control','placeholder'=>'PAGU DANA AKHIR TAHUN '.(HelperKegiatan::getRPJMDTahunAkhir()+1),'rows' => 2, 'cols' => 40,'readonly'=>true])}}
                         </div>
                     </div>
                 </div>

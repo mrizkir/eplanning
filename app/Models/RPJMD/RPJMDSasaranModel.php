@@ -115,7 +115,7 @@ class RPJMDSasaranModel extends Model {
                                 ->where('tmPrioritasSasaranKab.TA',$ta)
                                 ->WhereNotIn('PrioritasSasaranKabID',function($query) use ($ta){
                                     $query->select('PrioritasSasaranKabID')
-                                                        ->from('trRenjaIndikator')
+                                                        ->from('trRpjmdProgramPembangunan')
                                                         ->where('TA', $ta);
                                 })
                                 ->orderBy('Kd_PrioritasKab')
