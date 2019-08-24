@@ -17,12 +17,21 @@ class CreateRpjmdindikatorkinerjaTable extends Migration
             $table->string('IndikatorKinerjaID',19);
             $table->string('UrsID',19)->nullable();  //bila yang dipilih seluruh urusan maka isinya null
             $table->string('PrgID',19);            
-            $table->string('OrgIDRPJMD',19);            
+            $table->string('OrgIDRPJMD',19);         
+            $table->text('NamaIndikator');
+            $table->string('Satuan'); 
+            $table->string('KondisiAwal',6,2);
+            $table->string('TargetN1',6,2);
+            $table->string('TargetN2',6,2);
+            $table->string('TargetN3',6,2);
+            $table->string('TargetN4',6,2);
+            $table->string('TargetN5',6,2);   
             $table->decimal('PaguDanaN1',15,2)->default(0);
             $table->decimal('PaguDanaN2',15,2)->default(0);
             $table->decimal('PaguDanaN3',15,2)->default(0);
             $table->decimal('PaguDanaN4',15,2)->default(0);
-            $table->decimal('PaguDanaN5',15,2)->default(0);        
+            $table->decimal('PaguDanaN5',15,2)->default(0);   
+            $table->string('KondisiAkhirTarget',6,2);     
             $table->decimal('KondisiAkhirPaguDana',15,2)->default(0); 
             $table->string('Descr')->nullable();
             $table->year('TA');            
@@ -31,20 +40,20 @@ class CreateRpjmdindikatorkinerjaTable extends Migration
             $table->timestamps();
             
             $table->primary('IndikatorKinerjaID');
-            $table->index('PrioritasSasaranKabID');
             $table->index('UrsID');
-
-            $table->foreign('PrioritasSasaranKabID')
-                    ->references('PrioritasSasaranKabID')
-                    ->on('tmPrioritasSasaranKab')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');    
+            $table->index('PrgID'); 
 
             $table->foreign('PrgID')
                     ->references('PrgID')
                     ->on('tmPrg')
                     ->onDelete('cascade')
-                    ->onUpdate('cascade');                    
+                    ->onUpdate('cascade'); 
+                    
+            $table->foreign('OrgIDRPJMD')
+                    ->references('OrgIDRPJMD')
+                    ->on('tmOrgRPJMD')
+                    ->onDelete('cascade')
+                    ->onUpdate('cascade'); 
                     
         });
     }

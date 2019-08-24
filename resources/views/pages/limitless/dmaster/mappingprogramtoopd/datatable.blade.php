@@ -22,29 +22,19 @@
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
                     <th width="150">
-                        <a class="column-sort text-white" id="col-OrgIDRPJMD" data-order="{{$direction}}" href="#">
-                            KODE SKPD / OPD
-                        </a>                                             
+                        KODE SKPD / OPD
                     </th> 
                     <th width="250">
-                        <a class="column-sort text-white" id="col-NmOrg" data-order="{{$direction}}" href="#">
-                            NAMA SKPD / OPD
-                        </a>                                             
+                        NAMA SKPD / OPD
                     </th> 
                     <th width="120">
-                        <a class="column-sort text-white" id="col-Kode_Program" data-order="{{$direction}}" href="#">
-                            KODE PROGRAM  
-                        </a>                                             
+                        KODE PROGRAM  
                     </th>
                     <th>
-                        <a class="column-sort text-white" id="col-PrgNm" data-order="{{$direction}}" href="#">
-                            NAMA PROGRAM  
-                        </a>                                             
+                        NAMA PROGRAM  
                     </th> 
                     <th>
-                        <a class="column-sort text-white" id="col-Nm_Urusan" data-order="{{$direction}}" href="#">
-                            URUSAN  
-                        </a>                                             
+                        URUSAN  
                     </th>
                     <th width="70">TA</th>
                     <th width="80">AKSI</th>
@@ -56,13 +46,13 @@
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>                  
-                    <td>{{$item->kode_organisasi_all_urusan}}</td>
+                    <td>{{$item->kode_organisasi}}</td>
                     <td>{{$item->OrgNm}}</td>
                     <td>
                         @php
                             if ($item->Jns==false)
                             {
-                                echo $item->kode_program_all_urusan;
+                                echo $item->kode_program;
                             }                            
                             else {
                                 echo $item->kode_program;

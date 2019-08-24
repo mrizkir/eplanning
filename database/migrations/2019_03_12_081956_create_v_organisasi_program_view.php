@@ -14,38 +14,41 @@ class CreateVOrganisasiProgramView extends Migration
     public function up()
     {
         \DB::statement('CREATE VIEW v_organisasi_program AS
-            SELECT 
-				orgprg."orgProgramID",
-				orgprg."OrgIDRPJMD",	
-				orgprg."PrgID",			
-				kelompok_urusan."Kd_Urusan",			
-				urusan."Kd_Bidang",			
-				CONCAT(kelompok_urusan."Kd_Urusan", \'.\', urusan."Kd_Bidang") AS "Kode_Bidang",
-				kelompok_urusan."Nm_Urusan", 
-				urusan."Nm_Bidang", 
+            SELECT
+				A."orgProgramID",
+				A."OrgIDRPJMD",
+				A."PrgID",
+				CONCAT(D."Kd_Urusan",  \'.\', C."Kd_Bidang",\'.\', B."OrgCd") AS kode_organisasi,
+				B."OrgNm",
+				H."Kd_Urusan",
+				H."Nm_Urusan", 
+				G."Kd_Bidang",
 				CASE 
-					WHEN urusan."UrsID" IS NOT NULL OR  kelompok_urusan."KUrsID" IS NOT NULL THEN
-						CONCAT(kelompok_urusan."Kd_Urusan",\'.\',urusan."Kd_Bidang",\'.\',organisasi."OrgCd")
-				END AS kode_organisasi,
-				organisasi."OrgCd", 
-				organisasi."OrgNm", 
-				program."Kd_Prog",
+					WHEN G."UrsID" IS NOT NULL OR  H."KUrsID" IS NOT NULL THEN
+						CONCAT(H."Kd_Urusan", \'.\',G."Kd_Bidang")		
+				END AS "Kode_Bidang",
+				G."Nm_Bidang",
+				E."Kd_Prog",
 				CASE 
-					WHEN urusan."UrsID" IS NOT NULL OR  kelompok_urusan."KUrsID" IS NOT NULL THEN
-						CONCAT(kelompok_urusan."Kd_Urusan",\'.\',urusan."Kd_Bidang",\'.\',program."Kd_Prog")
+					WHEN G."UrsID" IS NOT NULL OR  H."KUrsID" IS NOT NULL THEN
+						CONCAT(H."Kd_Urusan", \'.\',G."Kd_Bidang", \'.\',E."Kd_Prog")
+					ELSE
+						CONCAT(\'n.nn.\',E."Kd_Prog")
 				END AS kode_program,
-				program."PrgNm", 
-				program."Jns", 
-				orgprg."TA", 
-				program."Locked",
-				orgprg."created_at",
-				orgprg."updated_at"
-				FROM "trOrgProgram" orgprg
-				LEFT JOIN "tmOrgRPJMD" AS organisasi ON organisasi."OrgIDRPJMD"=orgprg."OrgIDRPJMD"
-				LEFT JOIN "tmPrg" AS program ON program."PrgID"=orgprg."PrgID"
-				LEFT JOIN "trUrsPrg" AS urs_program ON program."PrgID"=urs_program."PrgID"
-				LEFT JOIN "tmUrs" AS urusan ON urs_program."UrsID"=urusan."UrsID"
-				LEFT JOIN "tmKUrs" AS kelompok_urusan ON kelompok_urusan."KUrsID"=urusan."KUrsID"			 
+				E."PrgNm", 
+				E."Jns", 
+				A."TA", 
+				E."Locked",
+				A."created_at",
+				A."updated_at"
+			FROM "trOrgProgram" A
+			JOIN "tmOrgRPJMD" B ON A."OrgIDRPJMD"=B."OrgIDRPJMD"
+			JOIN "tmUrs" C ON B."UrsID"=C."UrsID"
+			JOIN "tmKUrs" D ON D."KUrsID"=C."KUrsID"
+			JOIN "tmPrg" E ON E."PrgID"=A."PrgID"
+			LEFT JOIN "trUrsPrg" AS F ON F."PrgID"=E."PrgID"
+			LEFT JOIN "tmUrs" AS G ON G."UrsID"=F."UrsID"
+			LEFT JOIN "tmKUrs" AS H ON H."KUrsID"=G."KUrsID"			 
         ');
     }
 

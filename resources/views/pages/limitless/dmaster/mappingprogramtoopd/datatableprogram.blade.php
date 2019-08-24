@@ -30,19 +30,13 @@
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
                     <th>
-                        <a class="column-sort text-white" id="col-Kode_Program" data-order="{{$direction}}" href="#">
-                            KODE PROGRAM  
-                        </a>                                             
+                        KODE PROGRAM  
                     </th> 
                     <th>
-                        <a class="column-sort text-white" id="col-PrgNm" data-order="{{$direction}}" href="#">
-                            NAMA PROGRAM  
-                        </a>                                             
+                        NAMA PROGRAM  
                     </th> 
                     <th>
-                        <a class="column-sort text-white" id="col-Nm_Urusan" data-order="{{$direction}}" href="#">
-                            URUSAN  
-                        </a>                                             
+                        URUSAN  
                     </th>
                     <th width="70">TA</th>
                     <th width="100">AKSI</th>
@@ -56,15 +50,12 @@
                     </td>                  
                     <td>
                         @php
-                            if ($item->Jns==false && $filter_ursid_selected=='none')
+                            if (($item->Jns==false && $filter_ursid_selected=='none') || ($item->Jns==false && $filter_ursid_selected!='none'))
                             {
                                 echo 'n.nn.'.$item->Kd_Prog;
-                            } 
-                            elseif ($item->Jns==false && $filter_ursid_selected!='none') 
+                            }                             
+                            else 
                             {
-                                echo $filter_kode_urusan_selected.'.'.$item->Kd_Prog;
-                            }
-                            else {
                                 echo $item->kode_program;
                             }   
                         @endphp

@@ -5,8 +5,6 @@ namespace App\Controllers\RPJMD;
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Models\RPJMD\RPJMDIndikatorKinerjaModel;
-use App\Models\RPJMD\RPJMDKebijakanModel;
-use App\Models\RPJMD\RPJMDProgramKebijakanModel;
 use App\Rules\CheckRecordIsExistValidation;
 use App\Rules\IgnoreIfDataIsEqualValidation;
 
@@ -160,21 +158,13 @@ class RPJMDIndikatorKinerjaController extends Controller {
     public function filter(Request $request) 
     {        
         $json_data = [];
-        //programkebijakan
-        if ($request->exists('PrioritasKebijakanKabID') && $request->exists('prioritaskebijakan') )
+        //Program berdasarkan OPD
+        if ($request->exists('OrgIDRPJMD') && $request->exists('create') )
         {
-            $PrioritasKebijakanKabID = $request->input('PrioritasKebijakanKabID')==''?'none':$request->input('PrioritasKebijakanKabID');            
-            $daftar_program=RPJMDProgramKebijakanModel::getDaftarProgramKebijakan($PrioritasKebijakanKabID,false);
+            $OrgIDRPJMD = $request->input('OrgIDRPJMD')==''?'none':$request->input('OrgIDRPJMD');            
+            $daftar_program=\App\Models\DMaster\ProgramModel::getDaftarProgramByOPD($OrgIDRPJMD,false);
             $json_data = ['success'=>true,'daftar_program'=>$daftar_program];
         } 
-        else if($request->exists('ProgramKebijakanID') && $request->exists('programkebijakan'))
-        {
-            $ProgramKebijakanID = $request->input('ProgramKebijakanID')==''?'none':$request->input('ProgramKebijakanID'); 
-            $programkebijakan=RPJMDProgramKebijakanModel::find($ProgramKebijakanID);
-            $UrsID=is_null($programkebijakan)?'none':$programkebijakan->UrsID;
-            $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false,$UrsID);
-            $json_data = ['success'=>true,'daftar_opd'=>$daftar_opd];
-        }
         return response()->json($json_data,200);  
     }
     /**
@@ -210,11 +200,9 @@ class RPJMDIndikatorKinerjaController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $daftar_kebijakan = RPJMDKebijakanModel::getDaftarKebijakan(\HelperKegiatan::getRPJMDTahunMulai(),false);
-        $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusan(\HelperKegiatan::getRPJMDTahunMulai(),false);
+        $daftar_opd=\App\Models\DMaster\OrganisasiRPJMDModel::getDaftarOPDMaster(\HelperKegiatan::getRPJMDTahunMulai(),false);
         return view("pages.$theme.rpjmd.rpjmdindikatorkinerja.create")->with(['page_active'=>'rpjmdindikatorkinerja',
-                                                                                'daftar_kebijakan'=>$daftar_kebijakan,
-                                                                                'daftar_urusan'=>$daftar_urusan
+                                                                                'daftar_opd'=>$daftar_opd
                                                                             ]);  
     }
     
@@ -227,10 +215,8 @@ class RPJMDIndikatorKinerjaController extends Controller {
     public function store(Request $request)
     {
         $this->validate($request, [
-            'PrioritasKebijakanKabID'=>'required',
-            'ProgramKebijakanID'=>'required',            
-            'OrgID'=>'required',
-            'OrgID2'=>'required',
+            'OrgIDRPJMD'=>'required',
+            'PrgID'=>'required',        
             'NamaIndikator'=>'required',
             'KondisiAwal'=>'required',
             'Satuan'=>'required',        
@@ -247,18 +233,14 @@ class RPJMDIndikatorKinerjaController extends Controller {
             'PaguDanaN5'=>'required',
             'KondisiAkhirPaguDana'=>'required',            
         ]);
-        $ProgramKebijakanID = $request->input('ProgramKebijakanID');
-        $program_kebijakan = RPJMDProgramKebijakanModel::find($ProgramKebijakanID);
-        
+        $PrgID = $request->input('PrgID');
+        $program = \App\Models\DMaster\UrusanProgramModel::find($PrgID);
+        $UrsID=is_null($program)?null:$program->UrsID;        
         $rpjmdindikatorkinerja = RPJMDIndikatorKinerjaModel::create([
             'IndikatorKinerjaID' => uniqid ('uid'),
-            'PrioritasKebijakanKabID' => $request->input('PrioritasKebijakanKabID'),
-            'ProgramKebijakanID' => $ProgramKebijakanID,
-            'UrsID' => $program_kebijakan->UrsID,
-            'PrgID' => $program_kebijakan->PrgID,                       
-            'OrgID' => $request->input('OrgID'),
-            'OrgID2' => $request->input('OrgID2'),            
-            'OrgID3' => $request->input('OrgID2'),            
+            'OrgIDRPJMD' => $request->input('OrgIDRPJMD'),
+            'UrsID' => $UrsID,
+            'PrgID' => $PrgID,                       
             'NamaIndikator' => $request->input('NamaIndikator'), 
             'KondisiAwal' => $request->input('KondisiAwal'),             
             'Satuan' => $request->input('Satuan'),             
@@ -279,7 +261,8 @@ class RPJMDIndikatorKinerjaController extends Controller {
         ]);        
         
         \DB::table('trIndikatorKinerja')
-            ->where('PrgID',$program_kebijakan->PrgID)
+            ->where('PrgID',$PrgID)
+            ->where('OrgIDRPJMD',$request->input('OrgIDRPJMD'))
             ->update(['PaguDanaN1' => $request->input('PaguDanaN1'),
                     'PaguDanaN2' => $request->input('PaguDanaN2'),
                     'PaguDanaN3' => $request->input('PaguDanaN3'),

@@ -419,20 +419,20 @@ class ProgramController extends Controller {
         
         $jns = $request->input('Jns');
         
-        $program = ProgramModel::find($id);
+        $program = ProgramModel::find($id);        
         $program->Kd_Prog = $request->input('Kd_Prog');
         $program->PrgNm = $request->input('PrgNm');
         $program->Descr = $request->input('Descr');
         $program->Jns = $jns;
         
-        if ($program->Jns==false && $jns == 1)  // per urusan
-        {
-            UrusanProgramModel::createOrUpdate ([
+        if (($program->Jns==false && $jns == 1) || ($program->Jns==true && $jns == 1))  // per urusan
+        {            
+            UrusanProgramModel::updateOrCreate ([
                 'UrsPrgID'=>uniqid ('uid'),
                 'UrsID'=>$request->input('UrsID'),
                 'PrgID'=>$program->PrgID,
                 'Descr'=>$program->Descr,
-                'TA'=>$program->TA,
+                'TA'=>$program->TA
             ]);
         }elseif ($program->Jns==true && $jns == 0)
         {

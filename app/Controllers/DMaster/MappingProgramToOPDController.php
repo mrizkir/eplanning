@@ -57,52 +57,50 @@ class MappingProgramToOPDController extends Controller {
                 case 'kode_program' :
                     $data = MappingProgramToOPDModel::where(['OrgIDRPJMD'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                     $data = \DB::table('v_organisasi_program')
-                            ->select(\DB::raw('
-                                "v_organisasi_program"."orgProgramID",
-                                CONCAT("tmKUrs"."Kd_Urusan",\'.\',"tmUrs"."Kd_Bidang",\'.\',"tmOrgRPJMD"."OrgCd") AS kode_organisasi_all_urusan,
-                                "v_organisasi_program"."OrgNm",
-                                CONCAT("tmKUrs"."Kd_Urusan",\'.\',"tmUrs"."Kd_Bidang",\'.\',"v_organisasi_program"."Kd_Prog") AS kode_program_all_urusan,
-                                "v_organisasi_program"."kode_program",
-                                "v_organisasi_program"."PrgID",
-                                "v_organisasi_program"."PrgNm",
-                                "v_organisasi_program"."Nm_Urusan",
-                                "v_organisasi_program"."Jns",
-                                "v_organisasi_program"."TA",
-                                "v_organisasi_program"."created_at",
-                                "v_organisasi_program"."updated_at"                                
-                            '))
-                            ->join ('tmOrgRPJMD','v_organisasi_program.OrgIDRPJMD','tmOrgRPJMD.OrgIDRPJMD')
-                            ->join ('tmUrs','tmOrgRPJMD.UrsID','tmUrs.UrsID')
-                            ->join ('tmKUrs','tmUrs.KUrsID','tmKUrs.KUrsID')
+                                ->select(\DB::raw('
+                                "orgProgramID",
+                                kode_organisasi,
+                                "OrgIDRPJMD",
+                                "OrgNm",
+                                "kode_program",
+                                "PrgID",
+                                "PrgNm",
+                                "Nm_Urusan",
+                                "Jns",
+                                "TA",
+                                "created_at",
+                                "updated_at"
+                            '))                              
                             ->where('v_organisasi_program.TA',\HelperKegiatan::getRPJMDTahunMulai())
                             ->where(['kode_program'=>$search['isikriteria']])
-                            ->orderBy("v_organisasi_program.$column_order",$direction)
-                            ->orderBy("v_organisasi_program.kode_program",'ASC');
+                            ->orderBy("kode_organisasi",'ASC')
+                            ->orderByRaw('"Kd_Urusan" ASC NULLS FIRST')
+                            ->orderByRaw('"Kd_Bidang" ASC NULLS FIRST')
+                            ->orderByRaw('"Kd_Prog" ASC NULLS FIRST');
                 break;
                 case 'PrgNm' :
                     $data = MappingProgramToOPDModel::where('PrgNm', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                     $data = \DB::table('v_organisasi_program')
                             ->select(\DB::raw('
-                                "v_organisasi_program"."orgProgramID",
-                                CONCAT("tmKUrs"."Kd_Urusan",\'.\',"tmUrs"."Kd_Bidang",\'.\',"tmOrgRPJMD"."OrgCd") AS kode_organisasi_all_urusan,
-                                "v_organisasi_program"."OrgNm",
-                                CONCAT("tmKUrs"."Kd_Urusan",\'.\',"tmUrs"."Kd_Bidang",\'.\',"v_organisasi_program"."Kd_Prog") AS kode_program_all_urusan,
-                                "v_organisasi_program"."kode_program",
-                                "v_organisasi_program"."PrgID",
-                                "v_organisasi_program"."PrgNm",
-                                "v_organisasi_program"."Nm_Urusan",
-                                "v_organisasi_program"."Jns",
-                                "v_organisasi_program"."TA",
-                                "v_organisasi_program"."created_at",
-                                "v_organisasi_program"."updated_at"
-                            '))
-                            ->join ('tmOrgRPJMD','v_organisasi_program.OrgIDRPJMD','tmOrgRPJMD.OrgIDRPJMD')
-                            ->join ('tmUrs','tmOrgRPJMD.UrsID','tmUrs.UrsID')
-                            ->join ('tmKUrs','tmUrs.KUrsID','tmKUrs.KUrsID')
-                            ->where('v_organisasi_program.TA',\HelperKegiatan::getRPJMDTahunMulai())
+                                "orgProgramID",
+                                kode_organisasi,
+                                "OrgIDRPJMD",
+                                "OrgNm",
+                                "kode_program",
+                                "PrgID",
+                                "PrgNm",
+                                "Nm_Urusan",
+                                "Jns",
+                                "TA",
+                                "created_at",
+                                "updated_at"
+                            '))   
+                            ->where('TA',\HelperKegiatan::getRPJMDTahunMulai())
                             ->where('PrgNm', 'ilike', '%' . $search['isikriteria'] . '%')                                        
-                            ->orderBy("v_organisasi_program.kode_program",'ASC')
-                            ->orderBy("v_organisasi_program.$column_order",$direction);
+                            ->orderBy("kode_organisasi",'ASC')
+                            ->orderByRaw('"Kd_Urusan" ASC NULLS FIRST')
+                            ->orderByRaw('"Kd_Bidang" ASC NULLS FIRST')
+                            ->orderByRaw('"Kd_Prog" ASC NULLS FIRST');
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
@@ -111,26 +109,25 @@ class MappingProgramToOPDController extends Controller {
         {
             $data = \DB::table('v_organisasi_program')
                     ->select(\DB::raw('
-                        "v_organisasi_program"."orgProgramID",
-                        CONCAT("tmKUrs"."Kd_Urusan",\'.\',"tmUrs"."Kd_Bidang",\'.\',"tmOrgRPJMD"."OrgCd") AS kode_organisasi_all_urusan,
-                        "v_organisasi_program"."OrgIDRPJMD",
-                        "v_organisasi_program"."OrgNm",
-                        CONCAT("tmKUrs"."Kd_Urusan",\'.\',"tmUrs"."Kd_Bidang",\'.\',"v_organisasi_program"."Kd_Prog") AS kode_program_all_urusan,
-                        "v_organisasi_program"."kode_program",
-                        "v_organisasi_program"."PrgID",
-                        "v_organisasi_program"."PrgNm",
-                        "v_organisasi_program"."Nm_Urusan",
-                        "v_organisasi_program"."Jns",
-                        "v_organisasi_program"."TA",
-                        "v_organisasi_program"."created_at",
-                        "v_organisasi_program"."updated_at"
-                    '))
-                    ->join ('tmOrgRPJMD','v_organisasi_program.OrgIDRPJMD','tmOrgRPJMD.OrgIDRPJMD')
-                    ->join ('tmUrs','tmOrgRPJMD.UrsID','tmUrs.UrsID')
-                    ->join ('tmKUrs','tmUrs.KUrsID','tmKUrs.KUrsID')
-                    ->where('v_organisasi_program.TA',\HelperKegiatan::getRPJMDTahunMulai())
-                    ->orderBy("v_organisasi_program.kode_program",'ASC')
-                    ->orderBy("v_organisasi_program.$column_order",$direction);
+                        "orgProgramID",
+                        kode_organisasi,
+                        "OrgIDRPJMD",
+                        "OrgNm",
+                        "kode_program",
+                        "PrgID",
+                        "PrgNm",
+                        "Nm_Urusan",
+                        "Jns",
+                        "TA",
+                        "created_at",
+                        "updated_at"
+                    '))                    
+                    ->where('TA',\HelperKegiatan::getRPJMDTahunMulai())
+                    ->orderBy("kode_organisasi",'ASC')
+                    ->orderByRaw('"Kd_Urusan" ASC NULLS FIRST')
+                    ->orderByRaw('"Kd_Bidang" ASC NULLS FIRST')
+                    ->orderByRaw('"Kd_Prog" ASC NULLS FIRST');
+                    
             
             if ($OrgIDRPJMD=='none'  || $OrgIDRPJMD=='')
             {
@@ -605,21 +602,21 @@ class MappingProgramToOPDController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = MappingProgramToOPDModel::join('v_organisasi_program','v_organisasi_program.OrgIDRPJMD','trOrgProgram.OrgIDRPJMD')
-                                        ->join ('tmOrgRPJMD','v_organisasi_program.OrgIDRPJMD','tmOrgRPJMD.OrgIDRPJMD')
-                                        ->join ('tmUrs','tmOrgRPJMD.UrsID','tmUrs.UrsID')
-                                        ->join ('tmKUrs','tmUrs.KUrsID','tmKUrs.KUrsID')
+        $data = MappingProgramToOPDModel::join('v_organisasi_program','v_organisasi_program.OrgIDRPJMD','trOrgProgram.OrgIDRPJMD')                                            
                                         ->select(\DB::raw('
-                                            "v_organisasi_program"."orgProgramID",
-                                            CONCAT("tmKUrs"."Kd_Urusan",\'.\',"tmUrs"."Kd_Bidang",\'.\',"tmOrgRPJMD"."OrgCd") AS kode_organisasi_all_urusan,
-                                            "v_organisasi_program"."OrgNm",
-                                            CONCAT("tmKUrs"."Kd_Urusan",\'.\',"tmUrs"."Kd_Bidang",\'.\',"v_organisasi_program"."Kd_Prog") AS kode_program_all_urusan,
-                                            "v_organisasi_program"."kode_program",
-                                            "v_organisasi_program"."PrgNm",
-                                            "v_organisasi_program"."Nm_Urusan",
-                                            "v_organisasi_program"."Jns"
-                                        '))
-                                        ->where('v_organisasi_program.TA',\HelperKegiatan::getRPJMDTahunMulai())
+                                            "trOrgProgram"."orgProgramID",
+                                            v_organisasi_program.kode_organisasi,
+                                            "trOrgProgram"."OrgIDRPJMD",
+                                            v_organisasi_program."OrgNm",
+                                            v_organisasi_program."kode_program",
+                                            v_organisasi_program."PrgID",
+                                            v_organisasi_program."PrgNm",
+                                            v_organisasi_program."Nm_Urusan",
+                                            v_organisasi_program."Jns",
+                                            "trOrgProgram"."TA",
+                                            "trOrgProgram"."created_at",
+                                            "trOrgProgram"."updated_at"
+                                        '))   
                                         ->where('v_organisasi_program.orgProgramID',$id)
                                         ->firstOrFail();
         if (!is_null($data) )  

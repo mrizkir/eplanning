@@ -35,42 +35,24 @@
         {!! Form::open(['action'=>'RPJMD\RPJMDIndikatorKinerjaController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
         <div class="panel-body">
             <div class="form-group">
-                {{Form::label('PrioritasSasaranKabID','SASARAN RPJMD',['class'=>'control-label col-md-2'])}}
+                {{Form::label('OrgIDRPJMD','NAMA OPD / SKPD',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
-                    <select name="PrioritasSasaranKabID" id="PrioritasSasaranKabID" class="select">
+                    <select name="OrgIDRPJMD" id="OrgIDRPJMD" class="select">
                         <option></option>
-                        @foreach ($daftar_kebijakan as $k=>$item)
+                        @foreach ($daftar_opd as $k=>$item)
                             <option value="{{$k}}">{{$item}}</option>
                         @endforeach
-                    </select>  
+                    </select>     
                 </div>
-            </div>
-        </div>
-        <div class="panel-body">
+            </div>    
             <div class="form-group">
-                {{Form::label('ProgramKebijakanID','PROGRAM KEBIJAKAN',['class'=>'control-label col-md-2'])}}
+                {{Form::label('PrgID','PROGRAM',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
-                    <select name="ProgramKebijakanID" id="ProgramKebijakanID" class="select">
-                        <option></option>
-                    </select>  
-                </div>
-            </div>            
-            <div class="form-group">
-                {{Form::label('OrgID','NAMA OPD / SKPD 1',['class'=>'control-label col-md-2'])}}
-                <div class="col-md-10">
-                    <select name="OrgID" id="OrgID" class="select">
-                        <option></option>
-                    </select>  
-                </div>
-            </div>
-            <div class="form-group">
-                {{Form::label('OrgID2','NAMA OPD / SKPD 2',['class'=>'control-label col-md-2'])}}
-                <div class="col-md-10">
-                    <select name="OrgID2" id="OrgID2" class="select">
+                    <select name="PrgID" id="PrgID" class="select">
                         <option></option>                        
                     </select>  
                 </div>
-            </div>
+            </div>      
         </div>
         <div class="panel-body">
             <div class="row">
@@ -211,24 +193,16 @@ $(document).ready(function () {
                                             unformatOnSubmit: true,
                                             showWarnings:false,
                                             modifyValueOnWheel:false
-                                        });
-    $('#PrioritasSasaranKabID.select').select2({
-        placeholder: "PILIH KEBIJAKAN RPJMD",
+                                        });    
+    $('#OrgIDRPJMD.select').select2({
+        placeholder: "PILIH OPD / SKPD",
         allowClear:true
     });
-    $('#ProgramKebijakanID.select').select2({
-        placeholder: "PILIH PROGRAM KEBIJAKAN",
+    $('#PrgID.select').select2({
+        placeholder: "PILIH PROGRAM",
         allowClear:true
     });
-    $('#OrgID.select').select2({
-        placeholder: "PILIH OPD / SKPD 1",
-        allowClear:true
-    });
-    $('#OrgID2.select').select2({
-        placeholder: "PILIH OPD / SKPD 2",
-        allowClear:true
-    });
-    $(document).on('change','#PrioritasSasaranKabID',function(ev) {
+    $(document).on('change','#OrgIDRPJMD',function(ev) {
         ev.preventDefault();   
         $.ajax({
             type:'post',
@@ -236,8 +210,8 @@ $(document).ready(function () {
             dataType: 'json',
             data: {              
                 "_token": token,  
-                "PrioritasSasaranKabID": $('#PrioritasSasaranKabID').val(),
-                "prioritaskebijakan":true
+                "OrgIDRPJMD": $('#OrgIDRPJMD').val(),
+                "create":true
             },
             success:function(result)
             { 
@@ -246,56 +220,23 @@ $(document).ready(function () {
                 $.each(daftar_program,function(key,value){
                     listitems+='<option value="' + key + '">'+value+'</option>';                    
                 });
-                $('#ProgramKebijakanID').html(listitems);                
+                $('#PrgID').html(listitems);                
             },
             error:function(xhr, status, error){
                 console.log('ERROR');
                 console.log(parseMessageAjaxEror(xhr, status, error));                           
             },
         });
-    });
-    $(document).on('change','#ProgramKebijakanID',function(ev) {
-        ev.preventDefault();   
-        $.ajax({
-            type:'post',
-            url: url_current_page +'/filter',
-            dataType: 'json',
-            data: {              
-                "_token": token,  
-                "ProgramKebijakanID": $('#ProgramKebijakanID').val(),
-                "programkebijakan":true
-            },
-            success:function(result)
-            { 
-                var daftar_opd = result.daftar_opd;
-                var listitems='<option></option>';
-                $.each(daftar_opd,function(key,value){
-                    listitems+='<option value="' + key + '">'+value+'</option>';                    
-                });
-                $('#OrgID').html(listitems);
-                $('#OrgID2').html(listitems);      
-            },
-            error:function(xhr, status, error){
-                console.log('ERROR');
-                console.log(parseMessageAjaxEror(xhr, status, error));                           
-            },
-        });
-    });
+    });    
     $('#frmdata').validate({
         ignore:[],
         rules: {
-            PrioritasSasaranKabID : {
+            OrgIDRPJMD : {
                 required: true
             },          
-            ProgramKebijakanID : {
+            PrgID : {
                 required: true
-            },  
-            OrgID : {
-                required: true
-            },
-            OrgID2 : {
-                required: true
-            },
+            },             
             NamaIndikator : {
                 required: true,
             },
@@ -343,18 +284,12 @@ $(document).ready(function () {
             }, 
         },
         messages : {
-            PrioritasSasaranKabID : {
-                required: "Mohon untuk di pilih RPJMD Kebijakan untuk indiaktor ini."                
+            OrgIDRPJMD : {
+                required: "Mohon untuk di pilih OPD / SKPD untuk indiaktor ini."                
             },            
-            ProgramKebijakanID : {
-                required: "Mohon untuk di pilih Urusan untuk indikator ini."                
-            },            
-            OrgID : {
-                required: "Mohon untuk di pilih OPD / SKPD untuk indikator ini."                
-            },
-            OrgID2 : {
-                required: "Mohon untuk di pilih OPD / SKPD untuk indikator ini."                
-            },
+            PrgID : {
+                required: "Mohon untuk di pilih Program untuk indikator ini."                
+            }, 
             NamaIndikator : {
                 required: "Mohon untuk di isi nama indikator."              
             },
