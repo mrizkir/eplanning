@@ -283,8 +283,10 @@ class RPJMDIndikatorKinerjaController extends Controller {
             'KondisiAkhirPaguDana'=>'required',            
         ]);
         $PrgID = $request->input('PrgID');
-        $program = \App\Models\DMaster\UrusanProgramModel::find($PrgID);
-        $UrsID=is_null($program)?null:$program->UrsID;        
+        $program = \DB::table('trUrsPrg')
+                        ->where('PrgID',$PrgID)
+                        ->get();        
+        $UrsID=isset($program[0])?$program[0]->UrsID:null;        
         $rpjmdindikatorkinerja = RPJMDIndikatorKinerjaModel::create([
             'IndikatorKinerjaID' => uniqid ('uid'),
             'OrgIDRPJMD' => $request->input('OrgIDRPJMD'),
