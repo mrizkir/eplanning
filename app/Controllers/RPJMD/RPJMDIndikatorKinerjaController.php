@@ -165,6 +165,55 @@ class RPJMDIndikatorKinerjaController extends Controller {
             $daftar_program=\App\Models\DMaster\ProgramModel::getDaftarProgramByOPD($OrgIDRPJMD,false);
             $json_data = ['success'=>true,'daftar_program'=>$daftar_program];
         } 
+        //Program berdasarkan OPD
+        if ($request->exists('PrgID') && $request->exists('create') )
+        {
+            $PrgID = $request->input('PrgID')==''?'none':$request->input('PrgID');               
+            $data = \DB::table('v_urusan_program')
+                                ->select(\DB::raw('v_urusan_program."PrgID",
+                                                    v_urusan_program."Jns",
+                                                    COALESCE("trRpjmdProgramPembangunan"."PaguDanaN1",0) AS "PaguDanaN1",
+                                                    COALESCE("trRpjmdProgramPembangunan"."PaguDanaN2",0) AS "PaguDanaN2",
+                                                    COALESCE("trRpjmdProgramPembangunan"."PaguDanaN3",0) AS "PaguDanaN3",
+                                                    COALESCE("trRpjmdProgramPembangunan"."PaguDanaN4",0) AS "PaguDanaN4",
+                                                    COALESCE("trRpjmdProgramPembangunan"."PaguDanaN5",0) AS "PaguDanaN5",
+                                                    COALESCE("trRpjmdProgramPembangunan"."KondisiAkhirPaguDana",0) AS "KondisiAkhirPaguDana"
+                                '))
+                                ->leftJoin('trRpjmdProgramPembangunan','v_urusan_program.PrgID','trRpjmdProgramPembangunan.PrgID')                                            
+                                ->where('v_urusan_program.PrgID',$PrgID)
+                                ->get();
+
+            
+            if (isset($data[0]))
+            {
+                $readonly=$data[0]->Jns;
+                $daftar_pagu=[
+                    'PrgID'=>$PrgID,
+                    'PaguDanaN1'=>$data[0]->PaguDanaN1,
+                    'PaguDanaN2'=>$data[0]->PaguDanaN2,
+                    'PaguDanaN3'=>$data[0]->PaguDanaN3,
+                    'PaguDanaN4'=>$data[0]->PaguDanaN4,
+                    'PaguDanaN5'=>$data[0]->PaguDanaN5,
+                    'KondisiAkhirPaguDana'=>$data[0]->KondisiAkhirPaguDana,
+                ];   
+            }
+            else
+            {
+                $readonly=false;
+                $daftar_pagu=[
+                    'PrgID'=>$PrgID,
+                    'PaguDanaN1'=>0,
+                    'PaguDanaN2'=>0,
+                    'PaguDanaN3'=>0,
+                    'PaguDanaN4'=>0,
+                    'PaguDanaN5'=>0,
+                    'KondisiAkhirPaguDana'=>0,
+                ];   
+            }
+            
+                
+            $json_data = ['success'=>true,'readonly'=>$readonly,'daftar_pagu'=>$daftar_pagu];
+        } 
         return response()->json($json_data,200);  
     }
     /**

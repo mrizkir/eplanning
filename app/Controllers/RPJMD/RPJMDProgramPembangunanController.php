@@ -347,7 +347,7 @@ class RPJMDProgramPembangunanController extends Controller {
         else
         {
             return view("pages.$theme.rpjmd.rpjmdprogrampembangunan.error")->with(['page_active'=>'rpjmdprogrampembangunan',
-                                                                                'errormessage'=>"ID Indikator Kinerja ($id) tidak ditemukan."
+                                                                                'errormessage'=>"ID RPJMD PROGRAM PEMBANGUNAN ($id) tidak ditemukan."
                                                                                 ]);
         }
     }
