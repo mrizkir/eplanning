@@ -18,7 +18,7 @@
     </div>
     @if (count($data) > 0)
     <div class="table-responsive"> 
-        <table id="data" class="table table-hover" style="font-size:10.5px">
+        <table id="data" class="table table-hover" style="font-size:11px">
             <thead>
                 <tr class="bg-teal-700">
                     <th rowspan="2">
@@ -63,31 +63,35 @@
                 <tr>
                     <td colspan="15">
                         <table width="100%">
-                            <tr>
+                            <tr class="spaceunder">
                                 <td width="120"><strong>MISI:</strong></td>
                                 <td>{{$item->Nm_PrioritasKab}}  </td>
                             </tr>
-                            <tr>
+                            <tr class="spaceunder">
                                 <td><strong>TUJUAN:</strong></td>
                                 <td>{{$item->Nm_Tujuan}}  </td>
                             </tr>
-                            <tr>
+                            <tr class="text-primary spaceunder">
                                 <td><strong>SASARAN:</strong></td>
-                                <td>{{$item->Nm_Sasaran}}  </td>
+                                <td>
+                                    {{$item->Nm_Sasaran}}
+                                </td>
                             </tr>
-                            <tr>
+                            <tr class="text-info spaceunder">
                                 <td><strong>PROGRAM:</strong></td>
-                                <td>{{$item->PrgNm}}  </td>
+                                <td>
+                                    {{$item->PrgNm}}
+                                </td>
                             </tr>
-                            <tr>
+                            <tr class="spaceunder">
                                 <td><strong>NAMA INDIKATOR:</strong></td>
                                 <td>{{$item->NamaIndikator}}  </td>
                             </tr>
-                            <tr>
+                            <tr class="spaceunder">
                                 <td><strong>SATUAN:</strong></td>
                                 <td>{{$item->Satuan}}  </td>
                             </tr>
-                            <tr>
+                            <tr class="spaceunder">
                                 <td><strong>PERANGKAT DAERAH PENANGGUNGJAWAB:</strong></td>
                                 <td>
                                 -  
@@ -148,6 +152,10 @@
                         <span class="label label-warning label-rounded" style="text-transform: none">
                             <strong>PRIORITASSASARANID:</strong>
                             {{$item->PrioritasSasaranKabID}}
+                        </span>
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>PRGID:</strong>
+                            {{$item->PrgID}}
                         </span>
                         <span class="label label-warning label-rounded">
                             <strong>KET:</strong>

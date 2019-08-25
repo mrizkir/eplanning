@@ -34,8 +34,7 @@
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>['DMaster\ProgramController@update',$data->PrgID],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
-                {{Form::hidden('_method','PUT')}}
+            {!! Form::open(['action'=>['DMaster\ProgramController@update',$data->PrgID],'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
                 <div class="form-group">
                         {{Form::label('Jns','PROGRAM UNTUK',['class'=>'control-label col-md-2'])}}
                         <div class="col-md-10">                        

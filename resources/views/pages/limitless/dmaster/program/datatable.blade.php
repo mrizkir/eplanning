@@ -57,21 +57,7 @@
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>                  
-                    <td>
-                        @php
-                            if ($item->Jns==false && $filter_ursid_selected=='none')
-                            {
-                                echo 'n.nn.'.$item->Kd_Prog;
-                            } 
-                            elseif ($item->Jns==false && $filter_ursid_selected!='none') 
-                            {
-                                echo $filter_kode_urusan_selected.'.'.$item->Kd_Prog;
-                            }
-                            else {
-                                echo $item->kode_program;
-                            }   
-                        @endphp
-                    </td>
+                    <td>{{$item->kode_program}}</td>
                     <td>{{$item->PrgNm}}</td>
                     <td>
                         @php

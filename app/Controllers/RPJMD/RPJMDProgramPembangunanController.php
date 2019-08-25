@@ -29,6 +29,7 @@ class RPJMDProgramPembangunanController extends Controller {
     {        
         $select=\DB::raw('"RPJMDProgramPembangunanID",
                             "PrioritasSasaranKabID",
+                            "PrgID",
                             "Nm_PrioritasKab",
                             "Nm_Tujuan",
                             "Nm_Sasaran",
@@ -181,6 +182,28 @@ class RPJMDProgramPembangunanController extends Controller {
         
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
     }
+    
+    private function getDaftarProgramNotInProgramPembangunan ($UrsID,$PrioritasSasaranKabID)
+    {
+        $r=\DB::table('v_urusan_program')
+                ->where('TA',\HelperKegiatan::getRPJMDTahunMulai())
+                ->orderBy('Kd_Prog')
+                ->where('UrsID',$UrsID)
+                ->WhereNotIn('PrgID',function($query) use ($PrioritasSasaranKabID){
+                    $query->select('PrgID')
+                            ->from('trRpjmdProgramPembangunan')
+                            ->where('PrioritasSasaranKabID', $PrioritasSasaranKabID);
+                })
+                ->orderBy('kode_program')
+                ->get();
+
+        $daftar_program=[];        
+        foreach ($r as $k=>$v)
+        {          
+            $daftar_program[$v->PrgID]='['.$v->kode_program.'] '.$v->PrgNm;
+        }
+        return $daftar_program;
+    }
     /**
      * filter resource in storage.
      *
@@ -207,9 +230,11 @@ class RPJMDProgramPembangunanController extends Controller {
         if ($request->exists('UrsID') && $request->exists('create') )
         {
             $UrsID = $request->input('UrsID')==''?'none':$request->input('UrsID');            
-            $daftar_program=\App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getRPJMDTahunMulai(),false,$UrsID);            
+            $PrioritasSasaranKabID = $request->input('PrioritasSasaranKabID')==''?'none':$request->input('PrioritasSasaranKabID');            
+            $daftar_program=$this->getDaftarProgramNotInProgramPembangunan($UrsID,$PrioritasSasaranKabID);            
             $json_data = ['success'=>true,'daftar_program'=>$daftar_program];
-        } 
+        }
+          
         return response()->json($json_data,200);  
     }
     /**
@@ -245,7 +270,7 @@ class RPJMDProgramPembangunanController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $daftar_sasaran = RPJMDSasaranModel::getDaftarSasaranNotInIndikatorSasaran(\HelperKegiatan::getRPJMDTahunMulai(),false);
+        $daftar_sasaran = RPJMDSasaranModel::getDaftarSasaran(\HelperKegiatan::getRPJMDTahunMulai(),false);
         $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusan(\HelperKegiatan::getRPJMDTahunMulai(),false);  
         return view("pages.$theme.rpjmd.rpjmdprogrampembangunan.create")->with(['page_active'=>'rpjmdprogrampembangunan',
                                                                                 'daftar_sasaran'=>$daftar_sasaran,
@@ -338,26 +363,41 @@ class RPJMDProgramPembangunanController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $data = RPJMDProgramPembangunanModel::findOrFail($id);
+        $data = RPJMDProgramPembangunanModel::select(\DB::raw('"trRpjmdProgramPembangunan"."RPJMDProgramPembangunanID",
+                                                                "trRpjmdProgramPembangunan"."PrioritasSasaranKabID",
+                                                                CASE 
+                                                                    WHEN v_urusan_program."UrsID" IS NOT NULL OR  v_urusan_program."KUrsID" IS NOT NULL THEN
+                                                                        CONCAT(\'[\',"Kd_Urusan",\'.\',"Kd_Bidang",\'] \',"Nm_Urusan")
+                                                                    ELSE
+                                                                        \'SELURUH URUSAN\'
+                                                                END AS nama_urusan,                                                                
+                                                                "kode_program",
+                                                                "v_urusan_program"."PrgNm",
+                                                                "trRpjmdProgramPembangunan"."PaguDanaN1",
+                                                                "trRpjmdProgramPembangunan"."PaguDanaN2",
+                                                                "trRpjmdProgramPembangunan"."PaguDanaN3",
+                                                                "trRpjmdProgramPembangunan"."PaguDanaN4",
+                                                                "trRpjmdProgramPembangunan"."PaguDanaN5",
+                                                                "trRpjmdProgramPembangunan"."KondisiAkhirPaguDana",
+                                                                "trRpjmdProgramPembangunan"."Descr"     
+                                                            '))
+                                            ->join('v_urusan_program','v_urusan_program.PrgID','trRpjmdProgramPembangunan.PrgID')                                            
+                                            ->findOrFail($id);
         if (!is_null($data) ) 
         {
-            $daftar_sasaran = RPJMDSasaranModel::getDaftarSasaranNotInIndikatorSasaran(\HelperKegiatan::getRPJMDTahunMulai(),false);
+            $daftar_sasaran = RPJMDSasaranModel::getDaftarSasaran(\HelperKegiatan::getRPJMDTahunMulai(),false);            
             $daftar_indikatorsasaran=\App\Models\RPJMD\RPJMDSasaranIndikatorModel::select(\DB::raw('"PrioritasIndikatorSasaranID","NamaIndikator"'))
                                                                                 ->where('PrioritasSasaranKabID',$data->PrioritasSasaranKabID)
                                                                                 ->get()
                                                                                 ->pluck('NamaIndikator','PrioritasIndikatorSasaranID')
-                                                                                ->toArray();
-            $indikatorsasaranid=1;
-            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getRPJMDTahunMulai(),false,$data->UrsID);            
-            $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusan(\HelperKegiatan::getRPJMDTahunMulai(),false);  
+                                                                                ->toArray();            
+                        
             return view("pages.$theme.rpjmd.rpjmdprogrampembangunan.edit")->with(['page_active'=>'rpjmdprogrampembangunan',
                                                                                 'data'=>$data,
                                                                                 'daftar_sasaran'=>$daftar_sasaran,
-                                                                                'daftar_indikatorsasaran'=>$daftar_indikatorsasaran,
-                                                                                'daftar_urusan'=>$daftar_urusan,
-                                                                                'daftar_program'=>$daftar_program,                                                                                                                              
+                                                                                'daftar_indikatorsasaran'=>$daftar_indikatorsasaran            
                                                                                 ]);
-                                    }        
+        }        
     }
 
     /**
@@ -373,7 +413,6 @@ class RPJMDProgramPembangunanController extends Controller {
 
         $this->validate($request, [
             'PrioritasSasaranKabID'=>'required',
-            'PrgID'=>'required',            
             'PaguDanaN1'=>'required',
             'PaguDanaN2'=>'required',
             'PaguDanaN3'=>'required',
@@ -383,8 +422,6 @@ class RPJMDProgramPembangunanController extends Controller {
         ]);
         
         $rpjmdprogrampembangunan->PrioritasSasaranKabID=$request->input('PrioritasSasaranKabID');
-        $rpjmdprogrampembangunan->UrsID=$request->input('UrsID');
-        $rpjmdprogrampembangunan->PrgID=$request->input('PrgID');                       
         $rpjmdprogrampembangunan->PaguDanaN1=$request->input('PaguDanaN1');
         $rpjmdprogrampembangunan->PaguDanaN2=$request->input('PaguDanaN2');
         $rpjmdprogrampembangunan->PaguDanaN3=$request->input('PaguDanaN3');

@@ -142,31 +142,31 @@
                     <tr>
                         <td colspan="15">
                             <table width="100%">
-                                <tr>
+                                <tr class="spaceunder">
                                     <td width="120"><strong>MISI:</strong></td>
                                     <td>{{$data->Nm_PrioritasKab}}  </td>
                                 </tr>
-                                <tr>
+                                <tr class="spaceunder">
                                     <td><strong>TUJUAN:</strong></td>
                                     <td>{{$data->Nm_Tujuan}}  </td>
                                 </tr>
-                                <tr>
+                                <tr class="text-primary spaceunder">
                                     <td><strong>SASARAN:</strong></td>
                                     <td>{{$data->Nm_Sasaran}}  </td>
                                 </tr>
-                                <tr>
+                                <tr class="text-info spaceunder">
                                     <td><strong>PROGRAM:</strong></td>
                                     <td>{{$data->PrgNm}}  </td>
                                 </tr>
-                                <tr>
+                                <tr class="spaceunder">
                                     <td><strong>NAMA INDIKATOR:</strong></td>
                                     <td>{{$data->NamaIndikator}}  </td>
                                 </tr>
-                                <tr>
+                                <tr class="spaceunder">
                                     <td><strong>SATUAN:</strong></td>
                                     <td>{{$data->Satuan}}  </td>
                                 </tr>
-                                <tr>
+                                <tr class="spaceunder">
                                     <td><strong>PERANGKAT DAERAH PENANGGUNGJAWAB:</strong></td>
                                     <td>
                                       

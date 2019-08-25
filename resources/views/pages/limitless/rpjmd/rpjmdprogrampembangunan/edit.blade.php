@@ -51,13 +51,13 @@
             <div class="form-group">
                 {{Form::label('UrsID','URUSAN',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
-                    {{Form::select('UrsID', $daftar_urusan, $data->UrsID,['class'=>'select','id'=>'UrsID'])}}                  
+                    <p class="form-control-static">{{$data->nama_urusan}}</p>
                 </div>
             </div>
             <div class="form-group">
                 {{Form::label('PrgID','PROGRAM',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
-                    {{Form::select('PrgID', $daftar_program, $data->PrgID,['class'=>'select','id'=>'PrgID'])}}
+                    <p class="form-control-static">[{{$data->kode_program}}] {{$data->PrgNm}}</p>
                 </div>
             </div>  
         </div>
@@ -174,33 +174,7 @@ $(document).ready(function () {
                 console.log(parseMessageAjaxEror(xhr, status, error));                           
             },
         });
-    });
-    $(document).on('change','#UrsID',function(ev) {
-        ev.preventDefault();   
-        $.ajax({
-            type:'post',
-            url: url_current_page +'/filter',
-            dataType: 'json',
-            data: {              
-                "_token": token,  
-                "UrsID": $('#UrsID').val(),
-                "create":true
-            },
-            success:function(result)
-            { 
-                var daftar_program = result.daftar_program;
-                var listitems='<option></option>';
-                $.each(daftar_program,function(key,value){
-                    listitems+='<option value="' + key + '">'+value+'</option>';                    
-                });
-                $('#PrgID').html(listitems);                
-            },
-            error:function(xhr, status, error){
-                console.log('ERROR');
-                console.log(parseMessageAjaxEror(xhr, status, error));                           
-            },
-        });
-    });
+    });    
     $('#frmdata').validate({
         ignore:[],
         rules: {

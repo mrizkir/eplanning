@@ -15,3 +15,6 @@
 .table tbody tr:hover td, .table tbody tr:hover th {
     background-color: #eeeeea;
 }
+tr.spaceunder>td {
+    padding-bottom: 2px;
+  }

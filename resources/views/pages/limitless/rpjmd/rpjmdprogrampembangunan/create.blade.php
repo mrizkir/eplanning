@@ -177,11 +177,13 @@ $(document).ready(function () {
             success:function(result)
             { 
                 var daftar_indikatorsasaran = result.daftar_indikatorsasaran;
-                var listitems='<option></option>';
+                var listitems='<option></option>';                
                 $.each(daftar_indikatorsasaran,function(key,value){
                     listitems+='<option value="' + key + '">'+value+'</option>';                    
                 });
-                $('#PrioritasIndikatorSasaranID').html(listitems);                
+                $('#PrioritasIndikatorSasaranID').html(listitems);        
+                $('#UrsID').val(null).trigger("change");
+                $('#PrgID').html('<option></option>');    
             },
             error:function(xhr, status, error){
                 console.log('ERROR');
@@ -198,6 +200,7 @@ $(document).ready(function () {
             data: {              
                 "_token": token,  
                 "UrsID": $('#UrsID').val(),
+                "PrioritasSasaranKabID": $('#PrioritasSasaranKabID').val(),
                 "create":true
             },
             success:function(result)
