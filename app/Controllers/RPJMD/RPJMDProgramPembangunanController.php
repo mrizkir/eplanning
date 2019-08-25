@@ -83,11 +83,11 @@ class RPJMDProgramPembangunanController extends Controller {
         else
         {
             $data = \DB::table('v_indikator_kinerja1') 
-                    ->select($select)                   
-                    ->where('TA',\HelperKegiatan::getRPJMDTahunMulai())
-                    ->orderBy($column_order,$direction)
-                    ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
-        }        
+                        ->select($select)                   
+                        ->where('TA',\HelperKegiatan::getRPJMDTahunMulai())
+                        ->orderBy($column_order,$direction)
+                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            }        
         $data->setPath(route('rpjmdprogrampembangunan.index'));
         return $data;
     }
@@ -189,10 +189,9 @@ class RPJMDProgramPembangunanController extends Controller {
                 ->where('TA',\HelperKegiatan::getRPJMDTahunMulai())
                 ->orderBy('Kd_Prog')
                 ->where('UrsID',$UrsID)
-                ->WhereNotIn('PrgID',function($query) use ($PrioritasSasaranKabID){
+                ->WhereNotIn('PrgID',function($query) {
                     $query->select('PrgID')
-                            ->from('trRpjmdProgramPembangunan')
-                            ->where('PrioritasSasaranKabID', $PrioritasSasaranKabID);
+                            ->from('trRpjmdProgramPembangunan');
                 })
                 ->orderBy('kode_program')
                 ->get();
