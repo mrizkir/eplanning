@@ -48,13 +48,7 @@
                                 <div class="col-md-8">
                                     <p class="form-control-static">{{$data->IndikatorKinerjaID}}</p>
                                 </div>                            
-                            </div>                  
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>KEBIJAKAN: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->Nm_Kebijakan}}</p>
-                                </div>                            
-                            </div>                            
+                            </div>                          
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>KELOMPOK URUSAN: </strong></label>
                                 <div class="col-md-8">
@@ -67,16 +61,16 @@
                                     <p class="form-control-static">{{$data->Nm_Bidang}}</p>
                                 </div>                            
                             </div> 
-                        </div>                        
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-horizontal">  
-                             <div class="form-group">
+                            <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>PROGRAM: </strong></label>
                                 <div class="col-md-8">
                                     <p class="form-control-static">{{$data->PrgNm}}</p>
                                 </div>                            
                             </div>  
+                        </div>                        
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-horizontal">                              
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>PERANGKAT DAERAH PENANGGUNG JAWAB: </strong></label>
                                 <div class="col-md-8">
