@@ -62,7 +62,36 @@
             @foreach ($data as $key=>$item)                
                 <tr>
                     <td colspan="15">
-                        <strong>NAMA INDIKATOR:</strong> {{$item->NamaIndikator}}       
+                        <table width="100%">
+                            <tr class="spaceunder">
+                                <td width="120"><strong>KELOMPOK URUSAN:</strong></td>
+                                <td>{{$item->Nm_Urusan}}  </td>
+                            </tr>
+                            <tr class="spaceunder">
+                                <td><strong>URUSAN:</strong></td>
+                                <td>{{$item->Nm_Bidang}}  </td>
+                            </tr>
+                            <tr class="text-info spaceunder">
+                                <td><strong>OPD / SKPD:</strong></td>
+                                <td>
+                                    {{$item->OrgNm}}
+                                </td>
+                            </tr>
+                            <tr class="text-primary spaceunder">
+                                <td><strong>PROGRAM:</strong></td>
+                                <td>
+                                    {{$item->PrgNm}}
+                                </td>
+                            </tr>                            
+                            <tr class="spaceunder">
+                                <td><strong>NAMA INDIKATOR:</strong></td>
+                                <td>{{$item->NamaIndikator}}  </td>
+                            </tr>
+                            <tr class="spaceunder">
+                                <td><strong>SATUAN:</strong></td>
+                                <td>{{$item->Satuan}}  </td>
+                            </tr>
+                        </table>           
                     </td>
                 </tr>
                 <tr>
@@ -115,8 +144,8 @@
                             {{$item->IndikatorKinerjaID}}
                         </span>
                         <span class="label label-warning label-rounded" style="text-transform: none">
-                            <strong>PRIORITASSASARANID:</strong>
-                            {{$item->PrioritasSasaranKabID}}
+                            <strong>PRGID:</strong>
+                            {{$item->PrgID}}
                         </span>
                         <span class="label label-warning label-rounded">
                             <strong>KET:</strong>

@@ -26,6 +26,33 @@ class RPJMDIndikatorKinerjaController extends Controller {
      */
     public function populateData ($currentpage=1) 
     {        
+        $select=\DB::raw('"IndikatorKinerjaID",
+                            "OrgIDRPJMD",
+                            "PrgID",
+                            "Nm_Urusan",
+                            "Nm_Bidang",
+                            "OrgNm",
+                            "PrgNm",
+                            "NamaIndikator",
+                            "Satuan",                            
+                            "KondisiAwal",
+                            "TargetN1",
+                            "PaguDanaN1",
+                            "TargetN2",
+                            "PaguDanaN2",
+                            "TargetN3",
+                            "PaguDanaN3",
+                            "TargetN4",
+                            "PaguDanaN4",
+                            "TargetN5",
+                            "PaguDanaN5",
+                            "KondisiAkhirTarget",
+                            "KondisiAkhirPaguDana",
+                            "Descr",
+                            "TA",
+                            "created_at",
+                            "updated_at"
+                        ');
         $columns=['*'];       
         if (!$this->checkStateIsExistSession('rpjmdindikatorkinerja','orderby')) 
         {            
@@ -52,8 +79,11 @@ class RPJMDIndikatorKinerjaController extends Controller {
         }
         else
         {
-            $data = RPJMDIndikatorKinerjaModel::where('TA',\HelperKegiatan::getRPJMDTahunMulai())
-                                                ->orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data = \DB::table('v_indikator_kinerja2') 
+                        ->select($select)                   
+                        ->where('TA',\HelperKegiatan::getRPJMDTahunMulai())
+                        ->orderBy($column_order,$direction)
+                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('rpjmdindikatorkinerja.index'));
         return $data;
@@ -376,12 +406,12 @@ class RPJMDIndikatorKinerjaController extends Controller {
         $data = RPJMDIndikatorKinerjaModel::findOrFail($id);
         if (!is_null($data) ) 
         {
-            $daftar_kebijakan = RPJMDKebijakanModel::getDaftarKebijakan($data->TA,false);
-            $daftar_program=RPJMDProgramKebijakanModel::getDaftarProgramKebijakan($data->PrioritasKebijakanKabID,false);
-            $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false,$data->UrsID);
+            $daftar_opd=\App\Models\DMaster\OrganisasiRPJMDModel::getDaftarOPDMaster(\HelperKegiatan::getRPJMDTahunMulai(),false);
+            $daftar_opd['']='';
+            $daftar_program=\App\Models\DMaster\ProgramModel::getDaftarProgramByOPD($data->OrgIDRPJMD,false);
+            $daftar_program['']='';
             return view("pages.$theme.rpjmd.rpjmdindikatorkinerja.edit")->with(['page_active'=>'rpjmdindikatorkinerja',
                                                                                 'data'=>$data,
-                                                                                'daftar_kebijakan'=>$daftar_kebijakan,
                                                                                 'daftar_program'=>$daftar_program,
                                                                                 'daftar_opd'=>$daftar_opd
                                                                                 ]);
@@ -400,10 +430,8 @@ class RPJMDIndikatorKinerjaController extends Controller {
         $rpjmdindikatorkinerja = RPJMDIndikatorKinerjaModel::find($id);
         
         $this->validate($request, [
-            'PrioritasKebijakanKabID'=>'required',
-            'ProgramKebijakanID'=>'required',            
-            'OrgID'=>'required',
-            'OrgID2'=>'required',
+            'OrgIDRPJMD'=>'required',
+            'PrgID'=>'required',        
             'NamaIndikator'=>'required',
             'KondisiAwal'=>'required',
             'Satuan'=>'required',        
@@ -420,16 +448,14 @@ class RPJMDIndikatorKinerjaController extends Controller {
             'PaguDanaN5'=>'required',
             'KondisiAkhirPaguDana'=>'required',            
         ]);
-        $ProgramKebijakanID = $request->input('ProgramKebijakanID');
-        $program_kebijakan = RPJMDProgramKebijakanModel::find($ProgramKebijakanID);
-        
-        $rpjmdindikatorkinerja->PrioritasKebijakanKabID=$request->input('PrioritasKebijakanKabID');
-        $rpjmdindikatorkinerja->ProgramKebijakanID=$ProgramKebijakanID;
-        $rpjmdindikatorkinerja->UrsID=$program_kebijakan->UrsID;
-        $rpjmdindikatorkinerja->PrgID=$program_kebijakan->PrgID;                       
-        $rpjmdindikatorkinerja->OrgID=$request->input('OrgID');
-        $rpjmdindikatorkinerja->OrgID2=$request->input('OrgID2');            
-        $rpjmdindikatorkinerja->OrgID3=$request->input('OrgID2');            
+        $PrgID = $request->input('PrgID');
+        $program = \DB::table('trUrsPrg')
+                        ->where('PrgID',$PrgID)
+                        ->get();        
+        $UrsID=isset($program[0])?$program[0]->UrsID:null;        
+        $rpjmdindikatorkinerja->OrgIDRPJMD=$request->input('OrgIDRPJMD');
+        $rpjmdindikatorkinerja->PrgID=$PrgID;                 
+        $rpjmdindikatorkinerja->UrsID=$UrsID;                 
         $rpjmdindikatorkinerja->NamaIndikator=$request->input('NamaIndikator'); 
         $rpjmdindikatorkinerja->KondisiAwal=$request->input('KondisiAwal');             
         $rpjmdindikatorkinerja->Satuan=$request->input('Satuan');             
@@ -450,7 +476,7 @@ class RPJMDIndikatorKinerjaController extends Controller {
         $rpjmdindikatorkinerja->save();
 
         \DB::table('trIndikatorKinerja')
-            ->where('PrgID',$program_kebijakan->PrgID)
+            ->where('PrgID',$PrgID)
             ->update(['PaguDanaN1' => $request->input('PaguDanaN1'),
                     'PaguDanaN2' => $request->input('PaguDanaN2'),
                     'PaguDanaN3' => $request->input('PaguDanaN3'),

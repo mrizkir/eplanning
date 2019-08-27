@@ -104,10 +104,7 @@
             </div>            
         </div>      
         <div class="table-responsive"> 
-            <table id="data" class="table table-striped table-hover" style="font-size:11px">
-                <caption>
-                    <strong>NAMA INDIKATOR</strong> : {{$data->NamaIndikator}}
-                </caption>
+            <table id="data" class="table table-striped table-hover" style="font-size:11px">                
                 <thead>
                     <tr class="bg-teal-700">
                         <th rowspan="2">KONDISI KINERJA <br>AWAL RPJMD ({{$data->TA-1}})</th>  
@@ -134,6 +131,40 @@
                     </tr>
                 </thead>
                 <tbody>    
+                    <tr>
+                        <td colspan="15">
+                            <table width="100%">
+                                <tr class="spaceunder">
+                                    <td width="120"><strong>KELOMPOK URUSAN:</strong></td>
+                                    <td>{{$data->Nm_Urusan}}  </td>
+                                </tr>
+                                <tr class="spaceunder">
+                                    <td><strong>URUSAN:</strong></td>
+                                    <td>{{$data->Nm_Bidang}}  </td>
+                                </tr>
+                                <tr class="text-info spaceunder">
+                                    <td><strong>OPD / SKPD:</strong></td>
+                                    <td>
+                                        {{$data->OrgNm}}
+                                    </td>
+                                </tr>
+                                <tr class="text-primary spaceunder">
+                                    <td><strong>PROGRAM:</strong></td>
+                                    <td>
+                                        {{$data->PrgNm}}
+                                    </td>
+                                </tr>                            
+                                <tr class="spaceunder">
+                                    <td><strong>NAMA INDIKATOR:</strong></td>
+                                    <td>{{$data->NamaIndikator}}  </td>
+                                </tr>
+                                <tr class="spaceunder">
+                                    <td><strong>SATUAN:</strong></td>
+                                    <td>{{$data->Satuan}}  </td>
+                                </tr>
+                            </table>           
+                        </td>
+                    </tr>
                     <tr>
                         <td>{{$data->KondisiAwal}}</td>
                         <td>{{Helper::formatAngka($data->TargetN1)}}</td>
