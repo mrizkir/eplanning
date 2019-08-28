@@ -1,20 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RPJMD SASARAN
+    RENSTRA SASARAN
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold"> 
-        RPJMD SASARAN PERIODE {{HelperKegiatan::getRPJMDTahunMulai()}} - {{HelperKegiatan::getRPJMDTahunAkhir()+1}}
+        RENSTRA SASARAN TAHUN {{HelperKegiatan::getRENSTRATahunMulai()}} - {{HelperKegiatan::getRENSTRATahunAkhir()}}
     </span>     
 @endsection
 @section('page_info')
-    @include('pages.limitless.rpjmd.rpjmdsasaran.info')
+    @include('pages.limitless.renstra.renstrasasaran.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">PERENCANAAN</a></li>
-    <li><a href="#">RPJMD</a></li>
-    <li><a href="{!!route('rpjmdstrategi.index')!!}">SASARAN</a></li>
+    <li><a href="#">RENSTRA</a></li>
+    <li><a href="{!!route('renstrasasaran.index')!!}">SASARAN</a></li>
     <li class="active">DETAIL DATA</li>
 @endsection
 @section('page_content')
@@ -23,19 +23,19 @@
         <div class="panel panel-flat border-top-info border-bottom-info">
             <div class="panel-heading">
                 <h5 class="panel-title"> 
-                    <i class="icon-eye"></i>  DATA RPJMD SASARAN
+                    <i class="icon-eye"></i>  DATA RENSTRA SASARAN
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('rpjmdsasaran.edit',['id'=>$data->PrioritasSasaranKabID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RPJMD Sasaran">
+                    <a href="{{route('renstrasasaran.edit',['id'=>$data->RenstraSasaranID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RENSTRA Sasaran">
                         <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data RPJMD Sasaran" data-id="{{$data->PrioritasSasaranKabID}}" data-url="{{route('rpjmdsasaran.index')}}" class="btn btn-danger btn-icon heading-btn btnDeleteSasaran">
+                    <a href="javascript:;" title="Hapus Data RENSTRA Sasaran" data-id="{{$data->RenstraSasaranID}}" data-url="{{route('renstrasasaran.index')}}" class="btn btn-danger btn-icon heading-btn btnDeleteSasaran">
                         <i class='icon-trash'></i>
                     </a>
-                    <a href="{!!route('rpjmdsasaran.create')!!}" class="btn btn-primary btn-info heading-btn btnEdit" title="Tambah RPJMD Sasaran">
+                    <a href="{!!route('renstrasasaran.create')!!}" class="btn btn-primary btn-info heading-btn btnEdit" title="Tambah RENSTRA Sasaran">
                         <i class="icon-googleplus5"></i>
                     </a>
-                    <a href="{!!route('rpjmdsasaran.show',['id'=>$data->PrioritasSasaranKabID])!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
+                    <a href="{!!route('renstrasasaran.show',['id'=>$data->RenstraSasaranID])!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
                         <i class="icon-close2"></i>
                     </a>            
                 </div>
@@ -45,21 +45,21 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>PrioritasSasaranKabID: </strong></label>
+                                <label class="col-md-4 control-label"><strong>RENSTRASASARANID: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->PrioritasSasaranKabID}}</p>
+                                    <p class="form-control-static">{{$data->RenstraSasaranID}}</p>
                                 </div>                            
                             </div>                        
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>KODE SASARAN : </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->Kd_Sasaran}}</p>
+                                    <p class="form-control-static">{{$data->Kd_RenstraSasaran}}</p>
                                 </div>                            
                             </div>                            
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>NAMA SASARAN: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->Nm_Sasaran}}</p>
+                                    <p class="form-control-static">{{$data->Nm_RenstraSasaran}}</p>
                                 </div>                            
                             </div>  
                         </div>                        
@@ -69,13 +69,13 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>KODE TUJUAN : </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->Kd_Tujuan}}</p>
+                                    <p class="form-control-static">{{$data->Kd_RenstraTujuan}}</p>
                                 </div>                            
                             </div>                            
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>NAMA TUJUAN: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->Nm_Tujuan}}</p>
+                                    <p class="form-control-static">{{$data->Nm_RenstraTujuan}}</p>
                                 </div>                            
                             </div>     
                             <div class="form-group">
@@ -89,34 +89,22 @@
                 </div>
             </div>
         </div>
-    </div>      
+    </div>
 </div>
 <div class="content">
     <div class="panel panel-flat">
         <div class="panel-heading">
             <h5 class="panel-title">
                 <i class="icon-pencil7 position-left"></i> 
-                UBAHA INDIKATOR SASARAN DAN TARGET CAPAIAN
+                TAMBAH INDIKATOR SASARAN DAN TARGET CAPAIAN
             </h5>            
         </div>
         <div class="panel-body">            
-            {!! Form::open(['action'=>['RPJMD\RPJMDSasaranController@update1',$data_indikator->PrioritasIndikatorSasaranID],'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
+            {!! Form::open(['action'=>['RENSTRA\RENSTRASasaranController@update1',$data_indikator->RenstraIndikatorSasaranID],'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
                 <div class="form-group">
                     {{Form::label('NamaIndikator','NAMA INDIKATOR',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
                         {{Form::text('NamaIndikator',$data_indikator->NamaIndikator,['class'=>'form-control','placeholder'=>'NAMA INDIKATOR'])}}
-                    </div>
-                </div>
-                <div class="form-group">
-                    {{Form::label('Satuan','SATUAN',['class'=>'control-label col-md-2'])}}
-                    <div class="col-md-10">
-                        {{Form::text('Satuan',$data_indikator->Satuan,['class'=>'form-control','placeholder'=>'SATUAN'])}}
-                    </div>
-                </div>
-                <div class="form-group">
-                    {{Form::label('KondisiAwal','KONDISI KINERJA AWAL ('.(HelperKegiatan::getRPJMDTahunMulai()-1).')',['class'=>'control-label col-md-2'])}}
-                    <div class="col-md-10">
-                        {{Form::text('KondisiAwal',$data_indikator->KondisiAwal,['class'=>'form-control','placeholder'=>'KONDISI KINERJA AWAL'])}}
                     </div>
                 </div>
                 <div class="form-group">
@@ -150,12 +138,6 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    {{Form::label('KondisiAkhir','KONDISI AKHIR RPJMD ('.(HelperKegiatan::getRPJMDTahunAkhir()+1).')',['class'=>'control-label col-md-2'])}}
-                    <div class="col-md-10">
-                        {{Form::text('KondisiAkhir',$data_indikator->KondisiAkhir,['class'=>'form-control','placeholder'=>'KONDISI AKHIR RPJMD'])}}
-                    </div>
-                </div>
-                <div class="form-group">
                     {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
                         {{Form::textarea('Descr',$data_indikator->Descr,['class'=>'form-control','placeholder'=>'KETERANGAN','rows' => 2, 'cols' => 40])}}
@@ -168,20 +150,15 @@
         </div>
     </div>
     <div class="panel panel-flat border-top-lg border-top-info border-bottom-info" id="divdatatableindikatorsasaran">
-        @include('pages.limitless.rpjmd.rpjmdsasaran.datatableindikatorsasaran')
+        @include('pages.limitless.renstra.renstrasasaran.datatableindikatorsasaran')
     </div> 
 </div>
 @endsection
-@section('page_asset_js')
-<script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
-<script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
-<script src="{!!asset('themes/limitless/assets/js/autoNumeric.min.js')!!}"></script>
-@endsection
 @section('page_custom_js')
 <script type="text/javascript">
-$(document).ready(function () {    
+$(document).ready(function () {
     $(document).on('click',".btnDeleteSasaran", function(ev) {
-        if (confirm('Apakah Anda ingin menghapus Data RPJMD Sasaran ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data RENSTRA Sasaran ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             let token = $('meta[name="csrf-token"]').attr('content');
@@ -237,13 +214,7 @@ $(document).ready(function () {
         rules: {
             NamaIndikator : {
                 required: true
-            },  
-            Satuan : {
-                required: true
-            },
-            KondisiAwal : {
-                required: true
-            },         
+            },                       
             N1 : {
                 required: true
             },         
@@ -258,20 +229,11 @@ $(document).ready(function () {
             },         
             N5 : {
                 required: true
-            },         
-            KondisiAkhir : {
-                required: true,
             }           
         },
         messages : {
             NamaIndikator : {
                 required: "Mohon untuk di isi nama indikator."              
-            },        
-            Satuan : {
-                required: "Mohon untuk di isi satuan."                
-            },
-            KondisiAwal : {
-                required: "Mohon untuk di isi kondisi kinerja awal"                    
             },
             N1 : {
                 required: "Mohon untuk di isi kondisi N1"                    
@@ -287,10 +249,7 @@ $(document).ready(function () {
             },
             N5 : {
                 required: "Mohon untuk di isi kondisi N5"                    
-            },
-            KondisiAkhir : {
-                required: "Mohon untuk di isi kondisi akhir RPJMD"                            
-            }            
+            }          
         }      
     });
 });

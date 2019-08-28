@@ -190,7 +190,10 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
 
     //RENSTRA - Sasaran
     Route::resource('/perencanaan/renstra/renstrasasaran','RENSTRA\RENSTRASasaranController',['parameters'=>['renstrasasaran'=>'uuid']]); 
+    Route::post('/perencanaan/renstra/renstrasasaran/store1',['uses'=>'RENSTRA\RENSTRASasaranController@store1','as'=>'renstrasasaran.store1']);
     Route::get('/perencanaan/renstra/renstrasasaran/getkodesasaran/{uuid}',['uses'=>'RENSTRA\RENSTRASasaranController@getkodesasaran','as'=>'renstrasasaran.getkodesasaran']);              
+    Route::get('/perencanaan/rpjmd/renstrasasaran/edit1/{uuid}',['uses'=>'RENSTRA\RENSTRASasaranController@edit1','as'=>'renstrasasaran.edit1']);  
+    Route::put('/perencanaan/rpjmd/renstrasasaran/update1/{uuid}',['uses'=>'RENSTRA\RENSTRASasaranController@update1','as'=>'renstrasasaran.update1']);  
     Route::post('/perencanaan/renstra/renstrasasaran/search',['uses'=>'RENSTRA\RENSTRASasaranController@search','as'=>'renstrasasaran.search']); 
     Route::post('/perencanaan/renstra/renstrasasaran/filter',['uses'=>'RENSTRA\RENSTRASasaranController@filter','as'=>'renstrasasaran.filter']); 
     Route::get('/perencanaan/renstra/renstrasasaran/paginate/{id}',['uses'=>'RENSTRA\RENSTRASasaranController@paginate','as'=>'renstrasasaran.paginate']);              

@@ -28,6 +28,7 @@
                     <th>
                         NAMA SASARAN  
                     </th> 
+                    <th width="100">JUMLAH INDIKATOR</th>
                     <th width="100">TA</th>
                     <th width="100">AKSI</th>
                 </tr>
@@ -40,6 +41,7 @@
                     </td>                  
                     <td>{{$item->Kd_RenstraSasaran}}</td>
                     <td>{{$item->Nm_RenstraSasaran}}</td>
+                    <td>{{DB::table('tmRenstraIndikatorSasaran')->where('RenstraSasaranID',$item->RenstraSasaranID)->count()}}</td>
                     <td>{{$item->TA}}</td>
                     <td>
                         <ul class="icons-list">

@@ -5,6 +5,7 @@ namespace App\Controllers\RENSTRA;
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Models\RENSTRA\RENSTRASasaranModel;
+use App\Models\RENSTRA\RENSTRASasaranIndikatorModel;
 use App\Rules\CheckRecordIsExistValidation;
 use App\Rules\IgnoreIfDataIsEqualValidation;
 
@@ -18,6 +19,14 @@ class RENSTRASasaranController extends Controller {
     {
         parent::__construct();
         $this->middleware(['auth','role:superadmin|bapelitbang|opd']);
+    }
+    private function populateIndikatorSasaran($RenstraSasaranID)
+    {
+      
+        $data = RENSTRASasaranIndikatorModel::where('RenstraSasaranID',$RenstraSasaranID)
+                                            ->get();
+
+        return $data;
     }
     /**
      * collect data from resources for index view
@@ -320,6 +329,54 @@ class RENSTRASasaranController extends Controller {
             return redirect(route('renstrasasaran.show',['id'=>$renstrasasaran->RenstraSasaranID]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store1(Request $request)
+    {
+        $this->validate($request, [            
+            'NamaIndikator'=>'required',            
+            'N1'=>'required',
+            'N2'=>'required',
+            'N3'=>'required',
+            'N4'=>'required',
+            'N5'=>'required'
+        ]);
+        
+        $renstraindikatorsasaran = RENSTRASasaranIndikatorModel::create([
+            'RenstraIndikatorSasaranID'=> uniqid ('uid'),
+            'RenstraSasaranID' => $request->input('RenstraSasaranID'),
+            'NamaIndikator' => $request->input('NamaIndikator'),
+            'KondisiAwal' => 0,
+            'N1' => $request->input('N1'),
+            'N2' => $request->input('N2'),
+            'N3' => $request->input('N3'),
+            'N4' => $request->input('N4'),
+            'N5' => $request->input('N5'),
+            'KondisiAkhir' => 0,
+            'Satuan' => '-',
+            'Descr' => $request->input('Descr'),
+            'TA' => \HelperKegiatan::getRENSTRATahunMulai()
+        ]);        
+        
+        if ($request->ajax()) 
+        {
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data ini telah berhasil disimpan.'
+            ]);
+        }
+        else
+        {
+            return redirect(route('renstrasasaran.show',['id'=>$renstraindikatorsasaran->RenstraSasaranID]))->with('success','Data ini telah berhasil disimpan.');
+        }
+
+    }
+
     
     /**
      * Display the specified resource.
@@ -343,8 +400,10 @@ class RENSTRASasaranController extends Controller {
                                 ->findOrFail($id);
         if (!is_null($data) )  
         {
+            $dataindikatorsasaran=$this->populateIndikatorSasaran($id);
             return view("pages.$theme.renstra.renstrasasaran.show")->with(['page_active'=>'renstrasasaran',
-                                                                        'data'=>$data
+                                                                        'data'=>$data,
+                                                                        'dataindikatorsasaran'=>$dataindikatorsasaran
                                                                     ]);
         }        
     }
@@ -376,7 +435,28 @@ class RENSTRASasaranController extends Controller {
                                                                         ]);
         }        
     }
-
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit1($id)
+    {
+        $theme = \Auth::user()->theme;
+        
+        $data_indikator = RENSTRASasaranIndikatorModel::findOrFail($id);
+        $data = RENSTRASasaranModel::find($data_indikator->RenstraSasaranID);
+        if (!is_null($data) ) 
+        {        
+            $dataindikatorsasaran=$this->populateIndikatorSasaran($data_indikator->RenstraSasaranID);
+            return view("pages.$theme.renstra.renstrasasaran.edit1")->with(['page_active'=>'renstrasasaran',
+                                                                        'dataindikatorsasaran'=>$dataindikatorsasaran,
+                                                                        'data'=>$data,
+                                                                        'data_indikator'=>$data_indikator
+                                                                    ]);
+        }        
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -416,7 +496,47 @@ class RENSTRASasaranController extends Controller {
         }
 
     }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update1(Request $request, $id)
+    {
+        $renstraindikatorsasaran = RENSTRASasaranIndikatorModel::find($id);
 
+        $this->validate($request, [            
+            'NamaIndikator'=>'required',
+            'N1'=>'required',
+            'N2'=>'required',
+            'N3'=>'required',
+            'N4'=>'required',
+            'N5'=>'required',
+        ]);
+        
+        $renstraindikatorsasaran->NamaIndikator = $request->input('NamaIndikator');
+        $renstraindikatorsasaran->N1 = $request->input('N1');
+        $renstraindikatorsasaran->N2 = $request->input('N2');
+        $renstraindikatorsasaran->N3 = $request->input('N3');
+        $renstraindikatorsasaran->N4 = $request->input('N4');
+        $renstraindikatorsasaran->N5 = $request->input('N5');
+        $renstraindikatorsasaran->Descr = $request->input('Descr');
+        $renstraindikatorsasaran->save();
+        
+        if ($request->ajax()) 
+        {
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data ini telah berhasil disimpan.'
+            ]);
+        }
+        else
+        {
+            return redirect(route('renstrasasaran.show',['id'=>$renstraindikatorsasaran->RenstraSasaranID]))->with('success','Data ini telah berhasil disimpan.');
+        }
+
+    }
      /**
      * Remove the specified resource from storage.
      *
@@ -426,29 +546,49 @@ class RENSTRASasaranController extends Controller {
     public function destroy(Request $request,$id)
     {
         $theme = \Auth::user()->theme;
-        
-        $renstrasasaran = RENSTRASasaranModel::find($id);
-        $result=$renstrasasaran->delete();
-        if ($request->ajax()) 
+        if ($request->exists('indikatorsasaran'))
         {
-            $currentpage=$this->getCurrentPageInsideSession('renstrasasaran'); 
-            $data=$this->populateData($currentpage);
-            if ($currentpage > $data->lastPage())
-            {            
-                $data = $this->populateData($data->lastPage());
+            $renstrasasaran = RENSTRASasaranIndikatorModel::find($id);
+            $RenstraSasaranID=$renstrasasaran->RenstraSasaranID;
+            $result=$renstrasasaran->delete();
+            if ($request->ajax()) 
+            {                
+                $dataindikatorsasaran = $this->populateIndikatorSasaran($RenstraSasaranID);                
+                $datatable = view("pages.$theme.renstra.renstrasasaran.datatableindikatorsasaran")->with(['page_active'=>'renstrasasaran',                                                                                    
+                                                                                                    'dataindikatorsasaran'=>$dataindikatorsasaran])->render();      
+                
+                return response()->json(['success'=>true,'datatable'=>$datatable],200); 
             }
-            $datatable = view("pages.$theme.renstra.renstrasasaran.datatable")->with(['page_active'=>'renstrasasaran',
-                                                            'search'=>$this->getControllerStateSession('renstrasasaran','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                            'column_order'=>$this->getControllerStateSession('renstrasasaran.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('renstrasasaran.orderby','order'),
-                                                            'data'=>$data])->render();      
-            
-            return response()->json(['success'=>true,'datatable'=>$datatable],200); 
+            else
+            {
+                return redirect(route('renstrasasaran.show',['id'=>$RenstraSasaranID]))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+            }       
         }
         else
-        {
-            return redirect(route('renstrasasaran.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
-        }        
+        {        
+            $renstrasasaran = RENSTRASasaranModel::find($id);
+            $result=$renstrasasaran->delete();
+            if ($request->ajax()) 
+            {
+                $currentpage=$this->getCurrentPageInsideSession('renstrasasaran'); 
+                $data=$this->populateData($currentpage);
+                if ($currentpage > $data->lastPage())
+                {            
+                    $data = $this->populateData($data->lastPage());
+                }
+                $datatable = view("pages.$theme.renstra.renstrasasaran.datatable")->with(['page_active'=>'renstrasasaran',
+                                                                'search'=>$this->getControllerStateSession('renstrasasaran','search'),
+                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                'column_order'=>$this->getControllerStateSession('renstrasasaran.orderby','column_name'),
+                                                                'direction'=>$this->getControllerStateSession('renstrasasaran.orderby','order'),
+                                                                'data'=>$data])->render();      
+                
+                return response()->json(['success'=>true,'datatable'=>$datatable],200); 
+            }
+            else
+            {
+                return redirect(route('renstrasasaran.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+            }        
+        }
     }
 }

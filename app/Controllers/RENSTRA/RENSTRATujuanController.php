@@ -256,10 +256,16 @@ class RENSTRATujuanController extends Controller {
     }
     public function getdaftarsasaranrpjmd($id)
     {
+        $OrgIDRPJMD=$this->getControllerStateSession('renstratujuan','filters.OrgIDRPJMD');
         $daftar_sasaran=\App\Models\RPJMD\RPJMDSasaranModel::select(\DB::raw('"PrioritasSasaranKabID",CONCAT(\'[\',"Kd_PrioritasKab",\'.\',"Kd_Tujuan",\'.\',"Kd_Sasaran",\']. \',"Nm_Sasaran") AS "Nm_Sasaran"'))
                                                         ->join('tmPrioritasTujuanKab','tmPrioritasTujuanKab.PrioritasTujuanKabID','tmPrioritasSasaranKab.PrioritasTujuanKabID')
                                                         ->join('tmPrioritasKab','tmPrioritasKab.PrioritasKabID','tmPrioritasTujuanKab.PrioritasKabID')
-                                                        ->where('tmPrioritasSasaranKab.PrioritasTujuanKabID',$id)                                                        
+                                                        ->where('tmPrioritasSasaranKab.PrioritasTujuanKabID',$id)   
+                                                        ->whereNotIn('PrioritasSasaranKabID', function ($query) use ($OrgIDRPJMD){
+                                                            $query->select('PrioritasSasaranKabID')
+                                                                ->from('tmRenstraTujuan')
+                                                                ->where('OrgIDRPJMD',$OrgIDRPJMD);
+                                                        })                                                     
                                                         ->orderBy('Kd_Tujuan','ASC')
                                                         ->orderBy('Kd_Sasaran','ASC')
                                                         ->get()

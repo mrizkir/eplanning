@@ -475,7 +475,7 @@ class RPJMDSasaranController extends Controller {
         
         $rpjmdindikatorsasaran->NamaIndikator = $request->input('NamaIndikator');
         $rpjmdindikatorsasaran->KondisiAwal = $request->input('KondisiAwal');
-        $rpjmdindikatorsasaran->N1 = $request->input('KondisiAwal');
+        $rpjmdindikatorsasaran->N1 = $request->input('N1');
         $rpjmdindikatorsasaran->N2 = $request->input('N2');
         $rpjmdindikatorsasaran->N3 = $request->input('N3');
         $rpjmdindikatorsasaran->N4 = $request->input('N4');
