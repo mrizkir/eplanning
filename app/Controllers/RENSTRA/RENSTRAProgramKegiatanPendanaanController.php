@@ -52,14 +52,8 @@ class RENSTRAProgramKegiatanPendanaanController extends Controller {
         }
         else
         {
-            $data = RENSTRAProgramKegiatanPendanaanModel::select(\DB::raw('"RenstraProgramKegiatanPendanaanID","tmUrs"."Nm_Bidang","tmPrg"."PrgNm","tmOrg"."OrgNm","trIndikatorKinerja"."NamaIndikator" AS "IndikatorKinerja","tmRenstraKebijakan"."Nm_RenstraKebijakan","trRenstraProgramKegiatanPendanaan"."NamaIndikator","trRenstraProgramKegiatanPendanaan"."Descr","trRenstraProgramKegiatanPendanaan"."TA","trRenstraProgramKegiatanPendanaan"."created_at","trRenstraProgramKegiatanPendanaan"."updated_at"'))
-                                                ->join('tmUrs','tmUrs.UrsID','trRenstraProgramKegiatanPendanaan.UrsID')
-                                                ->join('tmPrg','tmPrg.PrgID','trRenstraProgramKegiatanPendanaan.PrgID')
-                                                ->join('tmOrg','tmOrg.OrgIDRPJMD','trRenstraProgramKegiatanPendanaan.OrgIDRPJMD')
-                                                ->join('trIndikatorKinerja','trIndikatorKinerja.IndikatorKinerjaID','trRenstraProgramKegiatanPendanaan.IndikatorKinerjaID')
-                                                ->join('tmRenstraKebijakan','tmRenstraKebijakan.RenstraKebijakanID','trRenstraProgramKegiatanPendanaan.RenstraKebijakanID')
-                                                ->where('trRenstraProgramKegiatanPendanaan.TA',\HelperKegiatan::getRENSTRATahunMulai())
-                                                ->orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data = RENSTRAProgramKegiatanPendanaanModel::where('tmKgt.TA',\HelperKegiatan::getRENSTRATahunMulai())
+                                                        ->orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('renstraprogramkegiatanpendanaan.index'));
         return $data;
@@ -303,31 +297,16 @@ class RENSTRAProgramKegiatanPendanaanController extends Controller {
         $theme = \Auth::user()->theme;
         $filters=$this->getControllerStateSession('renstraprogramkegiatanpendanaan','filters');  
         if ($filters['OrgIDRPJMD'] != 'none'&&$filters['OrgIDRPJMD'] != ''&&$filters['OrgIDRPJMD'] != null)
-        {   
-            $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusanByOPD(\HelperKegiatan::getRENSTRATahunMulai(),$filters['OrgIDRPJMD'],false);   
-            $daftar_urusan['all']='SEMUA URUSAN';            
-            $organisasi=\App\Models\DMaster\OrganisasiModel::find($filters['OrgIDRPJMD']);                        
-            $UrsID=$organisasi->UrsID;
-            $daftar_program=[];
-            if (isset($daftar_urusan[$UrsID]))
-            {
-                $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getRENSTRATahunMulai(),false,$UrsID);
-            }            
-
-            $daftar_kebijakan=\App\Models\RENSTRA\RENSTRAKebijakanModel::select(\DB::raw('"RenstraKebijakanID",CONCAT(\'[\',"Kd_RenstraKebijakan",\']. \',"Nm_RenstraKebijakan") AS "Nm_RenstraKebijakan"'))
-                                                                        ->where('TA',\HelperKegiatan::getRENSTRATahunMulai())
-                                                                        ->orderBy('Kd_RenstraKebijakan','ASC')
-                                                                        ->get()
-                                                                        ->pluck('Nm_RenstraKebijakan','RenstraKebijakanID')
-                                                                        ->toArray();
+        {               
+            $organisasi=\App\Models\DMaster\OrganisasiModel::find($filters['OrgIDRPJMD']);                  
+            $daftar_sasaran = [];      
+            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgramByOPD($filters['OrgIDRPJMD']);         
                     
-
+            
             return view("pages.$theme.renstra.renstraprogramkegiatanpendanaan.create")->with(['page_active'=>'renstraprogramkegiatanpendanaan',
                                                                                     'organisasi'=>$organisasi,
-                                                                                    'daftar_urusan'=>$daftar_urusan,
-                                                                                    'daftar_kebijakan'=>$daftar_kebijakan,
+                                                                                    'daftar_sasaran'=>$daftar_sasaran,
                                                                                     'daftar_program'=>$daftar_program,
-                                                                                    'UrsID_selected'=>$UrsID,
                                                                                 ]);  
         }
         else
@@ -390,13 +369,13 @@ class RENSTRAProgramKegiatanPendanaanController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = \DB::table('trRenstraProgramKegiatanPendanaan')
-                    ->select(\DB::raw('"RenstraProgramKegiatanPendanaanID","tmUrs"."Nm_Bidang","tmPrg"."PrgNm","tmOrg"."OrgNm","trIndikatorKinerja"."NamaIndikator" AS "IndikatorKinerja","tmRenstraKebijakan"."Nm_RenstraKebijakan","trRenstraProgramKegiatanPendanaan"."NamaIndikator","trRenstraProgramKegiatanPendanaan"."Descr","trRenstraProgramKegiatanPendanaan"."TA","trRenstraProgramKegiatanPendanaan"."created_at","trRenstraProgramKegiatanPendanaan"."updated_at"'))
-                    ->join('tmUrs','tmUrs.UrsID','trRenstraProgramKegiatanPendanaan.UrsID')
-                    ->join('tmPrg','tmPrg.PrgID','trRenstraProgramKegiatanPendanaan.PrgID')
-                    ->join('tmOrg','tmOrg.OrgIDRPJMD','trRenstraProgramKegiatanPendanaan.OrgIDRPJMD')
-                    ->join('trIndikatorKinerja','trIndikatorKinerja.IndikatorKinerjaID','trRenstraProgramKegiatanPendanaan.IndikatorKinerjaID')
-                    ->join('tmRenstraKebijakan','tmRenstraKebijakan.RenstraKebijakanID','trRenstraProgramKegiatanPendanaan.RenstraKebijakanID')
+        $data = \DB::table('tmKgt')
+                    ->select(\DB::raw('"RenstraProgramKegiatanPendanaanID","tmUrs"."Nm_Bidang","tmPrg"."PrgNm","tmOrg"."OrgNm","trIndikatorKinerja"."NamaIndikator" AS "IndikatorKinerja","tmRenstraKebijakan"."Nm_RenstraKebijakan","tmKgt"."NamaIndikator","tmKgt"."Descr","tmKgt"."TA","tmKgt"."created_at","tmKgt"."updated_at"'))
+                    ->join('tmUrs','tmUrs.UrsID','tmKgt.UrsID')
+                    ->join('tmPrg','tmPrg.PrgID','tmKgt.PrgID')
+                    ->join('tmOrg','tmOrg.OrgIDRPJMD','tmKgt.OrgIDRPJMD')
+                    ->join('trIndikatorKinerja','trIndikatorKinerja.IndikatorKinerjaID','tmKgt.IndikatorKinerjaID')
+                    ->join('tmRenstraKebijakan','tmRenstraKebijakan.RenstraKebijakanID','tmKgt.RenstraKebijakanID')
                     ->where('RenstraProgramKegiatanPendanaanID',$id)
                     ->first();
         
@@ -424,8 +403,8 @@ class RENSTRAProgramKegiatanPendanaanController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $data = RENSTRAProgramKegiatanPendanaanModel::select(\DB::raw('"RenstraProgramKegiatanPendanaanID","RenstraKebijakanID","IndikatorKinerjaID","trRenstraProgramKegiatanPendanaan"."UrsID","PrgID","trRenstraProgramKegiatanPendanaan"."OrgIDRPJMD","OrgNm","trRenstraProgramKegiatanPendanaan"."NamaIndikator","trRenstraProgramKegiatanPendanaan"."Descr"'))
-                                            ->join('tmOrg','tmOrg.OrgIDRPJMD','trRenstraProgramKegiatanPendanaan.OrgIDRPJMD')
+        $data = RENSTRAProgramKegiatanPendanaanModel::select(\DB::raw('"RenstraProgramKegiatanPendanaanID","RenstraKebijakanID","IndikatorKinerjaID","tmKgt"."UrsID","PrgID","tmKgt"."OrgIDRPJMD","OrgNm","tmKgt"."NamaIndikator","tmKgt"."Descr"'))
+                                            ->join('tmOrg','tmOrg.OrgIDRPJMD','tmKgt.OrgIDRPJMD')
                                             ->findOrFail($id);
         if (!is_null($data) ) 
         {

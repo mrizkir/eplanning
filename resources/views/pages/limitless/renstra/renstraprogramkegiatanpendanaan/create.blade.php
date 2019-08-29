@@ -43,18 +43,7 @@
                         <span class="label border-left-primary label-striped">{{$organisasi->OrgNm}}</span>
                     </p>
                 </div>                            
-            </div>
-            <div class="form-group">
-                {{Form::label('UrsID','NAMA URUSAN',['class'=>'control-label col-md-2'])}}
-                <div class="col-md-10">
-                    <select name="UrsID" id="UrsID" class="select">
-                        <option></option>
-                        @foreach ($daftar_urusan as $k=>$item)
-                            <option value="{{$k}}" {{$UrsID_selected == $k?' selected':''}}>{{$item}}</option>
-                        @endforeach
-                    </select>                        
-                </div>
-            </div>         
+            </div>                 
             <div class="form-group">
                 {{Form::label('PrgID','NAMA PROGRAM',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
@@ -77,9 +66,9 @@
             <div class="form-group">
                 <label class="col-md-2 control-label">ARAH KEBIJAKAN:</label> 
                 <div class="col-md-10">
-                    <select name="RenstraKebijakanID" id="RenstraKebijakanID" class="select">
+                    <select name="RenstraSasaranID" id="RenstraSasaranID" class="select">
                         <option></option>
-                        @foreach ($daftar_kebijakan as $k=>$item)
+                        @foreach ($daftar_sasaran as $k=>$item)
                             <option value="{{$k}}">{{$item}}</option>
                         @endforeach
                     </select>                                
@@ -124,7 +113,7 @@ $(document).ready(function () {
         placeholder: "PILIH NAMA PROGRAM",
         allowClear:true
     });    
-    $('#RenstraKebijakanID.select').select2({
+    $('#RenstraSasaranID.select').select2({
         placeholder: "PILIH ARAH KEBIJAKAN",
         allowClear:true
     });
@@ -188,7 +177,7 @@ $(document).ready(function () {
     $('#frmdata').validate({
         ignore: [],
         rules: {
-            RenstraKebijakanID : {
+            RenstraSasaranID : {
                 required: true,
                 valueNotEquals: 'none'
             },
@@ -206,7 +195,7 @@ $(document).ready(function () {
             }
         },
         messages : {
-            RenstraKebijakanID : {
+            RenstraSasaranID : {
                 required: "Mohon untuk di pilih karena ini diperlukan.",
                 valueNotEquals: "Mohon untuk di pilih karena ini diperlukan.",      
             },

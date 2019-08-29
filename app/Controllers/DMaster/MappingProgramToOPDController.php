@@ -420,7 +420,7 @@ class MappingProgramToOPDController extends Controller {
         }        
 
         $daftar_urusan=UrusanModel::getDaftarUrusan(\HelperKegiatan::getRPJMDTahunMulai());
-        $daftar_urusan['none']='SELURUH URUSAN';
+        $daftar_urusan['none']='[n.nn.] NON-URUSAN'; 
         $filter_kode_urusan_selected=UrusanModel::getKodeUrusanByUrsID($this->getControllerStateSession('mappingprogramtoopd.filters','UrsID'));
 
         $this->setCurrentPageInsideSession('mappingprogramtoopd',1);
@@ -481,6 +481,7 @@ class MappingProgramToOPDController extends Controller {
                                                                     ->where('TA',\HelperKegiatan::getRPJMDTahunMulai());
                                                             })
                                                             ->where('TA',\HelperKegiatan::getRPJMDTahunMulai())
+                                                            ->whereNull('UrsID')
                                                             ->orderBy($column_order,$direction)                                                        
                                                             ->paginate($numberRecordPerPage, $columns, 'page', $currentpage)
                                                 :
@@ -494,7 +495,6 @@ class MappingProgramToOPDController extends Controller {
                                                             })
                                                             ->where('TA',\HelperKegiatan::getRPJMDTahunMulai())                                                            
                                                             ->where('UrsID',$filter_ursid)
-                                                            ->orWhereNull('UrsID')
                                                             ->orderBy($column_order,$direction)                                                        
                                                             ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
             
@@ -513,7 +513,7 @@ class MappingProgramToOPDController extends Controller {
     {        
         $theme = \Auth::user()->theme;
         $daftar_urusan=UrusanModel::getDaftarUrusan(\HelperKegiatan::getRPJMDTahunMulai());
-        $daftar_urusan['none']='SELURUH URUSAN';           
+        $daftar_urusan['none']='[n.nn.] NON-URUSAN';           
 
         $daftar_opd=\App\Models\DMaster\OrganisasiRPJMDModel::getDaftarOPDMaster(\HelperKegiatan::getRPJMDTahunMulai(),false); 
 

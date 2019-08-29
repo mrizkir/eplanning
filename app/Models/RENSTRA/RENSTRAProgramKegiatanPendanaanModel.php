@@ -13,46 +13,56 @@ class RENSTRAProgramKegiatanPendanaanModel extends Model {
      *
      * @var string
      */
-    protected $table = 'trRenstraProgramKegiatanPendanaan';
+    protected $table = 'tmKgt';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'RenstraProgramKegiatanPendanaanID',
+        'KgtID',
         'RenstraSasaranID', 
         'UrsID', 
         'PrgID', 
-        'KgtID', 
         'OrgIDRPJMD',         
-        'output',
-        'Satuan',
-        'KondisiAwal',
-        'TargetN1',
-        'TargetN2',
-        'TargetN3',
-        'TargetN4',
-        'TargetN5',
+        'OrgBidangIDRPJMD',         
+        'Kd_Keg',
+        'KgtNm',
+        'KeluaranKegiatan_KondisiAwal',
+        'KeluaranKegiatan_TolakUkur',
+        'KeluaranKegiatan_Satuan',
+        'HasilKegiatan_TolakUkur',
+        'HasilKegiatan_Satuan',
+        'TargetN1_Keluaran',
+        'TargetN1_Hasil',
+        'TargetN2_Keluaran',
+        'TargetN2_Hasil',
+        'TargetN3_Keluaran',
+        'TargetN3_Hasil',
+        'TargetN4_Keluaran',
+        'TargetN4_Hasil',
+        'TargetN5_Keluaran',
+        'TargetN5_Hasil',
         'PaguDanaN1',
         'PaguDanaN2',
         'PaguDanaN3',
         'PaguDanaN4',
         'PaguDanaN5',
-        'KondisiAkhirTarget',
+        'KondisiAkhirTarget_Keluaran',
+        'KondisiAkhirTarget_Hasil',
         'KondisiAkhirPaguDana',
         'Lokasi',
         'Descr',
         'TA',        
         'Locked',        
-        'RenstraProgramKegiatanPendanaanID_Src',        
+        'KgtID_Src',        
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'RenstraProgramKegiatanPendanaanID';
+    protected $primaryKey = 'KgtID';
     /**
      * enable auto_increment.
      *
@@ -75,7 +85,7 @@ class RENSTRAProgramKegiatanPendanaanModel extends Model {
     /**
      * log the changed attributes for all these events 
      */
-    protected static $logAttributes = ['RenstraProgramKegiatanPendanaanID', 'KgtID', 'OrgIDRPJMD'];
+    protected static $logAttributes = ['RenstraProgramKegiatanPendanaanID', 'KgtID', 'KgtNm', 'OrgIDRPJMD'];
     /**
      * log changes to all the $fillable attributes of the model
      */

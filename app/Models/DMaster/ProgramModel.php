@@ -124,11 +124,11 @@ class ProgramModel extends Model {
     public static function getDaftarProgramByOPD ($OrgIDRPJMD,$prepend=true) 
     {    
         $r=\DB::table('v_organisasi_program')
-            ->where('OrgIDRPJMD',$OrgIDRPJMD)                
-            ->orderByRaw('"Kd_Urusan" ASC NULLS FIRST')
-            ->orderByRaw('"Kd_Bidang" ASC NULLS FIRST')
-            ->orderByRaw('"Kd_Prog" ASC NULLS FIRST')
-            ->get();
+                ->where('OrgIDRPJMD',$OrgIDRPJMD)                
+                ->orderByRaw('"Kd_Urusan" ASC NULLS FIRST')
+                ->orderByRaw('"Kd_Bidang" ASC NULLS FIRST')
+                ->orderByRaw('"Kd_Prog" ASC NULLS FIRST')
+                ->get();
        
         $daftar_program=($prepend==true)?['none'=>'DAFTAR PROGRAM']:[];        
         foreach ($r as $k=>$v)
