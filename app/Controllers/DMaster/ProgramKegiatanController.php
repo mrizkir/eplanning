@@ -53,20 +53,24 @@ class ProgramKegiatanController extends Controller {
             switch ($search['kriteria']) 
             {
                 case 'kode_kegiatan' :
-                    $data = \DB::table('tmKgt')
-                            ->select(\DB::raw('"tmKgt"."KgtID","tmKgt"."PrgID","v_program_kegiatan"."kode_kegiatan","tmKgt"."Kd_Keg","tmKgt"."KgtNm","v_program_kegiatan"."Kd_Prog","v_program_kegiatan"."PrgNm","tmKgt"."TA","v_program_kegiatan"."Jns","tmKgt"."created_at","tmKgt"."updated_at"'))
-                            ->join('v_program_kegiatan','v_program_kegiatan.KgtID','tmKgt.KgtID')
-                            ->where('tmKgt.TA',\HelperKegiatan::getTahunPerencanaan())
+                    $data = \DB::table('v_program_kegiatan')
+                    ->select(\DB::raw('"KgtID","PrgID","kode_kegiatan","KgtNm","PrgNm","TA","created_at","updated_at"'))
+                            ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                             ->where(['kode_kegiatan'=>$search['isikriteria']])
-                            ->orderBy($column_order,$direction); 
+                            ->orderByRaw('"Kd_Urusan" ASC NULLS FIRST')
+                            ->orderByRaw('"Kd_Bidang" ASC NULLS FIRST')
+                            ->orderByRaw('"Kd_Prog" ASC NULLS FIRST')
+                            ->orderByRaw('"Kd_Keg" ASC NULLS FIRST');
                 break;
                 case 'KgtNm' :
-                    $data = \DB::table('tmKgt')
-                            ->select(\DB::raw('"tmKgt"."KgtID","tmKgt"."PrgID","v_program_kegiatan"."kode_kegiatan","tmKgt"."Kd_Keg","tmKgt"."KgtNm","v_program_kegiatan"."Kd_Prog","v_program_kegiatan"."PrgNm","tmKgt"."TA","v_program_kegiatan"."Jns","tmKgt"."created_at","tmKgt"."updated_at"'))
-                            ->join('v_program_kegiatan','v_program_kegiatan.KgtID','tmKgt.KgtID')
-                            ->where('tmKgt.TA',\HelperKegiatan::getTahunPerencanaan())
+                    $data = \DB::table('v_program_kegiatan')
+                            ->select(\DB::raw('"KgtID","PrgID","kode_kegiatan","KgtNm","PrgNm","TA","created_at","updated_at"'))
+                            ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                             ->where('KgtNm', 'ilike', '%' . $search['isikriteria'] . '%')
-                            ->orderBy($column_order,$direction);                                        
+                            ->orderByRaw('"Kd_Urusan" ASC NULLS FIRST')
+                            ->orderByRaw('"Kd_Bidang" ASC NULLS FIRST')
+                            ->orderByRaw('"Kd_Prog" ASC NULLS FIRST')
+                            ->orderByRaw('"Kd_Keg" ASC NULLS FIRST');     
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
@@ -74,19 +78,23 @@ class ProgramKegiatanController extends Controller {
         else
         {
             $data =$filter_prgid == 'none' ? 
-                                            \DB::table('tmKgt')
-                                                    ->select(\DB::raw('"tmKgt"."KgtID","tmKgt"."PrgID","v_program_kegiatan"."kode_kegiatan","tmKgt"."Kd_Keg","tmKgt"."KgtNm","v_program_kegiatan"."Kd_Prog","v_program_kegiatan"."PrgNm","tmKgt"."TA","v_program_kegiatan"."Jns","tmKgt"."created_at","tmKgt"."updated_at"'))
-                                                    ->join('v_program_kegiatan','v_program_kegiatan.KgtID','tmKgt.KgtID')
-                                                    ->orderBy($column_order,$direction)
-                                                    ->where('tmKgt.TA',\HelperKegiatan::getTahunPerencanaan())
+                                            \DB::table('v_program_kegiatan')
+                                                    ->select(\DB::raw('"KgtID","PrgID","kode_kegiatan","KgtNm","PrgNm","TA","created_at","updated_at"'))
+                                                    ->orderByRaw('"Kd_Urusan" ASC NULLS FIRST')
+                                                    ->orderByRaw('"Kd_Bidang" ASC NULLS FIRST')
+                                                    ->orderByRaw('"Kd_Prog" ASC NULLS FIRST')
+                                                    ->orderByRaw('"Kd_Keg" ASC NULLS FIRST')
+                                                    ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                                                     ->paginate($numberRecordPerPage, $columns, 'page', $currentpage)
                                             :
-                                            \DB::table('tmKgt')
-                                            ->select(\DB::raw('"tmKgt"."KgtID","tmKgt"."PrgID","v_program_kegiatan"."kode_kegiatan","tmKgt"."Kd_Keg","tmKgt"."KgtNm","v_program_kegiatan"."Kd_Prog","v_program_kegiatan"."PrgNm","tmKgt"."TA","v_program_kegiatan"."Jns","tmKgt"."created_at","tmKgt"."updated_at"'))
-                                                    ->join('v_program_kegiatan','v_program_kegiatan.KgtID','tmKgt.KgtID')
-                                                    ->orderBy($column_order,$direction)
-                                                    ->where('tmKgt.TA',\HelperKegiatan::getTahunPerencanaan())
-                                                    ->where('tmKgt.PrgID',$filter_prgid)                                                
+                                            \DB::table('v_program_kegiatan')
+                                                    ->select(\DB::raw('"KgtID","PrgID","kode_kegiatan","KgtNm","PrgNm","TA","created_at","updated_at"'))
+                                                    ->orderByRaw('"Kd_Urusan" ASC NULLS FIRST')
+                                                    ->orderByRaw('"Kd_Bidang" ASC NULLS FIRST')
+                                                    ->orderByRaw('"Kd_Prog" ASC NULLS FIRST')
+                                                    ->orderByRaw('"Kd_Keg" ASC NULLS FIRST')
+                                                    ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                                    ->where('PrgID',$filter_prgid)                                                
                                                     ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
         }        
         
@@ -139,16 +147,16 @@ class ProgramKegiatanController extends Controller {
         switch($column) 
         {
             case 'col-Kd_Keg' :
-                $column_name = 'tmKgt.Kd_Keg';
+                $column_name = 'Kd_Keg';
             break; 
             case 'col-KgtNm' :
-                $column_name = 'tmKgt.KgtNm';
+                $column_name = 'KgtNm';
             break;
             case 'col-PrgNm' :
                 $column_name = 'v_program_kegiatan.PrgNm';
             break;          
             default :
-                $column_name = 'tmKgt.Kd_Keg';
+                $column_name = 'Kd_Keg';
         }
         $this->putControllerStateSession('programkegiatan','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
@@ -246,7 +254,7 @@ class ProgramKegiatanController extends Controller {
         $json_data = [];
         
         //index
-        if ($request->exists('PrgID'))
+        if ($request->exists('PrgID') && $request->exists('index'))
         {
             $PrgID = $request->input('PrgID')==''?'none':$request->input('PrgID');
             $filters['PrgID']=$PrgID;
@@ -266,6 +274,13 @@ class ProgramKegiatanController extends Controller {
                         
             
             $json_data = ['success'=>true,'datatable'=>$datatable];            
+        }
+        //create
+        if ($request->exists('PrgID') && $request->exists('create'))
+        {
+            $PrgID = $request->input('PrgID');
+            $Kd_Keg = ProgramKegiatanModel::where('PrgID',$PrgID)->count('Kd_Keg')+1;
+            $json_data = ['success'=>true,'Kd_Keg'=>$Kd_Keg];
         }
         return response()->json($json_data,200);  
     }
@@ -365,16 +380,24 @@ class ProgramKegiatanController extends Controller {
     public function show($id)
     {
         $theme = \Auth::user()->theme;
-        $data = ProgramKegiatanModel::select(\DB::raw('"v_program_kegiatan"."Kd_Urusan","v_program_kegiatan"."Nm_Urusan","v_program_kegiatan"."Kd_Bidang","v_program_kegiatan"."Nm_Bidang","tmKgt"."KgtID","v_program_kegiatan"."Kd_Prog","tmKgt"."Kd_Keg","tmKgt"."KgtNm","v_program_kegiatan"."kode_kegiatan","v_program_kegiatan"."PrgNm","tmKgt"."Descr","tmKgt"."TA","tmKgt"."created_at","tmKgt"."updated_at"'))
-                                    ->leftJoin('v_program_kegiatan','v_program_kegiatan.KgtID','tmKgt.KgtID')
-                                    ->where('tmKgt.KgtID',$id)
-                                    ->firstOrFail();        
-        if (!is_null($data) )  
+        $data = \DB::table('v_program_kegiatan')
+                    ->select(\DB::raw('"KgtID","Kd_Urusan","Nm_Urusan","Kd_Bidang","Nm_Bidang","KgtID","Kd_Prog","Kd_Keg","KgtNm","kode_kegiatan","PrgNm","Descr","TA","created_at","updated_at"'))
+                    ->where('KgtID',$id)
+                    ->get();   
+                    
+        if (count($data) > 0)  
         {
+            $data = $data[0];
             return view("pages.$theme.dmaster.programkegiatan.show")->with(['page_active'=>'programkegiatan',
-                                                    'data'=>$data
-                                                    ]);
-        }        
+                                                                            'data'=>$data
+                                                                        ]);
+        }  
+        else
+        {
+            return view("pages.$theme.dmaster.programkegiatan.error")->with(['page_active'=>'programkegiatan',
+                                                                            'errormessage'=>"ID Kegiatan ($id) tidak ditemukan di database"
+                                                                        ]);
+        }
     }
 
     /**

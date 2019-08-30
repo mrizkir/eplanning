@@ -222,6 +222,11 @@
                             <div class="col-md-3">
                                 <span class="menu-heading underlined bg-blue-300" style="padding:10px"><i class="icon-strategy"></i> BAB VI</span>
                                 <ul class="menu-list">
+                                    <li{!!Helper::isMenuActive ($page_active,'programkegiatan',' class="active"')!!}>
+                                        <a href="{{route('programkegiatan.index')}}" title="Data Program Kegiatan">
+                                            <i class="icon-strategy"></i> KEGIATAN <span class="text-violet"><strong>[5]</strong></span>
+                                        </a>    
+                                    </li>
                                     <li{!!Helper::isMenuActive ($page_active,'renstraprogramkegiatanpendanaan',' class="active"')!!}>
                                         <a href="{{route('renstraprogramkegiatanpendanaan.index')}}">
                                             <i class="icon-strategy"></i> PRG., KEG., DAN PENDANAAN <span class="text-violet"><strong>[6]</strong></span>

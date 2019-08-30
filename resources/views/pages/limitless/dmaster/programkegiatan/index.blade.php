@@ -104,6 +104,7 @@ $(document).ready(function () {
             data: {                
                 "_token": token,
                 "PrgID": $('#PrgID').val(),
+                "index": true,
             },
             success:function(result)
             { 

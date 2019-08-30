@@ -13,17 +13,15 @@ class CreateRenstraprogramkegiatanpendanaanTable extends Migration
      */
     public function up()
     {        
-        Schema::create('tmKgt', function (Blueprint $table) {
-            $table->string('KgtID',19);
+        Schema::create('trRenstraProgramKegiatanPendanaan', function (Blueprint $table) {
+            $table->string('RenstraProgramKegiatanPendanaanID',19);
             $table->string('RenstraSasaranID',19)->nullable();            
             $table->string('UrsID',19)->nullable();
             $table->string('PrgID',19);
+            $table->string('KgtID',19);
             $table->string('OrgIDRPJMD',19);
             $table->string('OrgBidangIDRPJMD',19)->nullable();
-
-            $table->string('Kd_Keg',4);
-            $table->text('KgtNm');
-        
+            
             $table->string('KeluaranKegiatan_KondisiAwal');
             $table->string('KeluaranKegiatan_TolakUkur');
             $table->string('KeluaranKegiatan_Satuan');
@@ -53,7 +51,7 @@ class CreateRenstraprogramkegiatanpendanaanTable extends Migration
             $table->string('Descr')->nullable();
             $table->year('TA');
             $table->boolean('Locked')->default(0);
-            $table->string('KgtID_Src',19)->nullable();
+            $table->string('RenstraProgramKegiatanPendanaanID_Src',19)->nullable();
 
             $table->timestamps();
 
@@ -64,7 +62,7 @@ class CreateRenstraprogramkegiatanpendanaanTable extends Migration
             $table->index('KgtID');
             $table->index('OrgIDRPJMD');
             $table->index('OrgBidangIDRPJMD');
-            $table->index('KgtID_Src');
+            $table->index('RenstraProgramKegiatanPendanaanID_Src');
 
             $table->foreign('RenstraSasaranID')
                     ->references('RenstraSasaranID')
@@ -89,6 +87,12 @@ class CreateRenstraprogramkegiatanpendanaanTable extends Migration
                     ->on('tmPrg')
                     ->onDelete('cascade')
                     ->onUpdate('cascade');
+
+            $table->foreign('KgtID')
+                    ->references('KgtID')
+                    ->on('tmKgt')
+                    ->onDelete('cascade')
+                    ->onUpdate('cascade'); 
                     
         });
     }
@@ -100,6 +104,6 @@ class CreateRenstraprogramkegiatanpendanaanTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tmKgt');
+        Schema::dropIfExists('trRenstraProgramKegiatanPendanaan');
     }
 }

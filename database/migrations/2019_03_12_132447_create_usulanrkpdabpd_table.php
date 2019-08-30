@@ -47,7 +47,7 @@ class CreateUsulanrkpdabpdTable extends Migration
 
             $table->date('Tgl_Posting');
 
-            $table->string('Descr')->nullable();
+            $table->text('Descr')->nullable();
             $table->year('TA'); 
             $table->tinyInteger('Status')->default(0);
             $table->tinyInteger('Status_Indikator')->default(0);

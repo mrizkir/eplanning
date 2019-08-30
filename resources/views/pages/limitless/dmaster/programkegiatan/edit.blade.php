@@ -73,6 +73,7 @@
 <script src="{!!asset('themes/limitless/assets/jquery-validation/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/jquery-validation/additional-methods.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/autoNumeric.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
@@ -82,6 +83,50 @@ $(document).ready(function () {
         placeholder: "PILIH PROGRAM",
         allowClear:true
     });
+    AutoNumeric.multiple(['#Kd_Keg'], {
+                                        allowDecimalPadding: false,
+                                        minimumValue:0,
+                                        maximumValue:9999,
+                                        numericPos:true,
+                                        decimalPlaces : 0,
+                                        digitGroupSeparator : '',
+                                        showWarnings:false,
+                                        unformatOnSubmit: true,
+                                        modifyValueOnWheel:false
+                                    });  
+                                    $(document).on('change','#PrgID',function(ev) {
+        ev.preventDefault();  
+        PrgID=$(this).val();
+        if (PrgID == null || PrgID=='')
+        {
+            $("#frmdata :input").not('[name=PrgID]').prop("disabled", true);
+            $("#Kode_Program").val('none');  
+        }
+        else
+        {
+            $("#frmdata *").prop("disabled", false);   
+            $.ajax({
+                type:'post',
+                url: url_current_page+'/filter',
+                dataType: 'json',
+                data: {
+                    "_token": token,
+                    "PrgID": PrgID,
+                    "create": true,
+                },
+                success:function(result)
+                {   
+                    $('#Kd_Keg').val(result.Kd_Keg);
+                    const element = AutoNumeric.getAutoNumericElement('#Kd_Keg');
+                    element.set(result.Kd_Keg);   
+                },
+                error:function(xhr, status, error)
+                {   
+                    console.log(parseMessageAjaxEror(xhr, status, error));                           
+                },
+            });                 
+        }
+    });
     $('#frmdata').validate({
         ignore:[],
         rules: {
@@ -89,9 +134,7 @@ $(document).ready(function () {
                 required : true,
             },
             Kd_Keg : {
-                required: true,  
-                number: true,
-                maxlength: 4              
+                required: true          
             },
             KgtNm : {
                 required: true,
@@ -112,20 +155,7 @@ $(document).ready(function () {
                 minlength: "Mohon di isi minimal 5 karakter atau lebih."
             }
         }     
-    });       
-    $(document).on('change','#PrgID',function(ev) {
-        ev.preventDefault();  
-        PrgID=$(this).val();
-        if (PrgID == null || PrgID=='')
-        {
-            $("#frmdata :input").not('[name=PrgID]').prop("disabled", true);
-            $("#Kode_Program").val('none');  
-        }
-        else
-        {
-            $("#frmdata *").prop("disabled", false);           
-        }
-    });
+    });           
 });
 </script>
 @endsection

@@ -64,9 +64,10 @@ class ProgramModel extends Model {
         if ($UrsID==null)
         {
             $r=\DB::table('v_urusan_program')
-                ->where('TA',$ta)                
-                ->orderBy('Kd_Prog')
-                ->orderBy('kode_program')
+                ->where('TA',$ta)          
+                ->orderByRaw('"Kd_Urusan" ASC NULLS FIRST')
+                ->orderByRaw('"Kd_Bidang" ASC NULLS FIRST')
+                ->orderByRaw('"Kd_Prog" ASC NULLS FIRST')
                 ->get();
         }
         else if($UrsID == 'all')
@@ -75,7 +76,9 @@ class ProgramModel extends Model {
                 ->where('TA',$ta)
                 ->orderBy('Kd_Prog')
                 ->where('Jns','f')
-                ->orderBy('kode_program')
+                ->orderByRaw('"Kd_Urusan" ASC NULLS FIRST')
+                ->orderByRaw('"Kd_Bidang" ASC NULLS FIRST')
+                ->orderByRaw('"Kd_Prog" ASC NULLS FIRST')
                 ->get();
         }
         else
@@ -84,23 +87,17 @@ class ProgramModel extends Model {
                 ->where('TA',$ta)
                 ->orderBy('Kd_Prog')
                 ->where('UrsID',$UrsID)
-                ->orderBy('kode_program')
+                ->orderByRaw('"Kd_Urusan" ASC NULLS FIRST')
+                ->orderByRaw('"Kd_Bidang" ASC NULLS FIRST')
+                ->orderByRaw('"Kd_Prog" ASC NULLS FIRST')
                 ->get();
             
         }        
         
         $daftar_program=($prepend==true)?['none'=>'DAFTAR PROGRAM']:[];        
         foreach ($r as $k=>$v)
-        {
-            if ($v->Jns)
-            {
-                $daftar_program[$v->PrgID]=$v->kode_program.'. '.$v->PrgNm;
-            }
-            else
-            {
-                $daftar_program[$v->PrgID]=$v->Kd_Prog.'. '.$v->PrgNm;
-            }
-            
+        {           
+            $daftar_program[$v->PrgID]=$v->kode_program.'. '.$v->PrgNm;           
         }
         return $daftar_program;
     }

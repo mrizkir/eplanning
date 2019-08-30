@@ -21,24 +21,16 @@
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
                     <th width="100">
-                        <a class="column-sort text-white" id="col-kode_kegiatan" data-order="{{$direction}}" href="#">
-                            KODE KEGIATAN  
-                        </a>                                             
+                        KODE KEGIATAN  
                     </th> 
-                    <th>
-                        <a class="column-sort text-white" id="col-KgtNm" data-order="{{$direction}}" href="#">
-                            NAMA KEGIATAN  
-                        </a>                                             
+                    <th>                        
+                        NAMA KEGIATAN  
                     </th> 
                     <th width="350">
-                        <a class="column-sort text-white" id="col-PrgNm" data-order="{{$direction}}" href="#">
-                            NAMA PROGRAM  
-                        </a>                                             
+                        NAMA PROGRAM  
                     </th> 
                     <th width="70">
-                        <a class="column-sort text-white" id="col-TA" data-order="{{$direction}}" href="#">
-                            TAHUN
-                        </a>                                             
+                        TAHUN
                     </th> 
                     <th width="100">AKSI</th>
                 </tr>
@@ -49,21 +41,7 @@
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>                  
-                    <td>
-                        @php
-                            if ($item->Jns==false && $filter_prgid_selected=='none')
-                            {
-                                echo 'n.nn.'.$item->Kd_Prog.'.'.$item->Kd_Keg;
-                            } 
-                            elseif ($item->Jns==false && $filter_prgid_selected!='none') 
-                            {                                
-                                echo $item->Kd_Prog.'.'.$item->Kd_Keg;
-                            }
-                            else {                                
-                                echo $item->kode_kegiatan;
-                            }   
-                        @endphp                        
-                    </td>
+                    <td>{{$item->kode_kegiatan}}</td>
                     <td>{{$item->KgtNm}}</td>
                     <td>{{$item->PrgNm}}</td>
                     <td>{{$item->TA}}</td>
