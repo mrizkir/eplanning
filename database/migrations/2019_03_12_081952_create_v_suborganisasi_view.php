@@ -16,20 +16,15 @@ class CreateVSuborganisasiView extends Migration
         \DB::statement('CREATE VIEW v_suborganisasi AS
                         SELECT sub."SOrgID", 
                             organisasi."OrgID",
+                            organisasi."OrgIDRPJMD",
                             urusan."UrsID",
                             kelompok_urusan."KUrsID",
                             kelompok_urusan."Kd_Urusan",
                             urusan."Kd_Bidang",			 
-                            organisasi."OrgCd",
-                            CASE 
-                                WHEN urusan."UrsID" IS NOT NULL OR  kelompok_urusan."KUrsID" IS NOT NULL THEN
-                                    CONCAT(kelompok_urusan."Kd_Urusan",\'.\',urusan."Kd_Bidang",\'.\',organisasi."OrgCd")
-                            END AS kode_organisasi,
-                            sub."SOrgCd",
-                            CASE 
-                                WHEN urusan."UrsID" IS NOT NULL OR  kelompok_urusan."KUrsID" IS NOT NULL THEN
-                                    CONCAT(kelompok_urusan."Kd_Urusan",\'.\',urusan."Kd_Bidang",\'.\',organisasi."OrgCd",\'.\',sub."SOrgCd")
-                            END AS kode_suborganisasi,
+                            organisasi."OrgCd",                           
+                            CONCAT(kelompok_urusan."Kd_Urusan",\'.\',urusan."Kd_Bidang",\'.\',organisasi."OrgCd") kode_organisasi,                            
+                            sub."SOrgCd",              
+                            CONCAT(kelompok_urusan."Kd_Urusan",\'.\',urusan."Kd_Bidang",\'.\',organisasi."OrgCd",\'.\',sub."SOrgCd") kode_suborganisasi,
                             kelompok_urusan."Nm_Urusan",
                             urusan."Nm_Bidang",
                             organisasi."OrgNm",
@@ -41,9 +36,9 @@ class CreateVSuborganisasiView extends Migration
                             sub."created_at",                            
                             sub."updated_at"                            
                             FROM "tmSOrg" AS sub
-                                            LEFT JOIN "tmOrg" AS organisasi ON organisasi."OrgID"=sub."OrgID"
-                                            LEFT JOIN "tmUrs" AS urusan ON organisasi."UrsID"=urusan."UrsID"
-                                            LEFT JOIN "tmKUrs" AS kelompok_urusan ON kelompok_urusan."KUrsID"=urusan."KUrsID"');
+                            JOIN "tmOrg" AS organisasi ON organisasi."OrgID"=sub."OrgID"
+                            JOIN "tmUrs" AS urusan ON organisasi."UrsID"=urusan."UrsID"
+                            JOIN "tmKUrs" AS kelompok_urusan ON kelompok_urusan."KUrsID"=urusan."KUrsID"');
     }
 
     /**

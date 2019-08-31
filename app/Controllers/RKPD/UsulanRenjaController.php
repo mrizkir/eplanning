@@ -582,16 +582,7 @@ class UsulanRenjaController extends Controller
     }   
     public function pilihusulankegiatan(Request $request)
     {
-        $json_data=[];
-        if ($request->exists('UrsID'))
-        {
-            $UrsID = $request->input('UrsID')==''?'none':$request->input('UrsID');
-            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getRPJMDTahunMulai(),false,$UrsID);
-            $json_data['success']=true;
-            $json_data['UrsID']=$UrsID;
-            $json_data['daftar_program']=$daftar_program;
-        }
-
+        $json_data=[];       
         if ($request->exists('PrgID'))
         {
             $PrgID = $request->input('PrgID')==''?'none':$request->input('PrgID');
@@ -610,18 +601,11 @@ class UsulanRenjaController extends Controller
                     ->get();
             $daftar_kegiatan=[];        
             foreach ($r as $k=>$v)
-            {
-                if (!$v->Jns)
-                {
-                    $daftar_kegiatan[$v->KgtID]=$v->Kd_Prog.'.'.$v->Kd_Keg.'. '.$v->KgtNm;
-                }
-                else
-                {
-                    $daftar_kegiatan[$v->KgtID]=$v->kode_kegiatan.'. '.$v->KgtNm;
-                }
-                
+            {               
+                $daftar_kegiatan[$v->KgtID]='['.$v->kode_kegiatan.']. '.$v->KgtNm;
             }            
             $json_data['success']=true;
+            $json_data['PrgID']=$PrgID;
             $json_data['daftar_kegiatan']=$daftar_kegiatan;
         }
         return response()->json($json_data,200);  
@@ -654,21 +638,19 @@ class UsulanRenjaController extends Controller
         if ($filters['SOrgID'] != 'none'&&$filters['SOrgID'] != ''&&$filters['SOrgID'] != null && $locked==false)
         {
             $SOrgID=$filters['SOrgID'];            
-            $OrgID=$filters['OrgID'];
+            $OrgID=$filters['OrgID'];            
 
-            $organisasi=\App\Models\DMaster\OrganisasiModel::find($OrgID);            
-            $UrsID=$organisasi->UrsID;
+            $organisasi=\App\Models\DMaster\SubOrganisasiModel::select(\DB::raw('"v_suborganisasi"."OrgID","v_suborganisasi"."OrgIDRPJMD","v_suborganisasi"."UrsID","v_suborganisasi"."OrgNm","v_suborganisasi"."SOrgNm","v_suborganisasi"."kode_organisasi","v_suborganisasi"."kode_suborganisasi"'))
+                                                            ->join('v_suborganisasi','tmSOrg.OrgID','v_suborganisasi.OrgID')
+                                                            ->find($SOrgID);  
             
-            $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusanByOPD(\HelperKegiatan::getTahunPerencanaan(),$filters['OrgID'],false);   
-            $daftar_urusan['all']='SEMUA URUSAN';
-            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getRPJMDTahunMulai(),false,$UrsID);
+            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgramByOPD($organisasi->OrgIDRPJMD);
             $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunPerencanaan(),false);     
             
             return view("pages.$theme.rkpd.usulanrenja.create")->with(['page_active'=>$this->NameOfPage,
                                                                     'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
-                                                                    'daftar_urusan'=>$daftar_urusan,
                                                                     'daftar_program'=>$daftar_program,
-                                                                    'UrsID_selected'=>$UrsID,
+                                                                    'organisasi'=>$organisasi,
                                                                     'sumber_dana'=>$sumber_dana
                                                                 ]);  
         }
@@ -907,6 +889,7 @@ class UsulanRenjaController extends Controller
                     'SOrgID' => $filters['SOrgID'],
                     'KgtID' => $request->input('KgtID'),
                     'SumberDanaID' => $request->input('SumberDanaID'),
+                    'NamaIndikator' => $request->input('NamaIndikator'), 
                     'Sasaran_Angka1' => $request->input('Sasaran_Angka'),
                     'Sasaran_Uraian1' => $request->input('Sasaran_Uraian'),
                     'Sasaran_AngkaSetelah' => $request->input('Sasaran_AngkaSetelah'),
@@ -914,8 +897,7 @@ class UsulanRenjaController extends Controller
                     'Target1' => $request->input('Target'),
                     'NilaiSebelum' => $request->input('NilaiSebelum'),            
                     'NilaiUsulan1' => 0,            
-                    'NilaiSetelah' => $request->input('NilaiSetelah'),
-                    'NamaIndikator' => $request->input('NamaIndikator'),            
+                    'NilaiSetelah' => $request->input('NilaiSetelah'),                               
                     'Descr' => $request->input('Descr'),
                     'TA' => \HelperKegiatan::getTahunPerencanaan(),
                     'EntryLvl'=>0
@@ -1755,6 +1737,7 @@ class UsulanRenjaController extends Controller
         {            
             case 'usulanprarenjaopd' :
                 $renja = RenjaModel::select(\DB::raw('"trRenja"."RenjaID",
+                                                    "trRenja"."SOrgID",
                                                     "tmUrs"."UrsID",
                                                     "tmUrs"."Nm_Bidang",
                                                     "tmPrg"."PrgID",
@@ -1780,6 +1763,7 @@ class UsulanRenjaController extends Controller
             break;
             case 'usulanrakorbidang' :
                 $renja = RenjaModel::select(\DB::raw('"trRenja"."RenjaID",
+                                                    "trRenja"."SOrgID",
                                                     "tmUrs"."UrsID",
                                                     "tmUrs"."Nm_Bidang",
                                                     "tmPrg"."PrgID",
@@ -1805,6 +1789,7 @@ class UsulanRenjaController extends Controller
             break;
             case 'usulanforumopd' :
                 $renja = RenjaModel::select(\DB::raw('"trRenja"."RenjaID",
+                                                    "trRenja"."SOrgID",
                                                     "tmUrs"."UrsID",
                                                     "tmUrs"."Nm_Bidang",
                                                     "tmPrg"."PrgID",
@@ -1830,6 +1815,7 @@ class UsulanRenjaController extends Controller
             break;
             case 'usulanmusrenkab' :
                 $renja = RenjaModel::select(\DB::raw('"trRenja"."RenjaID",
+                                                    "trRenja"."SOrgID",
                                                     "tmUrs"."UrsID",
                                                     "tmUrs"."Nm_Bidang",
                                                     "tmPrg"."PrgID",
@@ -1857,10 +1843,12 @@ class UsulanRenjaController extends Controller
         
         if (!is_null($renja) ) 
         {
+            $organisasi=\App\Models\DMaster\SubOrganisasiModel::select(\DB::raw('"v_suborganisasi"."OrgID","v_suborganisasi"."OrgIDRPJMD","v_suborganisasi"."UrsID","v_suborganisasi"."OrgNm","v_suborganisasi"."SOrgNm","v_suborganisasi"."kode_organisasi","v_suborganisasi"."kode_suborganisasi"'))
+                                                            ->join('v_suborganisasi','tmSOrg.OrgID','v_suborganisasi.OrgID')
+                                                            ->find($renja->SOrgID);
+
             $UrsID_selected=$renja->UrsID==null?'all':$renja->UrsID;
-            $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusanByOPD(\HelperKegiatan::getTahunPerencanaan(),$UrsID_selected,false);   
-            $daftar_urusan['all']='SEMUA URUSAN';
-            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getRPJMDTahunMulai(),false,$UrsID_selected);
+            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgramByOPD($organisasi->OrgIDRPJMD,false);
             $r=\DB::table('v_program_kegiatan')
                     ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                     ->where('PrgID',$renja->PrgID)                    
@@ -1870,21 +1858,13 @@ class UsulanRenjaController extends Controller
             $daftar_kegiatan=[];        
             foreach ($r as $k=>$v)
             {
-                if (!$v->Jns)
-                {
-                    $daftar_kegiatan[$v->KgtID]=$v->Kd_Prog.'.'.$v->Kd_Keg.'. '.$v->KgtNm;
-                }
-                else
-                {
-                    $daftar_kegiatan[$v->KgtID]=$v->kode_kegiatan.'. '.$v->KgtNm;
-                }
-                
+                $daftar_kegiatan[$v->KgtID]='['.$v->kode_kegiatan.']. '.$v->KgtNm;                
             }            
             $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunPerencanaan(),false);     
             return view("pages.$theme.rkpd.usulanrenja.edit")->with(['page_active'=>$this->NameOfPage,
                                                                 'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                 'renja'=>$renja,
-                                                                'daftar_urusan'=>$daftar_urusan,
+                                                                'organisasi'=>$organisasi,
                                                                 'daftar_program'=>$daftar_program,
                                                                 'daftar_kegiatan'=>$daftar_kegiatan,
                                                                 'UrsID_selected'=>$UrsID_selected,

@@ -14,28 +14,27 @@ class CreateVUrusanOrganisasiView extends Migration
     public function up()
     {
         \DB::statement('CREATE VIEW v_urusan_organisasi AS
-                            SELECT organisasi."OrgID",
-                            urusan."UrsID",
-                            kelompok_urusan."KUrsID",
-                            kelompok_urusan."Kd_Urusan",
-                            urusan."Kd_Bidang",			 
-                            organisasi."OrgCd",
-                            CASE 
-                                    WHEN urusan."UrsID" IS NOT NULL OR  kelompok_urusan."KUrsID" IS NOT NULL THEN
-                                            CONCAT(kelompok_urusan."Kd_Urusan",\'.\',urusan."Kd_Bidang",\'.\',organisasi."OrgCd")
-                            END AS Kode_Organisasi,
-                            kelompok_urusan."Nm_Urusan",
-                            urusan."Nm_Bidang",
-                            organisasi."OrgNm",
-                            organisasi."Alamat",
-                            organisasi."NamaKepalaSKPD",
-                            organisasi."NIPKepalaSKPD",
-                            organisasi."TA",                            
-                            organisasi."created_at",                            
-                            organisasi."updated_at"                            
+                            SELECT 
+                                organisasi."OrgID",
+                                organisasi."OrgIDRPJMD",
+                                urusan."UrsID",
+                                kelompok_urusan."KUrsID",
+                                kelompok_urusan."Kd_Urusan",
+                                urusan."Kd_Bidang",			 
+                                organisasi."OrgCd",                            
+                                CONCAT(kelompok_urusan."Kd_Urusan",\'.\',urusan."Kd_Bidang",\'.\',organisasi."OrgCd") AS kode_organisasi,
+                                kelompok_urusan."Nm_Urusan",
+                                urusan."Nm_Bidang",
+                                organisasi."OrgNm",
+                                organisasi."Alamat",
+                                organisasi."NamaKepalaSKPD",
+                                organisasi."NIPKepalaSKPD",
+                                organisasi."TA",                            
+                                organisasi."created_at",                            
+                                organisasi."updated_at"                            
                             FROM "tmOrg" AS organisasi
-                                    LEFT JOIN "tmUrs" AS urusan ON organisasi."UrsID"=urusan."UrsID"
-                                    LEFT JOIN "tmKUrs" AS kelompok_urusan ON kelompok_urusan."KUrsID"=urusan."KUrsID"');
+                            JOIN "tmUrs" AS urusan ON organisasi."UrsID"=urusan."UrsID"
+                            JOIN "tmKUrs" AS kelompok_urusan ON kelompok_urusan."KUrsID"=urusan."KUrsID"');
     }
 
     /**

@@ -15,24 +15,21 @@ class CreateVUrusanOrganisasiMasterView extends Migration
     {
         \DB::statement('CREATE VIEW v_urusan_organisasi_master AS
                             SELECT organisasi."OrgIDRPJMD",
-                            urusan."UrsID",
-                            kelompok_urusan."KUrsID",
-                            kelompok_urusan."Kd_Urusan",
-                            urusan."Kd_Bidang",			 
-                            organisasi."OrgCd",
-                            CASE 
-                                    WHEN urusan."UrsID" IS NOT NULL OR  kelompok_urusan."KUrsID" IS NOT NULL THEN
-                                            CONCAT(kelompok_urusan."Kd_Urusan",\'.\',urusan."Kd_Bidang",\'.\',organisasi."OrgCd")
-                            END AS Kode_Organisasi,
-                            kelompok_urusan."Nm_Urusan",
-                            urusan."Nm_Bidang",
-                            organisasi."OrgNm",
-                            organisasi."TA",                            
-                            organisasi."created_at",                            
-                            organisasi."updated_at"                            
+                                urusan."UrsID",
+                                kelompok_urusan."KUrsID",
+                                kelompok_urusan."Kd_Urusan",
+                                urusan."Kd_Bidang",			 
+                                organisasi."OrgCd",                            
+                                CONCAT(kelompok_urusan."Kd_Urusan",\'.\',urusan."Kd_Bidang",\'.\',organisasi."OrgCd")  AS Kode_Organisasi,                            
+                                kelompok_urusan."Nm_Urusan",
+                                urusan."Nm_Bidang",
+                                organisasi."OrgNm",
+                                organisasi."TA",                            
+                                organisasi."created_at",                            
+                                organisasi."updated_at"                            
                             FROM "tmOrgRPJMD" AS organisasi
-                                    JOIN "tmUrs" AS urusan ON organisasi."UrsID"=urusan."UrsID"
-                                    JOIN "tmKUrs" AS kelompok_urusan ON kelompok_urusan."KUrsID"=urusan."KUrsID"');
+                            JOIN "tmUrs" AS urusan ON organisasi."UrsID"=urusan."UrsID"
+                            JOIN "tmKUrs" AS kelompok_urusan ON kelompok_urusan."KUrsID"=urusan."KUrsID"');
     }
 
     /**

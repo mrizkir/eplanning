@@ -32,107 +32,138 @@
                 </ul>
             </div>
         </div>
-        <div class="panel-body">
-            {!! Form::open(['url'=>route(Helper::getNameOfPage('update'),$renja->RenjaID),'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                        
-                <div class="form-group">
-                    <label class="col-md-2 control-label">POSISI ENTRI: </label>
-                    <div class="col-md-10">
-                        <p class="form-control-static">
-                            <span class="label border-left-primary label-striped">{{$page_title}}</span>
-                        </p>
-                    </div>                            
-                </div>
-                <div class="form-group">
-                    {{Form::label('UrsID','NAMA URUSAN',['class'=>'control-label col-md-2'])}}
-                    <div class="col-md-10">                                         
-                        {{Form::select('UrsID', $daftar_urusan, $UrsID_selected,['class'=>'select','id'=>'UrsID'])}}   
-                    </div>
-                </div>         
+        {!! Form::open(['url'=>route(Helper::getNameOfPage('update'),$renja->RenjaID),'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                        
+        {{Form::hidden('UrsID', $UrsID_selected,['id'=>'UrsID'])}}      
+        <div class="panel-body">     
+            <div class="form-group">
+                <label class="col-md-2 control-label">POSISI ENTRI: </label>
+                <div class="col-md-10">
+                    <p class="form-control-static">
+                        <span class="label border-left-primary label-striped">{{$page_title}}</span>
+                    </p>
+                </div>                            
+            </div>                          
+            <div class="form-group">
+                <label class="col-md-2 control-label">OPD / SKPD: </label>
+                <div class="col-md-10">
+                    <p class="form-control-static">
+                        <span class="label border-left-primary label-striped">[{{$organisasi->kode_organisasi}}] {{$organisasi->OrgNm}}</span>
+                    </p>
+                </div>                            
+            </div>                          
+            <div class="form-group">
+                <label class="col-md-2 control-label">UNIT KERJA: </label>
+                <div class="col-md-10">
+                    <p class="form-control-static">
+                        <span class="label border-left-primary label-striped">[{{$organisasi->kode_suborganisasi}}] {{$organisasi->SOrgNm}}</span>
+                    </p>
+                </div>                            
+            </div> 
+            <fieldset class="content-group">
+                <legend class="text-bold">PROGRAM / KEGIATAN</legend>   
                 <div class="form-group">
                     {{Form::label('PrgID','NAMA PROGRAM',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
                         {{Form::select('PrgID', $daftar_program, $renja->PrgID,['class'=>'select','id'=>'PrgID'])}}
+                        <span class="help-block">Bila program tidak ada, silahkan dicek di Mapping Program -> OPD</span>  
                     </div>
-                </div>          
+                </div>      
                 <div class="form-group">
                     {{Form::label('KgtID','NAMA KEGIATAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::select('KgtID', $daftar_kegiatan, $renja->KgtID,['class'=>'select','id'=>'KgtID'])}}                    
+                        {{Form::select('KgtID', $daftar_kegiatan, $renja->KgtID,['class'=>'select','id'=>'KgtID'])}}
+                        <span class="help-block">Bila kegiatan tidak ada, barangkali sudah di inputkan. Prinsipnya satu kegiatan tidak bisa digunakan oleh OPD/SKPD yang sama.</span>              
+                    </div>
+                </div>
+            </fieldset>                 
+            <fieldset class="content-group">
+                <legend class="text-bold">INDIKATOR KINERJA</legend>
+                <div class="form-group">
+                    {{Form::label('NamaIndikator','KELUARAN (OUTPUT) KEGIATAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::textarea('NamaIndikator',$renja['NamaIndikator'],['rows'=>3,'class'=>'form-control','placeholder'=>'KELUARAN (OUTPUT) KEGIATAN'])}}
                     </div>
                 </div>
                 <div class="form-group">
-                    {{Form::label('Sasaran_Angka','SASARAN KEGIATAN',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('Sasaran_Uraian','HASIL (OUTCOME) KEGIATAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        <div class="row">
-                            <div class="col-md-6">
-                                {{Form::text('Sasaran_Angka',Helper::formatAngka($renja['Sasaran_Angka']),['class'=>'form-control','placeholder'=>'ANGKA SASARAN'])}}
-                            </div>
-                            <div class="col-md-6">
-                                {{Form::textarea('Sasaran_Uraian',$renja['Sasaran_Uraian'],['rows'=>3,'class'=>'form-control','placeholder'=>'URAIAN SASARAN'])}}
-                            </div>
-                        </div>                        
+                        {{Form::textarea('Sasaran_Uraian',$renja['Sasaran_Uraian'],['rows'=>3,'class'=>'form-control','placeholder'=>'KELUARAN (OUTCOME) KEGIATAN'])}}
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset class="content-group">
+                <legend class="text-bold">TARGET KINERJA DAN KERANGKA PENDANAAN</legend>
+                <div class="form-group">
+                    {{Form::label('Target','JUMLAH KELUARAN (OUTPUT) KEGIATAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('Target',Helper::formatAngka($renja['Target']),['class'=>'form-control','placeholder'=>'KELUARAN KEGIATAN'])}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('Sasaran_Angka','JUMLAH HASIL (OUTCOME) KEGIATAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('Sasaran_Angka',Helper::formatAngka($renja['Sasaran_Angka']),['class'=>'form-control','placeholder'=>'HASIL KEGIATAN'])}}                            
                     </div>                   
-                </div>                
+                </div>  
                 <div class="form-group">
-                    {{Form::label('Sasaran_AngkaSetelah','SASARAN KEGIATAN (N+1)',['class'=>'control-label col-md-2'])}}
+                    <label form="NilaiSebelum" class="control-label col-md-2">PAGU DANA (TAHUN PERENCANAAN ({{HelperKegiatan::getTahunPerencanaan()-1}})</label>
                     <div class="col-md-10">
-                        <div class="row">
-                            <div class="col-md-6">
-                                {{Form::text('Sasaran_AngkaSetelah',Helper::formatAngka($renja['Sasaran_AngkaSetelah']),['class'=>'form-control','placeholder'=>'ANGKA SASARAN (N+1)'])}}
-                            </div>
-                            <div class="col-md-6">
-                                {{Form::textarea('Sasaran_UraianSetelah',$renja['Sasaran_UraianSetelah'],['rows'=>3,'class'=>'form-control','placeholder'=>'URAIAN SASARAN (N+1)'])}}
-                            </div>
-                        </div>                        
+                        {{Form::text('NilaiSebelum',$renja['NilaiSebelum'],['class'=>'form-control','placeholder'=>'PAGU DANA N-1','id'=>'NilaiSebelum'])}}                            
                     </div>
-                </div>                
+                </div>          
                 <div class="form-group">
-                    {{Form::label('Target','TARGET (%)',['class'=>'control-label col-md-2'])}}
+                    <label form="NilaiSebelum" class="control-label col-md-2">PAGU DANA</label>
                     <div class="col-md-10">
-                        {{Form::text('Target',Helper::formatAngka($renja['Target']),['class'=>'form-control','placeholder'=>'PERSENTASE TARGET KEGIATAN'])}}
+                        {{Form::text('NilaiUsulan',$renja['NilaiUsulan'],['class'=>'form-control','placeholder'=>'NILAI USULAN (TA)','id'=>'NilaiUsulan','readonly'=>true])}}                            
+                        <span class="help-block">Jumlah Pagu Dana ini akan terisi secara otomatis saat menginput / mengupdate / menghapus rincian kegiatan.</span>              
                     </div>
-                </div>
+                </div>          
+            </fieldset>
+            <fieldset class="content-group">
+                <legend class="text-bold">PERKIRAAN MAJU (TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()+1}})</legend>
                 <div class="form-group">
-                    {{Form::label('NilaiSebelum','NILAI',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('Sasaran_AngkaSetelah','JUMLAH HASIL (OUTCOME) KEGIATAN N+1',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        <div class="row">
-                            <div class="col-md-4">
-                                {{Form::text('NilaiSebelum',$renja['NilaiSebelum'],['class'=>'form-control','placeholder'=>'NILAI (TA-1)'])}}
-                            </div>
-                            <div class="col-md-4">
-                                {{Form::text('NilaiUsulan',$renja['NilaiUsulan'],['class'=>'form-control','placeholder'=>'NILAI USULAN (TA)','id'=>'NilaiUsulan','readonly'=>true])}}
-                            </div> 
-                            <div class="col-md-4">
-                                {{Form::text('NilaiSetelah',$renja['NilaiSetelah'],['class'=>'form-control','placeholder'=>'NILAI (TA+1)','id'=>'NilaiSetelah'])}}
-                            </div>       
-                        </div>                                          
+                        {{Form::text('Sasaran_AngkaSetelah',Helper::formatAngka($renja['Sasaran_AngkaSetelah']),['class'=>'form-control','placeholder'=>'JUMLAH HASIL KEGIATAN  N+1'])}}                            
                     </div>
-                </div>
+                </div> 
                 <div class="form-group">
-                    {{Form::label('NamaIndikator','INDIKATOR KEGIATAN',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('Sasaran_AngkaSetelah','URAIAN HASIL (OUTCOME) KEGIATAN N+1',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::textarea('NamaIndikator',$renja['NamaIndikator'],['rows'=>3,'class'=>'form-control','placeholder'=>'INDIKATOR KEGIATAN'])}}
+                        {{Form::textarea('Sasaran_UraianSetelah',$renja['Sasaran_UraianSetelah'],['rows'=>3,'class'=>'form-control','placeholder'=>'URAIAN HASIL (OUTCOME) KEGIATAN N+1'])}}
                     </div>
-                </div>
+                </div> 
                 <div class="form-group">
+                    {{Form::label('Sasaran_AngkaSetelah','PAGU DANA KEGIATAN N+1',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('NilaiSetelah',$renja['NilaiSetelah'],['class'=>'form-control','placeholder'=>'PAGU DANA KEGIATAN N+1','id'=>'NilaiSetelah'])}}
+                    </div>
+                </div> 
+            </fieldset>
+            <fieldset class="content-group">
+                <legend class="text-bold">LAINNYA</legend>
+                    <div class="form-group">
                     {{Form::label('SumberDanaID','SUMBER DANA',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
                         {{Form::select('SumberDanaID', $sumber_dana, $renja['SumberDanaID'],['class'=>'form-control','id'=>'SumberDanaID'])}}
                     </div>
-                </div>                
+                </div> 
                 <div class="form-group">
                     {{Form::label('Descr','KETERANGAN / CATATAN PENTING',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
                         {{Form::textarea('Descr',$renja['Descr'],['rows'=>3,'class'=>'form-control','placeholder'=>'KETERANGAN'])}}
                     </div>
-                </div> 
-                <div class="form-group">            
-                    <div class="col-md-10 col-md-offset-2">                        
-                        {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] )  }}                        
-                    </div>
-                </div>
-            {!! Form::close()!!}
+                </div>                  
+            </fieldset>          
         </div>
+        <div class="panel-body">     
+            <div class="form-group">            
+                <div class="col-md-10 col-md-offset-2">                        
+                    {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}                        
+                </div>
+            </div>  
+        </div>
+        {!! Form::close()!!}
     </div>
 </div>  
 @endsection
@@ -144,12 +175,7 @@
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
-$(document).ready(function () {
-    //styling select
-    $('#UrsID.select').select2({
-        placeholder: "PILIH NAMA URUSAN",
-        allowClear:true
-    });
+$(document).ready(function () {   
     $('#PrgID.select').select2({
         placeholder: "PILIH NAMA PROGRAM",
         allowClear:true
@@ -189,33 +215,7 @@ $(document).ready(function () {
                                             showWarnings:false,
                                             modifyValueOnWheel:false
                                         });
-    $(document).on('change','#UrsID',function(ev) {
-        ev.preventDefault();
-        UrsID=$(this).val();        
-        $.ajax({
-            type:'post',
-            url: '{{route(Helper::getNameOfPage("pilihusulankegiatan"))}}',
-            dataType: 'json',
-            data: {
-                "_token": token,
-                "UrsID": UrsID,
-            },
-            success:function(result)
-            {   
-                var daftar_program = result.daftar_program;
-                var listitems='<option></option>';
-                $('#KgtID').html(listitems);
-                $.each(daftar_program,function(key,value){
-                    listitems+='<option value="' + key + '">'+value+'</option>';                    
-                });
-                $('#PrgID').html(listitems);
-            },
-            error:function(xhr, status, error)
-            {   
-                console.log(parseMessageAjaxEror(xhr, status, error));                           
-            },
-        });
-    });
+    
     $(document).on('change','#PrgID',function(ev) {
         ev.preventDefault();
         PrgID=$(this).val();        

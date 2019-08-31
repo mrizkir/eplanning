@@ -19,23 +19,23 @@ class CreateRenjaopdTable extends Migration
             $table->string('SOrgID',19);
             $table->string('KgtID',19);
             $table->string('SumberDanaID',19);
-            $table->text('NamaIndikator');
+            $table->text('NamaIndikator'); //tolak ukur keluaran kegiatan
 
-            $table->text('Sasaran_Uraian1')->nullable();
+            $table->text('Sasaran_Uraian1')->nullable(); // hasil kegiatan
             $table->text('Sasaran_Uraian2')->nullable();
             $table->text('Sasaran_Uraian3')->nullable();
             $table->text('Sasaran_Uraian4')->nullable();
             $table->text('Sasaran_Uraian5')->nullable();
             $table->text('Sasaran_Uraian6')->nullable();
 
-            $table->decimal('Sasaran_Angka1',15,2)->nullable();
+            $table->decimal('Sasaran_Angka1',15,2)->nullable(); //angka 
             $table->decimal('Sasaran_Angka2',15,2)->nullable();
             $table->decimal('Sasaran_Angka3',15,2)->nullable();
             $table->decimal('Sasaran_Angka4',15,2)->nullable();
             $table->decimal('Sasaran_Angka5',15,2)->nullable();            
             $table->decimal('Sasaran_Angka6',15,2)->nullable();            
             
-            $table->decimal('Target1',15,2)->nullable();
+            $table->decimal('Target1',15,2)->nullable(); //hasil
             $table->decimal('Target2',15,2)->nullable();
             $table->decimal('Target3',15,2)->nullable();
             $table->decimal('Target4',15,2)->nullable();
