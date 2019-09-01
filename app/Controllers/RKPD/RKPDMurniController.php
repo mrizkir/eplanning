@@ -5,6 +5,7 @@ namespace App\Controllers\RKPD;
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Models\RKPD\RKPDViewJudulModel;
+use App\Models\RKPD\RKPDViewRincianModel;
 use App\Models\RKPD\RKPDModel;
 use App\Models\RKPD\RKPDRincianModel;
 use App\Models\RKPD\RKPDMurniIndikatorModel;
@@ -19,6 +20,10 @@ class RKPDMurniController extends Controller {
     {
         parent::__construct();
         $this->middleware(['auth','role:superadmin|bapelitbang|opd']);
+        //set nama session 
+        $this->SessionName=$this->getNameForSession();      
+        //set nama halaman saat ini
+        $this->NameOfPage = \Helper::getNameOfPage();
     }
     private function populateRincianKegiatan($RKPDID)
     {
@@ -96,28 +101,28 @@ class RKPDMurniController extends Controller {
                 case 'RKPDID' :
                     $data = RKPDViewJudulModel::where(['RKPDID'=>$search['isikriteria']])                                                    
                                                     ->where('SOrgID',$SOrgID)
-                                                    ->where('EntryLvl',4)                                  
+                                                    ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))                                  
                                                     ->where('TA', \HelperKegiatan::getTahunPerencanaan())
                                                     ->orderBy($column_order,$direction); 
                 break;
                 case 'kode_kegiatan' :
                     $data = RKPDViewJudulModel::where(['kode_kegiatan'=>$search['isikriteria']])                                                    
                                                     ->where('SOrgID',$SOrgID)
-                                                    ->where('EntryLvl',4)                                  
+                                                    ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))                                  
                                                     ->where('TA', \HelperKegiatan::getTahunPerencanaan())
                                                     ->orderBy($column_order,$direction); 
                 break;
                 case 'KgtNm' :
                     $data = RKPDViewJudulModel::where('KgtNm', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                                     ->where('SOrgID',$SOrgID)
-                                                    ->where('EntryLvl',4)                                  
+                                                    ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))                                  
                                                     ->where('TA', \HelperKegiatan::getTahunPerencanaan())
                                                     ->orderBy($column_order,$direction);                                        
                 break;
                 case 'Uraian' :
                     $data = RKPDViewJudulModel::where('Uraian', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                                     ->where('SOrgID',$SOrgID)
-                                                    ->where('EntryLvl',4)                                  
+                                                    ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))                                  
                                                     ->where('TA', \HelperKegiatan::getTahunPerencanaan())
                                                     ->orderBy($column_order,$direction);                                        
                 break;
@@ -126,11 +131,12 @@ class RKPDMurniController extends Controller {
         }
         else
         {
-            $data = RKPDViewJudulModel::where('SOrgID',$SOrgID)                                                                                      
-                                            ->where('TA', \HelperKegiatan::getTahunPerencanaan())                                            
-                                            ->orderBy($column_order,$direction)          
-                                            ->where('EntryLvl',4)                                  
-                                            ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);             
+            $data = RKPDViewRincianModel::select(\HelperKegiatan::getField($this->NameOfPage))
+                                            ->where('SOrgID',$SOrgID)                                            
+                                            ->where('TA', \HelperKegiatan::getTahunPerencanaan())    
+                                            ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))                                  
+                                            ->orderBy($column_order,$direction)                                            
+                                            ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
         }        
         $data->setPath(route('rkpdmurni.index'));                  
         return $data;
@@ -395,7 +401,7 @@ class RKPDMurniController extends Controller {
         $paguanggaranopd=\App\Models\DMaster\PaguAnggaranOPDModel::select('Jumlah1')
                                                                     ->where('OrgID',$filters['OrgID'])                                                    
                                                                     ->value('Jumlah1');
-                                                                    
+        
         return view("pages.$theme.rkpd.rkpdmurni.index")->with(['page_active'=>'rkpdmurni',
                                                                 'daftar_opd'=>$daftar_opd,
                                                                 'daftar_unitkerja'=>$daftar_unitkerja,
@@ -453,7 +459,7 @@ class RKPDMurniController extends Controller {
                             ->join('v_suborganisasi','v_suborganisasi.SOrgID','trRKPD.SOrgID')                       
                             ->join('v_program_kegiatan','v_program_kegiatan.KgtID','trRKPD.KgtID')     
                             ->join('tmSumberDana','tmSumberDana.SumberDanaID','trRKPD.SumberDanaID')
-                            ->where('EntryLvl',4)                                  
+                            ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))                                  
                             ->findOrFail($id);
         if (!is_null($rkpd) )  
         {            

@@ -296,70 +296,70 @@
                     <li class="dropdown-header">RENCANA KERJA (RENJA) OPD / SKPD</li>
                     <li{!!Helper::isMenuActive ($page_active,'usulanprarenjaopd',' class="active"')!!}>
                         <a href="{{route('usulanprarenjaopd.index')}}" title="Usulan Pra Renja OPD/SKPD">
-                            <i class="icon-arrow-down16"></i>USULAN PRA RENJA OPD/SKPD <span class="text-violet"><strong>[1]</strong></span>
+                            <i class="icon-arrow-down16"></i>USULAN PRA RENJA OPD/SKPD {{HelperKegiatan::getTahunPerencanaan()}} <span class="text-violet"><strong>[1]</strong></span>
                         </a>                                        
                     </li>    
                     <li{!!Helper::isMenuActive ($page_active,'pembahasanprarenjaopd',' class="active"')!!}>
                         <a href="{{route('pembahasanprarenjaopd.index')}}" title="Pembahasan Pra Renja OPD/SKPD">
-                            <i class="icon-arrow-down16"></i>PEMBAHASAN PRA RENJA OPD/SKPD <span class="text-violet"><strong>[2]</strong></span>
+                            <i class="icon-arrow-down16"></i>PEMBAHASAN PRA RENJA OPD/SKPD {{HelperKegiatan::getTahunPerencanaan()}} <span class="text-violet"><strong>[2]</strong></span>
                         </a>                                        
                     </li>
                     <li{!!Helper::isMenuActive ($page_active,'usulanrakorbidang',' class="active"')!!}>
                         <a href="{{route('usulanrakorbidang.index')}}" title="Aspirasi Musrenbang Kecamatan">
-                            <i class="icon-arrow-down16"></i>USULAN RAKOR BIDANG <span class="text-violet"><strong>[3]</strong></span>
+                            <i class="icon-arrow-down16"></i>USULAN RAKOR BIDANG {{HelperKegiatan::getTahunPerencanaan()}} <span class="text-violet"><strong>[3]</strong></span>
                         </a>                                        
                     </li>
                     <li{!!Helper::isMenuActive ($page_active,'pembahasanrakorbidang',' class="active"')!!}>
                         <a href="{{route('pembahasanrakorbidang.index')}}" title="Pembahasan Rakor Bidang">
-                            <i class="icon-arrow-down16"></i>PEMBAHASAN RAKOR BIDANG <span class="text-violet"><strong>[4]</strong></span>
+                            <i class="icon-arrow-down16"></i>PEMBAHASAN RAKOR BIDANG {{HelperKegiatan::getTahunPerencanaan()}} <span class="text-violet"><strong>[4]</strong></span>
                         </a>
                     </li>
                     <li{!!Helper::isMenuActive ($page_active,'usulanforumopd',' class="active"')!!}>
                         <a href="{{route('usulanforumopd.index')}}" title="Usulan Forum OPD/SKPD">
-                            <i class="icon-arrow-down16"></i>USULAN FORUM OPD/SKPD <span class="text-violet"><strong>[5]</strong></span>
+                            <i class="icon-arrow-down16"></i>USULAN FORUM OPD/SKPD {{HelperKegiatan::getTahunPerencanaan()}} <span class="text-violet"><strong>[5]</strong></span>
                         </a>                                        
                     </li>
                     <li{!!Helper::isMenuActive ($page_active,'pembahasanforumopd',' class="active"')!!}>
                         <a href="{{route('pembahasanforumopd.index')}}" title="Pembahasan Forum OPD/SKPD">
-                            <i class="icon-arrow-down16"></i>PEMBAHASAN FORUM OPD/SKPD <span class="text-violet"><strong>[6]</strong></span>
+                            <i class="icon-arrow-down16"></i>PEMBAHASAN FORUM OPD/SKPD {{HelperKegiatan::getTahunPerencanaan()}} <span class="text-violet"><strong>[6]</strong></span>
                         </a>                                        
                     </li>
                     <li{!!Helper::isMenuActive ($page_active,'usulanmusrenkab',' class="active"')!!}>
                         <a href="{{route('usulanmusrenkab.index')}}" title="Usulan Musrenbang Kabupaten">
-                            <i class="icon-arrow-down16"></i>USULAN MUSRENBANG KAB. <span class="text-violet"><strong>[7]</strong></span>
+                            <i class="icon-arrow-down16"></i>USULAN MUSRENBANG KAB. {{HelperKegiatan::getTahunPerencanaan()}} <span class="text-violet"><strong>[7]</strong></span>
                         </a>                                        
                     </li>
                     <li{!!Helper::isMenuActive ($page_active,'pembahasanmusrenkab',' class="active"')!!}>
                         <a href="{{route('pembahasanmusrenkab.index')}}" title="Pembahasan Musrenbang Kabupaten">
-                            <i class="icon-arrow-down16"></i>PEMBAHASAN MUSRENBANG KAB. <span class="text-violet"><strong>[8]</strong></span>
+                            <i class="icon-arrow-down16"></i>PEMBAHASAN MUSRENBANG KAB. {{HelperKegiatan::getTahunPerencanaan()}} <span class="text-violet"><strong>[8]</strong></span>
                         </a>
                     </li>
                     @hasrole('superadmin|bapelitbang|tapd')
                     <li{!!Helper::isMenuActive ($page_active,'verifikasirenja',' class="active"')!!}>
                         <a href="{{route('verifikasirenja.index')}}" title="verifikasi tapd">
-                            <i class="icon-arrow-down16"></i>VERIFIKASI TAPD <span class="text-violet"><strong>[9]</strong></span>
+                            <i class="icon-arrow-down16"></i>VERIFIKASI TAPD {{HelperKegiatan::getTahunPerencanaan()}} <span class="text-violet"><strong>[9]</strong></span>
                         </a>                                        
                     </li>  
                     @endhasrole
                     <li class="dropdown-header">RENCANA KERJA PEMERINTAH (RKP) DAERAH </li>
                     <li{!!Helper::isMenuActive ($page_active,'rkpdmurni',' class="active"')!!}>
                         <a href="{{route('rkpdmurni.index')}}" title="RENCANA KERJA PERANGKAT DAERAH">
-                            <i class="icon-arrow-down16"></i>RKPD <span class="text-violet"><strong>[10]</strong></span>
+                            <i class="icon-arrow-down16"></i>RKPD MURNI {{HelperKegiatan::getTahunPerencanaan()}} <span class="text-violet"><strong>[10]</strong></span>
                         </a>                                        
                     </li>
                     <li{!!Helper::isMenuActive ($page_active,'pembahasanrkpd',' class="active"')!!}>
                         <a href="{{route('pembahasanrkpd.index')}}" title="PEMBAHASAN RKPD">
-                            <i class="icon-arrow-down16"></i>PEMBAHASAN RKPD <span class="text-violet"><strong>[11]</strong></span>
+                            <i class="icon-arrow-down16"></i>PEMBAHASAN RKPD MURNI {{HelperKegiatan::getTahunPerencanaan()}} <span class="text-violet"><strong>[11]</strong></span>
                         </a>                                        
                     </li>
                     <li{!!Helper::isMenuActive ($page_active,'rkpdperubahan',' class="active"')!!}>
                         <a href="{{route('rkpdperubahan.index')}}" title="RENCANA KERJA PERANGKAT DAERAH PERUBAHAN">
-                            <i class="icon-arrow-down16"></i>RKPD PERUBAHAN <span class="text-violet"><strong>[12]</strong></span>
+                            <i class="icon-arrow-down16"></i>RKPD PERUBAHAN {{HelperKegiatan::getTahunPerencanaan()}} <span class="text-violet"><strong>[12]</strong></span>
                         </a>                                        
                     </li>
                     <li{!!Helper::isMenuActive ($page_active,'pembahasanrkpdp',' class="active"')!!}>
                         <a href="{{route('pembahasanrkpdp.index')}}" title="PEMBAHASAN RKPD PERUBAHAN">
-                            <i class="icon-arrow-down16"></i>PEMBAHASAN RKPD PERUBAHAN <span class="text-violet"><strong>[13]</strong></span>
+                            <i class="icon-arrow-down16"></i>PEMBAHASAN RKPD PERUBAHAN {{HelperKegiatan::getTahunPerencanaan()}} <span class="text-violet"><strong>[13]</strong></span>
                         </a>                                        
                     </li>
                     @endhasrole

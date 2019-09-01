@@ -44,6 +44,7 @@ class CreateVRkpdView extends Migration
                 END AS kode_program,
                 G."PrgNm",
                 G."Jns",
+                A."KgtID",
                 F."Kd_Keg",
                 CASE 
                     WHEN I."UrsID" IS NOT NULL OR  J."KUrsID" IS NOT NULL THEN

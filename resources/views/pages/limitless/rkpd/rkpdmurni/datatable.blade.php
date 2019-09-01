@@ -43,23 +43,30 @@
                             </a>
                         </th> 
                         <th width="300">
-                            <a class="column-sort text-white" id="col-NamaIndikator" data-order="{{$direction}}" href="#">
-                                INDIKATOR                                                                       
+                            <a class="column-sort text-white" id="col-Uraian" data-order="{{$direction}}" href="#">
+                                NAMA URAIAN                                                                       
                             </a>
                         </th>
-                        <th width="200">                            
-                            SASARAN                                                                           
+                        <th width="200">
+                            <a class="column-sort text-white" id="col-Sasaran_Angka" data-order="{{$direction}}" href="#">
+                                SASARAN  
+                            </a>                                             
                         </th> 
                         <th width="120">                        
                             TARGET (%)                        
                         </th> 
                         <th width="150" class="text-right">
-                            <a class="column-sort text-white" id="col-NilaiUsulan1" data-order="{{$direction}}" href="#">
-                                PAGU INDIKATIF  
+                            <a class="column-sort text-white" id="col-Jumlah" data-order="{{$direction}}" href="#">
+                                NILAI
                             </a>                                             
-                        </th>        
-                        <th width="150">STATUS</th>                            
-                        <th width="150">AKSI</th>
+                        </th>                     
+                        <th width="80">
+                            <a class="column-sort text-white" id="col-status" data-order="{{$direction}}" href="#">
+                                STATUS  
+                            </a>                                             
+                        </th> 
+                        <th>VER.</th>
+                        <th width="70">AKSI</th>
                     </tr>
                 </thead>
                 <tbody>                    
@@ -68,20 +75,37 @@
                         <td>
                             {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                         </td>
+                        <td>{{$item->kode_kegiatan}}</td>
                         <td>
-                            {{$item->kode_kegiatan}}                        
+                            {{ucwords($item->KgtNm)}}
+                            @if ($item->Status_Indikator==0)
+                                <br>
+                                <span class="label label-flat border-warning text-warning-600">
+                                    INDIKATOR TIDAK ADA
+                                </span>
+                            @endif
+                        </td>                      
+                        <td>
+                            {{ucwords($item->Uraian)}}                            
                         </td>
+                        <td>{{Helper::formatAngka($item->Sasaran_Angka)}} {{$item->Sasaran_Uraian}}</td>
+                        <td>{{$item->Target}}</td>
+                        <td class="text-right">
+                            <span class="text-success">{{Helper::formatuang($item->Jumlah)}}</span>                            
+                        </td>                                    
                         <td>
-                            {{ucwords($item->KgtNm)}}                            
-                        </td>                        
-                        <td>
-                            {{ucwords($item->NamaIndikator)}}                           
+                            @include('layouts.limitless.l_status_kegiatan')    
                         </td>
-                        <td>{{Helper::formatAngka($item->Sasaran_Angka1)}} {{$item->Sasaran_Uraian1}}</td>
-                        <td>{{$item->Target1}}</td>
-                        <td class="text-right">{{Helper::formatuang($item->NilaiUsulan1)}}</td>                        
-                        <td>
-                            @include('layouts.limitless.l_status_rkpd')                       
+                        <td>                    
+                            @if ($item->Privilege==0)
+                            <span class="label label-flat border-grey text-grey-600 label-icon">
+                                <i class="icon-cross2"></i>
+                            </span>
+                            @else
+                                <span class="label label-flat border-success text-success-600 label-icon">
+                                    <i class="icon-checkmark"></i>
+                                </span>                            
+                            @endif                    
                         </td>
                         <td>
                             <ul class="icons-list">                            
@@ -91,18 +115,26 @@
                                     </a>  
                                 </li>
                             </ul>
-                        </td>              
+                        </td>
                     </tr>
                     <tr class="text-center info">
-                        <td colspan="10">
+                        <td colspan="11">
                             <span class="label label-warning label-rounded" style="text-transform: none">
                                 <strong>RKPDID:</strong>
                                 {{$item->RKPDID}}
-                            </span>                            
+                            </span>
+                            <span class="label label-warning label-rounded" style="text-transform: none">
+                                <strong>RKPDRINCID:</strong>
+                                {{$item->RKPDRincID}}
+                            </span>
                             <span class="label label-warning label-rounded" style="text-transform: none">
                                 <strong>PRGID:</strong>
                                 {{$item->PrgID}}
-                            </span>                            
+                            </span>  
+                            <span class="label label-warning label-rounded" style="text-transform: none">
+                                <strong>KGTID:</strong>
+                                {{$item->KgtID}}
+                            </span>  
                             <span class="label label-warning label-rounded">
                                 <strong>KET:</strong>
                                 {{empty($item->Descr)?'-':$item->Descr}}
@@ -111,8 +143,7 @@
                     </tr>
                 @endforeach                    
                 </tbody>
-                
-            </table>               
+            </table>    
         </div>
         <div class="panel-body border-top-info text-center" id="paginations">
             {{$data->links('layouts.limitless.l_pagination')}}               

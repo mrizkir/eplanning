@@ -139,7 +139,10 @@ class HelperKegiatan {
                 $level = 4;
             break;
             case 'rkpdmurni' :
-                $level = 4;
+                $level = 1;
+            break;
+            case 'pembahasanrkpd' :
+                $level = 2;
             break;
             case 'rkpdperubahan' :
                 $level = 5;
@@ -466,6 +469,30 @@ class HelperKegiatan {
                                     "Privilege",
                                     "Locked",
                                     "Status_Indikator",
+                                    "Descr"');
+            break;
+            case 'rkpdmurni' :
+                $rawSql = \DB::raw('"RKPDRincID",
+                                    "RKPDID",
+                                    "PrgID",
+                                    "KgtID",
+                                    "UsulanKecID",
+                                    "No",
+                                    "Nm_Kecamatan",
+                                    "kode_kegiatan",
+                                    "KgtNm",
+                                    "Uraian",
+                                    "Sasaran_Angka1" AS "Sasaran_Angka",
+                                    "Sasaran_Uraian1" AS "Sasaran_Uraian",
+                                    "Target1" AS "Target",
+                                    "NilaiUsulan1" AS "Jumlah",
+                                    "isSKPD",
+                                    "isReses",
+                                    "isReses_Uraian",
+                                    "Status",
+                                    "Privilege",
+                                    "Status_Indikator",
+                                    "EntryLvl",
                                     "Descr"');
             break;
             case 'rkpdperubahan' :
