@@ -36,7 +36,7 @@ class CreateVProgramKegiatanView extends Migration
                         WHEN D."UrsID" IS NOT NULL OR  E."KUrsID" IS NOT NULL THEN
                                 CONCAT(E."Kd_Urusan", \'.\',D."Kd_Bidang", \'.\',B."Kd_Prog")
                         ELSE
-                                CONCAT(\'n.nn.\',B."Kd_Prog")
+                                CONCAT(\'0.00.\',B."Kd_Prog")
                 END AS kode_program,
                 B."PrgNm", 
                 B."Jns", 
@@ -45,7 +45,7 @@ class CreateVProgramKegiatanView extends Migration
                         WHEN D."UrsID" IS NOT NULL OR  E."KUrsID" IS NOT NULL THEN
                                 CONCAT(E."Kd_Urusan", \'.\',D."Kd_Bidang", \'.\',B."Kd_Prog", \'.\',A."Kd_Keg")
                         ELSE
-                                CONCAT(\'n.nn.\',B."Kd_Prog", \'.\',A."Kd_Keg")
+                                CONCAT(\'0.00.\',B."Kd_Prog", \'.\',A."Kd_Keg")
                 END AS kode_kegiatan,
                 A."KgtNm",
                 A."Descr",

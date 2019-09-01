@@ -33,7 +33,7 @@ class CreateVOrganisasiProgramView extends Migration
 					WHEN G."UrsID" IS NOT NULL OR  H."KUrsID" IS NOT NULL THEN
 						CONCAT(H."Kd_Urusan", \'.\',G."Kd_Bidang", \'.\',E."Kd_Prog")
 					ELSE
-						CONCAT(\'n.nn.\',E."Kd_Prog")
+						CONCAT(\'0.00.\',E."Kd_Prog")
 				END AS kode_program,
 				E."PrgNm", 
 				E."Jns", 

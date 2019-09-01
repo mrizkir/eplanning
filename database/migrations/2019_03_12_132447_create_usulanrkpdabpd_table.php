@@ -27,17 +27,22 @@ class CreateUsulanrkpdabpdTable extends Migration
             $table->text('Sasaran_Uraian1');
             $table->text('Sasaran_Uraian2')->nullable();
             $table->text('Sasaran_Uraian3')->nullable();
-            $table->decimal('Sasaran_Angka1',15,2);
-            $table->decimal('Sasaran_Angka2',15,2)->nullable();
-            $table->decimal('Sasaran_Angka3',15,2)->nullable();
+            $table->text('Sasaran_Uraian4')->nullable();
 
-            $table->decimal('NilaiUsulan1',15,2);
-            $table->decimal('NilaiUsulan2',15,2)->nullable();
-            $table->decimal('NilaiUsulan3',15,2)->nullable();
+            $table->decimal('Sasaran_Angka1',15,2); //RKPD Murni
+            $table->decimal('Sasaran_Angka2',15,2)->nullable(); //PEMBAHASAN RKPD
+            $table->decimal('Sasaran_Angka3',15,2)->nullable(); // RKPD PERUBAHAN
+            $table->decimal('Sasaran_Angka4',15,2)->nullable(); // PEMBAHASAN RKPD PERUBAHAN
 
-            $table->decimal('Target1',15,2);
-            $table->decimal('Target2',15,2)->nullable();
-            $table->decimal('Target3',15,2)->nullable();
+            $table->decimal('NilaiUsulan1',15,2); //RKPD Murni
+            $table->decimal('NilaiUsulan2',15,2)->nullable();//PEMBAHASAN RKPD
+            $table->decimal('NilaiUsulan3',15,2)->nullable(); // RKPD PERUBAHAN
+            $table->decimal('NilaiUsulan4',15,2)->nullable(); // PEMBAHASAN RKPD PERUBAHAN
+
+            $table->decimal('Target1',15,2); //RKPD Murni
+            $table->decimal('Target2',15,2)->nullable(); //PEMBAHASAN RKPD
+            $table->decimal('Target3',15,2)->nullable(); // RKPD PERUBAHAN
+            $table->decimal('Target4',15,2)->nullable(); // PEMBAHASAN RKPD PERUBAHAN
 
             $table->decimal('Sasaran_AngkaSetelah',15,2);
             $table->text('Sasaran_UraianSetelah');
@@ -161,23 +166,32 @@ class CreateUsulanrkpdabpdTable extends Migration
                 $table->text('Sasaran_Uraian1');
                 $table->text('Sasaran_Uraian2')->nullable();
                 $table->text('Sasaran_Uraian3')->nullable();
+                $table->text('Sasaran_Uraian4')->nullable();
+
                 $table->decimal('Sasaran_Angka1',15,2);
                 $table->decimal('Sasaran_Angka2',15,2)->nullable();
                 $table->decimal('Sasaran_Angka3',15,2)->nullable();
+                $table->decimal('Sasaran_Angka4',15,2)->nullable();
 
                 $table->decimal('NilaiUsulan1',15,2);
                 $table->decimal('NilaiUsulan2',15,2)->nullable();
                 $table->decimal('NilaiUsulan3',15,2)->nullable();
+                $table->decimal('NilaiUsulan4',15,2)->nullable();
 
                 $table->decimal('Target1',15,2);
                 $table->decimal('Target2',15,2)->nullable();
                 $table->decimal('Target3',15,2)->nullable();
+                $table->decimal('Target4',15,2)->nullable();
 
+                $table->string('Lokasi')->nullable();
+                $table->string('Latitude')->nullable();
+                $table->string('Longitude')->nullable();
+                
                 $table->date('Tgl_Posting');
                 $table->boolean('isReses')->nullable();
                 $table->string('isReses_Uraian',255)->nullable();
                 $table->boolean('isSKPD')->nullable();
-                $table->string('Descr')->nullable();
+                $table->text('Descr')->nullable();
                 $table->year('TA'); 
                 $table->tinyInteger('Status')->default(0);
                 $table->tinyInteger('EntryLvl')->default(0);

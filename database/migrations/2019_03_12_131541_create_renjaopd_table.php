@@ -146,9 +146,9 @@ class CreateRenjaopdTable extends Migration
                 $table->string('PMProvID',19);
                 $table->string('PmKotaID',19)->nullable();
                 $table->string('PmKecamatanID',19)->nullable();
-                $table->string('PmDesaID',19)->nullable();
+                $table->string('PmDesaID',19)->nullable();                
                 $table->string('PokPirID',19)->nullable();
-            
+
                 $table->text('Uraian');
                 $table->string('No',4);
                
@@ -180,6 +180,10 @@ class CreateRenjaopdTable extends Migration
                 $table->decimal('Jumlah5',15,2)->nullable();
                 $table->decimal('Jumlah6',15,2)->nullable();
 
+                $table->string('Lokasi')->nullable();
+                $table->string('Latitude')->nullable();
+                $table->string('Longitude')->nullable();
+                
                 $table->boolean('isReses')->nullable();
                 $table->string('isReses_Uraian')->nullable();
                 $table->boolean('isSKPD')->nullable();

@@ -13,8 +13,8 @@
     display:none;
 }
 .table tbody tr:hover td, .table tbody tr:hover th {
-    background-color: #eeeeea;
+    background-color:coral;
 }
 tr.spaceunder>td {
     padding-bottom: 2px;
-  }
+}

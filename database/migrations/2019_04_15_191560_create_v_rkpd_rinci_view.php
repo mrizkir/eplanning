@@ -15,73 +15,109 @@ class CreateVRkpdRinciView extends Migration
     {
         \DB::statement('CREATE VIEW v_rkpd_rinci AS
             SELECT 
-                B."RKPDRincID",
-                A."RKPDID",                
-                B."PMProvID",
-                I."Nm_Prov",
-                B."PmKotaID",
-                J."Nm_Kota",
-                B."PmKecamatanID",
-                K."Nm_Kecamatan",
-                B."PmDesaID",
-                L."Nm_Desa",
-                B."UsulanKecID",
-                B."PokPirID",
-                H."Kd_Urusan",
-                H."Nm_Urusan",
-                G."Kd_Bidang",
-                G."Nm_Bidang",
+                A."RKPDID",		
+                K."RKPDRincID",
                 A."OrgID",
                 A."SOrgID",
-                C."OrgCd",
-                C."OrgNm",
-                D."SOrgNm",
-                CONCAT(H."Kd_Urusan", \'.\', G."Kd_Bidang", \'.\', C."OrgCd", \'.\', F."Kd_Prog") AS kode_program,
-                F."Kd_Prog",
-                F."PrgNm",
-                CONCAT(H."Kd_Urusan", \'.\', G."Kd_Bidang", \'.\', C."OrgCd", \'.\', F."Kd_Prog", \'.\', E."Kd_Keg") AS kode_kegiatan,
-                E."Kd_Keg",
-                E."KgtNm",
-                B."No",
-                B."Uraian",
-                M."Nm_SumberDana",
-                B."Sasaran_Angka1",
-                B."Sasaran_Angka2",
-                B."Sasaran_Angka3",
-                B."Sasaran_Uraian1",
-                B."Sasaran_Uraian2",
-                B."Sasaran_Uraian3",
-                B."Target1",
-                B."Target2",
-                B."Target3",
-                B."NilaiUsulan1",
-                B."NilaiUsulan2",
-                B."NilaiUsulan3",
-                B."Tgl_Posting",
-                B."isReses",
-                B."isReses_Uraian",
-                B."isSKPD",
-                B."Descr",
-                A."TA",
-                B."Status",
+                CONCAT(E."Kd_Urusan",  \'.\', D."Kd_Bidang",\'.\', B."OrgCd") AS kode_organisasi,
+                B."OrgNm",
+                CONCAT(E."Kd_Urusan",\'.\',D."Kd_Bidang",\'.\',B."OrgCd",\'.\',C."SOrgCd") kode_suborganisasi,
+                C."SOrgNm",
+                K."UsulanKecID",
+                K."PMProvID",
+                L."Nm_Prov",
+                K."PmKotaID",
+                M."Nm_Kota",
+                K."PmKecamatanID",	
+                N."Nm_Kecamatan",
+                K."PmDesaID",
+                O."Nm_Desa",
+                K."Lokasi",
+                K."Latitude",
+                K."Longitude",
+                K."PokPirID",
+                J."KUrsID",
+                J."Kd_Urusan",
+                J."Nm_Urusan",
+                I."UrsID",
+                I."Kd_Bidang",
+                CASE 
+                    WHEN I."UrsID" IS NOT NULL OR  J."KUrsID" IS NOT NULL THEN
+                        CONCAT(J."Kd_Urusan",\'.\',I."Kd_Bidang")
+                    ELSE
+                        \'SEMUA URUSAN\'
+                END AS kode_urusan,
+                I."Nm_Bidang",
+                G."PrgID",
+                CASE 
+                                WHEN I."UrsID" IS NOT NULL OR  J."KUrsID" IS NOT NULL THEN
+                                    CONCAT(J."Kd_Urusan",\'.\',I."Kd_Bidang",\'.\',G."Kd_Prog")
+                                ELSE
+                                    CONCAT(\'0.\',\'00.\',G."Kd_Prog")
+                END AS kode_program,
+                G."PrgNm",
+                G."Jns",
+                F."Kd_Keg",
+                CASE 
+                        WHEN I."UrsID" IS NOT NULL OR  J."KUrsID" IS NOT NULL THEN
+                                CONCAT(J."Kd_Urusan", \'.\',I."Kd_Bidang", \'.\',G."Kd_Prog", \'.\',F."Kd_Keg")
+                        ELSE
+                                CONCAT(\'0.00.\',G."Kd_Prog", \'.\',F."Kd_Keg")
+                END AS kode_kegiatan,
+                F."KgtNm",
+                K."No",
+                K."Uraian",
+                K."Sasaran_Angka1",
+                K."Sasaran_Angka2",
+                K."Sasaran_Angka3",
+                K."Sasaran_Angka4",
+                K."Sasaran_Uraian1",
+                K."Sasaran_Uraian2",
+                K."Sasaran_Uraian3",
+                K."Sasaran_Uraian4",
+                K."Target1",
+                K."Target2",
+                K."Target3",
+                K."Target4",
+                K."NilaiUsulan1",		
+                K."NilaiUsulan2",		
+                K."NilaiUsulan3",		
+                K."NilaiUsulan4",		
+                K."Status",
                 A."Status_Indikator",
-                B."EntryLvl",
-                B."Privilege",
-                A."RKPDID_Src",
-                B."RKPDRincID_Src"
+                K."EntryLvl",
+                K."Privilege",
+                A."Locked",
+                K."isReses",
+                K."isReses_Uraian",
+                K."isSKPD",
+                K."Descr",
+                A."TA",
+                K.created_at,
+                K.updated_at
             FROM "trRKPD" A
-                LEFT JOIN "trRKPDRinc" B ON A."RKPDID"=B."RKPDID" AND A."TA"=B."TA"
-                INNER JOIN "tmOrg" C ON A."OrgID"=C."OrgID" AND A."TA"=C."TA"
-                INNER JOIN "tmSOrg" D ON A."SOrgID"=D."SOrgID" AND A."TA"=D."TA"
-                INNER JOIN "tmKgt" E ON A."KgtID"=E."KgtID" AND A."TA"=E."TA"
-                INNER JOIN "tmPrg" F ON E."PrgID"=F."PrgID" AND E."TA"=F."TA"
-                INNER JOIN "tmUrs" G ON C."UrsID"=G."UrsID" AND A."TA"=G."TA"
-                INNER JOIN "tmKUrs" H ON G."KUrsID"=H."KUrsID" AND G."TA"=H."TA"
-                INNER JOIN "tmSumberDana" M ON M."SumberDanaID"=A."SumberDanaID" AND A."TA"=M."TA"
-                LEFT JOIN "tmPMProv" I ON B."PMProvID"=I."PMProvID" AND B."TA"=I."TA"
-                LEFT JOIN "tmPmKota" J ON B."PmKotaID"=J."PmKotaID" AND B."TA"=J."TA"                
-                LEFT JOIN "tmPmKecamatan" K ON B."PmKecamatanID"=K."PmKecamatanID" AND B."TA"=K."TA"
-                LEFT JOIN "tmPmDesa" L ON B."PmDesaID"=L."PmDesaID" AND B."TA"=L."TA";
+            JOIN "tmOrg" B ON A."OrgID"=B."OrgID"
+            JOIN "tmSOrg" C ON A."SOrgID"=C."SOrgID"
+            JOIN "tmUrs" D ON B."UrsID"=D."UrsID"
+            JOIN "tmKUrs" E ON D."KUrsID"=E."KUrsID"
+
+            JOIN "tmKgt" F ON A."KgtID"=F."KgtID"
+            JOIN "tmPrg" G ON F."PrgID"=G."PrgID"
+            LEFT JOIN "trUrsPrg" H ON G."PrgID"=H."PrgID"
+            LEFT JOIN "tmUrs" I ON H."UrsID"=I."UrsID"
+            LEFT JOIN "tmKUrs" J ON J."KUrsID"=I."KUrsID"
+
+            LEFT JOIN "trRKPDRinc" K ON A."RKPDID"=K."RKPDID"
+            LEFT JOIN "tmPMProv" L ON K."PMProvID"=L."PMProvID"
+            LEFT JOIN "tmPmKota" M ON K."PmKotaID"=M."PmKotaID"
+            LEFT JOIN "tmPmKecamatan" N ON K."PmKecamatanID"=N."PmKecamatanID"
+            LEFT JOIN "tmPmDesa" O ON K."PmDesaID"=O."PmDesaID"
+
+            ORDER BY
+                J."Kd_Urusan" ASC NULLS FIRST,
+                I."Kd_Bidang" ASC NULLS FIRST,
+                G."Kd_Prog" ASC,
+                F."Kd_Keg" ASC
         ');				
     }
 

@@ -263,7 +263,7 @@
                     @hasrole('superadmin|bapelitbang|desa')
                     <li{!!Helper::isMenuActive ($page_active,'aspirasimusrendesa',' class="active"')!!}>
                         <a href="{{route('aspirasimusrendesa.index')}}" title="Aspirasi Musrenbang Desa">
-                            <i class="icon-arrow-down16"></i>ASPIRASI MUSRENBANG DESA / KELURAHAN <span class="text-violet"><strong>[1]</strong></span>
+                            <i class="icon-arrow-down16"></i>MUSRENBANG DESA / KELURAHAN <span class="text-violet"><strong>[1]</strong></span>
                         </a>                                        
                     </li>                       
                     <li{!!Helper::isMenuActive ($page_active,'pembahasanmusrendesa',' class="active"')!!}>
@@ -275,7 +275,7 @@
                     @hasrole('superadmin|bapelitbang|kecamatan')
                     <li{!!Helper::isMenuActive ($page_active,'aspirasimusrenkecamatan',' class="active"')!!}>
                         <a href="{{route('aspirasimusrenkecamatan.index')}}" title="Aspirasi Musrenbang Kecamatan">
-                            <i class="icon-arrow-down16"></i>ASPIRASI MUSRENBANG KECAMATAN <span class="text-violet"><strong>[3]</strong></span>
+                            <i class="icon-arrow-down16"></i>MUSRENBANG KECAMATAN <span class="text-violet"><strong>[3]</strong></span>
                         </a>                                        
                     </li>
                     <li{!!Helper::isMenuActive ($page_active,'pembahasanmusrenkecamatan',' class="active"')!!}>
@@ -293,6 +293,7 @@
                 </a>
                 <ul class="dropdown-menu width-450">                     
                     @hasrole('superadmin|bapelitbang|opd|tapd')
+                    <li class="dropdown-header">RENCANA KERJA (RENJA) OPD / SKPD</li>
                     <li{!!Helper::isMenuActive ($page_active,'usulanprarenjaopd',' class="active"')!!}>
                         <a href="{{route('usulanprarenjaopd.index')}}" title="Usulan Pra Renja OPD/SKPD">
                             <i class="icon-arrow-down16"></i>USULAN PRA RENJA OPD/SKPD <span class="text-violet"><strong>[1]</strong></span>
@@ -340,19 +341,25 @@
                         </a>                                        
                     </li>  
                     @endhasrole
+                    <li class="dropdown-header">RENCANA KERJA PEMERINTAH (RKP) DAERAH </li>
                     <li{!!Helper::isMenuActive ($page_active,'rkpdmurni',' class="active"')!!}>
                         <a href="{{route('rkpdmurni.index')}}" title="RENCANA KERJA PERANGKAT DAERAH">
                             <i class="icon-arrow-down16"></i>RKPD <span class="text-violet"><strong>[10]</strong></span>
                         </a>                                        
                     </li>
+                    <li{!!Helper::isMenuActive ($page_active,'pembahasanrkpdp',' class="active"')!!}>
+                        <a href="{{route('pembahasanrkpd.index')}}" title="PEMBAHASAN RKPD">
+                            <i class="icon-arrow-down16"></i>PEMBAHASAN RKPD <span class="text-violet"><strong>[11]</strong></span>
+                        </a>                                        
+                    </li>
                     <li{!!Helper::isMenuActive ($page_active,'rkpdperubahan',' class="active"')!!}>
                         <a href="{{route('rkpdperubahan.index')}}" title="RENCANA KERJA PERANGKAT DAERAH PERUBAHAN">
-                            <i class="icon-arrow-down16"></i>RKPD PERUBAHAN <span class="text-violet"><strong>[11]</strong></span>
+                            <i class="icon-arrow-down16"></i>RKPD PERUBAHAN <span class="text-violet"><strong>[12]</strong></span>
                         </a>                                        
                     </li>
                     <li{!!Helper::isMenuActive ($page_active,'pembahasanrkpdp',' class="active"')!!}>
                         <a href="{{route('pembahasanrkpdp.index')}}" title="PEMBAHASAN RKPD PERUBAHAN">
-                            <i class="icon-arrow-down16"></i>PEMBAHASAN RKPD PERUBAHAN <span class="text-violet"><strong>[12]</strong></span>
+                            <i class="icon-arrow-down16"></i>PEMBAHASAN RKPD PERUBAHAN <span class="text-violet"><strong>[13]</strong></span>
                         </a>                                        
                     </li>
                     @endhasrole

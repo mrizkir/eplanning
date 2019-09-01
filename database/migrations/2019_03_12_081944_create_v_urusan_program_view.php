@@ -24,7 +24,7 @@ class CreateVUrusanProgramView extends Migration
                             WHEN urusan."UrsID" IS NOT NULL OR  kelompok_urusan."KUrsID" IS NOT NULL THEN
                                 CONCAT(kelompok_urusan."Kd_Urusan",\'.\',urusan."Kd_Bidang",\'.\',program."Kd_Prog")
                             ELSE
-                                CONCAT(\'n.\',\'nn.\',program."Kd_Prog")
+                                CONCAT(\'0.\',\'00.\',program."Kd_Prog")
                         END AS Kode_Program,
                         kelompok_urusan."Nm_Urusan",
                         urusan."Nm_Bidang",
