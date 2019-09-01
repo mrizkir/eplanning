@@ -49,6 +49,7 @@ class CreateVUsulanRakorBidangView extends Migration
                 END AS kode_urusan,
                 I."Nm_Bidang",
                 G."PrgID",
+                G."Kd_Prog",
                 CASE 
                         WHEN I."UrsID" IS NOT NULL OR  J."KUrsID" IS NOT NULL THEN
                                 CONCAT(J."Kd_Urusan",\'.\',I."Kd_Bidang",\'.\',G."Kd_Prog")

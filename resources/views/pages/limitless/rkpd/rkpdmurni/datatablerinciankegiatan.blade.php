@@ -20,7 +20,8 @@
                 <th>SASARAN URAIAN</th>  
                 <th>TARGET (%)</th> 
                 <th class="text-right">PAGU INDIKATIF</th>                                      
-                <th>STATUS</th> 
+                <th width="70">STATUS</th> 
+                <th width="70">VER.</th>
             </tr>
         </thead>
         <tbody>                    
@@ -51,11 +52,22 @@
                 <td>{{$item->Target1}}</td>               
                 <td class="text-right">{{Helper::formatUang($item->NilaiUsulan1)}}</td>                       
                 <td>
-                    @include('layouts.limitless.l_status_rkpd')
+                    @include('layouts.limitless.l_status_kegiatan')
                 </td>               
+                <td>                    
+                    @if ($item->Privilege==0)
+                    <span class="label label-flat border-grey text-grey-600 label-icon">
+                        <i class="icon-cross2"></i>
+                    </span>
+                    @else
+                        <span class="label label-flat border-success text-success-600 label-icon">
+                            <i class="icon-checkmark"></i>
+                        </span>                            
+                    @endif                    
+                </td>
             </tr>
             <tr class="text-center info">
-                <td colspan="6">
+                <td colspan="7">
                     <span class="label label-warning label-rounded" style="text-transform: none">
                         <strong>RKPDID:</strong>
                         {{$item->RKPDID}}
