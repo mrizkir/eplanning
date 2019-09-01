@@ -15,7 +15,6 @@ class CreateVUsulanPraRenjaOPDView extends Migration
     {
         \DB::statement('CREATE VIEW v_usulan_pra_renja_opd AS
             SELECT 
-                A."RKPDID",
                 A."RenjaID",
                 K."RenjaRincID",
                 A."OrgID",

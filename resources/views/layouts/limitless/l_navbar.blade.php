@@ -347,7 +347,7 @@
                             <i class="icon-arrow-down16"></i>RKPD <span class="text-violet"><strong>[10]</strong></span>
                         </a>                                        
                     </li>
-                    <li{!!Helper::isMenuActive ($page_active,'pembahasanrkpdp',' class="active"')!!}>
+                    <li{!!Helper::isMenuActive ($page_active,'pembahasanrkpd',' class="active"')!!}>
                         <a href="{{route('pembahasanrkpd.index')}}" title="PEMBAHASAN RKPD">
                             <i class="icon-arrow-down16"></i>PEMBAHASAN RKPD <span class="text-violet"><strong>[11]</strong></span>
                         </a>                                        
