@@ -246,6 +246,9 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::resource('/rkpd/transferrkpdmurnitopembahasan1','RKPD\TransferRKPDMurniTOPembahasan1',['parameters'=>['transferrkpdmurnitopembahasan1'=>'uuid'],
                                                                                                               'only'=>['index','store','destroy','show']]);
     Route::post('/rkpd/transferrkpdmurnitopembahasan1/search',['uses'=>'RKPD\TransferRKPDMurniTOPembahasan1@search','as'=>'transferrkpdmurnitopembahasan1.search']); 
+    Route::get('/rkpd/transferrkpdmurnitopembahasan1/paginate/{id}',['uses'=>'RKPD\TransferRKPDMurniTOPembahasan1@paginate','as'=>'transferrkpdmurnitopembahasan1.paginate']);              
+    Route::post('/rkpd/transferrkpdmurnitopembahasan1/changenumberrecordperpage',['uses'=>'RKPD\TransferRKPDMurniTOPembahasan1@changenumberrecordperpage','as'=>'transferrkpdmurnitopembahasan1.changenumberrecordperpage']);  
+    Route::post('/rkpd/transferrkpdmurnitopembahasan1/orderby',['uses'=>'RKPD\TransferRKPDMurniTOPembahasan1@orderby','as'=>'transferrkpdmurnitopembahasan1.orderby']);
 
     //workflow - Aspirasi Musrenbang Desa
     Route::resource('/workflow/musrenbang/aspirasimusrendesa','Musrenbang\AspirasiMusrenDesaController',['parameters'=>['aspirasimusrendesa'=>'uuid']]);        
