@@ -244,10 +244,12 @@ class HelperKegiatan {
             break;           
             case 'verifikasirenja' :
                 $pagetitle = 'VERIFIKASI TAPD';                
-            break;           
-
+            break;
             case 'rkpdmurni' :
                 $pagetitle = 'RKPD MURNI';                
+            break;           
+            case 'pembahasanrkpd' :
+                $pagetitle = 'PEMBAHASAN RKPD MURNI';                
             break;           
             case 'rkpdperubahan' :
                 $pagetitle = 'RKPD PERUBAHAN';                
@@ -486,6 +488,31 @@ class HelperKegiatan {
                                     "Sasaran_Uraian1" AS "Sasaran_Uraian",
                                     "Target1" AS "Target",
                                     "NilaiUsulan1" AS "Jumlah",
+                                    "isSKPD",
+                                    "isReses",
+                                    "isReses_Uraian",
+                                    "Status",
+                                    "Privilege",
+                                    "Status_Indikator",
+                                    "EntryLvl",
+                                    "Descr"');
+            break;
+            case 'pembahasanrkpd' :
+                $rawSql = \DB::raw('"RKPDRincID",
+                                    "RKPDID",
+                                    "PrgID",
+                                    "KgtID",
+                                    "UsulanKecID",
+                                    "No",
+                                    "Nm_Kecamatan",
+                                    "kode_kegiatan",
+                                    "KgtNm",
+                                    "Uraian",
+                                    "Sasaran_Angka2" AS "Sasaran_Angka",
+                                    "Sasaran_Uraian2" AS "Sasaran_Uraian",
+                                    "Target2" AS "Target",
+                                    "NilaiUsulan1" AS "Jumlah",
+                                    "NilaiUsulan2" AS "Jumlah2",
                                     "isSKPD",
                                     "isReses",
                                     "isReses_Uraian",

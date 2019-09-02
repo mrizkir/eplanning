@@ -110,6 +110,7 @@ class RKPDRincianModel extends Model {
                 ->join('trRKPD','trRKPDRinc.RKPDID','trRKPD.RKPDID')
                 ->where('trRKPDRinc.TA',$tahun_perencanaan)
                 ->where('trRKPD.OrgID',$OrgID)
+                ->where('trRKPD.EntryLvl',$EntryLvl)
                 ->get()                
                 ->toArray();
         
@@ -129,6 +130,7 @@ class RKPDRincianModel extends Model {
                 ->select(\DB::raw('SUM("trRKPDRinc"."NilaiUsulan1") AS "NilaiUsulan1",SUM("trRKPDRinc"."NilaiUsulan2") AS "NilaiUsulan2",SUM("trRKPDRinc"."NilaiUsulan3") AS "NilaiUsulan3"'))
                 ->join('trRKPD','trRKPDRinc.RKPDID','trRKPD.RKPDID')
                 ->where('trRKPDRinc.TA',$tahun_perencanaan)
+                ->where('trRKPD.EntryLvl',$EntryLvl)
                 ->where('trRKPD.SOrgID',$SOrgID)
                 ->get()                
                 ->toArray();

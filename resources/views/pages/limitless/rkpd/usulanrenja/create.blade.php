@@ -117,7 +117,7 @@
                     </div>
                 </div>          
                 <div class="form-group">
-                    <label form="NilaiSebelum" class="control-label col-md-2">PAGU DANA</label>
+                    <label form="NilaiUsulan" class="control-label col-md-2">PAGU DANA</label>
                     <div class="col-md-10">
                         {{Form::text('NilaiUsulan',0,['class'=>'form-control','placeholder'=>'NILAI USULAN (TA)','id'=>'NilaiUsulan','readonly'=>true])}}                            
                         <span class="help-block">Jumlah Pagu Dana ini akan terisi secara otomatis saat menginput / mengupdate / menghapus rincian kegiatan.</span>              
