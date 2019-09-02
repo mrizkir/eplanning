@@ -433,7 +433,7 @@ class PokokPikiranController extends Controller {
             'Output' => $request->input('Output'),
             'Jeniskeg' => $jeniskeg,
             'Prioritas' => $request->input('Prioritas'),
-            'Privilege' => 0,
+            'Privilege' => 1,
             'Bobot' => 0,
             'Descr' => $request->input('Descr'),
             'TA' => \HelperKegiatan::getTahunPerencanaan(),

@@ -701,7 +701,7 @@ class PembahasanRKPDController extends Controller
 
             $nomor_rincian = RKPDRincianModel::where('RKPDID',$rkpdid)->count('No')+1;
             $daftar_pemilik= \App\Models\Pokir\PemilikPokokPikiranModel::where('TA',\HelperKegiatan::getTahunPerencanaan()) 
-                                                                        ->select(\DB::raw('"PemilikPokokID", CONCAT("NmPk",\' [\',"Kd_PK",\']\') AS "NmPk"'))                                                                       
+                                                                        ->select(\DB::raw('"PemilikPokokID", CONCAT(\'[\',"Kd_PK",\'] \', "NmPk") AS "NmPk"'))                                                                       
                                                                         ->get()
                                                                         ->pluck('NmPk','PemilikPokokID')                                                                        
                                                                         ->toArray();
