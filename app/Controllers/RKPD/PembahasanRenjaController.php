@@ -1196,6 +1196,9 @@ class PembahasanRenjaController extends Controller {
                                 "PmKotaID",
                                 "PmKecamatanID",
                                 "PmDesaID",
+                                "Lokasi",
+                                "Latitude",
+                                "Longitude",
                                 "PokPirID",
                                 "Uraian",
                                 "No",
@@ -1227,6 +1230,9 @@ class PembahasanRenjaController extends Controller {
                                 "PmKotaID",
                                 "PmKecamatanID",
                                 "PmDesaID",
+                                "Lokasi",
+                                "Latitude",
+                                "Longitude",
                                 "PokPirID",
                                 "Uraian",
                                 "No",
@@ -1337,6 +1343,9 @@ class PembahasanRenjaController extends Controller {
                                 "PmKotaID",
                                 "PmKecamatanID",
                                 "PmDesaID",
+                                "Lokasi",
+                                "Latitude",
+                                "Longitude",
                                 "PokPirID",
                                 "Uraian",
                                 "No",
@@ -1372,6 +1381,9 @@ class PembahasanRenjaController extends Controller {
                                 "PmKotaID",
                                 "PmKecamatanID",
                                 "PmDesaID",
+                                "Lokasi",
+                                "Latitude",
+                                "Longitude",
                                 "PokPirID",
                                 "Uraian",
                                 "No",
@@ -1486,6 +1498,9 @@ class PembahasanRenjaController extends Controller {
                                 "PmKotaID",
                                 "PmKecamatanID",
                                 "PmDesaID",
+                                "Lokasi",
+                                "Latitude",
+                                "Longitude",
                                 "PokPirID",
                                 "Uraian",
                                 "No",
@@ -1525,6 +1540,9 @@ class PembahasanRenjaController extends Controller {
                                 "PmKotaID",
                                 "PmKecamatanID",
                                 "PmDesaID",
+                                "Lokasi",
+                                "Latitude",
+                                "Longitude",
                                 "PokPirID",
                                 "Uraian",
                                 "No",
@@ -1644,6 +1662,9 @@ class PembahasanRenjaController extends Controller {
                                 "PmKotaID",
                                 "PmKecamatanID",
                                 "PmDesaID",
+                                "Lokasi",
+                                "Latitude",
+                                "Longitude",
                                 "PokPirID",
                                 "Uraian",
                                 "No",
@@ -1686,6 +1707,9 @@ class PembahasanRenjaController extends Controller {
                                 "PmKotaID",
                                 "PmKecamatanID",
                                 "PmDesaID",
+                                "Lokasi",
+                                "Latitude",
+                                "Longitude",
                                 "PokPirID",
                                 "Uraian",
                                 "No",
@@ -1795,7 +1819,7 @@ class PembahasanRenjaController extends Controller {
                                 'Status'=>1, //artinya sudah disetujui di rkpd murni
                                 'Status_Indikator'=>$renja->Status_Indikator,
                                 'EntryLvl'=>1,//artinya di level RKPD
-                                'Privilege'=>1,//artinya dianggap sudah diproses                                    
+                                'Privilege'=>0,//artinya dianggap sudah diproses                                    
                             ]);
                         } 
                         else
@@ -1805,7 +1829,7 @@ class PembahasanRenjaController extends Controller {
                             $rkpd->save();
                         }       
 
-                        //kondisi awal saat di transfer ke RKPD adalah entrillvl = 4 (RKPD)
+                        //kondisi awal saat di transfer ke RKPD adalah entrillvl = 1 (RKPD)
                         $str_rincianrenja = '
                             INSERT INTO "trRKPDRinc" (
                                 "RKPDRincID",
@@ -1814,6 +1838,9 @@ class PembahasanRenjaController extends Controller {
                                 "PmKotaID",
                                 "PmKecamatanID",
                                 "PmDesaID",
+                                "Lokasi",
+                                "Latitude",
+                                "Longitude",
                                 "UsulanKecID",
                                 "PokPirID",
                                 "Uraian",
@@ -1841,6 +1868,9 @@ class PembahasanRenjaController extends Controller {
                                 "PmKotaID",
                                 "PmKecamatanID",
                                 "PmDesaID",
+                                "Lokasi",
+                                "Latitude",
+                                "Longitude",
                                 "UsulanKecID",
                                 "PokPirID",
                                 "Uraian",
@@ -1857,7 +1887,7 @@ class PembahasanRenjaController extends Controller {
                                 "TA",
                                 1 AS "Status", 
                                 1 AS "EntryLvl",
-                                1 AS "Privilege",  
+                                0 AS "Privilege",  
                                 NOW() AS created_at,
                                 NOW() AS updated_at
                             FROM 

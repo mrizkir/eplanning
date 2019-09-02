@@ -241,6 +241,11 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/perencanaan/pokokpikiran/changenumberrecordperpage',['uses'=>'Pokir\PokokPikiranController@changenumberrecordperpage','as'=>'pokokpikiran.changenumberrecordperpage']);  
     Route::post('/perencanaan/pokokpikiran/orderby',['uses'=>'Pokir\PokokPikiranController@orderby','as'=>'pokokpikiran.orderby']); 
     Route::get('/perencanaan/pokokpikiran/printtoexcel',['uses'=>'Pokir\PokokPikiranController@printtoexcel','as'=>'pokokpikiran.printtoexcel']);
+    
+    //RKPD - Transfer RKPD MURNI ke Pembahasan [rkpd]
+    Route::resource('/rkpd/transferrkpdmurnitopembahasan1','RKPD\TransferRKPDMurniTOPembahasan1',['parameters'=>['transferrkpdmurnitopembahasan1'=>'uuid'],
+                                                                                                              'only'=>['index','store','destroy','show']]);
+    Route::post('/rkpd/transferrkpdmurnitopembahasan1/search',['uses'=>'RKPD\TransferRKPDMurniTOPembahasan1@search','as'=>'transferrkpdmurnitopembahasan1.search']); 
 
     //workflow - Aspirasi Musrenbang Desa
     Route::resource('/workflow/musrenbang/aspirasimusrendesa','Musrenbang\AspirasiMusrenDesaController',['parameters'=>['aspirasimusrendesa'=>'uuid']]);        

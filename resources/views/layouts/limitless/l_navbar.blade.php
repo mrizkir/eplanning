@@ -239,6 +239,29 @@
                 </div>
             </li>
             @endhasrole
+            @hasrole('superadmin')
+            <li class="dropdown mega-menu mega-menu-wide visible">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-airplane3 position-left"></i> RKPD <span class="caret"></span>
+                </a>
+                <div class="dropdown-menu dropdown-content">
+                    <div class="dropdown-content-body">
+                        <div class="row">                                                       
+                            <div class="col-md-3">
+                                <span class="menu-heading underlined bg-blue-300" style="padding:10px"><i class="icon-strategy"></i> TRANSFER DATA</span>
+                                <ul class="menu-list">                                   
+                                    <li{!!Helper::isMenuActive ($page_active,'renstratujuan',' class="active"')!!}>
+                                        <a href="{{route('transferrkpdmurnitopembahasan1.index')}}">
+                                            <i class="icon-strategy"></i> RKPD MURNI --> PEMBAHASAN </span>
+                                        </a>
+                                    </li>                                    
+                                </ul>
+                            </div>                            
+                        </div>                        
+                    </div>
+                </div>
+            </li>
+            @endhasrole
             <li class="dropdown visible">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-airplane3 position-left"></i> ASPIRASI <span class="caret"></span>
