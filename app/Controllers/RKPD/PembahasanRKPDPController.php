@@ -1871,61 +1871,61 @@ class PembahasanRKPDPController extends Controller
      */
     public function printtoexcel()
     {       
-        $theme = \Auth::user()->theme;
+        // $theme = \Auth::user()->theme;
 
-        $filters=$this->getControllerStateSession($this->SessionName,'filters');   
-        $generate_date=date('Y-m-d_H_m_s');
-        $OrgID=$filters['OrgID'];        
-        $SOrgID=$filters['SOrgID'];   
+        // $filters=$this->getControllerStateSession($this->SessionName,'filters');   
+        // $generate_date=date('Y-m-d_H_m_s');
+        // $OrgID=$filters['OrgID'];        
+        // $SOrgID=$filters['SOrgID'];   
 
-        if ($SOrgID != 'none'&&$SOrgID != ''&&$SOrgID != null) 
-        {   
-            $unitkerja = \DB::table('v_suborganisasi')
-                            ->where('SOrgID',$SOrgID)->first();              
-            $data_report['OrgID']=$unitkerja->OrgID;
-            $data_report['SOrgID']=$SOrgID;
-            $data_report['Kd_Urusan']=$unitkerja->Kd_Urusan;
-            $data_report['Nm_Urusan']=$unitkerja->Nm_Urusan;
-            $data_report['Kd_Bidang']=$unitkerja->Kd_Bidang;
-            $data_report['Nm_Bidang']=$unitkerja->Nm_Bidang;
-            $data_report['kode_organisasi']=$unitkerja->kode_organisasi;
-            $data_report['OrgNm']=$unitkerja->OrgNm;
-            $data_report['SOrgID']=$SOrgID;
-            $data_report['kode_suborganisasi']=$unitkerja->kode_suborganisasi;
-            $data_report['SOrgNm']=$unitkerja->SOrgNm;
-            $data_report['NamaKepalaSKPD']=$unitkerja->NamaKepalaSKPD;
-            $data_report['NIPKepalaSKPD']=$unitkerja->NIPKepalaSKPD;
-            $data_report['mode']='pembahasanrkpd';
+        // if ($SOrgID != 'none'&&$SOrgID != ''&&$SOrgID != null) 
+        // {   
+        //     $unitkerja = \DB::table('v_suborganisasi')
+        //                     ->where('SOrgID',$SOrgID)->first();              
+        //     $data_report['OrgID']=$unitkerja->OrgID;
+        //     $data_report['SOrgID']=$SOrgID;
+        //     $data_report['Kd_Urusan']=$unitkerja->Kd_Urusan;
+        //     $data_report['Nm_Urusan']=$unitkerja->Nm_Urusan;
+        //     $data_report['Kd_Bidang']=$unitkerja->Kd_Bidang;
+        //     $data_report['Nm_Bidang']=$unitkerja->Nm_Bidang;
+        //     $data_report['kode_organisasi']=$unitkerja->kode_organisasi;
+        //     $data_report['OrgNm']=$unitkerja->OrgNm;
+        //     $data_report['SOrgID']=$SOrgID;
+        //     $data_report['kode_suborganisasi']=$unitkerja->kode_suborganisasi;
+        //     $data_report['SOrgNm']=$unitkerja->SOrgNm;
+        //     $data_report['NamaKepalaSKPD']=$unitkerja->NamaKepalaSKPD;
+        //     $data_report['NIPKepalaSKPD']=$unitkerja->NIPKepalaSKPD;
+        //     $data_report['mode']='pembahasanrkpd';
             
-            $report= new \App\Models\Report\ReportRKPDPerubahanModel ($data_report);
-            return $report->download("rkpdp_$generate_date.xlsx");
-        }
-        else if ($OrgID != 'none'&&$OrgID != ''&&$OrgID != null)       
-        {   
-            $opd = \DB::table('v_urusan_organisasi')
-                        ->where('OrgID',$OrgID)->first();  
+        //     $report= new \App\Models\Report\ReportRKPDPerubahanModel ($data_report);
+        //     return $report->download("rkpdp_$generate_date.xlsx");
+        // }
+        // else if ($OrgID != 'none'&&$OrgID != ''&&$OrgID != null)       
+        // {   
+        //     $opd = \DB::table('v_urusan_organisasi')
+        //                 ->where('OrgID',$OrgID)->first();  
             
-            $data_report['OrgID']=$opd->OrgID;
-            $data_report['SOrgID']=$SOrgID;
-            $data_report['Kd_Urusan']=$opd->Kd_Urusan;
-            $data_report['Nm_Urusan']=$opd->Nm_Urusan;
-            $data_report['Kd_Bidang']=$opd->Kd_Bidang;
-            $data_report['Nm_Bidang']=$opd->Nm_Bidang;
-            $data_report['kode_organisasi']=$opd->kode_organisasi;
-            $data_report['OrgNm']=$opd->OrgNm;
-            $data_report['NamaKepalaSKPD']=$opd->NamaKepalaSKPD;
-            $data_report['NIPKepalaSKPD']=$opd->NIPKepalaSKPD;
-            $data_report['mode']='pembahasanrkpd';
+        //     $data_report['OrgID']=$opd->OrgID;
+        //     $data_report['SOrgID']=$SOrgID;
+        //     $data_report['Kd_Urusan']=$opd->Kd_Urusan;
+        //     $data_report['Nm_Urusan']=$opd->Nm_Urusan;
+        //     $data_report['Kd_Bidang']=$opd->Kd_Bidang;
+        //     $data_report['Nm_Bidang']=$opd->Nm_Bidang;
+        //     $data_report['kode_organisasi']=$opd->kode_organisasi;
+        //     $data_report['OrgNm']=$opd->OrgNm;
+        //     $data_report['NamaKepalaSKPD']=$opd->NamaKepalaSKPD;
+        //     $data_report['NIPKepalaSKPD']=$opd->NIPKepalaSKPD;
+        //     $data_report['mode']='pembahasanrkpd';
             
-            $report= new \App\Models\Report\ReportRKPDPerubahanModel($data_report);
-            return $report->download("rkpdp_$generate_date.xlsx");
-        }
-        else
-        {
-            return view("pages.$theme.rkpd.pembahasanrkpdp.error")->with(['page_active'=>$this->NameOfPage,
-                                                                    'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
-                                                                    'errormessage'=>'Mohon unit kerja untuk di pilih terlebih dahulu. bila sudah terpilih ternyata tidak bisa, berarti saudara tidak diperkenankan menambah kegiatan karena telah dikunci.'
-                                                                ]);  
-        }
+        //     $report= new \App\Models\Report\ReportRKPDPerubahanModel($data_report);
+        //     return $report->download("rkpdp_$generate_date.xlsx");
+        // }
+        // else
+        // {
+        //     return view("pages.$theme.rkpd.pembahasanrkpdp.error")->with(['page_active'=>$this->NameOfPage,
+        //                                                             'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
+        //                                                             'errormessage'=>'Mohon unit kerja untuk di pilih terlebih dahulu. bila sudah terpilih ternyata tidak bisa, berarti saudara tidak diperkenankan menambah kegiatan karena telah dikunci.'
+        //                                                         ]);  
+        // }
     }
 }
