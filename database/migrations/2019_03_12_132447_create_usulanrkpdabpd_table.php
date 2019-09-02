@@ -115,7 +115,6 @@ class CreateUsulanrkpdabpdTable extends Migration
             
             $table->decimal('Target_Angka',15,2);
             $table->text('Target_Uraian');
-            $table->year('Tahun');
             $table->string('Descr')->nullable();
             $table->year('TA');
 

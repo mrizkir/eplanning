@@ -24,7 +24,6 @@ class RenjaIndikatorModel extends Model {
        'RenjaID',
        'Target_Angka',
        'Target_Uraian',  
-       'Tahun',      
        'Descr',
        'Privilege',
        'TA',

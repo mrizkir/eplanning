@@ -853,7 +853,6 @@ class RKPDPerubahanController extends Controller
             'IndikatorKinerjaID' => $request->input('IndikatorKinerjaID'),           
             'Target_Angka' => $request->input('Target_Angka'),
             'Target_Uraian' => $request->input('Target_Uraian'),                       
-            'Tahun' => \HelperKegiatan::getTahunPerencanaan(),                       
             'Descr' => $request->input('Descr'),
             'TA' => \HelperKegiatan::getTahunPerencanaan()
         ];

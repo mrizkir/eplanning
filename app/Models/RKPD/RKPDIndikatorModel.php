@@ -24,7 +24,6 @@ class RKPDIndikatorModel extends Model {
        'IndikatorKinerjaID',       
        'Target_Angka',
        'Target_Uraian',  
-       'Tahun',      
        'Descr',
        'TA',
        'Privilege',
