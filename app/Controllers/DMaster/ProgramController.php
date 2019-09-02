@@ -52,6 +52,12 @@ class ProgramController extends Controller {
             $search=$this->getControllerStateSession('program','search');
             switch ($search['kriteria']) 
             {
+                case 'PrgID' :
+                    $data = \DB::table('v_urusan_program')
+                            ->where('TA',\HelperKegiatan::getRPJMDTahunMulai())
+                            ->where('PrgID', $search['isikriteria'])
+                            ->orderBy($column_order,$direction);                                        
+                break;
                 case 'kode_program' :
                     $data = \DB::table('v_urusan_program')
                                 ->where('TA',\HelperKegiatan::getRPJMDTahunMulai())
