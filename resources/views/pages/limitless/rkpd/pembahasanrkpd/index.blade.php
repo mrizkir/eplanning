@@ -113,11 +113,11 @@
                         <td colspan="2">&nbsp;</td>
                     </tr>               
                     <tr>
-                        <td class="text-right">JUMLAH PAGU PERUBAHAN [2]</td>
-                        <td id="totalpaguperubahanopd" class="text-right">{{Helper::formatUang($totalpaguopd['perubahan'])}}</td> 
+                        <td class="text-right">JUMLAH PAGU PEMBAHASAN [2]</td>
+                        <td id="totalpagupembahasanopd" class="text-right">{{Helper::formatUang($totalpaguopd['perubahan'])}}</td> 
                         <td colspan="2">&nbsp;</td>
-                        <td class="text-right">JUMLAH PAGU PERUBAHAN [2]</td>
-                        <td id="totalpaguperubahanunitkerja" class="text-right">{{Helper::formatUang($totalpaguunitkerja['perubahan'])}}</td> 
+                        <td class="text-right">JUMLAH PAGU PEMBAHASAN [2]</td>
+                        <td id="totalpagupembahasanunitkerja" class="text-right">{{Helper::formatUang($totalpaguunitkerja['perubahan'])}}</td> 
                         <td colspan="2">&nbsp;</td>
                     </tr>
                     <tr>
@@ -126,22 +126,6 @@
                         <td colspan="2">&nbsp;</td>
                         <td class="text-right">SELISIH [2-1]</td>
                         <td id="selisihunitkerja" class="text-right">{{Helper::formatUang($totalpaguunitkerja['selisih'])}}</td> 
-                        <td colspan="2">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td class="text-right">JUMLAH PAGU PERUBAHAN<br> SETELAH PEMBAHASAN [3]</td>
-                        <td id="pembahasanpopd" class="text-right">{{Helper::formatUang($totalpaguopd['pembahasanp'])}}</td> 
-                        <td colspan="2">&nbsp;</td>
-                        <td class="text-right">JUMLAH PAGU PERUBAHAN<br> SETELAH PEMBAHASAN [3]</td>
-                        <td id="pembahasanpunitkerja" class="text-right">{{Helper::formatUang($totalpaguunitkerja['pembahasanp'])}}</td> 
-                        <td colspan="2">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td class="text-right">SELISIH [3-1]</td>
-                        <td id="selisihppopd" class="text-right">{{Helper::formatUang($totalpaguopd['selisihpp'])}}</td> 
-                        <td colspan="2">&nbsp;</td>
-                        <td class="text-right">SELISIH [3-1]</td>
-                        <td id="selisihppunitkerja" class="text-right">{{Helper::formatUang($totalpaguunitkerja['selisihpp'])}}</td> 
                         <td colspan="2">&nbsp;</td>
                     </tr>
                 </tbody>            
@@ -198,8 +182,8 @@ $(document).ready(function () {
                     digitGroupSeparator: ".",
                     showWarnings:false
                 }); 
-                formatPaguRKPDPerubahanOPD(result.totalpaguopd);
-                formatPaguRKPDPerubahanUnitKerja(result.totalpaguunitkerja);
+                formatRKPDPaguPembahasanOPD(result.totalpaguopd);
+                formatRKPDPaguPembahasanUnitKerja(result.totalpaguunitkerja);
             },
             error:function(xhr, status, error){
                 console.log('ERROR');
@@ -221,7 +205,7 @@ $(document).ready(function () {
             { 
                 $('#divdatatable').html(result.datatable);
                 $(".switch").bootstrapSwitch();
-                formatPaguRKPDPerubahanUnitKerja(result.totalpaguunitkerja);
+                formatRKPDPaguPembahasanUnitKerja(result.totalpaguunitkerja);
             },
             error:function(xhr, status, error){
                 console.log('ERROR');

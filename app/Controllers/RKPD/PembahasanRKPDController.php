@@ -1220,7 +1220,7 @@ class PembahasanRKPDController extends Controller
                                                     ->join('tmPMProv','tmPMProv.PMProvID','trRKPDRinc.PMProvID')
                                                     ->join('tmPmKota','tmPmKota.PmKotaID','trRKPDRinc.PmKotaID')
                                                     ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRKPDRinc.PmKecamatanID')                                            
-                                                    ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))
+                                                    ->where('trRKPDRinc.EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))
                                                     ->find($id);                                                     
                     break;
                     case 'opd' :
@@ -1250,7 +1250,7 @@ class PembahasanRKPDController extends Controller
                                                                 ->join('tmPmKota','tmPmKota.PmKotaID','trRKPDRinc.PmKotaID')
                                                                 ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRKPDRinc.PmKecamatanID')                                            
                                                                 ->where('trRKPD.SOrgID',$SOrgID)
-                                                                ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))
+                                                                ->where('trRKPDRinc.EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))
                                                                 ->find($id)
                                             :RKPDRincianModel::select(\DB::raw('"trRKPDRinc"."RKPDRincID",
                                                                     "tmPMProv"."Nm_Prov",
@@ -1275,7 +1275,7 @@ class PembahasanRKPDController extends Controller
                                                                 ->join('tmPmKota','tmPmKota.PmKotaID','trRKPDRinc.PmKotaID')
                                                                 ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trRenjaRinc.PmKecamatanID')                                            
                                                                 ->where('trRKPD.OrgID',$OrgID)
-                                                                ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))
+                                                                ->where('trRKPDRinc.EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))
                                                                 ->find($id);        
                     break;
                 }    
@@ -1332,7 +1332,7 @@ class PembahasanRKPDController extends Controller
                                                                     "trRKPDRinc"."isReses"'))                                            
                                                     ->join('trPokPir','trPokPir.PokPirID','trRKPDRinc.PokPirID')
                                                     ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')                                                        
-                                                    ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))
+                                                    ->where('trRKPDRinc.EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))
                                                     ->find($id);        
                     break;
                     case 'opd' :
@@ -1356,7 +1356,7 @@ class PembahasanRKPDController extends Controller
                                                                 ->join('trRKPD','trRKPD.RKPDID','trRKPDRinc.RKPDID')
                                                                 ->join('trPokPir','trPokPir.PokPirID','trRKPDRinc.PokPirID')
                                                                 ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')     
-                                                                ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))                                                   
+                                                                ->where('trRKPDRinc.EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))                                                   
                                                                 ->where('trRKPD.SOrgID',$SOrgID)->find($id)
                                             :RKPDRincianModel::select(\DB::raw('"trRKPDRinc"."RKPDRincID",
                                                                                     "trRKPDRinc"."RKPDID",
@@ -1376,7 +1376,7 @@ class PembahasanRKPDController extends Controller
                                                                 ->join('trRKPD','trRKPD.RKPDID','trRKPDRinc.RKPDID')
                                                                 ->join('trPokPir','trPokPir.PokPirID','trRKPDRinc.PokPirID')
                                                                 ->join('tmPemilikPokok','tmPemilikPokok.PemilikPokokID','trPokPir.PemilikPokokID')     
-                                                                ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))                                                   
+                                                                ->where('trRKPDRinc.EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))                                                   
                                                                 ->where('trRKPD.OrgID',$OrgID)
                                                                 ->find($id);        
                     break;
@@ -1431,7 +1431,7 @@ class PembahasanRKPDController extends Controller
                                                                     "trRKPDRinc"."isSKPD",
                                                                     "trRKPDRinc"."EntryLvl",
                                                                     "trRKPDRinc"."isReses"'))     
-                                                    ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))
+                                                    ->where('trRKPDRinc.EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))
                                                     ->findOrFail($id);        
                     break;
                     case 'opd' :
@@ -1452,7 +1452,7 @@ class PembahasanRKPDController extends Controller
                                                                     "trRKPDRinc"."isSKPD",
                                                                     "trRKPDRinc"."isReses"'))
                                                                 ->join('trRKPD','trRKPD.RKPDID','trRKPDRinc.RKPDID')   
-                                                                ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))                                                     
+                                                                ->where('trRKPDRinc.EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))                                                     
                                                                 ->where('trRKPD.SOrgID',$SOrgID)->findOrFail($id)
                                             :RKPDRincianModel::select(\DB::raw('"trRKPDRinc"."RKPDRincID",
                                                                                 "trRKPDRinc"."RKPDID",
@@ -1469,7 +1469,7 @@ class PembahasanRKPDController extends Controller
                                                                                 "trRKPDRinc"."isReses"'))
 
                                                                 ->join('trRKPD','trRKPD.RKPDID','trRKPDRinc.RKPDID')            
-                                                                ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))                                            
+                                                                ->where('trRKPDRinc.EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))                                            
                                                                 ->where('trRKPD.OrgID',$OrgID)
                                                                 ->findOrFail($id);        
                     break;

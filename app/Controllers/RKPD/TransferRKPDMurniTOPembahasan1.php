@@ -260,7 +260,8 @@ class TransferRKPDMurniTOPembahasan1 extends Controller {
                                                     $new->NilaiUsulan2=$new->NilaiUsulan1;                                                            
                                                     $new->Target2=$new->Target1;          
                                                     $new->Tgl_Posting=$tanggal_posting;                                                  
-                                                    $new->EntryLvl=2;                                                                                                                        
+                                                    $new->EntryLvl=2;
+                                                    $new->Privilege=0;                                                                                                                        
                                                     $new->RKPDID_Src=$oldRKPDID;                                                            
                                                     $new->created_at=$tanggal_posting;                                                            
                                                     $new->updated_at=$tanggal_posting;                                                            
