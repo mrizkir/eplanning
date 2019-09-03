@@ -204,9 +204,10 @@
                     <td colspan="11">
                         <span class="label label-warning label-rounded" style="text-transform: none">
                             <strong>RKPDID:</strong>
-                            {{$item->RKPDID}}                        </span>
+                            {{$item->RKPDID}}                        
+                        </span>
                         <span class="label label-warning label-rounded" style="text-transform: none">
-                            <strong>RKPDRINCIDKGTIDstrong>
+                            <strong>RKPDRINCID</strong>
                             {{$item->RKPDRincID}}
                         </span>                       
                         <span class="label label-warning label-rounded" style="text-transform: none">
