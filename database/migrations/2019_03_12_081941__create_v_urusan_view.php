@@ -14,7 +14,8 @@ class CreateVUrusanView extends Migration
     public function up()
     {
         \DB::statement(
-            'CREATE VIEW v_urusan AS SELECT 
+            'CREATE VIEW v_urusan AS 
+            SELECT 
                 ku."KUrsID", 
                 tu."UrsID",
                 ku."Kd_Urusan", 
@@ -22,9 +23,13 @@ class CreateVUrusanView extends Migration
                 pg_catalog.concat(ku."Kd_Urusan", \'.\', tu."Kd_Bidang") AS "Kode_Bidang", 
                 ku."Nm_Urusan", 
                 tu."Nm_Bidang", 
-                ku."TA" FROM "tmUrs" tu INNER JOIN "tmKUrs" ku 
-                ON (ku."KUrsID"=tu."KUrsID")'
-        );
+                ku."TA" 
+            FROM "tmUrs" tu 
+            INNER JOIN "tmKUrs" ku ON (ku."KUrsID"=tu."KUrsID")
+            ORDER BY
+                ku."Kd_Urusan"::int ASC,
+                tu."Kd_Bidang"::int ASC
+        ');
     }
 
     /**

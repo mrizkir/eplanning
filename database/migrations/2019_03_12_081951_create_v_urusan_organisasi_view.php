@@ -34,7 +34,12 @@ class CreateVUrusanOrganisasiView extends Migration
                                 organisasi."updated_at"                            
                             FROM "tmOrg" AS organisasi
                             JOIN "tmUrs" AS urusan ON organisasi."UrsID"=urusan."UrsID"
-                            JOIN "tmKUrs" AS kelompok_urusan ON kelompok_urusan."KUrsID"=urusan."KUrsID"');
+                            JOIN "tmKUrs" AS kelompok_urusan ON kelompok_urusan."KUrsID"=urusan."KUrsID"
+                            ORDER BY
+                                kelompok_urusan."Kd_Urusan"::int ASC,
+                                urusan."Kd_Bidang"::int ASC,
+                                organisasi."OrgCd"::int ASC                                
+                        ');
     }
 
     /**

@@ -100,10 +100,10 @@ class CreateVRkpdView extends Migration
             LEFT JOIN "tmKUrs" J ON J."KUrsID"=I."KUrsID"
 
             ORDER BY
-                    J."Kd_Urusan" ASC NULLS FIRST,
-                    I."Kd_Bidang" ASC NULLS FIRST,
-                    G."Kd_Prog" ASC,
-                    F."Kd_Keg" ASC                 
+                    J."Kd_Urusan"::int ASC NULLS FIRST,
+                    I."Kd_Bidang"::int ASC NULLS FIRST,
+                    G."Kd_Prog"::int ASC,
+                    F."Kd_Keg"::int ASC                 
         ');				
     }
 

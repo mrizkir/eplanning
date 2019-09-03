@@ -38,8 +38,13 @@ class CreateVUrusanProgramView extends Migration
                         FROM "tmPrg" AS program
                             LEFT JOIN "trUrsPrg" AS urs_program ON program."PrgID"=urs_program."PrgID"
                             LEFT JOIN "tmUrs" AS urusan ON urs_program."UrsID"=urusan."UrsID"
-                            LEFT JOIN "tmKUrs" AS kelompok_urusan ON kelompok_urusan."KUrsID"=urusan."KUrsID"'
-        );
+                            LEFT JOIN "tmKUrs" AS kelompok_urusan ON kelompok_urusan."KUrsID"=urusan."KUrsID"
+                        
+                        ORDER BY
+                            kelompok_urusan."Kd_Urusan"::int ASC NULLS FIRST,
+                            urusan."Kd_Bidang"::int ASC NULLS FIRST,
+                            program."Kd_Prog"::int ASC 
+        ');
     }
 
     /**

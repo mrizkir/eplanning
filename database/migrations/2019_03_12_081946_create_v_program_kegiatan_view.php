@@ -57,6 +57,11 @@ class CreateVProgramKegiatanView extends Migration
             LEFT JOIN "trUrsPrg" C ON A."PrgID"=C."PrgID"
             LEFT JOIN "tmUrs" D ON C."UrsID"=D."UrsID"
             LEFT JOIN "tmKUrs" E ON D."KUrsID"=E."KUrsID"	
+            ORDER BY
+                E."Kd_Urusan"::int ASC NULLS FIRST,
+                D."Kd_Bidang"::int ASC NULLS FIRST,
+                B."Kd_Prog"::int ASC, 
+                A."Kd_Keg"::int ASC 
         ');			 				
     }
     /**

@@ -105,10 +105,10 @@ class CreateVUsulanPraRenjaOPDView extends Migration
             WHERE
                 A."EntryLvl"=0
             ORDER BY
-                J."Kd_Urusan" ASC NULLS FIRST,
-                I."Kd_Bidang" ASC NULLS FIRST,
-                G."Kd_Prog" ASC,
-                F."Kd_Keg" ASC 
+                J."Kd_Urusan"::int ASC NULLS FIRST,
+                I."Kd_Bidang"::int ASC NULLS FIRST,
+                G."Kd_Prog"::int ASC,
+                F."Kd_Keg"::int ASC 
         ');				
     }
 

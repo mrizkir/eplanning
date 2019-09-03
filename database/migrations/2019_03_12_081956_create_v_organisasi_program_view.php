@@ -49,7 +49,14 @@ class CreateVOrganisasiProgramView extends Migration
 			JOIN "tmPrg" E ON E."PrgID"=A."PrgID"
 			LEFT JOIN "trUrsPrg" AS F ON F."PrgID"=E."PrgID"
 			LEFT JOIN "tmUrs" AS G ON G."UrsID"=F."UrsID"
-			LEFT JOIN "tmKUrs" AS H ON H."KUrsID"=G."KUrsID"			 
+			LEFT JOIN "tmKUrs" AS H ON H."KUrsID"=G."KUrsID"	
+			ORDER BY
+				D."Kd_Urusan"::int ASC,
+                C."Kd_Bidang"::int ASC,
+                B."OrgCd"::int ASC,
+                H."Kd_Urusan"::int ASC NULLS FIRST,
+                G."Kd_Bidang"::int ASC NULLS FIRST,
+                E."Kd_Prog"::int ASC
         ');
     }
 

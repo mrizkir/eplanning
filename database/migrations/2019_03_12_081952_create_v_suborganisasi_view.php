@@ -38,7 +38,14 @@ class CreateVSuborganisasiView extends Migration
                             FROM "tmSOrg" AS sub
                             JOIN "tmOrg" AS organisasi ON organisasi."OrgID"=sub."OrgID"
                             JOIN "tmUrs" AS urusan ON organisasi."UrsID"=urusan."UrsID"
-                            JOIN "tmKUrs" AS kelompok_urusan ON kelompok_urusan."KUrsID"=urusan."KUrsID"');
+                            JOIN "tmKUrs" AS kelompok_urusan ON kelompok_urusan."KUrsID"=urusan."KUrsID"
+                            ORDER BY
+                                kelompok_urusan."Kd_Urusan"::int ASC,
+                                urusan."Kd_Bidang"::int ASC,
+                                organisasi."OrgCd"::int ASC,                                
+                                sub."SOrgCd"::int ASC                                
+                        ');
+                            
     }
 
     /**
