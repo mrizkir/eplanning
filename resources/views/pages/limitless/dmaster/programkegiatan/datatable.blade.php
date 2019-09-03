@@ -29,6 +29,12 @@
                     <th width="350">
                         NAMA PROGRAM  
                     </th> 
+                    <th width="150">
+                        JUMLAH RENJA
+                    </th> 
+                    <th width="150">
+                        JUMLAH RKPD
+                    </th> 
                     <th width="70">
                         TAHUN
                     </th> 
@@ -44,6 +50,8 @@
                     <td>{{$item->kode_kegiatan}}</td>
                     <td>{{$item->KgtNm}}</td>
                     <td>{{$item->PrgNm}}</td>
+                    <td>{{DB::table('trRenja')->where('KgtID',$item->KgtID)->count()}}</td>
+                    <td>{{DB::table('trRKPD')->where('KgtID',$item->KgtID)->count()}}</td>
                     <td>{{$item->TA}}</td>
                     <td>
                         <ul class="icons-list">

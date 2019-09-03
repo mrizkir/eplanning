@@ -87,7 +87,7 @@ class CreateVRkpdRinciView extends Migration
                 K."NilaiUsulan4",		
                 K."Status",
                 A."Status_Indikator",
-                K."EntryLvl",
+                A."EntryLvl",
                 K."Privilege",
                 A."Locked",
                 K."isReses",
