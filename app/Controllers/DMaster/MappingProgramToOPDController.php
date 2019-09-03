@@ -54,8 +54,30 @@ class MappingProgramToOPDController extends Controller {
             $search=$this->getControllerStateSession('mappingprogramtoopd','search');
             switch ($search['kriteria']) 
             {
+                case 'PrgID' :
+                    $data = \DB::table('v_organisasi_program')
+                                ->select(\DB::raw('
+                                "orgProgramID",
+                                kode_organisasi,
+                                "OrgIDRPJMD",
+                                "OrgNm",
+                                "kode_program",
+                                "PrgID",
+                                "PrgNm",
+                                "Nm_Urusan",
+                                "Jns",
+                                "TA",
+                                "created_at",
+                                "updated_at"
+                            '))                              
+                            ->where('v_organisasi_program.TA',\HelperKegiatan::getRPJMDTahunMulai())
+                            ->where(['PrgID'=>$search['isikriteria']])
+                            ->orderBy("kode_organisasi",'ASC')
+                            ->orderByRaw('"Kd_Urusan" ASC NULLS FIRST')
+                            ->orderByRaw('"Kd_Bidang" ASC NULLS FIRST')
+                            ->orderByRaw('"Kd_Prog" ASC NULLS FIRST');
+                break;
                 case 'kode_program' :
-                    $data = MappingProgramToOPDModel::where(['OrgIDRPJMD'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                     $data = \DB::table('v_organisasi_program')
                                 ->select(\DB::raw('
                                 "orgProgramID",
@@ -79,7 +101,6 @@ class MappingProgramToOPDController extends Controller {
                             ->orderByRaw('"Kd_Prog" ASC NULLS FIRST');
                 break;
                 case 'PrgNm' :
-                    $data = MappingProgramToOPDModel::where('PrgNm', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                     $data = \DB::table('v_organisasi_program')
                             ->select(\DB::raw('
                                 "orgProgramID",
