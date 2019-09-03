@@ -117,7 +117,7 @@
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
-                            @if ($item->Privilege==0)
+                            @if ($item->Privilege==0 || $role=='superadmin' || $role=='bapelitbang')
                             <li class="text-primary-600">
                                 <a class="btnEdit" href="{{route('pokokpikiran.edit',['id'=>$item->PokPirID])}}" title="Ubah Data Pokok Pikiran">
                                     <i class='icon-pencil7'></i>

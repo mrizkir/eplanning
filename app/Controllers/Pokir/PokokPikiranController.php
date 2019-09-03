@@ -338,6 +338,7 @@ class PokokPikiranController extends Controller {
                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                                                     'column_order'=>$this->getControllerStateSession('pokokpikiran.orderby','column_name'),
                                                                     'direction'=>$this->getControllerStateSession('pokokpikiran.orderby','order'),
+                                                                    'role'=>$roles[0],
                                                                     'data'=>$data]);               
     }
     /**
@@ -495,6 +496,7 @@ class PokokPikiranController extends Controller {
                                                                         ->pluck('NmPk','PemilikPokokID')   
                                                                         ->prepend('DAFTAR ANGGOTA DEWAN','none')                                                                     
                                                                         ->toArray();                  
+                $data = PokokPikiranModel::findOrFail($id);
             break;
             case 'dewan' :               
                 $daftar_pemilik=\App\Models\UserDewan::select(\DB::raw('"PemilikPokokID", CONCAT("NmPk",\' [\',"Kd_PK",\']\') AS "NmPk"'))                                                                       
@@ -504,11 +506,13 @@ class PokokPikiranController extends Controller {
                                                     ->pluck('NmPk','PemilikPokokID')
                                                     ->prepend('DAFTAR ANGGOTA DEWAN','none')
                                                     ->toArray(); 
+
+                $data = PokokPikiranModel::where('Privilege',0)
+                                        ->findOrFail($id);    
             break;
         }       
         
-        $data = PokokPikiranModel::where('Privilege',0)
-                                ->findOrFail($id);        
+            
         if (!is_null($data) ) 
         {           
             $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);  
