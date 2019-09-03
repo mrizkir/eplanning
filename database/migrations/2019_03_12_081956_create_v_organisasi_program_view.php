@@ -19,6 +19,7 @@ class CreateVOrganisasiProgramView extends Migration
 				A."OrgIDRPJMD",
 				A."PrgID",
 				CONCAT(D."Kd_Urusan",  \'.\', C."Kd_Bidang",\'.\', B."OrgCd") AS kode_organisasi,
+				B."OrgCd",
 				B."OrgNm",
 				H."Kd_Urusan",
 				H."Nm_Urusan", 
