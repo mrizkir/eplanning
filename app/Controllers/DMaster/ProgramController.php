@@ -417,19 +417,42 @@ class ProgramController extends Controller {
         $program->PrgNm = $request->input('PrgNm');
         $program->Descr = $request->input('Descr');
         $program->Jns = $jns;
-        
-        if (($program->Jns==false && $jns == 1) || ($program->Jns==true && $jns == 1))  // per urusan
+        if (($program->Jns==false && $jns == 1))  //program ini berubah menjadi  per urusan
         {            
-            UrusanProgramModel::updateOrCreate ([
+            UrusanProgramModel::Create ([
                 'UrsPrgID'=>uniqid ('uid'),
                 'UrsID'=>$request->input('UrsID'),
                 'PrgID'=>$program->PrgID,
                 'Descr'=>$program->Descr,
                 'TA'=>$program->TA
             ]);
-        }elseif ($program->Jns==true && $jns == 0)
+        }
+        elseif ($program->Jns==true && $jns == 0) //program ini berubah menjadi  semua urusan
         {
             UrusanProgramModel::where('PrgID',$program->PrgID)->delete();
+        }
+        elseif ($program->Jns==true && $jns == 1)
+        {
+            $UrusaProgramModel=UrusanProgramModel::where('PrgID',$program->PrgID)
+                                ->get();
+
+            if (count($UrusaProgramModel) > 0)
+            {
+                $data=UrusanProgramModel::find($UrusaProgramModel[0]->UrsPrgID);                
+                $data->UrsID=$request->input('UrsID');
+                $data->save();
+            }
+            else
+            {
+                UrusanProgramModel::Create ([
+                    'UrsPrgID'=>uniqid ('uid'),
+                    'UrsID'=>$request->input('UrsID'),
+                    'PrgID'=>$program->PrgID,
+                    'Descr'=>$program->Descr,
+                    'TA'=>$program->TA
+                ]);
+            }
+         
         }
         $program->save();
         if ($request->ajax()) 

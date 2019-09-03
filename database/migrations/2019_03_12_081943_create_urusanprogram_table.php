@@ -25,7 +25,7 @@ class CreateUrusanprogramTable extends Migration
 
             $table->primary('UrsPrgID');
             $table->index('UrsID');
-            $table->index('PrgID');
+            $table->unique('PrgID');
 
             $table->foreign('UrsID')
                 ->references('UrsID')
