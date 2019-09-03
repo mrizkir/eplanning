@@ -1345,7 +1345,6 @@ class PembahasanRKPDController extends Controller
                                                                                     "trRKPDRinc"."Sasaran_Uraian2" AS "Sasaran_Uraian",
                                                                                     "trRKPDRinc"."Target2" AS "Target",
                                                                                     "trRKPDRinc"."NilaiUsulan2" AS "Jumlah",
-                                                                                    "trRKPDRinc"."Prioritas",
                                                                                     "trRKPDRinc"."Descr",
                                                                                     "trRKPDRinc"."isSKPD",
                                                                                     "trRKPDRinc"."isReses"'))                                            
@@ -1365,7 +1364,6 @@ class PembahasanRKPDController extends Controller
                                                                                     "trRKPDRinc"."Sasaran_Uraian2" AS "Sasaran_Uraian",
                                                                                     "trRKPDRinc"."Target2" AS "Target",
                                                                                     "trRKPDRinc"."NilaiUsulan2" AS "Jumlah",
-                                                                                    "trRKPDRinc"."Prioritas",
                                                                                     "trRKPDRinc"."Descr",
                                                                                     "trRKPDRinc"."isSKPD",
                                                                                     "trRKPDRinc"."isReses"'))                                            
