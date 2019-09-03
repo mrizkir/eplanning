@@ -603,7 +603,7 @@ class PembahasanRKPDController extends Controller
                                                             ->join('v_suborganisasi','tmSOrg.OrgID','v_suborganisasi.OrgID')
                                                             ->find($SOrgID);  
         
-            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getRPJMDTahunMulai(),false,$organisasi->UrsID);            
+            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgramByOPD($organisasi->OrgIDRPJMD);            
             $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunPerencanaan(),false);     
             
             return view("pages.$theme.rkpd.pembahasanrkpd.create")->with(['page_active'=>$this->NameOfPage,
