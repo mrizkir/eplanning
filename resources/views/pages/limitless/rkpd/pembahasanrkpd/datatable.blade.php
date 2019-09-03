@@ -20,10 +20,10 @@
                         <i class="icon-printer"></i> 
                         <span class="caret"></span>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-right">
+                    <ul class="dropdown-menu dropdown-menu-right width-250">
                         <li>
-                            <a href="{!!route('pembahasanrkpd.printtoexcel')!!}" title="Print to Excel" id="btnprintexcel">
-                                <i class="icon-file-excel"></i> Export to Excel
+                            <a href="{!!route('pembahasanrkpd.printtoexcelrkpdpembasahanrinci')!!}" title="Print to Excel Pembahasan RKPD Rinci" id="btnprinttoexcelrkpdpembasahanrinci">
+                                <i class="icon-file-excel"></i> Pembahasan RKPD Rinci
                             </a>     
                         </li>                            
                     </ul>

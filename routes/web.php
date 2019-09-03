@@ -494,6 +494,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::get('/workflow/rkpd/pembahasanrkpd/paginate/{id}',['uses'=>'RKPD\PembahasanRKPDController@paginate','as'=>'pembahasanrkpd.paginate']);              
     Route::post('/workflow/rkpd/pembahasanrkpd/changenumberrecordperpage',['uses'=>'RKPD\PembahasanRKPDController@changenumberrecordperpage','as'=>'pembahasanrkpd.changenumberrecordperpage']);  
     Route::post('/workflow/rkpd/pembahasanrkpd/orderby',['uses'=>'RKPD\PembahasanRKPDController@orderby','as'=>'pembahasanrkpd.orderby']);
+    Route::get('/workflow/rkpd/pembahasanrkpd/printtoexcelrkpdpembasahanrinci',['uses'=>'RKPD\PembahasanRKPDController@printtoexcelrkpdpembasahanrinci','as'=>'pembahasanrkpd.printtoexcelrkpdpembasahanrinci']);
     Route::get('/workflow/rkpd/pembahasanrkpd/printtoexcel',['uses'=>'RKPD\PembahasanRKPDController@printtoexcel','as'=>'pembahasanrkpd.printtoexcel']);
     Route::get('/workflow/rkpd/pembahasanrkpd/printtopdf',['uses'=>'RKPD\PembahasanRKPDController@printtopdf','as'=>'pembahasanrkpd.printtopdf']);
 

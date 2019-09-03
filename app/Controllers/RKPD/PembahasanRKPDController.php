@@ -1828,7 +1828,7 @@ class PembahasanRKPDController extends Controller
      *    
      * @return \Illuminate\Http\Response
      */
-    public function printtoexcel()
+    public function printtoexcelrkpdpembasahanrinci()
     {       
         $theme = \Auth::user()->theme;
 
@@ -1840,7 +1840,9 @@ class PembahasanRKPDController extends Controller
         if ($SOrgID != 'none'&&$SOrgID != ''&&$SOrgID != null) 
         {   
             $unitkerja = \DB::table('v_suborganisasi')
-                            ->where('SOrgID',$SOrgID)->first();              
+                            ->where('SOrgID',$SOrgID)->first(); 
+
+            $data_report['OrgIDRPJMD']=$unitkerja->OrgIDRPJMD;
             $data_report['OrgID']=$unitkerja->OrgID;
             $data_report['SOrgID']=$SOrgID;
             $data_report['Kd_Urusan']=$unitkerja->Kd_Urusan;
@@ -1856,14 +1858,15 @@ class PembahasanRKPDController extends Controller
             $data_report['NIPKepalaSKPD']=$unitkerja->NIPKepalaSKPD;
             $data_report['mode']='pembahasanrkpd';
             
-            $report= new \App\Models\Report\ReportRKPDPerubahanModel ($data_report);
-            return $report->download("rkpdp_$generate_date.xlsx");
+            $report= new \App\Models\Report\ReportRKPDPembahasanMurniModel ($data_report);
+            return $report->download("pembahasanrkpd_$generate_date.xlsx");
         }
         else if ($OrgID != 'none'&&$OrgID != ''&&$OrgID != null)       
         {   
             $opd = \DB::table('v_urusan_organisasi')
                         ->where('OrgID',$OrgID)->first();  
             
+            $data_report['OrgIDRPJMD']=$unitkerja->OrgIDRPJMD;
             $data_report['OrgID']=$opd->OrgID;
             $data_report['SOrgID']=$SOrgID;
             $data_report['Kd_Urusan']=$opd->Kd_Urusan;
@@ -1876,8 +1879,8 @@ class PembahasanRKPDController extends Controller
             $data_report['NIPKepalaSKPD']=$opd->NIPKepalaSKPD;
             $data_report['mode']='pembahasanrkpd';
             
-            $report= new \App\Models\Report\ReportRKPDPerubahanModel($data_report);
-            return $report->download("rkpdp_$generate_date.xlsx");
+            $report= new \App\Models\Report\ReportRKPDPembahasanMurniModel($data_report);
+            return $report->download("pembahasanrkpd_$generate_date.xlsx");
         }
         else
         {
