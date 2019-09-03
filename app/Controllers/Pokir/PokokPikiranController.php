@@ -122,6 +122,7 @@ class PokokPikiranController extends Controller {
     public function changenumberrecordperpage (Request $request) 
     {
         $theme = \Auth::user()->theme;
+        $roles=\Auth::user()->getRoleNames();
 
         $numberRecordPerPage = $request->input('numberRecordPerPage');
         $this->putControllerStateSession('global_controller','numberRecordPerPage',$numberRecordPerPage);
@@ -134,6 +135,7 @@ class PokokPikiranController extends Controller {
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                 'column_order'=>$this->getControllerStateSession('pokokpikiran.orderby','column_name'),
                                                                                 'direction'=>$this->getControllerStateSession('pokokpikiran.orderby','order'),
+                                                                                'role'=>$roles[0],
                                                                                 'data'=>$data])->render();      
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
     }
@@ -145,7 +147,7 @@ class PokokPikiranController extends Controller {
     public function orderby (Request $request) 
     {
         $theme = \Auth::user()->theme;
-
+        $roles=\Auth::user()->getRoleNames();
         $orderby = $request->input('orderby') == 'asc'?'desc':'asc';
         $column=$request->input('column_name');
         switch($column) 
@@ -174,6 +176,7 @@ class PokokPikiranController extends Controller {
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                             'column_order'=>$this->getControllerStateSession('pokokpikiran.orderby','column_name'),
                                                             'direction'=>$this->getControllerStateSession('pokokpikiran.orderby','order'),
+                                                            'role'=>$roles[0],
                                                             'data'=>$data])->render();     
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
@@ -187,6 +190,7 @@ class PokokPikiranController extends Controller {
     public function paginate ($id) 
     {
         $theme = \Auth::user()->theme;
+        $roles=\Auth::user()->getRoleNames();
 
         $this->setCurrentPageInsideSession('pokokpikiran',$id);
         $data=$this->populateData($id);
@@ -195,6 +199,7 @@ class PokokPikiranController extends Controller {
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                             'column_order'=>$this->getControllerStateSession('pokokpikiran.orderby','column_name'),
                                                                             'direction'=>$this->getControllerStateSession('pokokpikiran.orderby','order'),
+                                                                            'role'=>$roles[0],
                                                                             'data'=>$data])->render(); 
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
@@ -209,6 +214,7 @@ class PokokPikiranController extends Controller {
     {
         $auth = \Auth::user();    
         $theme = $auth->theme;
+        $roles=$auth->getRoleNames();
 
         $filters=$this->getControllerStateSession('pokokpikiran','filters');
 
@@ -227,6 +233,7 @@ class PokokPikiranController extends Controller {
                                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                     'column_order'=>$this->getControllerStateSession('pokokpikiran.orderby','column_name'),
                                                                                     'direction'=>$this->getControllerStateSession('pokokpikiran.orderby','order'),
+                                                                                    'role'=>$roles[0],
                                                                                     'data'=>$data])->render();      
             return response()->json(['success'=>true,'datatable'=>$datatable],200);       
         }           
@@ -250,7 +257,7 @@ class PokokPikiranController extends Controller {
     public function search (Request $request) 
     {
         $theme = \Auth::user()->theme;
-
+        $roles=\Auth::user()->getRoleNames();
         $action = $request->input('action');
         if ($action == 'reset') 
         {
@@ -270,6 +277,7 @@ class PokokPikiranController extends Controller {
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                             'column_order'=>$this->getControllerStateSession('pokokpikiran.orderby','column_name'),
                                                             'direction'=>$this->getControllerStateSession('pokokpikiran.orderby','order'),
+                                                            'role'=>$roles[0],
                                                             'data'=>$data])->render();      
         
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
