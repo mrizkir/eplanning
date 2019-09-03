@@ -176,16 +176,13 @@ class PembahasanRKPDController extends Controller
                 $column_name = 'Uraian';
             break;    
             case 'col-Sasaran_Angka' :
-                $column_name = 'Sasaran_Angka';
+                $column_name = 'Sasaran_Angka2';
             break;  
             case 'col-Jumlah' :
-                $column_name = 'Jumlah';
+                $column_name = 'NilaiUsulan2';
             break; 
             case 'col-status' :
-                $column_name = 'status';
-            break;
-            case 'col-Prioritas' :
-                $column_name = 'Prioritas';
+                $column_name = 'Status';
             break;
             default :
                 $column_name = 'kode_kegiatan';
@@ -881,7 +878,6 @@ class PembahasanRKPDController extends Controller
             'Sasaran_Uraian'=>'required',
             'Target'=>'required',
             'Jumlah'=>'required',
-            'Prioritas' => 'required'            
         ]);
         \DB::transaction(function () use ($request) {
             $rkpdid=$request->input('RKPDID');            
@@ -922,7 +918,6 @@ class PembahasanRKPDController extends Controller
                         'Target2' => $request->input('Target'),                       
                         'NilaiUsulan1' => 0,                       
                         'NilaiUsulan2' => $request->input('Jumlah'),                       
-                        'Prioritas' => $request->input('Prioritas'),  
                         'Tgl_Posting' => $tanggal_posting,                       
                         'isReses' => true,     
                         'isReses_Uraian' => '['.$pokok_pikiran->Kd_PK . '] '.$pokok_pikiran->NmPk,
