@@ -639,21 +639,16 @@ class PembahasanRKPDController extends Controller
             $OrgID=$filters['OrgID'];
             $SOrgID=$filters['SOrgID'];
 
-            $rkpd=RKPDModel::select(\DB::raw('"RKPDID","KgtID","OrgIDRPJMD"'))
+            $rkpd=RKPDModel::select(\DB::raw('"trRKPD"."RKPDID","trRKPD"."KgtID","tmOrg"."OrgIDRPJMD"',"tmKgt"."PrgID"))
                             ->join('tmOrg','tmOrg.OrgID','trRKPD.OrgID')
+                            ->join('tmKgt','tmKgt.KgtID','trRKPD.KgtID')
                             ->where('trRKPD.OrgID',$OrgID)
                             ->where('trRKPD.SOrgID',$SOrgID)
                             ->findOrFail($rkpdid);
             
             
-            $kegiatan=\App\Models\DMaster\ProgramKegiatanModel::select(\DB::raw('"trUrsPrg"."UrsID","trUrsPrg"."PrgID"'))
-                                                                ->join('trUrsPrg','trUrsPrg.PrgID','tmKgt.PrgID')
-                                                                ->find($rkpd->KgtID);                                            
-            
-            $UrsID=$kegiatan->UrsID;    
-            $PrgID=$kegiatan->PrgID;          
+            $PrgID=$rkpd->PrgID;          
             $daftar_indikatorkinerja = \DB::table('trIndikatorKinerja')
-                                        ->where('UrsID',$UrsID)
                                         ->where('PrgID',$PrgID)
                                         ->Where('OrgIDRPJMD',$rkpd->OrgIDRPJMD)                                        
                                         ->where('TA',\HelperKegiatan::getRPJMDTahunMulai())
@@ -702,8 +697,9 @@ class PembahasanRKPDController extends Controller
             $nomor_rincian = RKPDRincianModel::where('RKPDID',$rkpdid)->count('No')+1;
             $daftar_pemilik= \App\Models\Pokir\PemilikPokokPikiranModel::where('TA',\HelperKegiatan::getTahunPerencanaan()) 
                                                                         ->select(\DB::raw('"PemilikPokokID", CONCAT(\'[\',"Kd_PK",\'] \', "NmPk") AS "NmPk"'))                                                                       
+                                                                        ->orderBy('NmPk','ASC')                                                                  
                                                                         ->get()
-                                                                        ->pluck('NmPk','PemilikPokokID')                                                                        
+                                                                        ->pluck('NmPk','PemilikPokokID')                                                                              
                                                                         ->toArray();
             
             return view("pages.$theme.rkpd.pembahasanrkpd.create3")->with(['page_active'=>$this->NameOfPage,
