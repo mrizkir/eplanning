@@ -67,6 +67,7 @@ class CreateVRkpdRinciView extends Migration
                                 CONCAT(\'0.00.\',G."Kd_Prog", \'.\',F."Kd_Keg")
                 END AS kode_kegiatan,
                 F."KgtNm",
+                P."Nm_SumberDana",
                 K."No",
                 K."Uraian",
                 K."Sasaran_Angka1",
@@ -102,9 +103,10 @@ class CreateVRkpdRinciView extends Migration
             JOIN "tmSOrg" C ON A."SOrgID"=C."SOrgID"
             JOIN "tmUrs" D ON B."UrsID"=D."UrsID"
             JOIN "tmKUrs" E ON D."KUrsID"=E."KUrsID"
-
             JOIN "tmKgt" F ON A."KgtID"=F."KgtID"
             JOIN "tmPrg" G ON F."PrgID"=G."PrgID"
+            JOIN "tmSumberDana" P ON P."SumberDanaID"=A."SumberDanaID"
+
             LEFT JOIN "trUrsPrg" H ON G."PrgID"=H."PrgID"
             LEFT JOIN "tmUrs" I ON H."UrsID"=I."UrsID"
             LEFT JOIN "tmKUrs" J ON J."KUrsID"=I."KUrsID"
