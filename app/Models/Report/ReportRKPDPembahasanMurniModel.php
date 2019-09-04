@@ -175,11 +175,11 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
         $sheet->getColumnDimension('F')->setWidth(40);        
         $sheet->getColumnDimension('G')->setWidth(30);
         $sheet->getColumnDimension('H')->setWidth(20);
-        $sheet->getColumnDimension('I')->setWidth(14);
+        $sheet->getColumnDimension('I')->setWidth(30);
         $sheet->getColumnDimension('J')->setWidth(17);
         $sheet->getColumnDimension('K')->setWidth(23);
         $sheet->getColumnDimension('L')->setWidth(23);
-        $sheet->getColumnDimension('M')->setWidth(14);
+        $sheet->getColumnDimension('M')->setWidth(30);
         $sheet->getColumnDimension('N')->setWidth(17);
         
         $styleArray=array( 
@@ -218,14 +218,14 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
                                                 ->select(\DB::raw('"trRKPD"."KgtID","tmKgt"."Kd_Keg","tmKgt"."KgtNm"'))
                                                 ->join('tmKgt','tmKgt.KgtID','trRKPD.KgtID')
                                                 ->where('PrgID',$v3['PrgID'])
-                                                ->where('EntryLvl',2)
+                                                ->where('EntryLvl',2)                                               
+                                                ->where($field,$id)
                                                 ->groupBy('trRKPD.KgtID')
                                                 ->groupBy('tmKgt.Kd_Keg')
                                                 ->groupBy('tmKgt.KgtNm')
-                                                ->where($field,$id)
                                                 ->orderByRaw('"tmKgt"."Kd_Keg"::int ASC')
                                                 ->get();
-                                                
+
                     if (count($daftar_kegiatan)  > 0)
                     {
                         $sheet->getStyle("A$row:N$row")->applyFromArray($styleArrayProgram);
@@ -239,12 +239,28 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
                         $row+=1;
                         foreach ($daftar_kegiatan as $v4) 
                         {
+                            $rkpd = \DB::table('v_rkpd')
+                                                ->where('KgtID',$v4->KgtID)
+                                                ->where('EntryLvl',2)
+                                                ->where($field,$id)
+                                                ->first();
+
                             $sheet->getStyle("A$row:N$row")->applyFromArray($styleArrayKegiatan);
                             $sheet->setCellValue("A$row",0);
                             $sheet->setCellValue("B$row",'00');
                             $sheet->setCellValue("C$row",$Kd_Prog);
                             $sheet->setCellValue("D$row",$v4->Kd_Keg);                            
-                            $sheet->setCellValue("F$row",$v4->KgtNm);  
+                            $sheet->setCellValue("F$row",$v4->KgtNm); 
+                            $nama_indikator=$rkpd->NamaIndikator;
+                            $sheet->setCellValue("G$row",$nama_indikator); 
+                            $sheet->setCellValue("H$row",'KAB. BINTAN'); 
+                            $sheet->setCellValue("I$row",\Helper::formatAngka($rkpd->Sasaran_Angka1) . ' '.$rkpd->Sasaran_Uraian1); 
+                            $sheet->setCellValue("J$row",\Helper::formatUang($rkpd->NilaiUsulan2)); 
+                            $sheet->setCellValue("K$row",$rkpd->Nm_SumberDana); 
+                            $sheet->setCellValue("L$row",$rkpd->Descr); 
+                            $sheet->setCellValue("M$row",\Helper::formatAngka($rkpd->Sasaran_AngkaSetelah).' '.$rkpd->Sasaran_UraianSetelah); 
+                            $sheet->setCellValue("N$row",\Helper::formatUang($rkpd->NilaiSetelah)); 
+                            
                             $row_kegiatan=$row;
                             $row+=1;  
                             $no=1;
@@ -270,13 +286,16 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
                             $totaleachkegiatan = 0;
                             foreach ($rincian_kegiatan as $v5)
                             {
-                                $sheet->mergeCells("A$row:D$row",$Kd_Urusan);                          
+                                $sheet->setCellValue("A$row",0);
+                                $sheet->setCellValue("B$row",'00');
+                                $sheet->setCellValue("C$row",$Kd_Prog);
+                                $sheet->setCellValue("D$row",$v4->Kd_Keg);                             
                                 $sheet->setCellValue("E$row",$no);                            
                                 $sheet->setCellValue("F$row",$v5->Uraian);    
-                                $sasaran_angka=\Helper::formatAngka($v5->Sasaran_Angka2);
-                                $sheet->setCellValue("G$row",$sasaran_angka.' '.$v5->Sasaran_Uraian2);                                    
+                                $sheet->setCellValue("G$row",$nama_indikator); 
                                 $sheet->setCellValue("H$row",'Kab. Bintan'); 
-                                $sheet->setCellValue("I$row",\Helper::formatAngka($v5->Target2)); 
+                                $sasaran_angka=\Helper::formatAngka($v5->Sasaran_Angka2);
+                                $sheet->setCellValue("I$row",$sasaran_angka.' '.$v5->Sasaran_Uraian2);                                     
                                 $sheet->setCellValue("J$row",\Helper::formatUang($v5->NilaiUsulan2)); 
                                 $sheet->setCellValue("K$row",$v5->Nm_SumberDana); 
                                 $sheet->setCellValue("L$row",$v5->Descr); 
@@ -327,12 +346,28 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
                             $row+=1;               
                             foreach ($daftar_kegiatan as $v4) 
                             {
+                                $rkpd = \DB::table('v_rkpd')
+                                                ->where('KgtID',$v4->KgtID)
+                                                ->where('EntryLvl',2)
+                                                ->where($field,$id)
+                                                ->first();
+
                                 $sheet->getStyle("A$row:N$row")->applyFromArray($styleArrayKegiatan);
                                 $sheet->setCellValue("A$row",$Kd_Urusan);
                                 $sheet->setCellValue("B$row",$Kd_Bidang);
                                 $sheet->setCellValue("C$row",$Kd_Prog);
                                 $sheet->setCellValue("D$row",$v4->Kd_Keg);                            
-                                $sheet->setCellValue("F$row",$v4->KgtNm);    
+                                $sheet->setCellValue("F$row",$v4->KgtNm); 
+                                $nama_indikator=$rkpd->NamaIndikator;
+                                $sheet->setCellValue("G$row",$nama_indikator); 
+                                $sheet->setCellValue("H$row",'KAB. BINTAN'); 
+                                $sheet->setCellValue("I$row",\Helper::formatAngka($rkpd->Sasaran_Angka1) . ' '.$rkpd->Sasaran_Uraian1); 
+                                $sheet->setCellValue("J$row",\Helper::formatUang($rkpd->NilaiUsulan2)); 
+                                $sheet->setCellValue("K$row",$rkpd->Nm_SumberDana); 
+                                $sheet->setCellValue("L$row",$rkpd->Descr); 
+                                $sheet->setCellValue("M$row",\Helper::formatAngka($rkpd->Sasaran_AngkaSetelah).' '.$rkpd->Sasaran_UraianSetelah); 
+                                $sheet->setCellValue("N$row",\Helper::formatUang($rkpd->NilaiSetelah)); 
+
                                 $no=1;
                                 $rincian_kegiatan = \DB::table('v_rkpd_rinci')
                                                     ->select(\DB::raw('
@@ -355,13 +390,16 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
                                 $row+=1;
                                 foreach ($rincian_kegiatan as $v5)
                                 {                                
-                                    $sheet->mergeCells("A$row:D$row",$Kd_Urusan);                          
+                                    $sheet->setCellValue("A$row",$Kd_Urusan);
+                                    $sheet->setCellValue("B$row",$Kd_Bidang);
+                                    $sheet->setCellValue("C$row",$Kd_Prog);
+                                    $sheet->setCellValue("D$row",$v4->Kd_Keg);                                 
                                     $sheet->setCellValue("E$row",$no);                            
                                     $sheet->setCellValue("F$row",$v5->Uraian);    
-                                    $sasaran_angka=\Helper::formatAngka($v5->Sasaran_Angka2);
-                                    $sheet->setCellValue("G$row",$sasaran_angka.' '.$v5->Sasaran_Uraian2);                                    
+                                    $sheet->setCellValue("G$row",$nama_indikator); 
                                     $sheet->setCellValue("H$row",'Kab. Bintan'); 
-                                    $sheet->setCellValue("I$row",\Helper::formatAngka($v5->Target2)); 
+                                    $sasaran_angka=\Helper::formatAngka($v5->Sasaran_Angka2);
+                                    $sheet->setCellValue("I$row",$sasaran_angka.' '.$v5->Sasaran_Uraian2);                                    
                                     $sheet->setCellValue("J$row",\Helper::formatUang($v5->NilaiUsulan2)); 
                                     $sheet->setCellValue("K$row",$v5->Nm_SumberDana); 
                                     $sheet->setCellValue("L$row",$v5->Descr); 
@@ -393,14 +431,14 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
         $styleArray=array(								
             'alignment' => array('horizontal'=>Alignment::HORIZONTAL_LEFT)
         );																					 
-        $sheet->getStyle("F10:F$row")->applyFromArray($styleArray);
+        $sheet->getStyle("F10:G$row")->applyFromArray($styleArray);
 
         $row=$row+1;
         $styleArray=array(								
             'alignment' => array('horizontal'=>Alignment::HORIZONTAL_RIGHT)
         );																					 
         $sheet->getStyle("J10:J$row")->applyFromArray($styleArray);
-        $sheet->getStyle("N10:N$row")->applyFromArray($styleArray);
+        $sheet->getStyle("N10:N$row")->applyFromArray($styleArray); 
 
         $row+=3;
         $sheet->setCellValue("H$row",'BANDAR SRI BENTAN, '.\Helper::tanggal('d F Y'));
