@@ -1866,7 +1866,7 @@ class PembahasanRKPDController extends Controller
             $opd = \DB::table('v_urusan_organisasi')
                         ->where('OrgID',$OrgID)->first();  
             
-            $data_report['OrgIDRPJMD']=$unitkerja->OrgIDRPJMD;
+            $data_report['OrgIDRPJMD']=$opd->OrgIDRPJMD;
             $data_report['OrgID']=$opd->OrgID;
             $data_report['SOrgID']=$SOrgID;
             $data_report['Kd_Urusan']=$opd->Kd_Urusan;

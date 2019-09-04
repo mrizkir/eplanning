@@ -196,6 +196,32 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
         $total_pagu=0;
         $total_nilai_setelah=0;
 
+        
+
+        $styleArrayProgram=array( 
+                        'font' => array('bold' => true),   
+                        'fill' => [
+                            'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                            'startColor' => [
+                                'argb' => \PhpOffice\PhpSpreadsheet\Style\Color::COLOR_DARKYELLOW,
+                            ],
+                            'endColor' => [
+                                'argb' => \PhpOffice\PhpSpreadsheet\Style\Color::COLOR_DARKYELLOW,
+                            ],
+                        ]                                
+                    );       
+        $styleArrayKegiatan=array( 
+                        'font' => array('bold' => true),   
+                        'fill' => [
+                            'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                            'startColor' => [
+                                'argb' => \PhpOffice\PhpSpreadsheet\Style\Color::COLOR_GREEN,
+                            ],
+                            'endColor' => [
+                                'argb' => \PhpOffice\PhpSpreadsheet\Style\Color::COLOR_GREEN,
+                            ],
+                        ]                                
+                    );       
         foreach ($struktur as $Kd_Urusan=>$v1)
         {
             $sheet->setCellValue("A$row",$Kd_Urusan);
@@ -205,20 +231,7 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
                 $program=$v1['program'];
                 $row+=1;
                 foreach ($program as $Kd_Prog=>$v3)
-                {
-                    $styleArray=array( 
-                        'font' => array('bold' => true,
-                                        'color'=>array('argb'=>\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_DARKYELLOW)),                       
-                                
-                    );                
-                    $sheet->getStyle("A$row:N$row")->applyFromArray($styleArray);
-
-                    $sheet->setCellValue("A$row",0);
-                    $sheet->setCellValue("B$row",'00');
-                    $sheet->setCellValue("C$row",$Kd_Prog);
-                    $sheet->setCellValue("F$row",$v3['PrgNm']);                        
-                    $row+=1;
-
+                {   
                     $daftar_kegiatan = \DB::table('trRKPD')
                                                 ->select(\DB::raw('"trRKPD"."KgtID","tmKgt"."Kd_Keg","tmKgt"."KgtNm"'))
                                                 ->join('tmKgt','tmKgt.KgtID','trRKPD.KgtID')
@@ -230,95 +243,27 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
                                                 ->where($field,$id)
                                                 ->orderByRaw('"tmKgt"."Kd_Keg"::int ASC')
                                                 ->get();
-                    foreach ($daftar_kegiatan as $v4) 
+                                                
+                    if (count($daftar_kegiatan)  > 0)
                     {
+                        $sheet->getStyle("A$row:N$row")->applyFromArray($styleArrayProgram);
+
                         $sheet->setCellValue("A$row",0);
                         $sheet->setCellValue("B$row",'00');
                         $sheet->setCellValue("C$row",$Kd_Prog);
-                        $sheet->setCellValue("D$row",$v4->Kd_Keg);                            
-                        $sheet->setCellValue("F$row",$v4->KgtNm);  
-                        $row+=1;  
-                        $no=1;
-                        $rincian_kegiatan = \DB::table('v_rkpd_rinci')
-                                            ->select(\DB::raw('
-                                                            "Uraian",
-                                                            "Sasaran_Angka2",
-                                                            "Sasaran_Uraian2",
-                                                            "Target2",
-                                                            "NilaiUsulan2",
-                                                            "Nm_SumberDana",
-                                                            "NilaiUsulan2",
-                                                            "Descr"
-                                                        ')
-                                            )                                                
-                                            ->where('EntryLvl',2)
-                                            ->where('KgtID',$v4->KgtID)
-                                            ->where('PrgID',$v3['PrgID'])
-                                            ->where($field,$id)
-                                            ->orderByRaw('"No"::int ASC')
-                                            ->get();
-                        foreach ($rincian_kegiatan as $v5)
-                        {
-                            $sheet->mergeCells("A$row:D$row",$Kd_Urusan);                          
-                            $sheet->setCellValue("E$row",$no);                            
-                            $sheet->setCellValue("F$row",$v5->Uraian);    
-                            $sasaran_angka=\Helper::formatAngka($v5->Sasaran_Angka2);
-                            $sheet->setCellValue("G$row",$sasaran_angka.' '.$v5->Sasaran_Uraian2);                                    
-                            $sheet->setCellValue("H$row",'Kab. Bintan'); 
-                            $sheet->setCellValue("I$row",\Helper::formatAngka($v5->Target2)); 
-                            $sheet->setCellValue("J$row",\Helper::formatUang($v5->NilaiUsulan2)); 
-                            $sheet->setCellValue("K$row",$v5->Nm_SumberDana); 
-                            $sheet->setCellValue("L$row",$v5->Descr); 
-                            $total_pagu+=$v5->NilaiUsulan2;
-                            $no+=1;
-                            $row+=1;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                $bidang_pemerintahan=$v1['bidang_pemerintahan'];
-                $row+=1;
-                foreach ($bidang_pemerintahan as $Kd_Bidang=>$v2)
-                {
-                    $sheet->setCellValue("A$row",$Kd_Urusan);
-                    $sheet->setCellValue("B$row",$Kd_Bidang);
-                    $sheet->setCellValue("F$row",$v2['Nm_Bidang']);
-                    $program=$v2['program'];
-                    $row+=1;
-                    foreach ($program as $Kd_Prog=>$v3)
-                    {
-                        $styleArray=array( 
-                            'font' => array('bold' => true,
-                                            'color'=>array('argb'=>\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_DARKYELLOW)),                       
-                                    
-                        );                
-                        $sheet->getStyle("A$row:N$row")->applyFromArray($styleArray);
-                        
-                        $sheet->setCellValue("A$row",$Kd_Urusan);
-                        $sheet->setCellValue("B$row",$Kd_Bidang);
-                        $sheet->setCellValue("C$row",$Kd_Prog);
                         $sheet->setCellValue("F$row",$v3['PrgNm']);                        
                         $row+=1;
-                        $daftar_kegiatan = \DB::table('trRKPD')
-                                                ->select(\DB::raw('"trRKPD"."KgtID","tmKgt"."Kd_Keg","tmKgt"."KgtNm"'))
-                                                ->join('tmKgt','tmKgt.KgtID','trRKPD.KgtID')
-                                                ->where('PrgID',$v3['PrgID'])
-                                                ->where('EntryLvl',2)
-                                                ->groupBy('trRKPD.KgtID')
-                                                ->groupBy('tmKgt.Kd_Keg')
-                                                ->groupBy('tmKgt.KgtNm')
-                                                ->where($field,$id)
-                                                ->orderByRaw('"tmKgt"."Kd_Keg"::int ASC')
-                                                ->get();
+
+                        
                         foreach ($daftar_kegiatan as $v4) 
                         {
-                            $sheet->setCellValue("A$row",$Kd_Urusan);
-                            $sheet->setCellValue("B$row",$Kd_Bidang);
+                            $sheet->getStyle("A$row:N$row")->applyFromArray($styleArrayKegiatan);
+                            $sheet->setCellValue("A$row",0);
+                            $sheet->setCellValue("B$row",'00');
                             $sheet->setCellValue("C$row",$Kd_Prog);
                             $sheet->setCellValue("D$row",$v4->Kd_Keg);                            
-                            $sheet->setCellValue("F$row",$v4->KgtNm);    
+                            $sheet->setCellValue("F$row",$v4->KgtNm);  
+                            $row+=1;  
                             $no=1;
                             $rincian_kegiatan = \DB::table('v_rkpd_rinci')
                                                 ->select(\DB::raw('
@@ -338,9 +283,8 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
                                                 ->where($field,$id)
                                                 ->orderByRaw('"No"::int ASC')
                                                 ->get();
-                            $row+=1;
                             foreach ($rincian_kegiatan as $v5)
-                            {                                
+                            {
                                 $sheet->mergeCells("A$row:D$row",$Kd_Urusan);                          
                                 $sheet->setCellValue("E$row",$no);                            
                                 $sheet->setCellValue("F$row",$v5->Uraian);    
@@ -354,6 +298,88 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
                                 $total_pagu+=$v5->NilaiUsulan2;
                                 $no+=1;
                                 $row+=1;
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                $bidang_pemerintahan=$v1['bidang_pemerintahan'];
+                $row+=1;
+                foreach ($bidang_pemerintahan as $Kd_Bidang=>$v2)
+                {
+                    $sheet->setCellValue("A$row",$Kd_Urusan);
+                    $sheet->setCellValue("B$row",$Kd_Bidang);
+                    $sheet->setCellValue("F$row",$v2['Nm_Bidang']);
+                    $program=$v2['program'];
+                    $row+=1;
+                    foreach ($program as $Kd_Prog=>$v3)
+                    {
+                        $daftar_kegiatan = \DB::table('trRKPD')
+                                                ->select(\DB::raw('"trRKPD"."KgtID","tmKgt"."Kd_Keg","tmKgt"."KgtNm"'))
+                                                ->join('tmKgt','tmKgt.KgtID','trRKPD.KgtID')
+                                                ->where('PrgID',$v3['PrgID'])
+                                                ->where('EntryLvl',2)
+                                                ->groupBy('trRKPD.KgtID')
+                                                ->groupBy('tmKgt.Kd_Keg')
+                                                ->groupBy('tmKgt.KgtNm')
+                                                ->where($field,$id)
+                                                ->orderByRaw('"tmKgt"."Kd_Keg"::int ASC')
+                                                ->get();       
+                        if (count($daftar_kegiatan)  > 0)
+                        {   
+                            $sheet->getStyle("A$row:N$row")->applyFromArray($styleArrayProgram);
+                            
+                            $sheet->setCellValue("A$row",$Kd_Urusan);
+                            $sheet->setCellValue("B$row",$Kd_Bidang);
+                            $sheet->setCellValue("C$row",$Kd_Prog);
+                            $sheet->setCellValue("F$row",$v3['PrgNm']);                        
+                            $row+=1;               
+                            foreach ($daftar_kegiatan as $v4) 
+                            {
+                                $sheet->getStyle("A$row:N$row")->applyFromArray($styleArrayKegiatan);
+                                $sheet->setCellValue("A$row",$Kd_Urusan);
+                                $sheet->setCellValue("B$row",$Kd_Bidang);
+                                $sheet->setCellValue("C$row",$Kd_Prog);
+                                $sheet->setCellValue("D$row",$v4->Kd_Keg);                            
+                                $sheet->setCellValue("F$row",$v4->KgtNm);    
+                                $no=1;
+                                $rincian_kegiatan = \DB::table('v_rkpd_rinci')
+                                                    ->select(\DB::raw('
+                                                                    "Uraian",
+                                                                    "Sasaran_Angka2",
+                                                                    "Sasaran_Uraian2",
+                                                                    "Target2",
+                                                                    "NilaiUsulan2",
+                                                                    "Nm_SumberDana",
+                                                                    "NilaiUsulan2",
+                                                                    "Descr"
+                                                                ')
+                                                    )                                                
+                                                    ->where('EntryLvl',2)
+                                                    ->where('KgtID',$v4->KgtID)
+                                                    ->where('PrgID',$v3['PrgID'])
+                                                    ->where($field,$id)
+                                                    ->orderByRaw('"No"::int ASC')
+                                                    ->get();
+                                $row+=1;
+                                foreach ($rincian_kegiatan as $v5)
+                                {                                
+                                    $sheet->mergeCells("A$row:D$row",$Kd_Urusan);                          
+                                    $sheet->setCellValue("E$row",$no);                            
+                                    $sheet->setCellValue("F$row",$v5->Uraian);    
+                                    $sasaran_angka=\Helper::formatAngka($v5->Sasaran_Angka2);
+                                    $sheet->setCellValue("G$row",$sasaran_angka.' '.$v5->Sasaran_Uraian2);                                    
+                                    $sheet->setCellValue("H$row",'Kab. Bintan'); 
+                                    $sheet->setCellValue("I$row",\Helper::formatAngka($v5->Target2)); 
+                                    $sheet->setCellValue("J$row",\Helper::formatUang($v5->NilaiUsulan2)); 
+                                    $sheet->setCellValue("K$row",$v5->Nm_SumberDana); 
+                                    $sheet->setCellValue("L$row",$v5->Descr); 
+                                    $total_pagu+=$v5->NilaiUsulan2;
+                                    $no+=1;
+                                    $row+=1;
+                                }
                             }
                         }
                     }
