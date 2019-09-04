@@ -199,28 +199,10 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
         
 
         $styleArrayProgram=array( 
-                        'font' => array('bold' => true),   
-                        'fill' => [
-                            'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                            'startColor' => [
-                                'argb' => \PhpOffice\PhpSpreadsheet\Style\Color::COLOR_DARKYELLOW,
-                            ],
-                            'endColor' => [
-                                'argb' => \PhpOffice\PhpSpreadsheet\Style\Color::COLOR_DARKYELLOW,
-                            ],
-                        ]                                
+                        'font' => array('bold' => true),                                                           
                     );       
         $styleArrayKegiatan=array( 
-                        'font' => array('bold' => true),   
-                        'fill' => [
-                            'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                            'startColor' => [
-                                'argb' => \PhpOffice\PhpSpreadsheet\Style\Color::COLOR_GREEN,
-                            ],
-                            'endColor' => [
-                                'argb' => \PhpOffice\PhpSpreadsheet\Style\Color::COLOR_GREEN,
-                            ],
-                        ]                                
+                        'font' => array('bold' => true),                                                           
                     );       
         foreach ($struktur as $Kd_Urusan=>$v1)
         {
@@ -252,9 +234,9 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
                         $sheet->setCellValue("B$row",'00');
                         $sheet->setCellValue("C$row",$Kd_Prog);
                         $sheet->setCellValue("F$row",$v3['PrgNm']);                        
+                        $row_program=$row;
+                        $totaleachprogram = 0;
                         $row+=1;
-
-                        
                         foreach ($daftar_kegiatan as $v4) 
                         {
                             $sheet->getStyle("A$row:N$row")->applyFromArray($styleArrayKegiatan);
@@ -263,6 +245,7 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
                             $sheet->setCellValue("C$row",$Kd_Prog);
                             $sheet->setCellValue("D$row",$v4->Kd_Keg);                            
                             $sheet->setCellValue("F$row",$v4->KgtNm);  
+                            $row_kegiatan=$row;
                             $row+=1;  
                             $no=1;
                             $rincian_kegiatan = \DB::table('v_rkpd_rinci')
@@ -283,6 +266,8 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
                                                 ->where($field,$id)
                                                 ->orderByRaw('"No"::int ASC')
                                                 ->get();
+                            
+                            $totaleachkegiatan = 0;
                             foreach ($rincian_kegiatan as $v5)
                             {
                                 $sheet->mergeCells("A$row:D$row",$Kd_Urusan);                          
@@ -296,11 +281,15 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
                                 $sheet->setCellValue("K$row",$v5->Nm_SumberDana); 
                                 $sheet->setCellValue("L$row",$v5->Descr); 
                                 $total_pagu+=$v5->NilaiUsulan2;
+                                $totaleachkegiatan+=$v5->NilaiUsulan2;
                                 $no+=1;
                                 $row+=1;
                             }
-                        }
-                    }
+                            $sheet->setCellValue("J$row_kegiatan",\Helper::formatUang($totaleachkegiatan)); 
+                            $totaleachprogram+=$totaleachkegiatan;
+                        }                  
+                        $sheet->setCellValue("J$row_program",\Helper::formatUang($totaleachprogram));
+                    }                   
                 }
             }
             else
@@ -388,7 +377,7 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
             }
             $row+=1;
         }
-
+        $row-=1;
         $sheet->setCellValue("I$row",'TOTAL'); 
         $sheet->setCellValue("J$row",\Helper::formatUang($total_pagu));      
 
