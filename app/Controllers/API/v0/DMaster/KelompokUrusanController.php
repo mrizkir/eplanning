@@ -24,7 +24,7 @@ class KelompokUrusanController extends Controller {
      */
     public function index(Request $request)
     {   
-        $ta=config('eplanning.tahun_perencanaan');        
+        $ta=\HelperKegiatan::getRPJMDTahunMulai(true);        
         $data=KelompokUrusanModel::where('TA',$ta)
                                     ->orderBy('Kd_Urusan','ASC')
                                     ->get();

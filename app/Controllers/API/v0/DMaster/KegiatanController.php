@@ -24,35 +24,9 @@ class KegiatanController extends Controller {
      */
     public function index(Request $request)
     { 
-        $ta=config('eplanning.tahun_perencanaan');        
-        $data = \DB::table('tmKgt AS k')
-                    ->select(\DB::raw('
-                        k."KgtID",
-                        CASE WHEN d."Kd_Urusan" IS NULL THEN 
-                                            \'0\'
-                                    ELSE
-                                            d."Kd_Urusan"
-                        END AS "Kd_Urusan", 
-                        d."Nm_Urusan",
-                        CASE WHEN c."Kd_Bidang" IS NULL THEN 
-                                            \'0\'
-                                    ELSE
-                                            c."Kd_Bidang"
-                        END AS "Kd_Bidang", 
-                        c."Nm_Bidang",
-                        a."Kd_Prog",
-                        a."PrgNm",
-                        a."Jns",
-                        k."Kd_Keg",
-                        k."KgtNm",
-                        k."TA" 
-                    '))
-                    ->join('tmPrg AS a',\DB::raw('k."PrgID"'),'=',\DB::raw('a."PrgID"'))
-                    ->leftJoin('trUrsPrg AS b',\DB::raw('b."PrgID"'),'=',\DB::raw('a."PrgID"'))
-                    ->leftJoin('tmUrs AS c',\DB::raw('c."UrsID"'),'=',\DB::raw('b."UrsID"'))
-                    ->leftJoin('tmKUrs AS d',\DB::raw('d."KUrsID"'),'=',\DB::raw('c."KUrsID"'))
-                    ->where('k.TA',$ta)
-                    ->orderBy('k.Kd_Keg','ASC')
+        $ta=\HelperKegiatan::getTahunPerencanaan(true);        
+        $data = \DB::table('v_program_kegiatan')                    
+                    ->where('TA',$ta)
                     ->get();
         
         return response()->json($data,200); 
@@ -66,33 +40,8 @@ class KegiatanController extends Controller {
      */
     public function show($id)
     {
-        $data =\DB::table('tmKgt AS k')
-                    ->select(\DB::raw('
-                        k."KgtID",
-                        CASE WHEN d."Kd_Urusan" IS NULL THEN 
-                                            \'0\'
-                                    ELSE
-                                            d."Kd_Urusan"
-                        END AS "Kd_Urusan", 
-                        d."Nm_Urusan",
-                        CASE WHEN c."Kd_Bidang" IS NULL THEN 
-                                            \'0\'
-                                    ELSE
-                                            c."Kd_Bidang"
-                        END AS "Kd_Bidang", 
-                        c."Nm_Bidang",
-                        a."Kd_Prog",
-                        a."PrgNm",
-                        a."Jns",
-                        k."Kd_Keg",
-                        k."KgtNm",
-                        k."TA" 
-                    '))
-                    ->join('tmPrg AS a',\DB::raw('k."PrgID"'),'=',\DB::raw('a."PrgID"'))
-                    ->leftJoin('trUrsPrg AS b',\DB::raw('b."PrgID"'),'=',\DB::raw('a."PrgID"'))
-                    ->leftJoin('tmUrs AS c',\DB::raw('c."UrsID"'),'=',\DB::raw('b."UrsID"'))
-                    ->leftJoin('tmKUrs AS d',\DB::raw('d."KUrsID"'),'=',\DB::raw('c."KUrsID"'))
-                    ->where('k.KgtID',$id)
+        $data =\DB::table('v_program_kegiatan')                    
+                    ->where('KgtID',$id)
                     ->first();
   
         return response()->json($data_kegiatan,200); 

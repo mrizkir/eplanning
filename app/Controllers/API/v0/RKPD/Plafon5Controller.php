@@ -24,10 +24,11 @@ class Plafon5Controller extends Controller {
     public function index(Request $request)
     {               
        
-        $ta=config('eplanning.tahun_perencanaan');
+        $ta=\HelperKegiatan::getTahunPerencanaan(true);
     
         $data = \DB::table('v_rkpd')   
-                    ->where('TA',2020)
+                    ->where('TA',$ta)
+                    ->where('EntryLvl',2)
                     ->get();
         return response()->json($data,200); 
     }     

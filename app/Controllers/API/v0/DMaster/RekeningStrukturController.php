@@ -24,7 +24,7 @@ class RekeningStrukturController extends Controller {
      */
     public function index(Request $request)
     {               
-        $ta=config('eplanning.tahun_perencanaan');   
+        $ta=\HelperKegiatan::getTahunPerencanaan(true); 
         $data = RekeningStrukturModel::where('TA',$ta)->get();
         return response()->json($data,200);       
     }     

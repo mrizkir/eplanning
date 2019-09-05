@@ -53,16 +53,23 @@ class HelperKegiatan {
     /**
      * digunakan untuk mendapatkan tahun mulai rpjmd saat user login
      */ 
-    public static function getRPJMDTahunMulai ()
+    public static function getRPJMDTahunMulai ($api=false)
     {
-        return request()->session()->get("global_controller.rpjmd_tahun_mulai");
+        if ($api)
+        {
+            return 2016;
+        }
+        else
+        {
+            return request()->session()->get("global_controller.rpjmd_tahun_mulai");
+        }
     }
     /**
      * digunakan untuk mendapatkan tahun akhir rpjmd saat user login
      */ 
-    public static function getRPJMDTahunAkhir ()
-    {
-        return request()->session()->get("global_controller.rpjmd_tahun_akhir");
+    public static function getRPJMDTahunAkhir ($api=false)
+    {        
+        return request()->session()->get("global_controller.rpjmd_tahun_akhir");        
     }
     /**
      * digunakan untuk mendapatkan tahun mulai renstra saat user login
@@ -81,9 +88,16 @@ class HelperKegiatan {
     /**
      * digunakan untuk mendapatkan tahun perencanaan saat user login
      */ 
-    public static function getTahunPerencanaan ()
+    public static function getTahunPerencanaan ($api=false)
     {
-        return request()->session()->get("global_controller.tahun_perencanaan");
+        if ($api)
+        {
+            return 2020;
+        }
+        else
+        {
+            return request()->session()->get("global_controller.tahun_perencanaan");
+        }
     }
     /**
      * digunakan untuk mendapatkan tahun penyerapan saat user login

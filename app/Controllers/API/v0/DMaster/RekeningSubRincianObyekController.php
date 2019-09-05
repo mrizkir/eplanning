@@ -24,7 +24,7 @@ class RekeningSubRincianObyekController extends Controller {
      */
     public function index(Request $request)
     {       
-        $ta=config('eplanning.tahun_perencanaan'); 
+        $ta=\HelperKegiatan::getTahunPerencanaan(true); 
         $data=RekeningSubRincianObyekModel::join('tmROby','tmSubROby.RObyID','tmROby.RObyID')
                                             ->join('tmOby','tmOby.ObyID','tmROby.ObyID')
                                             ->join('tmJns','tmJns.JnsID','tmOby.JnsID')
