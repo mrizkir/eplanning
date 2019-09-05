@@ -44,8 +44,8 @@ class Plafon5Controller extends Controller {
                         "KgtNm",
                         "NilaiUsulan2" AS "Jumlah1",
                         "Descr",
-                        "TA",
-                        "Status" AS "status",
+                        "TA",                        
+                        "SETUJU" AS "status",
                         "EntryLvl"
                     '))
                     ->where('TA',$ta)
