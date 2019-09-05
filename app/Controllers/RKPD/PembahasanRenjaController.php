@@ -30,10 +30,9 @@ class PembahasanRenjaController extends Controller {
             $this->middleware(['auth','role:superadmin|bapelitbang|tapd|opd']);
         }
         //set nama session 
-        $this->SessionName=$this->getNameForSession();      
-        
+        $this->SessionName=$this->getNameForSession();              
 
-        //set nama halaman saat ini
+        //set nama halaman saat transfer
         $this->LabelTransfer = \HelperKegiatan::getLabelTransfer($this->NameOfPage);
 
     }     
