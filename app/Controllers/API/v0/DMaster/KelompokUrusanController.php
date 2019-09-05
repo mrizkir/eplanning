@@ -24,10 +24,13 @@ class KelompokUrusanController extends Controller {
      */
     public function index(Request $request)
     {   
+        $tahun_perencanaan = \HelperKegiatan::getTahunPerencanaan (true);
         $ta=\HelperKegiatan::getRPJMDTahunMulai(true);        
-        $data=KelompokUrusanModel::where('TA',$ta)
+        $data=KelompokUrusanModel::select (\DB::raw('"KUrsID","RpjmdVisiID","Kd_Urusan","Nm_Urusan","Descr",'.$tahun_perencanaan.' AS "TA" ,"KUrsID_Src","Locked","created_at","updated_at"'))
+                                    ->where('TA',$ta)
                                     ->orderBy('Kd_Urusan','ASC')
                                     ->get();
+
         
         return response()->json($data,200); 
     }     

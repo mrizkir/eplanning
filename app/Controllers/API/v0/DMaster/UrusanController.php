@@ -25,10 +25,19 @@ class UrusanController extends Controller {
     public function index(Request $request)
     {   
         $ta=\HelperKegiatan::getRPJMDTahunMulai(true);
-        
+        $tahun_perencanaan = \HelperKegiatan::getTahunPerencanaan (true);
         $data = \DB::table('v_urusan')
+                    ->select (\DB::raw('
+                        "UrsID",
+                        "KUrsID",
+                        "Kd_Urusan",
+                        "Kd_Bidang",			 
+                        "Kode_Bidang",
+                        "Nm_Urusan",
+                        "Nm_Bidang",
+                        '.$tahun_perencanaan.' AS "TA"
+                    '))
                     ->where('TA',$ta)
-                    ->orderBy('Kode_Bidang','ASC')
                     ->get();
         
         return response()->json($data,200); 
