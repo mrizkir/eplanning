@@ -30,12 +30,12 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
                                         JOIN "tmKgt" B ON A."KgtID"=B."KgtID" 
                                         WHERE
                                             A."'.$field.'"=\''.$id.'\'
+                                            AND A."EntryLvl"=2
                                         GROUP BY B."PrgID"
                                     ) t
                                 WHERE 
                                 v."PrgID"=t."PrgID"
                         ');                            
-        
         $bp=$urusan_program;
         $p=$urusan_program;
         $data=[];
@@ -93,14 +93,12 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
                                     'bidang_pemerintahan'=>$bidang_pemerintahan
                                 ];
             }
-        }
-        
+            
+        }        
         return $data;
     }
     private function  print()  
-    {
-       
-        $OrgIDRPJMD = $this->dataReport['OrgIDRPJMD'];
+    {       
         $OrgID = $this->dataReport['OrgID'];
         $SOrgID = $this->dataReport['SOrgID'];
         if ($SOrgID == 'none' || $SOrgID == '')
