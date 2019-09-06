@@ -21,12 +21,12 @@
             <thead>
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
-                    <th>
+                    <th width="170">
                         <a class="column-sort text-white" id="col-kode_organisasi" data-order="{{$direction}}" href="#">
                             KODE SKPD / OPD
                         </a>                                             
                     </th> 
-                    <th>
+                    <th width="350">
                         <a class="column-sort text-white" id="col-NmOrg" data-order="{{$direction}}" href="#">
                             NAMA SKPD / OPD
                         </a>                                             
@@ -36,6 +36,13 @@
                             URUSAN
                         </a>                                             
                     </th>
+                    <th>
+                        NIP KEPALA OPD / SKPD
+                    </th>
+                    <th>
+                        NAMA KEPALA OPD / SKPD
+                    </th>
+
                     <th width="70">TA</th>
                     <th width="100">AKSI</th>
                 </tr>
@@ -49,6 +56,8 @@
                     <td>{{$item->kode_organisasi}}</td>
                     <td>{{$item->OrgNm}}</td>
                     <td>{{$item->Nm_Urusan}}</td>
+                    <td>{{$item->NIPKepalaSKPD}}</td>
+                    <td>{{$item->NamaKepalaSKPD}}</td>
                     <td>{{$item->TA}}</td>
                     <td>
                         <ul class="icons-list">
@@ -71,7 +80,11 @@
                     </td>
                 </tr>
                 <tr class="text-center info">
-                    <td colspan="6">
+                    <td colspan="8">
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>SINGKATAN:</strong>
+                            {{$item->OrgAlias}}
+                        </span>                            
                         <span class="label label-warning label-rounded" style="text-transform: none">
                             <strong>ORGID:</strong>
                             {{$item->OrgID}}

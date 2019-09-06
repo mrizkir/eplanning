@@ -61,6 +61,24 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    {{Form::label('OrgAlias','SINGKATAN SKPD / OPD',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('OrgAlias',$data['OrgAlias'],['class'=>'form-control','placeholder'=>'NAMA SINGKATAN SKPD / OPD'])}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('NIPKepalaSKPD','NIP KEPALA SKPD / OPD',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('NIPKepalaSKPD',$data['NIPKepalaSKPD'],['class'=>'form-control','placeholder'=>'NIP KEPALA SKPD / OPD'])}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('NamaKepalaSKPD','NAMA KEPALA SKPD / OPD',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('NamaKepalaSKPD',$data['NamaKepalaSKPD'],['class'=>'form-control','placeholder'=>'NAMA KEPALA SKPD / OPD'])}}
+                    </div>
+                </div>
+                <div class="form-group">
                     {{Form::label('Alamat','ALAMAT',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
                         {{Form::text('Alamat',$data['Alamat'],['class'=>'form-control','placeholder'=>'ALAMAT SKPD / OPD'])}}
@@ -111,6 +129,17 @@ $(document).ready(function () {
                 required: true,
                 minlength: 5      
             },
+            OrgAlias : {
+                required: true,
+            },
+            NIPKepalaSKPD : {
+                required: true,
+                minlength: 5      
+            },
+            NamaKepalaSKPD : {
+                required: true,
+                minlength: 5      
+            },
             Alamat : {
                 required: true,
                 minlength: 5      
@@ -126,6 +155,17 @@ $(document).ready(function () {
                 maxlength: "Nilai untuk Kode Urusan maksimal 4 digit"
             },
             OrgNm : {
+                required: "Mohon untuk di isi karena ini diperlukan.",  
+                minlength : "Mohon di isi minimal 5 karakter atau lebih."          
+            },
+            OrgAlias : {
+                required: "Mohon untuk di isi karena ini diperlukan. misalya DINAS SOSIAL nama singkatannya DINSOS",  
+            },
+            NIPKepalaSKPD : {
+                required: "Mohon untuk di isi karena ini diperlukan.",  
+                minlength : "Mohon di isi minimal 5 karakter atau lebih."          
+            },
+            NamaKepalaSKPD : {
                 required: "Mohon untuk di isi karena ini diperlukan.",  
                 minlength : "Mohon di isi minimal 5 karakter atau lebih."          
             },

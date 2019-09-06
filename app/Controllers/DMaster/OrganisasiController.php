@@ -239,6 +239,9 @@ class OrganisasiController extends Controller {
         $this->validate($request, [            
             'OrgCd'=>'required|min:1|max:4|regex:/^[0-9]+$/',
             'OrgNm'=>'required|min:5',
+            'OrgAlias'=>'required',
+            'NIPKepalaSKPD'=>'required|min:5',
+            'NamaKepalaSKPD'=>'required|min:5',
             'Alamat'=>'required|min:5',
         ]);
         
@@ -247,9 +250,10 @@ class OrganisasiController extends Controller {
             'UrsID' => $request->input('UrsID'),
             'OrgCd' => $request->input('OrgCd'),
             'OrgNm' => $request->input('OrgNm'),
-            'Alamat' => $request->input('Alamat'),
-            'NamaKepalaSKPD' => '-',
-            'NIPKepalaSKPD' => '-',
+            'OrgAlias' => $request->input('OrgAlias'),
+            'NamaKepalaSKPD' => $request->input('NamaKepalaSKPD'),
+            'NIPKepalaSKPD' => $request->input('NIPKepalaSKPD'),
+            'Alamat' => $request->input('Alamat'),            
             'Descr' => $request->input('Descr'),
             'TA'=>\HelperKegiatan::getTahunPerencanaan(),
         ]);        
@@ -259,9 +263,10 @@ class OrganisasiController extends Controller {
             'OrgID' => $organisasi->OrgID,
             'SOrgCd' => $organisasi->OrgCd,
             'SOrgNm' => $organisasi->OrgNm,
+            'OrgAlias' => $request->input('OrgAlias'),
+            'NamaKepalaSKPD' => $request->input('NamaKepalaSKPD'),
+            'NIPKepalaSKPD' => $request->input('NIPKepalaSKPD'),
             'Alamat' => $organisasi->Alamat,
-            'NamaKepalaSKPD' => '-',
-            'NIPKepalaSKPD' => '-',
             'Descr' => $organisasi->Descr,
             'TA'=> $organisasi->TA,
         ]);
@@ -335,16 +340,20 @@ class OrganisasiController extends Controller {
         $this->validate($request, [            
             'OrgCd'=>'required|min:1|max:4|regex:/^[0-9]+$/',
             'OrgNm'=>'required|min:5',
+            'OrgAlias'=>'required',
+            'NIPKepalaSKPD'=>'required|min:5',
+            'NamaKepalaSKPD'=>'required|min:5',
             'Alamat'=>'required|min:5',
         ]);
-        
+
         $organisasi = OrganisasiModel::find($id);
         $organisasi->UrsID = $request->input('UrsID');
         $organisasi->OrgCd = $request->input('OrgCd');
         $organisasi->OrgNm = $request->input('OrgNm');
+        $organisasi->OrgAlias = $request->input('OrgAlias');
+        $organisasi->NamaKepalaSKPD = $request->input('NamaKepalaSKPD');
+        $organisasi->NIPKepalaSKPD = $request->input('NIPKepalaSKPD');
         $organisasi->Alamat = $request->input('Alamat');
-        $organisasi->NamaKepalaSKPD = '-';
-        $organisasi->NIPKepalaSKPD = '-';
         $organisasi->Descr = $request->input('Descr');
         $organisasi->save();
 

@@ -26,6 +26,7 @@ class CreateVUrusanOrganisasiView extends Migration
                                 kelompok_urusan."Nm_Urusan",
                                 urusan."Nm_Bidang",
                                 organisasi."OrgNm",
+                                organisasi."OrgAlias",
                                 organisasi."Alamat",
                                 organisasi."NamaKepalaSKPD",
                                 organisasi."NIPKepalaSKPD",
