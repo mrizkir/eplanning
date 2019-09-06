@@ -97,6 +97,14 @@ Route::group (['prefix'=>'v0'],function() {
     Route::resource('/rkpd/plafon6','API\v0\RKPD\Plafon6Controller',['names'=>'api-v0-rkpd-plafon6',
                                                                     'parameters'=>['plafon6'=>'uuid'],
                                                                     'only'=>['index','show']]);
+
+
+    /**
+     * RKPD Pembahasan Murni
+     */
+    Route::resource('/rkpd/plafon7','API\v0\RKPD\Plafon7Controller',['names'=>'api-v0-rkpd-plafon6',
+                                                                    'parameters'=>['plafon7'=>'uuid'],
+                                                                    'only'=>['index','show']]);
 });
 Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {     
 
