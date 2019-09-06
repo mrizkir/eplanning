@@ -49,10 +49,10 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
                     if ($p_value->Kd_Urusan == 0 && $p_value->Kd_Bidang == 0)
                     {
                         $str = "";
-                        $program[$p_value->Kd_Prog]=[
-                                                        'PrgID'=>$p_value->PrgID,
-                                                        'PrgNm'=>$p_value->PrgNm
-                                                    ];
+                        $program[]=['Kd_Prog'=>$p_value->Kd_Prog,
+                                    'PrgID'=>$p_value->PrgID,
+                                    'PrgNm'=>$p_value->PrgNm
+                                    ];
                     }
                 }
                 $data[0]=['Nm_Urusan'=>'SEMUA URUSAN',
@@ -75,10 +75,10 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
                         {
                             if ($p_value->Kd_Urusan == $Kd_Urusan && $p_value->Kd_Bidang == $Kd_Bidang)
                             {
-                                $program[$p_value->Kd_Prog]=[
-                                                                'PrgID'=>$p_value->PrgID,
-                                                                'PrgNm'=>$p_value->PrgNm
-                                                            ];
+                                $program[]=['Kd_Prog'=>$p_value->Kd_Prog,
+                                            'PrgID'=>$p_value->PrgID,
+                                            'PrgNm'=>$p_value->PrgNm
+                                            ];
                             }
                         }
                         $bidang_pemerintahan[$Kd_Bidang]=[
@@ -230,7 +230,7 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
             {
                 $program=$v1['program'];
                 $row+=1;
-                foreach ($program as $Kd_Prog=>$v3)
+                foreach ($program as $v3)
                 {   
                     $daftar_kegiatan = \DB::table('trRKPD')
                                                 ->select(\DB::raw('"trRKPD"."KgtID","tmKgt"."Kd_Keg","tmKgt"."KgtNm"'))
@@ -246,6 +246,7 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
 
                     if (count($daftar_kegiatan)  > 0)
                     {
+                        $Kd_Prog = $v3['Kd_Prog'];
                         $sheet->getRowDimension($row)->setRowHeight(28);
                         $sheet->getStyle("A$row:N$row")->applyFromArray($styleArrayProgram);
 
@@ -355,7 +356,7 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
                     $sheet->mergeCells("F$row:N$row");
                     $program=$v2['program'];
                     $row+=1;
-                    foreach ($program as $Kd_Prog=>$v3)
+                    foreach ($program as $v3)
                     {                        
                         $daftar_kegiatan = \DB::table('trRKPD')
                                                 ->select(\DB::raw('"trRKPD"."KgtID","tmKgt"."Kd_Keg","tmKgt"."KgtNm"'))
@@ -370,6 +371,7 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
                                                 ->get();       
                         if (count($daftar_kegiatan)  > 0)
                         {   
+                            $Kd_Prog = $v3['Kd_Prog'];
                             $sheet->getRowDimension($row)->setRowHeight(28);
                             $sheet->getStyle("A$row:N$row")->applyFromArray($styleArrayProgram);
                             
