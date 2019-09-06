@@ -32,7 +32,7 @@
                     <a href="{{route('program.edit',['id'=>$data->PrgID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Program">
                         <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data Program" data-id="{{$data->PrgID   }}" data-url="{{route('program.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
+                    <a href="javascript:;" title="Hapus Data Program" data-id="{{$data->PrgID}}" data-url="{{route('program.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
                     </a>
                     <a href="{!!route('program.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
@@ -93,6 +93,28 @@
         </div>
     </div>
 </div>
+<div class="content">
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h5 class="panel-title">
+                <i class="icon-pencil7 position-left"></i> 
+                OPERASI 
+            </h5>
+            <div class="heading-elements">                
+            </div>
+        </div>
+        <div class="panel-body">
+            {!! Form::open(['action'=>'DMaster\ProgramController@reorderkegiatan','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
+                {{Form::hidden('PrgID',$data->PrgID)}}
+                <div class="form-group">            
+                    <div class="col-md-10 col-md-offset-2">                        
+                        {{ Form::button('<b><i class="icon-list-ordered "></i></b> REORDER KEGIATAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}
+                    </div>
+                </div>
+            {!! Form::close()!!}
+        </div>
+    </div>
+</div>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
@@ -120,8 +142,7 @@ $(document).ready(function () {
                 },
             });
         }
-    });
-    
+    });    
 });
 </script>
 @endsection

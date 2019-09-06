@@ -469,7 +469,7 @@ class ProgramController extends Controller {
         }
     }
 
-     /**
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -506,5 +506,36 @@ class ProgramController extends Controller {
         {
             return redirect(route('program.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
         }        
+    }
+    /**
+     * reorder kegiatan
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function reorderkegiatan (Request $request)
+    {
+        $PrgID=$request->input('PrgID');
+        $ta=\HelperKegiatan::getTahunPerencanaan();
+        \DB::statement('
+                UPDATE 
+                "tmKgt"
+            SET 
+                "Kd_Keg"=B."Kd_Keg"
+            FROM
+                (
+                    SELECT 
+                        "KgtID",
+                        ROW_NUMBER() OVER() AS "Kd_Keg"
+                    FROM   
+                        "tmKgt"
+                    WHERE
+                        "PrgID"=\''.$PrgID.'\' AND
+                        "TA"='.$ta.'
+                ) AS B
+            WHERE "tmKgt"."KgtID"=B."KgtID" 
+        ');        
+        return redirect(route('program.show',$PrgID))->with('success',"Kode kegiatan telah di re-order.");
+        
     }
 }
