@@ -499,7 +499,7 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
         $row+=3;
         $sheet->setCellValue("H$row",'BANDAR SRI BENTAN, '.\Helper::tanggal('d F Y'));
         $row+=1;        
-        $sheet->setCellValue("H$row",'KEPALA DINAS');                                          
+        $sheet->setCellValue("H$row",'KEPALA ');                                          
         $row+=1;        
         $sheet->setCellValue("H$row",strtoupper($this->dataReport['OrgNm']));                                          
                 
