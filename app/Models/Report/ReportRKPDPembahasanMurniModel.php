@@ -507,6 +507,6 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
         $sheet->setCellValue("H$row",$this->dataReport['NamaKepalaSKPD']);
         $row+=1;                
         
-        $sheet->setCellValue("H$row",'NIP.'.$this->dataReport['NamaKepalaSKPD']);
+        $sheet->setCellValue("H$row",'NIP.'.$this->dataReport['NIPKepalaSKPD']);
     }   
 }
