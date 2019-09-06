@@ -19,7 +19,7 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
     {
         $urusan_program = \DB::select('   
                                 SELECT 
-                                    v.* 
+                                    t."PrgID",v."Kd_Urusan",v."Kd_Urusan",v."Nm_Urusan",v."Kd_Bidang",v."Nm_Bidang",v."Kd_Prog",v."PrgNm"
                                 FROM 
                                     v_urusan_program v,
                                     (
