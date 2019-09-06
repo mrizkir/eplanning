@@ -17,9 +17,24 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
     }
     private function generateStructure($field,$id)
     {
-        $urusan_program = \DB::table('v_organisasi_program')
-                            ->where($field,$id)
-                            ->get();
+        $urusan_program = \DB::select('   
+                                SELECT 
+                                    v.* 
+                                FROM 
+                                    v_urusan_program v,
+                                    (
+                                        SELECT 
+                                            B."PrgID"
+                                        FROM 
+                                            "trRKPD" A
+                                        JOIN "tmKgt" B ON A."KgtID"=B."KgtID" 
+                                        WHERE
+                                            A."'.$field.'"=\''.$id.'\'
+                                        GROUP BY B."PrgID"
+                                    ) t
+                                WHERE 
+                                v."PrgID"=t."PrgID"
+                        ');                            
         
         $bp=$urusan_program;
         $p=$urusan_program;
@@ -179,11 +194,11 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
         $sheet->getColumnDimension('G')->setWidth(30);
         $sheet->getColumnDimension('H')->setWidth(20);
         $sheet->getColumnDimension('I')->setWidth(30);
-        $sheet->getColumnDimension('J')->setWidth(17);
-        $sheet->getColumnDimension('K')->setWidth(23);
+        $sheet->getColumnDimension('J')->setWidth(20);
+        $sheet->getColumnDimension('K')->setWidth(15);
         $sheet->getColumnDimension('L')->setWidth(23);
         $sheet->getColumnDimension('M')->setWidth(30);
-        $sheet->getColumnDimension('N')->setWidth(17);
+        $sheet->getColumnDimension('N')->setWidth(20);
         
         $styleArray=array( 
             'font' => array('bold' => true,'size'=>'9'),
@@ -194,10 +209,9 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
         $sheet->getStyle("A7:N9")->applyFromArray($styleArray);
         $sheet->getStyle("A7:N9")->getAlignment()->setWrapText(true);
         
-        $struktur = $this->generateStructure('OrgIDRPJMD',$OrgIDRPJMD);
+        $struktur = $this->generateStructure($field,$id);
         $row=10;
-        $total_pagu=0;
-        $total_nilai_setelah=0;
+        $total_pagu=0;        
         $total_nilai_setelah=0;        
 
         $styleArrayProgram=array( 
@@ -208,9 +222,12 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
                     );       
         foreach ($struktur as $Kd_Urusan=>$v1)
         {
+            $sheet->getRowDimension($row)->setRowHeight(28);
             $sheet->getStyle("A$row:N$row")->applyFromArray($styleArrayProgram);
             $sheet->setCellValue("A$row",$Kd_Urusan);
+            $sheet->mergeCells("B$row:E$row");                
             $sheet->setCellValue("F$row",$v1['Nm_Urusan']);
+            $sheet->mergeCells("F$row:N$row");                
             if ($Kd_Urusan == 0)
             {
                 $program=$v1['program'];
@@ -231,14 +248,19 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
 
                     if (count($daftar_kegiatan)  > 0)
                     {
+                        $sheet->getRowDimension($row)->setRowHeight(28);
                         $sheet->getStyle("A$row:N$row")->applyFromArray($styleArrayProgram);
 
                         $sheet->setCellValue("A$row",0);
                         $sheet->setCellValue("B$row",'00');
                         $sheet->setCellValue("C$row",$Kd_Prog);
-                        $sheet->setCellValue("F$row",$v3['PrgNm']);                        
+                        $sheet->mergeCells("D$row:E$row");
+                        $sheet->setCellValue("F$row",$v3['PrgNm']);        
+                        $sheet->mergeCells("F$row:I$row");                
+                        $sheet->mergeCells("K$row:M$row");       
                         $row_program=$row;
                         $totaleachprogram = 0;
+                        $totaleachprogram_setelah=0;
                         $row+=1;
                         foreach ($daftar_kegiatan as $v4) 
                         {
@@ -258,12 +280,15 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
                             $sheet->setCellValue("G$row",$nama_indikator); 
                             $sheet->setCellValue("H$row",'Kab. Bintan'); 
                             $sheet->setCellValue("I$row",\Helper::formatAngka($rkpd->Sasaran_Angka1) . ' '.$rkpd->Sasaran_Uraian1); 
+                            $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_Angka1) . ' '.$rkpd->Sasaran_Uraian1))); 
                             $sheet->setCellValue("J$row",\Helper::formatUang($rkpd->NilaiUsulan2)); 
                             $sheet->setCellValue("K$row",$rkpd->Nm_SumberDana); 
                             $sheet->setCellValue("L$row",$rkpd->Descr); 
-                            $sheet->setCellValue("M$row",\Helper::formatAngka($rkpd->Sasaran_AngkaSetelah).' '.$rkpd->Sasaran_UraianSetelah); 
+                            $sheet->setCellValue("M$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_AngkaSetelah).' '.$rkpd->Sasaran_UraianSetelah))); 
                             $sheet->setCellValue("N$row",\Helper::formatUang($rkpd->NilaiSetelah)); 
-                            
+                            $total_nilai_setelah+=$rkpd->NilaiSetelah;  
+                            $totaleachprogram_setelah+=$rkpd->NilaiSetelah;
+
                             $row_kegiatan=$row;
                             $row+=1;  
                             $no=1;
@@ -300,20 +325,20 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
                                 // $sheet->setCellValue("H$row",$v5->Lokasi); 
                                 $sheet->setCellValue("H$row",'Kab. Bintan'); 
                                 $sasaran_angka=\Helper::formatAngka($v5->Sasaran_Angka2);
-                                $sheet->setCellValue("I$row",$sasaran_angka.' '.$v5->Sasaran_Uraian2);                                     
+                                $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', $sasaran_angka.' '.$v5->Sasaran_Uraian2)));                                     
                                 $sheet->setCellValue("J$row",\Helper::formatUang($v5->NilaiUsulan2)); 
                                 $sheet->setCellValue("K$row",$v5->Nm_SumberDana); 
                                 $sheet->setCellValue("L$row",$v5->Descr); 
-                                $total_pagu+=$v5->NilaiUsulan2;
-                                $total_nilai_setelah+=$v5->NilaiUsulan2;                                
+                                $total_pagu+=$v5->NilaiUsulan2;                                                           
                                 $totaleachkegiatan+=$v5->NilaiUsulan2;
                                 $no+=1;
                                 $row+=1;
                             }
                             $sheet->setCellValue("J$row_kegiatan",\Helper::formatUang($totaleachkegiatan)); 
-                            $totaleachprogram+=$totaleachkegiatan;
+                            $totaleachprogram+=$totaleachkegiatan;                            
                         }                  
-                        $sheet->setCellValue("J$row_program",\Helper::formatUang($totaleachprogram));
+                        $sheet->setCellValue("J$row_program",\Helper::formatUang($totaleachprogram));                                 
+                        $sheet->setCellValue("N$row_program",\Helper::formatUang($totaleachprogram_setelah));                                 
                     }                   
                 }
             }
@@ -323,10 +348,13 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
                 $row+=1;
                 foreach ($bidang_pemerintahan as $Kd_Bidang=>$v2)
                 {
+                    $sheet->getRowDimension($row)->setRowHeight(28);
                     $sheet->getStyle("A$row:N$row")->applyFromArray($styleArrayProgram);
                     $sheet->setCellValue("A$row",$Kd_Urusan);
                     $sheet->setCellValue("B$row",$Kd_Bidang);
+                    $sheet->mergeCells("C$row:E$row");
                     $sheet->setCellValue("F$row",$v2['Nm_Bidang']);
+                    $sheet->mergeCells("F$row:N$row");
                     $program=$v2['program'];
                     $row+=1;
                     foreach ($program as $Kd_Prog=>$v3)
@@ -344,14 +372,19 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
                                                 ->get();       
                         if (count($daftar_kegiatan)  > 0)
                         {   
+                            $sheet->getRowDimension($row)->setRowHeight(28);
                             $sheet->getStyle("A$row:N$row")->applyFromArray($styleArrayProgram);
                             
                             $sheet->setCellValue("A$row",$Kd_Urusan);
                             $sheet->setCellValue("B$row",$Kd_Bidang);
                             $sheet->setCellValue("C$row",$Kd_Prog);
-                            $sheet->setCellValue("F$row",$v3['PrgNm']);           
+                            $sheet->mergeCells("D$row:E$row");
+                            $sheet->setCellValue("F$row",$v3['PrgNm']); 
+                            $sheet->mergeCells("F$row:I$row");                
+                            $sheet->mergeCells("K$row:M$row");          
                             $row_program=$row;
                             $totaleachprogram = 0;             
+                            $totaleachprogram_setelah=0;
                             $row+=1;               
                             foreach ($daftar_kegiatan as $v4) 
                             {                                
@@ -370,13 +403,15 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
                                 $nama_indikator=$rkpd->NamaIndikator;
                                 $sheet->setCellValue("G$row",$nama_indikator); 
                                 $sheet->setCellValue("H$row",'Kab. Bintan'); 
-                                $sheet->setCellValue("I$row",\Helper::formatAngka($rkpd->Sasaran_Angka1) . ' '.$rkpd->Sasaran_Uraian1); 
+                                $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_Angka1) . ' '.$rkpd->Sasaran_Uraian1)));                                     
                                 $sheet->setCellValue("J$row",\Helper::formatUang($rkpd->NilaiUsulan2)); 
                                 $sheet->setCellValue("K$row",$rkpd->Nm_SumberDana); 
                                 $sheet->setCellValue("L$row",$rkpd->Descr); 
-                                $sheet->setCellValue("M$row",\Helper::formatAngka($rkpd->Sasaran_AngkaSetelah).' '.$rkpd->Sasaran_UraianSetelah); 
+                                $sheet->setCellValue("M$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_AngkaSetelah).' '.$rkpd->Sasaran_UraianSetelah))); 
                                 $sheet->setCellValue("N$row",\Helper::formatUang($rkpd->NilaiSetelah)); 
-
+                                $total_nilai_setelah+=$rkpd->NilaiSetelah;  
+                                $totaleachprogram_setelah+=$rkpd->NilaiSetelah;
+                                
                                 $rincian_kegiatan = \DB::table('v_rkpd_rinci')
                                                     ->select(\DB::raw('
                                                                     "Uraian",
@@ -413,22 +448,22 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
                                     // $sheet->setCellValue("H$row",$v5->Lokasi); 
                                     $sheet->setCellValue("H$row",'Kab. Bintan'); 
                                     $sasaran_angka=\Helper::formatAngka($v5->Sasaran_Angka2);
-                                    $sheet->setCellValue("I$row",$sasaran_angka.' '.$v5->Sasaran_Uraian2);                                    
+                                    $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', $sasaran_angka.' '.$v5->Sasaran_Uraian2)));                                                                        
                                     $sheet->setCellValue("J$row",\Helper::formatUang($v5->NilaiUsulan2)); 
                                     $sheet->setCellValue("K$row",$v5->Nm_SumberDana); 
                                     $sheet->setCellValue("L$row",$v5->Descr); 
                                     $sheet->setCellValue("M$row",\Helper::formatAngka($rkpd->Sasaran_AngkaSetelah).' '.$rkpd->Sasaran_UraianSetelah); 
                                     $sheet->setCellValue("N$row",\Helper::formatUang($rkpd->NilaiSetelah)); 
                                     $total_pagu+=$v5->NilaiUsulan2;
-                                    $total_nilai_setelah+=$v5->NilaiUsulan2;                                
                                     $totaleachkegiatan+=$v5->NilaiUsulan2;                                    
                                     $no+=1;
                                     $row+=1;
-                                }
+                                }                                   
                                 $sheet->setCellValue("J$row_kegiatan",\Helper::formatUang($totaleachkegiatan)); 
                                 $totaleachprogram+=$totaleachkegiatan;
                             }
                             $sheet->setCellValue("J$row_program",\Helper::formatUang($totaleachprogram));
+                            $sheet->setCellValue("N$row_program",\Helper::formatUang($totaleachprogram_setelah));                                 
                         }
                     }
                 }
