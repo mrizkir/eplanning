@@ -250,7 +250,7 @@
                             <div class="col-md-3">
                                 <span class="menu-heading underlined bg-blue-300" style="padding:10px"><i class="icon-strategy"></i> TRANSFER DATA</span>
                                 <ul class="menu-list">                                   
-                                    <li{!!Helper::isMenuActive ($page_active,'renstratujuan',' class="active"')!!}>
+                                    <li{!!Helper::isMenuActive ($page_active,'transferrkpdmurnitopembahasan1',' class="active"')!!}>
                                         <a href="{{route('transferrkpdmurnitopembahasan1.index')}}">
                                             <i class="icon-strategy"></i> RKPD MURNI --> PEMBAHASAN </span>
                                         </a>
