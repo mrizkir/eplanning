@@ -250,6 +250,14 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::get('/rkpd/transferrkpdmurnitopembahasan1/paginate/{id}',['uses'=>'RKPD\TransferRKPDMurniTOPembahasan1@paginate','as'=>'transferrkpdmurnitopembahasan1.paginate']);              
     Route::post('/rkpd/transferrkpdmurnitopembahasan1/changenumberrecordperpage',['uses'=>'RKPD\TransferRKPDMurniTOPembahasan1@changenumberrecordperpage','as'=>'transferrkpdmurnitopembahasan1.changenumberrecordperpage']);  
     Route::post('/rkpd/transferrkpdmurnitopembahasan1/orderby',['uses'=>'RKPD\TransferRKPDMurniTOPembahasan1@orderby','as'=>'transferrkpdmurnitopembahasan1.orderby']);
+    
+    //RKPD - Transfer Pembahasan RKPD ke RKPD Perubahan [rkpd]
+    Route::resource('/rkpd/transferpembahasanrkpdtoperubahan2','RKPD\TransferPembahasanRKPDTOPerubahan2',['parameters'=>['transferpembahasanrkpdtoperubahan2'=>'uuid'],
+                                                                                                              'only'=>['index','store','destroy','show']]);
+    Route::post('/rkpd/transferpembahasanrkpdtoperubahan2/search',['uses'=>'RKPD\TransferPembahasanRKPDTOPerubahan2@search','as'=>'transferpembahasanrkpdtoperubahan2.search']); 
+    Route::get('/rkpd/transferpembahasanrkpdtoperubahan2/paginate/{id}',['uses'=>'RKPD\TransferPembahasanRKPDTOPerubahan2@paginate','as'=>'transferpembahasanrkpdtoperubahan2.paginate']);              
+    Route::post('/rkpd/transferpembahasanrkpdtoperubahan2/changenumberrecordperpage',['uses'=>'RKPD\TransferPembahasanRKPDTOPerubahan2@changenumberrecordperpage','as'=>'transferpembahasanrkpdtoperubahan2.changenumberrecordperpage']);  
+    Route::post('/rkpd/transferpembahasanrkpdtoperubahan2/orderby',['uses'=>'RKPD\TransferPembahasanRKPDTOPerubahan2@orderby','as'=>'transferpembahasanrkpdtoperubahan2.orderby']);
 
     //workflow - Aspirasi Musrenbang Desa
     Route::resource('/workflow/musrenbang/aspirasimusrendesa','Musrenbang\AspirasiMusrenDesaController',['parameters'=>['aspirasimusrendesa'=>'uuid']]);        

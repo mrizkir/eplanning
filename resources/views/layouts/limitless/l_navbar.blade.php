@@ -254,7 +254,12 @@
                                         <a href="{{route('transferrkpdmurnitopembahasan1.index')}}">
                                             <i class="icon-strategy"></i> RKPD MURNI --> PEMBAHASAN </span>
                                         </a>
-                                    </li>                                    
+                                    </li>     
+                                    <li{!!Helper::isMenuActive ($page_active,'transferpembahasanrkpdtoperubahan2',' class="active"')!!}>
+                                        <a href="{{route('transferpembahasanrkpdtoperubahan2.index')}}">
+                                            <i class="icon-strategy"></i> PEMBASAHAN RKPD --> RKPD PERUBAHAN </span>
+                                        </a>
+                                    </li>                                
                                 </ul>
                             </div>                            
                         </div>                        
