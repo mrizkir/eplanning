@@ -48,8 +48,8 @@
                     <td>{{$item->Nm_Urusan}}</td>
                     <td>{{DB::table('v_rkpd_rinci')->where('OrgID',$item->OrgID)->where('EntryLvl',15)->count()}}</td>
                     <td>{{DB::table('v_rkpd_rinci')->where('OrgID',$item->OrgID)->where('EntryLvl',15)->count()}}</td>
-                    <td>{{Helper::formatUang(DB::table('v_rkpd_rinci')->where('OrgID',$item->OrgID)->where('EntryLvl',15)->sum('NilaiUsulan1'))}}</td>
-                    <td>{{Helper::formatUang(DB::table('v_rkpd_rinci')->where('OrgID',$item->OrgID)->where('EntryLvl',15)->sum('NilaiUsulan1'))}}</td>
+                    <td>{{Helper::formatUang(DB::table('v_rkpd_rinci')->where('OrgID',$item->OrgID)->where('EntryLvl',15)->sum('NilaiUsulan3'))}}</td>
+                    <td>{{Helper::formatUang(DB::table('v_rkpd_rinci')->where('OrgID',$item->OrgID)->where('EntryLvl',15)->sum('NilaiUsulan4'))}}</td>
                     <td>{{$item->TA}}</td>
                     <td>
                         <ul class="icons-list">
