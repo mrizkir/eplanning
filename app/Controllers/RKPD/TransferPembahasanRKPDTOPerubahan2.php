@@ -239,7 +239,7 @@ class TransferPembahasanRKPDTOPerubahan2 extends Controller {
      */
     private function transfer1 ($OrgID)
     {
-        \App\Models\RKPD\RKPDModel::where('EntryLvl',1)
+        \App\Models\RKPD\RKPDModel::where('EntryLvl',3)
                                     ->where('OrgID',$OrgID)
                                     ->delete();
 
@@ -260,11 +260,19 @@ class TransferPembahasanRKPDTOPerubahan2 extends Controller {
                                                     $new=$old->replicate();
                                                     $new->RKPDID=$newRKPDID;
                                                     $new->Sasaran_Uraian1=$new->Sasaran_Uraian1;
+                                                    $new->Sasaran_Uraian2=$new->Sasaran_Uraian2;
+                                                    $new->Sasaran_Uraian3=$new->Sasaran_Uraian3;
                                                     $new->Sasaran_Angka1=$new->Sasaran_Angka1;
+                                                    $new->Sasaran_Angka2=$new->Sasaran_Angka2;
+                                                    $new->Sasaran_Angka3=$new->Sasaran_Angka3;
                                                     $new->NilaiUsulan1=$new->NilaiUsulan1;                                                            
+                                                    $new->NilaiUsulan2=$new->NilaiUsulan2;                                                            
+                                                    $new->NilaiUsulan3=$new->NilaiUsulan3;                                                            
                                                     $new->Target1=$new->Target1;          
+                                                    $new->Target2=$new->Target2;          
+                                                    $new->Target3=$new->Target3;          
                                                     $new->Tgl_Posting=$tanggal_posting;                                                  
-                                                    $new->EntryLvl=1;
+                                                    $new->EntryLvl=3;
                                                     $new->Privilege=1;                                                                                                                        
                                                     $new->RKPDID_Src=$oldRKPDID;                                                            
                                                     $new->created_at=$tanggal_posting;                                                            
@@ -291,9 +299,17 @@ class TransferPembahasanRKPDTOPerubahan2 extends Controller {
                                                             "Uraian",
                                                             "No",
                                                             "Sasaran_Uraian1",
+                                                            "Sasaran_Uraian2",
+                                                            "Sasaran_Uraian3",
                                                             "Sasaran_Angka1",                        
+                                                            "Sasaran_Angka2",                        
+                                                            "Sasaran_Angka3",                        
                                                             "NilaiUsulan1",                       
+                                                            "NilaiUsulan2",                       
+                                                            "NilaiUsulan3",                       
                                                             "Target1",                        
+                                                            "Target2",                        
+                                                            "Target3",                        
                                                             "Tgl_Posting",                         
                                                             "isReses",
                                                             "isReses_Uraian",
@@ -321,9 +337,17 @@ class TransferPembahasanRKPDTOPerubahan2 extends Controller {
                                                             "Uraian",
                                                             "No",
                                                             "Sasaran_Uraian1",
+                                                            "Sasaran_Uraian2",
+                                                            "Sasaran_Uraian3",
                                                             "Sasaran_Angka1",        
+                                                            "Sasaran_Angka2",        
+                                                            "Sasaran_Angka3",        
                                                             "NilaiUsulan1",       
+                                                            "NilaiUsulan2",       
+                                                            "NilaiUsulan3",       
                                                             "Target1",                                             
+                                                            "Target2",                                             
+                                                            "Target3",                                             
                                                             \''.$tanggal_posting.'\' AS Tgl_Posting,
                                                             "isReses",
                                                             "isReses_Uraian",
@@ -331,7 +355,7 @@ class TransferPembahasanRKPDTOPerubahan2 extends Controller {
                                                             "Descr",
                                                             "TA",
                                                             1 AS "Status", 
-                                                            1 AS "EntryLvl",
+                                                            3 AS "EntryLvl",
                                                             1 AS "Privilege",  
                                                             NOW() AS created_at,
                                                             NOW() AS updated_at
