@@ -507,34 +507,34 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::get('/workflow/rkpd/pembahasanrkpd/printtoexcel',['uses'=>'RKPD\PembahasanRKPDController@printtoexcel','as'=>'pembahasanrkpd.printtoexcel']);
     Route::get('/workflow/rkpd/pembahasanrkpd/printtopdf',['uses'=>'RKPD\PembahasanRKPDController@printtopdf','as'=>'pembahasanrkpd.printtopdf']);
 
-    //Workflow- RKPD Perubahan    
-    // Route::resource('/workflow/rkpd/rkpdperubahan','RKPD\RKPDPerubahanController',['parameters'=>['rkpdperubahan'=>'uuid']]);        
-    // Route::post('/workflow/rkpd/rkpdperubahan/pilihusulankegiatan',['uses'=>'RKPD\RKPDPerubahanController@pilihusulankegiatan','as'=>'rkpdperubahan.pilihusulankegiatan']);                  
-    // Route::post('/workflow/rkpd/rkpdperubahan/pilihindikatorkinerja',['uses'=>'RKPD\RKPDPerubahanController@pilihindikatorkinerja','as'=>'rkpdperubahan.pilihindikatorkinerja']);                  
-    // Route::get('/workflow/rkpd/rkpdperubahan/create1/{uuid}',['uses'=>'RKPD\RKPDPerubahanController@create1','as'=>'rkpdperubahan.create1']);              
-    // Route::get('/workflow/rkpd/rkpdperubahan/create2/{uuid}',['uses'=>'RKPD\RKPDPerubahanController@create2','as'=>'rkpdperubahan.create2']);              
-    // Route::get('/workflow/rkpd/rkpdperubahan/create3/{uuid}',['uses'=>'RKPD\RKPDPerubahanController@create3','as'=>'rkpdperubahan.create3']);              
-    // Route::get('/workflow/rkpd/rkpdperubahan/create4/{uuid}',['uses'=>'RKPD\RKPDPerubahanController@create4','as'=>'rkpdperubahan.create4']);              
-    // Route::post('/workflow/rkpd/rkpdperubahan/store1',['uses'=>'RKPD\RKPDPerubahanController@store1','as'=>'rkpdperubahan.store1']);  
-    // Route::post('/workflow/rkpd/rkpdperubahan/store2',['uses'=>'RKPD\RKPDPerubahanController@store2','as'=>'rkpdperubahan.store2']);  
-    // Route::post('/workflow/rkpd/rkpdperubahan/store3',['uses'=>'RKPD\RKPDPerubahanController@store3','as'=>'rkpdperubahan.store3']); 
-    // Route::post('/workflow/rkpd/rkpdperubahan/store4',['uses'=>'RKPD\RKPDPerubahanController@store4','as'=>'rkpdperubahan.store4']); 
-    // Route::get('/workflow/rkpd/rkpdperubahan/{uuid}/edit1',['uses'=>'RKPD\RKPDPerubahanController@edit1','as'=>'rkpdperubahan.edit1']);              
-    // Route::get('/workflow/rkpd/rkpdperubahan/{uuid}/edit2',['uses'=>'RKPD\RKPDPerubahanController@edit2','as'=>'rkpdperubahan.edit2']);              
-    // Route::get('/workflow/rkpd/rkpdperubahan/{uuid}/edit3',['uses'=>'RKPD\RKPDPerubahanController@edit3','as'=>'rkpdperubahan.edit3']);              
-    // Route::get('/workflow/rkpd/rkpdperubahan/{uuid}/edit4',['uses'=>'RKPD\RKPDPerubahanController@edit4','as'=>'rkpdperubahan.edit4']);              
-    // Route::put('/workflow/rkpd/rkpdperubahan/update1/{uuid}',['uses'=>'RKPD\RKPDPerubahanController@update1','as'=>'rkpdperubahan.update1']);  
-    // Route::put('/workflow/rkpd/rkpdperubahan/update2/{uuid}',['uses'=>'RKPD\RKPDPerubahanController@update2','as'=>'rkpdperubahan.update2']);  
-    // Route::put('/workflow/rkpd/rkpdperubahan/update3/{uuid}',['uses'=>'RKPD\RKPDPerubahanController@update3','as'=>'rkpdperubahan.update3']); 
-    // Route::put('/workflow/rkpd/rkpdperubahan/update4/{uuid}',['uses'=>'RKPD\RKPDPerubahanController@update4','as'=>'rkpdperubahan.update4']); 
-    // Route::get('/workflow/rkpd/rkpdperubahan/showrincian/{uuid}',['uses'=>'RKPD\RKPDPerubahanController@showrincian','as'=>'rkpdperubahan.showrincian']); 
-    // Route::post('/workflow/rkpd/rkpdperubahan/search',['uses'=>'RKPD\RKPDPerubahanController@search','as'=>'rkpdperubahan.search']);  
-    // Route::post('/workflow/rkpd/rkpdperubahan/filter',['uses'=>'RKPD\RKPDPerubahanController@filter','as'=>'rkpdperubahan.filter']);                  
-    // Route::get('/workflow/rkpd/rkpdperubahan/paginate/{id}',['uses'=>'RKPD\RKPDPerubahanController@paginate','as'=>'rkpdperubahan.paginate']);              
-    // Route::post('/workflow/rkpd/rkpdperubahan/changenumberrecordperpage',['uses'=>'RKPD\RKPDPerubahanController@changenumberrecordperpage','as'=>'rkpdperubahan.changenumberrecordperpage']);  
-    // Route::post('/workflow/rkpd/rkpdperubahan/orderby',['uses'=>'RKPD\RKPDPerubahanController@orderby','as'=>'rkpdperubahan.orderby']);
-    // Route::get('/workflow/rkpd/rkpdperubahan/printtoexcel',['uses'=>'RKPD\RKPDPerubahanController@printtoexcel','as'=>'rkpdperubahan.printtoexcel']);
-    // Route::get('/workflow/rkpd/rkpdperubahan/printtopdf',['uses'=>'RKPD\RKPDPerubahanController@printtopdf','as'=>'rkpdperubahan.printtopdf']);
+    // Workflow- RKPD Perubahan    
+    Route::resource('/workflow/rkpd/rkpdperubahan','RKPD\RKPDPerubahanController',['parameters'=>['rkpdperubahan'=>'uuid']]);        
+    Route::post('/workflow/rkpd/rkpdperubahan/pilihusulankegiatan',['uses'=>'RKPD\RKPDPerubahanController@pilihusulankegiatan','as'=>'rkpdperubahan.pilihusulankegiatan']);                  
+    Route::post('/workflow/rkpd/rkpdperubahan/pilihindikatorkinerja',['uses'=>'RKPD\RKPDPerubahanController@pilihindikatorkinerja','as'=>'rkpdperubahan.pilihindikatorkinerja']);                  
+    Route::get('/workflow/rkpd/rkpdperubahan/create1/{uuid}',['uses'=>'RKPD\RKPDPerubahanController@create1','as'=>'rkpdperubahan.create1']);              
+    Route::get('/workflow/rkpd/rkpdperubahan/create2/{uuid}',['uses'=>'RKPD\RKPDPerubahanController@create2','as'=>'rkpdperubahan.create2']);              
+    Route::get('/workflow/rkpd/rkpdperubahan/create3/{uuid}',['uses'=>'RKPD\RKPDPerubahanController@create3','as'=>'rkpdperubahan.create3']);              
+    Route::get('/workflow/rkpd/rkpdperubahan/create4/{uuid}',['uses'=>'RKPD\RKPDPerubahanController@create4','as'=>'rkpdperubahan.create4']);              
+    Route::post('/workflow/rkpd/rkpdperubahan/store1',['uses'=>'RKPD\RKPDPerubahanController@store1','as'=>'rkpdperubahan.store1']);  
+    Route::post('/workflow/rkpd/rkpdperubahan/store2',['uses'=>'RKPD\RKPDPerubahanController@store2','as'=>'rkpdperubahan.store2']);  
+    Route::post('/workflow/rkpd/rkpdperubahan/store3',['uses'=>'RKPD\RKPDPerubahanController@store3','as'=>'rkpdperubahan.store3']); 
+    Route::post('/workflow/rkpd/rkpdperubahan/store4',['uses'=>'RKPD\RKPDPerubahanController@store4','as'=>'rkpdperubahan.store4']); 
+    Route::get('/workflow/rkpd/rkpdperubahan/{uuid}/edit1',['uses'=>'RKPD\RKPDPerubahanController@edit1','as'=>'rkpdperubahan.edit1']);              
+    Route::get('/workflow/rkpd/rkpdperubahan/{uuid}/edit2',['uses'=>'RKPD\RKPDPerubahanController@edit2','as'=>'rkpdperubahan.edit2']);              
+    Route::get('/workflow/rkpd/rkpdperubahan/{uuid}/edit3',['uses'=>'RKPD\RKPDPerubahanController@edit3','as'=>'rkpdperubahan.edit3']);              
+    Route::get('/workflow/rkpd/rkpdperubahan/{uuid}/edit4',['uses'=>'RKPD\RKPDPerubahanController@edit4','as'=>'rkpdperubahan.edit4']);              
+    Route::put('/workflow/rkpd/rkpdperubahan/update1/{uuid}',['uses'=>'RKPD\RKPDPerubahanController@update1','as'=>'rkpdperubahan.update1']);  
+    Route::put('/workflow/rkpd/rkpdperubahan/update2/{uuid}',['uses'=>'RKPD\RKPDPerubahanController@update2','as'=>'rkpdperubahan.update2']);  
+    Route::put('/workflow/rkpd/rkpdperubahan/update3/{uuid}',['uses'=>'RKPD\RKPDPerubahanController@update3','as'=>'rkpdperubahan.update3']); 
+    Route::put('/workflow/rkpd/rkpdperubahan/update4/{uuid}',['uses'=>'RKPD\RKPDPerubahanController@update4','as'=>'rkpdperubahan.update4']); 
+    Route::get('/workflow/rkpd/rkpdperubahan/showrincian/{uuid}',['uses'=>'RKPD\RKPDPerubahanController@showrincian','as'=>'rkpdperubahan.showrincian']); 
+    Route::post('/workflow/rkpd/rkpdperubahan/search',['uses'=>'RKPD\RKPDPerubahanController@search','as'=>'rkpdperubahan.search']);  
+    Route::post('/workflow/rkpd/rkpdperubahan/filter',['uses'=>'RKPD\RKPDPerubahanController@filter','as'=>'rkpdperubahan.filter']);                  
+    Route::get('/workflow/rkpd/rkpdperubahan/paginate/{id}',['uses'=>'RKPD\RKPDPerubahanController@paginate','as'=>'rkpdperubahan.paginate']);              
+    Route::post('/workflow/rkpd/rkpdperubahan/changenumberrecordperpage',['uses'=>'RKPD\RKPDPerubahanController@changenumberrecordperpage','as'=>'rkpdperubahan.changenumberrecordperpage']);  
+    Route::post('/workflow/rkpd/rkpdperubahan/orderby',['uses'=>'RKPD\RKPDPerubahanController@orderby','as'=>'rkpdperubahan.orderby']);
+    Route::get('/workflow/rkpd/rkpdperubahan/printtoexcel',['uses'=>'RKPD\RKPDPerubahanController@printtoexcel','as'=>'rkpdperubahan.printtoexcel']);
+    Route::get('/workflow/rkpd/rkpdperubahan/printtopdf',['uses'=>'RKPD\RKPDPerubahanController@printtopdf','as'=>'rkpdperubahan.printtopdf']);
     
     //workflow - Pembahasan RKPD Perubahan [pembahasan]
     // Route::resource('/workflow/rkpd/pembahasanrkpdp','RKPD\PembahasanRKPDPController',['parameters'=>['pembahasanrkpdp'=>'uuid']]);        

@@ -159,7 +159,7 @@ class HelperKegiatan {
                 $level = 2;
             break;
             case 'rkpdperubahan' :
-                $level = 5;
+                $level = 3;
             break;
             default :
                 $level = null;
@@ -545,14 +545,14 @@ class HelperKegiatan {
                                     "kode_kegiatan",
                                     "KgtNm",
                                     "Uraian",
-                                    "Sasaran_Angka2" AS "Sasaran_Angka",
-                                    "Sasaran_Angka1",
-                                    "Sasaran_Uraian2" AS "Sasaran_Uraian",
-                                    "Sasaran_Uraian1",
-                                    "Target2" AS "Target",
-                                    "Target1",
-                                    "NilaiUsulan1" AS "Jumlah",
-                                    "NilaiUsulan2" AS "Jumlah2",
+                                    "Sasaran_Angka3" AS "Sasaran_Angka",
+                                    "Sasaran_Angka2",
+                                    "Sasaran_Uraian3" AS "Sasaran_Uraian",
+                                    "Sasaran_Uraian2",
+                                    "Target3" AS "Target",
+                                    "Target2",
+                                    "NilaiUsulan2" AS "Jumlah",
+                                    "NilaiUsulan3" AS "Jumlah2",
                                     "isSKPD",
                                     "isReses",
                                     "isReses_Uraian",

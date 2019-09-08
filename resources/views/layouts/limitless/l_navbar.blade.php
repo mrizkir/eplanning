@@ -380,12 +380,12 @@
                             <i class="icon-arrow-down16"></i>PEMBAHASAN RKPD MURNI {{HelperKegiatan::getTahunPerencanaan()}} <span class="text-violet"><strong>[11]</strong></span>
                         </a>                                        
                     </li>
-                    {{-- <li{!!Helper::isMenuActive ($page_active,'rkpdperubahan',' class="active"')!!}>
+                    <li{!!Helper::isMenuActive ($page_active,'rkpdperubahan',' class="active"')!!}>
                         <a href="{{route('rkpdperubahan.index')}}" title="RENCANA KERJA PERANGKAT DAERAH PERUBAHAN">
                             <i class="icon-arrow-down16"></i>RKPD PERUBAHAN {{HelperKegiatan::getTahunPerencanaan()}} <span class="text-violet"><strong>[12]</strong></span>
                         </a>                                        
                     </li>
-                    <li{!!Helper::isMenuActive ($page_active,'pembahasanrkpdp',' class="active"')!!}>
+                    {{-- <li{!!Helper::isMenuActive ($page_active,'pembahasanrkpdp',' class="active"')!!}>
                         <a href="{{route('pembahasanrkpdp.index')}}" title="PEMBAHASAN RKPD PERUBAHAN">
                             <i class="icon-arrow-down16"></i>PEMBAHASAN RKPD PERUBAHAN {{HelperKegiatan::getTahunPerencanaan()}} <span class="text-violet"><strong>[13]</strong></span>
                         </a>                                        

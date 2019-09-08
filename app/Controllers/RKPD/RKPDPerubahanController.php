@@ -37,11 +37,11 @@ class RKPDPerubahanController extends Controller
                                                             "Nm_Kecamatan",
                                                             "trRKPDRinc"."Uraian",
                                                             "trRKPDRinc"."No",
-                                                            "trRKPDRinc"."Sasaran_Angka2" AS "Sasaran_Angka",
-                                                            "trRKPDRinc"."Sasaran_Uraian2" AS "Sasaran_Uraian",
-                                                            "trRKPDRinc"."Target2" AS "Target",
-                                                            "trRKPDRinc"."NilaiUsulan1" AS "Jumlah",
-                                                            "trRKPDRinc"."NilaiUsulan2" AS "Jumlah2",
+                                                            "trRKPDRinc"."Sasaran_Angka3" AS "Sasaran_Angka",
+                                                            "trRKPDRinc"."Sasaran_Uraian3" AS "Sasaran_Uraian",
+                                                            "trRKPDRinc"."Target3" AS "Target",
+                                                            "trRKPDRinc"."NilaiUsulan2" AS "Jumlah",
+                                                            "trRKPDRinc"."NilaiUsulan3" AS "Jumlah2",
                                                             "trRKPDRinc"."Status",
                                                             "trRKPDRinc"."Privilege",
                                                             "trRKPDRinc"."EntryLvl",
@@ -107,12 +107,12 @@ class RKPDPerubahanController extends Controller
             switch ($search['kriteria']) 
             {
                 case 'RKPDID' :
-                    $data = \DB::table(\HelperKegiatan::getViewName($this->NameOfPage))
-                                ->select(\HelperKegiatan::getField($this->NameOfPage))
-                                ->where(['RKPDID'=>$search['isikriteria']])                                                    
-                                ->where('SOrgID',$SOrgID)
-                                ->where('TA', \HelperKegiatan::getTahunPerencanaan())
-                                ->orderBy($column_order,$direction); 
+                    $data = RKPDViewRincianModel::select(\HelperKegiatan::getField($this->NameOfPage))
+                                                ->where('SOrgID',$SOrgID)                                            
+                                                ->where('TA', \HelperKegiatan::getTahunPerencanaan())    
+                                                ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))                                  
+                                                ->where(['kode_kegiatan'=>$search['isikriteria']])                                                                                             
+                                                ->orderBy($column_order,$direction);           
                 break;
                 case 'kode_kegiatan' :
                     $data = \DB::table(\HelperKegiatan::getViewName($this->NameOfPage))
@@ -123,19 +123,20 @@ class RKPDPerubahanController extends Controller
                                 ->orderBy($column_order,$direction); 
                 break;
                 case 'KgtNm' :
-                    $data = \DB::table(\HelperKegiatan::getViewName($this->NameOfPage))
-                                ->select(\HelperKegiatan::getField($this->NameOfPage))
-                                ->where('KgtNm', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
-                                ->where('SOrgID',$SOrgID)
-                                ->where('TA', \HelperKegiatan::getTahunPerencanaan())
-                                ->orderBy($column_order,$direction);                                        
+                    $data = RKPDViewRincianModel::select(\HelperKegiatan::getField($this->NameOfPage))
+                                                ->where('SOrgID',$SOrgID)                                            
+                                                ->where('TA', \HelperKegiatan::getTahunPerencanaan())    
+                                                ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))                                  
+                                                ->where('KgtNm', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
+                                                ->orderBy($column_order,$direction);                                            
                 break;
                 case 'Uraian' :
-                    $data =  RKPDViewRincianModel::select(\HelperKegiatan::getField($this->NameOfPage))
-                                                ->where('Uraian', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
-                                                ->where('SOrgID',$SOrgID)
-                                                ->where('TA', \HelperKegiatan::getTahunPerencanaan())
-                                                ->orderBy($column_order,$direction);                                        
+                $data = RKPDViewRincianModel::select(\HelperKegiatan::getField($this->NameOfPage))
+                                            ->where('SOrgID',$SOrgID)                                            
+                                            ->where('TA', \HelperKegiatan::getTahunPerencanaan())    
+                                            ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))                                  
+                                            ->where('Uraian', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
+                                            ->orderBy($column_order,$direction);                                              
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
@@ -144,9 +145,8 @@ class RKPDPerubahanController extends Controller
         {
             $data = RKPDViewRincianModel::select(\HelperKegiatan::getField($this->NameOfPage))
                                         ->where('SOrgID',$SOrgID)                                            
-                                        ->where('TA', \HelperKegiatan::getTahunPerencanaan())    
-                                        ->where('EntryLvl',4)                               
-                                        ->orWhere('EntryLvl',5)                                                                             
+                                        ->where('TA', \HelperKegiatan::getTahunPerencanaan())  
+                                        ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))                                                                           
                                         ->orderBy($column_order,$direction)                                            
                                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
         }        
@@ -512,7 +512,7 @@ class RKPDPerubahanController extends Controller
         $paguanggaranopd=\App\Models\DMaster\PaguAnggaranOPDModel::select('Jumlah2')
                                                                     ->where('OrgID',$filters['OrgID'])                                                    
                                                                     ->value('Jumlah2');
-        
+                                                                            
         return view("pages.$theme.rkpd.rkpdperubahan.index")->with(['page_active'=>$this->NameOfPage, 
                                                                 'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                 'daftar_opd'=>$daftar_opd,
@@ -797,17 +797,21 @@ class RKPDPerubahanController extends Controller
                     'KgtID' => $request->input('KgtID'),
                     'SumberDanaID' => $request->input('SumberDanaID'),
                     'Sasaran_Angka1' => 0,
-                    'Sasaran_Angka2' => $request->input('Sasaran_Angka'),
+                    'Sasaran_Angka2' => 0,
+                    'Sasaran_Angka3' => $request->input('Sasaran_Angka'),
                     'Sasaran_Uraian1' => '-',
-                    'Sasaran_Uraian2' => $request->input('Sasaran_Uraian'),
-                    'Sasaran_AngkaSetelah' => $request->input('Sasaran_AngkaSetelah'),
-                    'Sasaran_UraianSetelah' => $request->input('Sasaran_UraianSetelah'),
+                    'Sasaran_Uraian2' => '-',
+                    'Sasaran_Uraian3' => $request->input('Sasaran_Uraian'),                    
                     'Target1' => 0,
-                    'Target2' => $request->input('Target'),
-                    'NilaiSebelum' => $request->input('NilaiSebelum'),            
+                    'Target2' => 0,
+                    'Target3' => $request->input('Target'),
                     'NilaiUsulan1' => 0,            
                     'NilaiUsulan2' => 0,            
+                    'NilaiUsulan3' => 0,            
+                    'NilaiSebelum' => $request->input('NilaiSebelum'),                                
                     'NilaiSetelah' => $request->input('NilaiSetelah'),
+                    'Sasaran_AngkaSetelah' => $request->input('Sasaran_AngkaSetelah'),
+                    'Sasaran_UraianSetelah' => $request->input('Sasaran_UraianSetelah'),
                     'NamaIndikator' => $request->input('NamaIndikator'),            
                     'NamaIndikator' => $request->input('NamaIndikator'),            
                     'Tgl_Posting' => $tanggal_posting,            
@@ -923,26 +927,30 @@ class RKPDPerubahanController extends Controller
                         'No' => $nomor_rincian,           
                         'Uraian' => $request->input('Uraian'),
                         'Sasaran_Angka1' => 0,                       
-                        'Sasaran_Angka2' => $request->input('Sasaran_Angka'),                       
+                        'Sasaran_Angka2' => 0,                       
+                        'Sasaran_Angka3' => $request->input('Sasaran_Angka'),                       
                         'Sasaran_Uraian1' => '',                       
-                        'Sasaran_Uraian2' => $request->input('Sasaran_Uraian'),                       
+                        'Sasaran_Uraian2' => '',                       
+                        'Sasaran_Uraian3' => $request->input('Sasaran_Uraian'),                       
                         'Target1' => 0,                       
-                        'Target2' => $request->input('Target'),                       
+                        'Target2' => 0,                       
+                        'Target3' => $request->input('Target'),                       
                         'NilaiUsulan1' => 0,                       
-                        'NilaiUsulan2' => $request->input('Jumlah'),                       
+                        'NilaiUsulan2' => 0,                       
+                        'NilaiUsulan3' => $request->input('Jumlah'),                       
                         'Prioritas' => $request->input('Prioritas'),  
                         'Tgl_Posting' => $tanggal_posting,                       
                         'isReses' => true,     
                         'isReses_Uraian' => '['.$pokok_pikiran->Kd_PK . '] '.$pokok_pikiran->NmPk,
-                        'Status' => 3,        
-                        'EntryLvl' => 5,                                     
+                        'Status' => 1,        
+                        'EntryLvl' => 3,                                     
                         'Descr' => $request->input('Descr'),
                         'TA' => \HelperKegiatan::getTahunPerencanaan()
                     ];
 
                     $rinciankegiatan= RKPDRincianModel::create($data);
                     $rkpd = $rinciankegiatan->rkpd;            
-                    $rkpd->NilaiUsulan2=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('NilaiUsulan2');            
+                    $rkpd->NilaiUsulan3=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('NilaiUsulan3');            
                     $rkpd->save();
                 break;                
             }
@@ -993,24 +1001,28 @@ class RKPDPerubahanController extends Controller
                         'No' => $nomor_rincian,           
                         'Uraian' => $request->input('Uraian'),
                         'Sasaran_Angka1' => 0,                       
-                        'Sasaran_Angka2' => $request->input('Sasaran_Angka'),                       
+                        'Sasaran_Angka2' => 0,                       
+                        'Sasaran_Angka3' => $request->input('Sasaran_Angka'),                       
                         'Sasaran_Uraian1' => '-',                       
-                        'Sasaran_Uraian2' => $request->input('Sasaran_Uraian'),                       
+                        'Sasaran_Uraian2' => '-',                       
+                        'Sasaran_Uraian3' => $request->input('Sasaran_Uraian'),                       
                         'Target1' => 0,                       
-                        'Target2' => $request->input('Target'),                       
+                        'Target2' => 0,                       
+                        'Target3' => $request->input('Target'),                       
                         'NilaiUsulan1' => 0,                       
-                        'NilaiUsulan2' => $request->input('Jumlah'),                       
+                        'NilaiUsulan2' => 0,                       
+                        'NilaiUsulan3' => $request->input('Jumlah'),                       
                         'Tgl_Posting' => $tanggal_posting,                       
                         'isSKPD' => true,     
-                        'Status' => 3,                               
-                        'EntryLvl' => 5,           
+                        'Status' => 1,                               
+                        'EntryLvl' => 3,           
                         'Descr' => $request->input('Descr'),
                         'TA' => \HelperKegiatan::getTahunPerencanaan()
                     ];
 
                     $rinciankegiatan= RKPDRincianModel::create($data);
                     $rkpd = $rinciankegiatan->rkpd;            
-                    $rkpd->NilaiUsulan2=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('NilaiUsulan2');            
+                    $rkpd->NilaiUsulan3=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('NilaiUsulan3');            
                     $rkpd->save();
                 break;                
             }   
@@ -1057,13 +1069,13 @@ class RKPDPerubahanController extends Controller
                                             "v_program_kegiatan"."kode_kegiatan",
                                             "v_program_kegiatan"."KgtNm",
                                             "NamaIndikator",
-                                            "Sasaran_Angka2" AS "Sasaran_Angka",
-                                            "Sasaran_Uraian2" AS "Sasaran_Uraian",
+                                            "Sasaran_Angka3" AS "Sasaran_Angka",
+                                            "Sasaran_Uraian3" AS "Sasaran_Uraian",
                                             "Sasaran_AngkaSetelah",
                                             "Sasaran_UraianSetelah",
-                                            "Target2" AS "Target",
+                                            "Target3" AS "Target",
                                             "NilaiSebelum",
-                                            "NilaiUsulan2" AS "NilaiUsulan",
+                                            "NilaiUsulan3" AS "NilaiUsulan",
                                             "NilaiSetelah",
                                             "Nm_SumberDana",
                                             "trRKPD"."Privilege",
@@ -1120,13 +1132,13 @@ class RKPDPerubahanController extends Controller
                                                     "tmPrg"."PrgNm",
                                                     "tmKgt"."KgtID",
                                                     "tmKgt"."KgtNm",
-                                                    "trRKPD"."Sasaran_Angka2" AS "Sasaran_Angka",
-                                                    "trRKPD"."Sasaran_Uraian2" AS "Sasaran_Uraian",
+                                                    "trRKPD"."Sasaran_Angka3" AS "Sasaran_Angka",
+                                                    "trRKPD"."Sasaran_Uraian3" AS "Sasaran_Uraian",
                                                     "trRKPD"."Sasaran_AngkaSetelah",
                                                     "trRKPD"."Sasaran_UraianSetelah",
-                                                    "trRKPD"."Target2" AS "Target",
+                                                    "trRKPD"."Target3" AS "Target",
                                                     "trRKPD"."NilaiSebelum",
-                                                    "trRKPD"."NilaiUsulan2" AS "NilaiUsulan",
+                                                    "trRKPD"."NilaiUsulan3" AS "NilaiUsulan",
                                                     "trRKPD"."NilaiSetelah",
                                                     "trRKPD"."NamaIndikator",
                                                     "trRKPD"."SumberDanaID",
@@ -1208,10 +1220,10 @@ class RKPDPerubahanController extends Controller
                                                                     "trRKPDRinc"."No",
                                                                     "tmKgt"."KgtNm" AS "NamaKegiatan",
                                                                     "trRKPDRinc"."Uraian",
-                                                                    "trRKPDRinc"."Sasaran_Angka2" AS "Sasaran_Angka",
-                                                                    "trRKPDRinc"."Sasaran_Uraian2" AS "Sasaran_Uraian",
-                                                                    "trRKPDRinc"."Target2" AS "Target",
-                                                                    "trRKPDRinc"."NilaiUsulan2" AS "Jumlah",
+                                                                    "trRKPDRinc"."Sasaran_Angka3" AS "Sasaran_Angka",
+                                                                    "trRKPDRinc"."Sasaran_Uraian3" AS "Sasaran_Uraian",
+                                                                    "trRKPDRinc"."Target3" AS "Target",
+                                                                    "trRKPDRinc"."NilaiUsulan3" AS "Jumlah",
                                                                     "trRKPDRinc"."Descr",
                                                                     "trRKPDRinc"."isSKPD",
                                                                     "trRKPDRinc"."EntryLvl",
@@ -1236,10 +1248,10 @@ class RKPDPerubahanController extends Controller
                                                                     "trRKPDRinc"."No",
                                                                     "tmKgt"."KgtNm" AS "NamaKegiatan",
                                                                     "trRKPDRinc"."Uraian",
-                                                                    "trRKPDRinc"."Sasaran_Angka2" AS "Sasaran_Angka",
-                                                                    "trRKPDRinc"."Sasaran_Uraian2" AS "Sasaran_Uraian",
-                                                                    "trRKPDRinc"."Target2" AS "Target",
-                                                                    "trRKPDRinc"."NilaiUsulan2" AS "Jumlah",
+                                                                    "trRKPDRinc"."Sasaran_Angka3" AS "Sasaran_Angka",
+                                                                    "trRKPDRinc"."Sasaran_Uraian3" AS "Sasaran_Uraian",
+                                                                    "trRKPDRinc"."Target3" AS "Target",
+                                                                    "trRKPDRinc"."NilaiUsulan3" AS "Jumlah",
                                                                     "trRKPDRinc"."Descr",
                                                                     "trRKPDRinc"."isSKPD",
                                                                     "trRKPDRinc"."EntryLvl",
@@ -1260,10 +1272,10 @@ class RKPDPerubahanController extends Controller
                                                                     "trRKPDRinc"."No",
                                                                     "tmKgt"."KgtNm" AS "NamaKegiatan",
                                                                     "trRKPDRinc"."Uraian",
-                                                                    "trRKPDRinc"."Sasaran_Angka2" AS "Sasaran_Angka",
-                                                                    "trRKPDRinc"."Sasaran_Uraian2" AS "Sasaran_Uraian",
-                                                                    "trRKPDRinc"."Target2" AS "Target",
-                                                                    "trRKPDRinc"."NilaiUsulan2" AS "Jumlah",
+                                                                    "trRKPDRinc"."Sasaran_Angka3" AS "Sasaran_Angka",
+                                                                    "trRKPDRinc"."Sasaran_Uraian3" AS "Sasaran_Uraian",
+                                                                    "trRKPDRinc"."Target3" AS "Target",
+                                                                    "trRKPDRinc"."NilaiUsulan3" AS "Jumlah",
                                                                     "trRKPDRinc"."Descr",
                                                                     "trRKPDRinc"."isSKPD",
                                                                     "trRKPDRinc"."EntryLvl",
@@ -1322,10 +1334,10 @@ class RKPDPerubahanController extends Controller
                                                                     "tmPemilikPokok"."NmPk",
                                                                     "trPokPir"."NamaUsulanKegiatan",                                                            
                                                                     "trRKPDRinc"."Uraian",
-                                                                    "trRKPDRinc"."Sasaran_Angka2" AS "Sasaran_Angka",
-                                                                    "trRKPDRinc"."Sasaran_Uraian2" AS "Sasaran_Uraian",
-                                                                    "trRKPDRinc"."Target2" AS "Target",
-                                                                    "trRKPDRinc"."NilaiUsulan2" AS "Jumlah",
+                                                                    "trRKPDRinc"."Sasaran_Angka3" AS "Sasaran_Angka",
+                                                                    "trRKPDRinc"."Sasaran_Uraian3" AS "Sasaran_Uraian",
+                                                                    "trRKPDRinc"."Target3" AS "Target",
+                                                                    "trRKPDRinc"."NilaiUsulan3" AS "Jumlah",
                                                                     "trRKPDRinc"."Descr",
                                                                     "trRKPDRinc"."isSKPD",
                                                                     "trRKPDRinc"."isReses"'))                                            
@@ -1343,9 +1355,9 @@ class RKPDPerubahanController extends Controller
                                                                                     "tmPemilikPokok"."NmPk",
                                                                                     "trPokPir"."NamaUsulanKegiatan",
                                                                                     "trRKPDRinc"."Uraian",
-                                                                                    "trRKPDRinc"."Sasaran_Angka2" AS "Sasaran_Angka",
-                                                                                    "trRKPDRinc"."Sasaran_Uraian2" AS "Sasaran_Uraian",
-                                                                                    "trRKPDRinc"."Target2" AS "Target",
+                                                                                    "trRKPDRinc"."Sasaran_Angka3" AS "Sasaran_Angka",
+                                                                                    "trRKPDRinc"."Sasaran_Uraian3" AS "Sasaran_Uraian",
+                                                                                    "trRKPDRinc"."Target3" AS "Target",
                                                                                     "trRKPDRinc"."Jumlah2" AS "Jumlah",
                                                                                     "trRKPDRinc"."Prioritas",
                                                                                     "trRKPDRinc"."Descr",
@@ -1362,9 +1374,9 @@ class RKPDPerubahanController extends Controller
                                                                                     "tmPemilikPokok"."NmPk",
                                                                                     "trPokPir"."NamaUsulanKegiatan",
                                                                                     "trRKPDRinc"."Uraian",
-                                                                                    "trRKPDRinc"."Sasaran_Angka2" AS "Sasaran_Angka",
-                                                                                    "trRKPDRinc"."Sasaran_Uraian2" AS "Sasaran_Uraian",
-                                                                                    "trRKPDRinc"."Target2" AS "Target",
+                                                                                    "trRKPDRinc"."Sasaran_Angka3" AS "Sasaran_Angka",
+                                                                                    "trRKPDRinc"."Sasaran_Uraian3" AS "Sasaran_Uraian",
+                                                                                    "trRKPDRinc"."Target3" AS "Target",
                                                                                     "trRKPDRinc"."Jumlah2" AS "Jumlah",
                                                                                     "trRKPDRinc"."Prioritas",
                                                                                     "trRKPDRinc"."Descr",
@@ -1419,10 +1431,10 @@ class RKPDPerubahanController extends Controller
                                                                     "trRKPDRinc"."PmDesaID",
                                                                     "trRKPDRinc"."No",
                                                                     "trRKPDRinc"."Uraian",
-                                                                    "trRKPDRinc"."Sasaran_Angka2" AS "Sasaran_Angka",
-                                                                    "trRKPDRinc"."Sasaran_Uraian2" AS "Sasaran_Uraian",
-                                                                    "trRKPDRinc"."Target2" AS "Target",
-                                                                    "trRKPDRinc"."NilaiUsulan2" AS "Jumlah",
+                                                                    "trRKPDRinc"."Sasaran_Angka3" AS "Sasaran_Angka",
+                                                                    "trRKPDRinc"."Sasaran_Uraian3" AS "Sasaran_Uraian",
+                                                                    "trRKPDRinc"."Target3" AS "Target",
+                                                                    "trRKPDRinc"."NilaiUsulan3" AS "Jumlah",
                                                                     "trRKPDRinc"."Descr",
                                                                     "trRKPDRinc"."isSKPD",
                                                                     "trRKPDRinc"."EntryLvl",
@@ -1439,10 +1451,10 @@ class RKPDPerubahanController extends Controller
                                                                     "trRKPDRinc"."PmDesaID",
                                                                     "trRKPDRinc"."No",
                                                                     "trRKPDRinc"."Uraian",
-                                                                    "trRKPDRinc"."Sasaran_Angka2" AS "Sasaran_Angka",
-                                                                    "trRKPDRinc"."Sasaran_Uraian2" AS "Sasaran_Uraian",
-                                                                    "trRKPDRinc"."Target2" AS "Target",
-                                                                    "trRKPDRinc"."NilaiUsulan2" AS "Jumlah",
+                                                                    "trRKPDRinc"."Sasaran_Angka3" AS "Sasaran_Angka",
+                                                                    "trRKPDRinc"."Sasaran_Uraian3" AS "Sasaran_Uraian",
+                                                                    "trRKPDRinc"."Target3" AS "Target",
+                                                                    "trRKPDRinc"."NilaiUsulan3" AS "Jumlah",
                                                                     "trRKPDRinc"."Descr",
                                                                     "trRKPDRinc"."isSKPD",
                                                                     "trRKPDRinc"."isReses"'))
@@ -1455,10 +1467,10 @@ class RKPDPerubahanController extends Controller
                                                                                 "trRKPDRinc"."PmDesaID",
                                                                                 "trRKPDRinc"."No",
                                                                                 "trRKPDRinc"."Uraian",
-                                                                                "trRKPDRinc"."Sasaran_Angka2" AS "Sasaran_Angka",
-                                                                                "trRKPDRinc"."Sasaran_Uraian2" AS "Sasaran_Uraian",
-                                                                                "trRKPDRinc"."Target2" AS "Target",
-                                                                                "trRKPDRinc"."NilaiUsulan2" AS "Jumlah",
+                                                                                "trRKPDRinc"."Sasaran_Angka3" AS "Sasaran_Angka",
+                                                                                "trRKPDRinc"."Sasaran_Uraian3" AS "Sasaran_Uraian",
+                                                                                "trRKPDRinc"."Target3" AS "Target",
+                                                                                "trRKPDRinc"."NilaiUsulan3" AS "Jumlah",
                                                                                 "trRKPDRinc"."Descr",
                                                                                 "trRKPDRinc"."isSKPD",
                                                                                 "trRKPDRinc"."isReses"'))
@@ -1519,11 +1531,11 @@ class RKPDPerubahanController extends Controller
         {   
             case 'rkpdperubahan' :
                 $rkpd->SumberDanaID = $request->input('SumberDanaID');
-                $rkpd->Sasaran_Angka2 = $request->input('Sasaran_Angka');
-                $rkpd->Sasaran_Uraian2 = $request->input('Sasaran_Uraian');
+                $rkpd->Sasaran_Angka3 = $request->input('Sasaran_Angka');
+                $rkpd->Sasaran_Uraian3 = $request->input('Sasaran_Uraian');
                 $rkpd->Sasaran_AngkaSetelah = $request->input('Sasaran_AngkaSetelah');
                 $rkpd->Sasaran_UraianSetelah = $request->input('Sasaran_UraianSetelah');
-                $rkpd->Target2 = $request->input('Target');
+                $rkpd->Target3 = $request->input('Target');
                 $rkpd->NilaiSebelum = $request->input('NilaiSebelum');
                 $rkpd->NilaiSetelah = $request->input('NilaiSetelah');
                 $rkpd->NamaIndikator = $request->input('NamaIndikator');
@@ -1602,20 +1614,15 @@ class RKPDPerubahanController extends Controller
             {            
                 case 'rkpdperubahan' :
                     $rinciankegiatan->Uraian = $request->input('Uraian');
-                    $rinciankegiatan->Sasaran_Angka2 = $request->input('Sasaran_Angka'); 
-                    $rinciankegiatan->Sasaran_Uraian2 = $request->input('Sasaran_Uraian');
-                    $rinciankegiatan->Target2 = $request->input('Target');
-                    $rinciankegiatan->NilaiUsulan2 = $request->input('Jumlah');  
-                    $rinciankegiatan->Descr = $request->input('Descr');
-                    if ($rinciankegiatan->NilaiUsulan2!=$rinciankegiatan->NilaiUsulan1)                    
-                    {                        
-                        $Status=$rinciankegiatan->Status == 1 || $rinciankegiatan->Status==2 ? 2:3;
-                        $rinciankegiatan->Status = $Status;
-                    }
+                    $rinciankegiatan->Sasaran_Angka3 = $request->input('Sasaran_Angka'); 
+                    $rinciankegiatan->Sasaran_Uraian3 = $request->input('Sasaran_Uraian');
+                    $rinciankegiatan->Target3 = $request->input('Target');
+                    $rinciankegiatan->NilaiUsulan3 = $request->input('Jumlah');  
+                    $rinciankegiatan->Descr = $request->input('Descr');                   
                     $rinciankegiatan->save();
 
                     $rkpd = $rinciankegiatan->rkpd;            
-                    $rkpd->NilaiUsulan2=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('NilaiUsulan2');            
+                    $rkpd->NilaiUsulan3=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('NilaiUsulan3');            
                     $rkpd->save();
                 break;                
             }   
@@ -1655,20 +1662,15 @@ class RKPDPerubahanController extends Controller
             {            
                 case 'rkpdperubahan' :
                     $rinciankegiatan->Uraian = $request->input('Uraian');
-                    $rinciankegiatan->Sasaran_Angka2 = $request->input('Sasaran_Angka'); 
-                    $rinciankegiatan->Sasaran_Uraian2 = $request->input('Sasaran_Uraian');
-                    $rinciankegiatan->Target2 = $request->input('Target');
-                    $rinciankegiatan->NilaiUsulan2 = $request->input('Jumlah');  
-                    $rinciankegiatan->Descr = $request->input('Descr');
-                    if ($rinciankegiatan->NilaiUsulan2!=$rinciankegiatan->NilaiUsulan1)                    
-                    {                        
-                        $Status=$rinciankegiatan->Status == 1 || $rinciankegiatan->Status==2 ? 2:3;
-                        $rinciankegiatan->Status = $Status;
-                    }                         
+                    $rinciankegiatan->Sasaran_Angka3 = $request->input('Sasaran_Angka'); 
+                    $rinciankegiatan->Sasaran_Uraian3 = $request->input('Sasaran_Uraian');
+                    $rinciankegiatan->Target3 = $request->input('Target');
+                    $rinciankegiatan->NilaiUsulan3 = $request->input('Jumlah');  
+                    $rinciankegiatan->Descr = $request->input('Descr');                              
                     $rinciankegiatan->save();
 
                     $rkpd = $rinciankegiatan->rkpd;            
-                    $rkpd->NilaiUsulan2=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('NilaiUsulan2');            
+                    $rkpd->NilaiUsulan3=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('NilaiUsulan3');            
                     $rkpd->save();
                 break;                
             }   
@@ -1711,22 +1713,17 @@ class RKPDPerubahanController extends Controller
                     $rinciankegiatan->PmKecamatanID = $request->input('PmKecamatanID');
                     $rinciankegiatan->PmDesaID = $request->input('PmDesaID');
                     $rinciankegiatan->Uraian = $request->input('Uraian');
-                    $rinciankegiatan->Sasaran_Angka2 = $request->input('Sasaran_Angka'); 
-                    $rinciankegiatan->Sasaran_Uraian2 = $request->input('Sasaran_Uraian');
-                    $rinciankegiatan->Target2 = $request->input('Target');
-                    $rinciankegiatan->NilaiUsulan2 = $request->input('Jumlah');  
-                    $rinciankegiatan->Descr = $request->input('Descr');
-                    if ($rinciankegiatan->NilaiUsulan2!=$rinciankegiatan->NilaiUsulan1)                    
-                    {                        
-                        $Status=$rinciankegiatan->Status == 1 || $rinciankegiatan->Status==2 ? 2:3;
-                        $rinciankegiatan->Status = $Status;
-                    }                                        
+                    $rinciankegiatan->Sasaran_Angka3 = $request->input('Sasaran_Angka'); 
+                    $rinciankegiatan->Sasaran_Uraian3 = $request->input('Sasaran_Uraian');
+                    $rinciankegiatan->Target3 = $request->input('Target');
+                    $rinciankegiatan->NilaiUsulan3 = $request->input('Jumlah');  
+                    $rinciankegiatan->Descr = $request->input('Descr');                                                     
                     $rinciankegiatan->save();
         
                     $rkpd = $rinciankegiatan->rkpd;   
                     $rkpd->Status=$rinciankegiatan->Status;         
                     $rkpd->EntryLvl=$rinciankegiatan->EntryLvl;
-                    $rkpd->NilaiUsulan2=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('NilaiUsulan2');            
+                    $rkpd->NilaiUsulan3=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('NilaiUsulan3');            
                     $rkpd->save();
                 break;                
             }               
@@ -1793,8 +1790,8 @@ class RKPDPerubahanController extends Controller
                 switch ($this->NameOfPage) 
                 {            
                     case 'rkpdperubahan' :
-                        $rkpd->NilaiUsulan2=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('NilaiUsulan2');  
-                        $NilaiUsulan=$rkpd->NilaiUsulan2;          
+                        $rkpd->NilaiUsulan3=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('NilaiUsulan3');  
+                        $NilaiUsulan=$rkpd->NilaiUsulan3;          
                     break;                    
                 }   
                 $rkpd->save();
@@ -1812,7 +1809,7 @@ class RKPDPerubahanController extends Controller
                                     'datarinciankegiatan'=>$data])
                                 ->render();     
                 
-                return response()->json(['success'=>true,'NilaiUsulan2'=>$NilaiUsulan,'datatable'=>$datatable],200); 
+                return response()->json(['success'=>true,'NilaiUsulan3'=>$NilaiUsulan,'datatable'=>$datatable],200); 
             }
             else
             {

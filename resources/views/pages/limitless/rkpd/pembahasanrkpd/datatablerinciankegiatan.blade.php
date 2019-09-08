@@ -111,7 +111,7 @@
                                 </a>
                             @endif
                         </li>
-                        @if ($item->EntryLvl==6 && $item->Status==6)                   
+                        @if ($item->Status==0)                   
                         <li class="text-danger-600">
                             <a class="btnDelete" href="javascript:;" title="Hapus Data Rincian Kegiatan" data-id="{{$item->RKPDRincID}}" data-url="{{route(Helper::getNameOfPage('index'))}}">
                                 <i class='icon-trash'></i>

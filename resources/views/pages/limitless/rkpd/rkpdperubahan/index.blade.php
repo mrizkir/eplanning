@@ -105,11 +105,11 @@
                 </thead>
                 <tbody class="bg-grey-300" style="font-weight:bold">   
                     <tr>
-                        <td class="text-right">JUMLAH PAGU MURNI</td>
-                        <td id="totalpagumurniopd" class="text-right">{{Helper::formatUang($totalpaguopd['murni'])}}</td>                     
+                        <td class="text-right">JUMLAH PAGU PEMBAHASAN RKPD MURNI</td>
+                        <td id="totalpagumurniopd" class="text-right">{{Helper::formatUang($totalpaguopd['pembahasanm'])}}</td>                     
                         <td colspan="2">&nbsp;</td>
-                        <td class="text-right">JUMLAH PAGU MURNI</td>
-                        <td id="totalpagumurniunitkerja" class="text-right">{{Helper::formatUang($totalpaguunitkerja['murni'])}}</td>                     
+                        <td class="text-right">JUMLAH PAGU PEMBAHASAN RKPD MURNI</td>
+                        <td id="totalpagumurniunitkerja" class="text-right">{{Helper::formatUang($totalpaguunitkerja['pembahasanm'])}}</td>                     
                         <td colspan="2">&nbsp;</td>
                     </tr>               
                     <tr>
@@ -122,10 +122,10 @@
                     </tr>
                     <tr>
                         <td class="text-right">SELISIH</td>
-                        <td id="selisihopd" class="text-right">{{Helper::formatUang($totalpaguopd['selisih'])}}</td> 
+                        <td id="selisihopd" class="text-right">{{Helper::formatUang($totalpaguopd['selisihpm'])}}</td> 
                         <td colspan="2">&nbsp;</td>
                         <td class="text-right">SELISIH</td>
-                        <td id="selisihunitkerja" class="text-right">{{Helper::formatUang($totalpaguunitkerja['selisih'])}}</td> 
+                        <td id="selisihunitkerja" class="text-right">{{Helper::formatUang($totalpaguunitkerja['selisihpm'])}}</td> 
                         <td colspan="2">&nbsp;</td>
                     </tr>
                 </tbody>            

@@ -125,12 +125,12 @@ function formatRKPDPaguPembahasanOPD(totalpagu)
     }    
     if (checkExistsID('#datapagu #totalpagupembahasanopd'))
     {
-        $('#datapagu #totalpagupembahasanopd').html(totalpagu['perubahan']);                        
+        $('#datapagu #totalpagupembahasanopd').html(totalpagu['pembahasanm']);                        
         new AutoNumeric ('#datapagu #totalpagupembahasanopd',optionnumeric); 
     }    
     if (checkExistsID('#datapagu #selisihopd'))
     {
-        $('#datapagu #selisihopd').html(totalpagu['selisih']);                        
+        $('#datapagu #selisihopd').html(totalpagu['selisihm']);                        
         new AutoNumeric ('#datapagu #selisihopd',optionnumeric); 
     }     
 }
@@ -150,12 +150,12 @@ function formatRKPDPaguPembahasanUnitKerja(totalpagu)
     }    
     if (checkExistsID('#datapagu #totalpagupembahasanunitkerja'))
     {
-        $('#datapagu #totalpagupembahasanunitkerja').html(totalpagu['perubahan']);                        
+        $('#datapagu #totalpagupembahasanunitkerja').html(totalpagu['pembahasanm']);                        
         new AutoNumeric ('#datapagu #totalpagupembahasanunitkerja',optionnumeric); 
     }    
     if (checkExistsID('#datapagu #selisihunitkerja'))
     {
-        $('#datapagu #selisihunitkerja').html(totalpagu['selisih']);                        
+        $('#datapagu #selisihunitkerja').html(totalpagu['selisihm']);                        
         new AutoNumeric ('#datapagu #selisihunitkerja',optionnumeric); 
     }          
 }
@@ -206,12 +206,12 @@ function formatRKPDPaguPembahasanOPD(totalpagu)
     }    
     if (checkExistsID('#datapagu #totalpagupembahasanopd'))
     {
-        $('#datapagu #totalpagupembahasanopd').html(totalpagu['perubahan']);                        
+        $('#datapagu #totalpagupembahasanopd').html(totalpagu['pembahasanm']);                        
         new AutoNumeric ('#datapagu #totalpagupembahasanopd',optionnumeric); 
     }    
     if (checkExistsID('#datapagu #selisihopd'))
     {
-        $('#datapagu #selisihopd').html(totalpagu['selisih']);                        
+        $('#datapagu #selisihopd').html(totalpagu['selisihm']);                        
         new AutoNumeric ('#datapagu #selisihopd',optionnumeric); 
     }     
 }
@@ -232,12 +232,12 @@ function formatRKPDPaguPembahasanUnitKerja(totalpagu)
     }    
     if (checkExistsID('#datapagu #totalpagupembahasanunitkerja'))
     {
-        $('#datapagu #totalpagupembahasanunitkerja').html(totalpagu['perubahan']);                        
+        $('#datapagu #totalpagupembahasanunitkerja').html(totalpagu['pembahasanm']);                        
         new AutoNumeric ('#datapagu #totalpagupembahasanunitkerja',optionnumeric); 
     }    
     if (checkExistsID('#datapagu #selisihunitkerja'))
     {
-        $('#datapagu #selisihunitkerja').html(totalpagu['selisih']);                        
+        $('#datapagu #selisihunitkerja').html(totalpagu['selisihm']);                        
         new AutoNumeric ('#datapagu #selisihunitkerja',optionnumeric); 
     }          
 }
@@ -253,7 +253,7 @@ function formatPaguRKPDPerubahanOPD(totalpagu)
     
     if (checkExistsID('#datapagu #totalpagumurniopd'))
     {
-        $('#datapagu #totalpagumurniopd').html(totalpagu['murni']);                
+        $('#datapagu #totalpagumurniopd').html(totalpagu['pembahasanm']);                
         new AutoNumeric ('#datapagu #totalpagumurniopd',optionnumeric); 
     }    
     if (checkExistsID('#datapagu #totalpaguperubahanopd'))
@@ -263,7 +263,7 @@ function formatPaguRKPDPerubahanOPD(totalpagu)
     }    
     if (checkExistsID('#datapagu #selisihopd'))
     {
-        $('#datapagu #selisihopd').html(totalpagu['selisih']);                        
+        $('#datapagu #selisihopd').html(totalpagu['selisihpm']);                        
         new AutoNumeric ('#datapagu #selisihopd',optionnumeric); 
     }    
     if (checkExistsID('#datapagu #pembahasanpopd'))
@@ -288,7 +288,7 @@ function formatPaguRKPDPerubahanUnitKerja(totalpagu)
     
     if (checkExistsID('#datapagu #totalpagumurniunitkerja'))
     {
-        $('#datapagu #totalpagumurniunitkerja').html(totalpagu['murni']);                
+        $('#datapagu #totalpagumurniunitkerja').html(totalpagu['pembahasanm']);                
         new AutoNumeric ('#datapagu #totalpagumurniunitkerja',optionnumeric); 
     }    
     if (checkExistsID('#datapagu #totalpaguperubahanunitkerja'))
@@ -298,7 +298,7 @@ function formatPaguRKPDPerubahanUnitKerja(totalpagu)
     }    
     if (checkExistsID('#datapagu #selisihunitkerja'))
     {
-        $('#datapagu #selisihunitkerja').html(totalpagu['selisih']);                        
+        $('#datapagu #selisihunitkerja').html(totalpagu['selisihpm']);                        
         new AutoNumeric ('#datapagu #selisihunitkerja',optionnumeric); 
     }    
     if (checkExistsID('#datapagu #pembahasanpunitkerja'))

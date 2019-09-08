@@ -24,8 +24,8 @@
                 <th>NAMA URAIAN</th>                
                 <th>SASARAN URAIAN</th>  
                 <th>TARGET (%)</th> 
-                <th class="text-right">NILAI USULAN<br>SEBELUM</th>                
-                <th class="text-right">NILAI USULAN<br>SETELAH</th>                
+                <th class="text-right">NILAI USULAN<br>PEMBAHASAN RKPD MURNI</th>                
+                <th class="text-right">NILAI USULAN<br>RKPD PERUBAHAN</th>      
                 <th width="80">STATUS</th>                                       
                 <th width="80">VERIFIKASI</th>                                       
                 <th width="120">AKSI</th>
