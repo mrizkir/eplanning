@@ -247,7 +247,7 @@ class TransferPembahasanRKPDTOPerubahan2 extends Controller {
         echo "Berhasil <br><br>";
         
         $data = \App\Models\RKPD\RKPDModel::where('OrgID',$OrgID)
-                                            ->where('EntryLvl',15)
+                                            ->where('EntryLvl',100)
                                             ->chunk(25, function ($rkpd){
                                                 $tanggal_posting=\Carbon\Carbon::now();
                                                 foreach ($rkpd as $old) {
