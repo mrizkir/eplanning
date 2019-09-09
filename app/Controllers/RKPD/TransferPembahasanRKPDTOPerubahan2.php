@@ -257,23 +257,23 @@ class TransferPembahasanRKPDTOPerubahan2 extends Controller {
                                                     $new=$old->replicate();
                                                     $new->RKPDID=$newRKPDID;
                                                     $new->Sasaran_Uraian1=$new->Sasaran_Uraian1;
-                                                    $new->Sasaran_Uraian2=$new->Sasaran_Uraian2;
-                                                    $new->Sasaran_Uraian3=$new->Sasaran_Uraian3;
+                                                    $new->Sasaran_Uraian2=0;
+                                                    $new->Sasaran_Uraian3=0;
                                                     $new->Sasaran_Uraian4=0;
                                                     $new->Sasaran_Angka1=$new->Sasaran_Angka1;
-                                                    $new->Sasaran_Angka2=$new->Sasaran_Angka2;
-                                                    $new->Sasaran_Angka3=$new->Sasaran_Angka3;
+                                                    $new->Sasaran_Angka2=0;
+                                                    $new->Sasaran_Angka3=0;
                                                     $new->Sasaran_Angka4=0;
                                                     $new->NilaiUsulan1=$new->NilaiUsulan1;                                                            
-                                                    $new->NilaiUsulan2=$new->NilaiUsulan2;                                                            
-                                                    $new->NilaiUsulan3=$new->NilaiUsulan3;                                                            
+                                                    $new->NilaiUsulan2=0;                                                            
+                                                    $new->NilaiUsulan3=0;                                                            
                                                     $new->NilaiUsulan4=0;                                                            
                                                     $new->Target1=$new->Target1;          
-                                                    $new->Target2=$new->Target2;          
-                                                    $new->Target3=$new->Target3;          
+                                                    $new->Target2=0;          
+                                                    $new->Target3=0;          
                                                     $new->Target4=0;          
                                                     $new->Tgl_Posting=$tanggal_posting;                                                  
-                                                    $new->EntryLvl=3;
+                                                    $new->EntryLvl=1;
                                                     $new->Privilege=1;                                                                                                                        
                                                     $new->Status=1;                                                                                                                        
                                                     $new->RKPDID_Src=$oldRKPDID;                                                            
@@ -343,20 +343,20 @@ class TransferPembahasanRKPDTOPerubahan2 extends Controller {
                                                             "Uraian",
                                                             "No",
                                                             "Sasaran_Uraian1",
-                                                            "Sasaran_Uraian2",
-                                                            "Sasaran_Uraian3",
+                                                            \'-\' AS "Sasaran_Uraian2",
+                                                            \'-\' AS "Sasaran_Uraian3",
                                                             \'-\' AS "Sasaran_Uraian4",
                                                             "Sasaran_Angka1",        
-                                                            "Sasaran_Angka2",        
-                                                            "Sasaran_Angka3",        
-                                                            0 AS "Sasaran_Angka4",        
+                                                            \'-\' AS "Sasaran_Angka2",        
+                                                            \'-\' AS "Sasaran_Angka3",        
+                                                            \'-\' AS "Sasaran_Angka4",        
                                                             "NilaiUsulan1",       
-                                                            "NilaiUsulan2",       
-                                                            "NilaiUsulan3",       
+                                                            0 AS "NilaiUsulan2",       
+                                                            0 AS "NilaiUsulan3",       
                                                             0 AS "NilaiUsulan4",       
                                                             "Target1",                                             
-                                                            "Target2",                                             
-                                                            "Target3",                                             
+                                                            0 AS "Target2",                                             
+                                                            0 AS "Target3",                                             
                                                             0 AS "Target4",                                             
                                                             \''.$tanggal_posting.'\' AS Tgl_Posting,
                                                             "isReses",
@@ -365,7 +365,7 @@ class TransferPembahasanRKPDTOPerubahan2 extends Controller {
                                                             "Descr",
                                                             "TA",
                                                             1 AS "Status", 
-                                                            3 AS "EntryLvl",
+                                                            1 AS "EntryLvl",
                                                             1 AS "Privilege",  
                                                             NOW() AS created_at,
                                                             NOW() AS updated_at
