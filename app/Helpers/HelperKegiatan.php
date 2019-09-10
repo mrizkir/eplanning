@@ -32,17 +32,7 @@ class HelperKegiatan {
                                     1=>'SETUJU',
                                     2=>'SETUJU DG. CATATAN',
                                     3=>'PENDING']; 
-    
-    /**
-     * Daftar Status RKPD
-     */ 
-    private static $StatusRKPD =[1=>'RKPDM', //Murni baru naik dari trRenja di RKPDMurniController
-                                2=>'RKPDMP',//Kegiatan Murni dirubah di RKPDPerubahanController atau di PembahasanRKPDController
-                                3=>'RKPDPB', //Tambah Kegiatan baru di RKPDPerubahanController
-                                4=>'PEMRKPDMP', //Perubahan Kegiatan Murni Menjadi Perubahan di Pembahasan RKPD
-                                5=>'PEMRKPDMP', //Perubahan Kegiatan Perubahan Menjadi Perubahan di Pembahasan RKPD
-                                6=>'PBARU' //Tambah Record baru di Pembahasan RKPD
-                                ];
+ 
     /**
      * digunakan untuk mendapatkan tahun awal rpjmd saat user login
      */ 
@@ -161,6 +151,9 @@ class HelperKegiatan {
             case 'rkpdperubahan' :
                 $level = 3;
             break;
+            case 'pembahasanrkpdp' :
+                $level = 4;
+            break;
             default :
                 $level = null;
         }
@@ -185,19 +178,6 @@ class HelperKegiatan {
         return HelperKegiatan::$StatusKegiatan[$StatusKegiatan];
       }      
     }
-    /**
-    * digunakan untuk mendapatkan status RKPD
-    */
-    public static function getStatusRKPD ($StatusRKPD=null) {
-        if ($StatusRKPD === null)
-        {
-          return HelperKegiatan::$StatusRKPD;
-        }
-        else
-        {
-          return HelperKegiatan::$StatusRKPD[$StatusRKPD];
-        }      
-      }
     /**
     * digunakan untuk mendapatkan daftar prioritas
     */
@@ -296,7 +276,7 @@ class HelperKegiatan {
                 $pagetitle = 'RKPD';                
             break;           
             case 'pembahasanrkpdp' :
-                $pagetitle = 'RKPDP FINAL';                
+                $pagetitle = 'PEMBAHASAN RKPD PERUBAHAN';                
             break;           
             default :
                 $pagetitle = 'WORKFLOW';
@@ -571,18 +551,14 @@ class HelperKegiatan {
                                     "kode_kegiatan",
                                     "KgtNm",
                                     "Uraian",
-                                    "Sasaran_Angka3" AS "Sasaran_Angka",
-                                    "Sasaran_Angka2",
-                                    "Sasaran_Angka1",
-                                    "Sasaran_Uraian3" AS "Sasaran_Uraian",
-                                    "Sasaran_Uraian2",
-                                    "Sasaran_Uraian1",
-                                    "Target3" AS "Target",
-                                    "Target2",
-                                    "Target1",
-                                    "NilaiUsulan1" AS "Jumlah",
-                                    "NilaiUsulan2" AS "Jumlah2",
+                                    "Sasaran_Angka4" AS "Sasaran_Angka",
+                                    "Sasaran_Angka3",
+                                    "Sasaran_Uraian4" AS "Sasaran_Uraian",
+                                    "Sasaran_Uraian3",
+                                    "Target4" AS "Target",
+                                    "Target3",
                                     "NilaiUsulan3" AS "Jumlah3",
+                                    "NilaiUsulan4" AS "Jumlah4",
                                     "isSKPD",
                                     "isReses",
                                     "isReses_Uraian",

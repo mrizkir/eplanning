@@ -71,7 +71,7 @@
                     <span class="text-danger">{{Helper::formatuang($item->Jumlah3)}}</span>
                 </td>  
                 <td>
-                    @include('layouts.limitless.l_status_rkpd')
+                    @include('layouts.limitless.l_status_kegiatan')
                 </td>
                 <td>
                     @if ($item->Privilege==0)

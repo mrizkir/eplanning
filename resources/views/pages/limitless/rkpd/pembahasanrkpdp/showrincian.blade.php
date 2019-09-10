@@ -101,7 +101,7 @@
                                 <label class="col-md-4 control-label"><strong>STATUS: </strong></label>
                                 <div class="col-md-8">
                                     <p class="form-control-static">
-                                        @include('layouts.limitless.l_status_rkpd')
+                                        @include('layouts.limitless.l_status_kegiatan')
                                     </p>
                                 </div>                            
                             </div>  
