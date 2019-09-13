@@ -574,12 +574,22 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/report/rkpd/reportrkpdmurniopd/search',['uses'=>'Report\ReportRKPDMurniOPDController@search','as'=>'reportrkpdmurniopd.search']);              
     Route::post('/report/rkpd/reportrkpdmurniopd/filter',['uses'=>'Report\ReportRKPDMurniOPDController@filter','as'=>'reportrkpdmurniopd.filter']);                  
     Route::get('/report/rkpd/reportrkpdmurniopd/printtoexcel',['uses'=>'Report\ReportRKPDMurniOPDController@printtoexcel','as'=>'reportrkpdmurniopd.printtoexcel']);  
+    
+    //Report - RENCANA KERJA OPD / SKPD - RKPD MURNI PER OPD   
+    Route::resource('/report/rkpd/reportpembahasanrkpdmurniopd','Report\ReportPembahasanRKPDMurniOPDController',[
+                                                                                                                    'parameters'=>['reportpembahasanrkpdmurniopd'=>'id'],
+                                                                                                                    'only'=>['index']
+                                                                                                                ]);                   
+
+    Route::post('/report/rkpd/reportpembahasanrkpdmurniopd/search',['uses'=>'Report\ReportPembahasanRKPDMurniOPDController@search','as'=>'reportpembahasanrkpdmurniopd.search']);              
+    Route::post('/report/rkpd/reportpembahasanrkpdmurniopd/filter',['uses'=>'Report\ReportPembahasanRKPDMurniOPDController@filter','as'=>'reportpembahasanrkpdmurniopd.filter']);                  
+    Route::get('/report/rkpd/reportpembahasanrkpdmurniopd/printtoexcel',['uses'=>'Report\ReportPembahasanRKPDMurniOPDController@printtoexcel','as'=>'reportpembahasanrkpdmurniopd.printtoexcel']);  
 
     //Report - RENCANA KERJA OPD / SKPD - RKPD MURNI PER OPD RINCI
     Route::resource('/report/rkpd/reportrkpdmurniopdrinci','Report\ReportRKPDMurniOPDRinciController',[
-        'parameters'=>['reportrkpdmurniopdrinci'=>'id'],
-        'only'=>['index']
-    ]);                   
+                                                                                                        'parameters'=>['reportrkpdmurniopdrinci'=>'id'],
+                                                                                                        'only'=>['index']
+                                                                                                    ]);                   
 
     Route::post('/report/rkpd/reportrkpdmurniopdrinci/search',['uses'=>'Report\ReportRKPDMurniOPDRinciController@search','as'=>'reportrkpdmurniopdrinci.search']);              
     Route::post('/report/rkpd/reportrkpdmurniopdrinci/filter',['uses'=>'Report\ReportRKPDMurniOPDRinciController@filter','as'=>'reportrkpdmurniopdrinci.filter']);                  
@@ -587,9 +597,9 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
 
     //Report - RENCANA KERJA OPD / SKPD - PROGRAM RKPD MURNI PER OPD
     Route::resource('/report/rkpd/reportprogrammurniopd','Report\ReportProgramMurniOPDController',[
-        'parameters'=>['reportprogrammurniopd'=>'id'],
-        'only'=>['index']
-    ]);                   
+                                                                                                    'parameters'=>['reportprogrammurniopd'=>'id'],
+                                                                                                    'only'=>['index']
+                                                                                                ]);                   
 
     Route::post('/report/rkpd/reportprogrammurniopd/search',['uses'=>'Report\ReportProgramMurniOPDController@search','as'=>'reportprogrammurniopd.search']);              
     Route::post('/report/rkpd/reportprogrammurniopd/filter',['uses'=>'Report\ReportProgramMurniOPDController@filter','as'=>'reportprogrammurniopd.filter']);                  
@@ -597,9 +607,9 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
 
     //Report - RENCANA KERJA OPD / SKPD - PROGRAM RKPD MURNI PER OPD
     Route::resource('/report/rkpd/reportrkpdperubahanopd','Report\ReportRKPDPerubahanOPDController',[
-                                                                            'parameters'=>['reportrkpdperubahanopd'=>'id'],
-                                                                            'only'=>['index']
-                                                                        ]);                   
+                                                                                                        'parameters'=>['reportrkpdperubahanopd'=>'id'],
+                                                                                                        'only'=>['index']
+                                                                                                    ]);                   
     
     Route::post('/report/rkpd/reportrkpdperubahanopd/search',['uses'=>'Report\ReportRKPDPerubahanOPDController@search','as'=>'reportrkpdperubahanopd.search']);              
     Route::post('/report/rkpd/reportrkpdperubahanopd/filter',['uses'=>'Report\ReportRKPDPerubahanOPDController@filter','as'=>'reportrkpdperubahanopd.filter']);                  
@@ -607,9 +617,9 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
 
     //Report - RENCANA KERJA OPD / SKPD - PROGRAM RKPD PERUBAHAN PER OPD
     Route::resource('/report/rkpd/reportprogramperubahanopd','Report\ReportProgramPerubahanOPDController',[
-                                                                            'parameters'=>['reportprogramperubahanopd'=>'id'],
-                                                                            'only'=>['index']
-                                                                        ]);                   
+                                                                                                            'parameters'=>['reportprogramperubahanopd'=>'id'],
+                                                                                                            'only'=>['index']
+                                                                                                        ]);                   
     
     Route::post('/report/rkpd/reportprogramperubahanopd/search',['uses'=>'Report\ReportProgramPerubahanOPDController@search','as'=>'reportprogramperubahanopd.search']);              
     Route::post('/report/rkpd/reportprogramperubahanopd/filter',['uses'=>'Report\ReportProgramPerubahanOPDController@filter','as'=>'reportprogramperubahanopd.filter']);                  

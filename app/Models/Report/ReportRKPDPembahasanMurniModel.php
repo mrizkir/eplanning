@@ -8,14 +8,17 @@ use App\Models\RKPD\RKPDViewJudulModel;
 
 class ReportRKPDPembahasanMurniModel extends ReportModel
 {   
-    public function __construct($dataReport)
+    public function __construct($dataReport,$print=true)
     {
         parent::__construct($dataReport); 
         $this->spreadsheet->getProperties()->setTitle("Laporan RKPD Tahun ".\HelperKegiatan::getTahunPerencanaan());
-        $this->spreadsheet->getProperties()->setSubject("Laporan RKPD Tahun ".\HelperKegiatan::getTahunPerencanaan());  
-        $this->print();             
+        $this->spreadsheet->getProperties()->setSubject("Laporan RKPD Tahun ".\HelperKegiatan::getTahunPerencanaan()); 
+        if ($print)
+        {
+            $this->print();             
+        }        
     }
-    private function generateStructure($field,$id)
+    public function generateStructure($field,$id)
     {
         $urusan_program = \DB::select('   
                                 SELECT 
@@ -278,8 +281,7 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
                             $nama_indikator=$rkpd->NamaIndikator;
                             $sheet->setCellValue("G$row",$nama_indikator); 
                             $sheet->setCellValue("H$row",'Kab. Bintan'); 
-                            $sheet->setCellValue("I$row",\Helper::formatAngka($rkpd->Sasaran_Angka1) . ' '.$rkpd->Sasaran_Uraian1); 
-                            $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_Angka1) . ' '.$rkpd->Sasaran_Uraian1))); 
+                            $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_Angka2) . ' '.$rkpd->Sasaran_Uraian2))); 
                             $sheet->setCellValue("J$row",\Helper::formatUang($rkpd->NilaiUsulan2)); 
                             $sheet->setCellValue("K$row",$rkpd->Nm_SumberDana); 
                             $sheet->setCellValue("L$row",$rkpd->Descr); 
@@ -404,7 +406,7 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
                                 $sheet->setCellValue("G$row",$nama_indikator); 
                                 $sheet->setCellValue("H$row",'Kab. Bintan'); 
                                 $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_Angka1) . ' '.$rkpd->Sasaran_Uraian1)));                                     
-                                $sheet->setCellValue("J$row",\Helper::formatUang($rkpd->NilaiUsulan2)); 
+                                $sheet->setCellValue("J$row",0); //nilai ini akan di isi oleh dibawah
                                 $sheet->setCellValue("K$row",$rkpd->Nm_SumberDana); 
                                 $sheet->setCellValue("L$row",$rkpd->Descr); 
                                 $sheet->setCellValue("M$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_AngkaSetelah).' '.$rkpd->Sasaran_UraianSetelah))); 

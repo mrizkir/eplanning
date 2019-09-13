@@ -404,10 +404,45 @@
                             <div class="col-md-3">
                                 <span class="menu-heading underlined bg-blue-300" style="padding:10px"><i class="icon-file-empty"></i> RENCANA KERJA OPD / SKPD</span>
                                 <ul class="menu-list">
+                                    <li{!!Helper::isMenuActive ($page_active,'reportrkpdmurniopd',' class="active"')!!}>
+                                        <a href="#">
+                                            <i class="icon-file-empty"></i> PRA RENJA</span>
+                                        </a>
+                                    </li> 
+                                    <li{!!Helper::isMenuActive ($page_active,'reportrkpdmurniopd',' class="active"')!!}>
+                                        <a href="#">
+                                            <i class="icon-file-empty"></i> RAKOR BIDANG</span>
+                                        </a>
+                                    </li>
+                                    <li{!!Helper::isMenuActive ($page_active,'reportrkpdmurniopd',' class="active"')!!}>
+                                        <a href="#">
+                                            <i class="icon-file-empty"></i> FORUM OPD</span>
+                                        </a>
+                                    </li>
+                                    <li{!!Helper::isMenuActive ($page_active,'reportrkpdmurniopd',' class="active"')!!}>
+                                        <a href="#">
+                                            <i class="icon-file-empty"></i> MUSRENBANG KABUPATEN</span>
+                                        </a>
+                                    </li>
+                                    <li{!!Helper::isMenuActive ($page_active,'reportrkpdmurniopd',' class="active"')!!}>
+                                        <a href="#">
+                                            <i class="icon-file-empty"></i> VERIFIKASI TAPD</span>
+                                        </a>
+                                    </li>
+                                </ul>   
+                            </div>
+                            <div class="col-md-3">
+                                <span class="menu-heading underlined bg-blue-300" style="padding:10px"><i class="icon-file-empty"></i> RENCANA KERJA PEMERINTAH DAERAH</span>
+                                <ul class="menu-list">
                                     <li class="dropdown-header">MURNI</li>
                                     <li{!!Helper::isMenuActive ($page_active,'reportrkpdmurniopd',' class="active"')!!}>
                                         <a href="{{route('reportrkpdmurniopd.index')}}">
                                             <i class="icon-file-empty"></i> RKPD PER OPD</span>
+                                        </a>
+                                    </li> 
+                                    <li{!!Helper::isMenuActive ($page_active,'reportpembahasanrkpdmurniopd',' class="active"')!!}>
+                                        <a href="{{route('reportpembahasanrkpdmurniopd.index')}}">
+                                            <i class="icon-file-empty"></i> PEMBAHASAN RKPD PER OPD</span>
                                         </a>
                                     </li> 
                                     <li{!!Helper::isMenuActive ($page_active,'reportrkpdmurniopdrinci',' class="active"')!!}>

@@ -18,3 +18,51 @@
 tr.spaceunder>td {
     padding-bottom: 2px;
 }
+
+.reporttable
+{
+    background: #012B39;
+    border-radius: 0.25em;
+    border-collapse: collapse;
+    margin: 1em;
+}
+.reporttable th 
+{
+    border-bottom: 1px solid #364043;
+    color: #E2B842;
+    font-size: 0.85em;
+    font-weight: 600;
+    padding: 0.5em 1em;
+    text-align: left;
+}
+
+.reporttable td 
+{
+    color: #fff;
+    font-weight: 400;
+    padding: 0.65em 1em;
+}
+.reporttable .urusan td {
+    font-weight: bold;
+    color: rgb(80, 185, 80);
+
+}
+
+.reporttable .program td {
+    font-weight: bold;
+    color: rgb(37, 214, 75);
+
+}
+.reporttable .rincian td {
+    color: rgb(207, 241, 126);
+
+}
+.reporttable tbody tr 
+{
+    transition: background 0.25s ease;
+}
+
+.reporttable tbody tr:hover 
+{
+    background: #014055;
+}
