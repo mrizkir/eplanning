@@ -137,15 +137,17 @@ class ReportPembahasanRKPDMurniOPDController extends Controller
     {       
         $theme = \Auth::user()->theme;
 
-        $filters=$this->getControllerStateSession($this->SessionName,'filters');  
+        $filters=$this->getControllerStateSession($this->SessionName,'filters');   
         $generate_date=date('Y-m-d_H_m_s');
         $OrgID=$filters['OrgID'];        
         $SOrgID=$filters['SOrgID'];   
-        if ($SOrgID != 'none'&&$SOrgID != ''&&$SOrgID != null)       
-        {
+
+        if ($SOrgID != 'none'&&$SOrgID != ''&&$SOrgID != null) 
+        {   
             $unitkerja = \DB::table('v_suborganisasi')
-                        ->where('SOrgID',$SOrgID)->first();  
-            
+                            ->where('SOrgID',$SOrgID)->first(); 
+
+            $data_report['OrgIDRPJMD']=$unitkerja->OrgIDRPJMD;
             $data_report['OrgID']=$unitkerja->OrgID;
             $data_report['SOrgID']=$SOrgID;
             $data_report['Kd_Urusan']=$unitkerja->Kd_Urusan;
@@ -158,16 +160,18 @@ class ReportPembahasanRKPDMurniOPDController extends Controller
             $data_report['kode_suborganisasi']=$unitkerja->kode_suborganisasi;
             $data_report['SOrgNm']=$unitkerja->SOrgNm;
             $data_report['NamaKepalaSKPD']=$unitkerja->NamaKepalaSKPD;
-            $data_report['NIPKepalaSKPD']=$unitkerja->NIPKepalaSKPD;          
-
-            $report= new \App\Models\Report\ReportRKPDMurniModel ($data_report);
-            return $report->download("rkpd_$generate_date.xlsx");
+            $data_report['NIPKepalaSKPD']=$unitkerja->NIPKepalaSKPD;
+            $data_report['mode']='pembahasanrkpd';
+            
+            $report= new \App\Models\Report\ReportRKPDPembahasanMurniModel ($data_report);
+            return $report->download("pembahasanrkpd_$generate_date.xlsx");
         }
-        elseif ($OrgID != 'none'&&$OrgID != ''&&$OrgID != null)       
-        {
+        else if ($OrgID != 'none'&&$OrgID != ''&&$OrgID != null)       
+        {   
             $opd = \DB::table('v_urusan_organisasi')
                         ->where('OrgID',$OrgID)->first();  
             
+            $data_report['OrgIDRPJMD']=$opd->OrgIDRPJMD;
             $data_report['OrgID']=$opd->OrgID;
             $data_report['SOrgID']=$SOrgID;
             $data_report['Kd_Urusan']=$opd->Kd_Urusan;
@@ -176,18 +180,19 @@ class ReportPembahasanRKPDMurniOPDController extends Controller
             $data_report['Nm_Bidang']=$opd->Nm_Bidang;
             $data_report['kode_organisasi']=$opd->kode_organisasi;
             $data_report['OrgNm']=$opd->OrgNm;
-            $data_report['SOrgID']=$SOrgID;
             $data_report['NamaKepalaSKPD']=$opd->NamaKepalaSKPD;
-            $data_report['NIPKepalaSKPD']=$opd->NIPKepalaSKPD;            
-            $report= new \App\Models\Report\ReportRKPDMurniModel ($data_report);
-            return $report->download("rkpd_$generate_date.xlsx");
+            $data_report['NIPKepalaSKPD']=$opd->NIPKepalaSKPD;
+            $data_report['mode']='pembahasanrkpd';
+            
+            $report= new \App\Models\Report\ReportRKPDPembahasanMurniModel($data_report);
+            return $report->download("pembahasanrkpd_$generate_date.xlsx");
         }
         else
         {
-            return view("pages.$theme.report.reportpembahasanrkpdmurniopd.error")->with(['page_active'=>$this->NameOfPage,
+            return view("pages.$theme.rkpd.pembahasanrkpd.error")->with(['page_active'=>$this->NameOfPage,
                                                                     'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
-                                                                    'errormessage'=>'Mohon OPD / SKPD untuk di pilih terlebih dahulu. bila sudah terpilih ternyata tidak bisa, berarti saudara tidak diperkenankan menambah kegiatan karena telah dikunci.'
+                                                                    'errormessage'=>'Mohon unit kerja untuk di pilih terlebih dahulu. bila sudah terpilih ternyata tidak bisa, berarti saudara tidak diperkenankan menambah kegiatan karena telah dikunci.'
                                                                 ]);  
-        }     
+        }
     }
 }
