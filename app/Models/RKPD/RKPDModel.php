@@ -92,4 +92,27 @@ class RKPDModel extends Model {
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
+
+    public static function getDaftarKegiatanRKPD ($OrgID,$ta,$EntryLvl)
+    {
+        $data = \DB::table('v_rkpd')
+                    ->select(\DB::raw('"RKPDID",
+                                        "KgtID",
+                                        "OrgID",
+                                        kode_kegiatan,
+                                        "KgtNm",
+                                        (SELECT COUNT("RKPDRincID") FROM "trRKPDRinc" B WHERE v_rkpd."RKPDID"=B."RKPDID") AS jumlah_rincian'
+                    ))
+                    ->where('OrgID',$OrgID)
+                    ->where('TA',$ta)
+                    ->where('EntryLvl',$EntryLvl)
+                    ->get();
+        
+        $daftar_kegiatan = [''=>''];
+        foreach ($data as $v)
+        {
+            $daftar_kegiatan[$v->RKPDID]='['.$v->kode_kegiatan.'] '.$v->KgtNm.' ('.$v->jumlah_rincian.') [RKPDID='.$v->RKPDID.']';
+        }
+        return $daftar_kegiatan;
+    }
 }

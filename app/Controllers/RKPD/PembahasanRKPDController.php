@@ -25,7 +25,7 @@ class PembahasanRKPDController extends Controller
         $this->SessionName=$this->getNameForSession();      
         //set nama halaman saat ini
         $this->NameOfPage = \Helper::getNameOfPage();        
-    }    
+    }        
     private function populateRincianKegiatan($RKPDID)
     {
         switch ($this->NameOfPage) 
@@ -536,7 +536,7 @@ class PembahasanRKPDController extends Controller
             $json_data['daftar_program']=$daftar_program;
         }
 
-        if ($request->exists('PrgID'))
+        if ($request->exists('PrgID') && $request->exists('create'))
         {
             $PrgID = $request->input('PrgID')==''?'none':$request->input('PrgID');
             $r=\DB::table('v_program_kegiatan')
@@ -567,7 +567,7 @@ class PembahasanRKPDController extends Controller
             }            
             $json_data['success']=true;
             $json_data['daftar_kegiatan']=$daftar_kegiatan;
-        }
+        }       
         return response()->json($json_data,200);  
     }
     public function pilihindikatorkinerja(Request $request)
@@ -1398,6 +1398,11 @@ class PembahasanRKPDController extends Controller
         $auth=\Auth::user();
         $theme = $auth->theme;
         $roles = $auth->getRoleNames();   
+        
+        $filters=$this->getControllerStateSession($this->SessionName,'filters');
+        $OrgID = $filters['OrgID'];
+        $SOrgID = $filters['SOrgID'];
+
         switch ($this->NameOfPage) 
         {     
             case 'pembahasanrkpd' :
@@ -1411,6 +1416,7 @@ class PembahasanRKPDController extends Controller
                                                                     "trRKPDRinc"."PmKecamatanID",
                                                                     "trRKPDRinc"."PmDesaID",
                                                                     "trRKPDRinc"."No",
+                                                                    "tmKgt"."KgtNm",
                                                                     "trRKPDRinc"."Uraian",
                                                                     "trRKPDRinc"."Sasaran_Angka2" AS "Sasaran_Angka",
                                                                     "trRKPDRinc"."Sasaran_Uraian2" AS "Sasaran_Uraian",
@@ -1420,18 +1426,18 @@ class PembahasanRKPDController extends Controller
                                                                     "trRKPDRinc"."isSKPD",
                                                                     "trRKPDRinc"."EntryLvl",
                                                                     "trRKPDRinc"."isReses"'))     
+                                                    ->join('trRKPD','trRKPD.RKPDID','trRKPDRinc.RKPDID')   
+                                                    ->join('tmKgt','trRKPD.KgtID','tmKgt.KgtID')   
                                                     ->where('trRKPDRinc.EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))
                                                     ->findOrFail($id);        
                     break;
-                    case 'opd' :
-                        $filters=$this->getControllerStateSession($this->SessionName,'filters');
-                        $OrgID = $filters['OrgID'];
-                        $SOrgID = $filters['SOrgID'];
+                    case 'opd' :                        
                         $rkpd = empty($SOrgID)?RKPDRincianModel::select(\DB::raw('"trRKPDRinc"."RKPDRincID",
                                                                     "trRKPDRinc"."RKPDID",
                                                                     "trRKPDRinc"."PmKecamatanID",
                                                                     "trRKPDRinc"."PmDesaID",
                                                                     "trRKPDRinc"."No",
+                                                                    "tmKgt"."KgtNm",
                                                                     "trRKPDRinc"."Uraian",
                                                                     "trRKPDRinc"."Sasaran_Angka2" AS "Sasaran_Angka",
                                                                     "trRKPDRinc"."Sasaran_Uraian2" AS "Sasaran_Uraian",
@@ -1440,7 +1446,8 @@ class PembahasanRKPDController extends Controller
                                                                     "trRKPDRinc"."Descr",
                                                                     "trRKPDRinc"."isSKPD",
                                                                     "trRKPDRinc"."isReses"'))
-                                                                ->join('trRKPD','trRKPD.RKPDID','trRKPDRinc.RKPDID')   
+                                                                ->join('trRKPD','trRKPD.RKPDID','trRKPDRinc.RKPDID')
+                                                                ->join('tmKgt','trRKPD.KgtID','tmKgt.KgtID')      
                                                                 ->where('trRKPDRinc.EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))                                                     
                                                                 ->where('trRKPD.SOrgID',$SOrgID)->findOrFail($id)
                                             :RKPDRincianModel::select(\DB::raw('"trRKPDRinc"."RKPDRincID",
@@ -1448,6 +1455,7 @@ class PembahasanRKPDController extends Controller
                                                                                 "trRKPDRinc"."PmKecamatanID",
                                                                                 "trRKPDRinc"."PmDesaID",
                                                                                 "trRKPDRinc"."No",
+                                                                                "tmKgt"."KgtNm",
                                                                                 "trRKPDRinc"."Uraian",
                                                                                 "trRKPDRinc"."Sasaran_Angka2" AS "Sasaran_Angka",
                                                                                 "trRKPDRinc"."Sasaran_Uraian2" AS "Sasaran_Uraian",
@@ -1457,7 +1465,8 @@ class PembahasanRKPDController extends Controller
                                                                                 "trRKPDRinc"."isSKPD",
                                                                                 "trRKPDRinc"."isReses"'))
 
-                                                                ->join('trRKPD','trRKPD.RKPDID','trRKPDRinc.RKPDID')            
+                                                                ->join('trRKPD','trRKPD.RKPDID','trRKPDRinc.RKPDID')  
+                                                                ->join('tmKgt','trRKPD.KgtID','tmKgt.KgtID')             
                                                                 ->where('trRKPDRinc.EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))                                            
                                                                 ->where('trRKPD.OrgID',$OrgID)
                                                                 ->findOrFail($id);        
@@ -1470,6 +1479,13 @@ class PembahasanRKPDController extends Controller
         if (!is_null($rkpd) ) 
         {               
             $datarinciankegiatan = $this->populateRincianKegiatan($rkpd->RKPDID);
+
+            $organisasi=\App\Models\DMaster\SubOrganisasiModel::select(\DB::raw('"v_suborganisasi"."OrgID","v_suborganisasi"."OrgIDRPJMD","v_suborganisasi"."UrsID","v_suborganisasi"."OrgNm","v_suborganisasi"."SOrgNm","v_suborganisasi"."kode_organisasi","v_suborganisasi"."kode_suborganisasi"'))
+                                                            ->join('v_suborganisasi','tmSOrg.OrgID','v_suborganisasi.OrgID')
+                                                            ->find($SOrgID);
+            
+            $daftar_rkpd=RKPDModel::getDaftarKegiatanRKPD($OrgID,\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName($this->NameOfPage));
+            $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunPerencanaan(),false);
             //lokasi
             $daftar_provinsi = ['uidF1847004D8F547BF'=>'KEPULAUAN RIAU'];
             $daftar_kota_kab = ['uidE4829D1F21F44ECA'=>'BINTAN'];        
@@ -1478,6 +1494,8 @@ class PembahasanRKPDController extends Controller
             return view("pages.$theme.rkpd.pembahasanrkpd.edit4")->with(['page_active'=>$this->NameOfPage,
                                                                 'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                 'rkpd'=>$rkpd,
+                                                                'organisasi'=>$organisasi,
+                                                                'daftar_rkpd'=>$daftar_rkpd,
                                                                 'datarinciankegiatan'=>$datarinciankegiatan,
                                                                 'daftar_provinsi'=> $daftar_provinsi,
                                                                 'daftar_kota_kab'=> $daftar_kota_kab,
@@ -1685,7 +1703,8 @@ class PembahasanRKPDController extends Controller
             'Sasaran_Uraian'=>'required',
             'Target'=>'required',
             'Jumlah'=>'required'            
-        ]);        
+        ]);                
+        
         \DB::transaction(function () use ($request,$rinciankegiatan) { 
 
             switch ($this->NameOfPage) 
@@ -1698,14 +1717,34 @@ class PembahasanRKPDController extends Controller
                     $rinciankegiatan->Sasaran_Uraian2 = $request->input('Sasaran_Uraian');
                     $rinciankegiatan->Target2 = $request->input('Target');
                     $rinciankegiatan->NilaiUsulan2 = $request->input('Jumlah');  
-                    $rinciankegiatan->Descr = $request->input('Descr');                                                                                 
-                    $rinciankegiatan->save();                                          
-        
+                    $rinciankegiatan->Descr = $request->input('Descr');
+                    if (!empty($request->input('RKPDID')))
+                    {
+                        $rinciankegiatan->RKPDID=$request->input('RKPDID');
+                    }
+                    $rinciankegiatan->save();                                         
+                    
                     $rkpd = $rinciankegiatan->rkpd;   
-                    $rkpd->Status=$rinciankegiatan->Status;         
-                    $rkpd->EntryLvl=$rinciankegiatan->EntryLvl;
-                    $rkpd->NilaiUsulan2=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('NilaiUsulan2');            
+                    $rkpd->NilaiUsulan2=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('NilaiUsulan2'); 
                     $rkpd->save();
+
+                    \DB::statement('
+                            UPDATE 
+                                "trRKPDRinc"
+                            SET 
+                                "No"=B."No"
+                            FROM
+                                (
+                                    SELECT 
+                                        "RKPDID",
+                                        ROW_NUMBER() OVER() AS "No"
+                                    FROM   
+                                        "trRKPDRinc"
+                                    WHERE
+                                        "RKPDID"=\''.$rinciankegiatan->RKPDID.'\'
+                                ) AS B
+                            WHERE "trRKPDRinc"."RKPDID"=B."RKPDID" 
+                    ');    
                 break;                
             }               
             

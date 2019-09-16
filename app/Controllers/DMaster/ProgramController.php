@@ -519,21 +519,21 @@ class ProgramController extends Controller {
         $ta=\HelperKegiatan::getTahunPerencanaan();
         \DB::statement('
                 UPDATE 
-                "tmKgt"
-            SET 
-                "Kd_Keg"=B."Kd_Keg"
-            FROM
-                (
-                    SELECT 
-                        "KgtID",
-                        ROW_NUMBER() OVER() AS "Kd_Keg"
-                    FROM   
-                        "tmKgt"
-                    WHERE
-                        "PrgID"=\''.$PrgID.'\' AND
-                        "TA"='.$ta.'
-                ) AS B
-            WHERE "tmKgt"."KgtID"=B."KgtID" 
+                    "tmKgt"
+                SET 
+                    "Kd_Keg"=B."Kd_Keg"
+                FROM
+                    (
+                        SELECT 
+                            "KgtID",
+                            ROW_NUMBER() OVER() AS "Kd_Keg"
+                        FROM   
+                            "tmKgt"
+                        WHERE
+                            "PrgID"=\''.$PrgID.'\' AND
+                            "TA"='.$ta.'
+                    ) AS B
+                WHERE "tmKgt"."KgtID"=B."KgtID" 
         ');        
         return redirect(route('program.show',$PrgID))->with('success',"Kode kegiatan telah di re-order.");
         

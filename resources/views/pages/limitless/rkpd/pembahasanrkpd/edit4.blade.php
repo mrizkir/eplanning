@@ -35,84 +35,130 @@
         {!! Form::open(['url'=>route(Helper::getNameOfPage('update4'),$rkpd->RKPDRincID),'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
         <div class="panel-body">     
             <div class="form-group">
-                {{Form::label('No','NOMOR',['class'=>'control-label col-md-2'])}}
+                <label class="col-md-2 control-label">POSISI ENTRI: </label>
                 <div class="col-md-10">
-                    {{Form::text('No',$rkpd->No,['class'=>'form-control','placeholder'=>'NOMOR URUT KEGIATAN','readonly'=>true])}}
-                </div>
-            </div>    
+                    <p class="form-control-static">
+                        <span class="label border-left-primary label-striped">{{$page_title}}</span>
+                    </p>
+                </div>                            
+            </div>
             <div class="form-group">
-                {{Form::label('Uraian','NAMA/URAIAN KEGIATAN',['class'=>'control-label col-md-2'])}}
+                <label class="col-md-2 control-label">OPD / SKPD: </label>
                 <div class="col-md-10">
-                    {{Form::text('Uraian',$rkpd->Uraian,['class'=>'form-control','placeholder'=>'NAMA ATAU URAIAN KEGIATAN'])}}
-                </div>
-            </div>        
+                    <p class="form-control-static">
+                        <span class="label border-left-primary label-striped">[{{$organisasi->kode_organisasi}}] {{$organisasi->OrgNm}}</span>
+                    </p>
+                </div>                            
+            </div>                          
             <div class="form-group">
-                {{Form::label('Sasaran_Angka','SASARAN KEGIATAN',['class'=>'control-label col-md-2'])}}
+                <label class="col-md-2 control-label">UNIT KERJA: </label>
                 <div class="col-md-10">
-                    <div class="row">
-                        <div class="col-md-6">
-                            {{Form::text('Sasaran_Angka',Helper::formatAngka($rkpd->Sasaran_Angka),['class'=>'form-control','placeholder'=>'ANGKA SASARAN'])}}
-                        </div>
-                        <div class="col-md-6">
-                            {{Form::textarea('Sasaran_Uraian',$rkpd->Sasaran_Uraian,['class'=>'form-control','placeholder'=>'URAIAN SASARAN','rows'=>3,'id'=>'Sasaran_Uraian'])}}
+                    <p class="form-control-static">
+                        <span class="label border-left-primary label-striped">[{{$organisasi->kode_suborganisasi}}] {{$organisasi->SOrgNm}}</span>
+                    </p>
+                </div>                            
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label">NAMA KEGIATAN: </label>
+                <div class="col-md-10">
+                    <p class="form-control-static">
+                        <span class="label border-left-primary label-striped">{{$rkpd->KgtNm}}</span>
+                    </p>
+                </div>                            
+            </div>            
+            <fieldset class="content-group">
+                <legend class="text-bold">DATA RINCIAN</legend>
+                <div class="form-group">
+                    {{Form::label('No','NOMOR',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('No',$rkpd->No,['class'=>'form-control','placeholder'=>'NOMOR URUT KEGIATAN','readonly'=>true])}}
+                    </div>
+                </div>    
+                <div class="form-group">
+                    {{Form::label('Uraian','NAMA/URAIAN KEGIATAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('Uraian',$rkpd->Uraian,['class'=>'form-control','placeholder'=>'NAMA ATAU URAIAN KEGIATAN'])}}
+                    </div>
+                </div>        
+                <div class="form-group">
+                    {{Form::label('Sasaran_Angka','SASARAN KEGIATAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{Form::text('Sasaran_Angka',Helper::formatAngka($rkpd->Sasaran_Angka),['class'=>'form-control','placeholder'=>'ANGKA SASARAN'])}}
+                            </div>
+                            <div class="col-md-6">
+                                {{Form::textarea('Sasaran_Uraian',$rkpd->Sasaran_Uraian,['class'=>'form-control','placeholder'=>'URAIAN SASARAN','rows'=>3,'id'=>'Sasaran_Uraian'])}}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                {{Form::label('Target','TARGET (%)',['class'=>'control-label col-md-2'])}}
-                <div class="col-md-10">
-                    {{Form::text('Target',Helper::formatAngka($rkpd->Target),['class'=>'form-control','placeholder'=>'TARGET'])}}
+                <div class="form-group">
+                    {{Form::label('Target','TARGET (%)',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('Target',Helper::formatAngka($rkpd->Target),['class'=>'form-control','placeholder'=>'TARGET'])}}
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                {{Form::label('Jumlah','NILAI USULAN',['class'=>'control-label col-md-2'])}}
-                <div class="col-md-10">
-                    {{Form::text('Jumlah',$rkpd->Jumlah,['class'=>'form-control','placeholder'=>'NILAI USULAN'])}}
+                <div class="form-group">
+                    {{Form::label('Jumlah','NILAI USULAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('Jumlah',$rkpd->Jumlah,['class'=>'form-control','placeholder'=>'NILAI USULAN'])}}
+                    </div>
+                </div>            
+                <div class="form-group">
+                    {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('Descr',$rkpd->Descr,['class'=>'form-control','placeholder'=>'KETERANGAN / CATATAN PENTING'])}}
+                    </div>
                 </div>
-            </div>            
-            <div class="form-group">
-                {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
-                <div class="col-md-10">
-                    {{Form::text('Descr',$rkpd->Descr,['class'=>'form-control','placeholder'=>'KETERANGAN / CATATAN PENTING'])}}
+            </fieldset>     
+            <fieldset class="content-group">
+                <legend class="text-bold">LOKASI</legend>
+                <div class="form-group">
+                    {{Form::label('PMProvID','PROVINSI',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::select('PMProvID', $daftar_provinsi,config('eplanning.default_provinsi'),['class'=>'form-control','id'=>'PMProvID'])}}
+                    </div>
+                </div>       
+                <div class="form-group">
+                    {{Form::label('PmKotaID','KAB. / KOTA',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::select('PmKotaID', $daftar_kota_kab,config('eplanning.defaul_kota_atau_kab'),['class'=>'form-control','id'=>'PMProvID'])}}
+                    </div>
+                </div>  
+                <div class="form-group">
+                    <label class="col-md-2 control-label">KECAMATAN :</label> 
+                    <div class="col-md-10">
+                        <select name="PmKecamatanID" id="PmKecamatanID" class="select">
+                            <option></option>          
+                            @foreach ($daftar_kecamatan as $k=>$item)
+                                <option value="{{$k}}"{{$k==$rkpd->PmKecamatanID ? ' selected':''}}>{{$item}}</option>
+                            @endforeach              
+                        </select>                              
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="panel-body">
-            <div class="form-group">
-                {{Form::label('PMProvID','PROVINSI',['class'=>'control-label col-md-2'])}}
-                <div class="col-md-10">
-                    {{Form::select('PMProvID', $daftar_provinsi,config('eplanning.default_provinsi'),['class'=>'form-control','id'=>'PMProvID'])}}
+                <div class="form-group">
+                    <label class="col-md-2 control-label">DESA :</label> 
+                    <div class="col-md-10">
+                        <select name="PmDesaID" id="PmDesaID" class="select">
+                            <option></option>    
+                            @foreach ($daftar_desa as $k=>$item)
+                                <option value="{{$k}}"{{$k==$rkpd->PmDesaID ? ' selected':''}}>{{$item}}</option>
+                            @endforeach                                                          
+                        </select>                            
+                    </div>
+                </div>       
+            </fieldset>
+            <fieldset class="content-group">
+                <legend class="text-bold">GESER RINCIAN INI KE KEGIATAN (RKPD) LAIN (<em>abaikan bila tidak digeser)</em></legend>                   
+                <div class="form-group">
+                    {{Form::label('RKPDID','NAMA KEGIATAN (RKPD)',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::select('RKPDID', $daftar_rkpd, '',['class'=>'select','id'=>'RKPDID'])}} 
+                        <span class="help-block">Bila kegiatan muncul beberapa kali, disebabkan 1 Kegiatan memiliki banyak RKPDID</span>                   
+                    </div>
                 </div>
-            </div>       
-            <div class="form-group">
-                {{Form::label('PmKotaID','KAB. / KOTA',['class'=>'control-label col-md-2'])}}
-                <div class="col-md-10">
-                    {{Form::select('PmKotaID', $daftar_kota_kab,config('eplanning.defaul_kota_atau_kab'),['class'=>'form-control','id'=>'PMProvID'])}}
-                </div>
-            </div>  
-            <div class="form-group">
-                <label class="col-md-2 control-label">KECAMATAN :</label> 
-                <div class="col-md-10">
-                    <select name="PmKecamatanID" id="PmKecamatanID" class="select">
-                        <option></option>          
-                        @foreach ($daftar_kecamatan as $k=>$item)
-                            <option value="{{$k}}"{{$k==$rkpd->PmKecamatanID ? ' selected':''}}>{{$item}}</option>
-                        @endforeach              
-                    </select>                              
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-2 control-label">DESA :</label> 
-                <div class="col-md-10">
-                    <select name="PmDesaID" id="PmDesaID" class="select">
-                        <option></option>    
-                        @foreach ($daftar_desa as $k=>$item)
-                            <option value="{{$k}}"{{$k==$rkpd->PmDesaID ? ' selected':''}}>{{$item}}</option>
-                        @endforeach                                                          
-                    </select>                            
-                </div>
-            </div>       
+            </fieldset>
         </div>
         <div class="panel-footer">
             <div class="col-md-10 col-md-offset-2">                        
@@ -166,7 +212,11 @@ $(document).ready(function () {
                                             showWarnings:false,
                                             modifyValueOnWheel:false
                                         });
-    //styling select
+   
+    $('#RKPDID.select').select2({
+        placeholder: "PILIH NAMA KEGIATAN",
+        allowClear:true
+    });   
     $('#PMProvID.select').select2({
         placeholder: "PILIH PROVINSI",
         allowClear:true
@@ -182,7 +232,7 @@ $(document).ready(function () {
     $('#PmDesaID.select').select2({
         placeholder: "PILIH DESA",
         allowClear:true
-    });
+    });    
     $(document).on('change','#PmKecamatanID',function(ev) {
         ev.preventDefault();
         $.ajax({

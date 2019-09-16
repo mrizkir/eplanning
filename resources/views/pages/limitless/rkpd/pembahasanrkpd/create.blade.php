@@ -231,6 +231,7 @@ $(document).ready(function () {
             data: {
                 "_token": token,
                 "PrgID": PrgID,
+                'create': true
             },
             success:function(result)
             {   
