@@ -1736,14 +1736,14 @@ class PembahasanRKPDController extends Controller
                             FROM
                                 (
                                     SELECT 
-                                        "RKPDID",
+                                        "RKPDRincID",
                                         ROW_NUMBER() OVER() AS "No"
                                     FROM   
                                         "trRKPDRinc"
                                     WHERE
                                         "RKPDID"=\''.$rinciankegiatan->RKPDID.'\'
                                 ) AS B
-                            WHERE "trRKPDRinc"."RKPDID"=B."RKPDID" 
+                            WHERE "trRKPDRinc"."RKPDRincID"=B."RKPDRincID" 
                     ');    
                 break;                
             }               
