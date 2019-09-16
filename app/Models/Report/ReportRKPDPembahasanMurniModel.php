@@ -300,8 +300,7 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
                                                                 "Sasaran_Uraian2",
                                                                 "Target2",
                                                                 "NilaiUsulan2",
-                                                                "Nm_SumberDana",
-                                                                "NilaiUsulan2",
+                                                                "Nm_SumberDana",                                                                
                                                                 "Lokasi",
                                                                 "Descr"
                                                             ')
@@ -422,7 +421,6 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
                                                                     "Target2",
                                                                     "NilaiUsulan2",
                                                                     "Nm_SumberDana",
-                                                                    "NilaiUsulan2",
                                                                     "Lokasi",
                                                                     "Descr"
                                                                 ')
