@@ -596,8 +596,6 @@ class UsulanRenjaController extends Controller
                                 ->where('TA', \HelperKegiatan::getTahunPerencanaan())
                                 ->where('OrgID', $OrgID);
                     }) 
-                    ->orderBy('Kd_Keg')
-                    ->orderBy('kode_kegiatan')
                     ->get();
             $daftar_kegiatan=[];        
             foreach ($r as $k=>$v)
