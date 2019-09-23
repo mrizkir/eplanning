@@ -17,89 +17,7 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
         {
             $this->print();             
         }        
-    }
-    public function generateStructure($field,$id)
-    {
-        $urusan_program = \DB::select('   
-                                SELECT 
-                                    t."PrgID",v."Kd_Urusan",v."Kd_Urusan",v."Nm_Urusan",v."Kd_Bidang",v."Nm_Bidang",v."Kd_Prog",v."PrgNm"
-                                FROM 
-                                    v_urusan_program v,
-                                    (
-                                        SELECT 
-                                            B."PrgID"
-                                        FROM 
-                                            "trRKPD" A
-                                        JOIN "tmKgt" B ON A."KgtID"=B."KgtID" 
-                                        WHERE
-                                            A."'.$field.'"=\''.$id.'\'
-                                            AND A."EntryLvl"=2
-                                        GROUP BY B."PrgID"
-                                    ) t
-                                WHERE 
-                                v."PrgID"=t."PrgID"
-                        ');                            
-        $bp=$urusan_program;
-        $p=$urusan_program;
-        $data=[];
-        foreach ($urusan_program as $v)
-        {
-            if (is_null($v->Kd_Urusan)) // semua urusan
-            {
-                $program=[];
-                foreach ($p as $p_value)
-                {
-                    if ($p_value->Kd_Urusan == 0 && $p_value->Kd_Bidang == 0)
-                    {
-                        $str = "";
-                        $program[]=['Kd_Prog'=>$p_value->Kd_Prog,
-                                    'PrgID'=>$p_value->PrgID,
-                                    'PrgNm'=>$p_value->PrgNm
-                                    ];
-                    }
-                }
-                $data[0]=['Nm_Urusan'=>'SEMUA URUSAN',
-                            'program'=>$program  
-                        ];
-            }
-            else
-            {
-                $Kd_Urusan = $v->Kd_Urusan;
-                $bidang_pemerintahan=[];
-
-                foreach ($bp as $bp_value)
-                {
-                    if ($bp_value->Kd_Urusan==$Kd_Urusan)
-                    {
-                        $Kd_Bidang=$bp_value->Kd_Bidang;
-                        $program=[];
-
-                        foreach ($p as $p_value)
-                        {
-                            if ($p_value->Kd_Urusan == $Kd_Urusan && $p_value->Kd_Bidang == $Kd_Bidang)
-                            {
-                                $program[]=['Kd_Prog'=>$p_value->Kd_Prog,
-                                            'PrgID'=>$p_value->PrgID,
-                                            'PrgNm'=>$p_value->PrgNm
-                                            ];
-                            }
-                        }
-                        $bidang_pemerintahan[$Kd_Bidang]=[
-                                                            'Nm_Bidang'=>$bp_value->Nm_Bidang,
-                                                            'program'=>$program
-                                                        ];
-                    }
-                }
-                
-                $data[$Kd_Urusan]=[                                        
-                                    'Nm_Urusan'=>$v->Nm_Urusan,
-                                    'bidang_pemerintahan'=>$bidang_pemerintahan
-                                ];
-            }
-            
-        }        
-        return $data;
-    }
+    }    
     private function  print()  
     {       
         $OrgID = $this->dataReport['OrgID'];
@@ -113,8 +31,7 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
         {
             $field = 'SOrgID';
             $id = $SOrgID;
-        }
-            
+        }           
 
         $sheet = $this->spreadsheet->getActiveSheet();        
         $sheet->setTitle ('LAPORAN RKPD TA '.\HelperKegiatan::getTahunPerencanaan());   
@@ -210,7 +127,7 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
         $sheet->getStyle("A7:N9")->applyFromArray($styleArray);
         $sheet->getStyle("A7:N9")->getAlignment()->setWrapText(true);
         
-        $struktur = $this->generateStructure($field,$id);
+        $struktur = $this->generateStructure($field,$id,2);
         $row=10;
         $total_pagu=0;        
         $total_nilai_setelah=0;        

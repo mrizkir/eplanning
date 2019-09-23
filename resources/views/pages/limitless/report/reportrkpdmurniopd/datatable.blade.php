@@ -20,22 +20,16 @@
         </div>
     </div>
     @php
-        $n1 = \HelperKegiatan::getTahunPerencanaan()+1;
-        $daftar_program=\DB::table('v_organisasi_program')
-                            ->select(\DB::raw('"PrgID","Kd_Urusan","Kd_Bidang","OrgCd","kode_program","Kd_Prog","PrgNm","Jns"'))
-                            ->where('OrgID',$filters['OrgID'])
-                            ->where('TA',\HelperKegiatan::getTahunPerencanaan())
-                            ->orderByRaw('kode_program ASC NULLS FIRST')
-                            ->orderBy('Kd_Prog','ASC')
-                            ->get();
-
-        
+        $rkpdreport=new \App\Models\Report\ReportRKPDMurniModel ([],false);
+        $struktur=$rkpdreport->generateStructure('OrgID',$filters['OrgID'],1);                
+        $total_all_nilai_usulan=0;      
+        $total_all_nilai_setelah=0;  
     @endphp
-    @if (count($daftar_program) > 0)  
+    @if (count($struktur) > 0)  
     <div class="table-responsive"> 
-        <table id="data" class="table table-xxs table-bordered" style="font-size:11px;padding:0px">
+        <table id="data" class="reporttable">
             <thead>
-                <tr class="bg-teal-700">
+                <tr>
                     <th colspan="5" rowspan="2">                   
                         KODE            
                     </th>                
@@ -48,148 +42,268 @@
                     <th width="200" colspan="4">                    
                         RENCANA TAHUN {{HelperKegiatan::getTahunPerencanaan()}}
                     </th>                                
-                    <th width="200" rowspan="2">                    
+                    <th width="150" rowspan="2">                    
                         CATATAN PENTING
                     </th>                      
-                    </th> 
                     <th width="200" colspan="2">                    
-                        PERKIRAAN MAJU RENCANA TAHUN {{$n1}}
+                        PERKIRAAN MAJU RENCANA TAHUN {{HelperKegiatan::getTahunPerencanaan()+1}}
                     </th>  
                 </tr>
-                <tr class="bg-teal-700">
+                <tr>
                     <th>LOKASI</th>
-                    <th>TARGET CAPAIAN KINERJA</th>
+                    <th width="200">TARGET CAPAIAN KINERJA</th>
                     <th>KEBUTUHAN DANA/PAGU INDIKATIF</th>
                     <th>SUMBER DANA</th>
-                    <th>TARGET CAPAIAN KINERJA</th>
+                    <th width="200">TARGET CAPAIAN KINERJA</th>
                     <th>KEBUTUHAN DANA/PAGU INDIKATIF</th>
                 </tr>
             </thead>
             <tbody>                
-            @php
-                $total_pagu_m=0;
-                $total_nilai_setelah=0;
-            @endphp       
-            @foreach ($daftar_program as $key=>$v){{-- startlooping daftar program --}}
-            @php
-                $PrgID=$v->PrgID;                 
-                $daftar_kegiatan = \DB::table('v_rkpd')
-                                        ->select(\DB::raw('"RKPDID","Kd_Urusan","Kd_Bidang","OrgCd","Kd_Prog","Kd_Keg","kode_kegiatan","KgtNm","Sasaran_Angka1","Sasaran_Angka2","Sasaran_Uraian1","Sasaran_Uraian2","Target1","Target2","NilaiUsulan1","NilaiSetelah","Sasaran_AngkaSetelah","Sasaran_UraianSetelah","NilaiSetelah","Nm_SumberDana","Descr"'))
-                                        ->where('PrgID',$PrgID)      
-                                        ->where('OrgID',$filters['OrgID'])
-                                        ->where('TA',HelperKegiatan::getTahunPerencanaan())
-                                        ->orderBy('kode_kegiatan','ASC')       
-                                        ->get();
-            @endphp
-            @if (isset($daftar_kegiatan[0]))  
-            <tr class="bg-warning-300">
-                <td>{{$v->Kd_Urusan}}</td>
-                <td>{{$v->Kd_Bidang}}</td>
-                <td>{{$v->OrgCd}}</td>
-                <td>{{$v->Kd_Prog}}</td>
-                <td></td>
-                <td colspan="2">{{$v->PrgNm}}</td>
-                <td colspan="3"></td>
-                @php
-                    $totalpagueachprogramNilaiUsulan= $daftar_kegiatan->sum('NilaiUsulan1');      
-                    $totalpagueachprogramNilaiSetelah= $daftar_kegiatan->sum('NilaiSetelah');   
-                @endphp
-                <td>{{Helper::formatUang($totalpagueachprogramNilaiUsulan)}}</td>
-                <td colspan="3"></td>
-                <td class="text-right">{{Helper::formatUang($totalpagueachprogramNilaiSetelah)}}</td>                                
-            </tr>
-            @foreach ($daftar_kegiatan as $key=>$item){{-- startlooping daftar kegiatan --}}
-                <tr>                        
-                    <td>{{$item->Kd_Urusan}}</td>
-                    <td>{{$item->Kd_Bidang}}</td>
-                    <td>{{$item->OrgCd}}</td>
-                    <td>{{$item->Kd_Prog}}</td>
-                    <td>{{$item->Kd_Keg}}</td>
-                    <td rowspan="2" colspan="2">
-                        {{ucwords($item->KgtNm)}}                           
-                    </td> 
-                    <td rowspan="2">{{Helper::formatAngka($item->Sasaran_Angka1)}} {{$item->Sasaran_Uraian1}}</td>                      
-                    <td rowspan="2">
-                        KAB. BINTAN
-                    </td>                    
-                    <td rowspan="2">{{$item->Target2}}</td>
-                    <td class="text-right" rowspan="2">
-                        <span class="">{{Helper::formatuang($item->NilaiUsulan1)}}</span>                    
-                    </td>       
-                    <td rowspan="2">{{$item->Nm_SumberDana}}</td>
-                    <td rowspan="2">{{$item->Descr}}</td>    
-                    <td class="text-right" rowspan="2">
-                        {{Helper::formatAngka($item->Sasaran_AngkaSetelah)}} {{$item->Sasaran_UraianSetelah}}
-                    </td>                   
-                    <td class="text-right" rowspan="2">
-                        <span class="text-info">{{Helper::formatuang($item->NilaiSetelah)}}</span>
-                    </td>                                                            
-                </tr>           
-                <tr class="text-center">
-                    <td colspan="5" class="bg-info-300">
-                        RKPDID: {{$item->RKPDID}}
-                    </td>
-                </tr>                
-                @php
-                    $total_pagu_m+=$item->NilaiUsulan1;
-                    $total_nilai_setelah+=$item->NilaiSetelah;
-
-                    $rinciankegiatan = \DB::table('trRKPDRinc')
-                                        ->select(\DB::raw('"RKPDRincID","No","Uraian","Sasaran_Angka1","Sasaran_Angka2","Sasaran_Uraian1","Sasaran_Uraian2","Target1","Target2","NilaiUsulan1","Descr"'))                                        
-                                        ->where('RKPDID',$item->RKPDID)                                        
-                                        ->orderBy('No','ASC')       
-                                        ->get();
-                @endphp
-                @foreach ($rinciankegiatan as $rinc)
-                <tr class="bg-grey-600" >                        
-                    <td colspan="5" class="text-right">&nbsp;</td>                    
-                    <td rowspan="2">{{$rinc->No}}</td>
-                    <td rowspan="2">
-                        {{ucwords($rinc->Uraian)}}                           
-                    </td> 
-                    <td rowspan="2">{{Helper::formatAngka($rinc->Sasaran_Angka1)}} {{$rinc->Sasaran_Uraian1}}</td>                      
-                    <td rowspan="2">
-                        KAB. BINTAN
-                    </td>                    
-                    <td rowspan="2">{{$rinc->Target2}}</td>
-                    <td class="text-right" rowspan="2">
-                        <span class="">{{Helper::formatuang($rinc->NilaiUsulan1)}}</span>                    
-                    </td>       
-                    <td rowspan="2">{{$item->Nm_SumberDana}}</td>
-                    <td rowspan="2">{{$rinc->Descr}}</td>    
-                    <td class="text-right" rowspan="2">
-                        {{Helper::formatAngka($item->Sasaran_AngkaSetelah)}} {{$item->Sasaran_UraianSetelah}}
-                    </td>                   
-                    <td class="text-right" rowspan="2">
-                        <span class="text-info">{{Helper::formatuang($item->NilaiSetelah)}}</span>
-                    </td>                                                            
-                </tr>           
-                <tr class="text-center">
-                    <td colspan="5" class="bg-info-300">
-                        RKPDRINCID: {{$rinc->RKPDRincID}}
-                    </td>
-                </tr>   
-                @endforeach
-                {{-- end looping rincian kegiatan --}}
-            @endforeach      
-            {{-- end looping daftar kegiatan --}}
-            @endif
-            {{-- endif dari daftar kegiatan --}}
-            @endforeach      
-            {{-- end looping daftar program --}}
+                    @foreach ($struktur as $Kd_Urusan=>$v1){{-- startlooping struktur --}}
+                    <tr class="urusan">
+                        <td>{{$Kd_Urusan}}</td>
+                        <td colspan="4">&nbsp;</td>
+                        <td colspan="5">{{$v1['Nm_Urusan']}}</td>
+                    </tr>
+                    @if ($Kd_Urusan == 0)
+                        @php
+                            $program=$v1['program'];
+                        @endphp
+                        @foreach ($program as $v3){{-- startlooping program --}}
+                            @php
+                                $daftar_kegiatan = \DB::table('trRKPD')
+                                                        ->select(\DB::raw('"trRKPD"."KgtID","tmKgt"."Kd_Keg","tmKgt"."KgtNm"'))
+                                                        ->join('tmKgt','tmKgt.KgtID','trRKPD.KgtID')
+                                                        ->where('PrgID',$v3['PrgID'])
+                                                        ->where('EntryLvl',1)                                               
+                                                        ->where('OrgID',$filters['OrgID'])
+                                                        ->groupBy('trRKPD.KgtID')
+                                                        ->groupBy('tmKgt.Kd_Keg')
+                                                        ->groupBy('tmKgt.KgtNm')
+                                                        ->orderByRaw('"tmKgt"."Kd_Keg"::int ASC')
+                                                        ->get();                          
+                                                    
+                            @endphp
+                            @if (count($daftar_kegiatan)  > 0)
+                                @php
+                                    $Kd_Prog = $v3['Kd_Prog'];
+    
+                                    $total_program = \DB::table('v_rkpd_rinci')
+                                                    ->where('PrgID',$v3['PrgID'])
+                                                    ->where('EntryLvl',1)                                               
+                                                    ->where('OrgID',$filters['OrgID'])
+                                                    ->sum('NilaiUsulan2');
+                                @endphp
+                                <tr class="program">
+                                    <td>0</td>
+                                    <td>00</td>
+                                    <td>{{$Kd_Prog}}</td>                                
+                                    <td colspan="2">&nbsp;</td>
+                                    <td colspan="5">{{$v3['PrgNm']}}</td>
+                                    <td class="text-right">{{Helper::formatUang($total_program)}}</td>
+                                </tr>
+                                @foreach ($daftar_kegiatan as $v4){{-- startlooping daftar kegiatan --}}
+                                    @php
+                                        $rkpd = \DB::table('v_rkpd')
+                                                        ->where('KgtID',$v4->KgtID)
+                                                        ->where('EntryLvl',1)
+                                                        ->where('OrgID',$filters['OrgID'])
+                                                        ->first();   
+    
+    
+                                        $rincian_kegiatan = \DB::table('v_rkpd_rinci')
+                                                        ->select(\DB::raw('
+                                                                        "Uraian",
+                                                                        "Sasaran_Angka2",
+                                                                        "Sasaran_Uraian2",
+                                                                        "Target2",
+                                                                        "NilaiUsulan2",
+                                                                        "Nm_SumberDana",
+                                                                        "Lokasi",
+                                                                        "Descr"
+                                                                    ')
+                                                        )                                                
+                                                        ->where('EntryLvl',1)
+                                                        ->where('KgtID',$v4->KgtID)
+                                                        ->where('PrgID',$v3['PrgID'])
+                                                        ->where('OrgID',$filters['OrgID'])
+                                                        ->orderByRaw('"No"::int ASC')
+                                                        ->get();
+                                        $total_rincian = $rincian_kegiatan->sum('NilaiUsulan2');
+                                        $no=1;
+                                    @endphp
+                                    <tr>
+                                        <td>0</td>
+                                        <td>00</td>
+                                        <td>{{$Kd_Prog}}</td>            
+                                        <td>{{$v4->Kd_Keg}}</td>     
+                                        <td>&nbsp;</td>       
+                                        <td colspan="2">{{$v4->KgtNm}}</td>            
+                                        <td>{{$rkpd->NamaIndikator}}</td>
+                                        <td>Kab. Bintan</td>
+                                        <td>{{trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_Angka2) . ' '.$rkpd->Sasaran_Uraian2))}}</td>
+                                        <td class="text-right">{{Helper::formatUang($rkpd->NilaiUsulan2)}}</td>
+                                        <td>{{$rkpd->Nm_SumberDana}}</td>
+                                        <td>{{$rkpd->Descr}}</td>
+                                        <td>{{trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_AngkaSetelah).' '.$rkpd->Sasaran_UraianSetelah))}}</td>
+                                        <td class="text-right">{{Helper::formatUang($rkpd->NilaiSetelah)}}</td>
+                                    </tr>                                
+                                    @foreach ($rincian_kegiatan as $v5){{-- startlooping rincian kegiatan --}}
+                                        <tr class="rincian">
+                                            <td>0</td>
+                                            <td>00</td>
+                                            <td>{{$Kd_Prog}}</td>            
+                                            <td>{{$v4->Kd_Keg}}</td>     
+                                            <td>{{$no}}</td>     
+                                            <td colspan="2">{{$v5->Uraian}}</td>            
+                                            <td>{{$rkpd->NamaIndikator}}</td>
+                                            <td>Kab. Bintan</td>
+                                            <td>{{trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($v5->Sasaran_Angka2) . ' '.$v5->Sasaran_Uraian2))}}</td>
+                                            <td class="text-right">{{Helper::formatUang($total_rincian)}}</td>
+                                            <td>{{$v5->Nm_SumberDana}}</td>
+                                            <td>{{$v5->Descr}}</td>
+                                            <td>{{trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_AngkaSetelah).' '.$rkpd->Sasaran_UraianSetelah))}}</td>
+                                            <td class="text-right">{{Helper::formatUang($rkpd->NilaiSetelah)}}</td>
+                                        </tr>
+                                        @php                                       
+                                            $no+=1;
+                                        @endphp
+                                    @endforeach{{-- end looping rincian kegiatan --}}      
+                                @endforeach{{-- end looping daftar kegiatan --}}      
+                            @endif        
+                        @endforeach{{-- end looping daftar program --}}                        
+                    @else
+                        @php
+                            $bidang_pemerintahan=$v1['bidang_pemerintahan'];                    
+                        @endphp
+                        @foreach ($bidang_pemerintahan as $Kd_Bidang=>$v2){{-- startlooping bidang pemerintah --}}
+                            <tr class="urusan">
+                                <td>{{$Kd_Urusan}}</td>
+                                <td>{{$Kd_Bidang}}</td>
+                                <td colspan="3">&nbsp;</td>
+                                <td colspan="5">{{$v2['Nm_Bidang']}}</td>
+                            </tr>
+                            @php
+                                $program=$v2['program'];
+                            @endphp
+                            @foreach ($program as $v3){{-- startlooping program --}}
+                                @php
+                                    $daftar_kegiatan = \DB::table('trRKPD')
+                                                            ->select(\DB::raw('"trRKPD"."KgtID","tmKgt"."Kd_Keg","tmKgt"."KgtNm"'))
+                                                            ->join('tmKgt','tmKgt.KgtID','trRKPD.KgtID')
+                                                            ->where('PrgID',$v3['PrgID'])
+                                                            ->where('EntryLvl',1)                                               
+                                                            ->where('OrgID',$filters['OrgID'])
+                                                            ->groupBy('trRKPD.KgtID')
+                                                            ->groupBy('tmKgt.Kd_Keg')
+                                                            ->groupBy('tmKgt.KgtNm')
+                                                            ->orderByRaw('"tmKgt"."Kd_Keg"::int ASC')
+                                                            ->get();
+                                @endphp
+                                @if (count($daftar_kegiatan)  > 0)
+                                    @php
+                                        $Kd_Prog = $v3['Kd_Prog'];
+    
+                                        $total_program = \DB::table('v_rkpd_rinci')
+                                                    ->where('PrgID',$v3['PrgID'])
+                                                    ->where('EntryLvl',1)                                               
+                                                    ->where('OrgID',$filters['OrgID'])
+                                                    ->sum('NilaiUsulan2');
+                                    @endphp
+                                    <tr class="program">
+                                        <td>{{$Kd_Urusan}}</td>
+                                        <td>{{$Kd_Bidang}}</td>
+                                        <td>{{$Kd_Prog}}</td>                                
+                                        <td colspan="2">&nbsp;</td>
+                                        <td colspan="5">{{$v3['PrgNm']}}</td>
+                                        <td class="text-right">{{Helper::formatUang($total_program)}}</td>
+                                    </tr>
+                                    @foreach ($daftar_kegiatan as $v4){{-- startlooping daftar kegiatan --}}
+                                        @php
+                                            $rkpd = \DB::table('v_rkpd')
+                                                            ->where('KgtID',$v4->KgtID)
+                                                            ->where('EntryLvl',1)
+                                                            ->where('OrgID',$filters['OrgID'])
+                                                            ->first();   
+    
+                                            $rincian_kegiatan = \DB::table('v_rkpd_rinci')
+                                                            ->select(\DB::raw('
+                                                                            "Uraian",
+                                                                            "Sasaran_Angka2",
+                                                                            "Sasaran_Uraian2",
+                                                                            "Target2",
+                                                                            "NilaiUsulan2",
+                                                                            "Nm_SumberDana",
+                                                                            "Lokasi",
+                                                                            "Descr"
+                                                                        ')
+                                                            )                                                
+                                                            ->where('EntryLvl',1)
+                                                            ->where('KgtID',$v4->KgtID)
+                                                            ->where('PrgID',$v3['PrgID'])
+                                                            ->where('OrgID',$filters['OrgID'])
+                                                            ->orderByRaw('"No"::int ASC')
+                                                            ->get();
+                                            $total_rincian = $rincian_kegiatan->sum('NilaiUsulan2');
+                                            $total_all_nilai_setelah+=$rkpd->NilaiSetelah;
+                                            $no=1;                        
+                                        @endphp
+                                        <tr>
+                                            <td>{{$Kd_Urusan}}</td>
+                                            <td>{{$Kd_Bidang}}</td>
+                                            <td>{{$Kd_Prog}}</td>            
+                                            <td>{{$v4->Kd_Keg}}</td>     
+                                            <td>&nbsp;</td>       
+                                            <td colspan="2">{{$v4->KgtNm}}</td>            
+                                            <td>{{$rkpd->NamaIndikator}}</td>
+                                            <td>Kab. Bintan</td>
+                                            <td>{{trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_Angka2) . ' '.$rkpd->Sasaran_Uraian2))}}</td>
+                                            <td class="text-right">{{Helper::formatUang($total_rincian)}}</td>
+                                            <td>{{$rkpd->Nm_SumberDana}}</td>
+                                            <td>{{$rkpd->Descr}}</td>
+                                            <td>{{trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_AngkaSetelah).' '.$rkpd->Sasaran_UraianSetelah))}}</td>
+                                            <td class="text-right">{{Helper::formatUang($rkpd->NilaiSetelah)}}</td>
+                                        </tr>
+                                        @foreach ($rincian_kegiatan as $v5){{-- startlooping rincian kegiatan --}}
+                                            <tr class="rincian">
+                                                <td>{{$Kd_Urusan}}</td>
+                                                <td>{{$Kd_Bidang}}</td>
+                                                <td>{{$Kd_Prog}}</td>            
+                                                <td>{{$v4->Kd_Keg}}</td>     
+                                                <td>{{$no}}</td>     
+                                                <td colspan="2">{{$v5->Uraian}}</td>            
+                                                <td>{{$rkpd->NamaIndikator}}</td>
+                                                <td>Kab. Bintan</td>
+                                                <td>{{trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($v5->Sasaran_Angka2) . ' '.$v5->Sasaran_Uraian2))}}</td>
+                                                <td class="text-right">{{Helper::formatUang($v5->NilaiUsulan2)}}</td>
+                                                <td>{{$v5->Nm_SumberDana}}</td>
+                                                <td>{{$v5->Descr}}</td>
+                                                <td>{{trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_AngkaSetelah).' '.$rkpd->Sasaran_UraianSetelah))}}</td>
+                                                <td class="text-right">{{Helper::formatUang($rkpd->NilaiSetelah)}}</td>
+                                            </tr>
+                                            @php
+                                                $total_all_nilai_usulan+=$v5->NilaiUsulan2;                                            
+                                                $no+=1;
+                                            @endphp
+                                        @endforeach{{-- end looping rincian kegiatan --}}      
+                                    @endforeach{{-- end looping daftar kegiatan --}}      
+                                @endif 
+                            @endforeach{{-- end looping program --}}                        
+                        @endforeach{{-- end looping bidang pemerintah --}}                        
+                    @endif
+                @endforeach{{-- end looping struktur  --}}                                  
             </tbody>
             <tfoot>
-                <tr class="bg-grey-300" style="font-weight:bold">
+                <tr>
                     <td colspan="10" class="text-right">
-                        TOTAL                        
+                        TOTAL
                     </td>
-                    <td class="text-right">{{Helper::formatUang($total_pagu_m)}}</td>                     
-                    <td colspan="3"></td>
-                    <td class="text-right">{{Helper::formatUang($total_nilai_setelah)}}</td>
-                    
+                    <td class="text-right">{{Helper::formatUang($total_all_nilai_usulan)}}</td>
+                    <td colspan="3">&nbsp;</td>
+                    <td class="text-right">{{Helper::formatUang($total_all_nilai_setelah)}}</td>
                 </tr>
             </tfoot>
-        </table>               
+        </table>
     </div>
     @else  
     <div class="panel-body">					     

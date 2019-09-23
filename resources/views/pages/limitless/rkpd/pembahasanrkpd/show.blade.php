@@ -66,7 +66,7 @@
                                 </div>                            
                             </div> 
                             <div class="form-group">                            
-                                <label class="col-md-4 control-label"><strong>KELOMPOK URUSAN : </strong></label>
+                                <label class="col-md-4 control-label"><strong>KELOMPOK URUSAN: </strong></label>
                                 <div class="col-md-8">
                                     <p class="form-control-static">
                                         @if ($rkpd->Kd_Urusan==null)
