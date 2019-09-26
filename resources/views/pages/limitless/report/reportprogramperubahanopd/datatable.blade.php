@@ -20,18 +20,12 @@
         </div>
     </div>
     @php
-        $n1 = \HelperKegiatan::getTahunPerencanaan()+1;
-        $daftar_program=\DB::table('v_organisasi_program')
-                            ->select(\DB::raw('"PrgID","Kd_Urusan","Kd_Bidang","OrgCd","kode_program","Kd_Prog","PrgNm","Jns"'))
-                            ->where('OrgID',$filters['OrgID'])
-                            ->where('TA',\HelperKegiatan::getTahunPerencanaan())
-                            ->orderByRaw('kode_program ASC NULLS FIRST')
-                            ->orderBy('Kd_Prog','ASC')
-                            ->get();
-
-        
+        $rkpdreport=new \App\Models\Report\ReportProgramRKPDPerubahanModel ([],false);
+        $struktur=$rkpdreport->generateStructure('OrgID',$filters['OrgID'],4);                
+        $total_all_nilai_usulan=0;      
+        $total_all_nilai_setelah=0;  
     @endphp
-    @if (count($daftar_program) > 0)  
+    @if (count($struktur) > 0)  
     <div class="table-responsive"> 
         <table id="data" class="table table-xxs table-bordered" style="font-size:11px;padding:0px">
             <thead>
@@ -66,7 +60,7 @@
                 $total_jumlah_kegiatan=0;
                 $total_jumlah_kegiatan_p=0;
             @endphp       
-            @foreach ($daftar_program as $key=>$v){{-- startlooping daftar program --}}
+            @foreach ($struktur as $key=>$v){{-- startlooping daftar program --}}
             @php
                 $PrgID=$v->PrgID;                 
                 $daftar_kegiatan = \DB::table('v_rkpd')

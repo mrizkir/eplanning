@@ -404,27 +404,27 @@
                             <div class="col-md-3">
                                 <span class="menu-heading underlined bg-blue-300" style="padding:10px"><i class="icon-file-empty"></i> RENCANA KERJA OPD / SKPD</span>
                                 <ul class="menu-list">
-                                    <li{!!Helper::isMenuActive ($page_active,'reportrkpdmurniopd',' class="active"')!!}>
+                                    <li{!!Helper::isMenuActive ($page_active,'reportprarenja',' class="active"')!!}>
                                         <a href="#">
                                             <i class="icon-file-empty"></i> PRA RENJA</span>
                                         </a>
                                     </li> 
-                                    <li{!!Helper::isMenuActive ($page_active,'reportrkpdmurniopd',' class="active"')!!}>
+                                    <li{!!Helper::isMenuActive ($page_active,'reportrakorbidang',' class="active"')!!}>
                                         <a href="#">
                                             <i class="icon-file-empty"></i> RAKOR BIDANG</span>
                                         </a>
                                     </li>
-                                    <li{!!Helper::isMenuActive ($page_active,'reportrkpdmurniopd',' class="active"')!!}>
+                                    <li{!!Helper::isMenuActive ($page_active,'reportforumopd',' class="active"')!!}>
                                         <a href="#">
                                             <i class="icon-file-empty"></i> FORUM OPD</span>
                                         </a>
                                     </li>
-                                    <li{!!Helper::isMenuActive ($page_active,'reportrkpdmurniopd',' class="active"')!!}>
+                                    <li{!!Helper::isMenuActive ($page_active,'reportmusrenkab',' class="active"')!!}>
                                         <a href="#">
                                             <i class="icon-file-empty"></i> MUSRENBANG KABUPATEN</span>
                                         </a>
                                     </li>
-                                    <li{!!Helper::isMenuActive ($page_active,'reportrkpdmurniopd',' class="active"')!!}>
+                                    <li{!!Helper::isMenuActive ($page_active,'reportverifikasitapd',' class="active"')!!}>
                                         <a href="#">
                                             <i class="icon-file-empty"></i> VERIFIKASI TAPD</span>
                                         </a>
@@ -443,11 +443,6 @@
                                     <li{!!Helper::isMenuActive ($page_active,'reportpembahasanrkpdmurniopd',' class="active"')!!}>
                                         <a href="{{route('reportpembahasanrkpdmurniopd.index')}}">
                                             <i class="icon-file-empty"></i> PEMBAHASAN RKPD PER OPD</span>
-                                        </a>
-                                    </li> 
-                                    <li{!!Helper::isMenuActive ($page_active,'reportrkpdmurniopdrinci',' class="active"')!!}>
-                                        <a href="{{route('reportrkpdmurniopdrinci.index')}}">
-                                            <i class="icon-file-empty"></i> RKPD PER OPD RINCI</span>
                                         </a>
                                     </li> 
                                     <li{!!Helper::isMenuActive ($page_active,'reportprogrammurniopd',' class="active"')!!}>

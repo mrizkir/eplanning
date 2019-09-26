@@ -8,11 +8,16 @@ use App\Models\RKPD\RKPDViewJudulModel;
 
 class ReportProgramRKPDPerubahanModel extends ReportModel
 {   
-    public function __construct($dataReport)
+    public function __construct($dataReport,$print=true)
     {
         parent::__construct($dataReport); 
-        $this->print();             
-    }
+        $this->spreadsheet->getProperties()->setTitle("Laporan RKPD Tahun ".\HelperKegiatan::getTahunPerencanaan());
+        $this->spreadsheet->getProperties()->setSubject("Laporan RKPD Tahun ".\HelperKegiatan::getTahunPerencanaan()); 
+        if ($print)
+        {
+            $this->print();             
+        }        
+    }    
     
     private function  print()  
     {

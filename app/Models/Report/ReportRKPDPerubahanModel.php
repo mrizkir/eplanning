@@ -14,8 +14,8 @@ class ReportRKPDPerubahanModel extends ReportModel
             case 'rkpdperubahan' :
                 $this->printRKPDPerubahan();
             break;
-            case 'pembahasanrkpd' :
-            $this->printPembahasanRKPDP();
+            case 'pembahasanrkpdp' :
+                $this->printPembahasanRKPDP();
             break;
         }
     }

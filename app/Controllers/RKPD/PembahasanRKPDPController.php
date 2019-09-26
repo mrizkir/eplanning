@@ -113,6 +113,7 @@ class PembahasanRKPDPController extends Controller
                                 ->where(['RKPDID'=>$search['isikriteria']])                                                    
                                 ->where('SOrgID',$SOrgID)
                                 ->where('TA', \HelperKegiatan::getTahunPerencanaan())
+                                ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))                                       
                                 ->orderBy($column_order,$direction); 
                 break;
                 case 'kode_kegiatan' :
@@ -121,6 +122,7 @@ class PembahasanRKPDPController extends Controller
                                 ->where(['kode_kegiatan'=>$search['isikriteria']])                                                    
                                 ->where('SOrgID',$SOrgID)
                                 ->where('TA', \HelperKegiatan::getTahunPerencanaan())
+                                ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))                                       
                                 ->orderBy($column_order,$direction); 
                 break;
                 case 'KgtNm' :
@@ -129,6 +131,7 @@ class PembahasanRKPDPController extends Controller
                                 ->where('KgtNm', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                 ->where('SOrgID',$SOrgID)
                                 ->where('TA', \HelperKegiatan::getTahunPerencanaan())
+                                ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))                                       
                                 ->orderBy($column_order,$direction);                                        
                 break;
                 case 'Uraian' :
@@ -136,6 +139,7 @@ class PembahasanRKPDPController extends Controller
                                                 ->where('Uraian', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                                 ->where('SOrgID',$SOrgID)
                                                 ->where('TA', \HelperKegiatan::getTahunPerencanaan())
+                                                ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))                                       
                                                 ->orderBy($column_order,$direction);                                        
                 break;
             }           
@@ -145,6 +149,7 @@ class PembahasanRKPDPController extends Controller
         {
             $data = RKPDViewRincianModel::select(\HelperKegiatan::getField($this->NameOfPage))
                                         ->where('SOrgID',$SOrgID)                                            
+                                        ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))                                       
                                         ->where('TA', \HelperKegiatan::getTahunPerencanaan())                                            
                                         ->orderBy($column_order,$direction)                                            
                                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
@@ -640,9 +645,11 @@ class PembahasanRKPDPController extends Controller
             $OrgID=$filters['OrgID'];
             $SOrgID=$filters['SOrgID'];
 
-            $rkpd=RKPDModel::select(\DB::raw('"RKPDID","KgtID"'))
-                                ->where('OrgID',$OrgID)
-                                ->where('SOrgID',$SOrgID)
+            $rkpd=RKPDModel::select(\DB::raw('"trRKPD"."RKPDID","trRKPD"."KgtID","tmOrg"."OrgIDRPJMD"',"tmKgt"."PrgID"))
+                                ->join('tmOrg','tmOrg.OrgID','trRKPD.OrgID')
+                                ->join('tmKgt','tmKgt.KgtID','trRKPD.KgtID')
+                                ->where('trRKPD.OrgID',$OrgID)
+                                ->where('trRKPD.SOrgID',$SOrgID)
                                 ->findOrFail($rkpdid);
             
             
@@ -650,15 +657,11 @@ class PembahasanRKPDPController extends Controller
                                                                 ->join('trUrsPrg','trUrsPrg.PrgID','tmKgt.PrgID')
                                                                 ->find($rkpd->KgtID);                                            
             
-            $UrsID=$kegiatan->UrsID;    
-            $PrgID=$kegiatan->PrgID;          
+            $PrgID=$rkpd->PrgID;          
             $daftar_indikatorkinerja = \DB::table('trIndikatorKinerja')
-                                        ->where('UrsID',$UrsID)
                                         ->where('PrgID',$PrgID)
-                                        ->orWhere('OrgID',$OrgID)
-                                        ->orWhere('OrgID2',$OrgID)
-                                        ->orWhere('OrgID3',$OrgID)
-                                        ->where('TA_N',config('eplanning.rpjmd_tahun_mulai'))
+                                        ->Where('OrgIDRPJMD',$rkpd->OrgIDRPJMD)                                        
+                                        ->where('TA',\HelperKegiatan::getRPJMDTahunMulai())
                                         ->WhereNotIn('IndikatorKinerjaID',function($query) use ($rkpdid){
                                             $query->select('IndikatorKinerjaID')
                                                     ->from('trRKPDIndikator')
@@ -1867,7 +1870,9 @@ class PembahasanRKPDPController extends Controller
         if ($SOrgID != 'none'&&$SOrgID != ''&&$SOrgID != null) 
         {   
             $unitkerja = \DB::table('v_suborganisasi')
-                            ->where('SOrgID',$SOrgID)->first();              
+                            ->where('SOrgID',$SOrgID)->first();
+
+            $data_report['OrgIDRPJMD']=$unitkerja->OrgIDRPJMD;
             $data_report['OrgID']=$unitkerja->OrgID;
             $data_report['SOrgID']=$SOrgID;
             $data_report['Kd_Urusan']=$unitkerja->Kd_Urusan;
@@ -1881,7 +1886,7 @@ class PembahasanRKPDPController extends Controller
             $data_report['SOrgNm']=$unitkerja->SOrgNm;
             $data_report['NamaKepalaSKPD']=$unitkerja->NamaKepalaSKPD;
             $data_report['NIPKepalaSKPD']=$unitkerja->NIPKepalaSKPD;
-            $data_report['mode']='pembahasanrkpd';
+            $data_report['mode']='pembahasanrkpdp';
             
             $report= new \App\Models\Report\ReportRKPDPerubahanModel ($data_report);
             return $report->download("rkpdp_$generate_date.xlsx");
@@ -1891,6 +1896,7 @@ class PembahasanRKPDPController extends Controller
             $opd = \DB::table('v_urusan_organisasi')
                         ->where('OrgID',$OrgID)->first();  
             
+            $data_report['OrgIDRPJMD']=$opd->OrgIDRPJMD;
             $data_report['OrgID']=$opd->OrgID;
             $data_report['SOrgID']=$SOrgID;
             $data_report['Kd_Urusan']=$opd->Kd_Urusan;
@@ -1901,7 +1907,7 @@ class PembahasanRKPDPController extends Controller
             $data_report['OrgNm']=$opd->OrgNm;
             $data_report['NamaKepalaSKPD']=$opd->NamaKepalaSKPD;
             $data_report['NIPKepalaSKPD']=$opd->NIPKepalaSKPD;
-            $data_report['mode']='pembahasanrkpd';
+            $data_report['mode']='pembahasanrkpdp';
             
             $report= new \App\Models\Report\ReportRKPDPerubahanModel($data_report);
             return $report->download("rkpdp_$generate_date.xlsx");
