@@ -641,25 +641,23 @@ class RKPDPerubahanController extends Controller
             $OrgID=$filters['OrgID'];
             $SOrgID=$filters['SOrgID'];
 
-            $rkpd=RKPDModel::select(\DB::raw('"RKPDID","KgtID"'))
-                                ->where('OrgID',$OrgID)
-                                ->where('SOrgID',$SOrgID)
+            $rkpd=RKPDModel::select(\DB::raw('"trRKPD"."RKPDID","trRKPD"."KgtID","tmOrg"."OrgIDRPJMD"',"tmKgt"."PrgID"))
+                                ->join('tmOrg','tmOrg.OrgID','trRKPD.OrgID')
+                                ->join('tmKgt','tmKgt.KgtID','trRKPD.KgtID')
+                                ->where('trRKPD.OrgID',$OrgID)
+                                ->where('trRKPD.SOrgID',$SOrgID)
                                 ->findOrFail($rkpdid);
             
             
             $kegiatan=\App\Models\DMaster\ProgramKegiatanModel::select(\DB::raw('"trUrsPrg"."UrsID","trUrsPrg"."PrgID"'))
                                                                 ->join('trUrsPrg','trUrsPrg.PrgID','tmKgt.PrgID')
-                                                                ->find($rkpd->KgtID);                                            
-            
-            $UrsID=$kegiatan->UrsID;    
-            $PrgID=$kegiatan->PrgID;          
+                                                                ->find($rkpd->KgtID);
+
+            $PrgID=$rkpd->PrgID;          
             $daftar_indikatorkinerja = \DB::table('trIndikatorKinerja')
-                                        ->where('UrsID',$UrsID)
                                         ->where('PrgID',$PrgID)
-                                        ->orWhere('OrgID',$OrgID)
-                                        ->orWhere('OrgID2',$OrgID)
-                                        ->orWhere('OrgID3',$OrgID)
-                                        ->where('TA_N',config('eplanning.rpjmd_tahun_mulai'))
+                                        ->Where('OrgIDRPJMD',$rkpd->OrgIDRPJMD)                                        
+                                        ->where('TA',\HelperKegiatan::getRPJMDTahunMulai())
                                         ->WhereNotIn('IndikatorKinerjaID',function($query) use ($rkpdid){
                                             $query->select('IndikatorKinerjaID')
                                                     ->from('trRKPDIndikator')
@@ -817,8 +815,8 @@ class RKPDPerubahanController extends Controller
                     'Tgl_Posting' => $tanggal_posting,            
                     'Descr' => $request->input('Descr'),
                     'TA' => \HelperKegiatan::getTahunPerencanaan(),
-                    'Status'=>3,
-                    'EntryLvl'=>5,
+                    'Status'=>1,
+                    'EntryLvl'=>3,
                 ];
             break;
             
@@ -1721,8 +1719,6 @@ class RKPDPerubahanController extends Controller
                     $rinciankegiatan->save();
         
                     $rkpd = $rinciankegiatan->rkpd;   
-                    $rkpd->Status=$rinciankegiatan->Status;         
-                    $rkpd->EntryLvl=$rinciankegiatan->EntryLvl;
                     $rkpd->NilaiUsulan3=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('NilaiUsulan3');            
                     $rkpd->save();
                 break;                

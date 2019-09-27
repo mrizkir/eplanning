@@ -437,28 +437,33 @@
                                     <li class="dropdown-header">MURNI</li>
                                     <li{!!Helper::isMenuActive ($page_active,'reportrkpdmurniopd',' class="active"')!!}>
                                         <a href="{{route('reportrkpdmurniopd.index')}}">
-                                            <i class="icon-file-empty"></i> RKPD PER OPD</span>
+                                            <i class="icon-file-empty"></i> RKPD OPD</span>
                                         </a>
                                     </li> 
                                     <li{!!Helper::isMenuActive ($page_active,'reportpembahasanrkpdmurniopd',' class="active"')!!}>
                                         <a href="{{route('reportpembahasanrkpdmurniopd.index')}}">
-                                            <i class="icon-file-empty"></i> PEMBAHASAN RKPD PER OPD</span>
+                                            <i class="icon-file-empty"></i> PEMBAHASAN RKPD OPD</span>
                                         </a>
                                     </li> 
                                     <li{!!Helper::isMenuActive ($page_active,'reportprogrammurniopd',' class="active"')!!}>
                                         <a href="{{route('reportprogrammurniopd.index')}}">
-                                            <i class="icon-file-empty"></i> PROGRAM RKPD PER OPD</span>
+                                            <i class="icon-file-empty"></i> PROGRAM RKPD OPD</span>
                                         </a>
                                     </li>  
                                     <li class="dropdown-header">PERUBAHAN</li>
                                     <li{!!Helper::isMenuActive ($page_active,'reportrkpdperubahanopd',' class="active"')!!}>
                                         <a href="{{route('reportrkpdperubahanopd.index')}}">
-                                            <i class="icon-file-empty"></i> RKPD PERUBAHAN PER OPD</span>
+                                            <i class="icon-file-empty"></i> RKPD PERUBAHAN OPD</span>
+                                        </a>
+                                    </li> 
+                                    <li{!!Helper::isMenuActive ($page_active,'reportpembahasanrkpdperubahanopd',' class="active"')!!}>
+                                        <a href="{{route('reportrkpdperubahanopd.index')}}">
+                                            <i class="icon-file-empty"></i> PEMBAHASAN RKPD PERUBAHAN OPD</span>
                                         </a>
                                     </li> 
                                     <li{!!Helper::isMenuActive ($page_active,'reportprogramperubahanopd',' class="active"')!!}>
                                         <a href="{{route('reportprogramperubahanopd.index')}}">
-                                            <i class="icon-file-empty"></i> PROGRAM RKPD PER. PER OPD</span>
+                                            <i class="icon-file-empty"></i> PROGRAM RKPD PER. OPD</span>
                                         </a>
                                     </li>
                                 </ul>   
