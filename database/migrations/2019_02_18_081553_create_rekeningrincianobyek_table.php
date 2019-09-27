@@ -18,7 +18,6 @@ class CreateRekeningrincianobyekTable extends Migration
             $table->string('ObyID',19);            
             $table->string('Kd_Rek_5',4);
             $table->string('RObyNm');
-            $table->string('DH');
             $table->string('Descr')->nullable();
             $table->year('TA');
             $table->string('RObyID_Src',19)->nullable();

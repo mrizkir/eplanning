@@ -18,7 +18,6 @@ class CreateRekeningjenisTable extends Migration
             $table->string('KlpID',19);
             $table->string('Kd_Rek_3',4);
             $table->string('JnsNm');
-            $table->string('DH');
             $table->string('Descr')->nullable();
             $table->year('TA');
             $table->string('JnsID_Src',19)->nullable();

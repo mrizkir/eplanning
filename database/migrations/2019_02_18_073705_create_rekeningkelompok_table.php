@@ -18,7 +18,6 @@ class CreateRekeningkelompokTable extends Migration
             $table->string('StrID',19);
             $table->string('Kd_Rek_2',4);
             $table->string('KlpNm');
-            $table->string('DH');
             $table->string('Descr')->nullable();
             $table->year('TA');
             $table->string('KlpID_Src',19)->nullable();

@@ -17,7 +17,6 @@ class CreateRekeningstrukturTable extends Migration
             $table->string('StrID',19);
             $table->string('Kd_Rek_1',4);
             $table->string('StrNm');
-            $table->string('DH');
             $table->string('Descr')->nullable();
             $table->year('TA');
             $table->string('StrID_Src',19)->nullable();

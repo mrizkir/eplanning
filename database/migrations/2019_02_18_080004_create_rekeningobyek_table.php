@@ -18,7 +18,6 @@ class CreateRekeningobyekTable extends Migration
             $table->string('JnsID',19);            
             $table->string('Kd_Rek_4',4);
             $table->string('ObyNm');
-            $table->string('DH');
             $table->string('Descr')->nullable();
             $table->year('TA');
             $table->string('ObyID_Src',19)->nullable();
