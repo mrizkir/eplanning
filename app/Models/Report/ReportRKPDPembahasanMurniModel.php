@@ -10,11 +10,11 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
 {   
     public function __construct($dataReport,$print=true)
     {
-        parent::__construct($dataReport); 
-        $this->spreadsheet->getProperties()->setTitle("Laporan RKPD Tahun ".\HelperKegiatan::getTahunPerencanaan());
-        $this->spreadsheet->getProperties()->setSubject("Laporan RKPD Tahun ".\HelperKegiatan::getTahunPerencanaan()); 
+        parent::__construct($dataReport);        
         if ($print)
         {
+            $this->spreadsheet->getProperties()->setTitle("Laporan RKPD Tahun ".\HelperKegiatan::getTahunPerencanaan());
+            $this->spreadsheet->getProperties()->setSubject("Laporan RKPD Tahun ".\HelperKegiatan::getTahunPerencanaan()); 
             $this->print();             
         }        
     }    
