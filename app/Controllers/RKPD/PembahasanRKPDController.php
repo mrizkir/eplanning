@@ -527,15 +527,6 @@ class PembahasanRKPDController extends Controller
     public function pilihusulankegiatan(Request $request)
     {
         $json_data=[];
-        if ($request->exists('UrsID'))
-        {
-            $UrsID = $request->input('UrsID')==''?'none':$request->input('UrsID');
-            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getRPJMDTahunMulai(),false,$UrsID);
-            $json_data['success']=true;
-            $json_data['UrsID']=$UrsID;
-            $json_data['daftar_program']=$daftar_program;
-        }
-
         if ($request->exists('PrgID') && $request->exists('create'))
         {
             $PrgID = $request->input('PrgID')==''?'none':$request->input('PrgID');

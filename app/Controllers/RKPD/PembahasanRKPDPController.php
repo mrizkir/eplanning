@@ -534,15 +534,6 @@ class PembahasanRKPDPController extends Controller
     public function pilihusulankegiatan(Request $request)
     {
         $json_data=[];
-        if ($request->exists('UrsID'))
-        {
-            $UrsID = $request->input('UrsID')==''?'none':$request->input('UrsID');
-            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getRPJMDTahunMulai(),false,$UrsID);
-            $json_data['success']=true;
-            $json_data['UrsID']=$UrsID;
-            $json_data['daftar_program']=$daftar_program;
-        }
-
         if ($request->exists('PrgID'))
         {
             $PrgID = $request->input('PrgID')==''?'none':$request->input('PrgID');
@@ -606,19 +597,17 @@ class PembahasanRKPDPController extends Controller
             $SOrgID=$filters['SOrgID'];            
             $OrgID=$filters['OrgID'];
 
-            $organisasi=\App\Models\DMaster\OrganisasiModel::find($OrgID);            
-            $UrsID=$organisasi->UrsID;
-
-            $daftar_urusan=\App\Models\DMaster\UrusanModel::getDaftarUrusanByOPD(\HelperKegiatan::getTahunPerencanaan(),$filters['OrgID'],false);   
-            $daftar_urusan['all']='SEMUA URUSAN';
-            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgram(\HelperKegiatan::getRPJMDTahunMulai(),false,$UrsID);            
+            $organisasi=\App\Models\DMaster\SubOrganisasiModel::select(\DB::raw('"v_suborganisasi"."OrgID","v_suborganisasi"."OrgIDRPJMD","v_suborganisasi"."UrsID","v_suborganisasi"."OrgNm","v_suborganisasi"."SOrgNm","v_suborganisasi"."kode_organisasi","v_suborganisasi"."kode_suborganisasi"'))
+                                                            ->join('v_suborganisasi','tmSOrg.OrgID','v_suborganisasi.OrgID')
+                                                            ->find($SOrgID);
+           
+            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgramByOPD($organisasi->OrgIDRPJMD);            
             $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunPerencanaan(),false);     
             
             return view("pages.$theme.rkpd.pembahasanrkpdp.create")->with(['page_active'=>$this->NameOfPage,
                                                                     'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
-                                                                    'daftar_urusan'=>$daftar_urusan,
+                                                                    'organisasi'=>$organisasi,
                                                                     'daftar_program'=>$daftar_program,
-                                                                    'UrsID_selected'=>$UrsID,
                                                                     'sumber_dana'=>$sumber_dana
                                                                 ]);  
         }
@@ -1140,12 +1129,13 @@ class PembahasanRKPDPController extends Controller
         {   
             case 'pembahasanrkpdp' :                
                 $rkpd = RKPDModel::select(\DB::raw('"trRKPD"."RKPDID",
-                                                    "tmUrs"."UrsID",
-                                                    "tmUrs"."Nm_Bidang",
-                                                    "tmPrg"."PrgID",
-                                                    "tmPrg"."PrgNm",
-                                                    "tmKgt"."KgtID",
-                                                    "tmKgt"."KgtNm",
+                                                    "trRKPD"."SOrgID",
+                                                    "v_program_kegiatan"."Kd_Bidang",
+                                                    "v_program_kegiatan"."Nm_Bidang",
+                                                    "v_program_kegiatan"."kode_program",
+                                                    "v_program_kegiatan"."PrgNm",
+                                                    "v_program_kegiatan"."kode_kegiatan",
+                                                    "v_program_kegiatan"."KgtNm",
                                                     "trRKPD"."Sasaran_Angka4" AS "Sasaran_Angka",
                                                     "trRKPD"."Sasaran_Uraian4" AS "Sasaran_Uraian",
                                                     "trRKPD"."Sasaran_AngkaSetelah",
@@ -1157,10 +1147,7 @@ class PembahasanRKPDPController extends Controller
                                                     "trRKPD"."NamaIndikator",
                                                     "trRKPD"."SumberDanaID",
                                                     "trRKPD"."Descr"'))
-                            ->join('tmKgt','tmKgt.KgtID','trRKPD.KgtID')
-                            ->leftJoin('tmPrg','tmPrg.PrgID','tmKgt.PrgID')
-                            ->leftJoin('trUrsPrg','trUrsPrg.PrgID','tmPrg.PrgID')
-                            ->leftJoin('tmUrs','tmUrs.UrsID','trUrsPrg.UrsID')
+                            ->join('v_program_kegiatan','v_program_kegiatan.KgtID','v_program_kegiatan.KgtID')
                             ->findOrFail($id);      
                 
             break;                     
@@ -1168,10 +1155,15 @@ class PembahasanRKPDPController extends Controller
         
         if (!is_null($rkpd) ) 
         {
+            $organisasi=\App\Models\DMaster\SubOrganisasiModel::select(\DB::raw('"v_suborganisasi"."OrgID","v_suborganisasi"."OrgIDRPJMD","v_suborganisasi"."UrsID","v_suborganisasi"."OrgNm","v_suborganisasi"."SOrgNm","v_suborganisasi"."kode_organisasi","v_suborganisasi"."kode_suborganisasi"'))
+                                                            ->join('v_suborganisasi','tmSOrg.OrgID','v_suborganisasi.OrgID')
+                                                            ->find($rkpd->SOrgID);
+
             $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunPerencanaan(),false);     
             return view("pages.$theme.rkpd.pembahasanrkpdp.edit")->with(['page_active'=>$this->NameOfPage,
                                                                 'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                 'rkpd'=>$rkpd,
+                                                                'organisasi'=>$organisasi,
                                                                 'sumber_dana'=>$sumber_dana
                                                                 ]);
         }        

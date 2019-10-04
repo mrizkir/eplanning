@@ -415,7 +415,7 @@ class ReportRKPDPerubahanModel extends ReportModel
                             $sasaran_angka3=\Helper::formatAngka($rkpd->Sasaran_Angka3);
                             $sheet->setCellValue("G$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', $sasaran_angka3.' '.$rkpd->Sasaran_Uraian3)));                                                                        
                             $sasaran_angka4=\Helper::formatAngka($rkpd->Sasaran_Angka4);
-                            $sheet->setCellValue("H$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', $sasaran_angka4.' '.$rkpd->Sasaran_Uraian4)));                                                                                                    
+                            $sheet->setCellValue("H$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', $sasaran_angka4.' '.$rkpd->Sasaran_Uraian4)));
                             $sheet->setCellValue("I$row",'Kab. Bintan'); 
                             $sheet->setCellValue("J$row",\Helper::formatAngka($rkpd->Target4));                              
                             $sheet->setCellValue("K$row",$rkpd->Nm_SumberDana);                            
@@ -547,18 +547,18 @@ class ReportRKPDPerubahanModel extends ReportModel
                                 $sheet->setCellValue("C$row",$Kd_Prog);
                                 $sheet->setCellValue("D$row",$v4->Kd_Keg);                            
                                 $sheet->setCellValue("F$row",$v4->KgtNm); 
-                                $nama_indikator=$rkpd->NamaIndikator;
-                                $sheet->setCellValue("G$row",$nama_indikator); 
-                                $sheet->setCellValue("H$row",'Kab. Bintan'); 
-                                $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_Angka1) . ' '.$rkpd->Sasaran_Uraian1)));                                     
-                                $sheet->setCellValue("J$row",0); //nilai ini akan di isi oleh dibawah
-                                $sheet->setCellValue("K$row",$rkpd->Nm_SumberDana); 
-                                $sheet->setCellValue("L$row",$rkpd->Descr); 
-                                $sheet->setCellValue("M$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_AngkaSetelah).' '.$rkpd->Sasaran_UraianSetelah))); 
-                                $sheet->setCellValue("N$row",\Helper::formatUang($rkpd->NilaiSetelah)); 
-                                $total_nilai_setelah+=$rkpd->NilaiSetelah;  
-                                $totaleachprogram_setelah+=$rkpd->NilaiSetelah;
-
+                                $sasaran_angka3=\Helper::formatAngka($rkpd->Sasaran_Angka3);
+                                $sheet->setCellValue("G$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', $sasaran_angka3.' '.$rkpd->Sasaran_Uraian3)));
+                                $sasaran_angka4=\Helper::formatAngka($rkpd->Sasaran_Angka4);
+                                $sheet->setCellValue("H$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', $sasaran_angka4.' '.$rkpd->Sasaran_Uraian4)));
+                                $sheet->setCellValue("I$row",'Kab. Bintan'); 
+                                $sheet->setCellValue("J$row",\Helper::formatAngka($rkpd->Target4));                              
+                                $sheet->setCellValue("K$row",$rkpd->Nm_SumberDana);                            
+                                $sheet->setCellValue("O$row",$rkpd->Descr); 
+                                
+                                $row_kegiatan=$row;
+                                $no=1;                                
+                                $row+=1;                                
                                 $rincian_kegiatan = \DB::table('v_rkpd_rinci')
                                                     ->select(\DB::raw('
                                                                     "Uraian",
@@ -582,11 +582,9 @@ class ReportRKPDPerubahanModel extends ReportModel
                                                     ->orderByRaw('"No"::int ASC')
                                                     ->get();
 
-                                $row_kegiatan=$row;
-                                $no=1;                                
-                                $row+=1;
+                               
                                 $totaleachkegiatan = 0;
-                                $totaleachkegiatan_setelah = 0;                            
+                                $totaleachkegiatan_setelah = 0;                              
                                 foreach ($rincian_kegiatan as $v5)
                                 {                     
                                     $sheet->setCellValue("A$row",$Kd_Urusan);
@@ -602,21 +600,28 @@ class ReportRKPDPerubahanModel extends ReportModel
                                     // $sheet->setCellValue("I$row",$v5->Lokasi); 
                                     $sheet->setCellValue("I$row",'Kab. Bintan');                                     
                                     $sheet->setCellValue("J$row",\Helper::formatAngka($v5->Target4));                                     
-                                    $sheet->setCellValue("K$row",\Helper::formatUang($v5->NilaiUsulan2)); 
-                                    $sheet->setCellValue("L$row",$v5->Nm_SumberDana); 
-                                    $sheet->setCellValue("M$row",$v5->Descr); 
-                                    $sheet->setCellValue("N$row",\Helper::formatAngka($rkpd->Sasaran_AngkaSetelah).' '.$rkpd->Sasaran_UraianSetelah); 
-                                    $sheet->setCellValue("O$row",\Helper::formatUang($rkpd->NilaiSetelah)); 
-                                    $total_pagu+=$v5->NilaiUsulan4;
-                                    $totaleachkegiatan+=$v5->NilaiUsulan4;                                    
+                                    $sheet->setCellValue("K$row",$v5->Nm_SumberDana); 
+                                    $sheet->setCellValue("L$row",\Helper::formatUang($v5->NilaiUsulan3)); 
+                                    $sheet->setCellValue("M$row",\Helper::formatUang($v5->NilaiUsulan4)); 
+                                    $sheet->setCellValue("N$row",\Helper::formatUang($v5->NilaiUsulan4-$v5->NilaiUsulan3)); 
+                                    $sheet->setCellValue("O$row",$v5->Descr);
+
+                                    $total_pagu+=$v5->NilaiUsulan3;
+                                    $total_pagu_setelah+=$v5->NilaiUsulan4;
+                                    $totaleachkegiatan+=$v5->NilaiUsulan3;                   
+                                    $totaleachkegiatan_setelah+=$v5->NilaiUsulan4;                   
                                     $no+=1;
                                     $row+=1;
                                 }  
-                                $sheet->setCellValue("J$row_kegiatan",\Helper::formatUang($totaleachkegiatan)); 
-                                $totaleachprogram+=$totaleachkegiatan;     
+                                $sheet->setCellValue("L$row_kegiatan",\Helper::formatUang($totaleachkegiatan)); 
+                                $sheet->setCellValue("M$row_kegiatan",\Helper::formatUang($totaleachkegiatan_setelah)); 
+                                $sheet->setCellValue("N$row_kegiatan",\Helper::formatUang($totaleachkegiatan_setelah-$totaleachkegiatan)); 
+                                $totaleachprogram+=$totaleachkegiatan; 
+                                $totaleachprogram_setelah+=$totaleachkegiatan_setelah;
                             }
-                            $sheet->setCellValue("J$row_program",\Helper::formatUang($totaleachprogram));
-                            $sheet->setCellValue("N$row_program",\Helper::formatUang($totaleachprogram_setelah));
+                            $sheet->setCellValue("L$row_program",\Helper::formatUang($totaleachprogram));                                 
+                            $sheet->setCellValue("M$row_program",\Helper::formatUang($totaleachprogram_setelah));
+                            $sheet->setCellValue("N$row_program",\Helper::formatUang($totaleachprogram_setelah-$totaleachprogram));
                         }
                     }
                 }

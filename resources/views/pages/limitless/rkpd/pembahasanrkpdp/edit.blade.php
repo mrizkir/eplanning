@@ -32,107 +32,141 @@
                 </ul>
             </div>
         </div>
-        <div class="panel-body">
-            {!! Form::open(['url'=>route(Helper::getNameOfPage('update'),$rkpd->RKPDID),'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                        
-                <div class="form-group">
-                    <label class="col-md-2 control-label">POSISI ENTRI: </label>
-                    <div class="col-md-10">
-                        <p class="form-control-static">
-                            <span class="label border-left-primary label-striped">{{$page_title}}</span>
-                        </p>
-                    </div>                            
-                </div>
+        {!! Form::open(['url'=>route(Helper::getNameOfPage('update'),$rkpd->RKPDID),'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                        
+        <div class="panel-body">            
+            <div class="form-group">
+                <label class="col-md-2 control-label">POSISI ENTRI: </label>
+                <div class="col-md-10">
+                    <p class="form-control-static">
+                        <span class="label border-left-primary label-striped">{{$page_title}}</span>
+                    </p>
+                </div>                            
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label">OPD / SKPD: </label>
+                <div class="col-md-10">
+                    <p class="form-control-static">
+                        <span class="label border-left-primary label-striped">[{{$organisasi->kode_organisasi}}] {{$organisasi->OrgNm}}</span>
+                    </p>
+                </div>                            
+            </div>                          
+            <div class="form-group">
+                <label class="col-md-2 control-label">UNIT KERJA: </label>
+                <div class="col-md-10">
+                    <p class="form-control-static">
+                        <span class="label border-left-primary label-striped">[{{$organisasi->kode_suborganisasi}}] {{$organisasi->SOrgNm}}</span>
+                    </p>
+                </div>                            
+            </div>
+            <fieldset class="content-group">
+                <legend class="text-bold">PROGRAM / KEGIATAN</legend>
                 <div class="form-group">
                     {{Form::label('UrsID','NAMA URUSAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        <p class="form-control-static">{{$rkpd->UrsID==null?'SEMUA URUSAN':$rkpd->Nm_Bidang}}</p>           
+                        <p class="form-control-static">{{$rkpd->Nm_Bidang}}</p>           
                     </div>
                 </div> 
                 <div class="form-group">
                     {{Form::label('PrgID','NAMA PROGRAM',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        <p class="form-control-static">{{$rkpd->PrgNm}}</p>
+                        <p class="form-control-static">[{{$rkpd->kode_program}}] {{$rkpd->PrgNm}}</p>
                     </div>
                 </div>
                 <div class="form-group">
                     {{Form::label('KgtID','NAMA KEGIATAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        <p class="form-control-static">{{$rkpd->KgtNm}}</p>
+                        <p class="form-control-static">[{{$rkpd->kode_kegiatan}}]{{$rkpd->KgtNm}}</p>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset class="content-group">
+                <legend class="text-bold">INDIKATOR KINERJA</legend>
+                <div class="form-group">
+                    {{Form::label('NamaIndikator','KELUARAN (OUTPUT) KEGIATAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::textarea('NamaIndikator',$rkpd['NamaIndikator'],['rows'=>3,'class'=>'form-control','placeholder'=>'KELUARAN (OUTPUT) KEGIATAN'])}}
                     </div>
                 </div>
                 <div class="form-group">
-                    {{Form::label('Sasaran_Angka','SASARAN KEGIATAN',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('Sasaran_Uraian','HASIL (OUTCOME) KEGIATAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        <div class="row">
-                            <div class="col-md-6">
-                                {{Form::text('Sasaran_Angka',Helper::formatAngka($rkpd['Sasaran_Angka']),['class'=>'form-control','placeholder'=>'ANGKA SASARAN'])}}
-                            </div>
-                            <div class="col-md-6">
-                                {{Form::textarea('Sasaran_Uraian',$rkpd['Sasaran_Uraian'],['rows'=>3,'class'=>'form-control','placeholder'=>'URAIAN SASARAN'])}}
-                            </div>
-                        </div>                        
+                        {{Form::textarea('Sasaran_Uraian',$rkpd['Sasaran_Uraian'],['rows'=>3,'class'=>'form-control','placeholder'=>'KELUARAN (OUTCOME) KEGIATAN'])}}
+                    </div>
+                </div>
+            </fieldset>   
+            <fieldset class="content-group">
+                <legend class="text-bold">TARGET KINERJA DAN KERANGKA PENDANAAN</legend>
+                <div class="form-group">
+                    {{Form::label('Target','JUMLAH KELUARAN (OUTPUT) KEGIATAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('Target',Helper::formatAngka($rkpd['Target']),['class'=>'form-control','placeholder'=>'KELUARAN KEGIATAN'])}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('Sasaran_Angka','JUMLAH HASIL (OUTCOME) KEGIATAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('Sasaran_Angka',Helper::formatAngka($rkpd['Sasaran_Angka']),['class'=>'form-control','placeholder'=>'HASIL KEGIATAN'])}}                            
                     </div>                   
-                </div>                
+                </div>  
                 <div class="form-group">
-                    {{Form::label('Sasaran_AngkaSetelah','SASARAN KEGIATAN (N+1)',['class'=>'control-label col-md-2'])}}
+                    <label form="NilaiSebelum" class="control-label col-md-2">PAGU DANA (TAHUN PERENCANAAN ({{HelperKegiatan::getTahunPerencanaan()-1}})</label>
                     <div class="col-md-10">
-                        <div class="row">
-                            <div class="col-md-6">
-                                {{Form::text('Sasaran_AngkaSetelah',Helper::formatAngka($rkpd['Sasaran_AngkaSetelah']),['class'=>'form-control','placeholder'=>'ANGKA SASARAN (N+1)'])}}
-                            </div>
-                            <div class="col-md-6">
-                                {{Form::textarea('Sasaran_UraianSetelah',$rkpd['Sasaran_UraianSetelah'],['rows'=>3,'class'=>'form-control','placeholder'=>'URAIAN SASARAN (N+1)'])}}
-                            </div>
-                        </div>                        
+                        {{Form::text('NilaiSebelum',$rkpd['NilaiSebelum'],['class'=>'form-control','placeholder'=>'PAGU DANA N-1','id'=>'NilaiSebelum'])}}                            
                     </div>
-                </div>                
+                </div>          
                 <div class="form-group">
-                    {{Form::label('Target','TARGET (%)',['class'=>'control-label col-md-2'])}}
+                    <label form="NilaiUsulan" class="control-label col-md-2">PAGU DANA</label>
                     <div class="col-md-10">
-                        {{Form::text('Target',Helper::formatAngka($rkpd['Target']),['class'=>'form-control','placeholder'=>'PERSENTASE TARGET KEGIATAN'])}}
+                        {{Form::text('NilaiUsulan',$rkpd['NilaiUsulan'],['class'=>'form-control','placeholder'=>'NILAI USULAN (TA)','id'=>'NilaiUsulan','readonly'=>true])}}                            
+                        <span class="help-block">Jumlah Pagu Dana ini akan terisi secara otomatis saat menginput / mengupdate / menghapus rincian kegiatan.</span>              
                     </div>
-                </div>
+                </div>          
+            </fieldset>      
+            <fieldset class="content-group">
+                <legend class="text-bold">PERKIRAAN MAJU (TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()+1}})</legend>
                 <div class="form-group">
-                    {{Form::label('NilaiSebelum','NILAI',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('Sasaran_AngkaSetelah','JUMLAH HASIL (OUTCOME) KEGIATAN N+1',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        <div class="row">
-                            <div class="col-md-4">
-                                {{Form::text('NilaiSebelum',$rkpd['NilaiSebelum'],['class'=>'form-control','placeholder'=>'NILAI (TA-1)'])}}
-                            </div>
-                            <div class="col-md-4">
-                                {{Form::text('NilaiUsulan',$rkpd['NilaiUsulan'],['class'=>'form-control','placeholder'=>'NILAI USULAN (TA)','id'=>'NilaiUsulan','readonly'=>true])}}
-                            </div> 
-                            <div class="col-md-4">
-                                {{Form::text('NilaiSetelah',$rkpd['NilaiSetelah'],['class'=>'form-control','placeholder'=>'NILAI (TA+1)','id'=>'NilaiSetelah'])}}
-                            </div>       
-                        </div>                                          
+                        {{Form::text('Sasaran_AngkaSetelah',$rkpd['Sasaran_AngkaSetelah'],['class'=>'form-control','placeholder'=>'JUMLAH HASIL KEGIATAN  N+1'])}}                            
                     </div>
-                </div>
+                </div> 
                 <div class="form-group">
-                    {{Form::label('NamaIndikator','INDIKATOR KEGIATAN',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('Sasaran_AngkaSetelah','URAIAN HASIL (OUTCOME) KEGIATAN N+1',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::textarea('NamaIndikator',$rkpd['NamaIndikator'],['rows'=>3,'class'=>'form-control','placeholder'=>'INDIKATOR KEGIATAN'])}}
+                        {{Form::textarea('Sasaran_UraianSetelah',$rkpd['Sasaran_UraianSetelah'],['rows'=>3,'class'=>'form-control','placeholder'=>'URAIAN HASIL (OUTCOME) KEGIATAN N+1'])}}
                     </div>
-                </div>
+                </div> 
                 <div class="form-group">
+                    {{Form::label('Sasaran_AngkaSetelah','PAGU DANA KEGIATAN N+1',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('NilaiSetelah',$rkpd['NilaiSetelah'],['class'=>'form-control','placeholder'=>'PAGU DANA KEGIATAN N+1','id'=>'NilaiSetelah'])}}
+                    </div>
+                </div> 
+            </fieldset>
+            <fieldset class="content-group">
+                <legend class="text-bold">LAINNYA</legend>
+                    <div class="form-group">
                     {{Form::label('SumberDanaID','SUMBER DANA',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
                         {{Form::select('SumberDanaID', $sumber_dana, $rkpd['SumberDanaID'],['class'=>'form-control','id'=>'SumberDanaID'])}}
                     </div>
-                </div>                
+                </div> 
                 <div class="form-group">
                     {{Form::label('Descr','KETERANGAN / CATATAN PENTING',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
                         {{Form::textarea('Descr',$rkpd['Descr'],['rows'=>3,'class'=>'form-control','placeholder'=>'KETERANGAN'])}}
                     </div>
-                </div> 
-                <div class="form-group">            
-                    <div class="col-md-10 col-md-offset-2">                        
-                        {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] )  }}                        
-                    </div>
-                </div>
-            {!! Form::close()!!}
+                </div>                  
+            </fieldset> 
         </div>
+        <div class="panel-body">
+            <div class="form-group">            
+                <div class="col-md-10 col-md-offset-2">                        
+                    {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}                        
+                </div>
+            </div>        
+        </div> 
+        {!! Form::close()!!}
     </div>
 </div>  
 @endsection
@@ -178,16 +212,7 @@ $(document).ready(function () {
                                         });
                                         $('#frmdata').validate({
         ignore:[],
-        rules: {
-            UrsID : {
-                required: true
-            },  
-            PrgID : {
-                required: true
-            },
-            KgtID : {
-                required: true
-            },         
+        rules: {       
             Sasaran_Angka : {
                 required: true,
             },
@@ -219,16 +244,7 @@ $(document).ready(function () {
                 valueNotEquals: 'none'
             }         
         },
-        messages : {
-            UrsID : {
-                required: "Mohon untuk di pilih urusan untuk kegiatan ini.",                
-            },            
-            PrgID : {
-                required: "Mohon untuk di pilih program nama kegiatan.",                
-            },
-            KgtID : {
-                required: "Mohon untuk di pilih nama kegiatan.",                
-            },
+        messages : {            
             Sasaran_Angka : {
                 required: "Mohon untuk di isi angka sasaran kegiatan.",                
             },
