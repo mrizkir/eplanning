@@ -1,18 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    DESA
+    DESA / KELURAHAN
 @endsection
 @section('page_header')
-    <i class="icon-price-tag position-left"></i>
+    <i class="icon-chess-king position-left"></i>
     <span class="text-semibold"> 
-        DESA TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}
+        DESA / KELURAHAN TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}
     </span>     
 @endsection
 @section('page_info')
     @include('pages.limitless.dmaster.desa.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('desa.index')!!}">DESA</a></li>
+    <li><a href="#">MASTERS</a></li>
+    <li><a href="#">LOKASI</a></li>
+    <li><a href="{!!route('desa.index')!!}">DESA / KELURAHAN</a></li>
     <li class="active">DETAIL DATA</li>
 @endsection
 @section('page_content')
@@ -23,14 +25,14 @@
                 <h5 class="panel-title"> 
                     <i class="icon-eye"></i>  DATA DESA
                 </h5>
-                <div class="heading-elements">
-                    <a href="{!!route('desa.create')!!}" class="btn btn-primary btn-icon heading-btn btnTambah" title="Tambah DESA">
+                <div class="heading-elements">   
+                    <a href="{{route('desa.create')}}" class="btn btn-info btn-icon heading-btn btnTambah" title="Tambah Data Desa">
                         <i class="icon-googleplus5"></i>
-                    </a>   
-                    <a href="{{route('desa.edit',['id'=>$data->desa_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Desa">
+                    </a>
+                    <a href="{{route('desa.edit',['id'=>$data->PmDesaID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Desa">
                         <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data Desa" data-id="{{$data->desa_id}}" data-url="{{route('desa.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
+                    <a href="javascript:;" title="Hapus Data Desa" data-id="{{$data->PmDesaID}}" data-url="{{route('desa.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
                     </a>
                     <a href="{!!route('desa.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
@@ -43,31 +45,44 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>desa id: </strong></label>
+                                <label class="col-md-4 control-label"><strong>KODE DESA: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->desa_id}}</p>
+                                    <p class="form-control-static">{{$data->Kd_Desa}}</p>
                                 </div>                            
-                            </div>                            
+                            </div>  
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
+                                <label class="col-md-4 control-label"><strong>NAMA DESA: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}}</p>
+                                    <p class="form-control-static">{{$data->Nm_Desa}}</p>
+                                </div>                            
+                            </div>                          
+                            
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>KECAMATAN: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->kecamatan->Nm_Kecamatan}}</p>
                                 </div>                            
                             </div>
                         </div>                        
                     </div>
                     <div class="col-md-6">
-                        <div class="form-horizontal">
+                        <div class="form-horizontal">                              
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>replaceit: </strong></label>
+                                <label class="col-md-4 control-label"><strong>TA: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">replaceit</p>
+                                    <p class="form-control-static">{{$data->TA}}</p>
                                 </div>                            
-                            </div>    
+                            </div> 
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>TGL. UBAH: </strong></label>
+                                <label class="col-md-4 control-label"><strong>KETERANGAN: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->updated_at)}}</p>
+                                    <p class="form-control-static">{{$data->Descr}}</p>
+                                </div>                            
+                            </div>  
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>TGL. BUAT / UBAH: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}} / {{Helper::tanggal('d/m/Y H:m',$data->updated_at)}}</p>
                                 </div>                            
                             </div>                         
                         </div>

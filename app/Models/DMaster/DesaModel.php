@@ -86,5 +86,9 @@ class DesaModel extends Model {
             $daftar_desa[$v->PmDesaID]=$v->Nm_Desa;
         } 
         return $daftar_desa;
+    }    
+    public function kecamatan () 
+    {
+        return $this->belongsTo('App\Models\DMaster\KecamatanModel','PmKecamatanID');
     }
 }

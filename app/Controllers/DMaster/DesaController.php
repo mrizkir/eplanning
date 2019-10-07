@@ -4,7 +4,10 @@ namespace App\Controllers\DMaster;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
+use App\Models\DMaster\KecamatanModel;
 use App\Models\DMaster\DesaModel;
+use App\Rules\CheckRecordIsExistValidation;
+use App\Rules\IgnoreIfDataIsEqualValidation;
 
 class DesaController extends Controller {
      /**
@@ -15,7 +18,7 @@ class DesaController extends Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['auth']);
+        $this->middleware(['auth','role:superadmin|bapelitbang']);
     }
     /**
      * collect data from resources for index view
@@ -25,12 +28,12 @@ class DesaController extends Controller {
     public function populateData ($currentpage=1) 
     {        
         $columns=['*'];       
-        //if (!$this->checkStateIsExistSession('desa','orderby')) 
-        //{            
-        //    $this->putControllerStateSession('desa','orderby',['column_name'=>'replace_it','order'=>'asc']);
-        //}
-        //$column_order=$this->getControllerStateSession('desa.orderby','column_name'); 
-        //$direction=$this->getControllerStateSession('desa.orderby','order'); 
+        if (!$this->checkStateIsExistSession('desa','orderby')) 
+        {            
+           $this->putControllerStateSession('desa','orderby',['column_name'=>'Kd_Desa','order'=>'asc']);
+        }
+        $column_order=$this->getControllerStateSession('desa.orderby','column_name'); 
+        $direction=$this->getControllerStateSession('desa.orderby','order'); 
 
         if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
         {            
@@ -42,19 +45,32 @@ class DesaController extends Controller {
             $search=$this->getControllerStateSession('desa','search');
             switch ($search['kriteria']) 
             {
-                case 'replaceit' :
-                    $data = DesaModel::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                case 'Kd_Desa' :
+                    $data = DesaModel::join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','tmPmDesa.PmKecamatanID')
+                                        ->select(\DB::raw('"tmPmDesa"."PmDesaID","tmPmDesa"."PmKecamatanID","tmPmKecamatan"."Nm_Kecamatan","tmPmDesa"."Kd_Desa","tmPmDesa"."Nm_Desa","tmPmDesa"."Descr","tmPmDesa"."TA","tmPmDesa"."created_at","tmPmDesa"."updated_at"'))
+                                        ->where('tmPmDesa.TA',\HelperKegiatan::getTahunPerencanaan())
+                                        ->where(['Kd_Desa'=>$search['isikriteria']])
+                                        ->orderBy($column_order,$direction); 
                 break;
-                case 'replaceit' :
-                    $data = DesaModel::where('replaceit', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                case 'Nm_Desa' :
+                    $data = DesaModel::join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','tmPmDesa.PmKecamatanID')
+                                        ->select(\DB::raw('"tmPmDesa"."PmDesaID","tmPmDesa"."PmKecamatanID","tmPmKecamatan"."Nm_Kecamatan","tmPmDesa"."Kd_Desa","tmPmDesa"."Nm_Desa","tmPmDesa"."Descr","tmPmDesa"."TA","tmPmDesa"."created_at","tmPmDesa"."updated_at"'))
+                                        ->where('tmPmDesa.TA',\HelperKegiatan::getTahunPerencanaan())
+                                        ->where('tmPmDesa.Nm_Desa', 'ILIKE', '%' . $search['isikriteria'] . '%')
+                                        ->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = DesaModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
-        }        
+            $data = DesaModel::join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','tmPmDesa.PmKecamatanID')
+                                ->select(\DB::raw('"tmPmDesa"."PmDesaID","tmPmDesa"."PmKecamatanID","tmPmKecamatan"."Nm_Kecamatan","tmPmDesa"."Kd_Desa","tmPmDesa"."Nm_Desa","tmPmDesa"."Descr","tmPmDesa"."TA","tmPmDesa"."created_at","tmPmDesa"."updated_at"'))
+                                ->where('tmPmDesa.TA',\HelperKegiatan::getTahunPerencanaan())
+                                ->orderBy($column_order,$direction)
+                                ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            
+        }
         $data->setPath(route('desa.index'));
         return $data;
     }
@@ -94,15 +110,23 @@ class DesaController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'replace_it' :
-                $column_name = 'replace_it';
-            break;           
+            case 'col-Kd_Desa' :
+                $column_name = 'Kd_Desa';
+            break;  
+            case 'col-Nm_Desa' :
+                $column_name = 'Nm_Desa';
+            break;          
             default :
-                $column_name = 'replace_it';
+                $column_name = 'Kd_Desa';
         }
         $this->putControllerStateSession('desa','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
-        $data=$this->populateData();
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('desa'); 
+        $data = $this->populateData($currentpage);
+        if ($currentpage > $data->lastPage())
+        {            
+            $data = $this->populateData($data->lastPage());
+        }
 
         $datatable = view("pages.$theme.dmaster.desa.datatable")->with(['page_active'=>'desa',
                                                             'search'=>$this->getControllerStateSession('desa','search'),
@@ -159,11 +183,11 @@ class DesaController extends Controller {
         $data=$this->populateData();
 
         $datatable = view("pages.$theme.dmaster.desa.datatable")->with(['page_active'=>'desa',                                                            
-                                                            'search'=>$this->getControllerStateSession('desa','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('desa.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('desa.orderby','order'),
-                                                            'data'=>$data])->render();      
+                                                                        'search'=>$this->getControllerStateSession('desa','search'),
+                                                                        'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                        'column_order'=>$this->getControllerStateSession('desa.orderby','column_name'),
+                                                                        'direction'=>$this->getControllerStateSession('desa.orderby','order'),
+                                                                        'data'=>$data])->render();      
         
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
     }
@@ -184,14 +208,14 @@ class DesaController extends Controller {
             $data = $this->populateData($data->lastPage());
         }
         $this->setCurrentPageInsideSession('desa',$data->currentPage());
-        
+
         return view("pages.$theme.dmaster.desa.index")->with(['page_active'=>'desa',
-                                                'search'=>$this->getControllerStateSession('desa','search'),
-                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                'column_order'=>$this->getControllerStateSession('desa.orderby','column_name'),
-                                                'direction'=>$this->getControllerStateSession('desa.orderby','order'),
-                                                'data'=>$data]);               
-    }
+                                                            'search'=>$this->getControllerStateSession('desa','search'),
+                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                            'column_order'=>$this->getControllerStateSession('desa.orderby','column_name'),
+                                                            'direction'=>$this->getControllerStateSession('desa.orderby','order'),
+                                                            'data'=>$data]);               
+                }
     /**
      * Show the form for creating a new resource.
      *
@@ -200,10 +224,11 @@ class DesaController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-
+        $kecamatan=KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),false,false);        
+        $kecamatan['']='';
         return view("pages.$theme.dmaster.desa.create")->with(['page_active'=>'desa',
-                                                                    
-                                                ]);  
+                                                                'kecamatan'=>$kecamatan
+                                                            ]);  
     }
     
     /**
@@ -213,15 +238,37 @@ class DesaController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $this->validate($request, [
-            'replaceit'=>'required',
+    { 
+        $this->validate($request,
+            [
+                'PmKecamatanID'=>'required|not_in:none', 
+                'Kd_Desa' => [
+                                new CheckRecordIsExistValidation('tmPmDesa', ['where' => ['PmKecamatanID', '=', $request->input('PmKecamatanID')]]),
+                                'required',
+                                'min:1',
+                                'regex:/^[0-9]+$/'
+                ],               
+                'Nm_Desa'=>'required|min:5', 
+            ],
+            [   
+                'PmKecamatanID.required'=>'Mohon Kode Kelompok Urusan untuk dipilih',         
+                'Kd_Desa.required'=>'Mohon Kode Urusan untuk di isi karena ini diperlukan',
+                'Kd_Desa.min'=>'Mohon Kode Urusan untuk di isi minimal 1 digit',
+
+                'Nm_Desa.required'=>'Mohon Nama Urusan untuk di isi karena ini diperlukan',
+                'Nm_Desa.min'=>'Mohon Nama Urusan di isi minimal 5 karakter'
+            ]
+        );
+        
+        $desa = DesaModel::create ([
+            'PmDesaID'=> uniqid ('uid'),
+            'PmKecamatanID'=>$request->input('PmKecamatanID'),
+            'Kd_Desa'=>$request->input('Kd_Desa'),        
+            'Nm_Desa'=>$request->input('Nm_Desa'),
+            'Descr'=>$request->input('Descr'),
+            'TA'=>\HelperKegiatan::getTahunPerencanaan(),
         ]);
-        
-        $desa = DesaModel::create([
-            'replaceit' => $request->input('replaceit'),
-        ]);        
-        
+
         if ($request->ajax()) 
         {
             return response()->json([
@@ -231,7 +278,7 @@ class DesaController extends Controller {
         }
         else
         {
-            return redirect(route('desa.show',['id'=>$desa->desa_id]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('desa.show',['id'=>$desa->PmDesaID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -246,12 +293,13 @@ class DesaController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = DesaModel::findOrFail($id);
+        $data = DesaModel::with('kecamatan')->findOrFail($id);
         if (!is_null($data) )  
         {
+            
             return view("pages.$theme.dmaster.desa.show")->with(['page_active'=>'desa',
-                                                    'data'=>$data
-                                                    ]);
+                                                                    'data'=>$data
+                                                                ]);
         }        
     }
 
@@ -265,13 +313,16 @@ class DesaController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $data = DesaModel::findOrFail($id);
+        $data = DesaModel::with('kecamatan')->findOrFail($id);
         if (!is_null($data) ) 
-        {
+        {   
+            $kecamatan=KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),false,false);        
+            $kecamatan['']='';
             return view("pages.$theme.dmaster.desa.edit")->with(['page_active'=>'desa',
-                                                    'data'=>$data
-                                                    ]);
-        }        
+                                                                    'kecamatan'=>$kecamatan,
+                                                                    'data'=>$data                                                                    
+                                                                ]);
+            }        
     }
 
     /**
@@ -283,13 +334,42 @@ class DesaController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $desa = DesaModel::find($id);
+        $desa = DesaModel::with('kecamatan')->find($id);
+
+        $this->validate($request,
+        [
+            'PmKecamatanID'=>'required|not_in:none',
+            'Kd_Desa'=>['required',
+                        new IgnoreIfDataIsEqualValidation('tmPmDesa',
+                                                            $desa->Kd_Desa,
+                                                            ['PmKecamatanID', '=', $request->input('PmKecamatanID')],
+                                                            'Kd_Desa'),
+                        'min:1',
+                        'regex:/^[0-9]+$/'
+
+                    ],   
+             
+            'Nm_Desa'=>'required|min:5', 
+        ],
+        [            
+            'Kd_Desa.required'=>'Mohon Kode Urusan untuk di isi karena ini diperlukan',
+            'Kd_Desa.min'=>'Mohon Kode Urusan untuk di isi minimal 1 digit',
+            'Kd_Desa.max'=>'Mohon Kode Urusan untuk di isi maksimal 4 digit',
+            
+            'Kd_Desa.required'=>'Mohon Kode Urusan untuk di isi karena ini diperlukan',
+
+            'PmKecamatanID.required'=>'Mohon Kode Kelompok Urusan untuk dipilih',
+
+            'Nm_Desa.required'=>'Mohon Nama Urusan untuk di isi karena ini diperlukan',
+            'Nm_Desa.min'=>'Mohon Nama Urusan di isi minimal 5 karakter'
+        ]
+        );
+
+        $desa->PmKecamatanID = $request->input('PmKecamatanID');
+        $desa->Kd_Desa = $request->input('Kd_Desa');
+        $desa->Nm_Desa = $request->input('Nm_Desa');
+        $desa->Descr = $request->input('Descr');
         
-        $this->validate($request, [
-            'replaceit'=>'required',
-        ]);
-        
-        $desa->replaceit = $request->input('replaceit');
         $desa->save();
 
         if ($request->ajax()) 
@@ -301,7 +381,7 @@ class DesaController extends Controller {
         }
         else
         {
-            return redirect(route('desa.show',['id'=>$desa->desa_id]))->with('success',"Data dengan id ($id) telah berhasil diubah.");            
+            return redirect(route('desa.show',['id'=>$desa->PmDesaID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 
@@ -315,7 +395,7 @@ class DesaController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $desa = DesaModel::find($id);
+        $desa = DesaModel::find($id);        
         $result=$desa->delete();
         if ($request->ajax()) 
         {
@@ -326,11 +406,11 @@ class DesaController extends Controller {
                 $data = $this->populateData($data->lastPage());
             }
             $datatable = view("pages.$theme.dmaster.desa.datatable")->with(['page_active'=>'desa',
-                                                            'search'=>$this->getControllerStateSession('desa','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                            'column_order'=>$this->getControllerStateSession('desa.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('desa.orderby','order'),
-                                                            'data'=>$data])->render();      
+                                                                            'search'=>$this->getControllerStateSession('desa','search'),
+                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                            'column_order'=>$this->getControllerStateSession('desa.orderby','column_name'),
+                                                                            'direction'=>$this->getControllerStateSession('desa.orderby','order'),
+                                                                            'data'=>$data])->render();      
             
             return response()->json(['success'=>true,'datatable'=>$datatable],200); 
         }

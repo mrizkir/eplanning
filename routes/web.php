@@ -13,6 +13,13 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
                                                                                                 ]); 
     Route::post('/dashboard/rekappaguindikatifopd/orderby',['uses'=>'Report\RekapPaguIndikatifOPDController@orderby','as'=>'rekappaguindikatifopd.orderby']); 
     Route::get('/dashboard/rekappaguindikatifopd/printtoexcel',['uses'=>'Report\RekapPaguIndikatifOPDController@printtoexcel','as'=>'rekappaguindikatifopd.printtoexcel']); 
+    
+    //masters - desa [lokasi]
+    Route::resource('/dmaster/desa','DMaster\DesaController',['parameters'=>['desa'=>'uuid']]); 
+    Route::post('/dmaster/desa/search',['uses'=>'DMaster\DesaController@search','as'=>'desa.search']);          
+    Route::get('/dmaster/desa/paginate/{id}',['uses'=>'DMaster\DesaController@paginate','as'=>'desa.paginate']);              
+    Route::post('/dmaster/desa/changenumberrecordperpage',['uses'=>'DMaster\DesaController@changenumberrecordperpage','as'=>'desa.changenumberrecordperpage']);  
+    Route::post('/dmaster/desa/orderby',['uses'=>'DMaster\DesaController@orderby','as'=>'desa.orderby']);  
 
     //masters - tahun perencanaan dan penyerapan anggaran
     Route::resource('/dmaster/ta','DMaster\TAController',['parameters'=>['ta'=>'uuid']]); 

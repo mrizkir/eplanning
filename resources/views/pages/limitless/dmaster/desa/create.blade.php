@@ -1,18 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    DESA
+    DESA / KELURAHAN
 @endsection
 @section('page_header')
-    <i class="icon-price-tag position-left"></i>
+    <i class="icon-earth position-left"></i>
     <span class="text-semibold"> 
-        DESA TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}
+        DESA / KELURAHAN TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}
     </span>
 @endsection
 @section('page_info')
     @include('pages.limitless.dmaster.desa.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('desa.index')!!}">DESA</a></li>
+    <li><a href="#">MASTERS</a></li>
+    <li><a href="#">LOKASI</a></li>
+    <li><a href="{!!route('desa.index')!!}">DESA / KELURAHAN</a></li>
     <li class="active">TAMBAH DATA</li>
 @endsection
 @section('page_content')
@@ -34,16 +36,34 @@
         <div class="panel-body">
             {!! Form::open(['action'=>'DMaster\DesaController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
                 <div class="form-group">
-                    {{Form::label('replaceit','replaceit',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('PmKecamatanID','KECAMATAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('replaceit','',['class'=>'form-control','placeholder'=>'replaceit'])}}
+                        {{Form::select('PmKecamatanID', $kecamatan, '',['class'=>'form-control select','id'=>'PmKecamatanID'])}}                        
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('Kd_Desa','KODE DESA',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('Kd_Desa','',['class'=>'form-control','placeholder'=>'KODE DESA','maxlength'=>4])}}
+                    </div>
+                </div>  
+                <div class="form-group">
+                    {{Form::label('Nm_Desa','NAMA DESA',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('Nm_Desa','',['class'=>'form-control','placeholder'=>'NAMA DESA'])}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::textarea('Descr','',['class'=>'form-control','placeholder'=>'KETERANGAN','rows' => 2, 'cols' => 40])}}
                     </div>
                 </div>
                 <div class="form-group">            
                     <div class="col-md-10 col-md-offset-2">                        
-                        {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}
+                        {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] )  }}
                     </div>
-                </div>
+                </div>     
             {!! Form::close()!!}
         </div>
     </div>
@@ -52,24 +72,46 @@
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
+    //styling select
+    $('.select').select2({
+        placeholder: "PILIH KECAMATAN",
+        allowClear:true
+    });
     $('#frmdata').validate({
         rules: {
-            replaceit : {
+            PmKecamatanID : {
+                valueNotEquals : 'none'
+            },
+            Kd_Desa : {
+                required: true,  
+                number: true,
+                maxlength: 4              
+            },
+            Nm_Desa : {
                 required: true,
-                minlength: 2
+                minlength: 5
             }
         },
         messages : {
-            replaceit : {
+            PmKecamatanID : {
+                valueNotEquals: "Mohon dipilih Kecamatan !"
+            },
+            Kd_Desa : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
-                minlength: "Mohon di isi minimal 2 karakter atau lebih."
+                number: "Mohon input dengan tipe data bilangan bulat",
+                maxlength: "Nilai untuk Kode Urusan maksimal 4 digit"
+            },
+            Nm_Desa : {
+                required: "Mohon untuk di isi karena ini diperlukan.",
+                minlength: "Mohon di isi minimal 5 karakter atau lebih."
             }
-        }      
-    });   
+        }        
+    });     
 });
 </script>
 @endsection

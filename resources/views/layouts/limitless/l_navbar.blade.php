@@ -45,6 +45,16 @@
                     <div class="dropdown-content-body">
                         <div class="row">      
                             <div class="col-md-3">
+                                <span class="menu-heading underlined bg-blue-300" style="padding:10px"><i class="icon-earth"></i> LOKASI</span>
+                                <ul class="menu-list">
+                                    <li{!!Helper::isMenuActive ($page_active,'desa',' class="active"')!!}>
+                                        <a href="{{route('desa.index')}}" title="Desa">
+                                            <i class="icon-earth"></i> DESA
+                                        </a>    
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-3">
                                 <span class="menu-heading underlined bg-blue-300" style="padding:10px"><i class="icon-link2"></i> ANEKA DATA</span>
                                 <ul class="menu-list">
                                     <li{!!Helper::isMenuActive ($page_active,'paguanggaranopd',' class="active"')!!}>

@@ -1,18 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    DESA
+    DESA / KELURAHAN
 @endsection
 @section('page_header')
-    <i class="icon-price-tag position-left"></i>
+    <i class="icon-earth position-left"></i>
     <span class="text-semibold">
-        DESA TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}  
+        DESA / KELURAHAN TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}
     </span>
 @endsection
 @section('page_info')
     @include('pages.limitless.dmaster.desa.info')
 @endsection
 @section('page_breadcrumb')
-    <li class="active">DESA</li>
+    <li><a href="#">MASTERS</a></li>
+    <li><a href="#">LOKASI</a></li>
+    <li class="active">DESA / KELURAHAN</li>
 @endsection
 @section('page_content')
 <div class="row">
@@ -29,7 +31,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">
-                            {{Form::select('cmbKriteria', ['replaceit'=>'replaceit','nama'=>'replaceit'], isset($search['kriteria'])?$search['kriteria']:'replaceit',['class'=>'form-control'])}}
+                            {{Form::select('cmbKriteria', ['Kd_Desa'=>'KODE DESA / KELURAHAN','Nm_Desa'=>'NAMA DESA'], isset($search['kriteria'])?$search['kriteria']:'Kd_Desa',['class'=>'form-control'])}}
                         </div>
                     </div>
                     <div class="form-group" id="divKriteria">
