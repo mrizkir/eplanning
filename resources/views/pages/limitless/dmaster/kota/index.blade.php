@@ -3,15 +3,17 @@
     KOTA
 @endsection
 @section('page_header')
-    <i class="icon-price-tag position-left"></i>
+    <i class="icon-earth position-left"></i>
     <span class="text-semibold">
-        KOTA TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}  
+        KOTA TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}
     </span>
 @endsection
 @section('page_info')
     @include('pages.limitless.dmaster.kota.info')
 @endsection
 @section('page_breadcrumb')
+    <li><a href="#">MASTERS</a></li>
+    <li><a href="#">LOKASI</a></li>
     <li class="active">KOTA</li>
 @endsection
 @section('page_content')
@@ -29,7 +31,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">
-                            {{Form::select('cmbKriteria', ['replaceit'=>'replaceit','nama'=>'replaceit'], isset($search['kriteria'])?$search['kriteria']:'replaceit',['class'=>'form-control'])}}
+                            {{Form::select('cmbKriteria', ['Kd_Kota'=>'KODE KOTA','Nm_Kota'=>'NAMA KOTA'], isset($search['kriteria'])?$search['kriteria']:'Kd_Kota',['class'=>'form-control'])}}
                         </div>
                     </div>
                     <div class="form-group" id="divKriteria">

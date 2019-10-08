@@ -3,7 +3,7 @@
     KOTA
 @endsection
 @section('page_header')
-    <i class="icon-price-tag position-left"></i>
+    <i class="icon-chess-king position-left"></i>
     <span class="text-semibold"> 
         KOTA TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}
     </span>     
@@ -12,6 +12,8 @@
     @include('pages.limitless.dmaster.kota.info')
 @endsection
 @section('page_breadcrumb')
+    <li><a href="#">MASTERS</a></li>
+    <li><a href="#">LOKASI</a></li>
     <li><a href="{!!route('kota.index')!!}">KOTA</a></li>
     <li class="active">DETAIL DATA</li>
 @endsection
@@ -24,10 +26,13 @@
                     <i class="icon-eye"></i>  DATA KOTA
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('kota.edit',['id'=>$data->kota_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Kota">
+                    <a href="{{route('kota.create')}}" class="btn btn-info btn-icon heading-btn btnTambah" title="Tambah Data Kota">
+                        <i class="icon-googleplus5"></i>
+                    </a>
+                    <a href="{{route('kota.edit',['id'=>$data->PmKotaID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Kota">
                         <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data Kota" data-id="{{$data->kota_id}}" data-url="{{route('kota.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
+                    <a href="javascript:;" title="Hapus Data Kota" data-id="{{$data->PmKotaID}}" data-url="{{route('kota.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
                     </a>
                     <a href="{!!route('kota.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
@@ -40,31 +45,44 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>kota id: </strong></label>
+                                <label class="col-md-4 control-label"><strong>KODE KOTA: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->kota_id}}</p>
+                                    <p class="form-control-static">{{$data->Kd_Kota}}</p>
                                 </div>                            
-                            </div>                            
+                            </div>  
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
+                                <label class="col-md-4 control-label"><strong>NAMA KOTA: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}}</p>
+                                    <p class="form-control-static">{{$data->Nm_Kota}}</p>
+                                </div>                            
+                            </div>                          
+                            
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>PROVINSI/KAB.: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->provinsi->Nm_Prov}}</p>
                                 </div>                            
                             </div>
                         </div>                        
                     </div>
                     <div class="col-md-6">
-                        <div class="form-horizontal">
+                        <div class="form-horizontal">                              
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>replaceit: </strong></label>
+                                <label class="col-md-4 control-label"><strong>TA: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">replaceit</p>
+                                    <p class="form-control-static">{{$data->TA}}</p>
                                 </div>                            
-                            </div>    
+                            </div> 
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>TGL. UBAH: </strong></label>
+                                <label class="col-md-4 control-label"><strong>KETERANGAN: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->updated_at)}}</p>
+                                    <p class="form-control-static">{{$data->Descr}}</p>
+                                </div>                            
+                            </div>  
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>TGL. BUAT / UBAH: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}} / {{Helper::tanggal('d/m/Y H:m',$data->updated_at)}}</p>
                                 </div>                            
                             </div>                         
                         </div>

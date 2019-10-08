@@ -47,6 +47,11 @@
                             <div class="col-md-3">
                                 <span class="menu-heading underlined bg-blue-300" style="padding:10px"><i class="icon-earth"></i> LOKASI</span>
                                 <ul class="menu-list">
+                                    <li{!!Helper::isMenuActive ($page_active,'kota',' class="active"')!!}>
+                                        <a href="{{route('kota.index')}}" title="Kota">
+                                            <i class="icon-earth"></i> KOTA
+                                        </a>    
+                                    </li>
                                     <li{!!Helper::isMenuActive ($page_active,'kecamatan',' class="active"')!!}>
                                         <a href="{{route('kecamatan.index')}}" title="Kecamatan">
                                             <i class="icon-earth"></i> KECAMATAN

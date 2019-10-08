@@ -57,4 +57,20 @@ class ProvinsiModel extends Model {
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
+    public static function getDaftarProvinsi ($ta,$PMProvID=NULL,$prepend=true) 
+    {
+        $r=ProvinsiModel::where('TA',$ta)->orderBy('Kd_Prov');
+        if ($PMProvID != NULL) 
+        {
+            $r=$r->where('PmProvID',$PMProvID);
+        }
+        $r=$r->get();
+        
+        $daftar_provinsi=($prepend==true)?['none'=>'DAFTAR KOTA']:[];        
+        foreach ($r as $k=>$v)
+        {
+            $daftar_provinsi[$v->PMProvID]=$v->Nm_Prov;
+        }         
+        return $daftar_provinsi;
+    }
 }

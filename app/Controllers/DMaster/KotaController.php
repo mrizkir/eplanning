@@ -4,7 +4,10 @@ namespace App\Controllers\DMaster;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
+use App\Models\DMaster\ProvinsiModel;
 use App\Models\DMaster\KotaModel;
+use App\Rules\CheckRecordIsExistValidation;
+use App\Rules\IgnoreIfDataIsEqualValidation;
 
 class KotaController extends Controller {
      /**
@@ -15,7 +18,7 @@ class KotaController extends Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['auth']);
+        $this->middleware(['auth','role:superadmin|bapelitbang']);
     }
     /**
      * collect data from resources for index view
@@ -25,12 +28,12 @@ class KotaController extends Controller {
     public function populateData ($currentpage=1) 
     {        
         $columns=['*'];       
-        //if (!$this->checkStateIsExistSession('kota','orderby')) 
-        //{            
-        //    $this->putControllerStateSession('kota','orderby',['column_name'=>'replace_it','order'=>'asc']);
-        //}
-        //$column_order=$this->getControllerStateSession('kota.orderby','column_name'); 
-        //$direction=$this->getControllerStateSession('kota.orderby','order'); 
+        if (!$this->checkStateIsExistSession('kota','orderby')) 
+        {            
+           $this->putControllerStateSession('kota','orderby',['column_name'=>'Kd_Kota','order'=>'asc']);
+        }
+        $column_order=$this->getControllerStateSession('kota.orderby','column_name'); 
+        $direction=$this->getControllerStateSession('kota.orderby','order'); 
 
         if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
         {            
@@ -42,19 +45,32 @@ class KotaController extends Controller {
             $search=$this->getControllerStateSession('kota','search');
             switch ($search['kriteria']) 
             {
-                case 'replaceit' :
-                    $data = KotaModel::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                case 'Kd_Kota' :
+                    $data = KotaModel::join('tmPMProv','tmPMProv.PMProvID','tmPmKota.PMProvID')
+                                        ->select(\DB::raw('"tmPmKota"."PmKotaID","tmPmKota"."PMProvID","tmPMProv"."Nm_Prov","tmPmKota"."Kd_Kota","tmPmKota"."Nm_Kota","tmPmKota"."Descr","tmPmKota"."TA","tmPmKota"."created_at","tmPmKota"."updated_at"'))
+                                        ->where('tmPmKota.TA',\HelperKegiatan::getTahunPerencanaan())
+                                        ->where(['Kd_Kota'=>$search['isikriteria']])
+                                        ->orderBy($column_order,$direction); 
                 break;
-                case 'replaceit' :
-                    $data = KotaModel::where('replaceit', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                case 'Nm_Kota' :
+                    $data = KotaModel::join('tmPMProv','tmPMProv.PMProvID','tmPmKota.PMProvID')
+                                        ->select(\DB::raw('"tmPmKota"."PmKotaID","tmPmKota"."PMProvID","tmPMProv"."Nm_Prov","tmPmKota"."Kd_Kota","tmPmKota"."Nm_Kota","tmPmKota"."Descr","tmPmKota"."TA","tmPmKota"."created_at","tmPmKota"."updated_at"'))
+                                        ->where('tmPmKota.TA',\HelperKegiatan::getTahunPerencanaan())
+                                        ->where('tmPmKota.Nm_Kota', 'ILIKE', '%' . $search['isikriteria'] . '%')
+                                        ->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = KotaModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
-        }        
+            $data = KotaModel::join('tmPMProv','tmPMProv.PMProvID','tmPmKota.PMProvID')
+                                ->select(\DB::raw('"tmPmKota"."PmKotaID","tmPmKota"."PMProvID","tmPMProv"."Nm_Prov","tmPmKota"."Kd_Kota","tmPmKota"."Nm_Kota","tmPmKota"."Descr","tmPmKota"."TA","tmPmKota"."created_at","tmPmKota"."updated_at"'))
+                                ->where('tmPmKota.TA',\HelperKegiatan::getTahunPerencanaan())
+                                ->orderBy($column_order,$direction)
+                                ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            
+        }
         $data->setPath(route('kota.index'));
         return $data;
     }
@@ -94,15 +110,23 @@ class KotaController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'replace_it' :
-                $column_name = 'replace_it';
-            break;           
+            case 'col-Kd_Kota' :
+                $column_name = 'Kd_Kota';
+            break;  
+            case 'col-Nm_Kota' :
+                $column_name = 'Nm_Kota';
+            break;          
             default :
-                $column_name = 'replace_it';
+                $column_name = 'Kd_Kota';
         }
         $this->putControllerStateSession('kota','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
-        $data=$this->populateData();
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('kota'); 
+        $data = $this->populateData($currentpage);
+        if ($currentpage > $data->lastPage())
+        {            
+            $data = $this->populateData($data->lastPage());
+        }
 
         $datatable = view("pages.$theme.dmaster.kota.datatable")->with(['page_active'=>'kota',
                                                             'search'=>$this->getControllerStateSession('kota','search'),
@@ -159,11 +183,11 @@ class KotaController extends Controller {
         $data=$this->populateData();
 
         $datatable = view("pages.$theme.dmaster.kota.datatable")->with(['page_active'=>'kota',                                                            
-                                                            'search'=>$this->getControllerStateSession('kota','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('kota.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('kota.orderby','order'),
-                                                            'data'=>$data])->render();      
+                                                                        'search'=>$this->getControllerStateSession('kota','search'),
+                                                                        'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                        'column_order'=>$this->getControllerStateSession('kota.orderby','column_name'),
+                                                                        'direction'=>$this->getControllerStateSession('kota.orderby','order'),
+                                                                        'data'=>$data])->render();      
         
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
     }
@@ -184,14 +208,14 @@ class KotaController extends Controller {
             $data = $this->populateData($data->lastPage());
         }
         $this->setCurrentPageInsideSession('kota',$data->currentPage());
-        
+
         return view("pages.$theme.dmaster.kota.index")->with(['page_active'=>'kota',
-                                                'search'=>$this->getControllerStateSession('kota','search'),
-                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                'column_order'=>$this->getControllerStateSession('kota.orderby','column_name'),
-                                                'direction'=>$this->getControllerStateSession('kota.orderby','order'),
-                                                'data'=>$data]);               
-    }
+                                                            'search'=>$this->getControllerStateSession('kota','search'),
+                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                            'column_order'=>$this->getControllerStateSession('kota.orderby','column_name'),
+                                                            'direction'=>$this->getControllerStateSession('kota.orderby','order'),
+                                                            'data'=>$data]);               
+                }
     /**
      * Show the form for creating a new resource.
      *
@@ -200,10 +224,11 @@ class KotaController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-
+        $provinsi=ProvinsiModel::getDaftarProvinsi(\HelperKegiatan::getTahunPerencanaan(),false,false);        
+        $provinsi['']='';
         return view("pages.$theme.dmaster.kota.create")->with(['page_active'=>'kota',
-                                                                    
-                                                ]);  
+                                                                'provinsi'=>$provinsi
+                                                            ]);  
     }
     
     /**
@@ -213,15 +238,37 @@ class KotaController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $this->validate($request, [
-            'replaceit'=>'required',
+    { 
+        $this->validate($request,
+            [
+                'PMProvID'=>'required|not_in:none', 
+                'Kd_Kota' => [
+                                new CheckRecordIsExistValidation('tmPmKota', ['where' => ['PMProvID', '=', $request->input('PMProvID')]]),
+                                'required',
+                                'min:1',
+                                'regex:/^[0-9]+$/'
+                ],               
+                'Nm_Kota'=>'required|min:5', 
+            ],
+            [   
+                'PMProvID.required'=>'Mohon Provinsi untuk dipilih',         
+                'Kd_Kota.required'=>'Mohon Kode Kota untuk di isi karena ini diperlukan',
+                'Kd_Kota.min'=>'Mohon Kode Kota untuk di isi minimal 1 digit',
+
+                'Nm_Kota.required'=>'Mohon Nama Urusan untuk di isi karena ini diperlukan',
+                'Nm_Kota.min'=>'Mohon Nama Urusan di isi minimal 5 karakter'
+            ]
+        );
+        
+        $kota = KotaModel::create ([
+            'PmKotaID'=> uniqid ('uid'),
+            'PMProvID'=>$request->input('PMProvID'),
+            'Kd_Kota'=>$request->input('Kd_Kota'),        
+            'Nm_Kota'=>$request->input('Nm_Kota'),
+            'Descr'=>$request->input('Descr'),
+            'TA'=>\HelperKegiatan::getTahunPerencanaan(),
         ]);
-        
-        $kota = KotaModel::create([
-            'replaceit' => $request->input('replaceit'),
-        ]);        
-        
+
         if ($request->ajax()) 
         {
             return response()->json([
@@ -231,7 +278,7 @@ class KotaController extends Controller {
         }
         else
         {
-            return redirect(route('kota.index'))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('kota.show',['id'=>$kota->PmKotaID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -246,12 +293,13 @@ class KotaController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = KotaModel::findOrFail($id);
+        $data = KotaModel::with('provinsi')->findOrFail($id);
         if (!is_null($data) )  
         {
+            
             return view("pages.$theme.dmaster.kota.show")->with(['page_active'=>'kota',
-                                                    'data'=>$data
-                                                    ]);
+                                                                    'data'=>$data
+                                                                ]);
         }        
     }
 
@@ -267,11 +315,14 @@ class KotaController extends Controller {
         
         $data = KotaModel::findOrFail($id);
         if (!is_null($data) ) 
-        {
+        {   
+            $provinsi=ProvinsiModel::getDaftarProvinsi(\HelperKegiatan::getTahunPerencanaan(),false,false);        
+            $provinsi['']='';
             return view("pages.$theme.dmaster.kota.edit")->with(['page_active'=>'kota',
-                                                    'data'=>$data
-                                                    ]);
-        }        
+                                                                    'provinsi'=>$provinsi,
+                                                                    'data'=>$data                                                                    
+                                                                ]);
+            }        
     }
 
     /**
@@ -284,12 +335,41 @@ class KotaController extends Controller {
     public function update(Request $request, $id)
     {
         $kota = KotaModel::find($id);
+
+        $this->validate($request,
+        [
+            'PMProvID'=>'required|not_in:none',
+            'Kd_Kota'=>['required',
+                        new IgnoreIfDataIsEqualValidation('tmPmKota',
+                                                            $kota->Kd_Kota,
+                                                            ['PMProvID', '=', $request->input('PMProvID')],
+                                                            'Kd_Kota'),
+                        'min:1',
+                        'regex:/^[0-9]+$/'
+
+                    ],   
+             
+            'Nm_Kota'=>'required|min:5', 
+        ],
+        [            
+            'Kd_Kota.required'=>'Mohon Kode Kota untuk di isi karena ini diperlukan',
+            'Kd_Kota.min'=>'Mohon Kode Kota untuk di isi minimal 1 digit',
+            'Kd_Kota.max'=>'Mohon Kode Kota untuk di isi maksimal 4 digit',
+            
+            'Kd_Kota.required'=>'Mohon Kode Kota untuk di isi karena ini diperlukan',
+
+            'PMProvID.required'=>'Mohon Provinsi untuk dipilih',
+
+            'Nm_Kota.required'=>'Mohon Nama Urusan untuk di isi karena ini diperlukan',
+            'Nm_Kota.min'=>'Mohon Nama Urusan di isi minimal 5 karakter'
+        ]
+        );
+
+        $kota->PMProvID= $request->input('PMProvID');
+        $kota->Kd_Kota = $request->input('Kd_Kota');
+        $kota->Nm_Kota = $request->input('Nm_Kota');
+        $kota->Descr = $request->input('Descr');
         
-        $this->validate($request, [
-            'replaceit'=>'required',
-        ]);
-        
-        $kota->replaceit = $request->input('replaceit');
         $kota->save();
 
         if ($request->ajax()) 
@@ -301,7 +381,7 @@ class KotaController extends Controller {
         }
         else
         {
-            return redirect(route('kota.index'))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('kota.show',['id'=>$kota->PmKotaID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 
@@ -315,7 +395,7 @@ class KotaController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $kota = KotaModel::find($id);
+        $kota = KotaModel::find($id);        
         $result=$kota->delete();
         if ($request->ajax()) 
         {
@@ -326,11 +406,11 @@ class KotaController extends Controller {
                 $data = $this->populateData($data->lastPage());
             }
             $datatable = view("pages.$theme.dmaster.kota.datatable")->with(['page_active'=>'kota',
-                                                            'search'=>$this->getControllerStateSession('kota','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                            'column_order'=>$this->getControllerStateSession('kota.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('kota.orderby','order'),
-                                                            'data'=>$data])->render();      
+                                                                            'search'=>$this->getControllerStateSession('kota','search'),
+                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                            'column_order'=>$this->getControllerStateSession('kota.orderby','column_name'),
+                                                                            'direction'=>$this->getControllerStateSession('kota.orderby','order'),
+                                                                            'data'=>$data])->render();      
             
             return response()->json(['success'=>true,'datatable'=>$datatable],200); 
         }

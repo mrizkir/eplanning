@@ -66,11 +66,15 @@ class KotaModel extends Model {
         }
         $r=$r->get();
         
-        $daftar_kecamatan=($prepend==true)?['none'=>'DAFTAR KOTA']:[];        
+        $daftar_kota=($prepend==true)?['none'=>'DAFTAR KOTA']:[];        
         foreach ($r as $k=>$v)
         {
-            $daftar_kecamatan[$v->PmKotaID]=$v->Nm_Kota;
+            $daftar_kota[$v->PmKotaID]=$v->Nm_Kota;
         }         
-        return $daftar_kecamatan;
+        return $daftar_kota;
+    }
+    public function provinsi () 
+    {
+        return $this->belongsTo('App\Models\DMaster\ProvinsiModel','PMProvID');
     }
 }

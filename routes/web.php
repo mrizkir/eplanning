@@ -13,14 +13,28 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
                                                                                                 ]); 
     Route::post('/dashboard/rekappaguindikatifopd/orderby',['uses'=>'Report\RekapPaguIndikatifOPDController@orderby','as'=>'rekappaguindikatifopd.orderby']); 
     Route::get('/dashboard/rekappaguindikatifopd/printtoexcel',['uses'=>'Report\RekapPaguIndikatifOPDController@printtoexcel','as'=>'rekappaguindikatifopd.printtoexcel']); 
+        
+    //masters - provinsi [lokasi]
+    Route::resource('/dmaster/provinsi','DMaster\ProvinsiController',['parameters'=>['provinsi'=>'uuid']]); 
+    Route::post('/dmaster/provinsi/search',['uses'=>'DMaster\ProvinsiController@search','as'=>'provinsi.search']);          
+    Route::get('/dmaster/provinsi/paginate/{id}',['uses'=>'DMaster\ProvinsiController@paginate','as'=>'provinsi.paginate']);              
+    Route::post('/dmaster/provinsi/changenumberrecordperpage',['uses'=>'DMaster\ProvinsiController@changenumberrecordperpage','as'=>'provinsi.changenumberrecordperpage']);  
+    Route::post('/dmaster/provinsi/orderby',['uses'=>'DMaster\ProvinsiController@orderby','as'=>'provinsi.orderby']); 
     
+    //masters - kota [lokasi]
+    Route::resource('/dmaster/kota','DMaster\KotaController',['parameters'=>['kota'=>'uuid']]); 
+    Route::post('/dmaster/kota/search',['uses'=>'DMaster\KotaController@search','as'=>'kota.search']);          
+    Route::get('/dmaster/kota/paginate/{id}',['uses'=>'DMaster\KotaController@paginate','as'=>'kota.paginate']);              
+    Route::post('/dmaster/kota/changenumberrecordperpage',['uses'=>'DMaster\KotaController@changenumberrecordperpage','as'=>'kota.changenumberrecordperpage']);  
+    Route::post('/dmaster/kota/orderby',['uses'=>'DMaster\KotaController@orderby','as'=>'kota.orderby']); 
+
     //masters - kecamatan [lokasi]
     Route::resource('/dmaster/kecamatan','DMaster\KecamatanController',['parameters'=>['kecamatan'=>'uuid']]); 
     Route::post('/dmaster/kecamatan/search',['uses'=>'DMaster\KecamatanController@search','as'=>'kecamatan.search']);          
     Route::get('/dmaster/kecamatan/paginate/{id}',['uses'=>'DMaster\KecamatanController@paginate','as'=>'kecamatan.paginate']);              
     Route::post('/dmaster/kecamatan/changenumberrecordperpage',['uses'=>'DMaster\KecamatanController@changenumberrecordperpage','as'=>'kecamatan.changenumberrecordperpage']);  
     Route::post('/dmaster/kecamatan/orderby',['uses'=>'DMaster\KecamatanController@orderby','as'=>'kecamatan.orderby']);  
-
+    
     //masters - desa [lokasi]
     Route::resource('/dmaster/desa','DMaster\DesaController',['parameters'=>['desa'=>'uuid']]); 
     Route::post('/dmaster/desa/search',['uses'=>'DMaster\DesaController@search','as'=>'desa.search']);          
