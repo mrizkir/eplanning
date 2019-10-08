@@ -14,6 +14,13 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/dashboard/rekappaguindikatifopd/orderby',['uses'=>'Report\RekapPaguIndikatifOPDController@orderby','as'=>'rekappaguindikatifopd.orderby']); 
     Route::get('/dashboard/rekappaguindikatifopd/printtoexcel',['uses'=>'Report\RekapPaguIndikatifOPDController@printtoexcel','as'=>'rekappaguindikatifopd.printtoexcel']); 
     
+    //masters - kecamatan [lokasi]
+    Route::resource('/dmaster/kecamatan','DMaster\KecamatanController',['parameters'=>['kecamatan'=>'uuid']]); 
+    Route::post('/dmaster/kecamatan/search',['uses'=>'DMaster\KecamatanController@search','as'=>'kecamatan.search']);          
+    Route::get('/dmaster/kecamatan/paginate/{id}',['uses'=>'DMaster\KecamatanController@paginate','as'=>'kecamatan.paginate']);              
+    Route::post('/dmaster/kecamatan/changenumberrecordperpage',['uses'=>'DMaster\KecamatanController@changenumberrecordperpage','as'=>'kecamatan.changenumberrecordperpage']);  
+    Route::post('/dmaster/kecamatan/orderby',['uses'=>'DMaster\KecamatanController@orderby','as'=>'kecamatan.orderby']);  
+
     //masters - desa [lokasi]
     Route::resource('/dmaster/desa','DMaster\DesaController',['parameters'=>['desa'=>'uuid']]); 
     Route::post('/dmaster/desa/search',['uses'=>'DMaster\DesaController@search','as'=>'desa.search']);          

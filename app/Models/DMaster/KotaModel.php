@@ -57,4 +57,20 @@ class KotaModel extends Model {
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
+    public static function getDaftarKota ($ta,$PmKotaID=NULL,$prepend=true) 
+    {
+        $r=KotaModel::where('TA',$ta)->orderBy('Kd_Kota');
+        if ($PmKotaID != NULL) 
+        {
+            $r=$r->where('PmKotaID',$PmKotaID);
+        }
+        $r=$r->get();
+        
+        $daftar_kecamatan=($prepend==true)?['none'=>'DAFTAR KOTA']:[];        
+        foreach ($r as $k=>$v)
+        {
+            $daftar_kecamatan[$v->PmKotaID]=$v->Nm_Kota;
+        }         
+        return $daftar_kecamatan;
+    }
 }

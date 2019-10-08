@@ -73,4 +73,8 @@ class KecamatanModel extends Model {
         }         
         return $daftar_kecamatan;
     }
+    public function kota () 
+    {
+        return $this->belongsTo('App\Models\DMaster\KotaModel','PmKotaID');
+    }
 }

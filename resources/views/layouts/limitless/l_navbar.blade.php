@@ -47,9 +47,14 @@
                             <div class="col-md-3">
                                 <span class="menu-heading underlined bg-blue-300" style="padding:10px"><i class="icon-earth"></i> LOKASI</span>
                                 <ul class="menu-list">
+                                    <li{!!Helper::isMenuActive ($page_active,'kecamatan',' class="active"')!!}>
+                                        <a href="{{route('kecamatan.index')}}" title="Kecamatan">
+                                            <i class="icon-earth"></i> KECAMATAN
+                                        </a>    
+                                    </li>
                                     <li{!!Helper::isMenuActive ($page_active,'desa',' class="active"')!!}>
-                                        <a href="{{route('desa.index')}}" title="Desa">
-                                            <i class="icon-earth"></i> DESA
+                                        <a href="{{route('desa.index')}}" title="Desa / Kelurahan">
+                                            <i class="icon-earth"></i> DESA / KELURAHAN
                                         </a>    
                                     </li>
                                 </ul>
