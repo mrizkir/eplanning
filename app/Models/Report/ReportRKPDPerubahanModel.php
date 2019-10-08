@@ -41,11 +41,11 @@ class ReportRKPDPerubahanModel extends ReportModel
         ]);
         $sheet->mergeCells ('A1:P1');
         $sheet->setCellValue('A1','PEMERINTAH DAERAH KABUPATEN BINTAN ');
-        $n1 = \HelperKegiatan::getTahunPerencanaan()+1;
+        $n = \HelperKegiatan::getTahunPerencanaan();
         $sheet->mergeCells ('A2:P2');
-        $sheet->setCellValue('A2','LAPORAN RANCANGAN AKHIR APBD-P'.$n1);
+        $sheet->setCellValue('A2',"LAPORAN RANCANGAN AKHIR APBD-P $n");
         $sheet->mergeCells ('A3:P3');
-        $sheet->setCellValue('A3','TAHUN ANGGARAN '.\HelperKegiatan::getTahunPerencanaan());
+        $sheet->setCellValue('A3',"TAHUN ANGGARAN $n");
 
         $styleArray=array( 
             'font' => array('bold' => true,'size'=>'9'),
@@ -257,12 +257,12 @@ class ReportRKPDPerubahanModel extends ReportModel
             ],
         ]);
         $sheet->mergeCells ('A1:O1');
-        $sheet->setCellValue('A1','PEMERINTAH DAERAH KABUPATEN BINTAN ');
-        $n1 = \HelperKegiatan::getTahunPerencanaan()+1;
+        $sheet->setCellValue('A1','PEMERINTAH DAERAH KABUPATEN BINTAN');
+        $n = \HelperKegiatan::getTahunPerencanaan();
         $sheet->mergeCells ('A2:O2');
-        $sheet->setCellValue('A2','LAPORAN RANCANGAN AKHIR APBD-P'.$n1);
+        $sheet->setCellValue('A2',"LAPORAN RANCANGAN AKHIR APBD-P $n");
         $sheet->mergeCells ('A3:O3');
-        $sheet->setCellValue('A3','TAHUN ANGGARAN '.\HelperKegiatan::getTahunPerencanaan());
+        $sheet->setCellValue('A3',"TAHUN ANGGARAN $n");
 
         $styleArray=array( 
             'font' => array('bold' => true,'size'=>'9'),
