@@ -251,12 +251,12 @@ class KecamatanController extends Controller {
                 'Nm_Kecamatan'=>'required|min:5', 
             ],
             [   
-                'PmKotaID.required'=>'Mohon Kode Kelompok Urusan untuk dipilih',         
-                'Kd_Kecamatan.required'=>'Mohon Kode Urusan untuk di isi karena ini diperlukan',
-                'Kd_Kecamatan.min'=>'Mohon Kode Urusan untuk di isi minimal 1 digit',
+                'PmKotaID.required'=>'Mohon Kode Kecamatan untuk dipilih',         
+                'Kd_Kecamatan.required'=>'Mohon Kode Kecamatan untuk di isi karena ini diperlukan',
+                'Kd_Kecamatan.min'=>'Mohon Kode Kecamatan untuk di isi minimal 1 digit',
 
-                'Nm_Kecamatan.required'=>'Mohon Nama Urusan untuk di isi karena ini diperlukan',
-                'Nm_Kecamatan.min'=>'Mohon Nama Urusan di isi minimal 5 karakter'
+                'Nm_Kecamatan.required'=>'Mohon Nama Kecamatan untuk di isi karena ini diperlukan',
+                'Nm_Kecamatan.min'=>'Mohon Nama Kecamatan di isi minimal 5 karakter'
             ]
         );
         
@@ -352,16 +352,16 @@ class KecamatanController extends Controller {
             'Nm_Kecamatan'=>'required|min:5', 
         ],
         [            
-            'Kd_Kecamatan.required'=>'Mohon Kode Urusan untuk di isi karena ini diperlukan',
-            'Kd_Kecamatan.min'=>'Mohon Kode Urusan untuk di isi minimal 1 digit',
-            'Kd_Kecamatan.max'=>'Mohon Kode Urusan untuk di isi maksimal 4 digit',
+            'Kd_Kecamatan.required'=>'Mohon Kode Kecamatan untuk di isi karena ini diperlukan',
+            'Kd_Kecamatan.min'=>'Mohon Kode Kecamatan untuk di isi minimal 1 digit',
+            'Kd_Kecamatan.max'=>'Mohon Kode Kecamatan untuk di isi maksimal 4 digit',
             
-            'Kd_Kecamatan.required'=>'Mohon Kode Urusan untuk di isi karena ini diperlukan',
+            'Kd_Kecamatan.required'=>'Mohon Kode Kecamatan untuk di isi karena ini diperlukan',
 
-            'PmKotaID.required'=>'Mohon Kode Kelompok Urusan untuk dipilih',
+            'PmKotaID.required'=>'Mohon Kode Kecamatan untuk dipilih',
 
-            'Nm_Kecamatan.required'=>'Mohon Nama Urusan untuk di isi karena ini diperlukan',
-            'Nm_Kecamatan.min'=>'Mohon Nama Urusan di isi minimal 5 karakter'
+            'Nm_Kecamatan.required'=>'Mohon Nama Kecamatan untuk di isi karena ini diperlukan',
+            'Nm_Kecamatan.min'=>'Mohon Nama Kecamatan di isi minimal 5 karakter'
         ]
         );
 

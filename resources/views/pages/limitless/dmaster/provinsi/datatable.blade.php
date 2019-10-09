@@ -1,11 +1,7 @@
 <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
     <div class="panel-heading">
-        <div class="panel-title">
-            <div class="row">
-                <div class="col-md-1">                    		
-					{!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control'])!!}                        
-                </div>
-            </div>
+        <div class="panel-title" style="width:70px">
+            {!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control'])!!}            
         </div>
         <div class="heading-elements">
             <div class="heading-btn">
@@ -22,9 +18,20 @@
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
                     <th width="100">
-                        <a class="column-sort text-white" id="col-replace_it" data-order="{{$direction}}" href="#">
-                            replace_it  
+                        <a class="column-sort text-white" id="col-Kd_Prov" data-order="{{$direction}}" href="#">
+                            KODE PROVINSI  
                         </a>                                             
+                    </th> 
+                    <th width="400">
+                        <a class="column-sort text-white" id="col-Nm_Prov" data-order="{{$direction}}" href="#">
+                            NAMA PROVINSI  
+                        </a>                                             
+                    </th>                     
+                    <th width="120">
+                        KETERANGAN                                            
+                    </th> 
+                    <th width="70">
+                        TA                                            
                     </th> 
                     <th width="100">AKSI</th>
                 </tr>
@@ -35,25 +42,44 @@
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>                  
-                    <td>{{$item->replace_it}}</td>
+                    <td>{{$item->Kd_Prov}}</td>                    
+                    <td>{{$item->Nm_Prov}}</td>
+                    <td>{{$item->Descr}}</td>
+                    <td>{{$item->TA}}</td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('provinsi.show',['id'=>$item->provinsi_id])}}" title="Detail Data Provinsi">
+                                <a class="btnShow" href="{{route('provinsi.show',['id'=>$item->PMProvID])}}" title="Detail Data Provinsi">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('provinsi.edit',['id'=>$item->provinsi_id])}}" title="Ubah Data Provinsi">
+                                <a class="btnEdit" href="{{route('provinsi.edit',['id'=>$item->PMProvID])}}" title="Ubah Data Provinsi">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data Provinsi" data-id="{{$item->provinsi_id}}" data-url="{{route('provinsi.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data Provinsi" data-id="{{$item->PMProvID}}" data-url="{{route('provinsi.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>
                         </ul>
+                    </td>
+                </tr>
+                <tr class="text-center info">
+                    <td colspan="10">                   
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>PMPROVINSIID:</strong>
+                            {{$item->PMProvID}}
+                        </span>  
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>CREATED:</strong>
+                            {{Helper::tanggal('d/m/Y H:m',$item->created_at)}}
+                        </span>
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>UPDATED:</strong>
+                            {{Helper::tanggal('d/m/Y H:m',$item->updated_at)}}
+                        </span>
                     </td>
                 </tr>
             @endforeach                    

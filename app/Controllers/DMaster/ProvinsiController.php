@@ -5,6 +5,8 @@ namespace App\Controllers\DMaster;
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Models\DMaster\ProvinsiModel;
+use App\Rules\CheckRecordIsExistValidation;
+use App\Rules\IgnoreIfDataIsEqualValidation;
 
 class ProvinsiController extends Controller {
      /**
@@ -25,12 +27,12 @@ class ProvinsiController extends Controller {
     public function populateData ($currentpage=1) 
     {        
         $columns=['*'];       
-        //if (!$this->checkStateIsExistSession('provinsi','orderby')) 
-        //{            
-        //    $this->putControllerStateSession('provinsi','orderby',['column_name'=>'replace_it','order'=>'asc']);
-        //}
-        //$column_order=$this->getControllerStateSession('provinsi.orderby','column_name'); 
-        //$direction=$this->getControllerStateSession('provinsi.orderby','order'); 
+        if (!$this->checkStateIsExistSession('provinsi','orderby')) 
+        {            
+           $this->putControllerStateSession('provinsi','orderby',['column_name'=>'Kd_Prov','order'=>'asc']);
+        }
+        $column_order=$this->getControllerStateSession('provinsi.orderby','column_name'); 
+        $direction=$this->getControllerStateSession('provinsi.orderby','order'); 
 
         if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
         {            
@@ -42,19 +44,26 @@ class ProvinsiController extends Controller {
             $search=$this->getControllerStateSession('provinsi','search');
             switch ($search['kriteria']) 
             {
-                case 'replaceit' :
-                    $data = ProvinsiModel::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                case 'Kd_Prov' :
+                    $data = ProvinsiModel::where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                        ->where(['Kd_Prov'=>$search['isikriteria']])
+                                        ->orderBy($column_order,$direction); 
                 break;
-                case 'replaceit' :
-                    $data = ProvinsiModel::where('replaceit', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                case 'Nm_Prov' :
+                    $data = ProvinsiModel::where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                        ->where('Nm_Prov', 'ILIKE', '%' . $search['isikriteria'] . '%')
+                                        ->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = ProvinsiModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
-        }        
+            $data = ProvinsiModel::where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                ->orderBy($column_order,$direction)
+                                ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            
+        }
         $data->setPath(route('provinsi.index'));
         return $data;
     }
@@ -94,15 +103,23 @@ class ProvinsiController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'replace_it' :
-                $column_name = 'replace_it';
-            break;           
+            case 'col-Kd_Prov' :
+                $column_name = 'Kd_Prov';
+            break;  
+            case 'col-Nm_Prov' :
+                $column_name = 'Nm_Prov';
+            break;          
             default :
-                $column_name = 'replace_it';
+                $column_name = 'Kd_Prov';
         }
         $this->putControllerStateSession('provinsi','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
-        $data=$this->populateData();
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('provinsi'); 
+        $data = $this->populateData($currentpage);
+        if ($currentpage > $data->lastPage())
+        {            
+            $data = $this->populateData($data->lastPage());
+        }
 
         $datatable = view("pages.$theme.dmaster.provinsi.datatable")->with(['page_active'=>'provinsi',
                                                             'search'=>$this->getControllerStateSession('provinsi','search'),
@@ -159,11 +176,11 @@ class ProvinsiController extends Controller {
         $data=$this->populateData();
 
         $datatable = view("pages.$theme.dmaster.provinsi.datatable")->with(['page_active'=>'provinsi',                                                            
-                                                            'search'=>$this->getControllerStateSession('provinsi','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('provinsi.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('provinsi.orderby','order'),
-                                                            'data'=>$data])->render();      
+                                                                        'search'=>$this->getControllerStateSession('provinsi','search'),
+                                                                        'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                        'column_order'=>$this->getControllerStateSession('provinsi.orderby','column_name'),
+                                                                        'direction'=>$this->getControllerStateSession('provinsi.orderby','order'),
+                                                                        'data'=>$data])->render();      
         
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
     }
@@ -184,14 +201,14 @@ class ProvinsiController extends Controller {
             $data = $this->populateData($data->lastPage());
         }
         $this->setCurrentPageInsideSession('provinsi',$data->currentPage());
-        
+
         return view("pages.$theme.dmaster.provinsi.index")->with(['page_active'=>'provinsi',
-                                                'search'=>$this->getControllerStateSession('provinsi','search'),
-                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                'column_order'=>$this->getControllerStateSession('provinsi.orderby','column_name'),
-                                                'direction'=>$this->getControllerStateSession('provinsi.orderby','order'),
-                                                'data'=>$data]);               
-    }
+                                                            'search'=>$this->getControllerStateSession('provinsi','search'),
+                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                            'column_order'=>$this->getControllerStateSession('provinsi.orderby','column_name'),
+                                                            'direction'=>$this->getControllerStateSession('provinsi.orderby','order'),
+                                                            'data'=>$data]);               
+                }
     /**
      * Show the form for creating a new resource.
      *
@@ -200,10 +217,8 @@ class ProvinsiController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-
         return view("pages.$theme.dmaster.provinsi.create")->with(['page_active'=>'provinsi',
-                                                                    
-                                                ]);  
+                                                                ]);  
     }
     
     /**
@@ -213,15 +228,34 @@ class ProvinsiController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $this->validate($request, [
-            'replaceit'=>'required',
+    { 
+        $this->validate($request,
+            [
+                'Kd_Prov' => [
+                                new CheckRecordIsExistValidation('tmPMProv', ['where' => ['TA', '=', \HelperKegiatan::getTahunPerencanaan()]]),
+                                'required',
+                                'min:1',
+                                'regex:/^[0-9]+$/'
+                ],               
+                'Nm_Prov'=>'required|min:5', 
+            ],
+            [   
+                'Kd_Prov.required'=>'Mohon Kode Provinsi untuk di isi karena ini diperlukan',
+                'Kd_Prov.min'=>'Mohon Kode Provinsi untuk di isi minimal 1 digit',
+
+                'Nm_Prov.required'=>'Mohon Nama Provinsi untuk di isi karena ini diperlukan',
+                'Nm_Prov.min'=>'Mohon Nama Provinsi di isi minimal 5 karakter'
+            ]
+        );
+        
+        $provinsi = ProvinsiModel::create ([
+            'PMProvID'=> uniqid ('uid'),
+            'Kd_Prov'=>$request->input('Kd_Prov'),        
+            'Nm_Prov'=>$request->input('Nm_Prov'),
+            'Descr'=>$request->input('Descr'),
+            'TA'=>\HelperKegiatan::getTahunPerencanaan(),
         ]);
-        
-        $provinsi = ProvinsiModel::create([
-            'replaceit' => $request->input('replaceit'),
-        ]);        
-        
+
         if ($request->ajax()) 
         {
             return response()->json([
@@ -231,7 +265,7 @@ class ProvinsiController extends Controller {
         }
         else
         {
-            return redirect(route('provinsi.index'))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('provinsi.show',['id'=>$provinsi->PMProvID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -249,9 +283,10 @@ class ProvinsiController extends Controller {
         $data = ProvinsiModel::findOrFail($id);
         if (!is_null($data) )  
         {
+            
             return view("pages.$theme.dmaster.provinsi.show")->with(['page_active'=>'provinsi',
-                                                    'data'=>$data
-                                                    ]);
+                                                                    'data'=>$data
+                                                                ]);
         }        
     }
 
@@ -267,11 +302,14 @@ class ProvinsiController extends Controller {
         
         $data = ProvinsiModel::findOrFail($id);
         if (!is_null($data) ) 
-        {
+        {   
+            $provinsi=ProvinsiModel::getDaftarProvinsi(\HelperKegiatan::getTahunPerencanaan(),false,false);        
+            $provinsi['']='';
             return view("pages.$theme.dmaster.provinsi.edit")->with(['page_active'=>'provinsi',
-                                                    'data'=>$data
-                                                    ]);
-        }        
+                                                                    'provinsi'=>$provinsi,
+                                                                    'data'=>$data                                                                    
+                                                                ]);
+            }        
     }
 
     /**
@@ -284,12 +322,34 @@ class ProvinsiController extends Controller {
     public function update(Request $request, $id)
     {
         $provinsi = ProvinsiModel::find($id);
+
+        $this->validate($request,
+        [
+            'Kd_Prov'=>['required',
+                        new IgnoreIfDataIsEqualValidation('tmPMProv',
+                                                            $provinsi->Kd_Prov,
+                                                            ['TA', '=', \HelperKegiatan::getTahunPerencanaan()],
+                                                            'Kd_Prov'),
+                        'min:1',
+                        'regex:/^[0-9]+$/'
+
+                    ],   
+             
+            'Nm_Prov'=>'required|min:5', 
+        ],
+        [            
+            'Kd_Prov.required'=>'Mohon Kode Provinsi untuk di isi karena ini diperlukan',
+            'Kd_Prov.min'=>'Mohon Kode Provinsi untuk di isi minimal 1 digit',
+
+            'Nm_Prov.required'=>'Mohon Nama Provinsi untuk di isi karena ini diperlukan',
+            'Nm_Prov.min'=>'Mohon Nama Provinsi di isi minimal 5 karakter'
+        ]
+        );
+
+        $provinsi->Kd_Prov = $request->input('Kd_Prov');
+        $provinsi->Nm_Prov = $request->input('Nm_Prov');
+        $provinsi->Descr = $request->input('Descr');
         
-        $this->validate($request, [
-            'replaceit'=>'required',
-        ]);
-        
-        $provinsi->replaceit = $request->input('replaceit');
         $provinsi->save();
 
         if ($request->ajax()) 
@@ -301,7 +361,7 @@ class ProvinsiController extends Controller {
         }
         else
         {
-            return redirect(route('provinsi.index'))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('provinsi.show',['id'=>$provinsi->PMProvID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 
@@ -315,7 +375,7 @@ class ProvinsiController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $provinsi = ProvinsiModel::find($id);
+        $provinsi = ProvinsiModel::find($id);        
         $result=$provinsi->delete();
         if ($request->ajax()) 
         {
@@ -326,11 +386,11 @@ class ProvinsiController extends Controller {
                 $data = $this->populateData($data->lastPage());
             }
             $datatable = view("pages.$theme.dmaster.provinsi.datatable")->with(['page_active'=>'provinsi',
-                                                            'search'=>$this->getControllerStateSession('provinsi','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                            'column_order'=>$this->getControllerStateSession('provinsi.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('provinsi.orderby','order'),
-                                                            'data'=>$data])->render();      
+                                                                            'search'=>$this->getControllerStateSession('provinsi','search'),
+                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                            'column_order'=>$this->getControllerStateSession('provinsi.orderby','column_name'),
+                                                                            'direction'=>$this->getControllerStateSession('provinsi.orderby','order'),
+                                                                            'data'=>$data])->render();      
             
             return response()->json(['success'=>true,'datatable'=>$datatable],200); 
         }

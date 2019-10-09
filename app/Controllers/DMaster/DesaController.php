@@ -251,12 +251,12 @@ class DesaController extends Controller {
                 'Nm_Desa'=>'required|min:5', 
             ],
             [   
-                'PmKecamatanID.required'=>'Mohon Kode Kelompok Urusan untuk dipilih',         
+                'PmKecamatanID.required'=>'Mohon Kode Desa untuk dipilih',         
                 'Kd_Desa.required'=>'Mohon Kode Urusan untuk di isi karena ini diperlukan',
                 'Kd_Desa.min'=>'Mohon Kode Urusan untuk di isi minimal 1 digit',
 
-                'Nm_Desa.required'=>'Mohon Nama Urusan untuk di isi karena ini diperlukan',
-                'Nm_Desa.min'=>'Mohon Nama Urusan di isi minimal 5 karakter'
+                'Nm_Desa.required'=>'Mohon Nama Desa untuk di isi karena ini diperlukan',
+                'Nm_Desa.min'=>'Mohon Nama Desa di isi minimal 5 karakter'
             ]
         );
         
@@ -358,10 +358,10 @@ class DesaController extends Controller {
             
             'Kd_Desa.required'=>'Mohon Kode Urusan untuk di isi karena ini diperlukan',
 
-            'PmKecamatanID.required'=>'Mohon Kode Kelompok Urusan untuk dipilih',
+            'PmKecamatanID.required'=>'Mohon Kode Desa untuk dipilih',
 
-            'Nm_Desa.required'=>'Mohon Nama Urusan untuk di isi karena ini diperlukan',
-            'Nm_Desa.min'=>'Mohon Nama Urusan di isi minimal 5 karakter'
+            'Nm_Desa.required'=>'Mohon Nama Desa untuk di isi karena ini diperlukan',
+            'Nm_Desa.min'=>'Mohon Nama Desa di isi minimal 5 karakter'
         ]
         );
 

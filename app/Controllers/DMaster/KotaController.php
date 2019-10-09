@@ -255,8 +255,8 @@ class KotaController extends Controller {
                 'Kd_Kota.required'=>'Mohon Kode Kota untuk di isi karena ini diperlukan',
                 'Kd_Kota.min'=>'Mohon Kode Kota untuk di isi minimal 1 digit',
 
-                'Nm_Kota.required'=>'Mohon Nama Urusan untuk di isi karena ini diperlukan',
-                'Nm_Kota.min'=>'Mohon Nama Urusan di isi minimal 5 karakter'
+                'Nm_Kota.required'=>'Mohon Nama Kota untuk di isi karena ini diperlukan',
+                'Nm_Kota.min'=>'Mohon Nama Kota di isi minimal 5 karakter'
             ]
         );
         
@@ -360,8 +360,8 @@ class KotaController extends Controller {
 
             'PMProvID.required'=>'Mohon Provinsi untuk dipilih',
 
-            'Nm_Kota.required'=>'Mohon Nama Urusan untuk di isi karena ini diperlukan',
-            'Nm_Kota.min'=>'Mohon Nama Urusan di isi minimal 5 karakter'
+            'Nm_Kota.required'=>'Mohon Nama Kota untuk di isi karena ini diperlukan',
+            'Nm_Kota.min'=>'Mohon Nama Kota di isi minimal 5 karakter'
         ]
         );
 
