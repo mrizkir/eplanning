@@ -673,7 +673,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     
     //setting - users
     Route::resource('/setting/users','Setting\UsersController',['parameters'=>['users'=>'id']])->middleware(['auth','role:superadmin']);           
-    Route::get('/setting/users/paginatecreate/{id}',['uses'=>'Setting\UsersController@paginate','as'=>'users.paginate'])->middleware(['auth','role:superadmin']);    
+    Route::get('/setting/users/paginate/{id}',['uses'=>'Setting\UsersController@paginate','as'=>'users.paginate'])->middleware(['auth','role:superadmin']);    
     Route::get('/setting/users/profil/{id}',['uses'=>'Setting\UsersController@profil','as'=>'users.profil']);    
     Route::put('/setting/users/updateprofil/{id}',['uses'=>'Setting\UsersController@updateprofil','as'=>'users.updateprofil']);        
     Route::post('/setting/users/changenumberrecordperpage',['uses'=>'Setting\UsersController@changenumberrecordperpage','as'=>'users.changenumberrecordperpage'])->middleware(['auth','role:superadmin']);  
@@ -683,7 +683,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     
     //setting - users bapelitbang
     Route::resource('/setting/usersbapelitbang','Setting\UsersBapelitbangController',['parameters'=>['usersbapelitbang'=>'id']]);           
-    Route::get('/setting/usersbapelitbang/paginatecreate/{id}',['uses'=>'Setting\UsersBapelitbangController@paginate','as'=>'usersbapelitbang.paginate']);        
+    Route::get('/setting/usersbapelitbang/paginate/{id}',['uses'=>'Setting\UsersBapelitbangController@paginate','as'=>'usersbapelitbang.paginate']);        
     Route::post('/setting/usersbapelitbang/changenumberrecordperpage',['uses'=>'Setting\UsersBapelitbangController@changenumberrecordperpage','as'=>'usersbapelitbang.changenumberrecordperpage']);  
     Route::post('/setting/usersbapelitbang/orderby',['uses'=>'Setting\UsersBapelitbangController@orderby','as'=>'usersbapelitbang.orderby']); 
     Route::post('/setting/usersbapelitbang/search',['uses'=>'Setting\UsersBapelitbangController@search','as'=>'usersbapelitbang.search']);    
