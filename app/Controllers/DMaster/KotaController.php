@@ -342,7 +342,7 @@ class KotaController extends Controller {
             'Kd_Kota'=>['required',
                         new IgnoreIfDataIsEqualValidation('tmPmKota',
                                                             $kota->Kd_Kota,
-                                                            ['PMProvID', '=', $request->input('PMProvID')],
+                                                            ['where'=>['PMProvID', '=', $request->input('PMProvID')]],
                                                             'Kd_Kota'),
                         'min:1',
                         'regex:/^[0-9]+$/'

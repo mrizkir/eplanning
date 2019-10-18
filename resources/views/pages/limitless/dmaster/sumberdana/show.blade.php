@@ -1,18 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    SUMBERDANA
+    SUMBER DANA
 @endsection
 @section('page_header')
-    <i class="icon-price-tag position-left"></i>
+    <i class="icon-chess-king position-left"></i>
     <span class="text-semibold"> 
-        SUMBERDANA TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}
+        SUMBER DANA TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}
     </span>     
 @endsection
 @section('page_info')
     @include('pages.limitless.dmaster.sumberdana.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('sumberdana.index')!!}">SUMBERDANA</a></li>
+    <li><a href="#">MASTERS</a></li>
+    <li><a href="#">ANEKA DATA</a></li>
+    <li><a href="{!!route('sumberdana.index')!!}">SUMBER DANA</a></li>
     <li class="active">DETAIL DATA</li>
 @endsection
 @section('page_content')
@@ -21,13 +23,16 @@
         <div class="panel panel-flat border-top-info border-bottom-info">
             <div class="panel-heading">
                 <h5 class="panel-title"> 
-                    <i class="icon-eye"></i>  DATA SUMBERDANA
+                    <i class="icon-eye"></i>  DATA SUMBER DANA
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('sumberdana.edit',['id'=>$data->sumberdana_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data SumberDana">
+                    <a href="{{route('sumberdana.create')}}" class="btn btn-info btn-icon heading-btn btnTambah" title="Tambah Data Sumber Dana">
+                        <i class="icon-googleplus5"></i>
+                    </a>
+                    <a href="{{route('sumberdana.edit',['id'=>$data->SumberDanaID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Sumber Dana">
                         <i class="icon-pencil7"></i>
                     </a>
-                    <a href="javascript:;" title="Hapus Data SumberDana" data-id="{{$data->sumberdana_id}}" data-url="{{route('sumberdana.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
+                    <a href="javascript:;" title="Hapus Data Sumber Dana" data-id="{{$data->SumberDanaID}}" data-url="{{route('sumberdana.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
                     </a>
                     <a href="{!!route('sumberdana.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
@@ -40,31 +45,37 @@
                     <div class="col-md-6">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>sumberdana id: </strong></label>
+                                <label class="col-md-4 control-label"><strong>KODE SUMBER DANA: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->sumberdana_id}}</p>
+                                    <p class="form-control-static">{{$data->Kd_SumberDana}}</p>
                                 </div>                            
-                            </div>                            
+                            </div>  
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
+                                <label class="col-md-4 control-label"><strong>NAMA SUMBER DANA: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}}</p>
+                                    <p class="form-control-static">{{$data->Nm_SumberDana}}</p>
                                 </div>                            
-                            </div>
+                            </div>                    
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>TA: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->TA}}</p>
+                                </div>                            
+                            </div>       
                         </div>                        
                     </div>
                     <div class="col-md-6">
-                        <div class="form-horizontal">
+                        <div class="form-horizontal">                                                          
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>replaceit: </strong></label>
+                                <label class="col-md-4 control-label"><strong>KETERANGAN: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">replaceit</p>
+                                    <p class="form-control-static">{{$data->Descr}}</p>
                                 </div>                            
-                            </div>    
+                            </div>  
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>TGL. UBAH: </strong></label>
+                                <label class="col-md-4 control-label"><strong>TGL. BUAT / UBAH: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->updated_at)}}</p>
+                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}} / {{Helper::tanggal('d/m/Y H:m',$data->updated_at)}}</p>
                                 </div>                            
                             </div>                         
                         </div>
@@ -79,7 +90,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
     $(".btnDelete").click(function(ev) {
-        if (confirm('Apakah Anda ingin menghapus Data SumberDana ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data Sumber Dana ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             let token = $('meta[name="csrf-token"]').attr('content');

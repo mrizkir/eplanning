@@ -303,10 +303,7 @@ class ProvinsiController extends Controller {
         $data = ProvinsiModel::findOrFail($id);
         if (!is_null($data) ) 
         {   
-            $provinsi=ProvinsiModel::getDaftarProvinsi(\HelperKegiatan::getTahunPerencanaan(),false,false);        
-            $provinsi['']='';
             return view("pages.$theme.dmaster.provinsi.edit")->with(['page_active'=>'provinsi',
-                                                                    'provinsi'=>$provinsi,
                                                                     'data'=>$data                                                                    
                                                                 ]);
             }        
@@ -328,7 +325,7 @@ class ProvinsiController extends Controller {
             'Kd_Prov'=>['required',
                         new IgnoreIfDataIsEqualValidation('tmPMProv',
                                                             $provinsi->Kd_Prov,
-                                                            ['TA', '=', \HelperKegiatan::getTahunPerencanaan()],
+                                                            ['where'=>['TA','=',\HelperKegiatan::getRPJMDTahunMulai()]],
                                                             'Kd_Prov'),
                         'min:1',
                         'regex:/^[0-9]+$/'

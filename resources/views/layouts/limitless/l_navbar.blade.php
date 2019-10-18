@@ -72,6 +72,11 @@
                             <div class="col-md-3">
                                 <span class="menu-heading underlined bg-blue-300" style="padding:10px"><i class="icon-link2"></i> ANEKA DATA</span>
                                 <ul class="menu-list">
+                                    <li{!!Helper::isMenuActive ($page_active,'sumberdana',' class="active"')!!}>
+                                        <a href="{{route('sumberdana.index')}}" title="SUMBER DANA">
+                                            <i class="icon-link"></i> SUMBER DANA
+                                        </a>    
+                                    </li>
                                     <li{!!Helper::isMenuActive ($page_active,'paguanggaranopd',' class="active"')!!}>
                                         <a href="{{route('paguanggaranopd.index')}}" title="Pagu Anggaran OPD/SKPD">
                                             <i class="icon-link"></i> PAGU ANGGARAN OPD/SKPD

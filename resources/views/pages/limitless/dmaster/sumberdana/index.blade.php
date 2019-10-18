@@ -1,18 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    SUMBERDANA
+    SUMBER DANA
 @endsection
 @section('page_header')
-    <i class="icon-price-tag position-left"></i>
+    <i class="icon-earth position-left"></i>
     <span class="text-semibold">
-        SUMBERDANA TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}  
+        SUMBER DANA TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}
     </span>
 @endsection
 @section('page_info')
     @include('pages.limitless.dmaster.sumberdana.info')
 @endsection
 @section('page_breadcrumb')
-    <li class="active">SUMBERDANA</li>
+    <li><a href="#">MASTERS</a></li>
+    <li><a href="#">ANEKA DATA</a></li>
+    <li class="active">SUMBER DANA</li>
 @endsection
 @section('page_content')
 <div class="row">
@@ -29,7 +31,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">
-                            {{Form::select('cmbKriteria', ['replaceit'=>'replaceit','nama'=>'replaceit'], isset($search['kriteria'])?$search['kriteria']:'replaceit',['class'=>'form-control'])}}
+                            {{Form::select('cmbKriteria', ['Kd_SumberDanainsi'=>'KODE SUMBER DANA','Nm_SumberDana'=>'NAMA SUMBER DANA'], isset($search['kriteria'])?$search['kriteria']:'Kd_SumberDanainsi',['class'=>'form-control'])}}
                         </div>
                     </div>
                     <div class="form-group" id="divKriteria">
@@ -59,7 +61,7 @@
 <script type="text/javascript">
 $(document).ready(function () {  
     $("#divdatatable").on("click",".btnDelete", function(){
-        if (confirm('Apakah Anda ingin menghapus Data SumberDana ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data Sumber Dana ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             $.ajax({            
@@ -75,7 +77,7 @@ $(document).ready(function () {
                     if (result.success==1){
                         $('#divdatatable').html(result.datatable);                        
                     }else{
-                        console.log("Gagal menghapus data SumberDana dengan id "+id);
+                        console.log("Gagal menghapus data Sumber Dana dengan id "+id);
                     }                    
                 },
                 error:function(xhr, status, error){

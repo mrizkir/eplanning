@@ -72,9 +72,6 @@
 $(document).ready(function () {    
     $('#frmdata').validate({
         rules: {
-            Nm_Prov : {
-                valueNotEquals : 'none'
-            },
             Kd_Prov : {
                 required: true,  
                 number: true,
@@ -86,9 +83,6 @@ $(document).ready(function () {
             }
         },
         messages : {
-            Nm_Prov : {
-                valueNotEquals: "Mohon dipilih Provinsi !"
-            },
             Kd_Prov : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 number: "Mohon input dengan tipe data bilangan bulat",

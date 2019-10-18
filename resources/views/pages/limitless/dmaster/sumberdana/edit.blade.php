@@ -1,18 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    SUMBERDANA
+    SUMBER DANA
 @endsection
 @section('page_header')
-    <i class="icon-price-tag position-left"></i>
+    <i class="icon-earth position-left"></i>
     <span class="text-semibold"> 
-        SUMBERDANA TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}
-    </span>     
+        SUMBER DANA TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}
+    </span>
 @endsection
 @section('page_info')
     @include('pages.limitless.dmaster.sumberdana.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('sumberdana.index')!!}">SUMBERDANA</a></li>
+    <li><a href="#">MASTERS</a></li>
+    <li><a href="#">ANEKA DATA</a></li>
+    <li><a href="{!!route('sumberdana.index')!!}">SUMBER DANA</a></li>
     <li class="active">UBAH DATA</li>
 @endsection
 @section('page_content')
@@ -25,30 +27,41 @@
             </h5>
             <div class="heading-elements">
                 <ul class="icons-list">                    
-                    <li>
+                    <li>               
                         <a href="{!!route('sumberdana.index')!!}" data-action="closeredirect" title="keluar"></a>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>['DMaster\SumberDanaController@update',$data->sumberdana_id],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
-                {{Form::hidden('_method','PUT')}}
+            {!! Form::open(['action'=>['DMaster\SumberDanaController@update',$data->SumberDanaID],'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                                              
                 <div class="form-group">
-                    {{Form::label('replaceit','replaceit',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('Kd_SumberDana','KODE SUMBER DANA',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('replaceit',$data[''],['class'=>'form-control','placeholder'=>'replaceit'])}}
-                    </div>                
+                        {{Form::text('Kd_SumberDana',$data->Kd_SumberDana,['class'=>'form-control','placeholder'=>'KODE SUMBER DANA','maxlength'=>4])}}
+                    </div>
+                </div>  
+                <div class="form-group">
+                    {{Form::label('Nm_SumberDana','NAMA SUMBER DANA',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('Nm_SumberDana',$data->Nm_SumberDana,['class'=>'form-control','placeholder'=>'NAMA SUMBER DANA'])}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::textarea('Descr',$data->Descr,['class'=>'form-control','placeholder'=>'KETERANGAN','rows' => 2, 'cols' => 40])}}
+                    </div>
                 </div>
                 <div class="form-group">            
                     <div class="col-md-10 col-md-offset-2">                        
-                        {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] )  }}                        
+                        {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] )  }}
                     </div>
-                </div>
+                </div>     
             {!! Form::close()!!}
         </div>
     </div>
-</div>  
+</div>   
 @endsection
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
@@ -56,21 +69,31 @@
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
-$(document).ready(function () {
+$(document).ready(function () {    
     $('#frmdata').validate({
         rules: {
-            replaceit : {
+            Kd_SumberDana : {
+                required: true,  
+                number: true,
+                maxlength: 4              
+            },
+            Nm_SumberDana : {
                 required: true,
-                minlength: 2
+                minlength: 5
             }
         },
         messages : {
-            replaceit : {
+            Kd_SumberDana : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
-                minlength: "Mohon di isi minimal 2 karakter atau lebih."
+                number: "Mohon input dengan tipe data bilangan bulat",
+                maxlength: "Nilai untuk Kode Urusan maksimal 4 digit"
+            },
+            Nm_SumberDana : {
+                required: "Mohon untuk di isi karena ini diperlukan.",
+                minlength: "Mohon di isi minimal 5 karakter atau lebih."
             }
-        }     
-    });   
+        }        
+    });     
 });
 </script>
 @endsection

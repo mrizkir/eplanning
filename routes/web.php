@@ -109,6 +109,13 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/dmaster/mappingprogramtoopd/changenumberrecordperpagecreate',['uses'=>'DMaster\MappingProgramToOPDController@changenumberrecordperpagecreate','as'=>'mappingprogramtoopd.changenumberrecordperpagecreate']);  
     Route::post('/dmaster/mappingprogramtoopd/orderby',['uses'=>'DMaster\MappingProgramToOPDController@orderby','as'=>'mappingprogramtoopd.orderby']);  
     
+    //masters - sumber dana [aneka data]
+    Route::resource('/dmaster/sumberdana','DMaster\SumberDanaController',['parameters'=>['sumberdana'=>'uuid']]); 
+    Route::post('/dmaster/sumberdana/search',['uses'=>'DMaster\SumberDanaController@search','as'=>'sumberdana.search']);          
+    Route::get('/dmaster/sumberdana/paginate/{id}',['uses'=>'DMaster\SumberDanaController@paginate','as'=>'sumberdana.paginate']);              
+    Route::post('/dmaster/sumberdana/changenumberrecordperpage',['uses'=>'DMaster\SumberDanaController@changenumberrecordperpage','as'=>'sumberdana.changenumberrecordperpage']);  
+    Route::post('/dmaster/sumberdana/orderby',['uses'=>'DMaster\SumberDanaController@orderby','as'=>'sumberdana.orderby']); 
+
     //masters - pagu anggaran OPD/SKPD [aneka data] 
     Route::resource('/dmaster/paguanggaranopd','DMaster\PaguAnggaranOPDController',['parameters'=>['paguanggaranopd'=>'uuid']]); 
     Route::post('/dmaster/paguanggaranopd/search',['uses'=>'DMaster\PaguAnggaranOPDController@search','as'=>'paguanggaranopd.search']);  

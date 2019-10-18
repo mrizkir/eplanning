@@ -19,7 +19,7 @@ class SumberDanaModel extends Model {
      * @var array
      */
     protected $fillable = [
-        'SumberDanaID', 'Kd_SumberDana', 'Kd_SumberDana', 'Nm_SumberDana', 'Descr', 'TA'
+        'SumberDanaID', 'Kd_SumberDana', 'Nm_SumberDana', 'Descr', 'TA'
     ];
     /**
      * primary key tabel ini.

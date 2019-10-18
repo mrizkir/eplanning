@@ -342,7 +342,7 @@ class DesaController extends Controller {
             'Kd_Desa'=>['required',
                         new IgnoreIfDataIsEqualValidation('tmPmDesa',
                                                             $desa->Kd_Desa,
-                                                            ['PmKecamatanID', '=', $request->input('PmKecamatanID')],
+                                                            ['where'=>['PmKecamatanID', '=', $request->input('PmKecamatanID')]],
                                                             'Kd_Desa'),
                         'min:1',
                         'regex:/^[0-9]+$/'

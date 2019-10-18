@@ -342,7 +342,7 @@ class KecamatanController extends Controller {
             'Kd_Kecamatan'=>['required',
                         new IgnoreIfDataIsEqualValidation('tmPmKecamatan',
                                                             $kecamatan->Kd_Kecamatan,
-                                                            ['PmKotaID', '=', $request->input('PmKotaID')],
+                                                            ['where'=>['PmKotaID', '=', $request->input('PmKotaID')]],
                                                             'Kd_Kecamatan'),
                         'min:1',
                         'regex:/^[0-9]+$/'

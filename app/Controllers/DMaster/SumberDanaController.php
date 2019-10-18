@@ -5,6 +5,8 @@ namespace App\Controllers\DMaster;
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Models\DMaster\SumberDanaModel;
+use App\Rules\CheckRecordIsExistValidation;
+use App\Rules\IgnoreIfDataIsEqualValidation;
 
 class SumberDanaController extends Controller {
      /**
@@ -25,12 +27,12 @@ class SumberDanaController extends Controller {
     public function populateData ($currentpage=1) 
     {        
         $columns=['*'];       
-        //if (!$this->checkStateIsExistSession('sumberdana','orderby')) 
-        //{            
-        //    $this->putControllerStateSession('sumberdana','orderby',['column_name'=>'replace_it','order'=>'asc']);
-        //}
-        //$column_order=$this->getControllerStateSession('sumberdana.orderby','column_name'); 
-        //$direction=$this->getControllerStateSession('sumberdana.orderby','order'); 
+        if (!$this->checkStateIsExistSession('sumberdana','orderby')) 
+        {            
+           $this->putControllerStateSession('sumberdana','orderby',['column_name'=>'Kd_SumberDana','order'=>'asc']);
+        }
+        $column_order=$this->getControllerStateSession('sumberdana.orderby','column_name'); 
+        $direction=$this->getControllerStateSession('sumberdana.orderby','order'); 
 
         if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
         {            
@@ -42,19 +44,26 @@ class SumberDanaController extends Controller {
             $search=$this->getControllerStateSession('sumberdana','search');
             switch ($search['kriteria']) 
             {
-                case 'replaceit' :
-                    $data = SumberDanaModel::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                case 'Kd_SumberDana' :
+                    $data = SumberDanaModel::where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                        ->where(['Kd_SumberDana'=>$search['isikriteria']])
+                                        ->orderBy($column_order,$direction); 
                 break;
-                case 'replaceit' :
-                    $data = SumberDanaModel::where('replaceit', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                case 'Nm_SumberDana' :
+                    $data = SumberDanaModel::where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                        ->where('Nm_SumberDana', 'ILIKE', '%' . $search['isikriteria'] . '%')
+                                        ->orderBy($column_order,$direction);                                        
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = SumberDanaModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
-        }        
+            $data = SumberDanaModel::where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                ->orderBy($column_order,$direction)
+                                ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            
+        }
         $data->setPath(route('sumberdana.index'));
         return $data;
     }
@@ -94,15 +103,23 @@ class SumberDanaController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'replace_it' :
-                $column_name = 'replace_it';
-            break;           
+            case 'col-Kd_SumberDana' :
+                $column_name = 'Kd_SumberDana';
+            break;  
+            case 'col-Nm_SumberDana' :
+                $column_name = 'Nm_SumberDana';
+            break;          
             default :
-                $column_name = 'replace_it';
+                $column_name = 'Kd_SumberDana';
         }
         $this->putControllerStateSession('sumberdana','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
-        $data=$this->populateData();
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('sumberdana'); 
+        $data = $this->populateData($currentpage);
+        if ($currentpage > $data->lastPage())
+        {            
+            $data = $this->populateData($data->lastPage());
+        }
 
         $datatable = view("pages.$theme.dmaster.sumberdana.datatable")->with(['page_active'=>'sumberdana',
                                                             'search'=>$this->getControllerStateSession('sumberdana','search'),
@@ -159,11 +176,11 @@ class SumberDanaController extends Controller {
         $data=$this->populateData();
 
         $datatable = view("pages.$theme.dmaster.sumberdana.datatable")->with(['page_active'=>'sumberdana',                                                            
-                                                            'search'=>$this->getControllerStateSession('sumberdana','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('sumberdana.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('sumberdana.orderby','order'),
-                                                            'data'=>$data])->render();      
+                                                                        'search'=>$this->getControllerStateSession('sumberdana','search'),
+                                                                        'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                        'column_order'=>$this->getControllerStateSession('sumberdana.orderby','column_name'),
+                                                                        'direction'=>$this->getControllerStateSession('sumberdana.orderby','order'),
+                                                                        'data'=>$data])->render();      
         
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
     }
@@ -184,14 +201,14 @@ class SumberDanaController extends Controller {
             $data = $this->populateData($data->lastPage());
         }
         $this->setCurrentPageInsideSession('sumberdana',$data->currentPage());
-        
+
         return view("pages.$theme.dmaster.sumberdana.index")->with(['page_active'=>'sumberdana',
-                                                'search'=>$this->getControllerStateSession('sumberdana','search'),
-                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                'column_order'=>$this->getControllerStateSession('sumberdana.orderby','column_name'),
-                                                'direction'=>$this->getControllerStateSession('sumberdana.orderby','order'),
-                                                'data'=>$data]);               
-    }
+                                                            'search'=>$this->getControllerStateSession('sumberdana','search'),
+                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                            'column_order'=>$this->getControllerStateSession('sumberdana.orderby','column_name'),
+                                                            'direction'=>$this->getControllerStateSession('sumberdana.orderby','order'),
+                                                            'data'=>$data]);               
+                }
     /**
      * Show the form for creating a new resource.
      *
@@ -200,10 +217,8 @@ class SumberDanaController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-
         return view("pages.$theme.dmaster.sumberdana.create")->with(['page_active'=>'sumberdana',
-                                                                    
-                                                ]);  
+                                                                ]);  
     }
     
     /**
@@ -213,15 +228,34 @@ class SumberDanaController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $this->validate($request, [
-            'replaceit'=>'required',
+    { 
+        $this->validate($request,
+            [
+                'Kd_SumberDana' => [
+                                new CheckRecordIsExistValidation('tmSumberDana', ['where' => ['TA', '=', \HelperKegiatan::getTahunPerencanaan()]]),
+                                'required',
+                                'min:1',
+                                'regex:/^[0-9]+$/'
+                ],               
+                'Nm_SumberDana'=>'required|min:5', 
+            ],
+            [   
+                'Kd_SumberDana.required'=>'Mohon Kode Sumber Dana untuk di isi karena ini diperlukan',
+                'Kd_SumberDana.min'=>'Mohon Kode Sumber Dana untuk di isi minimal 1 digit',
+
+                'Nm_SumberDana.required'=>'Mohon Nama Sumber Dana untuk di isi karena ini diperlukan',
+                'Nm_SumberDana.min'=>'Mohon Nama Sumber Dana di isi minimal 5 karakter'
+            ]
+        );
+        
+        $sumberdana = SumberDanaModel::create ([
+            'SumberDanaID'=> uniqid ('uid'),
+            'Kd_SumberDana'=>$request->input('Kd_SumberDana'),        
+            'Nm_SumberDana'=>$request->input('Nm_SumberDana'),
+            'Descr'=>$request->input('Descr'),
+            'TA'=>\HelperKegiatan::getTahunPerencanaan(),
         ]);
-        
-        $sumberdana = SumberDanaModel::create([
-            'replaceit' => $request->input('replaceit'),
-        ]);        
-        
+
         if ($request->ajax()) 
         {
             return response()->json([
@@ -231,7 +265,7 @@ class SumberDanaController extends Controller {
         }
         else
         {
-            return redirect(route('sumberdana.index'))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('sumberdana.show',['id'=>$sumberdana->SumberDanaID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -249,9 +283,10 @@ class SumberDanaController extends Controller {
         $data = SumberDanaModel::findOrFail($id);
         if (!is_null($data) )  
         {
+            
             return view("pages.$theme.dmaster.sumberdana.show")->with(['page_active'=>'sumberdana',
-                                                    'data'=>$data
-                                                    ]);
+                                                                    'data'=>$data
+                                                                ]);
         }        
     }
 
@@ -267,11 +302,11 @@ class SumberDanaController extends Controller {
         
         $data = SumberDanaModel::findOrFail($id);
         if (!is_null($data) ) 
-        {
+        {   
             return view("pages.$theme.dmaster.sumberdana.edit")->with(['page_active'=>'sumberdana',
-                                                    'data'=>$data
-                                                    ]);
-        }        
+                                                                    'data'=>$data                                                                    
+                                                                ]);
+            }        
     }
 
     /**
@@ -284,12 +319,33 @@ class SumberDanaController extends Controller {
     public function update(Request $request, $id)
     {
         $sumberdana = SumberDanaModel::find($id);
+        $this->validate($request,
+        [
+            'Kd_SumberDana'=>['required',
+                        new IgnoreIfDataIsEqualValidation('tmSumberDana',
+                                                            $sumberdana->Kd_SumberDana,
+                                                            ['where'=>['TA','=',\HelperKegiatan::getRPJMDTahunMulai()]],
+                                                            'Kd_SumberDana'),
+                        'min:1',
+                        'regex:/^[0-9]+$/'
+
+                    ],   
+             
+            'Nm_SumberDana'=>'required|min:5', 
+        ],
+        [            
+            'Kd_SumberDana.required'=>'Mohon Kode Sumber Dana untuk di isi karena ini diperlukan',
+            'Kd_SumberDana.min'=>'Mohon Kode Sumber Dana untuk di isi minimal 1 digit',
+
+            'Nm_SumberDana.required'=>'Mohon Nama Sumber Dana untuk di isi karena ini diperlukan',
+            'Nm_SumberDana.min'=>'Mohon Nama Sumber Dana di isi minimal 5 karakter'
+        ]
+        );
+
+        $sumberdana->Kd_SumberDana = $request->input('Kd_SumberDana');
+        $sumberdana->Nm_SumberDana = $request->input('Nm_SumberDana');
+        $sumberdana->Descr = $request->input('Descr');
         
-        $this->validate($request, [
-            'replaceit'=>'required',
-        ]);
-        
-        $sumberdana->replaceit = $request->input('replaceit');
         $sumberdana->save();
 
         if ($request->ajax()) 
@@ -301,7 +357,7 @@ class SumberDanaController extends Controller {
         }
         else
         {
-            return redirect(route('sumberdana.index'))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('sumberdana.show',['id'=>$sumberdana->SumberDanaID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 
@@ -315,7 +371,7 @@ class SumberDanaController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $sumberdana = SumberDanaModel::find($id);
+        $sumberdana = SumberDanaModel::find($id);        
         $result=$sumberdana->delete();
         if ($request->ajax()) 
         {
@@ -326,11 +382,11 @@ class SumberDanaController extends Controller {
                 $data = $this->populateData($data->lastPage());
             }
             $datatable = view("pages.$theme.dmaster.sumberdana.datatable")->with(['page_active'=>'sumberdana',
-                                                            'search'=>$this->getControllerStateSession('sumberdana','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                            'column_order'=>$this->getControllerStateSession('sumberdana.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('sumberdana.orderby','order'),
-                                                            'data'=>$data])->render();      
+                                                                            'search'=>$this->getControllerStateSession('sumberdana','search'),
+                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                            'column_order'=>$this->getControllerStateSession('sumberdana.orderby','column_name'),
+                                                                            'direction'=>$this->getControllerStateSession('sumberdana.orderby','order'),
+                                                                            'data'=>$data])->render();      
             
             return response()->json(['success'=>true,'datatable'=>$datatable],200); 
         }
