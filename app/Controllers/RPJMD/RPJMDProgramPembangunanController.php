@@ -366,7 +366,7 @@ class RPJMDProgramPembangunanController extends Controller {
                                                                 "trRpjmdProgramPembangunan"."PrioritasSasaranKabID",
                                                                 CASE 
                                                                     WHEN v_urusan_program."UrsID" IS NOT NULL OR  v_urusan_program."KUrsID" IS NOT NULL THEN
-                                                                        CONCAT(\'[\',"Kd_Urusan",\'.\',"Kd_Bidang",\'] \',"Nm_Urusan")
+                                                                        CONCAT(\'[\',"Kd_Urusan",\'.\',"Kd_Bidang",\'] \',"Nm_Bidang")
                                                                     ELSE
                                                                         \'SELURUH URUSAN\'
                                                                 END AS nama_urusan,                                                                
