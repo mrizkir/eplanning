@@ -302,6 +302,18 @@
                     <i class="icon-airplane3 position-left"></i> ASPIRASI <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu width-450">
+                    @hasrole('superadmin|bapelitbang|opd')
+                    <li{!!Helper::isMenuActive ($page_active,'pemilikbansoshibah',' class="active"')!!}>
+                        <a href="{{route('pemilikbansoshibah.index')}}" title="Pemilik Bantuan Sosial dan Hibah">
+                            <i class="icon-strategy"></i>PEMILIK BANSOS DAN HIBAH</span>
+                        </a>                                        
+                    </li>                    
+                    <li{!!Helper::isMenuActive ($page_active,'bansoshibah',' class="active"')!!}>
+                        <a href="{{route('bansoshibah.index')}}" title="Bantuan Sosial dan Hibah">
+                            <i class="icon-strategy"></i>BANTUAN SOSIAL DAN HIBAH</span>
+                        </a>                                        
+                    </li>                    
+                    @endhasrole
                     <li class="dropdown-header">ANGGOTA DEWAN</li>
                     @hasrole('superadmin|bapelitbang')
                     <li{!!Helper::isMenuActive ($page_active,'pemilikpokokpikiran',' class="active"')!!}>
@@ -341,7 +353,7 @@
                             <i class="icon-arrow-down16"></i>PEMBAHASAN MUSRENBANG KECAMATAN <span class="text-violet"><strong>[4]</strong></span>
                         </a>
                     </li>
-                    @endhasrole
+                    @endhasrole                   
                 </ul>
             </li>            
             @unlessrole('dewan')      

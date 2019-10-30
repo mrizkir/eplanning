@@ -293,6 +293,22 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::get('/rkpd/transferpembahasanrkpdtoperubahan2/paginate/{id}',['uses'=>'RKPD\TransferPembahasanRKPDTOPerubahan2@paginate','as'=>'transferpembahasanrkpdtoperubahan2.paginate']);              
     Route::post('/rkpd/transferpembahasanrkpdtoperubahan2/changenumberrecordperpage',['uses'=>'RKPD\TransferPembahasanRKPDTOPerubahan2@changenumberrecordperpage','as'=>'transferpembahasanrkpdtoperubahan2.changenumberrecordperpage']);  
     Route::post('/rkpd/transferpembahasanrkpdtoperubahan2/orderby',['uses'=>'RKPD\TransferPembahasanRKPDTOPerubahan2@orderby','as'=>'transferpembahasanrkpdtoperubahan2.orderby']);
+    
+    //Aspirasi - Pemilik Bansos dan Hibah
+    Route::resource('/aspirasi/pemilikbansoshibah','Aspirasi\PemilikBansosHibahController',['parameters'=>['pemilikbansoshibah'=>'uuid']]);        
+    Route::post('/aspirasi/pemilikbansoshibah/search',['uses'=>'Aspirasi\PemilikBansosHibahController@search','as'=>'pemilikbansoshibah.search']); 
+    Route::get('/aspirasi/pemilikbansoshibah/paginate/{id}',['uses'=>'Aspirasi\PemilikBansosHibahController@paginate','as'=>'pemilikbansoshibah.paginate']);              
+    Route::post('/aspirasi/pemilikbansoshibah/changenumberrecordperpage',['uses'=>'Aspirasi\PemilikBansosHibahController@changenumberrecordperpage','as'=>'pemilikbansoshibah.changenumberrecordperpage']);  
+    Route::post('/aspirasi/pemilikbansoshibah/orderby',['uses'=>'Aspirasi\PemilikBansosHibahController@orderby','as'=>'pemilikbansoshibah.orderby']); 
+
+    //Aspirasi - Hibah dan Bansos
+    Route::resource('/aspirasi/bansoshibah','Aspirasi\BansosHibahController',['parameters'=>['bansoshibah'=>'uuid']]);        
+    Route::post('/aspirasi/bansoshibah/search',['uses'=>'Aspirasi\BansosHibahController@search','as'=>'bansoshibah.search']); 
+    Route::post('/aspirasi/bansoshibah/filter',['uses'=>'Aspirasi\BansosHibahController@filter','as'=>'bansoshibah.filter']);                  
+    Route::get('/aspirasi/bansoshibah/paginate/{id}',['uses'=>'Aspirasi\BansosHibahController@paginate','as'=>'bansoshibah.paginate']);              
+    Route::post('/aspirasi/bansoshibah/changenumberrecordperpage',['uses'=>'Aspirasi\BansosHibahController@changenumberrecordperpage','as'=>'bansoshibah.changenumberrecordperpage']);  
+    Route::post('/aspirasi/bansoshibah/orderby',['uses'=>'Aspirasi\BansosHibahController@orderby','as'=>'bansoshibah.orderby']); 
+    Route::get('/aspirasi/bansoshibah/printtoexcel',['uses'=>'Aspirasi\BansosHibahController@printtoexcel','as'=>'bansoshibah.printtoexcel']);
 
     //workflow - Aspirasi Musrenbang Desa
     Route::resource('/workflow/musrenbang/aspirasimusrendesa','Musrenbang\AspirasiMusrenDesaController',['parameters'=>['aspirasimusrendesa'=>'uuid']]);        

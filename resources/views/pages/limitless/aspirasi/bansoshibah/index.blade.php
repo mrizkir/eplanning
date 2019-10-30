@@ -1,23 +1,22 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    POKOK PIKIRAN
+    BANTUAN SOSIAL DAN HIBAH
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold">
-        POKOK PIKIRAN TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}  
+        BANTUAN SOSIAL DAN HIBAH TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}  
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.pokir.pokokpikiran.info')
+    @include('pages.limitless.aspirasi.bansoshibah.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="#">PERENCANAAN</a></li>
-    <li><a href="#">POKIR / RESES</a></li>
-    <li class="active">POKOK PIKIRAN</li>
+    <li><a href="#">ASPIRASI</a></li>
+    <li class="active">BANTUAN SOSIAL DAN HIBAH</li>
 @endsection
 @section('page_content')
-<div class="row">
+<div class="row">    
     <div class="col-md-12" id="divfilter">
         <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
             <div class="panel-heading">
@@ -31,12 +30,12 @@
             <div class="panel-body">
                 <div class="form-horizontal">                    
                     <div class="form-group">
-                        <label class="col-md-2 control-label">ANGGOTA DEWAN :</label> 
+                        <label class="col-md-2 control-label">PEMILIK BANSOS / HIBAH :</label> 
                         <div class="col-md-10">
-                            <select name="PemilikPokokID" id="PemilikPokokID" class="select">
+                            <select name="PemilikBansosHibahID" id="PemilikBansosHibahID" class="select">
                                 <option></option>
-                                @foreach ($daftar_dewan as $k=>$item)
-                                    <option value="{{$k}}"{{$k==$filters['PemilikPokokID']?' selected':''}}>{{$item}}</option>
+                                @foreach ($daftar_pemilikbansoshibah as $k=>$item)
+                                    <option value="{{$k}}"{{$k==$filters['PemilikBansosHibahID']?' selected':''}}>{{$item}}</option>
                                 @endforeach
                             </select>                              
                         </div>
@@ -54,7 +53,7 @@
                 </h5>
             </div>
             <div class="panel-body">
-                {!! Form::open(['action'=>'Pokir\PokokPikiranController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
+                {!! Form::open(['action'=>'Aspirasi\BansosHibahController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">
@@ -80,27 +79,8 @@
         </div>
     </div>       
     <div class="col-md-12" id="divdatatable">
-        @include('pages.limitless.pokir.pokokpikiran.datatable')
-    </div>
-    @unlessrole('dewan')  
-    <div class="col-md-12">
-        <div class="table-responsive">
-            <table id="datastatus" class="table"> 
-                <thead class="bg-info-300">
-                    <tr>
-                        <th colspan="2" class="text-center">TOTAL PAGU INDIKATIF <br>SELURUH ANGGOTA DEWAN</th>
-                        <th width="150"><strong>PAGU DANA:</strong></th>
-                        <th id="paguanggota">{{Helper::formatUang($paguanggota)}}</th>
-                        <th colspan="4" class="text-center">TOTAL PAGU INDIKATIF ANGGOTA</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-grey-300" style="font-weight:bold">   
-                   
-                </tbody>            
-            </table>               
-        </div>
-    </div>    
-    @endunlessrole  
+        @include('pages.limitless.aspirasi.bansoshibah.datatable')
+    </div>   
 </div>
 @endsection
 @section('page_asset_js')
@@ -108,13 +88,13 @@
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
-$(document).ready(function () {  
+$(document).ready(function () {     
     //styling select
-    $('#PemilikPokokID.select').select2({
-        placeholder: "PILIH ANGGOTA DEWAN",
+    $('#PemilikBansosHibahID.select').select2({
+        placeholder: "PILIH PEMILIK BANSOS / HIBAH",
         allowClear:true
     }); 
-    $(document).on('change','#PemilikPokokID',function(ev) {
+    $(document).on('change','#PemilikBansosHibahID',function(ev) {
         ev.preventDefault();   
         $.ajax({
             type:'post',
@@ -122,7 +102,7 @@ $(document).ready(function () {
             dataType: 'json',
             data: {                
                 "_token": token,
-                "PemilikPokokID": $('#PemilikPokokID').val(),
+                "PemilikBansosHibahID": $('#PemilikBansosHibahID').val(),
             },
             success:function(result)
             { 
@@ -135,7 +115,7 @@ $(document).ready(function () {
         });     
     });
     $("#divdatatable").on("click",".btnDelete", function(){
-        if (confirm('Apakah Anda ingin menghapus Data Pokok Pikiran ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data Bantuan Sosial dan Hibah ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             $.ajax({            
@@ -151,7 +131,7 @@ $(document).ready(function () {
                     if (result.success==1){
                         $('#divdatatable').html(result.datatable);                        
                     }else{
-                        console.log("Gagal menghapus data Pokok Pikiran dengan id "+id);
+                        console.log("Gagal menghapus data Bantuan Sosial dan Hibah dengan id "+id);
                     }                    
                 },
                 error:function(xhr, status, error){
