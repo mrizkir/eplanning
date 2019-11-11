@@ -37,6 +37,11 @@
                 </div>                
             </li>            
             @hasrole('superadmin|bapelitbang')
+            <li{!!Helper::isMenuActive ($page_active,'rapat',' class="active"')!!}>
+                <a href="{{route('rapat.index')}}">
+                    <i class="icon-comments position-left"></i> RAPAT
+                </a>
+            </li>
             <li class="dropdown mega-menu mega-menu-wide visible">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-puzzle4 position-left"></i> MASTERS <span class="caret"></span>

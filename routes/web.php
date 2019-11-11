@@ -13,7 +13,15 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
                                                                                                 ]); 
     Route::post('/dashboard/rekappaguindikatifopd/orderby',['uses'=>'Report\RekapPaguIndikatifOPDController@orderby','as'=>'rekappaguindikatifopd.orderby']); 
     Route::get('/dashboard/rekappaguindikatifopd/printtoexcel',['uses'=>'Report\RekapPaguIndikatifOPDController@printtoexcel','as'=>'rekappaguindikatifopd.printtoexcel']); 
-        
+    
+    //RAPAT PEMBAHASAN TAPD
+    Route::resource('/rapat','RapatController',['parameters'=>['rapat'=>'uuid']]); 
+    Route::post('/rapat/search',['uses'=>'RapatController@search','as'=>'rapat.search']); 
+    Route::post('/rapat/filter',['uses'=>'RapatController@filter','as'=>'rapat.filter']);                  
+    Route::get('/rapat/paginate/{id}',['uses'=>'RapatController@paginate','as'=>'rapat.paginate']);              
+    Route::post('/rapat/changenumberrecordperpage',['uses'=>'RapatController@changenumberrecordperpage','as'=>'rapat.changenumberrecordperpage']);  
+    Route::post('/rapat/orderby',['uses'=>'RapatController@orderby','as'=>'rapat.orderby']);
+
     //masters - provinsi [lokasi]
     Route::resource('/dmaster/provinsi','DMaster\ProvinsiController',['parameters'=>['provinsi'=>'uuid']]); 
     Route::post('/dmaster/provinsi/search',['uses'=>'DMaster\ProvinsiController@search','as'=>'provinsi.search']);          
