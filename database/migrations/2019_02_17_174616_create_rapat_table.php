@@ -17,7 +17,9 @@ class CreateRapatTable extends Migration
             $table->string('RapatID',19);
             $table->string('Judul');
             $table->text('Isi');
+            $table->string('pimpinan');
             $table->string('anggota');
+            $table->string('Tempat_Rapat');
             $table->date('Tanggal_Rapat');
             $table->year('TA');
             $table->timestamps();

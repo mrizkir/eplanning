@@ -21,7 +21,7 @@ class RapatModel extends Model
      * @var array
      */
     protected $fillable = [
-        'RapatID', 'Judul', 'Isi','anggota','Tanggal_Rapat','TA'
+        'RapatID', 'Judul', 'Isi','pimpinan','anggota','Tempat_Rapat','Tanggal_Rapat','TA'
     ];
     /**
     * primary key tabel ini.

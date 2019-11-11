@@ -46,15 +46,30 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    {{Form::label('pimpinan','PIMPINAN RAPAT',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('pimpinan','',['class'=>'form-control','placeholder'=>'PIMPINAN RAPAT'])}}
+                    </div>
+                </div>
+                <div class="form-group">
                     {{Form::label('anggota','ANGGOTA',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
                         {{Form::textarea('anggota','',['class'=>'form-control','placeholder'=>'ANGGOTA RAPAT'])}}
                     </div>
                 </div>
                 <div class="form-group">
+                    {{Form::label('Tempat_Rapat','TEMPAT RAPAT',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::text('Tempat_Rapat','',['class'=>'form-control','placeholder'=>'TEMPAT RAPAT'])}}
+                    </div>
+                </div>                                
+                <div class="form-group">
                     {{Form::label('Tanggal_Rapat','TANGGAL RAPAT',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('Tanggal_Rapat','',['class'=>'form-control','placeholder'=>'TANGGAL RAPAT'])}}
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="icon-calendar22"></i></span>
+                            {{Form::text('Tanggal_Rapat',date('d/m/Y'),['class'=>'form-control daterange-single','placeholder'=>'TANGGAL RAPAT'])}}
+                        </div>
                     </div>
                 </div>                                
                 <div class="form-group">            
@@ -70,10 +85,17 @@
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/moment.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/daterangepicker.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {    
+    // Single picker
+    $('.daterange-single').daterangepicker({ 
+        singleDatePicker: true,
+        format: 'dd/mm/yyyy'
+    });
     $('#frmdata').validate({
         ignore:[],
         rules: {
@@ -84,9 +106,15 @@ $(document).ready(function () {
             isi : {
                 required: true,
             },
+            pimpinan : {
+                required: true,
+            },
             anggota : {
                 required: true,
-            }
+            },
+            Tempat_Rapat : {
+                required: true,
+            },
         },
         messages : {
             Judul : {
@@ -96,9 +124,15 @@ $(document).ready(function () {
             isi : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
             },
+            pimpinan : {
+                required: "Mohon untuk di isi karena ini diperlukan.",
+            },            
             anggota : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
-            }            
+            },            
+            Tempat_Rapat : {
+                required: "Mohon untuk di isi karena ini diperlukan.",
+            },            
         },        
     });   
 });

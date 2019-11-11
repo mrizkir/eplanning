@@ -22,28 +22,20 @@
             <thead>
                 <tr class="bg-teal-700">
                     <th width="55">NO</th>
-                    <th></th>
-                    <th width="100">
-                        <a class="column-sort text-white" id="col-id" data-order="{{$direction}}" href="#">
-                            ID  
-                        </a>                                             
-                    </th>                     
                     <th>
-                        <a class="column-sort text-white" id="col-username" data-order="{{$direction}}" href="#">
-                            USERNAME  
+                        <a class="column-sort text-white" id="col-Judul" data-order="{{$direction}}" href="#">
+                            JUDUL  
                         </a>                                             
+                    </th>                   
+                    <th width="250">
+                        PIMPINAN RAPAT  
                     </th>
-                    <th>
-                        <a class="column-sort text-white" id="col-nama" data-order="{{$direction}}" href="#">
-                            NAMA
-                        </a>                                             
+                    <th width="250">
+                        TEMPAT RAPAT  
                     </th>
-                    <th>
-                        <a class="column-sort text-white" id="col-email" data-order="{{$direction}}" href="#">
-                            EMAIL  
-                        </a>                                             
+                    <th width="150">
+                        TANGGAL RAPAT  
                     </th>
-                    <th width="70">THEME</th>
                     <th width="100">AKSI</th>
                 </tr>
             </thead>
@@ -53,26 +45,24 @@
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>                  
-                    <th><img src="{!!asset($item->foto)!!}" alt="{{$item->username}}" height="50"></th>
-                    <td>{{$item->id}}</td>
-                    <td>{{$item->username}}</td> 
-                    <td>{{$item->name}}</td> 
-                    <td>{{$item->email}}</td> 
-                    <td>{{$item->theme}}</td> 
+                    <td>{{$item->Judul}}</td>
+                    <td>{{$item->pimpinan}}</td>
+                    <td>{{$item->Tempat_Rapat}}</td>
+                    <td>{{$item->Tanggal_Rapat}}</td> 
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('rapat.show',['id'=>$item->id])}}" title="Detail Data Rapat">
+                                <a class="btnShow" href="{{route('rapat.show',['id'=>$item->RapatID])}}" title="Detail Data Rapat">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('rapat.edit',['id'=>$item->id])}}" title="Ubah Data Rapat">
+                                <a class="btnEdit" href="{{route('rapat.edit',['id'=>$item->RapatID])}}" title="Ubah Data Rapat">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
                             <li class="text-danger-600">
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data Rapat" data-id="{{$item->id}}" data-url="{{route('rapat.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data Rapat" data-id="{{$item->RapatID}}" data-url="{{route('rapat.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>

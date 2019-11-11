@@ -247,14 +247,19 @@ class RapatController extends Controller {
         $this->validate($request, [
             'Judul'=>'required',
             'isi'=>'required',
+            'pimpinan'=>'required',
             'anggota'=>'required',
+            'Tempat_Rapat'=>'required',
         ]);
+        $Tanggal_Rapat = \Carbon\Carbon::createFromFormat('d/m/Y',$request->input('Tanggal_Rapat'));
         $rapat=RapatModel::create([
             'RapatID'=>uniqid ('uid'),
             'Judul'=>$request->input('Judul'),
             'Isi'=>$request->input('isi'),
+            'pimpinan'=> $request->input('pimpinan'),
             'anggota'=> $request->input('anggota'),
-            'Tanggal_Rapat'=> $request->input('Tanggal_Rapat'),
+            'Tempat_Rapat'=> $request->input('Tempat_Rapat'),
+            'Tanggal_Rapat'=> $Tanggal_Rapat,
             'TA' => \HelperKegiatan::getTahunPerencanaan(),
         ]);                    
         
@@ -366,53 +371,33 @@ class RapatController extends Controller {
      */
     public function destroy(Request $request,$id)
     {
-        $theme = \Auth::user()->theme;
-        if ($request->exists('useropd'))
+        $theme = \Auth::user()->theme;    
+
+        $rapat = RapatModel::find($id);
+        $result=$rapat->delete();
+        if ($request->ajax()) 
         {
-            $user=\App\Models\UserOPD::find($id);
-            $userid=$user->id;
-            $result=$user->delete();
-            if ($request->ajax()) 
-            {
-                $dataopd=$this->populateDataOPD($userid);
-                $datatable = view("pages.$theme.rapat.datatableopd")->with(['page_active'=>'rapat',                                                                                
-                                                                                'dataopd'=>$dataopd])->render(); 
-                
-                return response()->json(['success'=>true,'datatable'=>$datatable],200); 
+        
+            $currentpage=$this->getCurrentPageInsideSession('rapat'); 
+            $data=$this->populateData($currentpage);
+            if ($currentpage > $data->lastPage())
+            {            
+                $data = $this->populateData($data->lastPage());
             }
-            else
-            {
-                return redirect(route('rapat.show',['id'=>$userid]))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
-            }
+            $datatable = view("pages.$theme.rapat.datatable")->with(['page_active'=>'rapat',
+                                                                                'search'=>$this->getControllerStateSession('rapat','search'),
+                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                                'column_order'=>$this->getControllerStateSession('rapat.orderby','column_name'),
+                                                                                'direction'=>$this->getControllerStateSession('rapat.orderby','order'),
+                                                                                'data'=>$data])->render();      
+            
+            return response()->json(['success'=>true,'datatable'=>$datatable],200); 
         }
         else
         {
-            $rapat = User::find($id);
-            $result=$rapat->delete();
-            if ($request->ajax()) 
-            {
-            
-                $currentpage=$this->getCurrentPageInsideSession('rapat'); 
-                $data=$this->populateData($currentpage);
-                if ($currentpage > $data->lastPage())
-                {            
-                    $data = $this->populateData($data->lastPage());
-                }
-                $datatable = view("pages.$theme.rapat.datatable")->with(['page_active'=>'rapat',
-                                                                                    'search'=>$this->getControllerStateSession('rapat','search'),
-                                                                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                                                    'column_order'=>$this->getControllerStateSession('rapat.orderby','column_name'),
-                                                                                    'direction'=>$this->getControllerStateSession('rapat.orderby','order'),
-                                                                                    'data'=>$data])->render();      
-                
-                return response()->json(['success'=>true,'datatable'=>$datatable],200); 
-            }
-            else
-            {
-                return redirect(route('rapat.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
-            }    
+            return redirect(route('rapat.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+        }   
 
-        }
            
     }
 }
