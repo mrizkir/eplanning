@@ -24,9 +24,9 @@ class CreateUsersTable extends Migration
             $table->string('foto')->default('storage/images/users/no_photo.png');
             $table->boolean('active')->default(1);
             $table->boolean('isdeleted')->default(1);
-            $table->boolean('locked')->default(0);              
-            $table->string('token')->nullable();
+            $table->boolean('locked')->default(0);                          
             $table->rememberToken();
+            $table->string('api_token')->nullable();
             $table->timestamps();
             
         });
