@@ -355,6 +355,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::get('/workflow/musrenbang/pembahasanmusrenkecamatan/paginate/{id}',['uses'=>'Musrenbang\PembahasanMusrenKecamatanController@paginate','as'=>'pembahasanmusrenkecamatan.paginate']);              
     Route::post('/workflow/musrenbang/pembahasanmusrenkecamatan/changenumberrecordperpage',['uses'=>'Musrenbang\PembahasanMusrenKecamatanController@changenumberrecordperpage','as'=>'pembahasanmusrenkecamatan.changenumberrecordperpage']);  
     Route::post('/workflow/musrenbang/pembahasanmusrenkecamatan/orderby',['uses'=>'Musrenbang\PembahasanMusrenKecamatanController@orderby','as'=>'pembahasanmusrenkecamatan.orderby']);  
+    Route::get('/workflow/musrenbang/pembahasanmusrenkecamatan/printtoexcel',['uses'=>'Musrenbang\PembahasanMusrenKecamatanController@printtoexcel','as'=>'pembahasanmusrenkecamatan.printtoexcel']);              
             
     //workflow - Usulan Pra Renja OPD/SKPD [aspirasi]
     Route::resource('/workflow/rkpd/usulanprarenjaopd','RKPD\UsulanRenjaController',['parameters'=>['usulanprarenjaopd'=>'uuid']]);        

@@ -6,15 +6,14 @@
     <i class="icon-comments position-left"></i>
     <span class="text-semibold"> 
         RAPAT
-    </span>     
+    </span>
 @endsection
 @section('page_info')
     @include('pages.limitless.rapat.info')
 @endsection
-@section('page_breadcrumb')
-    
+@section('page_breadcrumb')    
     <li><a href="{!!route('rapat.index')!!}">RAPAT</a></li>
-    <li class="active">UBAH DATA</li>
+    <li class="active">TAMBAH DATA</li>
 @endsection
 @section('page_content')
 <div class="content">
@@ -22,116 +21,119 @@
         <div class="panel-heading">
             <h5 class="panel-title">
                 <i class="icon-pencil7 position-left"></i> 
-                UBAH DATA
+                TAMBAH DATA
             </h5>
             <div class="heading-elements">
                 <ul class="icons-list">                    
-                    <li>
+                    <li>               
                         <a href="{!!route('rapat.index')!!}" data-action="closeredirect" title="keluar"></a>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>['RapatController@update',$data->id],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
-                {{Form::hidden('_method','PUT')}}
+            {!! Form::open(['action'=>['RapatController@update',$data->RapatID],'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
                 <div class="form-group">
-                    {{Form::label('name','NAMA',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('Judul','JUDUL',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('name',$data['name'],['class'=>'form-control','placeholder'=>'NAMA USER'])}}
+                        {{Form::text('Judul',$data['Judul'],['class'=>'form-control','placeholder'=>'JUDUL'])}}
                     </div>
                 </div> 
                 <div class="form-group">
-                    {{Form::label('email','EMAIL',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('Isi','ISI RAPAT',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('email',$data['email'],['class'=>'form-control','placeholder'=>'EMAIL USER'])}}
+                        {{Form::textarea('Isi',$data['Isi'],['class'=>'form-control','placeholder'=>'ISI RAPAT'])}}
                     </div>
                 </div>
                 <div class="form-group">
-                    {{Form::label('username','USERNAME',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('pimpinan','PIMPINAN RAPAT',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('username',$data['username'],['class'=>'form-control','placeholder'=>'USERNAME'])}}
+                        {{Form::text('pimpinan',$data['pimpinan'],['class'=>'form-control','placeholder'=>'PIMPINAN RAPAT'])}}
                     </div>
                 </div>
                 <div class="form-group">
-                    {{Form::label('password','PASSWORD',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('anggota','ANGGOTA',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::password('password',['class'=>'form-control','placeholder'=>'PASSWORD'])}}
+                        {{Form::textarea('anggota',$data['anggota'],['class'=>'form-control','placeholder'=>'ANGGOTA RAPAT'])}}
                     </div>
-                </div>                     
+                </div>
                 <div class="form-group">
-                    {{Form::label('theme','THEME',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('Tempat_Rapat','TEMPAT RAPAT',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::select('theme', $daftar_theme,$data['theme'],['class'=>'form-control','id'=>'theme'])}}                                
+                        {{Form::text('Tempat_Rapat',$data['Tempat_Rapat'],['class'=>'form-control','placeholder'=>'TEMPAT RAPAT'])}}
                     </div>
-                </div>  
+                </div>                                
                 <div class="form-group">
-                    {{Form::label('do_sync','SYNCING ROLE ?',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('Tanggal_Rapat','TANGGAL RAPAT',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        <div class="checkbox checkbox-switch">
-                            {{Form::checkbox('do_sync','1',0,['class'=>'switch','data-on-text'=>'OK','data-off-text'=>'NO'])}}                                     
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="icon-calendar22"></i></span>
+                            {{Form::text('Tanggal_Rapat',Helper::tanggal('d/m/Y',$data['Tanggal_Rapat']),['class'=>'form-control daterange-single','placeholder'=>'TANGGAL RAPAT'])}}
                         </div>
                     </div>
-                </div>          
+                </div>                                
                 <div class="form-group">            
                     <div class="col-md-10 col-md-offset-2">                        
-                        {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] )  }}                        
+                        {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}
                     </div>
                 </div>
             {!! Form::close()!!}
         </div>
     </div>
-</div>  
+</div>   
 @endsection
 @section('page_asset_js')
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
-<script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
-<script src="{!!asset('themes/limitless/assets/js/switch.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/moment.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/daterangepicker.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
-$(document).ready(function () {
-    $(".switch").bootstrapSwitch();
-    //styling select
-    $('#OrgID.select').select2({
-        placeholder: "PILIH OPD / SKPD",
-        allowClear:true
-    }); 
-    $('#SOrgID.select').select2({
-        placeholder: "PILIH UNIT KERJA",
-        allowClear:true
-    });  
+$(document).ready(function () {    
+    // Single picker
+    $('.daterange-single').daterangepicker({ 
+        singleDatePicker: true,
+        format: 'dd/mm/yyyy'
+    });
     $('#frmdata').validate({
         ignore:[],
         rules: {
-            name : {
+            Judul : {
                 required: true,
                 minlength: 2
             },
-            email : {
+            Isi : {
                 required: true,
-                email: true,
             },
-            username : {
+            pimpinan : {
                 required: true,
-                minlength: 5,
-            }
+            },
+            anggota : {
+                required: true,
+            },
+            Tempat_Rapat : {
+                required: true,
+            },
         },
         messages : {
-            name : {
+            Judul : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             },
-            email : {
+            Isi : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
-                email: "Format email tidak benar."
             },
-            username : {
+            pimpinan : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
-                minlength: "Mohon di isi minimal 5 karakter atau lebih."
-            }
-        },           
+            },            
+            anggota : {
+                required: "Mohon untuk di isi karena ini diperlukan.",
+            },            
+            Tempat_Rapat : {
+                required: "Mohon untuk di isi karena ini diperlukan.",
+            },            
+        },        
     });   
 });
 </script>

@@ -230,10 +230,8 @@ class RapatController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
-        $daftar_theme = $this->listOfthemes;             
         return view("pages.$theme.rapat.create")->with(['page_active'=>'rapat',
-                                                                    'daftar_theme'=>$daftar_theme
-                                                                ]);  
+                                                        ]);  
     }
     
     /**
@@ -246,7 +244,7 @@ class RapatController extends Controller {
     {
         $this->validate($request, [
             'Judul'=>'required',
-            'isi'=>'required',
+            'Isi'=>'required',
             'pimpinan'=>'required',
             'anggota'=>'required',
             'Tempat_Rapat'=>'required',
@@ -255,7 +253,7 @@ class RapatController extends Controller {
         $rapat=RapatModel::create([
             'RapatID'=>uniqid ('uid'),
             'Judul'=>$request->input('Judul'),
-            'Isi'=>$request->input('isi'),
+            'Isi'=>$request->input('Isi'),
             'pimpinan'=> $request->input('pimpinan'),
             'anggota'=> $request->input('anggota'),
             'Tempat_Rapat'=> $request->input('Tempat_Rapat'),
@@ -307,12 +305,10 @@ class RapatController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $data = User::findOrFail($id);
-        if (!is_null($data) ) 
-        {
-            $daftar_theme = $this->listOfthemes;   
+        $data = RapatModel::findOrFail($id);
+        if (!is_null($data) )         {
+            
             return view("pages.$theme.rapat.edit")->with(['page_active'=>'rapat',                                                                   
-                                                                    'daftar_theme'=>$daftar_theme,
                                                                     'data'=>$data
                                                                 ]);
         }        
@@ -327,29 +323,24 @@ class RapatController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $user = User::find($id);
+        $rapat = RapatModel::find($id);
 
         $this->validate($request, [
-            'username'=>['required',new IgnoreIfDataIsEqualValidation('users',$user->username)],           
-            'name'=>'required',            
-            'email'=>'required|string|email|unique:users,email,'.$id,              
-        ]);        
-        
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->username = $request->input('username');
-        if (!empty(trim($request->input('password')))) {
-            $user->password = \Hash::make($request->input('password'));
-        }  
-        $user->theme = $request->input('theme');
-        $user->updated_at = \Carbon\Carbon::now()->toDateTimeString();        
-        $user->save();
-
-        $user->syncRoles('opd');
-        if ($request->input('do_sync')==1)
-        {
-            $user->syncPermissions($user->getPermissionsViaRoles()->pluck('name')->toArray());
-        }
+            'Judul'=>'required',
+            'Isi'=>'required',
+            'pimpinan'=>'required',
+            'anggota'=>'required',
+            'Tempat_Rapat'=>'required',
+        ]);
+        $Tanggal_Rapat = \Carbon\Carbon::createFromFormat('d/m/Y',$request->input('Tanggal_Rapat'));
+        $rapat->Judul = $request->input('Judul');
+        $rapat->Isi = $request->input('Isi');
+        $rapat->pimpinan = $request->input('pimpinan');
+        $rapat->anggota = $request->input('anggota');
+        $rapat->Tempat_Rapat = $request->input('Tempat_Rapat');
+        $rapat->Tanggal_Rapat = $request->input('Tanggal_Rapat');
+        $rapat->save();
+     
         if ($request->ajax()) 
         {
             return response()->json([
@@ -359,7 +350,7 @@ class RapatController extends Controller {
         }
         else
         {
-            return redirect(route('rapat.show',['id'=>$user->id]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('rapat.show',['id'=>$rapat->id]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 
