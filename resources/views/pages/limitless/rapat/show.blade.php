@@ -51,7 +51,7 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>TANGGAL RAPAT: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->Tanggal_Rapat}}</p>
+                                    <p class="form-control-static">{{Helper::tanggal('d F Y',$data->Tanggal_Rapat)}}</p>
                                 </div>                            
                             </div> 
                             <div class="form-group">

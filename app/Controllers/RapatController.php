@@ -230,6 +230,7 @@ class RapatController extends Controller {
     public function create()
     {        
         $theme = \Auth::user()->theme;
+        echo \Helper::tanggal('d/m/Y');
         return view("pages.$theme.rapat.create")->with(['page_active'=>'rapat',
                                                         ]);  
     }
@@ -249,7 +250,7 @@ class RapatController extends Controller {
             'anggota'=>'required',
             'Tempat_Rapat'=>'required',
         ]);
-        $Tanggal_Rapat = \Carbon\Carbon::createFromFormat('d/m/Y',$request->input('Tanggal_Rapat'));
+        $Tanggal_Rapat = \Carbon\Carbon::createFromFormat('m/d/Y',$request->input('Tanggal_Rapat'));
         $rapat=RapatModel::create([
             'RapatID'=>uniqid ('uid'),
             'Judul'=>$request->input('Judul'),

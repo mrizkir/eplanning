@@ -68,7 +68,7 @@
                     <div class="col-md-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="icon-calendar22"></i></span>
-                            {{Form::text('Tanggal_Rapat',date('d/m/Y'),['class'=>'form-control daterange-single','placeholder'=>'TANGGAL RAPAT'])}}
+                            {{Form::text('Tanggal_Rapat','',['class'=>'form-control daterange-single','placeholder'=>'TANGGAL RAPAT'])}}
                         </div>
                     </div>
                 </div>                                
