@@ -339,7 +339,7 @@ class RapatController extends Controller {
         $rapat->pimpinan = $request->input('pimpinan');
         $rapat->anggota = $request->input('anggota');
         $rapat->Tempat_Rapat = $request->input('Tempat_Rapat');
-        $rapat->Tanggal_Rapat = $request->input('Tanggal_Rapat');
+        $rapat->Tanggal_Rapat = $Tanggal_Rapat;
         $rapat->save();
      
         if ($request->ajax()) 
