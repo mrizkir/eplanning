@@ -21,6 +21,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::get('/rapat/paginate/{id}',['uses'=>'RapatController@paginate','as'=>'rapat.paginate']);              
     Route::post('/rapat/changenumberrecordperpage',['uses'=>'RapatController@changenumberrecordperpage','as'=>'rapat.changenumberrecordperpage']);  
     Route::post('/rapat/orderby',['uses'=>'RapatController@orderby','as'=>'rapat.orderby']);
+    Route::get('/rapat/printtoword/{uuid}',['uses'=>'RapatController@printtoword','as'=>'rapat.printtoword']);
 
     //masters - provinsi [lokasi]
     Route::resource('/dmaster/provinsi','DMaster\ProvinsiController',['parameters'=>['provinsi'=>'uuid']]); 

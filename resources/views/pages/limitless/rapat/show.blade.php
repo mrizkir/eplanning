@@ -24,7 +24,10 @@
                     <i class="icon-eye"></i>  DATA RAPAT
                 </h5>                
                 <div class="heading-elements">   
-                    <a href="{{route('rapat.create')}}" class="btn btn-info btn-icon heading-btn btnTambah" title="Tambah Data Kelompok Urusan">
+                    <a href="{{route('rapat.printtoword',['id'=>$data->RapatID])}}" class="btn btn-warning btn-icon heading-btn btnTambah" title="Cetak Risalah Rapat">
+                        <i class="icon-printer"></i>
+                    </a>
+                    <a href="{{route('rapat.create')}}" class="btn btn-info btn-icon heading-btn btnTambah" title="Tambah Data Rapat">
                         <i class="icon-googleplus5"></i>
                     </a>
                     <a href="{{route('rapat.edit',['id'=>$data->RapatID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Rapat">

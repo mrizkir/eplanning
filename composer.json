@@ -14,6 +14,7 @@
         "laravelcollective/html": "^5.8",
         "mpdf/mpdf": "^8.0",
         "phpoffice/phpspreadsheet": "^1.6",
+        "phpoffice/phpword": "^0.17.0",
         "spatie/laravel-activitylog": "^3.2.2",
         "spatie/laravel-medialibrary": "^7.0.0",
         "spatie/laravel-permission": "2.33"

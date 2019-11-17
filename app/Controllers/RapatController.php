@@ -392,4 +392,31 @@ class RapatController extends Controller {
 
            
     }
+    /**
+     * digunakan untuk mencetak risalah rapat ke microsoft word
+     */
+    public function printtoword ($id)
+    {
+        // Creating the new document...
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+
+        /* Note: any element you append to a document must reside inside of a Section. */
+
+        // Adding an empty Section to the document...
+        $section = $phpWord->addSection();
+        // Adding Text element to the Section having font styled by default...    
+ 
+        // Adding Text element with font customized inline...
+        $section->addText('TANGGAL RAPAT',
+            array('name' => 'Tahoma', 'size' => 10)
+        );       
+
+
+        // Saving the document as OOXML file...
+        $filename = 'rapat_'.date('d_m_Y_H_m_s').'.docx';
+        $pathToFile = config('eplanning.local_path').DIRECTORY_SEPARATOR.$filename;
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        $objWriter->save($pathToFile);
+        return response()->download($pathToFile)->deleteFileAfterSend(true);
+    }
 }
