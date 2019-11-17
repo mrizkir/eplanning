@@ -15,6 +15,9 @@
     <li><a href="{!!route('rapat.index')!!}">RAPAT</a></li>
     <li class="active">TAMBAH DATA</li>
 @endsection
+@section('page_asset_css')
+<link rel="stylesheet" href="{!!asset('themes/limitless/assets/css/daterangepicker.css')!!}">
+@endsection
 @section('page_content')
 <div class="content">
     <div class="panel panel-flat">
@@ -94,6 +97,7 @@ $(document).ready(function () {
     // Single picker
     $('.daterange-single').daterangepicker({ 
         singleDatePicker: true,
+        showDropdowns: true,
         locale:{
             format: 'DD/MM/YYYY'
         }
