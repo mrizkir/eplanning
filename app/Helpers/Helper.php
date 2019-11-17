@@ -54,6 +54,7 @@ class Helper {
      * @return type date
      */
     public static function tanggal($format, $date=null) {
+        Carbon::setLocale(app()->getLocale());
         if ($date == null){
             $tanggal=Carbon::parse(Carbon::now())->format($format);
         }else{

@@ -397,20 +397,40 @@ class RapatController extends Controller {
      */
     public function printtoword ($id)
     {
-        // Creating the new document...
+		$data = RapatModel::findOrFail($id);
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
-        /* Note: any element you append to a document must reside inside of a Section. */
 
-        // Adding an empty Section to the document...
         $section = $phpWord->addSection();
-        // Adding Text element to the Section having font styled by default...    
  
-        // Adding Text element with font customized inline...
-        $section->addText('TANGGAL RAPAT',
-            array('name' => 'Tahoma', 'size' => 10)
-        );       
-
+        $section->addText('RISALAH RAPAT',[
+			'size'=>16,
+			'bold'=>true			
+		]);       
+		
+		
+		$section->addTextBreak(1);
+		$table = $section->addTable();
+		$table->addRow();
+		$table->addCell(3000)->addText("PIMPINAN RAPAT");
+		$table->addCell(100)->addText(':');
+		$table->addCell(10000)->addText($data->pimpinan);
+		$table->addRow();
+		$table->addCell(3000)->addText("HARI / TANGGAL");
+		$table->addCell(100)->addText(':');
+		$table->addCell(10000)->addText(\Helper::tanggal('l, j F Y',$data->Tanggal_Rapat));
+		$table->addRow();
+		$table->addCell(3000)->addText("TEMPAT");
+		$table->addCell(100)->addText(':');
+		$table->addCell(10000)->addText($data->Tempat_Rapat);
+		$table->addRow();
+		$table->addCell(3000)->addText("PESERTA RAPAT");
+		$table->addCell(100)->addText(':');
+		$table->addCell(10000)->addText($data->anggota);
+		$table->addRow();
+		$table->addCell(3000)->addText("ISI RAPAT");
+		$table->addCell(100)->addText(':');
+		$table->addCell(10000)->addText($data->Isi);
 
         // Saving the document as OOXML file...
         $filename = 'rapat_'.date('d_m_Y_H_m_s').'.docx';
