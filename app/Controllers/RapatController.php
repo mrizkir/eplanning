@@ -250,7 +250,7 @@ class RapatController extends Controller {
             'anggota'=>'required',
             'Tempat_Rapat'=>'required',
         ]);
-        $Tanggal_Rapat = \Carbon\Carbon::createFromFormat('m/d/Y',$request->input('Tanggal_Rapat'));
+        $Tanggal_Rapat = \Carbon\Carbon::createFromFormat('d/m/Y',$request->input('Tanggal_Rapat'));
         $rapat=RapatModel::create([
             'RapatID'=>uniqid ('uid'),
             'Judul'=>$request->input('Judul'),
@@ -351,7 +351,7 @@ class RapatController extends Controller {
         }
         else
         {
-            return redirect(route('rapat.show',['id'=>$rapat->id]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('rapat.show',['id'=>$rapat->RapatID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 

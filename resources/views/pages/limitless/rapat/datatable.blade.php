@@ -48,7 +48,7 @@
                     <td>{{$item->Judul}}</td>
                     <td>{{$item->pimpinan}}</td>
                     <td>{{$item->Tempat_Rapat}}</td>
-                    <td>{{$item->Tanggal_Rapat}}</td> 
+                    <td>{{Helper::tanggal('d/m/Y',$item->Tanggal_Rapat)}}</td> 
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">

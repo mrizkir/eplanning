@@ -94,7 +94,9 @@ $(document).ready(function () {
     // Single picker
     $('.daterange-single').daterangepicker({ 
         singleDatePicker: true,
-        format: 'dd/mm/yyyy'
+        locale:{
+            format: 'DD/MM/YYYY'
+        }
     });
     $('#frmdata').validate({
         ignore:[],
