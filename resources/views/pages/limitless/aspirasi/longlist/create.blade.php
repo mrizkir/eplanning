@@ -84,7 +84,6 @@
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
-<script src="{!!asset('themes/limitless/assets/js/switch.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/autoNumeric.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
@@ -101,14 +100,7 @@ $(document).ready(function () {
                                         unformatOnSubmit: true,
                                         modifyValueOnWheel:false
                                     });
-    AutoNumeric.multiple(['#NilaiUsulan'],{
-                            allowDecimalPadding: false,
-                            decimalCharacter: ",",
-                            digitGroupSeparator: ".",
-                            unformatOnSubmit: true,
-                            showWarnings:false,
-                            modifyValueOnWheel:false
-                        });
+
 
     $('#frmdata').validate({
         ignore: [],
@@ -147,7 +139,7 @@ $(document).ready(function () {
                 required: "Mohon untuk di isi uraian sasaran kegiatan.",                
             },            
             Lokasi : {
-                required: "Mohon untuk di isi lokasi detaik kegiatan.", 
+                required: "Mohon untuk di isi lokasi detail kegiatan.", 
             }
         }      
     });   
