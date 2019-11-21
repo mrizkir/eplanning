@@ -319,6 +319,15 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/aspirasi/bansoshibah/orderby',['uses'=>'Aspirasi\BansosHibahController@orderby','as'=>'bansoshibah.orderby']); 
     Route::get('/aspirasi/bansoshibah/printtoexcel',['uses'=>'Aspirasi\BansosHibahController@printtoexcel','as'=>'bansoshibah.printtoexcel']);
 
+    //Aspirasi - Long List
+    Route::resource('/aspirasi/longlist','Aspirasi\LongListController',['parameters'=>['longlist'=>'uuid']]);        
+    Route::post('/aspirasi/longlist/search',['uses'=>'Aspirasi\LongListController@search','as'=>'longlist.search']); 
+    Route::post('/aspirasi/longlist/filter',['uses'=>'Aspirasi\LongListController@filter','as'=>'longlist.filter']);                  
+    Route::get('/aspirasi/longlist/paginate/{id}',['uses'=>'Aspirasi\LongListController@paginate','as'=>'longlist.paginate']);              
+    Route::post('/aspirasi/longlist/changenumberrecordperpage',['uses'=>'Aspirasi\LongListController@changenumberrecordperpage','as'=>'longlist.changenumberrecordperpage']);  
+    Route::post('/aspirasi/longlist/orderby',['uses'=>'Aspirasi\LongListController@orderby','as'=>'longlist.orderby']); 
+    Route::get('/aspirasi/longlist/printtoexcel',['uses'=>'Aspirasi\LongListController@printtoexcel','as'=>'longlist.printtoexcel']);
+
     //workflow - Aspirasi Musrenbang Desa
     Route::resource('/workflow/musrenbang/aspirasimusrendesa','Musrenbang\AspirasiMusrenDesaController',['parameters'=>['aspirasimusrendesa'=>'uuid']]);        
     Route::post('/workflow/musrenbang/aspirasimusrendesa/search',['uses'=>'Musrenbang\AspirasiMusrenDesaController@search','as'=>'aspirasimusrendesa.search']);  

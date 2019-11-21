@@ -319,6 +319,13 @@
                         </a>                                        
                     </li>                    
                     @endhasrole
+                    @hasrole('superadmin|bapelitbang')
+                    <li{!!Helper::isMenuActive ($page_active,'longlist',' class="active"')!!}>
+                        <a href="{{route('longlist.index')}}" title="Long List">
+                            <i class="icon-strategy"></i>LONG LIST</span>
+                        </a>                                        
+                    </li> 
+                    @endhasrole
                     <li class="dropdown-header">ANGGOTA DEWAN</li>
                     @hasrole('superadmin|bapelitbang')
                     <li{!!Helper::isMenuActive ($page_active,'pemilikpokokpikiran',' class="active"')!!}>

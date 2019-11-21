@@ -75,6 +75,6 @@ class CreateBansosHibahTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('trBansosHibahID');
+        Schema::dropIfExists('trBansosHibah');
     }
 }
