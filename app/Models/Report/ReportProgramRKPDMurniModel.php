@@ -106,12 +106,12 @@ class ReportProgramRKPDMurniModel extends ReportModel
             $total_jumlah_kegiatan_m+=$jumlah_kegiatan;      
 
             $sheet->setCellValue("F$row",$jumlah_kegiatan);
-            $sheet->setCellValue("G$row",$totalpagueachprogramNilaiUsulan);            
+            $sheet->setCellValue("G$row",\Helper::formatUang($totalpagueachprogramNilaiUsulan));            
             $row+=1;
         }        
         $sheet->setCellValue("E$row",'TOTAL'); 
         $sheet->setCellValue("F$row",$total_jumlah_kegiatan_m); 
-        $sheet->setValueExplicit("G$row",\Helper::formatUang($total_pagu_m),\PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING); 
+        $sheet->setCellValue("G$row",\Helper::formatUang($total_pagu_m)); 
        
         $row=$row-1;
         $styleArray=array(								
