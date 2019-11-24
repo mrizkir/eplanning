@@ -114,7 +114,7 @@ class ReportProgramMurniOPDController extends Controller
         {
             $opd = \DB::table('v_urusan_organisasi')
                         ->where('OrgID',$OrgID)->first();  
-            
+            $data_report['OrgIDRPJMD']=$opd->OrgIDRPJMD;            
             $data_report['OrgID']=$opd->OrgID;            
             $data_report['Kd_Urusan']=$opd->Kd_Urusan;
             $data_report['Nm_Urusan']=$opd->Nm_Urusan;

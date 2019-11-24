@@ -17,6 +17,7 @@ class ReportProgramRKPDMurniModel extends ReportModel
     private function  print()  
     {
         $OrgID = $this->dataReport['OrgID'];        
+        $OrgIDRPJMD = $this->dataReport['OrgIDRPJMD'];        
 
         $sheet = $this->spreadsheet->getActiveSheet();        
         $sheet->setTitle ('LAPORAN PROGRAM RKPD TA '.\HelperKegiatan::getTahunPerencanaan());   
@@ -74,7 +75,7 @@ class ReportProgramRKPDMurniModel extends ReportModel
         
         $daftar_program=\DB::table('v_organisasi_program')
                             ->select(\DB::raw('"PrgID","Kd_Urusan","Kd_Bidang","OrgCd","kode_program","Kd_Prog","PrgNm","Jns"'))
-                            ->where('OrgID',$OrgID)
+                            ->where('OrgIDRPJMD',$OrgIDRPJMD)
                             ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                             ->orderByRaw('kode_program ASC NULLS FIRST')
                             ->orderBy('Kd_Prog','ASC')
