@@ -66,7 +66,7 @@
                                 echo "SELURUH URUSAN";
                             } 
                             else {
-                                echo $item->Nm_Urusan;
+                                echo $item->Nm_Bidang;
                             }   
                         @endphp
                     </td>
@@ -101,6 +101,10 @@
                         <span class="label label-warning label-rounded" style="text-transform: none">
                             <strong>URSID:</strong>
                             {{$item->UrsID}}
+                        </span>                       
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>KELOMPOK:</strong>
+                            {{$item->Nm_Urusan}}
                         </span>                       
                         <span class="label label-warning label-rounded" style="text-transform: none">
                             <strong>CREATED:</strong>
