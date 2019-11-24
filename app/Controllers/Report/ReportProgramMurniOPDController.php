@@ -51,6 +51,8 @@ class ReportProgramMurniOPDController extends Controller
         {
             $OrgID = $request->input('OrgID')==''?'none':$request->input('OrgID');
             $filters['OrgID']=$OrgID;
+            $organisasi=\App\Models\DMaster\OrganisasiModel::find($filters['OrgID']);                  
+            $filters['OrgIDRPJMD']=$organisasi->OrgIDRPJMD;
             $this->putControllerStateSession($this->SessionName,'filters',$filters);            
             $datatable = view("pages.$theme.report.reportprogrammurniopd.datatable")->with(['page_active'=>$this->NameOfPage,   
                                                                                             'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),                                                                                                                                    
@@ -74,8 +76,8 @@ class ReportProgramMurniOPDController extends Controller
         $theme = $auth->theme;
         
         $filters=$this->getControllerStateSession($this->SessionName,'filters');
-        $roles=$auth->getRoleNames();   
-        
+        $roles=$auth->getRoleNames();          
+         
         switch ($roles[0])
         {
             case 'superadmin' :     
