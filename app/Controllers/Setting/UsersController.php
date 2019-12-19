@@ -424,7 +424,7 @@ class UsersController extends Controller {
         $user->username = $request->input('username');
         $user->theme = $request->input('theme');
         if (!empty(trim($request->input('password')))) {
-            $user->password = Hash::make($request->input('password'));
+            $user->password = \Hash::make($request->input('password'));
         }    
         $user->updated_at = \Carbon\Carbon::now()->toDateTimeString();
         $user->save();
