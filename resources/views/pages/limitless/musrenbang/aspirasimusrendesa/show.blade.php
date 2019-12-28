@@ -26,6 +26,9 @@
                     <i class="icon-eye"></i>  DATA USULAN KEGIATAN
                 </h5>
                 <div class="heading-elements">   
+                    <a href="{!!route('aspirasimusrendesa.create')!!}" class="btn btn-info btn-icon heading-btn" title="Tambah Kegiatan">
+                        <i class="icon-googleplus5"></i>
+                    </a>
                     <a href="{{route('aspirasimusrendesa.edit',['id'=>$data->UsulanDesaID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Kegiatan">
                         <i class="icon-pencil7"></i>
                     </a>
