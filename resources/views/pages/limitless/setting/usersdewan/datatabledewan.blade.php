@@ -32,7 +32,13 @@
                     <td>{{$item->Kd_PK}}</td> 
                     <td>{{$item->NmPk}}</td> 
                     <td>
-                        
+                        <ul class="icons-list">
+                            <li class="text-danger-600">
+                                <a class="btnDeleteDewan" href="javascript:;" title="Hapus Data User Dewan" data-id="{{$item->userdewan}}" data-url="{{route('usersdewan.index')}}">
+                                    <i class='icon-trash'></i>
+                                </a> 
+                            </li>
+                        </ul>
                     </td>
                 </tr>
             @endforeach                    

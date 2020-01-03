@@ -174,6 +174,31 @@ $(document).ready(function () {
             }
         },        
     });   
+    $("#divdatatable").on("click",".btnDeleteDewan", function(){
+        if (confirm('Apakah Anda ingin menghapus Data Hak Akses pada Anggota Dewan ini ?')) {
+            let url_ = $(this).attr("data-url");
+            let id = $(this).attr("data-id");
+            $.ajax({            
+                type:'post',
+                url:url_+'/'+id,
+                dataType: 'json',
+                data: {
+                    "_method": 'DELETE',
+                    "_token": token,
+                    "id": id,
+                    'userdewan':true
+                },
+                success:function(result)
+                {                     
+                    $('#divdatatable').html(result.datatable); 
+                },
+                error:function(xhr, status, error){
+                    console.log('ERROR');
+                    console.log(parseMessageAjaxEror(xhr, status, error));                           
+                },
+            });
+        }        
+    });
 });
 </script>
 @endsection

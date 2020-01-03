@@ -318,7 +318,13 @@ class UsersDewanController extends Controller {
         {
             $datadewan=$this->populateDataDewan($data->id);
             $daftar_dewan=\App\Models\Pokir\PemilikPokokPikiranModel::where('TA',\HelperKegiatan::getTahunPerencanaan()) 
-                                                                    ->select(\DB::raw('"PemilikPokokID", CONCAT("NmPk",\' [\',"Kd_PK",\']\') AS "NmPk"'))                                                                       
+                                                                    ->select(\DB::raw('"PemilikPokokID", CONCAT("NmPk",\' [\',"Kd_PK",\']\') AS "NmPk"'))      
+                                                                    ->WhereNotIn('PemilikPokokID',function($query) use ($id){
+                                                                        $query->select('PemilikPokokID')
+                                                                            ->from('usersdewan')
+                                                                            ->where('id', $id)
+                                                                            ->where('TA',\HelperKegiatan::getTahunPerencanaan());
+                                                                    })                                                                 
                                                                     ->get()
                                                                     ->pluck('NmPk','PemilikPokokID')                                                                        
                                                                     ->toArray();
@@ -444,29 +450,50 @@ class UsersDewanController extends Controller {
     public function destroy(Request $request,$id)
     {
         $theme = \Auth::user()->theme;
-        
-        $usersdewan = User::find($id);
-        $result=$usersdewan->delete();
-        if ($request->ajax()) 
+        if ($request->exists('userdewan'))
         {
-            $currentpage=$this->getCurrentPageInsideSession('usersdewan'); 
-            $data=$this->populateData($currentpage);
-            if ($currentpage > $data->lastPage())
-            {            
-                $data = $this->populateData($data->lastPage());
+            $user=\App\Models\UserDewan::find($id);
+            $userid=$user->id;
+            $result=$user->delete();
+
+            if ($request->ajax()) 
+            {
+                $datadewan=$this->populateDataDewan($userid);
+                $datatable = view("pages.$theme.setting.usersdewan.datatabledewan")->with(['page_active'=>'usersdewan',                                                                                
+                                                                                'datadewan'=>$datadewan])->render(); 
+                
+                return response()->json(['success'=>true,'datatable'=>$datatable],200); 
             }
-            $datatable = view("pages.$theme.setting.usersdewan.datatable")->with(['page_active'=>'usersdewan',
-                                                            'search'=>$this->getControllerStateSession('usersdewan','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                            'column_order'=>$this->getControllerStateSession('usersdewan.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('usersdewan.orderby','order'),
-                                                            'data'=>$data])->render();      
-            
-            return response()->json(['success'=>true,'datatable'=>$datatable],200); 
+            else
+            {
+                return redirect(route('usersdewan.show',['id'=>$userid]))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+            }
         }
         else
         {
-            return redirect(route('usersdewan.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+            $usersdewan = User::find($id);
+            $result=$usersdewan->delete();
+            if ($request->ajax()) 
+            {
+                $currentpage=$this->getCurrentPageInsideSession('usersdewan'); 
+                $data=$this->populateData($currentpage);
+                if ($currentpage > $data->lastPage())
+                {            
+                    $data = $this->populateData($data->lastPage());
+                }
+                $datatable = view("pages.$theme.setting.usersdewan.datatable")->with(['page_active'=>'usersdewan',
+                                                                'search'=>$this->getControllerStateSession('usersdewan','search'),
+                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                'column_order'=>$this->getControllerStateSession('usersdewan.orderby','column_name'),
+                                                                'direction'=>$this->getControllerStateSession('usersdewan.orderby','order'),
+                                                                'data'=>$data])->render();      
+                
+                return response()->json(['success'=>true,'datatable'=>$datatable],200); 
+            }
+            else
+            {
+                return redirect(route('usersdewan.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+            }
         }        
     }
 }
