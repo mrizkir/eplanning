@@ -773,8 +773,8 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     
     //setting - data eplanning [copydata]
     Route::get('/setting/dataeplanning/copydata', ['uses'=>'Setting\CopyDataController@index','as'=>'copydata.index']);
-    Route::post('/setting/dataeplanning/filter',['uses'=>'Setting\CopyDataController@filter','as'=>'copydata.filter']);    
-    Route::get('/setting/dataeplanning/copydata/{id}', ['uses'=>'Setting\CopyDataController@show','as'=>'copydata.show']);
+    Route::post('/setting/dataeplanning/copydata/filter',['uses'=>'Setting\CopyDataController@filter','as'=>'copydata.filter']);    
+    Route::get('/setting/dataeplanning/copydata/copy/{id}', ['uses'=>'Setting\CopyDataController@copy','as'=>'copydata.copy']);
         
     //setting - cache [clear]
     Route::get('/setting/cache/clear', ['uses'=>'Setting\ClearCacheController@index','as'=>'clearcache.index']);

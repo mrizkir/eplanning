@@ -33,7 +33,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Data dari Tahun :</label> 
                         <div class="col-md-10">
-                            {{Form::select('TACd', \App\Models\DMaster\TAModel::pluck('TACd','TACd'), $TA, ['placeholder' => 'PILIH TAHUN PERENCANAAN','class'=>'form-control','id'=>'TACd'])}}                            
+                            {{Form::select('TACd', \App\Models\DMaster\TAModel::pluck('TACd','TACd'), $TA, ['class'=>'form-control','id'=>'TACd'])}}                            
                         </div>
                     </div>
                 </div>
@@ -50,18 +50,17 @@
 $(document).ready(function () {
     $(document).on('change','#TACd',function(ev) {
         ev.preventDefault();   
-        alert('Hello');
         $.ajax({
             type:'post',
             url: url_current_page +'/filter',
             dataType: 'json',
             data: {                
                 "_token": token,
-                "TA": $('#TA').val(),
+                "TACd": $('#TACd').val(),
             },
             success:function(result)
             { 
-                
+                console.log(result);
             },
             error:function(xhr, status, error){
                 console.log('ERROR');

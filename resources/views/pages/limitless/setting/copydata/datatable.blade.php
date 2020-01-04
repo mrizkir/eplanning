@@ -1,9 +1,4 @@
 <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
-    <div class="panel-heading">
-        <div class="panel-title">
-            <h5 class="panel-title"><i class="icon-copy3 position-left"></i>&nbsp;</h5>
-        </div>
-    </div>
     <div class="table-responsive"> 
          <table id="data" class="table table-striped table-hover">
             <thead>
@@ -19,7 +14,15 @@
                 <tr>
                     <td>1</td>
                     <td>Wilayah (Provinsi, Kabupaten/Kota, Kecamatan, Desa/Kelurahan)</td>
-                    <td>-</td>
+                    <td>
+                        <ul class="icons-list">
+                            <li class="text-primary-600">
+                                <a class="btnShow" href="{{route('copydata.copy',['id'=>1])}}" title="Copy Data">
+                                    <i class='icon-copy3'></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </td>
                 </tr>                
             </tbody>
          </table>
