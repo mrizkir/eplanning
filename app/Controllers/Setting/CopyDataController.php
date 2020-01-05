@@ -80,14 +80,16 @@ class CopyDataController extends Controller
         $dari_ta= $this->getControllerStateSession('copydata.filters','TA'); 
         $ke_ta=\HelperKegiatan::getTahunPerencanaan();
         
-        //copy provinsi
-        echo "Hapus Data Provinsi TA = $ke_ta <br>";
+        try 
+        {
+            //copy provinsi
+            echo "Hapus Data Provinsi TA = $ke_ta <br>";
 
-        \App\Models\DMaster\ProvinsiModel::where('TA',$ke_ta)
-                                            ->delete();
-        echo "--> OK<br>";
-        echo "Salin data provinsi dari TA $dari_ta KE $ke_ta <br>";
-        $str_prov = '
+            \App\Models\DMaster\ProvinsiModel::where('TA',$ke_ta)
+                                                ->delete();
+            echo "--> OK<br>";
+            echo "Salin data provinsi dari TA $dari_ta KE $ke_ta <br>";
+            $sql = '
                     INSERT INTO "tmPMProv" (
                         "PMProvID", 
                         "Kd_Prov",
@@ -114,7 +116,143 @@ class CopyDataController extends Controller
                     WHERE 
                         "TA"=\''.$dari_ta.'\'
                     ';
-                    \DB::statement($str_prov);
+                    \DB::statement($sql);
                     echo "--> OK<br>";
+
+                    echo "Salin data kabupaten/kota dari TA $dari_ta KE $ke_ta <br>";
+                    $data = \App\Models\DMaster\ProvinsiModel::where('TA',$ke_ta)
+                                            ->chunk(25, function ($provinsi) use ($ke_ta){
+                                                $chunk=1;
+                                                foreach ($provinsi as $record) {
+                                                    $PMProvID_new=$record->PMProvID;
+                                                    $PMProvID_old=$record->PMProvID_Src;
+
+                                                    $sql = '
+                                                                INSERT INTO "tmPmKota" (
+                                                                    "PmKotaID", 
+                                                                    "PMProvID",
+                                                                    "Kd_Kota",                        
+                                                                    "Nm_Kota",
+                                                                    "Descr",  
+                                                                    "TA",
+                                                                    "PmKotaID_Src",
+                                                                    "Locked",
+                                                                    "created_at", 
+                                                                    "updated_at"
+                                                                )
+                                                                SELECT 
+                                                                    REPLACE(SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16),\'-\',\'\') AS "PmKotaID",
+                                                                    \''.$PMProvID_new.'\' AS "PMProvID",
+                                                                    "Kd_Kota",                        
+                                                                    "Nm_Kota",                                                                    
+                                                                    "Descr",                                                                    
+                                                                    \''.$ke_ta.'\' AS "TA",
+                                                                    "PmKotaID" AS "PmKotaID_Src",
+                                                                    "Locked",
+                                                                    NOW() AS created_at,
+                                                                    NOW() AS updated_at
+                                                                FROM
+                                                                    "tmPmKota" 
+                                                                WHERE 
+                                                                    "PMProvID"=\''.$PMProvID_old.'\'
+                                                                ';
+                                                                \DB::statement($sql);
+                                                                echo "cunk ke = $chunk --> OK<br>";
+                                                                $chunk+=1;
+                                                    
+                                                }
+                                            });
+        echo "Salin data kecamatan dari TA $dari_ta KE $ke_ta <br>";
+        $data = \App\Models\DMaster\KotaModel::where('TA',$ke_ta)
+                                            ->chunk(25, function ($kota) use ($ke_ta){
+                                                $chunk=0;
+                                                foreach ($kota as $record) {
+                                                    $PmKotaID_new=$record->PmKotaID;
+                                                    $PmKotaID_old=$record->PmKotaID_Src;
+
+                                                    $sql = '
+                                                                INSERT INTO "tmPmKecamatan" (
+                                                                    "PmKecamatanID", 
+                                                                    "PmKotaID",
+                                                                    "Kd_Kecamatan",                        
+                                                                    "Nm_Kecamatan",
+                                                                    "Descr",  
+                                                                    "TA",
+                                                                    "PmKecamatanID_Src",
+                                                                    "Locked",
+                                                                    "created_at", 
+                                                                    "updated_at"
+                                                                )
+                                                                SELECT 
+                                                                    REPLACE(SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16),\'-\',\'\') AS "PmKecamatanID",
+                                                                    \''.$PmKotaID_new.'\' AS "PmKotaID",
+                                                                    "Kd_Kecamatan",                        
+                                                                    "Nm_Kecamatan",                                                                    
+                                                                    "Descr",                                                                    
+                                                                    \''.$ke_ta.'\' AS "TA",
+                                                                    "PmKecamatanID" AS "PmKecamatanID_Src",
+                                                                    "Locked",
+                                                                    NOW() AS created_at,
+                                                                    NOW() AS updated_at
+                                                                FROM
+                                                                    "tmPmKecamatan" 
+                                                                WHERE 
+                                                                    "PmKotaID"=\''.$PmKotaID_old.'\'
+                                                                ';
+                                                                \DB::statement($sql);
+                                                                echo "cunk ke = $chunk --> OK<br>";
+                                                                $chunk+=1;
+                                                    
+                                                }
+                                            });
+        echo "Salin data Desa/Kelurahan dari TA $dari_ta KE $ke_ta <br>";
+        $data = \App\Models\DMaster\KecamatanModel::where('TA',$ke_ta)
+                                            ->chunk(25, function ($kecamatan) use ($ke_ta){
+                                                $chunk=1;
+                                                foreach ($kecamatan as $record) {
+                                                    $PmKecamatanID_new=$record->PmKecamatanID;
+                                                    $PmKecamatanID_old=$record->PmKecamatanID_Src;
+
+                                                    $sql = '
+                                                                INSERT INTO "tmPmDesa" (
+                                                                    "PmDesaID", 
+                                                                    "PmKecamatanID",
+                                                                    "Kd_Desa",                        
+                                                                    "Nm_Desa",
+                                                                    "Descr",  
+                                                                    "TA",
+                                                                    "PmDesaID_Src",
+                                                                    "Locked",
+                                                                    "created_at", 
+                                                                    "updated_at"
+                                                                )
+                                                                SELECT 
+                                                                    REPLACE(SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16),\'-\',\'\') AS "PmDesaID",
+                                                                    \''.$PmKecamatanID_new.'\' AS "PmKecamatanID",
+                                                                    "Kd_Desa",                        
+                                                                    "Nm_Desa",                                                                    
+                                                                    "Descr",                                                                    
+                                                                    \''.$ke_ta.'\' AS "TA",
+                                                                    "PmDesaID" AS "PmDesaID_Src",
+                                                                    "Locked",
+                                                                    NOW() AS created_at,
+                                                                    NOW() AS updated_at
+                                                                FROM
+                                                                    "tmPmDesa" 
+                                                                WHERE 
+                                                                    "PmKecamatanID"=\''.$PmKecamatanID_old.'\'
+                                                                ';
+                                                                \DB::statement($sql);
+                                                                echo "cunk ke = $chunk --> OK<br>";
+                                                                $chunk+=1;
+                                                    
+                                                }
+                                            });
+
+        }catch (\Exception $e)
+        {
+            echo 'Tidak bisa menghapus, karena isi table tmPMPProv/tmPmKota/tmPmKecamatan/tmPmDesa berelasi dengan tabel lain.<br>';
+            echo '<span style="color:red;">'.$e->getMessage().'</span>';
+        }
     }
 }
