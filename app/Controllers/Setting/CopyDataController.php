@@ -73,6 +73,9 @@ class CopyDataController extends Controller
             case 1 ://copy wilayah
                 $this->copywilayah();
             break;  
+            case 2 ://copy opd / skpd
+                $this->copyOPD();
+            break;  
         }
     }
     private function copywilayah ()
@@ -162,8 +165,8 @@ class CopyDataController extends Controller
                                                     
                                                 }
                                             });
-        echo "Salin data kecamatan dari TA $dari_ta KE $ke_ta <br>";
-        $data = \App\Models\DMaster\KotaModel::where('TA',$ke_ta)
+            echo "Salin data kecamatan dari TA $dari_ta KE $ke_ta <br>";
+            $data = \App\Models\DMaster\KotaModel::where('TA',$ke_ta)
                                             ->chunk(25, function ($kota) use ($ke_ta){
                                                 $chunk=0;
                                                 foreach ($kota as $record) {
@@ -205,8 +208,8 @@ class CopyDataController extends Controller
                                                     
                                                 }
                                             });
-        echo "Salin data Desa/Kelurahan dari TA $dari_ta KE $ke_ta <br>";
-        $data = \App\Models\DMaster\KecamatanModel::where('TA',$ke_ta)
+            echo "Salin data Desa/Kelurahan dari TA $dari_ta KE $ke_ta <br>";
+            $data = \App\Models\DMaster\KecamatanModel::where('TA',$ke_ta)
                                             ->chunk(25, function ($kecamatan) use ($ke_ta){
                                                 $chunk=1;
                                                 foreach ($kecamatan as $record) {
@@ -249,9 +252,121 @@ class CopyDataController extends Controller
                                                 }
                                             });
 
-        }catch (\Exception $e)
+        }
+        catch (\Exception $e)
         {
             echo 'Tidak bisa menghapus, karena isi table tmPMPProv/tmPmKota/tmPmKecamatan/tmPmDesa berelasi dengan tabel lain.<br>';
+            echo '<span style="color:red;">'.$e->getMessage().'</span>';
+        }
+    }
+    private function copyOPD ()
+    {
+        $dari_ta= $this->getControllerStateSession('copydata.filters','TA'); 
+        $ke_ta=\HelperKegiatan::getTahunPerencanaan();
+        
+        try 
+        {
+            //copy opd / skpd
+            echo "Hapus Data OPD / SKPD TA = $ke_ta <br>";
+
+            \App\Models\DMaster\OrganisasiModel::where('TA',$ke_ta)
+                                                ->delete();
+            echo "--> OK<br>";
+            echo "Salin data OPD / SKPD dari TA $dari_ta KE $ke_ta <br>";
+
+            $sql = '
+                    INSERT INTO "tmOrg" (
+                        "OrgID", 
+                        "OrgIDRPJMD",
+                        "UrsID",                        
+                        "OrgCd",                        
+                        "OrgNm",                        
+                        "OrgAlias",                        
+                        "Alamat",                        
+                        "NamaKepalaSKPD",                        
+                        "NIPKepalaSKPD",       
+                        "Descr",
+                        "TA",  
+                        "OrgID_Src",
+                        "created_at", 
+                        "updated_at"
+                    )
+                    SELECT 
+                        REPLACE(SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16),\'-\',\'\') AS "OrgID",
+                        "OrgIDRPJMD",
+                        "UrsID",                        
+                        "OrgCd",                        
+                        "OrgNm",                        
+                        "OrgAlias",                        
+                        "Alamat",                        
+                        "NamaKepalaSKPD",                        
+                        "NIPKepalaSKPD",       
+                        "Descr",
+                        \''.$ke_ta.'\' AS "TA",
+                        "OrgID" AS "OrgID_Src",
+                        NOW() AS created_at,
+                        NOW() AS updated_at
+                    FROM
+                        "tmOrg" 
+                    WHERE 
+                        "TA"=\''.$dari_ta.'\'
+                    ';
+                    \DB::statement($sql);
+                    echo "--> OK<br>";
+            
+            echo "Salin data Unit Kerja dari TA $dari_ta KE $ke_ta <br>";
+            $data = \App\Models\DMaster\OrganisasiModel::where('TA',$ke_ta)
+                                            ->chunk(25, function ($opd) use ($ke_ta){
+                                                $chunk=1;
+                                                foreach ($opd as $record) {
+                                                    $OrgID_new=$record->OrgID;
+                                                    $OrgID_old=$record->OrgID_Src;
+
+                                                    $sql = '
+                                                                INSERT INTO "tmSOrg" (
+                                                                    "SOrgID", 
+                                                                    "OrgID",
+                                                                    "SOrgCd",                        
+                                                                    "SOrgNm",                        
+                                                                    "SOrgAlias",                        
+                                                                    "Alamat",                        
+                                                                    "NamaKepalaSKPD",                        
+                                                                    "NIPKepalaSKPD",
+                                                                    "Descr",  
+                                                                    "TA",
+                                                                    "SOrgID_Src",
+                                                                    "created_at", 
+                                                                    "updated_at"
+                                                                )
+                                                                SELECT 
+                                                                    REPLACE(SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16),\'-\',\'\') AS "SOrgID",
+                                                                    \''.$OrgID_new.'\' AS "OrgID",
+                                                                    "SOrgCd",                        
+                                                                    "SOrgNm",                        
+                                                                    "SOrgAlias",                        
+                                                                    "Alamat",                        
+                                                                    "NamaKepalaSKPD",                        
+                                                                    "NIPKepalaSKPD",                                                                    
+                                                                    "Descr",                                                                    
+                                                                    \''.$ke_ta.'\' AS "TA",
+                                                                    "SOrgID" AS "SOrgID_Src",
+                                                                    NOW() AS created_at,
+                                                                    NOW() AS updated_at
+                                                                FROM
+                                                                    "tmSOrg" 
+                                                                WHERE 
+                                                                    "OrgID"=\''.$OrgID_old.'\'
+                                                                ';
+                                                                \DB::statement($sql);
+                                                                echo "cunk ke = $chunk --> OK<br>";
+                                                                $chunk+=1;
+                                                    
+                                                }
+                                            });
+
+        }
+        catch (\Exception $e)
+        {
             echo '<span style="color:red;">'.$e->getMessage().'</span>';
         }
     }

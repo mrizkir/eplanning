@@ -20,7 +20,8 @@ class CreateOrganisasiTable extends Migration
             $table->string('OrgNm');
             $table->string('OrgAlias');            
             $table->string('Descr')->nullable();
-            $table->year('TA');                   
+            $table->year('TA');      
+            $table->string('OrgIDRPJMD_Src')->nullable();
             $table->timestamps();
 
             $table->primary('OrgIDRPJMD');
@@ -46,6 +47,7 @@ class CreateOrganisasiTable extends Migration
             $table->string('NIPKepalaSKPD');
             $table->string('Descr')->nullable();
             $table->year('TA');       
+            $table->string('OrgID_Src',19)->nullable();       
             $table->timestamps();
 
             $table->primary('OrgID');
