@@ -5,6 +5,7 @@ namespace App\Controllers\Pokir;
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Models\Pokir\PemilikPokokPikiranModel;
+use App\Models\Pokir\PokokPikiranModel;
 use App\Rules\CheckRecordIsExistValidation;
 use App\Rules\IgnoreIfDataIsEqualValidation;
 
@@ -275,9 +276,21 @@ class PemilikPokokPikiranController extends Controller {
         $data = PemilikPokokPikiranModel::findOrFail($id);
         if (!is_null($data) )  
         {
+            $daftar_pokir = PokokPikiranModel::select(\DB::raw('
+                                                "trPokPir"."PokPirID",
+                                                "trRKPDRinc"."RKPDRincID",
+                                                "trPokPir"."NamaUsulanKegiatan",
+                                                "trPokPir"."Lokasi"
+                                            '))
+                                            ->leftJoin('trRKPDRinc','trPokPir.PokPirID','trRKPDRinc.PokPirID')
+                                            ->where('trPokPir.TA',\HelperKegiatan::getTahunPerencanaan())
+                                            ->where('trPokPir.PemilikPokokID',$id)
+                                            ->get();
+
             return view("pages.$theme.pokir.pemilikpokokpikiran.show")->with(['page_active'=>'pemilikpokokpikiran',
-                                                    'data'=>$data
-                                                    ]);
+                                                                                'data'=>$data,
+                                                                                'daftar_pokir'=>$daftar_pokir
+                                                                            ]);
         }        
     }
 

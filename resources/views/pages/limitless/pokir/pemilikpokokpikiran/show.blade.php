@@ -90,6 +90,84 @@
             </div>
         </div>
     </div>
+    <div class="col-md-12" id="divdatatable">
+        <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h6 class="panel-title">&nbsp;</h6>
+                </div>
+            </div>
+
+            @if (count($daftar_pokir) > 0)
+            <div class="table-responsive"> 
+                <table id="data" class="table table-striped table-hover">
+                    <thead>
+                        <tr class="bg-teal-700">
+                            <th width="55">NO</th>
+                            <th width="400">
+                                <a class="column-sort text-white" id="col-NamaUsulanKegiatan" href="#">
+                                    NAMA KEGIATAN  
+                                </a>                                             
+                            </th> 
+                            <th>
+                                <a class="column-sort text-white" id="col-Lokasi" href="#">
+                                    LOKASI  
+                                </a>                                             
+                            </th> 
+                            <th>
+                                RKPD FINAL
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>                  
+                        @php
+                            $jumlah_masuk=0;
+                        @endphp  
+                        @foreach ($daftar_pokir as $key=>$item)
+                            <tr>
+                                <td>
+                                    {{ $key + 1 }}    
+                                </td> 
+                                <td>{{$item->NamaUsulanKegiatan}}</td>
+                                <td>{{$item->Lokasi}}</td>
+                                <td>
+                                    @php
+                                        if (strlen($item->RKPDRincID)>0)
+                                        {
+                                            $jumlah_masuk+=1;
+                                        }
+                                    @endphp
+                                    {{$item->RKPDRincID}}
+                                </td>
+                            </tr>
+                        @endforeach                    
+                    </tbody>
+                    <tfoot>
+                        <tr class="bg-grey-300" style="font-weight:bold">
+                            <td colspan="2" class="text-right">TOTAL</td>
+                            <td colspan="2">{{$daftar_pokir->count()}}</td>                             
+                        </tr>
+                        <tr class="bg-grey-300" style="font-weight:bold">
+                            <td colspan="2" class="text-right">TOTAL MASUK</td>
+                            <td colspan="2">{{$jumlah_masuk}}</td>                             
+                        </tr>
+                        <tr class="bg-grey-300" style="font-weight:bold">
+                            <td colspan="2" class="text-right">TIDAK MASUK</td>
+                            <td colspan="2">{{$daftar_pokir->count()-$jumlah_masuk}}</td>                             
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            @else
+                <div class="panel-body">
+                    <div class="alert alert-info alert-styled-left alert-bordered">
+                        <span class="text-semibold">Info!</span>
+                        Belum ada data yang bisa ditampilkan.
+                    </div>
+                </div>   
+            @endif      
+        </div>
+    </div>
 </div>
 @endsection
 @section('page_custom_js')
