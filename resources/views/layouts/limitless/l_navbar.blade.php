@@ -30,6 +30,11 @@
                                             <i class="icon-display"></i> REKAP. PAGU INDIKATIF OPD										
                                         </a>   
                                     </li>
+                                    <li{!!Helper::isMenuActive ($page_active,'rekappagurkpdopd',' class="active"')!!}>
+                                        <a href="{!!route('rekappagurkpdopd.index')!!}">
+                                            <i class="icon-display"></i> REKAP. PAGU RKPD OPD										
+                                        </a>   
+                                    </li>
                                 </ul>
                             </div>
                         </div>
