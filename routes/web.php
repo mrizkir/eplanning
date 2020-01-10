@@ -6,13 +6,23 @@ Auth::routes(['register' => false]);
 Route::get('/',['uses'=>'FrontendController@welcome','as'=>'frontend.index']);
 Route::get('/logout',['uses'=>'Auth\LoginController@logout','as'=>'logout']);
 Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'auth']],function() {     
-    Route::get('/',['uses'=>'DashboardController@index','as'=>'dashboard.index']);          
+    Route::get('/',['uses'=>'DashboardController@index','as'=>'dashboard.index']);  
+
+    // Dashboard -  Rekap Pagu Indikatif OPD (Pra Renja, Rakor Bidang, Forum OPD, Musrenbang Kabupaten, Verifikasi TAPD, dan Pembahasan RKPD)
     Route::resource('/dashboard/rekappaguindikatifopd','Report\RekapPaguIndikatifOPDController',[
                                                                                                     'parameters'=>['rekappaguindikatifopd'=>'uuid'],
                                                                                                     'only'=>['index','store','update']
                                                                                                 ]); 
     Route::post('/dashboard/rekappaguindikatifopd/orderby',['uses'=>'Report\RekapPaguIndikatifOPDController@orderby','as'=>'rekappaguindikatifopd.orderby']); 
     Route::get('/dashboard/rekappaguindikatifopd/printtoexcel',['uses'=>'Report\RekapPaguIndikatifOPDController@printtoexcel','as'=>'rekappaguindikatifopd.printtoexcel']); 
+    
+    // Dashboard -  Rekap Pagu RKPD OPD
+    Route::resource('/dashboard/rekappagurkpdopd','Report\RekapPaguRKPDOPDController',[
+                                                                                    'parameters'=>['rekappagurkpdopd'=>'uuid'],
+                                                                                    'only'=>['index','store','update']
+                                                                                ]); 
+    Route::post('/dashboard/rekappagurkpdopd/orderby',['uses'=>'Report\RekapPaguRKPDOPDController@orderby','as'=>'rekappagurkpdopd.orderby']); 
+    Route::get('/dashboard/rekappagurkpdopd/printtoexcel',['uses'=>'Report\RekapPaguRKPDOPDController@printtoexcel','as'=>'rekappagurkpdopd.printtoexcel']); 
     
     //RAPAT PEMBAHASAN TAPD
     Route::resource('/rapat','RapatController',['parameters'=>['rapat'=>'uuid']]); 

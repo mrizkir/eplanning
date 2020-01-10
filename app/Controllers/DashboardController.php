@@ -35,9 +35,9 @@ class DashboardController extends Controller {
             case 'bapelitbang' :     
             case 'tapd' :     
                  $stats = \DB::table('trRekapPaguIndikatifOPD')
-                    ->select(\DB::raw('SUM(jumlah_kegiatan6) AS jumlahkegiatan,SUM(rkpd1) AS totalrkpdm,SUM(rkpd2) AS totalrkpdp,SUM("Jumlah1") AS "Jumlah1",SUM("Jumlah2") AS "Jumlah2"'))
-                    ->where('TA',\HelperKegiatan::getTahunPerencanaan())
-                    ->first();
+                            ->select(\DB::raw('SUM(jumlah_kegiatan6) AS jumlahkegiatan,SUM(rkpd1) AS totalrkpdm,SUM(rkpd2) AS totalrkpdp,SUM("Jumlah1") AS "Jumlah1",SUM("Jumlah2") AS "Jumlah2"'))
+                            ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                            ->first();
 
                 $data = [
                     'jumlahkegiatan'=>$stats->jumlahkegiatan,
@@ -82,7 +82,8 @@ class DashboardController extends Controller {
                     'totalrkpdp'=>0,
                 ];
                 return view("pages.{$theme}.dashboard.indexDewan")->with(['page_active'=>'dashboard',
-                                                                                    'data'=>$data]);    
+                                                                            'data'=>$data
+                                                                        ]);    
             break;
             case 'kecamatan' :  
                 $data = [
@@ -93,7 +94,8 @@ class DashboardController extends Controller {
                     'totalrkpdp'=>0,
                 ];                                     
                 return view("pages.{$theme}.dashboard.indexKecamatan")->with(['page_active'=>'dashboard',
-                                                                                    'data'=>$data]);    
+                                                                                'data'=>$data
+                                                                            ]);    
             break;
             case 'desa' :                   
                 $data = [
@@ -104,7 +106,8 @@ class DashboardController extends Controller {
                     'totalrkpdp'=>0,
                 ];                    
                 return view("pages.{$theme}.dashboard.indexDesa")->with(['page_active'=>'dashboard',
-                                                                                    'data'=>$data]);    
+                                                                            'data'=>$data
+                                                                        ]);    
             break;
         }      
         

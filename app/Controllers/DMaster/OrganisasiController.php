@@ -44,6 +44,11 @@ class OrganisasiController extends Controller {
             $search=$this->getControllerStateSession('organisasi','search');
             switch ($search['kriteria']) 
             {
+                case 'OrgID' :
+                    $data =\DB::table('v_urusan_organisasi') 
+                                ->where(['OrgID'=>$search['isikriteria']])
+                                ->orderBy($column_order,$direction); 
+                break;
                 case 'kode_organisasi' :
                     $data =\DB::table('v_urusan_organisasi') 
                                 ->where('TA',\HelperKegiatan::getTahunPerencanaan())

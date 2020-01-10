@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Models\Report\RekapPaguIndikatifOPDModel;
 
-class RekapPaguIndikatifOPDController extends Controller {
+class RekapPaguRKPDOPDController extends Controller {
      /**
      * Membuat sebuah objek
      *
@@ -25,12 +25,12 @@ class RekapPaguIndikatifOPDController extends Controller {
     public function populateData () 
     {        
         $columns=['*'];       
-        if (!$this->checkStateIsExistSession('rekappaguindikatifopd','orderby')) 
+        if (!$this->checkStateIsExistSession('rekappagurkpdopd','orderby')) 
         {            
-           $this->putControllerStateSession('rekappaguindikatifopd','orderby',['column_name'=>'Kode_Organisasi','order'=>'asc']);
+           $this->putControllerStateSession('rekappagurkpdopd','orderby',['column_name'=>'Kode_Organisasi','order'=>'asc']);
         }
-        $column_order=$this->getControllerStateSession('rekappaguindikatifopd.orderby','column_name'); 
-        $direction=$this->getControllerStateSession('rekappaguindikatifopd.orderby','order'); 
+        $column_order=$this->getControllerStateSession('rekappagurkpdopd.orderby','column_name'); 
+        $direction=$this->getControllerStateSession('rekappagurkpdopd.orderby','order'); 
 
         $auth = \Auth::user();            
         $roles=$auth->getRoleNames();
@@ -40,7 +40,7 @@ class RekapPaguIndikatifOPDController extends Controller {
             case 'superadmin' :     
             case 'bapelitbang' :     
             case 'tapd' :     
-                $data = RekapPaguIndikatifOPDModel::where('TA',\HelperKegiatan::getTahunPerencanaan())
+                $data = rekappagurkpdopdModel::where('TA',\HelperKegiatan::getTahunPerencanaan())
                                                 ->orderBy($column_order,$direction)
                                                 ->get();       
             break;
@@ -52,7 +52,7 @@ class RekapPaguIndikatifOPDController extends Controller {
                     $OrgID[]=$k;
                 }
 
-                $data = RekapPaguIndikatifOPDModel::where('TA',\HelperKegiatan::getTahunPerencanaan())
+                $data = rekappagurkpdopdModel::where('TA',\HelperKegiatan::getTahunPerencanaan())
                                                 ->whereIn('OrgID',$OrgID)
                                                 ->orderBy($column_order,$direction)
                                                 ->get();   
@@ -102,15 +102,15 @@ class RekapPaguIndikatifOPDController extends Controller {
             default :
                 $column_name = 'Kode_Organisasi';
         }
-        $this->putControllerStateSession('rekappaguindikatifopd','orderby',['column_name'=>$column_name,'order'=>$orderby]);   
+        $this->putControllerStateSession('rekappagurkpdopd','orderby',['column_name'=>$column_name,'order'=>$orderby]);   
 
         $data=$this->populateData();       
         
-        $datatable = view("pages.$theme.report.rekappaguindikatifopd.datatable")->with(['page_active'=>'rekappaguindikatifopd',
-                                                            'search'=>$this->getControllerStateSession('rekappaguindikatifopd','search'),
+        $datatable = view("pages.$theme.report.rekappagurkpdopd.datatable")->with(['page_active'=>'rekappagurkpdopd',
+                                                            'search'=>$this->getControllerStateSession('rekappagurkpdopd','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('rekappaguindikatifopd.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('rekappaguindikatifopd.orderby','order'),
+                                                            'column_order'=>$this->getControllerStateSession('rekappagurkpdopd.orderby','column_name'),
+                                                            'direction'=>$this->getControllerStateSession('rekappagurkpdopd.orderby','order'),
                                                             'data'=>$data])->render();     
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
@@ -129,22 +129,22 @@ class RekapPaguIndikatifOPDController extends Controller {
         $action = $request->input('action');
         if ($action == 'reset') 
         {
-            $this->destroyControllerStateSession('rekappaguindikatifopd','search');
+            $this->destroyControllerStateSession('rekappagurkpdopd','search');
         }
         else
         {
             $kriteria = $request->input('cmbKriteria');
             $isikriteria = $request->input('txtKriteria');
-            $this->putControllerStateSession('rekappaguindikatifopd','search',['kriteria'=>$kriteria,'isikriteria'=>$isikriteria]);
+            $this->putControllerStateSession('rekappagurkpdopd','search',['kriteria'=>$kriteria,'isikriteria'=>$isikriteria]);
         }      
-        $this->setCurrentPageInsideSession('rekappaguindikatifopd',1);
+        $this->setCurrentPageInsideSession('rekappagurkpdopd',1);
         $data=$this->populateData();
 
-        $datatable = view("pages.$theme.report.rekappaguindikatifopd.datatable")->with(['page_active'=>'rekappaguindikatifopd',                                                            
-                                                            'search'=>$this->getControllerStateSession('rekappaguindikatifopd','search'),
+        $datatable = view("pages.$theme.report.rekappagurkpdopd.datatable")->with(['page_active'=>'rekappagurkpdopd',                                                            
+                                                            'search'=>$this->getControllerStateSession('rekappagurkpdopd','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('rekappaguindikatifopd.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('rekappaguindikatifopd.orderby','order'),
+                                                            'column_order'=>$this->getControllerStateSession('rekappagurkpdopd.orderby','column_name'),
+                                                            'direction'=>$this->getControllerStateSession('rekappagurkpdopd.orderby','order'),
                                                             'data'=>$data])->render();      
         
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
@@ -158,14 +158,14 @@ class RekapPaguIndikatifOPDController extends Controller {
     {                
         $theme = \Auth::user()->theme;
 
-        $search=$this->getControllerStateSession('rekappaguindikatifopd','search');
+        $search=$this->getControllerStateSession('rekappagurkpdopd','search');
         $data = $this->populateData();        
         
-        return view("pages.$theme.report.rekappaguindikatifopd.index")->with(['page_active'=>'rekappaguindikatifopd',
-                                                                                'search'=>$this->getControllerStateSession('rekappaguindikatifopd','search'),
+        return view("pages.$theme.report.rekappagurkpdopd.index")->with(['page_active'=>'rekappagurkpdopd',
+                                                                                'search'=>$this->getControllerStateSession('rekappagurkpdopd','search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                                                'column_order'=>$this->getControllerStateSession('rekappaguindikatifopd.orderby','column_name'),
-                                                                                'direction'=>$this->getControllerStateSession('rekappaguindikatifopd.orderby','order'),
+                                                                                'column_order'=>$this->getControllerStateSession('rekappagurkpdopd.orderby','column_name'),
+                                                                                'direction'=>$this->getControllerStateSession('rekappagurkpdopd.orderby','order'),
                                                                                 'data'=>$data]);               
     }
 
@@ -177,10 +177,10 @@ class RekapPaguIndikatifOPDController extends Controller {
      */
     public function store(Request $request)
     {        
-        RekapPaguIndikatifOPDModel::where('TA',\HelperKegiatan::getTahunPerencanaan())->delete();
+        rekappagurkpdopdModel::where('TA',\HelperKegiatan::getTahunPerencanaan())->delete();
 
         $str_rincianrenja = '
-            INSERT INTO "trRekapPaguIndikatifOPD" (
+            INSERT INTO "trrekappagurkpdopd" (
                 "OrgID",
                 "Kode_Organisasi", 
                 "OrgNm",
@@ -273,7 +273,7 @@ class RekapPaguIndikatifOPDController extends Controller {
         }
         else
         {
-            return redirect(route('rekappaguindikatifopd.index'))->with('success','Data rekapitulasi berhasil di reload.');
+            return redirect(route('rekappagurkpdopd.index'))->with('success','Data rekapitulasi berhasil di reload.');
         }
 
     }
@@ -303,7 +303,7 @@ class RekapPaguIndikatifOPDController extends Controller {
                 {
                     $jumlah = $v->jumlah;
                     $jumlah_kegiatan = $v->jumlah_kegiatan;
-                    \DB::table('trRekapPaguIndikatifOPD')
+                    \DB::table('trrekappagurkpdopd')
                         ->where('OrgID',$v->OrgID)
                         ->update(['prarenja1'=>$jumlah,'jumlah_kegiatan1'=>$jumlah_kegiatan,'updated_at'=>\Carbon\Carbon::now()]);
                 }
@@ -322,7 +322,7 @@ class RekapPaguIndikatifOPDController extends Controller {
                 {
                     $jumlah = $v->jumlah;
                     $jumlah_kegiatan = $v->jumlah_kegiatan;
-                    \DB::table('trRekapPaguIndikatifOPD')
+                    \DB::table('trrekappagurkpdopd')
                         ->where('OrgID',$v->OrgID)
                         ->update(['rakorbidang1'=>$jumlah,'jumlah_kegiatan2'=>$jumlah_kegiatan,'updated_at'=>\Carbon\Carbon::now()]);
                 }
@@ -340,7 +340,7 @@ class RekapPaguIndikatifOPDController extends Controller {
                 {
                     $jumlah = $v->jumlah;
                     $jumlah_kegiatan = $v->jumlah_kegiatan;
-                    \DB::table('trRekapPaguIndikatifOPD')
+                    \DB::table('trrekappagurkpdopd')
                         ->where('OrgID',$v->OrgID)
                         ->update(['forumopd1'=>$jumlah,'jumlah_kegiatan3'=>$jumlah_kegiatan,'updated_at'=>\Carbon\Carbon::now()]);
                 }
@@ -358,7 +358,7 @@ class RekapPaguIndikatifOPDController extends Controller {
                 {
                     $jumlah = $v->jumlah;
                     $jumlah_kegiatan = $v->jumlah_kegiatan;
-                    \DB::table('trRekapPaguIndikatifOPD')
+                    \DB::table('trrekappagurkpdopd')
                         ->where('OrgID',$v->OrgID)
                         ->update(['musrenkab1'=>$jumlah,'jumlah_kegiatan4'=>$jumlah_kegiatan,'updated_at'=>\Carbon\Carbon::now()]);
                 }
@@ -376,7 +376,7 @@ class RekapPaguIndikatifOPDController extends Controller {
                 {
                     $jumlah = $v->jumlah;
                     $jumlah_kegiatan = $v->jumlah_kegiatan;
-                    \DB::table('trRekapPaguIndikatifOPD')
+                    \DB::table('trrekappagurkpdopd')
                         ->where('OrgID',$v->OrgID)
                         ->update(['renjafinal1'=>$jumlah,'jumlah_kegiatan5'=>$jumlah_kegiatan,'updated_at'=>\Carbon\Carbon::now()]);
                 }
@@ -392,7 +392,7 @@ class RekapPaguIndikatifOPDController extends Controller {
                 foreach ($data as $v)
                 {
                     $jumlahprogram = $v->jumlahprogram;
-                    \DB::table('trRekapPaguIndikatifOPD')
+                    \DB::table('trrekappagurkpdopd')
                         ->where('OrgID',$v->OrgID)
                         ->update(['jumlah_program6'=>$jumlahprogram,'updated_at'=>\Carbon\Carbon::now()]);
                 }
@@ -409,7 +409,7 @@ class RekapPaguIndikatifOPDController extends Controller {
                     $jumlah = $v->jumlah;
                     $jumlah2 = $v->jumlah2;
                     $jumlahkegiatan = $v->jumlahkegiatan;
-                    \DB::table('trRekapPaguIndikatifOPD')
+                    \DB::table('trrekappagurkpdopd')
                         ->where('OrgID',$v->OrgID)
                         ->update(['rkpd1'=>$jumlah,'rkpd2'=>$jumlah2,'jumlah_kegiatan6'=>$jumlahkegiatan,'updated_at'=>\Carbon\Carbon::now()]);
                 }
@@ -425,7 +425,7 @@ class RekapPaguIndikatifOPDController extends Controller {
                 foreach ($data as $v)
                 {
                     $jumlahprogram = $v->jumlahprogram;
-                    \DB::table('trRekapPaguIndikatifOPD')
+                    \DB::table('trrekappagurkpdopd')
                         ->where('OrgID',$v->OrgID)
                         ->update(['jumlah_program6'=>$jumlahprogram,'updated_at'=>\Carbon\Carbon::now()]);
                 }
@@ -441,7 +441,7 @@ class RekapPaguIndikatifOPDController extends Controller {
         }
         else
         {
-            return redirect(route('rekappaguindikatifopd.index'))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rekappagurkpdopd.index'))->with('success','Data ini telah berhasil disimpan.');
         }
     }
     /**
