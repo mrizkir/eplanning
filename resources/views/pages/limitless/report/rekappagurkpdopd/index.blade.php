@@ -1,23 +1,23 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    REKAP PAGU INDIKATIF OPD
+    REKAP PAGU RKPD OPD
 @endsection
 @section('page_header')
     <i class="icon-price-tag position-left"></i>
     <span class="text-semibold">
-        REKAP PAGU INDIKATIF OPD TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}  
+        REKAP PAGU RKPD OPD TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}  
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.report.rekappaguindikatifopd.info')
+    @include('pages.limitless.report.rekappagurkpdopd.info')
 @endsection
 @section('page_breadcrumb')
-    <li class="active">REKAP PAGU INDIKATIF OPD</li>
+    <li class="active">REKAP PAGU RKPD OPD</li>
 @endsection
 @section('page_content')
 <div class="row">    
     <div class="col-md-12" id="divdatatable">
-        @include('pages.limitless.report.rekappaguindikatifopd.datatable')
+        @include('pages.limitless.report.rekappagurkpdopd.datatable')
     </div>
 </div>
 @endsection

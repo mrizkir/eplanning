@@ -380,26 +380,10 @@ class RekapPaguIndikatifOPDController extends Controller {
                         ->where('OrgID',$v->OrgID)
                         ->update(['renjafinal1'=>$jumlah,'jumlah_kegiatan5'=>$jumlah_kegiatan,'updated_at'=>\Carbon\Carbon::now()]);
                 }
-
-                $data = \DB::table('v_rkpd')
-                            ->select(\DB::raw('"OrgID", COUNT("PrgID") AS jumlahprogram'))
-                            ->where('TA',$ta)
-                            ->where('EntryLvl',2)
-                            ->groupBy('OrgID')
-                            ->groupBy('PrgID')
-                            ->get();
-
-                foreach ($data as $v)
-                {
-                    $jumlahprogram = $v->jumlahprogram;
-                    \DB::table('trRekapPaguIndikatifOPD')
-                        ->where('OrgID',$v->OrgID)
-                        ->update(['jumlah_program6'=>$jumlahprogram,'updated_at'=>\Carbon\Carbon::now()]);
-                }
             break;
             case 'uidRKPD' :
                 $data = \DB::table('trRKPD')
-                            ->select(\DB::raw('"OrgID", SUM("NilaiUsulan1") AS jumlah, SUM("NilaiUsulan2") AS jumlah2,COUNT("RKPDID") AS jumlahkegiatan'))
+                            ->select(\DB::raw('"OrgID", SUM("NilaiUsulan1") AS jumlah,COUNT("RKPDID") AS jumlahkegiatan'))
                             ->where('TA',$ta)
                             ->where('EntryLvl',2)
                             ->groupBy('OrgID')->get();
@@ -407,11 +391,10 @@ class RekapPaguIndikatifOPDController extends Controller {
                 foreach ($data as $v)
                 {
                     $jumlah = $v->jumlah;
-                    $jumlah2 = $v->jumlah2;
                     $jumlahkegiatan = $v->jumlahkegiatan;
                     \DB::table('trRekapPaguIndikatifOPD')
                         ->where('OrgID',$v->OrgID)
-                        ->update(['rkpd1'=>$jumlah,'rkpd2'=>$jumlah2,'jumlah_kegiatan6'=>$jumlahkegiatan,'updated_at'=>\Carbon\Carbon::now()]);
+                        ->update(['rkpd1'=>$jumlah,'jumlah_kegiatan6'=>$jumlahkegiatan,'updated_at'=>\Carbon\Carbon::now()]);
                 }
 
                 $data = \DB::table('v_rkpd')
