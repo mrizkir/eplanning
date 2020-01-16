@@ -375,7 +375,7 @@
                     @endhasrole                   
                 </ul>
             </li>            
-            @unlessrole('dewan')      
+            @unlessrole('dewan|kecamatan|desa')      
             <li class="dropdown visible">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-sort-amount-desc position-left"></i> WORKFLOW <span class="caret"></span>
@@ -453,8 +453,7 @@
                     </li>
                     @endhasrole
                 </ul>
-            </li>   
-            @endunlessrole
+            </li>
             <li class="dropdown mega-menu mega-menu-wide visible">                
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-file-empty position-left"></i> LAPORAN <span class="caret"></span>
@@ -533,6 +532,7 @@
                     </div>
                 </div>
             </li>
+            @endunlessrole
             @hasrole('superadmin|bapelitbang')
             <li class="dropdown mega-menu mega-menu-wide visible">                
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
