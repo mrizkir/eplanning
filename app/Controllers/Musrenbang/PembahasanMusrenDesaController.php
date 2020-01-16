@@ -17,7 +17,7 @@ class PembahasanMusrenDesaController extends Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['auth','role:superadmin|bapelitbang|desa']);
+        $this->middleware(['auth','role:superadmin|bapelitbang|kecamatan|desa']);
     }
     /**
      * collect data from resources for index view
