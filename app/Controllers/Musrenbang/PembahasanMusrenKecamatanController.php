@@ -255,8 +255,9 @@ class PembahasanMusrenKecamatanController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {                
-        $theme = \Auth::user()->theme;
+    {               
+        $auth=\Auth::user();
+        $theme = $auth->theme;
 
         $search=$this->getControllerStateSession('pembahasanmusrenkecamatan','search');
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('pembahasanmusrenkecamatan'); 
