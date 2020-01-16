@@ -34,7 +34,7 @@ class RekapPaguIndikatifOPDController extends Controller {
 
         $auth = \Auth::user();            
         $roles=$auth->getRoleNames();
-
+        $data=[];
         switch ($roles[0])
         {
             case 'superadmin' :     

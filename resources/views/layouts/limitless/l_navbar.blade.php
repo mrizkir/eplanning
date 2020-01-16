@@ -22,6 +22,7 @@
                                     </li> 
                                 </ul>
                             </div>
+                            @hasrole('superadmin|bapelitbang|tapd|opd')
                             <div class="col-md-3">
                                 <span class="menu-heading underlined bg-blue-300" style="padding:10px"><i class="icon-map4"></i> PERENCANAAN</span>
                                 <ul class="menu-list">
@@ -37,6 +38,7 @@
                                     </li>
                                 </ul>
                             </div>
+                            @endhasrole
                         </div>
                     </div>
                 </div>                
