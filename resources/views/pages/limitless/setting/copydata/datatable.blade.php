@@ -37,6 +37,19 @@
                         </ul>
                     </td>
                 </tr>                
+                <tr>
+                    <td>3</td>
+                    <td>Sumber Dana</td>
+                    <td>
+                        <ul class="icons-list">
+                            <li class="text-primary-600">
+                                <a class="btnShow" href="{{route('copydata.copy',['id'=>3])}}" title="Copy Data">
+                                    <i class='icon-copy3'></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>                
             </tbody>
          </table>
     </div>

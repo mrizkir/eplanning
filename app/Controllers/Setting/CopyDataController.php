@@ -76,6 +76,9 @@ class CopyDataController extends Controller
             case 2 ://copy opd / skpd
                 $this->copyOPD();
             break;  
+            case 3 ://copy sumber dana
+                $this->copySumberDana();
+            break;  
         }
     }
     private function copywilayah ()
@@ -323,47 +326,94 @@ class CopyDataController extends Controller
                                                     $OrgID_old=$record->OrgID_Src;
 
                                                     $sql = '
-                                                                INSERT INTO "tmSOrg" (
-                                                                    "SOrgID", 
-                                                                    "OrgID",
-                                                                    "SOrgCd",                        
-                                                                    "SOrgNm",                        
-                                                                    "SOrgAlias",                        
-                                                                    "Alamat",                        
-                                                                    "NamaKepalaSKPD",                        
-                                                                    "NIPKepalaSKPD",
-                                                                    "Descr",  
-                                                                    "TA",
-                                                                    "SOrgID_Src",
-                                                                    "created_at", 
-                                                                    "updated_at"
-                                                                )
-                                                                SELECT 
-                                                                    REPLACE(SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16),\'-\',\'\') AS "SOrgID",
-                                                                    \''.$OrgID_new.'\' AS "OrgID",
-                                                                    "SOrgCd",                        
-                                                                    "SOrgNm",                        
-                                                                    "SOrgAlias",                        
-                                                                    "Alamat",                        
-                                                                    "NamaKepalaSKPD",                        
-                                                                    "NIPKepalaSKPD",                                                                    
-                                                                    "Descr",                                                                    
-                                                                    \''.$ke_ta.'\' AS "TA",
-                                                                    "SOrgID" AS "SOrgID_Src",
-                                                                    NOW() AS created_at,
-                                                                    NOW() AS updated_at
-                                                                FROM
-                                                                    "tmSOrg" 
-                                                                WHERE 
-                                                                    "OrgID"=\''.$OrgID_old.'\'
-                                                                ';
-                                                                \DB::statement($sql);
-                                                                echo "cunk ke = $chunk --> OK<br>";
-                                                                $chunk+=1;
+                                                            INSERT INTO "tmSOrg" (
+                                                                "SOrgID", 
+                                                                "OrgID",
+                                                                "SOrgCd",                        
+                                                                "SOrgNm",                        
+                                                                "SOrgAlias",                        
+                                                                "Alamat",                        
+                                                                "NamaKepalaSKPD",                        
+                                                                "NIPKepalaSKPD",
+                                                                "Descr",  
+                                                                "TA",
+                                                                "SOrgID_Src",
+                                                                "created_at", 
+                                                                "updated_at"
+                                                            )
+                                                            SELECT 
+                                                                REPLACE(SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16),\'-\',\'\') AS "SOrgID",
+                                                                \''.$OrgID_new.'\' AS "OrgID",
+                                                                "SOrgCd",                        
+                                                                "SOrgNm",                        
+                                                                "SOrgAlias",                        
+                                                                "Alamat",                        
+                                                                "NamaKepalaSKPD",                        
+                                                                "NIPKepalaSKPD",                                                                    
+                                                                "Descr",                                                                    
+                                                                \''.$ke_ta.'\' AS "TA",
+                                                                "SOrgID" AS "SOrgID_Src",
+                                                                NOW() AS created_at,
+                                                                NOW() AS updated_at
+                                                            FROM
+                                                                "tmSOrg" 
+                                                            WHERE 
+                                                                "OrgID"=\''.$OrgID_old.'\'
+                                                            ';
+                                                            \DB::statement($sql);
+                                                            echo "cunk ke = $chunk --> OK<br>";
+                                                            $chunk+=1;
                                                     
                                                 }
                                             });
 
+        }
+        catch (\Exception $e)
+        {
+            echo '<span style="color:red;">'.$e->getMessage().'</span>';
+        }
+    }
+    private function copySumberDana ()
+    {
+        $dari_ta= $this->getControllerStateSession('copydata.filters','TA'); 
+        $ke_ta=\HelperKegiatan::getTahunPerencanaan();
+        
+        try 
+        {
+            //copy opd / skpd
+            echo "Hapus Data Daftar Sumber Dana TA = $ke_ta <br>";
+
+            \App\Models\DMaster\SumberDanaModel::where('TA',$ke_ta)
+                                                ->delete();
+            echo "--> OK<br>";
+            echo "Salin data Daftar Sumber Dana dari TA $dari_ta KE $ke_ta <br>";
+
+            $sql = '
+                INSERT INTO "tmSumberDana" (
+                    "SumberDanaID", 
+                    "Kd_SumberDana",
+                    "Nm_SumberDana",                        
+                    "Descr",                        
+                    "TA",
+                    "SumberDanaID_Src",
+                    "created_at", 
+                    "updated_at"
+                )
+                SELECT 
+                    REPLACE(SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16),\'-\',\'\') AS "SumberDanaID",
+                    "Kd_SumberDana",                        
+                    "Nm_SumberDana",                                                  
+                    "Descr",                                                                    
+                    \''.$ke_ta.'\' AS "TA",
+                    "SumberDanaID" AS "SumberDanaID_Src",
+                    NOW() AS created_at,
+                    NOW() AS updated_at
+                FROM
+                    "tmSumberDana" 
+                WHERE 
+                    "TA"=\''.$dari_ta.'\'
+                ';
+                \DB::statement($sql);
         }
         catch (\Exception $e)
         {

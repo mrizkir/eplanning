@@ -469,7 +469,7 @@ class AspirasiMusrenKecamatanController extends Controller {
         $daftar_kecamatan=KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),false);
         $daftar_desa=DesaModel::getDaftarDesa(\HelperKegiatan::getTahunPerencanaan(),$filters['PmKecamatanID'],false);         
         
-        $daftar_urusan=UrusanModel::getDaftarUrusan(\HelperKegiatan::getTahunPerencanaan(),false);
+        $daftar_urusan=UrusanModel::getDaftarUrusan(\HelperKegiatan::getRPJMDTahunMulai(),false);
         
         return view("pages.$theme.musrenbang.aspirasimusrenkecamatan.pilihusulankegiatan")->with(['page_active'=>'aspirasimusrenkecamatan',
                                                                                                 'search'=>$this->getControllerStateSession('aspirasimusrenkecamatan','search'),
@@ -495,7 +495,7 @@ class AspirasiMusrenKecamatanController extends Controller {
         $sumber_dana = SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunPerencanaan(),false);
         $filters=$this->getControllerStateSession('aspirasimusrenkecamatan','filters');   
         $daftar_kecamatan=KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),false);
-        $daftar_urusan=UrusanModel::getDaftarUrusan(\HelperKegiatan::getTahunPerencanaan(),false);
+        $daftar_urusan=UrusanModel::getDaftarUrusan(\HelperKegiatan::getRPJMDTahunMulai(),false);
         return view("pages.$theme.musrenbang.aspirasimusrenkecamatan.create")->with(['page_active'=>'aspirasimusrenkecamatan',
                                                                                     'filters'=>$filters,
                                                                                     'daftar_kecamatan'=>$daftar_kecamatan,
@@ -649,7 +649,7 @@ class AspirasiMusrenKecamatanController extends Controller {
             $sumber_dana = SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunPerencanaan(),false);
             $filters=$this->getControllerStateSession('aspirasimusrenkecamatan','filters');   
             $daftar_kecamatan=KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),false);
-            $daftar_urusan=UrusanModel::getDaftarUrusan(\HelperKegiatan::getTahunPerencanaan(),false);
+            $daftar_urusan=UrusanModel::getDaftarUrusan(\HelperKegiatan::getRPJMDTahunMulai(),false);
 
             $UrsID = $data->UrsID;
             $daftar_organisasi=OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false,$UrsID);
