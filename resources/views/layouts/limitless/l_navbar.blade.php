@@ -347,7 +347,7 @@
                     </li>
                     @endhasrole
                     <li class="dropdown-header">MUSRENBANG</li>
-                    @hasrole('superadmin|bapelitbang|desa')
+                    @hasrole('superadmin|bapelitbang|kecamatan|desa')
                     <li{!!Helper::isMenuActive ($page_active,'aspirasimusrendesa',' class="active"')!!}>
                         <a href="{{route('aspirasimusrendesa.index')}}" title="Aspirasi Musrenbang Desa">
                             <i class="icon-arrow-down16"></i>MUSRENBANG DESA / KELURAHAN <span class="text-violet"><strong>[1]</strong></span>
