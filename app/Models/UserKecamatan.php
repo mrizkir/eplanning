@@ -60,5 +60,23 @@ class UserKecamatan extends Model
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];     
-
+    //only the `deleted` event will get logged automatically
+    // protected static $recordEvents = ['deleted'];     
+    public static function getKecamatan($listlocked=true,$ignorelocked=false)
+    {        
+        if ($ignorelocked == true)
+        {
+            $daftar_kecamatan=\App\Models\UserKecamatan::where('ta',\HelperKegiatan::getTahunPerencanaan())
+                                                ->where('id',\Auth::user()->id)                                                
+                                                ->pluck('Nm_Kecamatan','PmKecamatanID');      
+        }
+        else
+        {
+            $daftar_kecamatan=\App\Models\UserKecamatan::where('ta',\HelperKegiatan::getTahunPerencanaan())
+                                                ->where('id',\Auth::user()->id)
+                                                ->where('locked',!$listlocked)
+                                                ->pluck('Nm_Kecamatan','PmKecamatanID');      
+        }
+        return $daftar_kecamatan;
+    }
 }

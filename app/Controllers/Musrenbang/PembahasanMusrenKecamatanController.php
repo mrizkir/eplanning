@@ -267,7 +267,29 @@ class PembahasanMusrenKecamatanController extends Controller {
         }
         $this->setCurrentPageInsideSession('pembahasanmusrenkecamatan',$data->currentPage());
         $filters=$this->getControllerStateSession('pembahasanmusrenkecamatan','filters');        
-        $daftar_kecamatan=KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),false);
+        $roles=$auth->getRoleNames();
+        $daftar_kecamatan=[];
+        switch ($roles[0])
+        {
+            case 'superadmin' :     
+            case 'bapelitbang' :     
+            case 'tapd' :
+                $daftar_kecamatan=KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),false);
+            break;
+            case 'kecamatan':
+                $daftar_kecamatan=\App\Models\UserKecamatan::getKecamatan();                      
+                if (!count($daftar_kecamatan) > 0)
+                {
+                    $filters['PmKecamatanID']='none';
+                    $this->putControllerStateSession('pembahasanmusrenkecamatan','filters',$filters);
+
+                    return view("pages.$theme.musrenbang.pembahasanmusrenkecamatan.error")->with(['page_active'=>'pembahasanmusrenkecamatan', 
+                                                                                                'page_title'=>'PEMBAHASAN MUSRENBANG KECAMATAN',
+                                                                                                'errormessage'=>'Anda Tidak Diperkenankan Mengakses Halaman ini, karena Sudah dikunci oleh BAPELITBANG',
+                                                                                            ]);
+                }    
+            break;
+        }
         $daftar_usulan_kec_id=\App\Models\Musrenbang\AspirasiMusrenKecamatanModel::select('UsulanKecID')
                                                                                 ->where('Privilege',1)
                                                                                 ->whereExists(function($query){
