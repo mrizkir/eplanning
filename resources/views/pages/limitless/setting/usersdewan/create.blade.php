@@ -94,7 +94,7 @@ $(document).ready(function () {
     $(".switch").bootstrapSwitch();
     //styling select
     $('#OrgID.select').select2({
-        placeholder: "PILIH Dewan / SKPD",
+        placeholder: "PILIH ANGGOTA DEWAN",
         allowClear:true
     }); 
     $('#SOrgID.select').select2({

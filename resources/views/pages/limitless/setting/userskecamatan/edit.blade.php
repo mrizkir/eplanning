@@ -1,19 +1,19 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    USERS DEWAN
+    USERS KECAMATAN
 @endsection
 @section('page_header')
     <i class="icon-users position-left"></i>
     <span class="text-semibold"> 
-        USERS DEWAN
+        USERS KECAMATAN
     </span>     
 @endsection
 @section('page_info')
-    @include('pages.limitless.setting.usersdewan.info')
+    @include('pages.limitless.setting.userskecamatan.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">SETTING</a></li>
-    <li><a href="{!!route('usersdewan.index')!!}">USERS DEWAN</a></li>
+    <li><a href="{!!route('userskecamatan.index')!!}">USERS KECAMATAN</a></li>
     <li class="active">UBAH DATA</li>
 @endsection
 @section('page_content')
@@ -27,13 +27,13 @@
             <div class="heading-elements">
                 <ul class="icons-list">                    
                     <li>
-                        <a href="{!!route('usersdewan.index')!!}" data-action="closeredirect" title="keluar"></a>
+                        <a href="{!!route('userskecamatan.index')!!}" data-action="closeredirect" title="keluar"></a>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>['Setting\UsersDewanController@update',$data->id],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
+            {!! Form::open(['action'=>['Setting\UsersKecamatanController@update',$data->id],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
                 {{Form::hidden('_method','PUT')}}
                 <div class="form-group">
                     {{Form::label('name','NAMA',['class'=>'control-label col-md-2'])}}
@@ -95,7 +95,7 @@ $(document).ready(function () {
     $(".switch").bootstrapSwitch();
     //styling select
     $('#OrgID.select').select2({
-        placeholder: "PILIH ANGGOTA DEWAN",
+        placeholder: "PILIH KECAMATAN",
         allowClear:true
     }); 
     $('#SOrgID.select').select2({

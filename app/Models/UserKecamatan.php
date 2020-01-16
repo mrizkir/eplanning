@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class UserDewan extends Model
+class UserKecamatan extends Model
 {
     use LogsActivity;
     /**
@@ -13,7 +13,7 @@ class UserDewan extends Model
      *
      * @var string
      */
-    protected $table = 'usersdewan';   
+    protected $table = 'userskecamatan';   
 
     /**
      * The attributes that are mass assignable.
@@ -21,14 +21,14 @@ class UserDewan extends Model
      * @var array
      */
     protected $fillable = [
-        'userdewan', 'id', 'ta','PemilikPokokID','Kd_PK','NmPk'
+        'userkecamatan', 'id', 'ta','PmKecamatanID','Kd_Kecamatan','Nm_Kecamatan'
     ];
     /**
     * primary key tabel ini.
     *
     * @var string
     */
-    protected $primaryKey = 'userdewan';
+    protected $primaryKey = 'userkecamatan';
     /**
     * enable auto_increment.
     *
@@ -46,12 +46,12 @@ class UserDewan extends Model
      *
      * @var string
      */
-    protected static $logName = 'setting\UsersDewanController';
+    protected static $logName = 'setting\UsersKecamatanController';
     /**
      * log the changed attributes for all these events 
      */
     protected static $logAttributes = [
-        'userdewan', 'id', 'ta','PemilikPokokID','Kd_PK','NmPk'
+        'userkecamatan', 'id', 'ta','PmKecamatanID','Kd_Kecamatan','Nm_Kecamatan'
     ];
     /**
      * log changes to all the $fillable attributes of the model
