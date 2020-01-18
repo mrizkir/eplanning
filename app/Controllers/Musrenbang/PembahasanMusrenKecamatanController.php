@@ -42,7 +42,8 @@ class PembahasanMusrenKecamatanController extends Controller {
         //filter
         if (!$this->checkStateIsExistSession('pembahasanmusrenkecamatan','filters')) 
         {            
-            $this->putControllerStateSession('pembahasanmusrenkecamatan','filters',['PmKecamatanID'=>'none',
+            $this->putControllerStateSession('pembahasanmusrenkecamatan','filters',[
+                                                                                    'PmKecamatanID'=>'none',
                                                                                 ]);
         }        
         $PmKecamatanID= $this->getControllerStateSession('pembahasanmusrenkecamatan.filters','PmKecamatanID');        
@@ -354,5 +355,22 @@ class PembahasanMusrenKecamatanController extends Controller {
         {
             return redirect(route('pembahasanmusrenkecamatan.show',['id'=>$id]))->with('success','Data ini telah berhasil disimpan.');
         }
+    }
+    /**
+     * Print to excel.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function printtoexcel ()
+    {
+        $theme = \Auth::user()->theme;
+
+        $filters=$this->getControllerStateSession('pembahasanmusrenkecamatan','filters');  
+        $data_report=\App\Models\DMaster\KecamatanModel::find($filters['PmKecamatanID'])->toArray();
+        $report= new \App\Models\Report\ReportMusrenbangKecamatanModel ($data_report);
+        $generate_date=date('Y-m-d_H_m_s');
+        return $report->download("laporan_musrenbang_kecamatan_$generate_date.xlsx");
     }
 }

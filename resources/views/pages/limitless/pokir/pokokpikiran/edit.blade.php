@@ -50,9 +50,9 @@
                 </div>
             </div>               
             <div class="form-group">
-                {{Form::label('Output','OUTPUT / HASIL',['class'=>'control-label col-md-2'])}}
+                {{Form::label('Output','OUTPUT / KELUARAN',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
-                    {{Form::textarea('Output',$data->Output,['class'=>'form-control','placeholder'=>'OUTPUT / HASIL','rows'=>2])}}
+                    {{Form::textarea('Output',$data->Output,['class'=>'form-control','placeholder'=>'OUTPUT / KELUARAN','rows'=>2])}}
                 </div>
             </div>             
             <div class="form-group">

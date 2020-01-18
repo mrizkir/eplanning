@@ -28,7 +28,7 @@ class DashboardController extends Controller {
         $auth = \Auth::user();    
         $theme = $auth->theme;
         $roles=$auth->getRoleNames();
-
+        
         switch ($roles[0])
         {
             case 'superadmin' :     
@@ -85,7 +85,7 @@ class DashboardController extends Controller {
                                                                             'data'=>$data
                                                                         ]);    
             break;
-            case 'kecamatan' :  
+            case 'kecamatan' : 
                 $data = [
                     'jumlahkegiatan'=>0,
                     'pagum'=>0,
