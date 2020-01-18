@@ -88,7 +88,7 @@ class ReportMusrenbangKecamatanModel extends ReportModel
         {
             $sheet->getRowDimension($row)->setRowHeight(28);
             $sheet->setCellValue("A$row",$k+1);
-            $sheet->setCellValue("B$row",$item['NamaKegiatan']);
+            $sheet->setCellValue("B$row",$item->NamaKegiatan);
 
             $row+=1;
         }
