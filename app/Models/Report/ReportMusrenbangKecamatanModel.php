@@ -105,5 +105,11 @@ class ReportMusrenbangKecamatanModel extends ReportModel
         );        																			 
         $sheet->getStyle("A6:H$row")->applyFromArray($styleArray);
         $sheet->getStyle("A6:H$row")->getAlignment()->setWrapText(true);  
+
+        $styleArray=array(								
+            'alignment' => array('horizontal'=>Alignment::HORIZONTAL_LEFT)
+        );																					 
+        $sheet->getStyle("B6:D$row")->applyFromArray($styleArray);
+        $sheet->getStyle("H6:H$row")->applyFromArray($styleArray);
     }   
 }
