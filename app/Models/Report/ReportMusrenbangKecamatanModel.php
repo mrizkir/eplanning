@@ -72,7 +72,7 @@ class ReportMusrenbangKecamatanModel extends ReportModel
         $sheet->getColumnDimension('H')->setWidth(17);
         
         $data = \DB::table('trUsulanKec')
-                ->select(\DB::raw('"trUsulanKec"."UsulanKecID","tmOrg"."OrgNm","tmPmDesa"."Nm_Desa","trUsulanKec"."No_usulan","trUsulanKec"."NamaKegiatan","trUsulanKec"."Output","trUsulanKec"."NilaiUsulan","trUsulanKec"."Target_Angka","trUsulanKec"."Target_Uraian","trUsulanKec"."Jeniskeg","trUsulanKec"."Prioritas","trUsulanKec"."Bobot","trUsulanKec"."Privilege"'))
+                ->select(\DB::raw('"trUsulanKec"."UsulanKecID","tmOrg"."OrgNm","tmPmDesa"."Nm_Desa","trUsulanKec"."No_usulan","trUsulanKec"."NamaKegiatan","trUsulanKec"."Output","trUsulanKec"."NilaiUsulan","trUsulanKec"."Target_Angka","trUsulanKec"."Target_Uraian","trUsulanKec"."Jeniskeg","trUsulanKec"."Prioritas","trUsulanKec"."Bobot","trUsulanKec"."Privilege","trUsulanKec"."Descr"'))
                 ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trUsulanKec.PmKecamatanID')
                 ->join('tmOrg','tmOrg.OrgID','trUsulanKec.OrgID')
                 ->leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trUsulanKec.PmDesaID')                                                                                                
@@ -89,7 +89,12 @@ class ReportMusrenbangKecamatanModel extends ReportModel
             $sheet->getRowDimension($row)->setRowHeight(28);
             $sheet->setCellValue("A$row",$k+1);
             $sheet->setCellValue("B$row",$item->NamaKegiatan);
-
+            $sheet->setCellValue("C$row",$item->Output);
+            $sheet->setCellValue("D$row",$item->Target_Angka.' '.$item->Target_Uraian);
+            $sheet->setCellValue("E$row",\Helper::formatUang($item->NilaiUsulan));
+            $sheet->setCellValue("F$row",\HelperKegiatan::getNamaPrioritas($item->Prioritas));
+            $sheet->setCellValue("G$row",$item->Privilege==1?'ACC':'DUM');
+            $sheet->setCellValue("H$row",$item->Descr);
             $row+=1;
         }
         $row-=1;

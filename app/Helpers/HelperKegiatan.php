@@ -188,7 +188,7 @@ class HelperKegiatan {
     * digunakan untuk mendapatkan nama prioritas
     */
     public static function getNamaPrioritas ($PrioritasID) {
-      return HelperKegiatan::$DaftarPrioritas[$PrioritasID];
+        return "P$PrioritasID";
     }
     /**
      * digunakan untuk memberikan style css
