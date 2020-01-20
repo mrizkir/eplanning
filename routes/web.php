@@ -354,6 +354,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::get('/workflow/musrenbang/pembahasanmusrendesa/paginate/{id}',['uses'=>'Musrenbang\PembahasanMusrenDesaController@paginate','as'=>'pembahasanmusrendesa.paginate']);              
     Route::post('/workflow/musrenbang/pembahasanmusrendesa/changenumberrecordperpage',['uses'=>'Musrenbang\PembahasanMusrenDesaController@changenumberrecordperpage','as'=>'pembahasanmusrendesa.changenumberrecordperpage']);  
     Route::post('/workflow/musrenbang/pembahasanmusrendesa/orderby',['uses'=>'Musrenbang\PembahasanMusrenDesaController@orderby','as'=>'pembahasanmusrendesa.orderby']); 
+    Route::get('/workflow/musrenbang/pembahasanmusrendesa/printtoexcel',['uses'=>'Musrenbang\PembahasanMusrenDesaController@printtoexcel','as'=>'pembahasanmusrendesa.printtoexcel']);              
     
     //workflow - Aspirasi Musrenbang Kecamatan [aspirasi]
     Route::resource('/workflow/musrenbang/aspirasimusrenkecamatan','Musrenbang\AspirasiMusrenKecamatanController',['parameters'=>['aspirasimusrenkecamatan'=>'uuid']]);    

@@ -1,14 +1,29 @@
 <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
     <div class="panel-heading">
         <div class="panel-title">
-            <div class="row">
-                <div class="col-md-1">                    		
-					{!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control'])!!}                        
-                </div>
-            </div>
+            <h6 class="panel-title">&nbsp;</h6>
         </div>
         <div class="heading-elements">
-                  
+            {!! Form::open(['url'=>'#','method'=>'post','class'=>'heading-form','id'=>'frmheading','name'=>'frmheading'])!!} 
+                <div class="form-group">
+                    {!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control','style'=>'width:70px'])!!}                        
+                </div> 
+            {!! Form::close()!!}
+            <ul class="icons-list">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="icon-printer"></i> 
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li>
+                            <a href="{!!route('reportprogrammurniopd.printtoexcel')!!}" title="Print to Excel" id="btnprintexcel">
+                                <i class="icon-file-excel"></i> Export to Excel
+                            </a>     
+                        </li>                            
+                    </ul>
+                </li>
+            </ul>
         </div>
     </div>
     @if (count($data) > 0)

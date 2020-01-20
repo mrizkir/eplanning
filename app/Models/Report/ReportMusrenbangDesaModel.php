@@ -6,7 +6,7 @@ use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use App\Models\RKPD\RKPDViewJudulModel;
 
-class ReportMusrenbangKecamatanModel extends ReportModel
+class ReportMusrenbangDesaModel extends ReportModel
 {   
     public function __construct($dataReport,$print=true)
     {
@@ -20,10 +20,10 @@ class ReportMusrenbangKecamatanModel extends ReportModel
     }    
     private function  print()  
     {
-        $PmKecamatanID = $this->dataReport['PmKecamatanID'];
+        $PmDesaID = $this->dataReport['PmDesaID'];
 
         $sheet = $this->spreadsheet->getActiveSheet();        
-        $sheet->setTitle ('LAPORAN MUSRENBANG KECAMATAN');   
+        $sheet->setTitle ('LAPORAN MUSRENBANG DESA');   
         
         $sheet->getParent()->getDefaultStyle()->applyFromArray([
             'font' => [
@@ -31,18 +31,18 @@ class ReportMusrenbangKecamatanModel extends ReportModel
                 'size' => '9',
             ],
         ]);
-        $sheet->mergeCells ('A1:I1');
-        $sheet->setCellValue('A1','LAPORAN MUSRENBANG TINGKAT KECAMATAN TAHUN PERENCANAAN '.\HelperKegiatan::getTahunPerencanaan());
-        $sheet->mergeCells ('A2:I2');
-        $sheet->setCellValue('A2',strtoupper($this->dataReport['Nm_Kecamatan'])); 
-        $sheet->mergeCells ('A3:I3');
+        $sheet->mergeCells ('A1:H1');
+        $sheet->setCellValue('A1','LAPORAN MUSRENBANG TINGKAT DESA TAHUN PERENCANAAN '.\HelperKegiatan::getTahunPerencanaan());
+        $sheet->mergeCells ('A2:H2');
+        $sheet->setCellValue('A2',strtoupper($this->dataReport['Nm_Desa'])); 
+        $sheet->mergeCells ('A3:H3');
         $sheet->setCellValue('A3','KABUPATEN BINTAN');
         $styleArray=array( 
             'font' => array('bold' => true,'size'=>'9'),
             'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
                                'vertical'=>Alignment::HORIZONTAL_CENTER),								
         );                
-        $sheet->getStyle("A1:I3")->applyFromArray($styleArray);        
+        $sheet->getStyle("A1:H3")->applyFromArray($styleArray);        
         
         $sheet->setCellValue('A5','NO'); 
         $sheet->setCellValue('B5','NAMA KEGIATAN'); 
@@ -51,8 +51,7 @@ class ReportMusrenbangKecamatanModel extends ReportModel
         $sheet->setCellValue('E5','NILAI PAGU');         
         $sheet->setCellValue('F5','PRIORITAS');         
         $sheet->setCellValue('G5','STATUS');         
-        $sheet->setCellValue('H5','DESA/KELURAHAN');         
-        $sheet->setCellValue('I5','KET.');         
+        $sheet->setCellValue('H5','KET.');         
         
         $styleArray=array( 
             'font' => array('bold' => true,'size'=>'9'),
@@ -60,8 +59,8 @@ class ReportMusrenbangKecamatanModel extends ReportModel
                                'vertical'=>Alignment::HORIZONTAL_CENTER),
             'borders' => array('allBorders' => array('borderStyle' =>Border::BORDER_THIN))
         );                
-        $sheet->getStyle("A5:I5")->applyFromArray($styleArray);
-        $sheet->getStyle("A5:I5")->getAlignment()->setWrapText(true);
+        $sheet->getStyle("A5:H5")->applyFromArray($styleArray);
+        $sheet->getStyle("A5:H5")->getAlignment()->setWrapText(true);
 
         $sheet->getColumnDimension('A')->setWidth(5);
         $sheet->getColumnDimension('B')->setWidth(50);
@@ -70,16 +69,15 @@ class ReportMusrenbangKecamatanModel extends ReportModel
         $sheet->getColumnDimension('E')->setWidth(15);
         $sheet->getColumnDimension('F')->setWidth(11);        
         $sheet->getColumnDimension('G')->setWidth(11);
-        $sheet->getColumnDimension('H')->setWidth(20);
-        $sheet->getColumnDimension('I')->setWidth(17);
+        $sheet->getColumnDimension('H')->setWidth(17);
         
         $data = \DB::table('trUsulanKec')
                 ->select(\DB::raw('"trUsulanKec"."UsulanKecID","tmOrg"."OrgNm","tmPmDesa"."Nm_Desa","trUsulanKec"."No_usulan","trUsulanKec"."NamaKegiatan","trUsulanKec"."Output","trUsulanKec"."NilaiUsulan","trUsulanKec"."Target_Angka","trUsulanKec"."Target_Uraian","trUsulanKec"."Jeniskeg","trUsulanKec"."Prioritas","trUsulanKec"."Bobot","trUsulanKec"."Privilege","trUsulanKec"."Descr"'))
-                ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trUsulanKec.PmKecamatanID')
+                ->join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanKec.PmDesaID')
                 ->join('tmOrg','tmOrg.OrgID','trUsulanKec.OrgID')
                 ->leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trUsulanKec.PmDesaID')                                                                                                
                 ->where('trUsulanKec.TA', \HelperKegiatan::getTahunPerencanaan())
-                ->where('trUsulanKec.PmKecamatanID',$PmKecamatanID)
+                ->where('trUsulanKec.PmDesaID',$PmDesaID)
                 ->orderBy('trUsulanKec.Prioritas','ASC')
                 ->orderBy("NamaKegiatan",'ASC')
                 ->get();
@@ -96,8 +94,7 @@ class ReportMusrenbangKecamatanModel extends ReportModel
             $sheet->setCellValue("E$row",\Helper::formatUang($item->NilaiUsulan));
             $sheet->setCellValue("F$row",\HelperKegiatan::getNamaPrioritas($item->Prioritas));
             $sheet->setCellValue("G$row",$item->Privilege==1?'ACC':'DUM');
-            $sheet->setCellValue("H$row",empty($item->Nm_Desa)?'USULAN KEC.':$item->Nm_Desa);
-            $sheet->setCellValue("I$row",$item->Descr);
+            $sheet->setCellValue("H$row",$item->Descr);
             $row+=1;
         }
         $row-=1;
@@ -106,13 +103,13 @@ class ReportMusrenbangKecamatanModel extends ReportModel
                                'vertical'=>Alignment::HORIZONTAL_CENTER),
             'borders' => array('allBorders' => array('borderStyle' =>Border::BORDER_THIN))
         );        																			 
-        $sheet->getStyle("A6:I$row")->applyFromArray($styleArray);
-        $sheet->getStyle("A6:I$row")->getAlignment()->setWrapText(true);  
+        $sheet->getStyle("A6:H$row")->applyFromArray($styleArray);
+        $sheet->getStyle("A6:H$row")->getAlignment()->setWrapText(true);  
 
         $styleArray=array(								
             'alignment' => array('horizontal'=>Alignment::HORIZONTAL_LEFT)
         );																					 
         $sheet->getStyle("B6:D$row")->applyFromArray($styleArray);
-        $sheet->getStyle("H6:I$row")->applyFromArray($styleArray);
+        $sheet->getStyle("H6:H$row")->applyFromArray($styleArray);
     }   
 }

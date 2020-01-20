@@ -342,4 +342,21 @@ class PembahasanMusrenDesaController extends Controller {
             return redirect(route('pembahasanmusrendesa.index'))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
+    /**
+     * Print to excel.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function printtoexcel ()
+    {
+        $theme = \Auth::user()->theme;
+
+        $filters=$this->getControllerStateSession('pembahasanmusrendesa','filters');  
+        $data_report=\App\Models\DMaster\DesaModel::find($filters['UsulanDesaID'])->toArray();
+        $report= new \App\Models\Report\ReportMusrenbangDesaModel ($data_report);
+        $generate_date=date('Y-m-d_H_m_s');
+        return $report->download("laporan_musrenbang_desa_$generate_date.xlsx");
+    }
 }
