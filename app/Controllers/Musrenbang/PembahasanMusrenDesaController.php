@@ -354,7 +354,7 @@ class PembahasanMusrenDesaController extends Controller {
         $theme = \Auth::user()->theme;
 
         $filters=$this->getControllerStateSession('pembahasanmusrendesa','filters');  
-        $data_report=\App\Models\DMaster\DesaModel::find($filters['UsulanDesaID'])->toArray();
+        $data_report=\App\Models\DMaster\DesaModel::find($filters['PmDesaID'])->toArray();
         $report= new \App\Models\Report\ReportMusrenbangDesaModel ($data_report);
         $generate_date=date('Y-m-d_H_m_s');
         return $report->download("laporan_musrenbang_desa_$generate_date.xlsx");
