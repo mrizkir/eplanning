@@ -17,7 +17,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right">
                         <li>
-                            <a href="{!!route('reportprogrammurniopd.printtoexcel')!!}" title="Print to Excel" id="btnprintexcel">
+                            <a href="{!!route('pembahasanmusrenkecamatan.printtoexcel')!!}" title="Print to Excel" id="btnprintexcel">
                                 <i class="icon-file-excel"></i> Export to Excel
                             </a>     
                         </li>                            
