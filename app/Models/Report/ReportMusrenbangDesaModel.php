@@ -71,15 +71,14 @@ class ReportMusrenbangDesaModel extends ReportModel
         $sheet->getColumnDimension('G')->setWidth(11);
         $sheet->getColumnDimension('H')->setWidth(17);
         
-        $data = \DB::table('trUsulanKec')
-                ->select(\DB::raw('"trUsulanKec"."UsulanKecID","tmOrg"."OrgNm","tmPmDesa"."Nm_Desa","trUsulanKec"."No_usulan","trUsulanKec"."NamaKegiatan","trUsulanKec"."Output","trUsulanKec"."NilaiUsulan","trUsulanKec"."Target_Angka","trUsulanKec"."Target_Uraian","trUsulanKec"."Jeniskeg","trUsulanKec"."Prioritas","trUsulanKec"."Bobot","trUsulanKec"."Privilege","trUsulanKec"."Descr"'))
-                ->join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanKec.PmDesaID')
-                ->join('tmOrg','tmOrg.OrgID','trUsulanKec.OrgID')
-                ->leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trUsulanKec.PmDesaID')                                                                                                
-                ->where('trUsulanKec.TA', \HelperKegiatan::getTahunPerencanaan())
-                ->where('trUsulanKec.PmDesaID',$PmDesaID)
-                ->orderBy('trUsulanKec.Prioritas','ASC')
-                ->orderBy("NamaKegiatan",'ASC')
+        $data = \DB::table('trUsulanDesa')
+                ->select(\DB::raw('"trUsulanDesa"."UsulanDesaID","trUsulanDesa"."No_usulan","trUsulanDesa"."NamaKegiatan","trUsulanDesa"."Output","trUsulanDesa"."NilaiUsulan","trUsulanDesa"."Target_Angka","trUsulanDesa"."Target_Uraian","trUsulanDesa"."Jeniskeg","trUsulanDesa"."Prioritas","trUsulanDesa"."Bobot","trUsulanDesa"."Privilege","trUsulanDesa"."Descr","trUsulanKec"."UsulanKecID"'))
+                ->leftJoin('trUsulanKec','trUsulanKec.UsulanDesaID','trUsulanDesa.UsulanDesaID')
+                ->join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanDesa.PmDesaID')
+                ->join('tmPmKecamatan','tmPmDesa.PmKecamatanID','tmPmKecamatan.PmKecamatanID')
+                ->where('trUsulanDesa.TA', \HelperKegiatan::getTahunPerencanaan())
+                ->where('trUsulanDesa.PmDesaID',$PmDesaID)                                            
+                ->orderBy('Prioritas','ASC')
                 ->get();
         
         $row=6;
