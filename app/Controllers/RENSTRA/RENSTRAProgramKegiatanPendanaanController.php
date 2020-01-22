@@ -248,7 +248,15 @@ class RENSTRAProgramKegiatanPendanaanController extends Controller {
         $auth = \Auth::user();    
         $theme = $auth->theme;
 
+        //filter
+        if (!$this->checkStateIsExistSession('renstraprogramkegiatanpendanaan','filters')) 
+        {            
+            $this->putControllerStateSession('renstraprogramkegiatanpendanaan','filters',[
+                                                                                            'OrgIDRPJMD'=>'none'
+                                                                                        ]);
+        }        
         $filters=$this->getControllerStateSession('renstraprogramkegiatanpendanaan','filters');
+        
         $roles=$auth->getRoleNames();   
         switch ($roles[0])
         {

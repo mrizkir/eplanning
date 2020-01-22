@@ -41,9 +41,9 @@ class MappingProgramToOPDController extends Controller {
         $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
 
         //filter
-        if (!$this->checkStateIsExistSession($this->SessionName,'filters')) 
+        if (!$this->checkStateIsExistSession('mappingprogramtoopd','filters')) 
         {            
-            $this->putControllerStateSession($this->SessionName,'filters',[
+            $this->putControllerStateSession('mappingprogramtoopd','filters',[
                                                                             'OrgIDRPJMD'=>'none'
                                                                             ]);
         }        

@@ -40,14 +40,14 @@ class RENSTRAKebijakanController extends Controller {
         }
         $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
 
-         //filter
-         if (!$this->checkStateIsExistSession('renstrasasaran','filters')) 
-         {            
-             $this->putControllerStateSession('renstrasasaran','filters',[
-                                                                     'OrgIDRPJMD'=>'none'
-                                                                     ]);
-         }        
-         $OrgIDRPJMD= $this->getControllerStateSession(\Helper::getNameOfPage('filters'),'OrgIDRPJMD');        
+        //filter
+        if (!$this->checkStateIsExistSession('renstrakebijakan','filters')) 
+        {            
+            $this->putControllerStateSession('renstrakebijakan','filters',[
+                                                                    'OrgIDRPJMD'=>'none'
+                                                                    ]);
+        }        
+        $OrgIDRPJMD= $this->getControllerStateSession(\Helper::getNameOfPage('filters'),'OrgIDRPJMD');        
  
         if ($this->checkStateIsExistSession('renstrakebijakan','search')) 
         {
