@@ -24,7 +24,7 @@
                     <i class="icon-eye"></i>  DATA RW
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('rw.edit',['id'=>$data->rw_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RW">
+                    <a href="{{route('rw.edit',['uuid'=>$data->rw_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RW">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data RW" data-id="{{$data->rw_id}}" data-url="{{route('rw.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">

@@ -28,7 +28,7 @@
                     <a href="{!!route('rpjmdprogrampembangunan.create')!!}" class="btn btn-info btn-icon heading-btn btnAdd" title="Tambah Indikasi">
                         <i class="icon-googleplus5"></i>
                     </a>
-                    <a href="{{route('rpjmdprogrampembangunan.edit',['id'=>$data->RPJMDProgramPembangunanID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RpjmdIndikatorKinerja">
+                    <a href="{{route('rpjmdprogrampembangunan.edit',['uuid'=>$data->RPJMDProgramPembangunanID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RpjmdIndikatorKinerja">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data RpjmdIndikatorKinerja" data-id="{{$data->RPJMDProgramPembangunanID}}" data-url="{{route('rpjmdprogrampembangunan.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">

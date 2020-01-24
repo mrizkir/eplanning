@@ -54,7 +54,7 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('transferrkpdmurnitopembahasan1.show',['id'=>$item->OrgID])}}" title="Detail Data Organisasi">
+                                <a class="btnShow" href="{{route('transferrkpdmurnitopembahasan1.show',['uuid'=>$item->OrgID])}}" title="Detail Data Organisasi">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>

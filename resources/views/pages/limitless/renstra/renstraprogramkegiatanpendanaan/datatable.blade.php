@@ -48,12 +48,12 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('renstraprogramkegiatanpendanaan.show',['id'=>$item->RenstraIndikatorID])}}" title="Detail Data RENSTRA Arah Kebijakan">
+                                <a class="btnShow" href="{{route('renstraprogramkegiatanpendanaan.show',['uuid'=>$item->RenstraIndikatorID])}}" title="Detail Data RENSTRA Arah Kebijakan">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('renstraprogramkegiatanpendanaan.edit',['id'=>$item->RenstraIndikatorID])}}" title="Ubah Data RENSTRA Arah Kebijakan">
+                                <a class="btnEdit" href="{{route('renstraprogramkegiatanpendanaan.edit',['uuid'=>$item->RenstraIndikatorID])}}" title="Ubah Data RENSTRA Arah Kebijakan">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>

@@ -71,13 +71,13 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('longlist.show',['id'=>$item->LongListID])}}" title="Detail Data Long List">
+                                <a class="btnShow" href="{{route('longlist.show',['uuid'=>$item->LongListID])}}" title="Detail Data Long List">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             @if ($item->Privilege==0 || $role=='superadmin' || $role=='bapelitbang')
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('longlist.edit',['id'=>$item->LongListID])}}" title="Ubah Data Long List">
+                                <a class="btnEdit" href="{{route('longlist.edit',['uuid'=>$item->LongListID])}}" title="Ubah Data Long List">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>

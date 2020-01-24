@@ -26,7 +26,7 @@
                     <i class="icon-eye"></i>  DATA RENSTRA PROGRAM, KEGIATAN, DAN PENDANAAN
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('renstraprogramkegiatanpendanaan.edit',['id'=>$data->RenstraIndikatorID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RENSTRA Indikator Sasaran">
+                    <a href="{{route('renstraprogramkegiatanpendanaan.edit',['uuid'=>$data->RenstraIndikatorID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RENSTRA Indikator Sasaran">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data RENSTRA Indikator Sasaran" data-id="{{$data->RenstraIndikatorID}}" data-url="{{route('renstraprogramkegiatanpendanaan.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">

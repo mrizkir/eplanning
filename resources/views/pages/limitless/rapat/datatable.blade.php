@@ -52,12 +52,12 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('rapat.show',['id'=>$item->RapatID])}}" title="Detail Data Rapat">
+                                <a class="btnShow" href="{{route('rapat.show',['uuid'=>$item->RapatID])}}" title="Detail Data Rapat">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('rapat.edit',['id'=>$item->RapatID])}}" title="Ubah Data Rapat">
+                                <a class="btnEdit" href="{{route('rapat.edit',['uuid'=>$item->RapatID])}}" title="Ubah Data Rapat">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>

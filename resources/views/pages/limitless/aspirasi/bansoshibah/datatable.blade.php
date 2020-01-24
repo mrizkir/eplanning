@@ -107,13 +107,13 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('bansoshibah.show',['id'=>$item->BansosHibahID])}}" title="Detail Data Bantuan Sosial dan Hibah">
+                                <a class="btnShow" href="{{route('bansoshibah.show',['uuid'=>$item->BansosHibahID])}}" title="Detail Data Bantuan Sosial dan Hibah">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             @if ($item->Privilege==0 || $role=='superadmin' || $role=='bapelitbang')
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('bansoshibah.edit',['id'=>$item->BansosHibahID])}}" title="Ubah Data Bantuan Sosial dan Hibah">
+                                <a class="btnEdit" href="{{route('bansoshibah.edit',['uuid'=>$item->BansosHibahID])}}" title="Ubah Data Bantuan Sosial dan Hibah">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>

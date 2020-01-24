@@ -42,7 +42,7 @@
                     <td>{{$item->name}}</td>
                     <td>{{$item->guard_name}}</td>
                     <td class="text-nowrap">                        
-                        <a class="btn btnShow" href="{{route('permissions.show',['id'=>$item->id])}}" title="Detail Data Permission">
+                        <a class="btn btnShow" href="{{route('permissions.show',['uuid'=>$item->id])}}" title="Detail Data Permission">
                             <i class='fa fa-eye text-blue'></i>
                         </a>      
                         <a class="btn btnDelete" href="javascript:;" title="Hapus Data Permission" data-id="{{$item->id}}" data-url="{{route('permissions.index')}}">

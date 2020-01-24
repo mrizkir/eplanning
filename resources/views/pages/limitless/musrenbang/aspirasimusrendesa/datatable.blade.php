@@ -97,13 +97,13 @@
                     <td>
                         <ul class="icons-list">   
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('aspirasimusrendesa.show',['id'=>$item->UsulanDesaID])}}" title="Detail Data Kegiatan">
+                                <a class="btnShow" href="{{route('aspirasimusrendesa.show',['uuid'=>$item->UsulanDesaID])}}" title="Detail Data Kegiatan">
                                 <i class='icon-eye'></i>
                             </a>  
                             </li>          
                         @if (empty($item->UsulanKecID))                                
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('aspirasimusrendesa.edit',['id'=>$item->UsulanDesaID])}}" title="Ubah Data Kegiatan">
+                                <a class="btnEdit" href="{{route('aspirasimusrendesa.edit',['uuid'=>$item->UsulanDesaID])}}" title="Ubah Data Kegiatan">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>

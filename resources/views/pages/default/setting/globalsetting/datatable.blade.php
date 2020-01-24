@@ -31,10 +31,10 @@
                     </td>                  
                     <td>{{$item->replace_it}}</td>
                     <td class="text-nowrap">
-                        <a class="btn btnShow" href="{{route('globalsetting.show',['id'=>$item->globalsetting_id])}}" title="Detail Data GlobalSetting">
+                        <a class="btn btnShow" href="{{route('globalsetting.show',['uuid'=>$item->globalsetting_id])}}" title="Detail Data GlobalSetting">
                             <i class='fa fa-eye text-blue'></i>
                         </a>  
-                            <a class="btn btnEdit" href="{{route('globalsetting.edit',['id'=>$item->globalsetting_id])}}" title="Ubah Data GlobalSetting">
+                            <a class="btn btnEdit" href="{{route('globalsetting.edit',['uuid'=>$item->globalsetting_id])}}" title="Ubah Data GlobalSetting">
                             <i class='fa fa-pencil text-blue'></i>
                         </a>  
                         <a class="btn btnDelete" href="javascript:;" title="Hapus Data GlobalSetting" data-id="{{$item->globalsetting_id}}" data-url="{{route('globalsetting.index')}}">

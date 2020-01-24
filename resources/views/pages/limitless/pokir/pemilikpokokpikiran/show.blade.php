@@ -29,7 +29,7 @@
                     <a href="{{route('pemilikpokokpikiran.create')}}" class="btn btn-info btn-icon heading-btn btnTambah" title="Tambah Data Pemilik Pokok Pikiran">
                         <i class="icon-googleplus5"></i>
                     </a>
-                    <a href="{{route('pemilikpokokpikiran.edit',['id'=>$data->PemilikPokokID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Pemilik Pokok Pikiran">
+                    <a href="{{route('pemilikpokokpikiran.edit',['uuid'=>$data->PemilikPokokID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Pemilik Pokok Pikiran">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data Pemilik Pokok Pikiran" data-id="{{$data->PemilikPokokID}}" data-url="{{route('pemilikpokokpikiran.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">

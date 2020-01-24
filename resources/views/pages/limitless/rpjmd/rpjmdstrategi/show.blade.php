@@ -26,7 +26,7 @@
                     <i class="icon-eye"></i>  DATA RPJMD STRATEGI
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('rpjmdstrategi.edit',['id'=>$data->PrioritasStrategiKabID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RPJMD Strategi">
+                    <a href="{{route('rpjmdstrategi.edit',['uuid'=>$data->PrioritasStrategiKabID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RPJMD Strategi">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data RPJMD Strategi" data-id="{{$data->PrioritasStrategiKabID}}" data-url="{{route('rpjmdstrategi.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">

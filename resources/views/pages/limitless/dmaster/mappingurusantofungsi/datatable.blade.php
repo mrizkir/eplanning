@@ -39,12 +39,12 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('mappingurusantofungsi.show',['id'=>$item->mappingurusantofungsi_id])}}" title="Detail Data MappingUrusanToFungsi">
+                                <a class="btnShow" href="{{route('mappingurusantofungsi.show',['uuid'=>$item->mappingurusantofungsi_id])}}" title="Detail Data MappingUrusanToFungsi">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('mappingurusantofungsi.edit',['id'=>$item->mappingurusantofungsi_id])}}" title="Ubah Data MappingUrusanToFungsi">
+                                <a class="btnEdit" href="{{route('mappingurusantofungsi.edit',['uuid'=>$item->mappingurusantofungsi_id])}}" title="Ubah Data MappingUrusanToFungsi">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>

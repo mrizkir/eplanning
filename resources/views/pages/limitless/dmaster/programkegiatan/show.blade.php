@@ -29,7 +29,7 @@
                     <a href="{{route('programkegiatan.create')}}" class="btn btn-info btn-icon heading-btn btnTambah" title="Tambah Data Program Kegiatan">
                         <i class="icon-googleplus5"></i>
                     </a>  
-                    <a href="{{route('programkegiatan.edit',['id'=>$data->KgtID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data ProgramKegiatan">
+                    <a href="{{route('programkegiatan.edit',['uuid'=>$data->KgtID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data ProgramKegiatan">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data ProgramKegiatan" data-id="{{$data->KgtID}}" data-url="{{route('programkegiatan.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">

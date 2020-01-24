@@ -8,7 +8,7 @@
         <li class="dropdown-header">AKSI</li>        
         @if ($item->Privilege==0)              
         <li class="text-primary-600">        
-            <a class="btnEdit" href="{{route($page_active.'.edit',['id'=>$item->RKPDRincID])}}" title="Ubah Data Usulan">
+            <a class="btnEdit" href="{{route($page_active.'.edit',['uuid'=>$item->RKPDRincID])}}" title="Ubah Data Usulan">
                 <i class='icon-pencil7'></i> UBAH RINCIAN
             </a>             
         </li> 
@@ -26,12 +26,12 @@
         </li>             
         @endif
          <li class="text-primary-600">        
-            <a href="{{route($page_active.'.show',['id'=>$item->RKPDID])}}" title="Detail Data Usulan">
+            <a href="{{route($page_active.'.show',['uuid'=>$item->RKPDID])}}" title="Detail Data Usulan">
                 <i class='icon-eye'></i> DETAIL KEGIATAN
             </a>             
         </li> 
         <li class="text-primary-600">        
-            <a href="{{route($page_active.'.showrincian',['id'=>$item->RKPDRincID])}}" title="Detail Data Rincian Usulan">
+            <a href="{{route($page_active.'.showrincian',['uuid'=>$item->RKPDRincID])}}" title="Detail Data Rincian Usulan">
                 <i class='icon-eye'></i> DETAIL RINCIAN
             </a>             
         </li> 

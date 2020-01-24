@@ -29,7 +29,7 @@
                     <a href="{{route('ta.create')}}" class="btn btn-info btn-icon heading-btn btnTambah" title="Tambah Data Tahun Perencanaan / Anggaran">
                         <i class="icon-googleplus5"></i>
                     </a>
-                    <a href="{{route('ta.edit',['id'=>$data->TAID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Tahun Perencanaan / Anggaran">
+                    <a href="{{route('ta.edit',['uuid'=>$data->TAID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Tahun Perencanaan / Anggaran">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data Tahun Perencanaan / Anggaran" data-id="{{$data->TAID}}" data-url="{{route('ta.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">

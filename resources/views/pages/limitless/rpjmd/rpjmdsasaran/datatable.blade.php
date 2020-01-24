@@ -6,7 +6,7 @@
         <div class="heading-elements">
             {!! Form::open(['url'=>'#','method'=>'post','class'=>'heading-form','id'=>'frmheading','name'=>'frmheading'])!!} 
                 <div class="form-group">
-                    {!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control','style'=>'width:70px'])!!}                        
+                    {!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['uuid'=>'numberRecordPerPage','class'=>'form-control','style'=>'width:70px'])!!}                        
                 </div> 
                 <div class="form-group">
                     <a href="{!!route('rpjmdsasaran.create')!!}" class="btn btn-info btn-xs" title="Tambah RPJMD TUJUAN">
@@ -46,12 +46,12 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('rpjmdsasaran.show',['id'=>$item->PrioritasSasaranKabID])}}" title="Detail Data RPJMD Sasaran">
+                                <a class="btnShow" href="{{route('rpjmdsasaran.show',['uuid'=>$item->PrioritasSasaranKabID])}}" title="Detail Data RPJMD Sasaran">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('rpjmdsasaran.edit',['id'=>$item->PrioritasSasaranKabID])}}" title="Ubah Data RPJMD Sasaran">
+                                <a class="btnEdit" href="{{route('rpjmdsasaran.edit',['uuid'=>$item->PrioritasSasaranKabID])}}" title="Ubah Data RPJMD Sasaran">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>

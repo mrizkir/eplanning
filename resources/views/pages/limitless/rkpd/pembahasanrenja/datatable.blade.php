@@ -119,7 +119,7 @@
                         @elseif(!empty($item->UsulanKecID))
                             <br />
                             <span class="label label-flat border-grey text-grey-600">                        
-                                <a href="{{route('aspirasimusrenkecamatan.show',['id'=>$item->UsulanKecID])}}">
+                                <a href="{{route('aspirasimusrenkecamatan.show',['uuid'=>$item->UsulanKecID])}}">
                                     <strong>Usulan dari: MUSREN. KEC. {{$item->Nm_Kecamatan}}
                                 </a>
                             </span>
@@ -167,7 +167,7 @@
                             <strong>KET:</strong>
                             {{empty($item->Descr)?'-':$item->Descr}}
                         </span>
-                        <a href="{{route(HelperKegiatan::getRouteUsulanFromPembahasan($page_active,'show'),['id'=>$item->RenjaID])}}">
+                        <a href="{{route(HelperKegiatan::getRouteUsulanFromPembahasan($page_active,'show'),['uuid'=>$item->RenjaID])}}">
                             LIAT DI USULAN
                         </a>
                     </td>

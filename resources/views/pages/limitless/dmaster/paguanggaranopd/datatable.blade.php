@@ -58,12 +58,12 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('paguanggaranopd.show',['id'=>$item->PaguAnggaranOPDID])}}" title="Detail Data  Pagu Anggaran OPD / SKPD">
+                                <a class="btnShow" href="{{route('paguanggaranopd.show',['uuid'=>$item->PaguAnggaranOPDID])}}" title="Detail Data  Pagu Anggaran OPD / SKPD">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('paguanggaranopd.edit',['id'=>$item->PaguAnggaranOPDID])}}" title="Ubah Data Pagu Anggaran OPD / SKPD">
+                                <a class="btnEdit" href="{{route('paguanggaranopd.edit',['uuid'=>$item->PaguAnggaranOPDID])}}" title="Ubah Data Pagu Anggaran OPD / SKPD">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>

@@ -44,12 +44,12 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('renstratujuan.show',['id'=>$item->RenstraTujuanID])}}" title="Detail Data RpjmdTujuan">
+                                <a class="btnShow" href="{{route('renstratujuan.show',['uuid'=>$item->RenstraTujuanID])}}" title="Detail Data RpjmdTujuan">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('renstratujuan.edit',['id'=>$item->RenstraTujuanID])}}" title="Ubah Data RpjmdTujuan">
+                                <a class="btnEdit" href="{{route('renstratujuan.edit',['uuid'=>$item->RenstraTujuanID])}}" title="Ubah Data RpjmdTujuan">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>

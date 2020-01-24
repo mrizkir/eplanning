@@ -29,7 +29,7 @@
                     <a href="{!!route('paguanggarandewan.create')!!}" class="btn btn-info btn-icon heading-btn btnAdd" title="Tambah Pagu Anggaran">
                         <i class="icon-googleplus5"></i>
                     </a>
-                    <a href="{{route('paguanggarandewan.edit',['id'=>$data->PaguAnggaranDewanID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Pagu Anggaran Dewan">
+                    <a href="{{route('paguanggarandewan.edit',['uuid'=>$data->PaguAnggaranDewanID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Pagu Anggaran Dewan">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data Pagu Anggaran Dewan" data-id="{{$data->PaguAnggaranDewanID}}" data-url="{{route('paguanggarandewan.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">

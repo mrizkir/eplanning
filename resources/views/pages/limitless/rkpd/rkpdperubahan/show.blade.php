@@ -29,7 +29,7 @@
                         <i class="icon-googleplus5"></i>
                     </a> 
                     @if ($rkpd->Privilege==0)
-                    <a href="{{route(Helper::getNameOfPage('edit'),['id'=>$rkpd->RKPDID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Usulan {{$page_title}}">
+                    <a href="{{route(Helper::getNameOfPage('edit'),['uuid'=>$rkpd->RKPDID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Usulan {{$page_title}}">
                         <i class="icon-pencil7"></i>
                     </a>                    
                     @if ($rkpd->EntryLvl==5 && $rkpd->Status==3)    

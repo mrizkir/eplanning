@@ -31,24 +31,24 @@
                 <div class="heading-elements">   
                  @if ($rkpd->Privilege==0))
                      @if ($rkpd->isSKPD)
-                        <a href="{{route(Helper::getNameOfPage('edit4'),['id'=>$rkpd->RKPDRincID])}}" title="Ubah Data {{$page_title}}" class="btn btn-primary btn-icon heading-btn btnEdit">
+                        <a href="{{route(Helper::getNameOfPage('edit4'),['uuid'=>$rkpd->RKPDRincID])}}" title="Ubah Data {{$page_title}}" class="btn btn-primary btn-icon heading-btn btnEdit">
                             <i class='icon-pencil7'></i>
                         </a> 
                     @elseif($rkpd->isReses)
-                        <a href="{{route(Helper::getNameOfPage('edit3'),['id'=>$rkpd->RKPDRincID])}}" title="Ubah Data {{$page_title}}" class="btn btn-primary btn-icon heading-btn btnEdit">
+                        <a href="{{route(Helper::getNameOfPage('edit3'),['uuid'=>$rkpd->RKPDRincID])}}" title="Ubah Data {{$page_title}}" class="btn btn-primary btn-icon heading-btn btnEdit">
                             <i class='icon-pencil7'></i>
                         </a>
                     @elseif(!empty($rkpd->UsulanKecID))
-                        <a href="{{route(Helper::getNameOfPage('edit2'),['id'=>$rkpd->RKPDRincID])}}" title="Ubah Data {{$page_title}}" class="btn btn-primary btn-icon heading-btn btnEdit">
+                        <a href="{{route(Helper::getNameOfPage('edit2'),['uuid'=>$rkpd->RKPDRincID])}}" title="Ubah Data {{$page_title}}" class="btn btn-primary btn-icon heading-btn btnEdit">
                             <i class='icon-pencil7'></i>
                         </a>
                     @else
-                        <a href="{{route(Helper::getNameOfPage('edit4'),['id'=>$rkpd->RKPDRincID])}}" title="Ubah Data {{$page_title}}" class="btn btn-primary btn-icon heading-btn btnEdit">
+                        <a href="{{route(Helper::getNameOfPage('edit4'),['uuid'=>$rkpd->RKPDRincID])}}" title="Ubah Data {{$page_title}}" class="btn btn-primary btn-icon heading-btn btnEdit">
                             <i class='icon-pencil7'></i>
                         </a>
                     @endif                    
                     @endif{{-- akhir privilege --}}
-                    <a href="{!!route(Helper::getNameOfPage('show'),['id'=>$rkpd->RKPDID])!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
+                    <a href="{!!route(Helper::getNameOfPage('show'),['uuid'=>$rkpd->RKPDID])!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
                         <i class="icon-close2"></i>
                     </a>  
                 </div>

@@ -3,7 +3,7 @@
         <div class="panel-title">
             <div class="row">
                 <div class="col-md-1">                    		
-                    {!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control'])!!}                        
+                    {!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['uuid'=>'numberRecordPerPage','class'=>'form-control'])!!}                        
                 </div>
             </div>
         </div>

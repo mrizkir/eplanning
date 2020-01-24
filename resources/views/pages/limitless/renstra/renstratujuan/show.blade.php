@@ -26,7 +26,7 @@
                     <i class="icon-eye"></i>  DATA RENSTRA TUJUAN
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('renstratujuan.edit',['id'=>$data->RenstraTujuanID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RENSTRA Tujuan">
+                    <a href="{{route('renstratujuan.edit',['uuid'=>$data->RenstraTujuanID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RENSTRA Tujuan">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data RENSTRA Tujuan" data-id="{{$data->RenstraTujuanID}}" data-url="{{route('renstratujuan.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">

@@ -28,7 +28,7 @@
                     <a href="{{route('pemilikbansoshibah.create')}}" class="btn btn-info btn-icon heading-btn btnTambah" title="Tambah Data Pemilik Bantuan Sosial dan Hibah">
                         <i class="icon-googleplus5"></i>
                     </a>
-                    <a href="{{route('pemilikbansoshibah.edit',['id'=>$data->PemilikBansosHibahID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Pemilik Bantuan Sosial dan Hibah">
+                    <a href="{{route('pemilikbansoshibah.edit',['uuid'=>$data->PemilikBansosHibahID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Pemilik Bantuan Sosial dan Hibah">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data Pemilik Bantuan Sosial dan Hibah" data-id="{{$data->PemilikBansosHibahID}}" data-url="{{route('pemilikbansoshibah.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">

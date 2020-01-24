@@ -24,7 +24,7 @@
                     <i class="icon-eye"></i>  DATA PAGUDANARPJMD
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('pagudanarpjmd.edit',['id'=>$data->pagudanarpjmd_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data PaguDanaRPJMD">
+                    <a href="{{route('pagudanarpjmd.edit',['uuid'=>$data->pagudanarpjmd_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data PaguDanaRPJMD">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data PaguDanaRPJMD" data-id="{{$data->pagudanarpjmd_id}}" data-url="{{route('pagudanarpjmd.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">

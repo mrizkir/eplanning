@@ -26,7 +26,7 @@
                     <i class="icon-eye"></i>  DATA UNIT KERJA
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('suborganisasi.edit',['id'=>$data->OrgID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Organisasi">
+                    <a href="{{route('suborganisasi.edit',['uuid'=>$data->OrgID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Organisasi">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data Organisasi" data-id="{{$data->OrgID}}" data-url="{{route('organisasi.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">

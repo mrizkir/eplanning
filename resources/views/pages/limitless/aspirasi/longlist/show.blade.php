@@ -29,7 +29,7 @@
                         <i class="icon-googleplus5"></i>
                     </a>
                     @if ($data->Privilege==0)
-                    <a href="{{route('longlist.edit',['id'=>$data->LongListID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Long List">
+                    <a href="{{route('longlist.edit',['uuid'=>$data->LongListID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Long List">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data Long List" data-id="{{$data->LongListID}}" data-url="{{route('longlist.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">

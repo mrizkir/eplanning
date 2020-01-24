@@ -60,12 +60,12 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('kota.show',['id'=>$item->PmKotaID])}}" title="Detail Data Kota">
+                                <a class="btnShow" href="{{route('kota.show',['uuid'=>$item->PmKotaID])}}" title="Detail Data Kota">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('kota.edit',['id'=>$item->PmKotaID])}}" title="Ubah Data Kota">
+                                <a class="btnEdit" href="{{route('kota.edit',['uuid'=>$item->PmKotaID])}}" title="Ubah Data Kota">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>

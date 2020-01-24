@@ -22,7 +22,7 @@
                     <i class="icon-eye"></i> DATA {{modelNameUpper}}
                 </h3>
                 <div class="box-tools">  
-                    <a href="{{route('{{modelNameLower}}.edit',['id'=>$data->{{primaryKey}}])}}" class="btn btn-primary btnEdit" title="Ubah Data {{modelName}}">
+                    <a href="{{route('{{modelNameLower}}.edit',['uuid'=>$data->{{primaryKey}}])}}" class="btn btn-primary btnEdit" title="Ubah Data {{modelName}}">
                         <i class="fa fa-pencil"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data {{modelName}}" data-id="{{$data->{{primaryKey}}}}" data-url="{{route('{{modelNameLower}}.index')}}" class="btn btn-danger btnDelete">

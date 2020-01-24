@@ -46,12 +46,12 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('rpjmdkebijakan.show',['id'=>$item->PrioritasKebijakanKabID])}}" title="Detail Data RPJMD Kebijakan">
+                                <a class="btnShow" href="{{route('rpjmdkebijakan.show',['uuid'=>$item->PrioritasKebijakanKabID])}}" title="Detail Data RPJMD Kebijakan">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('rpjmdkebijakan.edit',['id'=>$item->PrioritasKebijakanKabID])}}" title="Ubah Data RPJMD Kebijakan">
+                                <a class="btnEdit" href="{{route('rpjmdkebijakan.edit',['uuid'=>$item->PrioritasKebijakanKabID])}}" title="Ubah Data RPJMD Kebijakan">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>

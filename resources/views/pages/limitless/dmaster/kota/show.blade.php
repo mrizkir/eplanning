@@ -29,7 +29,7 @@
                     <a href="{{route('kota.create')}}" class="btn btn-info btn-icon heading-btn btnTambah" title="Tambah Data Kota">
                         <i class="icon-googleplus5"></i>
                     </a>
-                    <a href="{{route('kota.edit',['id'=>$data->PmKotaID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Kota">
+                    <a href="{{route('kota.edit',['uuid'=>$data->PmKotaID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Kota">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data Kota" data-id="{{$data->PmKotaID}}" data-url="{{route('kota.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">

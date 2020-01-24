@@ -26,7 +26,7 @@
                     <i class="icon-eye"></i>  DATA RENSTRA STRATEGI
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('renstrastrategi.edit',['id'=>$data->RenstraStrategiID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RENSTRA Strategi">
+                    <a href="{{route('renstrastrategi.edit',['uuid'=>$data->RenstraStrategiID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RENSTRA Strategi">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data RENSTRA Strategi" data-id="{{$data->RenstraStrategiID}}" data-url="{{route('renstrastrategi.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">

@@ -76,7 +76,7 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('mappingprogramtoopd.show',['id'=>$item->orgProgramID])}}" title="Detail Data Mapping Program">
+                                <a class="btnShow" href="{{route('mappingprogramtoopd.show',['uuid'=>$item->orgProgramID])}}" title="Detail Data Mapping Program">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>                            

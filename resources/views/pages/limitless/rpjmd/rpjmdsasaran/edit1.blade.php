@@ -26,7 +26,7 @@
                     <i class="icon-eye"></i>  DATA RPJMD SASARAN
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('rpjmdsasaran.edit',['id'=>$data->PrioritasSasaranKabID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RPJMD Sasaran">
+                    <a href="{{route('rpjmdsasaran.edit',['uuid'=>$data->PrioritasSasaranKabID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RPJMD Sasaran">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data RPJMD Sasaran" data-id="{{$data->PrioritasSasaranKabID}}" data-url="{{route('rpjmdsasaran.index')}}" class="btn btn-danger btn-icon heading-btn btnDeleteSasaran">
@@ -35,7 +35,7 @@
                     <a href="{!!route('rpjmdsasaran.create')!!}" class="btn btn-primary btn-info heading-btn btnEdit" title="Tambah RPJMD Sasaran">
                         <i class="icon-googleplus5"></i>
                     </a>
-                    <a href="{!!route('rpjmdsasaran.show',['id'=>$data->PrioritasSasaranKabID])!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
+                    <a href="{!!route('rpjmdsasaran.show',['uuid'=>$data->PrioritasSasaranKabID])!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
                         <i class="icon-close2"></i>
                     </a>            
                 </div>

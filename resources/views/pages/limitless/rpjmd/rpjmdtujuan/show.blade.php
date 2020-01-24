@@ -26,7 +26,7 @@
                     <i class="icon-eye"></i>  DATA RPJMD TUJUAN
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('rpjmdtujuan.edit',['id'=>$data->PrioritasTujuanKabID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RPJMD Tujuan">
+                    <a href="{{route('rpjmdtujuan.edit',['uuid'=>$data->PrioritasTujuanKabID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RPJMD Tujuan">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data RPJMD Tujuan" data-id="{{$data->PrioritasTujuanKabID}}" data-url="{{route('rpjmdtujuan.index')}}" class="btn btn-danger btn-icon heading-btn btnDeleteTujuan">

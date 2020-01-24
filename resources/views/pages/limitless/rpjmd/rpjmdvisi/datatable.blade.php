@@ -67,12 +67,12 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('rpjmdvisi.show',['id'=>$item->RpjmdVisiID])}}" title="Detail Data RPJMD Visi">
+                                <a class="btnShow" href="{{route('rpjmdvisi.show',['uuid'=>$item->RpjmdVisiID])}}" title="Detail Data RPJMD Visi">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('rpjmdvisi.edit',['id'=>$item->RpjmdVisiID])}}" title="Ubah Data RPJMD Visi">
+                                <a class="btnEdit" href="{{route('rpjmdvisi.edit',['uuid'=>$item->RpjmdVisiID])}}" title="Ubah Data RPJMD Visi">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>

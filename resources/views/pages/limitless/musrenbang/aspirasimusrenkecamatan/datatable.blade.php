@@ -104,13 +104,13 @@
                 <td>
                     <ul class="icons-list">
                         <li class="text-primary-600">
-                            <a class="btnShow" href="{{route('aspirasimusrenkecamatan.show',['id'=>$item->UsulanKecID])}}" title="Detail Data Kegiatan">
+                            <a class="btnShow" href="{{route('aspirasimusrenkecamatan.show',['uuid'=>$item->UsulanKecID])}}" title="Detail Data Kegiatan">
                                 <i class='icon-eye'></i>
                             </a>  
                         </li>
                         @if (!isset($daftar_usulan_kec_id[$item->UsulanKecID]))
                         <li class="text-primary-600">
-                            <a class="btnEdit" href="{{route('aspirasimusrenkecamatan.edit',['id'=>$item->UsulanKecID])}}" title="Ubah Data Kegiatan">
+                            <a class="btnEdit" href="{{route('aspirasimusrenkecamatan.edit',['uuid'=>$item->UsulanKecID])}}" title="Ubah Data Kegiatan">
                                 <i class='icon-pencil7'></i>
                             </a>  
                         </li>

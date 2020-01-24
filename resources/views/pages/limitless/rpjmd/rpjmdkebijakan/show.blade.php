@@ -26,7 +26,7 @@
                     <i class="icon-eye"></i>  DATA KEBIJAKAN
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('rpjmdkebijakan.edit',['id'=>$data->PrioritasKebijakanKabID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RPJMD Kebijakan">
+                    <a href="{{route('rpjmdkebijakan.edit',['uuid'=>$data->PrioritasKebijakanKabID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RPJMD Kebijakan">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data RPJMD Kebijakan" data-id="{{$data->PrioritasKebijakanKabID}}" data-url="{{route('rpjmdkebijakan.index')}}" class="btn btn-danger btn-icon heading-btn btnDeleteKebijakan">

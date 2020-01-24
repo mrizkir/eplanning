@@ -22,7 +22,7 @@
                     <i class="icon-eye"></i> DATA GLOBALSETTING
                 </h3>
                 <div class="box-tools">  
-                    <a href="{{route('globalsetting.edit',['id'=>$data->globalsetting_id])}}" class="btn btn-primary btnEdit" title="Ubah Data GlobalSetting">
+                    <a href="{{route('globalsetting.edit',['uuid'=>$data->globalsetting_id])}}" class="btn btn-primary btnEdit" title="Ubah Data GlobalSetting">
                         <i class="fa fa-pencil"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data GlobalSetting" data-id="{{$data->globalsetting_id}}" data-url="{{route('globalsetting.index')}}" class="btn btn-danger btnDelete">

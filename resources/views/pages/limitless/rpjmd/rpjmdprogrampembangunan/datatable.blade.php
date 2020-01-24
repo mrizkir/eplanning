@@ -122,12 +122,12 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('rpjmdprogrampembangunan.show',['id'=>$item->RPJMDProgramPembangunanID])}}" title="Detail Data Indikasi Rencana Program">
+                                <a class="btnShow" href="{{route('rpjmdprogrampembangunan.show',['uuid'=>$item->RPJMDProgramPembangunanID])}}" title="Detail Data Indikasi Rencana Program">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('rpjmdprogrampembangunan.edit',['id'=>$item->RPJMDProgramPembangunanID])}}" title="Ubah Data Indikasi Rencana Program">
+                                <a class="btnEdit" href="{{route('rpjmdprogrampembangunan.edit',['uuid'=>$item->RPJMDProgramPembangunanID])}}" title="Ubah Data Indikasi Rencana Program">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>

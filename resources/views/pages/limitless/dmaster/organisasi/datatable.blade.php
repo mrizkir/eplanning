@@ -63,12 +63,12 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('organisasi.show',['id'=>$item->OrgID])}}" title="Detail Data Organisasi">
+                                <a class="btnShow" href="{{route('organisasi.show',['uuid'=>$item->OrgID])}}" title="Detail Data Organisasi">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('organisasi.edit',['id'=>$item->OrgID])}}" title="Ubah Data Organisasi">
+                                <a class="btnEdit" href="{{route('organisasi.edit',['uuid'=>$item->OrgID])}}" title="Ubah Data Organisasi">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>

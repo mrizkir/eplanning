@@ -29,7 +29,7 @@
                         <i class="icon-googleplus5"></i>
                     </a>  
                     @if ($renja->Privilege==0)
-                    <a href="{{route(Helper::getNameOfPage('edit'),['id'=>$renja->RenjaID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Usulan {{$page_title}}">
+                    <a href="{{route(Helper::getNameOfPage('edit'),['uuid'=>$renja->RenjaID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Usulan {{$page_title}}">
                         <i class="icon-pencil7"></i>
                     </a>                       
                     <a href="javascript:;" title="Hapus Data Usulan {{$page_title}}" data-id="{{$renja->RenjaID}}" data-url="{{route(Helper::getNameOfPage('index'))}}" class="btn btn-danger btn-icon heading-btn btnDeleteRenja">

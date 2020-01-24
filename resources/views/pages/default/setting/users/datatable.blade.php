@@ -58,10 +58,10 @@
                         @endforeach
                     </td>
                     <td class="text-nowrap">
-                        <a class="btn btnShow" href="{{route('users.show',['id'=>$item->id])}}" title="Detail Data User">
+                        <a class="btn btnShow" href="{{route('users.show',['uuid'=>$item->id])}}" title="Detail Data User">
                             <i class='fa fa-eye text-blue'></i>
                         </a>  
-                            <a class="btn btnEdit" href="{{route('users.edit',['id'=>$item->id])}}" title="Ubah Data User">
+                            <a class="btn btnEdit" href="{{route('users.edit',['uuid'=>$item->id])}}" title="Ubah Data User">
                             <i class='fa fa-pencil text-blue'></i>
                         </a>  
                         <a class="btn btnDelete" href="javascript:;" title="Hapus Data User" data-id="{{$item->id}}" data-url="{{route('users.index')}}">

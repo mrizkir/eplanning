@@ -24,7 +24,7 @@
                     <i class="icon-eye"></i>  DATA REKENINGJENIS
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('rekeningjenis.edit',['id'=>$data->rekeningjenis_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RekeningJenis">
+                    <a href="{{route('rekeningjenis.edit',['uuid'=>$data->rekeningjenis_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RekeningJenis">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data RekeningJenis" data-id="{{$data->rekeningjenis_id}}" data-url="{{route('rekeningjenis.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">

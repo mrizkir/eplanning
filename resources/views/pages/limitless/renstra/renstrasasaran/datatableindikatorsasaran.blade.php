@@ -36,7 +36,7 @@
                 <td>                    
                     <ul class="icons-list">
                         <li class="text-primary-600">                            
-                            <a class="btnEdit" href="{{route(Helper::getNameOfPage('edit1'),['id'=>$item->RenstraIndikatorSasaranID])}}" title="Ubah Data Indikator">
+                            <a class="btnEdit" href="{{route(Helper::getNameOfPage('edit1'),['uuid'=>$item->RenstraIndikatorSasaranID])}}" title="Ubah Data Indikator">
                                 <i class='icon-pencil7'></i>
                             </a> 
                         </li>

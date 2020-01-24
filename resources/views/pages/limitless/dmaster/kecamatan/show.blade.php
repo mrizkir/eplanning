@@ -29,7 +29,7 @@
                     <a href="{{route('kecamatan.create')}}" class="btn btn-info btn-icon heading-btn btnTambah" title="Tambah Data Kecamatan">
                         <i class="icon-googleplus5"></i>
                     </a>
-                    <a href="{{route('kecamatan.edit',['id'=>$data->PmKecamatanID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Kecamatan">
+                    <a href="{{route('kecamatan.edit',['uuid'=>$data->PmKecamatanID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Kecamatan">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data Kecamatan" data-id="{{$data->PmKecamatanID}}" data-url="{{route('kecamatan.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">

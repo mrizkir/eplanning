@@ -42,7 +42,7 @@
                                 <strong>Usulan dari: </strong>POKIR [{{$item->isReses_Uraian}}]
                             </a>
                         @else
-                            <a href="{{route('aspirasimusrenkecamatan.show',['id'=>$item->UsulanKecID])}}">
+                            <a href="{{route('aspirasimusrenkecamatan.show',['uuid'=>$item->UsulanKecID])}}">
                                 <strong>Usulan dari: MUSREN. KEC. {{$item->Nm_Kecamatan}}
                             </a>
                         @endif

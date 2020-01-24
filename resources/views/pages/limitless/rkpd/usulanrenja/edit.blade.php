@@ -27,7 +27,7 @@
             <div class="heading-elements">
                 <ul class="icons-list">                    
                     <li>
-                        <a href="{!!route(Helper::getNameOfPage('show'),['id'=>$renja->RenjaID])!!}" data-action="closeredirect" title="keluar"></a>
+                        <a href="{!!route(Helper::getNameOfPage('show'),['uuid'=>$renja->RenjaID])!!}" data-action="closeredirect" title="keluar"></a>
                     </li>
                 </ul>
             </div>

@@ -24,7 +24,7 @@
                     <i class="icon-eye"></i>  DATA MAPPINGURUSANTOFUNGSI
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('mappingurusantofungsi.edit',['id'=>$data->mappingurusantofungsi_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data MappingUrusanToFungsi">
+                    <a href="{{route('mappingurusantofungsi.edit',['uuid'=>$data->mappingurusantofungsi_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data MappingUrusanToFungsi">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data MappingUrusanToFungsi" data-id="{{$data->mappingurusantofungsi_id}}" data-url="{{route('mappingurusantofungsi.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">

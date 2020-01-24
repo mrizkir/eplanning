@@ -54,12 +54,12 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('suborganisasi.show',['id'=>$item->SOrgID])}}" title="Detail Data Unit Kerja">
+                                <a class="btnShow" href="{{route('suborganisasi.show',['uuid'=>$item->SOrgID])}}" title="Detail Data Unit Kerja">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('suborganisasi.edit',['id'=>$item->SOrgID])}}" title="Ubah Data Unit Kerja">
+                                <a class="btnEdit" href="{{route('suborganisasi.edit',['uuid'=>$item->SOrgID])}}" title="Ubah Data Unit Kerja">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>

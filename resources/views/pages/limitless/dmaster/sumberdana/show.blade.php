@@ -29,7 +29,7 @@
                     <a href="{{route('sumberdana.create')}}" class="btn btn-info btn-icon heading-btn btnTambah" title="Tambah Data Sumber Dana">
                         <i class="icon-googleplus5"></i>
                     </a>
-                    <a href="{{route('sumberdana.edit',['id'=>$data->SumberDanaID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Sumber Dana">
+                    <a href="{{route('sumberdana.edit',['uuid'=>$data->SumberDanaID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Sumber Dana">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data Sumber Dana" data-id="{{$data->SumberDanaID}}" data-url="{{route('sumberdana.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">

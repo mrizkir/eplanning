@@ -51,7 +51,7 @@
                         <ul class="icons-list">                                       
                             @can('edit_ta')                                         
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('ta.edit',['id'=>$item->TAID])}}" title="Ubah Data Tahun Perencanaan / Anggaran">
+                                <a class="btnEdit" href="{{route('ta.edit',['uuid'=>$item->TAID])}}" title="Ubah Data Tahun Perencanaan / Anggaran">
                                     <i class='icon-pencil7'></i>
                                 </a> 
                             </li>

@@ -5,13 +5,13 @@
     <div class="heading-elements">    
         @if ($renja->Privilege==0)
         <div class="heading-btn">
-            <a href="{!!route(Helper::getNameOfPage('create2'),['id'=>$renja->RenjaID])!!}" class="btn btn-info btn-xs" title="Tambah Rincian Kegiatan dari Musren. Kec.">
+            <a href="{!!route(Helper::getNameOfPage('create2'),['uuid'=>$renja->RenjaID])!!}" class="btn btn-info btn-xs" title="Tambah Rincian Kegiatan dari Musren. Kec.">
                 <i class="icon-googleplus5"></i>
             </a>
-            <a href="{!!route(Helper::getNameOfPage('create3'),['id'=>$renja->RenjaID])!!}" class="btn btn-success btn-xs" title="Tambah Rincian Kegiatan dari POKIR">
+            <a href="{!!route(Helper::getNameOfPage('create3'),['uuid'=>$renja->RenjaID])!!}" class="btn btn-success btn-xs" title="Tambah Rincian Kegiatan dari POKIR">
                 <i class="icon-googleplus5"></i>
             </a>
-            <a href="{!!route(Helper::getNameOfPage('create4'),['id'=>$renja->RenjaID])!!}" class="btn btn-primary btn-xs" title="Tambah Rincian Kegiatan">
+            <a href="{!!route(Helper::getNameOfPage('create4'),['uuid'=>$renja->RenjaID])!!}" class="btn btn-primary btn-xs" title="Tambah Rincian Kegiatan">
                 <i class="icon-googleplus5"></i>
             </a>
         </div>  
@@ -59,7 +59,7 @@
                     @elseif(!empty($item->UsulanKecID))
                         <br />
                         <span class="label label-flat border-grey text-grey-600">                        
-                            <a href="{{route('aspirasimusrenkecamatan.show',['id'=>$item->UsulanKecID])}}">
+                            <a href="{{route('aspirasimusrenkecamatan.show',['uuid'=>$item->UsulanKecID])}}">
                                 <strong>Usulan dari: MUSREN. KEC. {{$item->Nm_Kecamatan}}
                             </a>
                         </span>
@@ -90,26 +90,26 @@
                 <td>                   
                     <ul class="icons-list"> 
                         <li class="text-primary-600">
-                            <a class="btnShow" href="{{route(Helper::getNameOfPage('showrincian'),['id'=>$item->RenjaRincID])}}" title="Detail Data Usulan Musren Kabupaten">
+                            <a class="btnShow" href="{{route(Helper::getNameOfPage('showrincian'),['uuid'=>$item->RenjaRincID])}}" title="Detail Data Usulan Musren Kabupaten">
                                 <i class='icon-eye'></i>
                             </a>  
                         </li>
                         @if ($item->Privilege==0)                   
                         <li class="text-primary-600">
                             @if ($item->isSKPD)
-                                <a class="btnEdit" href="{{route(Helper::getNameOfPage('edit4'),['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan {{$page_title}}">
+                                <a class="btnEdit" href="{{route(Helper::getNameOfPage('edit4'),['uuid'=>$item->RenjaRincID])}}" title="Ubah Data Usulan {{$page_title}}">
                                     <i class='icon-pencil7'></i>
                                 </a> 
                             @elseif($item->isReses)
-                                <a class="btnEdit" href="{{route(Helper::getNameOfPage('edit3'),['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan {{$page_title}}">
+                                <a class="btnEdit" href="{{route(Helper::getNameOfPage('edit3'),['uuid'=>$item->RenjaRincID])}}" title="Ubah Data Usulan {{$page_title}}">
                                     <i class='icon-pencil7'></i>
                                 </a>
                             @elseif(!empty($item->UsulanKecID))
-                                <a class="btnEdit" href="{{route(Helper::getNameOfPage('edit2'),['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan {{$page_title}}">
+                                <a class="btnEdit" href="{{route(Helper::getNameOfPage('edit2'),['uuid'=>$item->RenjaRincID])}}" title="Ubah Data Usulan {{$page_title}}">
                                     <i class='icon-pencil7'></i>
                                 </a>
                             @else
-                                <a class="btnEdit" href="{{route(Helper::getNameOfPage('edit4'),['id'=>$item->RenjaRincID])}}" title="Ubah Data Usulan {{$page_title}}">
+                                <a class="btnEdit" href="{{route(Helper::getNameOfPage('edit4'),['uuid'=>$item->RenjaRincID])}}" title="Ubah Data Usulan {{$page_title}}">
                                     <i class='icon-pencil7'></i>
                                 </a>
                             @endif

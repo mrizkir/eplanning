@@ -49,10 +49,10 @@
                     <td>{{$item->guard_name}}</td>
                     <td>{{$item->jumlah}}</td>         
                     <td class="text-nowrap">  
-                        <a class="btn btnShow" href="{{route('roles.show',['id'=>$item->id])}}" title="Detail Data Role">
+                        <a class="btn btnShow" href="{{route('roles.show',['uuid'=>$item->id])}}" title="Detail Data Role">
                             <i class='fa fa-eye text-blue'></i>
                         </a>  
-                        <a class="btn btnEdit" href="{{route('roles.edit',['id'=>$item->id])}}" title="Ubah Data Role">
+                        <a class="btn btnEdit" href="{{route('roles.edit',['uuid'=>$item->id])}}" title="Ubah Data Role">
                             <i class='fa fa-pencil text-blue'></i>
                         </a>  
                         <a class="btn btnDelete" href="javascript:;" title="Hapus Data Roles" data-id="{{$item->id}}" data-url="{{route('roles.index')}}">

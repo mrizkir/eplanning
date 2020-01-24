@@ -55,14 +55,14 @@
                         <ul class="icons-list">
                             @can('show_kelompokurusan')
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('kelompokurusan.show',['id'=>$item->KUrsID])}}" title="Detail Data Kelompok Urusan">
+                                <a class="btnShow" href="{{route('kelompokurusan.show',['uuid'=>$item->KUrsID])}}" title="Detail Data Kelompok Urusan">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             @endcan              
                             @can('edit_kelompokurusan')                                         
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('kelompokurusan.edit',['id'=>$item->KUrsID])}}" title="Ubah Data Kelompok Urusan">
+                                <a class="btnEdit" href="{{route('kelompokurusan.edit',['uuid'=>$item->KUrsID])}}" title="Ubah Data Kelompok Urusan">
                                     <i class='icon-pencil7'></i>
                                 </a> 
                             </li>

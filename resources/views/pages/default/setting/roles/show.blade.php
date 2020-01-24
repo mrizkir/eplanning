@@ -26,7 +26,7 @@
                     <i class="icon-eye"></i> DATA ROLE
                 </h3>
                 <div class="box-tools">  
-                    <a href="{{route('roles.edit',['id'=>$data->id])}}" class="btn btn-primary btnEdit" title="Ubah Data Roles">
+                    <a href="{{route('roles.edit',['uuid'=>$data->id])}}" class="btn btn-primary btnEdit" title="Ubah Data Roles">
                         <i class="fa fa-pencil"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data Roles" data-id="{{$data->id}}" data-url="{{route('roles.index')}}" class="btn btn-danger btnDelete">

@@ -50,12 +50,12 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('pemilikpokokpikiran.show',['id'=>$item->PemilikPokokID])}}" title="Detail Data Pemilik Pokok Pikiran">
+                                <a class="btnShow" href="{{route('pemilikpokokpikiran.show',['uuid'=>$item->PemilikPokokID])}}" title="Detail Data Pemilik Pokok Pikiran">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('pemilikpokokpikiran.edit',['id'=>$item->PemilikPokokID])}}" title="Ubah Data Pemilik Pokok Pikiran">
+                                <a class="btnEdit" href="{{route('pemilikpokokpikiran.edit',['uuid'=>$item->PemilikPokokID])}}" title="Ubah Data Pemilik Pokok Pikiran">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>

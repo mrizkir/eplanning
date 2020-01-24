@@ -56,12 +56,12 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('programkegiatan.show',['id'=>$item->KgtID])}}" title="Detail Data ProgramKegiatan">
+                                <a class="btnShow" href="{{route('programkegiatan.show',['uuid'=>$item->KgtID])}}" title="Detail Data ProgramKegiatan">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('programkegiatan.edit',['id'=>$item->KgtID])}}" title="Ubah Data ProgramKegiatan">
+                                <a class="btnEdit" href="{{route('programkegiatan.edit',['uuid'=>$item->KgtID])}}" title="Ubah Data ProgramKegiatan">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>

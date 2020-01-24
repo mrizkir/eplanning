@@ -26,7 +26,7 @@
                     <i class="icon-eye"></i> DATA USERS
                 </h3>
                 <div class="box-tools">  
-                    <a href="{{route('users.edit',['id'=>$data->id])}}" class="btn btn-primary btnEdit" title="Ubah Data User">
+                    <a href="{{route('users.edit',['uuid'=>$data->id])}}" class="btn btn-primary btnEdit" title="Ubah Data User">
                         <i class="fa fa-pencil"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data User" data-id="{{$data->id}}" data-url="{{route('users.index')}}" class="btn btn-danger btnDelete">

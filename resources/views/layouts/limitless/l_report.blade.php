@@ -25,7 +25,7 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right">
                     <li>
-                        <a href="{{route('users.profil',['id'=>Auth::user()->id])}}">
+                        <a href="{{route('users.profil',['uuid'=>Auth::user()->id])}}">
                             <i class="icon-user-plus"></i> My profile
                         </a>                        
                     </li>                    

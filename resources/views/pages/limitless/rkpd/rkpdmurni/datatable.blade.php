@@ -110,7 +110,7 @@
                         <td>
                             <ul class="icons-list">                            
                                 <li class="text-primary-600">
-                                    <a class="btnShow" href="{{route('rkpdmurni.show',['id'=>$item->RKPDID])}}" title="Detail RKPD">
+                                    <a class="btnShow" href="{{route('rkpdmurni.show',['uuid'=>$item->RKPDID])}}" title="Detail RKPD">
                                         <i class='icon-eye'></i>
                                     </a>  
                                 </li>

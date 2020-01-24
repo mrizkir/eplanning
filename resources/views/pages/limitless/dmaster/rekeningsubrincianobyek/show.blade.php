@@ -24,7 +24,7 @@
                     <i class="icon-eye"></i>  DATA REKENINGRINCIANOBYEKBELANJAMODAL
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('rekeningrincianobyekbelanjamodal.edit',['id'=>$data->rekeningrincianobyekbelanjamodal_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RekeningRincianObyekBelanjaModal">
+                    <a href="{{route('rekeningrincianobyekbelanjamodal.edit',['uuid'=>$data->rekeningrincianobyekbelanjamodal_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RekeningRincianObyekBelanjaModal">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data RekeningRincianObyekBelanjaModal" data-id="{{$data->rekeningrincianobyekbelanjamodal_id}}" data-url="{{route('rekeningrincianobyekbelanjamodal.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">

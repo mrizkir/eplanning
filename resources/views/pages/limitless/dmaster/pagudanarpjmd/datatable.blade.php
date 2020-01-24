@@ -39,12 +39,12 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('pagudanarpjmd.show',['id'=>$item->pagudanarpjmd_id])}}" title="Detail Data PaguDanaRPJMD">
+                                <a class="btnShow" href="{{route('pagudanarpjmd.show',['uuid'=>$item->pagudanarpjmd_id])}}" title="Detail Data PaguDanaRPJMD">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('pagudanarpjmd.edit',['id'=>$item->pagudanarpjmd_id])}}" title="Ubah Data PaguDanaRPJMD">
+                                <a class="btnEdit" href="{{route('pagudanarpjmd.edit',['uuid'=>$item->pagudanarpjmd_id])}}" title="Ubah Data PaguDanaRPJMD">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>

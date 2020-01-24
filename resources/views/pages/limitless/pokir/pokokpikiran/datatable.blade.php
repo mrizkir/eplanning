@@ -113,13 +113,13 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('pokokpikiran.show',['id'=>$item->PokPirID])}}" title="Detail Data Pokok Pikiran">
+                                <a class="btnShow" href="{{route('pokokpikiran.show',['uuid'=>$item->PokPirID])}}" title="Detail Data Pokok Pikiran">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             @if ($item->Privilege==0 || $role=='superadmin' || $role=='bapelitbang')
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('pokokpikiran.edit',['id'=>$item->PokPirID])}}" title="Ubah Data Pokok Pikiran">
+                                <a class="btnEdit" href="{{route('pokokpikiran.edit',['uuid'=>$item->PokPirID])}}" title="Ubah Data Pokok Pikiran">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>

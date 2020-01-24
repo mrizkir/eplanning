@@ -26,7 +26,7 @@
                     <i class="icon-eye"></i>  DATA RPJMD MISI
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('rpjmdmisi.edit',['id'=>$data->PrioritasKabID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RPJMD Misi">
+                    <a href="{{route('rpjmdmisi.edit',['uuid'=>$data->PrioritasKabID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RPJMD Misi">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data RPJMD Misi" data-id="{{$data->PrioritasKabID}}" data-url="{{route('rpjmdmisi.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">

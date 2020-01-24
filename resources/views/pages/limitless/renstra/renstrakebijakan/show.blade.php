@@ -26,7 +26,7 @@
                     <i class="icon-eye"></i>  DATA RENSTRA ARAH KEBIJAKAN
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('renstrakebijakan.edit',['id'=>$data->RenstraKebijakanID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RENSTRA Arah Kebijakan">
+                    <a href="{{route('renstrakebijakan.edit',['uuid'=>$data->RenstraKebijakanID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RENSTRA Arah Kebijakan">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data RENSTRA Arah Kebijakan" data-id="{{$data->RenstraKebijakanID}}" data-url="{{route('renstrakebijakan.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">

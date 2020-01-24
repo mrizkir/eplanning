@@ -29,7 +29,7 @@
                         <i class="icon-googleplus5"></i>
                     </a>
                     @if ($data->Privilege==0)
-                    <a href="{{route('bansoshibah.edit',['id'=>$data->BansosHibahID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Bantuan Sosial dan Hibah">
+                    <a href="{{route('bansoshibah.edit',['uuid'=>$data->BansosHibahID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Bantuan Sosial dan Hibah">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data Bantuan Sosial dan Hibah" data-id="{{$data->BansosHibahID}}" data-url="{{route('bansoshibah.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">

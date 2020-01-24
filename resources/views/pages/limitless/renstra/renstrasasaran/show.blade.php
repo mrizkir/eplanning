@@ -26,7 +26,7 @@
                     <i class="icon-eye"></i>  DATA RENSTRA SASARAN
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{{route('renstrasasaran.edit',['id'=>$data->RenstraSasaranID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RENSTRA Sasaran">
+                    <a href="{{route('renstrasasaran.edit',['uuid'=>$data->RenstraSasaranID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RENSTRA Sasaran">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data RENSTRA Sasaran" data-id="{{$data->RenstraSasaranID}}" data-url="{{route('renstrasasaran.index')}}" class="btn btn-danger btn-icon heading-btn btnDeleteSasaran">

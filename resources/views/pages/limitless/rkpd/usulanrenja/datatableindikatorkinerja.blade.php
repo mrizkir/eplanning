@@ -5,7 +5,7 @@
     <div class="heading-elements">
         @if ($renja->Privilege==0)
         <div class="heading-btn">
-            <a href="{!!route(Helper::getNameOfPage('create1'),['id'=>$renja->RenjaID])!!}" class="btn btn-info btn-xs" title="Tambah Indikator Kegiatan">
+            <a href="{!!route(Helper::getNameOfPage('create1'),['uuid'=>$renja->RenjaID])!!}" class="btn btn-info btn-xs" title="Tambah Indikator Kegiatan">
                 <i class="icon-googleplus5"></i>           
             </a>           
         </div>  
@@ -51,7 +51,7 @@
                     @if ($item->Privilege==0)
                     <ul class="icons-list">
                         <li class="text-primary-600">                            
-                            <a class="btnEdit" href="{{route(Helper::getNameOfPage('edit1'),['id'=>$item->RenjaIndikatorID])}}" title="Ubah Data Indikator">
+                            <a class="btnEdit" href="{{route(Helper::getNameOfPage('edit1'),['uuid'=>$item->RenjaIndikatorID])}}" title="Ubah Data Indikator">
                                 <i class='icon-pencil7'></i>
                             </a> 
                         </li>

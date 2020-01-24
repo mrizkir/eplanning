@@ -27,7 +27,7 @@
                     <a href="{!!route('fungsi.create')!!}" class="btn btn-primary btn-icon heading-btn btnTambah" title="Tambah FUNGSI">
                         <i class="icon-googleplus5"></i>
                     </a>   
-                    <a href="{{route('fungsi.edit',['id'=>$data->fungsi_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Fungsi">
+                    <a href="{{route('fungsi.edit',['uuid'=>$data->fungsi_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Fungsi">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data Fungsi" data-id="{{$data->fungsi_id}}" data-url="{{route('fungsi.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
