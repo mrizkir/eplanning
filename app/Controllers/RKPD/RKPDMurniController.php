@@ -83,14 +83,6 @@ class RKPDMurniController extends Controller {
         }
         $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');
         
-        //filter
-        if (!$this->checkStateIsExistSession('rkpdmurni','filters')) 
-        {            
-            $this->putControllerStateSession('rkpdmurni','filters',[
-                                                                    'OrgID'=>'none',
-                                                                    'SOrgID'=>'none',
-                                                                    ]);
-        }        
         $SOrgID= $this->getControllerStateSession('rkpdmurni.filters','SOrgID');        
 
         if ($this->checkStateIsExistSession('rkpdmurni','search')) 
@@ -355,8 +347,17 @@ class RKPDMurniController extends Controller {
     {                
         $auth = \Auth::user();    
         $theme = $auth->theme;
-
+        
+        //filter
+        if (!$this->checkStateIsExistSession('rkpdmurni','filters')) 
+        {            
+            $this->putControllerStateSession('rkpdmurni','filters',[
+                                                                    'OrgID'=>'none',
+                                                                    'SOrgID'=>'none',
+                                                                    ]);
+        }        
         $filters=$this->getControllerStateSession('rkpdmurni','filters');
+        
         $roles=$auth->getRoleNames();        
         $daftar_unitkerja=[];
         switch ($roles[0])

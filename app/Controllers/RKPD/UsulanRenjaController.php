@@ -151,14 +151,6 @@ class UsulanRenjaController extends Controller
         }
         $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');
         
-        //filter
-        if (!$this->checkStateIsExistSession($this->SessionName,'filters')) 
-        {            
-            $this->putControllerStateSession($this->SessionName,'filters',[
-                                                                            'OrgID'=>'none',
-                                                                            'SOrgID'=>'none',
-                                                                            ]);
-        }        
         $SOrgID= $this->getControllerStateSession(\Helper::getNameOfPage('filters'),'SOrgID');        
 
         if ($this->checkStateIsExistSession($this->SessionName,'search')) 
@@ -518,6 +510,14 @@ class UsulanRenjaController extends Controller
         $auth = \Auth::user();    
         $theme = $auth->theme;
         
+        //filter
+        if (!$this->checkStateIsExistSession($this->SessionName,'filters')) 
+        {            
+            $this->putControllerStateSession($this->SessionName,'filters',[
+                                                                            'OrgID'=>'none',
+                                                                            'SOrgID'=>'none',
+                                                                            ]);
+        }        
         $filters=$this->getControllerStateSession($this->SessionName,'filters');
         $roles=$auth->getRoleNames();   
         $daftar_unitkerja=array();           

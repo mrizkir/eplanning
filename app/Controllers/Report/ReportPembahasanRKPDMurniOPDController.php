@@ -95,6 +95,14 @@ class ReportPembahasanRKPDMurniOPDController extends Controller
         $auth = \Auth::user();    
         $theme = $auth->theme;
         
+        //filter
+        if (!$this->checkStateIsExistSession($this->SessionName,'filters')) 
+        {            
+            $this->putControllerStateSession($this->SessionName,'filters',[
+                                                                            'OrgID'=>'none',
+                                                                            'SOrgID'=>'none',
+                                                                    ]);
+        }        
         $filters=$this->getControllerStateSession($this->SessionName,'filters');
         $roles=$auth->getRoleNames();   
         

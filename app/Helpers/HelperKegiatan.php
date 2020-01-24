@@ -116,6 +116,7 @@ class HelperKegiatan {
         switch ($level_name) 
         {            
             case 'usulanprarenjaopd' :
+            case 'reportusulanprarenjaopd' :
                 $level = 0;
             break;
             case 'usulanrakorbidang' :
@@ -213,6 +214,9 @@ class HelperKegiatan {
         {            
             case 'usulanprarenjaopd' :
                 $pagetitle = 'USULAN PRA RENJA OPD/SKPD';
+            break;
+            case 'reportusulanprarenjaopd' :
+                $pagetitle = 'LAPORAN USULAN PRA RENJA OPD/SKPD';
             break;
             case 'usulanrakorbidang' :
                 $pagetitle = 'USULAN RAKOR BIDANG';
@@ -314,6 +318,7 @@ class HelperKegiatan {
         {         
             case 'usulanprarenjaopd' :
             case 'pembahasanprarenjaopd' :
+            case 'reportusulanprarenjaopd' :
                 $dbViewName = 'v_usulan_pra_renja_opd';
             break;
             case 'usulanrakorbidang' :
@@ -350,6 +355,7 @@ class HelperKegiatan {
         {            
             case 'usulanprarenjaopd' :
             case 'pembahasanprarenjaopd' :
+            case 'reportusulanprarenjaopd' :
                 $rawSql = \DB::raw('"RenjaID",                                    
                                     "RenjaRincID",
                                     "UsulanKecID",
