@@ -36,6 +36,14 @@
         <div class="panel-body">
             {!! Form::open(['action'=>['Musrenbang\AspirasiMusrenDesaController@update',$data->UsulanDesaID],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
                 {{Form::hidden('_method','PUT')}}
+                <div class="form-group">
+                    <label class="col-md-2 control-label">KECAMATAN: </label>
+                    <div class="col-md-10">
+                        <p class="form-control-static">
+                            <span class="label border-left-primary label-striped">{{$data->Nm_Kecamatan}}</span>
+                        </p>
+                    </div>                            
+                </div>  
                 <div class="form-group" id="divPmDesaID">
                     {{Form::label('PmDesaID','NAMA DESA / KELURAHAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">

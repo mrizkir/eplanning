@@ -321,7 +321,7 @@ class AspirasiMusrenDesaController extends Controller {
         else
         {
             $kecamatan = \App\Models\DMaster\KecamatanModel::find($PmKecamatanID);
-            $daftar_desa = DesaModel::getDaftarDesa(\HelperKegiatan::getTahunPerencanaan(),$PmKecamatanID);
+            $daftar_desa = DesaModel::getDaftarDesa(\HelperKegiatan::getTahunPerencanaan(),$PmKecamatanID,false);
             $sumber_dana = SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunPerencanaan(),false);
             return view("pages.$theme.musrenbang.aspirasimusrendesa.create")->with(['page_active'=>'aspirasimusrendesa',
                                                                                 'daftar_desa'=>$daftar_desa,
@@ -414,11 +414,14 @@ class AspirasiMusrenDesaController extends Controller {
     {
         $theme = \Auth::user()->theme;
         
-        $data = AspirasiMusrenDesaModel::where('Privilege',0)
+        $data = AspirasiMusrenDesaModel::join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanDesa.PmDesaID')
+                                        ->join('tmPmKecamatan','tmPmDesa.PmKecamatanID','tmPmKecamatan.PmKecamatanID')
+                                        ->where('Privilege',0)
                                         ->findOrFail($id);
         if (!is_null($data) ) 
         {
-            $daftar_desa = DesaModel::getDaftarDesa(\HelperKegiatan::getTahunPerencanaan(),false);
+            $kecamatan = \App\Models\DMaster\KecamatanModel::find($data->PmKecamatanID);
+            $daftar_desa = DesaModel::getDaftarDesa(\HelperKegiatan::getTahunPerencanaan(),$data->PmKecamatanID,false);
             $sumber_dana = SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunPerencanaan(),false);
             return view("pages.$theme.musrenbang.aspirasimusrendesa.edit")->with(['page_active'=>'aspirasimusrendesa',
                                                                                     'daftar_desa'=>$daftar_desa,

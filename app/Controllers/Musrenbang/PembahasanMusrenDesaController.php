@@ -39,14 +39,8 @@ class PembahasanMusrenDesaController extends Controller {
             $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
         }
         $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');  
-        
-        //filter
-        if (!$this->checkStateIsExistSession('pembahasanmusrendesa','filters')) 
-        {            
-            $this->putControllerStateSession('pembahasanmusrendesa','filters',['PmKecamatanID'=>'none',
-                                                                            'PmDesaID'=>'none']);
-        }        
-        $filter_desa = $this->getControllerStateSession('pembahasanmusrendesa.filters','PmDesaID');        
+                
+        $PmDesaID = $this->getControllerStateSession('pembahasanmusrendesa.filters','PmDesaID');        
         if ($this->checkStateIsExistSession('pembahasanmusrendesa','search')) 
         {
             $search=$this->getControllerStateSession('pembahasanmusrendesa','search');
@@ -58,7 +52,7 @@ class PembahasanMusrenDesaController extends Controller {
                                                     ->join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanDesa.PmDesaID')
                                                     ->join('tmPmKecamatan','tmPmDesa.PmKecamatanID','tmPmKecamatan.PmKecamatanID')
                                                     ->where('trUsulanDesa.TA', \HelperKegiatan::getTahunPerencanaan())
-                                                    ->where('trUsulanDesa.PmDesaID',$filter_desa)
+                                                    ->where('trUsulanDesa.PmDesaID',$PmDesaID)
                                                     ->where(['trUsulanDesa.No_usulan'=>(int)$search['isikriteria']])
                                                     ->orderBy('trUsulanDesa.Prioritas','ASC')
                                                     ->orderBy($column_order,$direction);
@@ -69,7 +63,7 @@ class PembahasanMusrenDesaController extends Controller {
                                                     ->join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanDesa.PmDesaID')
                                                     ->join('tmPmKecamatan','tmPmDesa.PmKecamatanID','tmPmKecamatan.PmKecamatanID')
                                                     ->where('trUsulanDesa.TA', \HelperKegiatan::getTahunPerencanaan())
-                                                    ->where('trUsulanDesa.PmDesaID',$filter_desa)
+                                                    ->where('trUsulanDesa.PmDesaID',$PmDesaID)
                                                     ->where('trUsulanDesa.NamaKegiatan', 'ilike', '%' . $search['isikriteria'] . '%')
                                                     ->orderBy('trUsulanDesa.Prioritas','ASC')
                                                     ->orderBy($column_order,$direction);                                        
@@ -84,7 +78,7 @@ class PembahasanMusrenDesaController extends Controller {
                                             ->join('tmPmDesa','tmPmDesa.PmDesaID','trUsulanDesa.PmDesaID')
                                             ->join('tmPmKecamatan','tmPmDesa.PmKecamatanID','tmPmKecamatan.PmKecamatanID')
                                             ->where('trUsulanDesa.TA', \HelperKegiatan::getTahunPerencanaan())
-                                            ->where('trUsulanDesa.PmDesaID',$filter_desa)                                            
+                                            ->where('trUsulanDesa.PmDesaID',$PmDesaID)                                            
                                             ->orderBy('Prioritas','ASC')
                                             ->orderBy($column_order,$direction)                                            
                                             ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
@@ -274,8 +268,39 @@ class PembahasanMusrenDesaController extends Controller {
      */
     public function index(Request $request)
     {                
-        $theme = \Auth::user()->theme;
-       
+        $auth=\Auth::user();
+        $theme = $auth->theme;
+
+        //filter
+        if (!$this->checkStateIsExistSession('pembahasanmusrendesa','filters')) 
+        {            
+            $this->putControllerStateSession('pembahasanmusrendesa','filters',['PmKecamatanID'=>'none',
+                                                                                'PmDesaID'=>'none']);
+        }        
+        $filters=$this->getControllerStateSession('pembahasanmusrendesa','filters');         
+        $roles=$auth->getRoleNames();
+        $daftar_kecamatan=[];
+        switch ($roles[0])
+        {
+            case 'superadmin' :     
+            case 'bapelitbang' :     
+            case 'tapd' :
+                $daftar_kecamatan=KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),false);
+            break;
+            case 'kecamatan':
+                $daftar_kecamatan=\App\Models\UserKecamatan::getKecamatan();                      
+                if (!count($daftar_kecamatan) > 0)
+                {
+                    $filters['PmKecamatanID']='none';
+                    $filters['PmDesaID']='none';
+                    $this->putControllerStateSession('pembahasanmusrendesa','filters',$filters);
+                    return view("pages.$theme.musrenbang.pembahasanmusrendesa.error")->with(['page_active'=>'pembahasanmusrendesa', 
+                                                                                                'page_title'=>'PEMBAHASAN MUSRENBANG DESA',
+                                                                                                'errormessage'=>'Anda Tidak Diperkenankan Mengakses Halaman ini, karena Sudah dikunci oleh BAPELITBANG',
+                                                                                            ]);
+                }    
+            break;
+        }
         $search=$this->getControllerStateSession('pembahasanmusrendesa','search');
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('pembahasanmusrendesa'); 
         $data = $this->populateData($currentpage);     
@@ -283,9 +308,7 @@ class PembahasanMusrenDesaController extends Controller {
         {            
             $data = $this->populateData($data->lastPage());
         }
-        $this->setCurrentPageInsideSession('pembahasanmusrendesa',$data->currentPage());
-        $filters=$this->getControllerStateSession('pembahasanmusrendesa','filters');        
-        $daftar_kecamatan=KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),false);
+        $this->setCurrentPageInsideSession('pembahasanmusrendesa',$data->currentPage());               
         $daftar_desa=DesaModel::getDaftarDesa(\HelperKegiatan::getTahunPerencanaan(),$filters['PmKecamatanID'],false);        
         return view("pages.$theme.musrenbang.pembahasanmusrendesa.index")->with(['page_active'=>'pembahasanmusrendesa',
                                                                                 'label_transfer'=>'MUSRENBANG KEC.',
