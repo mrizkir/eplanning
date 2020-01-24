@@ -80,6 +80,10 @@
                             <strong>USULANDESAID:</strong>
                             {{$item->UsulanDesaID}}
                         </span>
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>TA:</strong>
+                            {{$item->TA}}
+                        </span>
                         <span class="label label-warning label-rounded">
                             <strong>KET:</strong>
                             {{empty($item->Descr)?'-':$item->Descr}}

@@ -44,14 +44,8 @@ class AspirasiMusrenKecamatanController extends Controller {
             $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
         }
         $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');   
-        
-        //filter
-        if (!$this->checkStateIsExistSession('aspirasimusrenkecamatan','filters')) 
-        {            
-            $this->putControllerStateSession('aspirasimusrenkecamatan','filters',['PmKecamatanID'=>'none',
-                                                                                 'PmDesaID'=>'none']);
-        }        
-        $filter_desa = $this->getControllerStateSession('aspirasimusrenkecamatan.filters','PmDesaID');        
+                
+        $PmKecamatanID = $this->getControllerStateSession('aspirasimusrenkecamatan.filters','PmKecamatanID');        
         
         if ($this->checkStateIsExistSession('aspirasimusrenkecamatan','search')) 
         {
@@ -62,7 +56,8 @@ class AspirasiMusrenKecamatanController extends Controller {
                     $data = AspirasiMusrenKecamatanModel::select(\DB::raw('"trUsulanKec"."UsulanKecID","tmOrg"."OrgNm","trUsulanKec"."No_usulan","tmPmDesa"."Nm_Desa","tmPmKecamatan"."Nm_Kecamatan","trUsulanKec"."NamaKegiatan","trUsulanKec"."Output","trUsulanKec"."NilaiUsulan","trUsulanKec"."Target_Angka","trUsulanKec"."Target_Uraian","trUsulanKec"."Jeniskeg","trUsulanKec"."Prioritas","trUsulanKec"."Privilege"'))
                                                         ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trUsulanKec.PmKecamatanID')
                                                         ->join('tmOrg','tmOrg.OrgID','trUsulanKec.OrgID')
-                                                        ->leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trUsulanKec.PmDesaID')                                                        
+                                                        ->leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trUsulanKec.PmDesaID')     
+                                                        ->where('trUsulanKec.PmKecamatanID',$PmKecamatanID)                                                   
                                                         ->where('trUsulanKec.TA', \HelperKegiatan::getTahunPerencanaan())
                                                         ->where(['No_usulan'=>(int)$search['isikriteria']])
                                                         ->orderBy('trUsulanKec.Prioritas','ASC')
@@ -73,6 +68,7 @@ class AspirasiMusrenKecamatanController extends Controller {
                                                         ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trUsulanKec.PmKecamatanID')
                                                         ->join('tmOrg','tmOrg.OrgID','trUsulanKec.OrgID')
                                                         ->leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trUsulanKec.PmDesaID')
+                                                        ->where('trUsulanKec.PmKecamatanID',$PmKecamatanID)                                                   
                                                         ->where('trUsulanKec.TA', \HelperKegiatan::getTahunPerencanaan())
                                                         ->where('NamaKegiatan', 'ilike', '%' . $search['isikriteria'] . '%')
                                                         ->orderBy('trUsulanKec.Prioritas','ASC')
@@ -87,6 +83,7 @@ class AspirasiMusrenKecamatanController extends Controller {
                                                 ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trUsulanKec.PmKecamatanID')    
                                                 ->join('tmOrg','tmOrg.OrgID','trUsulanKec.OrgID')        
                                                 ->leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trUsulanKec.PmDesaID')
+                                                ->where('trUsulanKec.PmKecamatanID',$PmKecamatanID)                                                   
                                                 ->where('trUsulanKec.TA', \HelperKegiatan::getTahunPerencanaan())
                                                 ->orderBy('trUsulanKec.Prioritas','ASC')
                                                 ->orderBy("$column_order",$direction)
@@ -278,6 +275,14 @@ class AspirasiMusrenKecamatanController extends Controller {
 
         $filters=$this->getControllerStateSession('aspirasimusrenkecamatan','filters');
 
+        if ($request->exists('PmKecamatanID'))
+        {
+            $PmKecamatanID = $request->input('PmKecamatanID')==''?'none':$request->input('PmKecamatanID');
+            $filters['PmKecamatanID']=$PmKecamatanID;
+
+            $this->putControllerStateSession('aspirasimusrenkecamatan','filters',$filters);
+        }   
+
         if ($request->exists('PmDesaID'))
         {
             $PmDesaID = $request->input('PmDesaID')==''?'none':$request->input('PmDesaID');
@@ -343,8 +348,41 @@ class AspirasiMusrenKecamatanController extends Controller {
      */
     public function index(Request $request)
     {                
-        $theme = \Auth::user()->theme;
+        $auth=\Auth::user();
+        $theme = $auth->theme;
 
+        //filter
+        if (!$this->checkStateIsExistSession('aspirasimusrenkecamatan','filters')) 
+        {            
+            $this->putControllerStateSession('aspirasimusrenkecamatan','filters',['PmKecamatanID'=>'none',
+                                                                                 'PmDesaID'=>'none']);
+        }
+        $filters=$this->getControllerStateSession('aspirasimusrenkecamatan','filters');
+
+        $roles=$auth->getRoleNames();
+        $daftar_kecamatan=[];
+        switch ($roles[0])
+        {
+            case 'superadmin' :     
+            case 'bapelitbang' :     
+            case 'tapd' :
+                $daftar_kecamatan=KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),false);
+            break;
+            case 'kecamatan':
+                $daftar_kecamatan=\App\Models\UserKecamatan::getKecamatan();                      
+                if (!count($daftar_kecamatan) > 0)
+                {
+                    $filters['PmKecamatanID']='none';
+                    $filters['PmDesaID']='none';
+                    $this->putControllerStateSession('aspirasimusrenkecamatan','filters',$filters);
+
+                    return view("pages.$theme.musrenbang.aspirasimusrenkecamatan.error")->with(['page_active'=>'aspirasimusrenkecamatan', 
+                                                                                                'page_title'=>'ASPIRASI MUSRENBANG KECAMATAN',
+                                                                                                'errormessage'=>'Anda Tidak Diperkenankan Mengakses Halaman ini, karena Sudah dikunci oleh BAPELITBANG',
+                                                                                            ]);
+                }    
+            break;
+        }
         $search=$this->getControllerStateSession('aspirasimusrenkecamatan','search');
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('aspirasimusrenkecamatan'); 
         $data = $this->populateData($currentpage);
@@ -366,10 +404,12 @@ class AspirasiMusrenKecamatanController extends Controller {
 
         return view("pages.$theme.musrenbang.aspirasimusrenkecamatan.index")->with(['page_active'=>'aspirasimusrenkecamatan',
                                                                                     'search'=>$this->getControllerStateSession('aspirasimusrenkecamatan','search'),
+                                                                                    'filters'=>$filters,
                                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                                                                     'column_order'=>$this->getControllerStateSession('aspirasimusrenkecamatan.orderby','column_name'),
                                                                                     'direction'=>$this->getControllerStateSession('aspirasimusrenkecamatan.orderby','order'),
                                                                                     'daftar_usulan_kec_id'=>$daftar_usulan_kec_id,
+                                                                                    'daftar_kecamatan'=>$daftar_kecamatan,
                                                                                     'data'=>$data]);               
     }
     /**
@@ -392,15 +432,9 @@ class AspirasiMusrenKecamatanController extends Controller {
             $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
         }
         $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');  
+         
+        $PmDesaID = $this->getControllerStateSession('aspirasimusrenkecamatan.filters','PmDesaID');      
         
-        //filter
-        if (!$this->checkStateIsExistSession('aspirasimusrenkecamatan','filters')) 
-        {            
-            $this->putControllerStateSession('aspirasimusrenkecamatan','filters',['PmKecamatanID'=>'none',
-                                                                                'PmDesaID'=>'none']);
-        }        
-        $filter_desa = $this->getControllerStateSession('aspirasimusrenkecamatan.filters','PmDesaID');      
-
         if ($this->checkStateIsExistSession('aspirasimusrenkecamatan','search')) 
         {
             $search=$this->getControllerStateSession('aspirasimusrenkecamatan','search');
@@ -410,7 +444,7 @@ class AspirasiMusrenKecamatanController extends Controller {
                 $data = AspirasiMusrenDesaModel::select(\DB::raw('"trUsulanDesa"."UsulanDesaID","trUsulanDesa"."No_usulan","trUsulanDesa"."NamaKegiatan","trUsulanDesa"."Output","trUsulanDesa"."NilaiUsulan","trUsulanDesa"."Target_Angka","trUsulanDesa"."Target_Uraian","trUsulanDesa"."Jeniskeg","trUsulanDesa"."Prioritas","trUsulanDesa"."Bobot"'))
                                                     ->leftJoin('trUsulanKec','trUsulanKec.UsulanDesaID','trUsulanDesa.UsulanDesaID')
                                                     ->where('trUsulanDesa.TA', \HelperKegiatan::getTahunPerencanaan())
-                                                    ->where('trUsulanDesa.PmDesaID',$filter_desa)
+                                                    ->where('trUsulanDesa.PmDesaID',$PmDesaID)
                                                     ->where(['trUsulanDesa.No_usulan'=>(int)$search['isikriteria']])
                                                     ->where('trUsulanDesa.Privilege',1)
                                                     ->whereNull('trUsulanKec.UsulanDesaID')
@@ -421,7 +455,7 @@ class AspirasiMusrenKecamatanController extends Controller {
                 $data = AspirasiMusrenDesaModel::select(\DB::raw('"trUsulanDesa"."UsulanDesaID","trUsulanDesa"."No_usulan","trUsulanDesa"."NamaKegiatan","trUsulanDesa"."Output","trUsulanDesa"."NilaiUsulan","trUsulanDesa"."Target_Angka","trUsulanDesa"."Target_Uraian","trUsulanDesa"."Jeniskeg","trUsulanDesa"."Prioritas","trUsulanDesa"."Bobot"'))
                                                     ->leftJoin('trUsulanKec','trUsulanKec.UsulanDesaID','trUsulanDesa.UsulanDesaID')
                                                     ->where('trUsulanDesa.trUsulanDesa.TA', \HelperKegiatan::getTahunPerencanaan())
-                                                    ->where('trUsulanDesa.PmDesaID',$filter_desa)
+                                                    ->where('trUsulanDesa.PmDesaID',$PmDesaID)
                                                     ->where('trUsulanDesa.NamaKegiatan', 'ilike', '%' . $search['isikriteria'] . '%')
                                                     ->where('trUsulanDesa.Privilege',1)
                                                     ->whereNull('trUsulanKec.UsulanDesaID')
@@ -433,10 +467,10 @@ class AspirasiMusrenKecamatanController extends Controller {
         }
         else
         {
-            $data = AspirasiMusrenDesaModel::select(\DB::raw('"trUsulanDesa"."UsulanDesaID","trUsulanDesa"."No_usulan","trUsulanDesa"."NamaKegiatan","trUsulanDesa"."Output","trUsulanDesa"."NilaiUsulan","trUsulanDesa"."Target_Angka","trUsulanDesa"."Target_Uraian","trUsulanDesa"."Jeniskeg","trUsulanDesa"."Prioritas","trUsulanDesa"."Bobot"'))
+            $data = AspirasiMusrenDesaModel::select(\DB::raw('"trUsulanDesa"."UsulanDesaID","trUsulanDesa"."No_usulan","trUsulanDesa"."NamaKegiatan","trUsulanDesa"."Output","trUsulanDesa"."NilaiUsulan","trUsulanDesa"."Target_Angka","trUsulanDesa"."Target_Uraian","trUsulanDesa"."Jeniskeg","trUsulanDesa"."Prioritas","trUsulanDesa"."Bobot","trUsulanDesa"."TA"'))
                                             ->leftJoin('trUsulanKec','trUsulanKec.UsulanDesaID','trUsulanDesa.UsulanDesaID')
                                             ->where('trUsulanDesa.TA', \HelperKegiatan::getTahunPerencanaan())
-                                            ->where('trUsulanDesa.PmDesaID',$filter_desa)
+                                            ->where('trUsulanDesa.PmDesaID',$PmDesaID)
                                             ->where('trUsulanDesa.Privilege',1)
                                             ->whereNull('trUsulanKec.UsulanDesaID')
                                             ->orderBy('Prioritas','ASC')
@@ -454,8 +488,11 @@ class AspirasiMusrenKecamatanController extends Controller {
      */
     public function pilihusulankegiatan(Request $request)
     {        
-        $theme = \Auth::user()->theme;       
+        $auth=\Auth::user();
+        $theme = $auth->theme;    
         
+        $filters=$this->getControllerStateSession('aspirasimusrenkecamatan','filters');
+
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('aspirasimusrenkecamatan'); 
         $data = $this->populateDataUsulanKegiatan($currentpage);
         if ($currentpage > $data->lastPage())
@@ -464,9 +501,19 @@ class AspirasiMusrenKecamatanController extends Controller {
         }
         $this->setCurrentPageInsideSession('aspirasimusrenkecamatan',$data->currentPage());
 
-        $filters=$this->getControllerStateSession('aspirasimusrenkecamatan','filters');   
-        
-        $daftar_kecamatan=KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),false);
+        $roles=$auth->getRoleNames();
+        $daftar_kecamatan=[];
+        switch ($roles[0])
+        {
+            case 'superadmin' :     
+            case 'bapelitbang' :     
+            case 'tapd' :
+                $daftar_kecamatan=KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),false);
+            break;
+            case 'kecamatan':
+                $daftar_kecamatan=\App\Models\UserKecamatan::getKecamatan();                                       
+            break;
+        }
         $daftar_desa=DesaModel::getDaftarDesa(\HelperKegiatan::getTahunPerencanaan(),$filters['PmKecamatanID'],false);         
         
         $daftar_urusan=UrusanModel::getDaftarUrusan(\HelperKegiatan::getRPJMDTahunMulai(),false);

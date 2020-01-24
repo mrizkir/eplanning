@@ -131,6 +131,10 @@
                         </span>
                         @endif
                         <span class="label label-warning label-rounded">
+                            <strong>TA:</strong>
+                            {{$item->TA}}
+                        </span>                        
+                        <span class="label label-warning label-rounded">
                             <strong>KET:</strong>
                             {{empty($item->Descr)?'-':$item->Descr}}
                         </span>                        
