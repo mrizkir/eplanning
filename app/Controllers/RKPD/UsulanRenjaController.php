@@ -2932,7 +2932,7 @@ class UsulanRenjaController extends Controller
         }
         else
         {
-            return redirect(route(\Helper::getNameOfPage('show'),['uuid'=>=>$renja->RenjaID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route(\Helper::getNameOfPage('show'),['uuid'=>$renja->RenjaID]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
     /**
