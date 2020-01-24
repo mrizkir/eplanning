@@ -319,7 +319,7 @@ class RPJMDProgramPembangunanController extends Controller {
         }
         else
         {
-            return redirect(route('rpjmdprogrampembangunan.show',['id'=>$rpjmdprogrampembangunan->RPJMDProgramPembangunanID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rpjmdprogrampembangunan.show',['uuid'=>$rpjmdprogrampembangunan->RPJMDProgramPembangunanID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -439,7 +439,7 @@ class RPJMDProgramPembangunanController extends Controller {
         }
         else
         {
-            return redirect(route('rpjmdprogrampembangunan.show',['id'=>$id]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rpjmdprogrampembangunan.show',['uuid'=>$id]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
 

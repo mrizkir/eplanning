@@ -360,7 +360,7 @@ class RPJMDIndikatorKinerjaController extends Controller {
         }
         else
         {
-            return redirect(route('rpjmdindikatorkinerja.show',['id'=>$rpjmdindikatorkinerja->IndikatorKinerjaID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rpjmdindikatorkinerja.show',['uuid'=>$rpjmdindikatorkinerja->IndikatorKinerjaID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -493,7 +493,7 @@ class RPJMDIndikatorKinerjaController extends Controller {
         }
         else
         {
-            return redirect(route('rpjmdindikatorkinerja.show',['id'=>$id]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rpjmdindikatorkinerja.show',['uuid'=>$id]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
 

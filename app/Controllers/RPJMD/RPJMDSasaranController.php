@@ -277,7 +277,7 @@ class RPJMDSasaranController extends Controller {
         }
         else
         {
-            return redirect(route('rpjmdsasaran.show',['id'=>$rpjmdsasaran->PrioritasSasaranKabID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rpjmdsasaran.show',['uuid'=>$rpjmdsasaran->PrioritasSasaranKabID]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
     
@@ -326,7 +326,7 @@ class RPJMDSasaranController extends Controller {
         }
         else
         {
-            return redirect(route('rpjmdsasaran.show',['id'=>$rpjmdindikatorsasaran->PrioritasSasaranKabID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rpjmdsasaran.show',['uuid'=>$rpjmdindikatorsasaran->PrioritasSasaranKabID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -447,7 +447,7 @@ class RPJMDSasaranController extends Controller {
         }
         else
         {
-            return redirect(route('rpjmdsasaran.show',['id'=>$rpjmdsasaran->PrioritasSasaranKabID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('rpjmdsasaran.show',['uuid'=>$rpjmdsasaran->PrioritasSasaranKabID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
 
     }
@@ -494,7 +494,7 @@ class RPJMDSasaranController extends Controller {
         }
         else
         {
-            return redirect(route('rpjmdsasaran.show',['id'=>$rpjmdindikatorsasaran->PrioritasSasaranKabID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rpjmdsasaran.show',['uuid'=>$rpjmdindikatorsasaran->PrioritasSasaranKabID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -522,7 +522,7 @@ class RPJMDSasaranController extends Controller {
             }
             else
             {
-                return redirect(route('rpjmdsasaran.show',['id'=>$PrioritasSasaranKabID]))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+                return redirect(route('rpjmdsasaran.show',['uuid'=>$PrioritasSasaranKabID]))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
             }       
         }
         else

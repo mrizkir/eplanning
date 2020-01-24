@@ -265,7 +265,7 @@ class ProvinsiController extends Controller {
         }
         else
         {
-            return redirect(route('provinsi.show',['id'=>$provinsi->PMProvID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('provinsi.show',['uuid'=>$provinsi->PMProvID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -358,7 +358,7 @@ class ProvinsiController extends Controller {
         }
         else
         {
-            return redirect(route('provinsi.show',['id'=>$provinsi->PMProvID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('provinsi.show',['uuid'=>$provinsi->PMProvID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 

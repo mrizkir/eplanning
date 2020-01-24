@@ -270,7 +270,7 @@ class PaguAnggaranOPDController extends Controller {
         }
         else
         {
-            return redirect(route('paguanggaranopd.show',['id'=>$paguanggaranopd->PaguAnggaranOPDID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('paguanggaranopd.show',['uuid'=>$paguanggaranopd->PaguAnggaranOPDID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -352,7 +352,7 @@ class PaguAnggaranOPDController extends Controller {
         }
         else
         {
-            return redirect(route('paguanggaranopd.show',['id'=>$paguanggaranopd->PaguAnggaranOPDID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('paguanggaranopd.show',['uuid'=>$paguanggaranopd->PaguAnggaranOPDID]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
 

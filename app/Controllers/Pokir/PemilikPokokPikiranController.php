@@ -258,7 +258,7 @@ class PemilikPokokPikiranController extends Controller {
         }
         else
         {
-            return redirect(route('pemilikpokokpikiran.show',['id'=>$pemilikpokokpikiran->PemilikPokokID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('pemilikpokokpikiran.show',['uuid'=>$pemilikpokokpikiran->PemilikPokokID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -346,7 +346,7 @@ class PemilikPokokPikiranController extends Controller {
         }
         else
         {
-            return redirect(route('pemilikpokokpikiran.show',['id'=>$pemilikpokokpikiran->PemilikPokokID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('pemilikpokokpikiran.show',['uuid'=>$pemilikpokokpikiran->PemilikPokokID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 

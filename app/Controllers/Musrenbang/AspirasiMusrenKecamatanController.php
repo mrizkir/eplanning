@@ -549,7 +549,7 @@ class AspirasiMusrenKecamatanController extends Controller {
         }
         else
         {
-            return redirect(route('aspirasimusrenkecamatan.show',['id'=>$aspirasimusrenkecamatan->UsulanKecID]))->with('success','Data ini usulan kegiatan Musrenbang Desa telah berhasil disimpan.');
+            return redirect(route('aspirasimusrenkecamatan.show',['uuid'=>$aspirasimusrenkecamatan->UsulanKecID]))->with('success','Data ini usulan kegiatan Musrenbang Desa telah berhasil disimpan.');
         }
     }
     /**
@@ -604,7 +604,7 @@ class AspirasiMusrenKecamatanController extends Controller {
         }
         else
         {
-            return redirect(route('aspirasimusrenkecamatan.show',['id'=>$aspirasimusrenkecamatan->UsulanKecID]))->with('success','Data ini usulan kegiatan Musrenbang Desa telah berhasil disimpan.');
+            return redirect(route('aspirasimusrenkecamatan.show',['uuid'=>$aspirasimusrenkecamatan->UsulanKecID]))->with('success','Data ini usulan kegiatan Musrenbang Desa telah berhasil disimpan.');
         }
 
     }
@@ -709,7 +709,7 @@ class AspirasiMusrenKecamatanController extends Controller {
         }
         else
         {
-            return redirect(route('aspirasimusrenkecamatan.show',['id'=>$id]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('aspirasimusrenkecamatan.show',['uuid'=>$id]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 

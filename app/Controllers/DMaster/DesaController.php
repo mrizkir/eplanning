@@ -278,7 +278,7 @@ class DesaController extends Controller {
         }
         else
         {
-            return redirect(route('desa.show',['id'=>$desa->PmDesaID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('desa.show',['uuid'=>$desa->PmDesaID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -381,7 +381,7 @@ class DesaController extends Controller {
         }
         else
         {
-            return redirect(route('desa.show',['id'=>$desa->PmDesaID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('desa.show',['uuid'=>$desa->PmDesaID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 

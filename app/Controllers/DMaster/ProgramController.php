@@ -346,7 +346,7 @@ class ProgramController extends Controller {
         }
         else
         {
-            return redirect(route('program.show',['id'=>$program->PrgID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('program.show',['uuid'=>$program->PrgID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -465,7 +465,7 @@ class ProgramController extends Controller {
         
         else
         {
-            return redirect(route('program.show',['id'=>$program->PrgID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('program.show',['uuid'=>$program->PrgID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 

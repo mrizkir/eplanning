@@ -231,7 +231,7 @@ class RekeningStrukturController extends Controller {
         }
         else
         {
-            return redirect(route('rekeningstruktur.show',['id'=>$rekeningstruktur->replaceit]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rekeningstruktur.show',['uuid'=>$rekeningstruktur->replaceit]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -301,7 +301,7 @@ class RekeningStrukturController extends Controller {
         }
         else
         {
-            return redirect(route('rekeningstruktur.show',['id'=>$rekeningstruktur->replaceit]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rekeningstruktur.show',['uuid'=>$rekeningstruktur->replaceit]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
 

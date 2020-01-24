@@ -118,7 +118,7 @@
                         @elseif(!empty($item->UsulanKecID))
                             <br />
                             <span class="label label-flat border-grey text-grey-600">                        
-                                <a href="{{route('aspirasimusrenkecamatan.show',['id'=>$item->UsulanKecID])}}">
+                                <a href="{{route('aspirasimusrenkecamatan.show',['uuid'=>$item->UsulanKecID])}}">
                                     <strong>Usulan dari: MUSREN. KEC. {{$item->Nm_Kecamatan}}
                                 </a>
                             </span>

@@ -18,6 +18,33 @@
 @endsection
 @section('page_content')
 <div class="row">    
+    <div class="col-md-12" id="divfilter">
+        <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
+            <div class="panel-heading">
+                <h5 class="panel-title"><i class="icon-bookmark2 position-left"></i> Filter Data</h5>
+                <div class="heading-elements">                       
+                    <ul class="icons-list">
+                        <li><a data-action="collapse"></a></li> 
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">KECAMATAN :</label> 
+                        <div class="col-md-10">
+                            <select name="PmKecamatanID" id="PmKecamatanID" class="select">
+                                <option></option>
+                                @foreach ($daftar_kecamatan as $k=>$item)
+                                    <option value="{{$k}}"{{$k==$filters['PmKecamatanID']?' selected':''}}>{{$item}}</option>
+                                @endforeach
+                            </select>                              
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="col-md-12">
         <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
             <div class="panel-heading">
@@ -57,9 +84,38 @@
     </div>
 </div>
 @endsection
+@section('page_asset_js')
+<script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
+@endsection
 @section('page_custom_js')
 <script type="text/javascript">
-$(document).ready(function () {  
+$(document).ready(function () {
+    //styling select
+    $('#PmKecamatanID.select').select2({
+        placeholder: "PILIH KECAMATAN",
+        allowClear:true
+    });   
+    $(document).on('change','#PmKecamatanID',function(ev) {
+        ev.preventDefault();   
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/filter',
+            dataType: 'json',
+            data: {                
+                "_token": token,
+                "PmKecamatanID": $('#PmKecamatanID').val(),
+            },
+            success:function(result)
+            { 
+                $('#divdatatable').html(result.datatable);
+                $(".switch").bootstrapSwitch();
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });     
+    });
     $("#divdatatable").on("click",".btnDelete", function(){
         if (confirm('Apakah Anda ingin menghapus Data Kegiatan ini ?')) {
             let url_ = $(this).attr("data-url");

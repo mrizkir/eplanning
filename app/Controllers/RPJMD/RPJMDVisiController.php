@@ -86,7 +86,7 @@ class RPJMDVisiController extends Controller {
         }
         else
         {
-            return redirect(route('rpjmdvisi.show',['id'=>$rpjmdvisi->RpjmdVisiID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rpjmdvisi.show',['uuid'=>$rpjmdvisi->RpjmdVisiID]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
     
@@ -172,7 +172,7 @@ class RPJMDVisiController extends Controller {
         }
         else
         {
-            return redirect(route('rpjmdvisi.show',['id'=>$rpjmdvisi->RpjmdVisiID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('rpjmdvisi.show',['uuid'=>$rpjmdvisi->RpjmdVisiID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
      /**

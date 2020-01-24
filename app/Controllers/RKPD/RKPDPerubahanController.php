@@ -833,7 +833,7 @@ class RKPDPerubahanController extends Controller
         }
         else
         {
-            return redirect(route(\Helper::getNameOfPage('create1'),['id'=>$RKPDID]))->with('success','Data kegiatan telah berhasil disimpan. Selanjutnya isi Indikator Kinerja Kegiatan dari RPMJD');
+            return redirect(route(\Helper::getNameOfPage('create1'),['uuid'=>$RKPDID]))->with('success','Data kegiatan telah berhasil disimpan. Selanjutnya isi Indikator Kinerja Kegiatan dari RPMJD');
         }
     }
     /**
@@ -874,7 +874,7 @@ class RKPDPerubahanController extends Controller
         }
         else
         {
-            return redirect(route(\Helper::getNameOfPage('create1'),['id'=>$request->input('RKPDID')]))->with('success','Data Indikator kegiatan telah berhasil disimpan. Selanjutnya isi Rincian Kegiatan');
+            return redirect(route(\Helper::getNameOfPage('create1'),['uuid'=>$request->input('RKPDID')]))->with('success','Data Indikator kegiatan telah berhasil disimpan. Selanjutnya isi Rincian Kegiatan');
         }
     }    
     /**
@@ -963,7 +963,7 @@ class RKPDPerubahanController extends Controller
         }
         else
         {
-            return redirect(route(\Helper::getNameOfPage('create3'),['id'=>$request->input('RKPDID')]))->with('success','Data Rincian kegiatan telah berhasil disimpan.');
+            return redirect(route(\Helper::getNameOfPage('create3'),['uuid'=>$request->input('RKPDID')]))->with('success','Data Rincian kegiatan telah berhasil disimpan.');
         }
     }
     /**
@@ -1036,7 +1036,7 @@ class RKPDPerubahanController extends Controller
         }
         else
         {
-            return redirect(route(\Helper::getNameOfPage('create4'),['id'=>$request->input('RKPDID')]))->with('success','Data Rincian kegiatan telah berhasil disimpan.');
+            return redirect(route(\Helper::getNameOfPage('create4'),['uuid'=>$request->input('RKPDID')]))->with('success','Data Rincian kegiatan telah berhasil disimpan.');
         }
         
     }
@@ -1293,7 +1293,7 @@ class RKPDPerubahanController extends Controller
         }           
         if (is_null($rkpd) )
         {
-            return redirect(route(\Helper::getNameOfPage('edit4'),['id'=>$id]))->with('error',"Data rincian kegiatan dari musrenbang Kec dengan ID ($id)  gagal diperoleh, diarahkan menjadi rincian usulan OPD / SKPD .");
+            return redirect(route(\Helper::getNameOfPage('edit4'),['uuid'=>$id]))->with('error',"Data rincian kegiatan dari musrenbang Kec dengan ID ($id)  gagal diperoleh, diarahkan menjadi rincian usulan OPD / SKPD .");
         } 
         else 
         {               
@@ -1392,7 +1392,7 @@ class RKPDPerubahanController extends Controller
         }
         if (is_null($rkpd) )
         {
-            return redirect(route(\Helper::getNameOfPage('edit4'),['id'=>$id]))->with('error',"Data rincian kegiatan dari Pokok Pikiran Anggota dengan ID ($id)  gagal diperoleh, diarahkan menjadi rincian usulan OPD / SKPD .");
+            return redirect(route(\Helper::getNameOfPage('edit4'),['uuid'=>$id]))->with('error',"Data rincian kegiatan dari Pokok Pikiran Anggota dengan ID ($id)  gagal diperoleh, diarahkan menjadi rincian usulan OPD / SKPD .");
         } 
         else
         {               
@@ -1552,7 +1552,7 @@ class RKPDPerubahanController extends Controller
         }
         else
         {
-            return redirect(route(\Helper::getNameOfPage('show'),['id'=>$rkpd->RKPDID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route(\Helper::getNameOfPage('show'),['uuid'=>$rkpd->RKPDID]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
     /**
@@ -1587,7 +1587,7 @@ class RKPDPerubahanController extends Controller
         }
         else
         {
-            return redirect(route(\Helper::getNameOfPage('show'),['id'=>$indikatorkinerja->RKPDID]))->with('success','Data Indikator kegiatan telah berhasil disimpan. Selanjutnya isi Rincian Kegiatan');
+            return redirect(route(\Helper::getNameOfPage('show'),['uuid'=>$indikatorkinerja->RKPDID]))->with('success','Data Indikator kegiatan telah berhasil disimpan. Selanjutnya isi Rincian Kegiatan');
         }
     }    
     /**
@@ -1635,7 +1635,7 @@ class RKPDPerubahanController extends Controller
         }
         else
         {
-            return redirect(route(\Helper::getNameOfPage('show'),['id'=>$rinciankegiatan->RKPDID]))->with('success','Data Rincian kegiatan telah berhasil disimpan.');
+            return redirect(route(\Helper::getNameOfPage('show'),['uuid'=>$rinciankegiatan->RKPDID]))->with('success','Data Rincian kegiatan telah berhasil disimpan.');
         } 
     }
     /**
@@ -1683,7 +1683,7 @@ class RKPDPerubahanController extends Controller
         }
         else
         {
-            return redirect(route(\Helper::getNameOfPage('show'),['id'=>$rinciankegiatan->RKPDID]))->with('success','Data Rincian kegiatan telah berhasil disimpan.');
+            return redirect(route(\Helper::getNameOfPage('show'),['uuid'=>$rinciankegiatan->RKPDID]))->with('success','Data Rincian kegiatan telah berhasil disimpan.');
         } 
     }      
     /**
@@ -1735,7 +1735,7 @@ class RKPDPerubahanController extends Controller
         }
         else
         {
-            return redirect(route(\Helper::getNameOfPage('show'),['id'=>$rinciankegiatan->RKPDID]))->with('success','Data Rincian kegiatan telah berhasil disimpan.');
+            return redirect(route(\Helper::getNameOfPage('show'),['uuid'=>$rinciankegiatan->RKPDID]))->with('success','Data Rincian kegiatan telah berhasil disimpan.');
         } 
     }  
     /**
@@ -1774,7 +1774,7 @@ class RKPDPerubahanController extends Controller
             }
             else
             {
-                return redirect(route(\Helper::getNameOfPage('create1'),['id'=>$rkpdid]))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+                return redirect(route(\Helper::getNameOfPage('create1'),['uuid'=>$rkpdid]))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
             }
         }
         else  if ($request->exists('rinciankegiatan'))
@@ -1810,7 +1810,7 @@ class RKPDPerubahanController extends Controller
             }
             else
             {
-                return redirect(route(\Helper::getNameOfPage('show'),['id'=>$rkpdid]))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+                return redirect(route(\Helper::getNameOfPage('show'),['uuid'=>$rkpdid]))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
             }
         }//akhir penyeleksian kondisi bila rincian kegiatan
         else if ($request->exists('pid'))

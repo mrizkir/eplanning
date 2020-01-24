@@ -298,7 +298,7 @@ class UsersOPDController extends Controller {
         }
         else
         {
-            return redirect(route('usersopd.show',['id'=>$user->id]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('usersopd.show',['uuid'=>$user->id]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -393,7 +393,7 @@ class UsersOPDController extends Controller {
         }
         else
         {
-            return redirect(route('usersopd.show',['id'=>$user->id]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('usersopd.show',['uuid'=>$user->id]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -460,7 +460,7 @@ class UsersOPDController extends Controller {
         }
         else
         {
-            return redirect(route('usersopd.show',['id'=>$user->id]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('usersopd.show',['uuid'=>$user->id]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 
@@ -488,7 +488,7 @@ class UsersOPDController extends Controller {
             }
             else
             {
-                return redirect(route('usersopd.show',['id'=>$userid]))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+                return redirect(route('usersopd.show',['uuid'=>$userid]))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
             }
         }
         else

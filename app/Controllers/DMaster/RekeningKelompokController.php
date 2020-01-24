@@ -231,7 +231,7 @@ class RekeningKelompokController extends Controller {
         }
         else
         {
-            return redirect(route('rekeningkelompok.show',['id'=>$rekeningkelompok->replaceit]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rekeningkelompok.show',['uuid'=>$rekeningkelompok->replaceit]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -301,7 +301,7 @@ class RekeningKelompokController extends Controller {
         }
         else
         {
-            return redirect(route('rekeningkelompok.show',['id'=>$rekeningkelompok->replaceit]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rekeningkelompok.show',['uuid'=>$rekeningkelompok->replaceit]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
 

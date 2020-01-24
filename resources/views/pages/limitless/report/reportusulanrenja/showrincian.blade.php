@@ -30,7 +30,7 @@
                 </h5>
                 <div class="heading-elements">     
                     @if ($renja->Privilege==0)
-                    <a href="{{route(Helper::getNameOfPage('edit'),['id'=>$renja->RenjaRincID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Usulan {{$page_title}}">
+                    <a href="{{route(Helper::getNameOfPage('edit'),['uuid'=>$renja->RenjaRincID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Usulan {{$page_title}}">
                         <i class="icon-pencil7"></i>
                     </a> 
                     @endif

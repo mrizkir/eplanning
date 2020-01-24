@@ -240,7 +240,7 @@ class RPJMDMisiController extends Controller {
         }
         else
         {
-            return redirect(route('rpjmdmisi.show',['id'=>$rpjmdmisi->PrioritasKabID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rpjmdmisi.show',['uuid'=>$rpjmdmisi->PrioritasKabID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -324,7 +324,7 @@ class RPJMDMisiController extends Controller {
         }
         else
         {
-            return redirect(route('rpjmdmisi.show',['id'=>$rpjmdmisi->PrioritasKabID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('rpjmdmisi.show',['uuid'=>$rpjmdmisi->PrioritasKabID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 

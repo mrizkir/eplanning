@@ -349,7 +349,7 @@ class RENSTRATujuanController extends Controller {
         }
         else
         {
-            return redirect(route('renstratujuan.show',['id'=>$renstratujuan->RenstraTujuanID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('renstratujuan.show',['uuid'=>$renstratujuan->RenstraTujuanID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -442,7 +442,7 @@ class RENSTRATujuanController extends Controller {
         }
         else
         {
-            return redirect(route('renstratujuan.show',['id'=>$renstratujuan->RenstraTujuanID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('renstratujuan.show',['uuid'=>$renstratujuan->RenstraTujuanID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 

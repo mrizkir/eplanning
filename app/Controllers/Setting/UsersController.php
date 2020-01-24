@@ -328,7 +328,7 @@ class UsersController extends Controller {
         }
         else
         {
-            return redirect(route('users.show',['id'=>$user->id]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('users.show',['uuid'=>$user->id]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }    
@@ -472,7 +472,7 @@ class UsersController extends Controller {
         }
         else
         {
-            return redirect(route('users.profil',['id'=>$id]))->with('success',"Data profil telah berhasil diubah.");
+            return redirect(route('users.profil',['uuid'=>$id]))->with('success',"Data profil telah berhasil diubah.");
         }
     }
      /**

@@ -27,7 +27,7 @@
                     <a href="{!!route('{{modelNameLower}}.create')!!}" class="btn btn-info btn-icon heading-btn btnAdd" title="Tambah {{modelNameUpper}}">
                         <i class="icon-googleplus5"></i>
                     </a>
-                    <a href="{{route('{{modelNameLower}}.edit',['id'=>$data->{{primaryKey}}])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data {{modelName}}">
+                    <a href="{{route('{{modelNameLower}}.edit',['uuid'=>$data->{{primaryKey}}])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data {{modelName}}">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data {{modelName}}" data-id="{{$data->{{primaryKey}}}}" data-url="{{route('{{modelNameLower}}.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">

@@ -281,7 +281,7 @@ class RPJMDKebijakanController extends Controller {
         }
         else
         {
-            return redirect(route('rpjmdkebijakan.show',['id'=>$rpjmdkebijakan->PrioritasKebijakanKabID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rpjmdkebijakan.show',['uuid'=>$rpjmdkebijakan->PrioritasKebijakanKabID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -316,7 +316,7 @@ class RPJMDKebijakanController extends Controller {
         }
         else
         {
-            return redirect(route('rpjmdkebijakan.show',['id'=>$rpjmdprogramkebijakan->PrioritasKebijakanKabID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rpjmdkebijakan.show',['uuid'=>$rpjmdprogramkebijakan->PrioritasKebijakanKabID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -412,7 +412,7 @@ class RPJMDKebijakanController extends Controller {
         }
         else
         {
-            return redirect(route('rpjmdkebijakan.show',['id'=>$rpjmdkebijakan->PrioritasKebijakanKabID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('rpjmdkebijakan.show',['uuid'=>$rpjmdkebijakan->PrioritasKebijakanKabID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 
@@ -440,7 +440,7 @@ class RPJMDKebijakanController extends Controller {
             }
             else
             {
-                return redirect(route('rpjmdsasaran.show',['id'=>$PrioritasSasaranKabID]))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+                return redirect(route('rpjmdsasaran.show',['uuid'=>$PrioritasSasaranKabID]))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
             }                
         }
         else

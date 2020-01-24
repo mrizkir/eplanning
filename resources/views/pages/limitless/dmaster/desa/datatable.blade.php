@@ -60,12 +60,12 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('desa.show',['id'=>$item->PmDesaID])}}" title="Detail Data Desa">
+                                <a class="btnShow" href="{{route('desa.show',['uuid'=>$item->PmDesaID])}}" title="Detail Data Desa">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('desa.edit',['id'=>$item->PmDesaID])}}" title="Ubah Data Desa">
+                                <a class="btnEdit" href="{{route('desa.edit',['uuid'=>$item->PmDesaID])}}" title="Ubah Data Desa">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>

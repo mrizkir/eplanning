@@ -29,7 +29,7 @@
                     <a href="{{route('provinsi.create')}}" class="btn btn-info btn-icon heading-btn btnTambah" title="Tambah Data Provinsi">
                         <i class="icon-googleplus5"></i>
                     </a>
-                    <a href="{{route('provinsi.edit',['id'=>$data->PMProvID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Provinsi">
+                    <a href="{{route('provinsi.edit',['uuid'=>$data->PMProvID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Provinsi">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data Provinsi" data-id="{{$data->PMProvID}}" data-url="{{route('provinsi.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">

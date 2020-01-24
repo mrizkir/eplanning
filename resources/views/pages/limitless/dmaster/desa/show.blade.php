@@ -29,7 +29,7 @@
                     <a href="{{route('desa.create')}}" class="btn btn-info btn-icon heading-btn btnTambah" title="Tambah Data Desa">
                         <i class="icon-googleplus5"></i>
                     </a>
-                    <a href="{{route('desa.edit',['id'=>$data->PmDesaID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Desa">
+                    <a href="{{route('desa.edit',['uuid'=>$data->PmDesaID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Desa">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data Desa" data-id="{{$data->PmDesaID}}" data-url="{{route('desa.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">

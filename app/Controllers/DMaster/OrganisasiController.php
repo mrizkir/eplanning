@@ -285,7 +285,7 @@ class OrganisasiController extends Controller {
         }
         else
         {
-            return redirect(route('organisasi.show',['id'=>$organisasi->OrgID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('organisasi.show',['uuid'=>$organisasi->OrgID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -371,7 +371,7 @@ class OrganisasiController extends Controller {
         }
         else
         {
-            return redirect(route('organisasi.show',['id'=>$organisasi->OrgID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('organisasi.show',['uuid'=>$organisasi->OrgID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 

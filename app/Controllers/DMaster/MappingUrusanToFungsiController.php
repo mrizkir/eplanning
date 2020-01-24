@@ -231,7 +231,7 @@ class MappingUrusanToFungsiController extends Controller {
         }
         else
         {
-            return redirect(route('mappingurusantofungsi.show',['id'=>$mappingurusantofungsi->replaceit]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('mappingurusantofungsi.show',['uuid'=>$mappingurusantofungsi->replaceit]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -301,7 +301,7 @@ class MappingUrusanToFungsiController extends Controller {
         }
         else
         {
-            return redirect(route('mappingurusantofungsi.show',['id'=>$mappingurusantofungsi->replaceit]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('mappingurusantofungsi.show',['uuid'=>$mappingurusantofungsi->replaceit]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
 

@@ -360,7 +360,7 @@ class LongListController extends Controller {
         }
         else
         {
-            return redirect(route('longlist.show',['id'=>$longlist->LongListID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('longlist.show',['uuid'=>$longlist->LongListID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -442,7 +442,7 @@ class LongListController extends Controller {
         }
         else
         {
-            return redirect(route('longlist.show',['id'=>$longlist->LongListID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('longlist.show',['uuid'=>$longlist->LongListID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 

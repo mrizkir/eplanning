@@ -362,7 +362,7 @@ class RENSTRAProgramKegiatanPendanaanController extends Controller {
         }
         else
         {
-            return redirect(route('renstraprogramkegiatanpendanaan.show',['id'=>$renstraprogramkegiatanpendanaan->RenstraProgramKegiatanPendanaanID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('renstraprogramkegiatanpendanaan.show',['uuid'=>$renstraprogramkegiatanpendanaan->RenstraProgramKegiatanPendanaanID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -485,7 +485,7 @@ class RENSTRAProgramKegiatanPendanaanController extends Controller {
         }
         else
         {
-            return redirect(route('renstraprogramkegiatanpendanaan.show',['id'=>$id]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('renstraprogramkegiatanpendanaan.show',['uuid'=>$id]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
 

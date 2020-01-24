@@ -366,7 +366,7 @@ class ProgramKegiatanController extends Controller {
         }
         else
         {
-            return redirect(route('programkegiatan.show',['id'=>$programkegiatan->KgtID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('programkegiatan.show',['uuid'=>$programkegiatan->KgtID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -458,7 +458,7 @@ class ProgramKegiatanController extends Controller {
         }
         else
         {
-            return redirect(route('programkegiatan.show',['id'=>$programkegiatan->KgtID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('programkegiatan.show',['uuid'=>$programkegiatan->KgtID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 

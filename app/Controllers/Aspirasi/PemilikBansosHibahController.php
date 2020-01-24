@@ -249,7 +249,7 @@ class PemilikBansosHibahController extends Controller {
         }
         else
         {
-            return redirect(route('pemilikbansoshibah.show',['id'=>$pemilikbansoshibah->PemilikBansosHibahID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('pemilikbansoshibah.show',['uuid'=>$pemilikbansoshibah->PemilikBansosHibahID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -325,7 +325,7 @@ class PemilikBansosHibahController extends Controller {
         }
         else
         {
-            return redirect(route('pemilikbansoshibah.show',['id'=>$pemilikbansoshibah->PemilikBansosHibahID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('pemilikbansoshibah.show',['uuid'=>$pemilikbansoshibah->PemilikBansosHibahID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 

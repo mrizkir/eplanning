@@ -285,7 +285,7 @@ class UrusanController extends Controller {
         }
         else
         {
-            return redirect(route('urusan.show',['id'=>$urusan->UrsID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('urusan.show',['uuid'=>$urusan->UrsID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -386,7 +386,7 @@ class UrusanController extends Controller {
         }
         else
         {
-            return redirect(route('urusan.show',['id'=>$urusan->UrsID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('urusan.show',['uuid'=>$urusan->UrsID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 

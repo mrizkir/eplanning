@@ -326,7 +326,7 @@ class RENSTRASasaranController extends Controller {
         }
         else
         {
-            return redirect(route('renstrasasaran.show',['id'=>$renstrasasaran->RenstraSasaranID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('renstrasasaran.show',['uuid'=>$renstrasasaran->RenstraSasaranID]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
 
@@ -372,7 +372,7 @@ class RENSTRASasaranController extends Controller {
         }
         else
         {
-            return redirect(route('renstrasasaran.show',['id'=>$renstraindikatorsasaran->RenstraSasaranID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('renstrasasaran.show',['uuid'=>$renstraindikatorsasaran->RenstraSasaranID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -492,7 +492,7 @@ class RENSTRASasaranController extends Controller {
         }
         else
         {
-            return redirect(route('renstrasasaran.show',['id'=>$renstrasasaran->RenstraSasaranID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('renstrasasaran.show',['uuid'=>$renstrasasaran->RenstraSasaranID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
 
     }
@@ -533,7 +533,7 @@ class RENSTRASasaranController extends Controller {
         }
         else
         {
-            return redirect(route('renstrasasaran.show',['id'=>$renstraindikatorsasaran->RenstraSasaranID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('renstrasasaran.show',['uuid'=>$renstraindikatorsasaran->RenstraSasaranID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -561,7 +561,7 @@ class RENSTRASasaranController extends Controller {
             }
             else
             {
-                return redirect(route('renstrasasaran.show',['id'=>$RenstraSasaranID]))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+                return redirect(route('renstrasasaran.show',['uuid'=>$RenstraSasaranID]))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
             }       
         }
         else

@@ -276,7 +276,7 @@ class UsersDesaController extends Controller {
         }
         else
         {
-            return redirect(route('usersdesa.show',['id'=>$user->ID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('usersdesa.show',['uuid'=>$user->ID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -346,7 +346,7 @@ class UsersDesaController extends Controller {
         }
         else
         {
-            return redirect(route('usersdesa.show',['id'=>$usersdesa->replaceit]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('usersdesa.show',['uuid'=>$usersdesa->replaceit]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
 

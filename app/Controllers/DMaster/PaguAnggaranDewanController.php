@@ -270,7 +270,7 @@ class PaguAnggaranDewanController extends Controller {
         }
         else
         {
-            return redirect(route('paguanggarandewan.show',['id'=>$paguanggarandewan->PaguAnggaranDewanID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('paguanggarandewan.show',['uuid'=>$paguanggarandewan->PaguAnggaranDewanID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -357,7 +357,7 @@ class PaguAnggaranDewanController extends Controller {
         }
         else
         {
-            return redirect(route('paguanggarandewan.show',['id'=>$paguanggarandewan->PaguAnggaranDewanID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('paguanggarandewan.show',['uuid'=>$paguanggarandewan->PaguAnggaranDewanID]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
 

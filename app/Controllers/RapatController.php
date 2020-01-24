@@ -272,7 +272,7 @@ class RapatController extends Controller {
         }
         else
         {
-            return redirect(route('rapat.show',['id'=>$rapat->RapatID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rapat.show',['uuid'=>$rapat->RapatID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -351,7 +351,7 @@ class RapatController extends Controller {
         }
         else
         {
-            return redirect(route('rapat.show',['id'=>$rapat->RapatID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('rapat.show',['uuid'=>$rapat->RapatID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 

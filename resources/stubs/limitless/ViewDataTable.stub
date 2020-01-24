@@ -38,12 +38,12 @@
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('{{modelNameLower}}.show',['id'=>$item->{{primaryKey}}])}}" title="Detail Data {{modelName}}">
+                                <a class="btnShow" href="{{route('{{modelNameLower}}.show',['uuid'=>$item->{{primaryKey}}])}}" title="Detail Data {{modelName}}">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>
                             <li class="text-primary-600">
-                                <a class="btnEdit" href="{{route('{{modelNameLower}}.edit',['id'=>$item->{{primaryKey}}])}}" title="Ubah Data {{modelName}}">
+                                <a class="btnEdit" href="{{route('{{modelNameLower}}.edit',['uuid'=>$item->{{primaryKey}}])}}" title="Ubah Data {{modelName}}">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>

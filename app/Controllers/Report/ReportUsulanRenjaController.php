@@ -1124,7 +1124,7 @@ class ReportUsulanRenjaController extends Controller {
         }
         else
         {
-            return redirect(route(\Helper::getNameOfPage('showrincian'),['id'=>$rinciankegiatan->RenjaRincID]))->with('success','Data Rincian kegiatan telah berhasil disimpan.');
+            return redirect(route(\Helper::getNameOfPage('showrincian'),['uuid'=>$rinciankegiatan->RenjaRincID]))->with('success','Data Rincian kegiatan telah berhasil disimpan.');
         } 
     }  
     /**
@@ -1962,7 +1962,7 @@ class ReportUsulanRenjaController extends Controller {
             }
             else
             {
-                return redirect(route(\Helper::getNameOfPage('showrincian'),['id'=>$rincian_kegiatan->RenjaRincID]))->with('success','Data ini telah berhasil disimpan.');
+                return redirect(route(\Helper::getNameOfPage('showrincian'),['uuid'=>$rincian_kegiatan->RenjaRincID]))->with('success','Data ini telah berhasil disimpan.');
             }
         }
         else
@@ -1976,7 +1976,7 @@ class ReportUsulanRenjaController extends Controller {
             }
             else
             {
-                return redirect(route(\Helper::getNameOfPage('showrincian'),['id'=>$rinciankegiatan->RenjaRincID]))->with('error','Data ini gagal diubah.');
+                return redirect(route(\Helper::getNameOfPage('showrincian'),['uuid'=>$rinciankegiatan->RenjaRincID]))->with('error','Data ini gagal diubah.');
             }
         }
     }

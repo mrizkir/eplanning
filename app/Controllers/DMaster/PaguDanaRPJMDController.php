@@ -236,7 +236,7 @@ class PaguDanaRPJMDController extends Controller {
         }
         else
         {
-            return redirect(route('pagudanarpjmd.show',['id'=>$pagudanarpjmd->replaceit]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('pagudanarpjmd.show',['uuid'=>$pagudanarpjmd->replaceit]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -306,7 +306,7 @@ class PaguDanaRPJMDController extends Controller {
         }
         else
         {
-            return redirect(route('pagudanarpjmd.show',['id'=>$pagudanarpjmd->replaceit]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('pagudanarpjmd.show',['uuid'=>$pagudanarpjmd->replaceit]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
 

@@ -231,7 +231,7 @@ class RekeningRincianObyekBelanjaModalController extends Controller {
         }
         else
         {
-            return redirect(route('rekeningrincianobyekbelanjamodal.show',['id'=>$rekeningrincianobyekbelanjamodal->replaceit]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rekeningrincianobyekbelanjamodal.show',['uuid'=>$rekeningrincianobyekbelanjamodal->replaceit]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -301,7 +301,7 @@ class RekeningRincianObyekBelanjaModalController extends Controller {
         }
         else
         {
-            return redirect(route('rekeningrincianobyekbelanjamodal.show',['id'=>$rekeningrincianobyekbelanjamodal->replaceit]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rekeningrincianobyekbelanjamodal.show',['uuid'=>$rekeningrincianobyekbelanjamodal->replaceit]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
 

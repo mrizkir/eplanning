@@ -231,7 +231,7 @@ class FungsiController extends Controller {
         }
         else
         {
-            return redirect(route('fungsi.show',['id'=>$fungsi->replaceit]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('fungsi.show',['uuid'=>$fungsi->replaceit]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -301,7 +301,7 @@ class FungsiController extends Controller {
         }
         else
         {
-            return redirect(route('fungsi.show',['id'=>$fungsi->replaceit]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('fungsi.show',['uuid'=>$fungsi->replaceit]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
 

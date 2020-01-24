@@ -298,7 +298,7 @@ class UsersKecamatanController extends Controller {
         }
         else
         {
-            return redirect(route('userskecamatan.show',['id'=>$user->id]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('userskecamatan.show',['uuid'=>$user->id]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -370,7 +370,7 @@ class UsersKecamatanController extends Controller {
         }
         else
         {
-            return redirect(route('userskecamatan.show',['id'=>$user->id]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('userskecamatan.show',['uuid'=>$user->id]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -437,7 +437,7 @@ class UsersKecamatanController extends Controller {
         }
         else
         {
-            return redirect(route('userskecamatan.show',['id'=>$user->id]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('userskecamatan.show',['uuid'=>$user->id]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 
@@ -466,7 +466,7 @@ class UsersKecamatanController extends Controller {
             }
             else
             {
-                return redirect(route('userskecamatan.show',['id'=>$userid]))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+                return redirect(route('userskecamatan.show',['uuid'=>$userid]))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
             }
         }
         else

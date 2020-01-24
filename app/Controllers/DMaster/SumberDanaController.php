@@ -265,7 +265,7 @@ class SumberDanaController extends Controller {
         }
         else
         {
-            return redirect(route('sumberdana.show',['id'=>$sumberdana->SumberDanaID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('sumberdana.show',['uuid'=>$sumberdana->SumberDanaID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -357,7 +357,7 @@ class SumberDanaController extends Controller {
         }
         else
         {
-            return redirect(route('sumberdana.show',['id'=>$sumberdana->SumberDanaID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('sumberdana.show',['uuid'=>$sumberdana->SumberDanaID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 

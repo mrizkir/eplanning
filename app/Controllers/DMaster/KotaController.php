@@ -278,7 +278,7 @@ class KotaController extends Controller {
         }
         else
         {
-            return redirect(route('kota.show',['id'=>$kota->PmKotaID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('kota.show',['uuid'=>$kota->PmKotaID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -381,7 +381,7 @@ class KotaController extends Controller {
         }
         else
         {
-            return redirect(route('kota.show',['id'=>$kota->PmKotaID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
+            return redirect(route('kota.show',['uuid'=>$kota->PmKotaID]))->with('success',"Data dengan id ($id) telah berhasil diubah.");
         }
     }
 
