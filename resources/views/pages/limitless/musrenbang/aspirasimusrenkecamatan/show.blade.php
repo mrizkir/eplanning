@@ -25,7 +25,10 @@
                 <h5 class="panel-title"> 
                     <i class="icon-eye"></i>  DATA USULAN KECAMATAN
                 </h5>
-                <div class="heading-elements">   
+                <div class="heading-elements"> 
+                    <a href="{!!route('aspirasimusrenkecamatan.create')!!}" class="btn btn-info btn-icon heading-btn" title="Tambah Usulan Kegiatan">
+                        <i class="icon-googleplus5"></i>
+                    </a> 
                     <a href="{{route('aspirasimusrenkecamatan.edit',['uuid'=>$data->UsulanKecID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Kegiatan">
                         <i class="icon-pencil7"></i>
                     </a>

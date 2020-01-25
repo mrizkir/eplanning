@@ -744,6 +744,7 @@ class AspirasiMusrenKecamatanController extends Controller {
         $aspirasimusrenkecamatan->NilaiUsulan = $request->input('NilaiUsulan');
         $aspirasimusrenkecamatan->Target_Uraian = $request->input('Target_Uraian');
         $aspirasimusrenkecamatan->Target_Angka = $request->input('Target_Angka');        
+        $aspirasimusrenkecamatan->Prioritas = $request->input('Prioritas');        
         $aspirasimusrenkecamatan->Jeniskeg = $request->exists('Jeniskeg')?1:0;
         $aspirasimusrenkecamatan->save();
 
