@@ -31,18 +31,18 @@ class ReportMusrenbangKecamatanModel extends ReportModel
                 'size' => '9',
             ],
         ]);
-        $sheet->mergeCells ('A1:I1');
+        $sheet->mergeCells ('A1:J1');
         $sheet->setCellValue('A1','LAPORAN MUSRENBANG TINGKAT KECAMATAN TAHUN PERENCANAAN '.\HelperKegiatan::getTahunPerencanaan());
-        $sheet->mergeCells ('A2:I2');
+        $sheet->mergeCells ('A2:J2');
         $sheet->setCellValue('A2',strtoupper($this->dataReport['Nm_Kecamatan'])); 
-        $sheet->mergeCells ('A3:I3');
+        $sheet->mergeCells ('A3:J3');
         $sheet->setCellValue('A3','KABUPATEN BINTAN');
         $styleArray=array( 
             'font' => array('bold' => true,'size'=>'9'),
             'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
                                'vertical'=>Alignment::HORIZONTAL_CENTER),								
         );                
-        $sheet->getStyle("A1:I3")->applyFromArray($styleArray);        
+        $sheet->getStyle("A1:J3")->applyFromArray($styleArray);        
         
         $sheet->setCellValue('A5','NO'); 
         $sheet->setCellValue('B5','NAMA KEGIATAN'); 
@@ -52,7 +52,8 @@ class ReportMusrenbangKecamatanModel extends ReportModel
         $sheet->setCellValue('F5','PRIORITAS');         
         $sheet->setCellValue('G5','STATUS');         
         $sheet->setCellValue('H5','DESA/KELURAHAN');         
-        $sheet->setCellValue('I5','KET.');         
+        $sheet->setCellValue('I5','LOKASI');         
+        $sheet->setCellValue('J5','KET.');         
         
         $styleArray=array( 
             'font' => array('bold' => true,'size'=>'9'),
@@ -60,8 +61,8 @@ class ReportMusrenbangKecamatanModel extends ReportModel
                                'vertical'=>Alignment::HORIZONTAL_CENTER),
             'borders' => array('allBorders' => array('borderStyle' =>Border::BORDER_THIN))
         );                
-        $sheet->getStyle("A5:I5")->applyFromArray($styleArray);
-        $sheet->getStyle("A5:I5")->getAlignment()->setWrapText(true);
+        $sheet->getStyle("A5:J5")->applyFromArray($styleArray);
+        $sheet->getStyle("A5:J5")->getAlignment()->setWrapText(true);
 
         $sheet->getColumnDimension('A')->setWidth(5);
         $sheet->getColumnDimension('B')->setWidth(50);
@@ -74,7 +75,7 @@ class ReportMusrenbangKecamatanModel extends ReportModel
         $sheet->getColumnDimension('I')->setWidth(17);
         
         $data = \DB::table('trUsulanKec')
-                ->select(\DB::raw('"trUsulanKec"."UsulanKecID","tmOrg"."OrgNm","tmPmDesa"."Nm_Desa","trUsulanKec"."No_usulan","trUsulanKec"."NamaKegiatan","trUsulanKec"."Output","trUsulanKec"."NilaiUsulan","trUsulanKec"."Target_Angka","trUsulanKec"."Target_Uraian","trUsulanKec"."Jeniskeg","trUsulanKec"."Prioritas","trUsulanKec"."Bobot","trUsulanKec"."Privilege","trUsulanKec"."Descr"'))
+                ->select(\DB::raw('"trUsulanKec"."UsulanKecID","tmOrg"."OrgNm","tmPmDesa"."Nm_Desa","trUsulanKec"."No_usulan","trUsulanKec"."NamaKegiatan","trUsulanKec"."Output","trUsulanKec"."NilaiUsulan","trUsulanKec"."Target_Angka","trUsulanKec"."Target_Uraian","trUsulanKec"."Jeniskeg","trUsulanKec"."Lokasi","trUsulanKec"."Prioritas","trUsulanKec"."Bobot","trUsulanKec"."Privilege","trUsulanKec"."Descr"'))
                 ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trUsulanKec.PmKecamatanID')
                 ->join('tmOrg','tmOrg.OrgID','trUsulanKec.OrgID')
                 ->leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trUsulanKec.PmDesaID')                                                                                                
@@ -97,7 +98,8 @@ class ReportMusrenbangKecamatanModel extends ReportModel
             $sheet->setCellValue("F$row",\HelperKegiatan::getNamaPrioritas($item->Prioritas));
             $sheet->setCellValue("G$row",$item->Privilege==1?'ACC':'DUM');
             $sheet->setCellValue("H$row",empty($item->Nm_Desa)?'USULAN KEC.':$item->Nm_Desa);
-            $sheet->setCellValue("I$row",$item->Descr);
+            $sheet->setCellValue("I$row",$item->Lokasi);
+            $sheet->setCellValue("J$row",$item->Descr);
             $row+=1;
         }
         $row-=1;
@@ -106,13 +108,13 @@ class ReportMusrenbangKecamatanModel extends ReportModel
                                'vertical'=>Alignment::HORIZONTAL_CENTER),
             'borders' => array('allBorders' => array('borderStyle' =>Border::BORDER_THIN))
         );        																			 
-        $sheet->getStyle("A6:I$row")->applyFromArray($styleArray);
-        $sheet->getStyle("A6:I$row")->getAlignment()->setWrapText(true);  
+        $sheet->getStyle("A6:J$row")->applyFromArray($styleArray);
+        $sheet->getStyle("A6:J$row")->getAlignment()->setWrapText(true);  
 
         $styleArray=array(								
             'alignment' => array('horizontal'=>Alignment::HORIZONTAL_LEFT)
         );																					 
         $sheet->getStyle("B6:D$row")->applyFromArray($styleArray);
-        $sheet->getStyle("H6:I$row")->applyFromArray($styleArray);
+        $sheet->getStyle("H6:J$row")->applyFromArray($styleArray);
     }   
 }

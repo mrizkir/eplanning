@@ -99,7 +99,7 @@ class CreateRenjaopdTable extends Migration
             $table->foreign('SumberDanaID')
                     ->references('SumberDanaID')
                     ->on('tmSumberDana')
-                    ->onDelete('cascade')
+                    ->onDelete('set null')
                     ->onUpdate('cascade');
 
         });
