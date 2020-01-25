@@ -53,7 +53,7 @@ class AspirasiMusrenKecamatanController extends Controller {
             switch ($search['kriteria']) 
             {
                 case 'No_usulan' :
-                    $data = AspirasiMusrenKecamatanModel::select(\DB::raw('"trUsulanKec"."UsulanKecID","tmOrg"."OrgNm","trUsulanKec"."No_usulan","tmPmDesa"."Nm_Desa","tmPmKecamatan"."Nm_Kecamatan","trUsulanKec"."NamaKegiatan","trUsulanKec"."Output","trUsulanKec"."NilaiUsulan","trUsulanKec"."Target_Angka","trUsulanKec"."Target_Uraian","trUsulanKec"."Jeniskeg","trUsulanKec"."Prioritas","trUsulanKec"."Privilege"'))
+                    $data = AspirasiMusrenKecamatanModel::select(\DB::raw('"trUsulanKec"."UsulanKecID","tmOrg"."OrgNm","trUsulanKec"."No_usulan","tmPmDesa"."Nm_Desa","tmPmKecamatan"."Nm_Kecamatan","trUsulanKec"."NamaKegiatan","trUsulanKec"."Output","trUsulanKec"."NilaiUsulan","trUsulanKec"."Target_Angka","trUsulanKec"."Target_Uraian","trUsulanKec"."Jeniskeg","trUsulanKec"."Prioritas","trUsulanKec"."Privilege","trUsulanKec"."TA"'))
                                                         ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trUsulanKec.PmKecamatanID')
                                                         ->join('tmOrg','tmOrg.OrgID','trUsulanKec.OrgID')
                                                         ->leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trUsulanKec.PmDesaID')     
@@ -64,7 +64,7 @@ class AspirasiMusrenKecamatanController extends Controller {
                                                         ->orderBy($column_order,$direction); 
                 break;
                 case 'NamaKegiatan' :
-                    $data = AspirasiMusrenKecamatanModel::select(\DB::raw('"trUsulanKec"."UsulanKecID","tmOrg"."OrgNm","trUsulanKec"."No_usulan","tmPmDesa"."Nm_Desa","tmPmKecamatan"."Nm_Kecamatan","trUsulanKec"."NamaKegiatan","trUsulanKec"."Output","trUsulanKec"."NilaiUsulan","trUsulanKec"."Target_Angka","trUsulanKec"."Target_Uraian","trUsulanKec"."Jeniskeg","trUsulanKec"."Prioritas","trUsulanKec"."Privilege"'))
+                    $data = AspirasiMusrenKecamatanModel::select(\DB::raw('"trUsulanKec"."UsulanKecID","tmOrg"."OrgNm","trUsulanKec"."No_usulan","tmPmDesa"."Nm_Desa","tmPmKecamatan"."Nm_Kecamatan","trUsulanKec"."NamaKegiatan","trUsulanKec"."Output","trUsulanKec"."NilaiUsulan","trUsulanKec"."Target_Angka","trUsulanKec"."Target_Uraian","trUsulanKec"."Jeniskeg","trUsulanKec"."Prioritas","trUsulanKec"."Privilege","trUsulanKec"."TA"'))
                                                         ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trUsulanKec.PmKecamatanID')
                                                         ->join('tmOrg','tmOrg.OrgID','trUsulanKec.OrgID')
                                                         ->leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trUsulanKec.PmDesaID')
@@ -79,7 +79,7 @@ class AspirasiMusrenKecamatanController extends Controller {
         }
         else
         {
-            $data = AspirasiMusrenKecamatanModel::select(\DB::raw('"trUsulanKec"."UsulanKecID","tmOrg"."OrgNm","trUsulanKec"."No_usulan","tmPmDesa"."Nm_Desa","tmPmKecamatan"."Nm_Kecamatan","trUsulanKec"."NamaKegiatan","trUsulanKec"."Output","trUsulanKec"."NilaiUsulan","trUsulanKec"."Target_Angka","trUsulanKec"."Target_Uraian","trUsulanKec"."Jeniskeg","trUsulanKec"."Prioritas","trUsulanKec"."Privilege"'))
+            $data = AspirasiMusrenKecamatanModel::select(\DB::raw('"trUsulanKec"."UsulanKecID","tmOrg"."OrgNm","trUsulanKec"."No_usulan","tmPmDesa"."Nm_Desa","tmPmKecamatan"."Nm_Kecamatan","trUsulanKec"."NamaKegiatan","trUsulanKec"."Output","trUsulanKec"."NilaiUsulan","trUsulanKec"."Target_Angka","trUsulanKec"."Target_Uraian","trUsulanKec"."Jeniskeg","trUsulanKec"."Prioritas","trUsulanKec"."Privilege","trUsulanKec"."TA"'))
                                                 ->join('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trUsulanKec.PmKecamatanID')    
                                                 ->join('tmOrg','tmOrg.OrgID','trUsulanKec.OrgID')        
                                                 ->leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trUsulanKec.PmDesaID')
@@ -441,7 +441,7 @@ class AspirasiMusrenKecamatanController extends Controller {
             switch ($search['kriteria']) 
             {
                 case 'No_usulan' :                    
-                $data = AspirasiMusrenDesaModel::select(\DB::raw('"trUsulanDesa"."UsulanDesaID","trUsulanDesa"."No_usulan","trUsulanDesa"."NamaKegiatan","trUsulanDesa"."Output","trUsulanDesa"."NilaiUsulan","trUsulanDesa"."Target_Angka","trUsulanDesa"."Target_Uraian","trUsulanDesa"."Jeniskeg","trUsulanDesa"."Prioritas","trUsulanDesa"."Bobot"'))
+                $data = AspirasiMusrenDesaModel::select(\DB::raw('"trUsulanDesa"."UsulanDesaID","trUsulanDesa"."No_usulan","trUsulanDesa"."NamaKegiatan","trUsulanDesa"."Output","trUsulanDesa"."NilaiUsulan","trUsulanDesa"."Target_Angka","trUsulanDesa"."Target_Uraian","trUsulanDesa"."Jeniskeg","trUsulanDesa"."Prioritas","trUsulanDesa"."Bobot","trUsulanDesa"."TA"'))
                                                     ->leftJoin('trUsulanKec','trUsulanKec.UsulanDesaID','trUsulanDesa.UsulanDesaID')
                                                     ->where('trUsulanDesa.TA', \HelperKegiatan::getTahunPerencanaan())
                                                     ->where('trUsulanDesa.PmDesaID',$PmDesaID)
@@ -452,7 +452,7 @@ class AspirasiMusrenKecamatanController extends Controller {
                                                     ->orderBy("trUsulanDesa.NamaKegiatan",$direction);
                 break;
                 case 'NamaKegiatan' :
-                $data = AspirasiMusrenDesaModel::select(\DB::raw('"trUsulanDesa"."UsulanDesaID","trUsulanDesa"."No_usulan","trUsulanDesa"."NamaKegiatan","trUsulanDesa"."Output","trUsulanDesa"."NilaiUsulan","trUsulanDesa"."Target_Angka","trUsulanDesa"."Target_Uraian","trUsulanDesa"."Jeniskeg","trUsulanDesa"."Prioritas","trUsulanDesa"."Bobot"'))
+                $data = AspirasiMusrenDesaModel::select(\DB::raw('"trUsulanDesa"."UsulanDesaID","trUsulanDesa"."No_usulan","trUsulanDesa"."NamaKegiatan","trUsulanDesa"."Output","trUsulanDesa"."NilaiUsulan","trUsulanDesa"."Target_Angka","trUsulanDesa"."Target_Uraian","trUsulanDesa"."Jeniskeg","trUsulanDesa"."Prioritas","trUsulanDesa"."Bobot","trUsulanDesa"."TA"'))
                                                     ->leftJoin('trUsulanKec','trUsulanKec.UsulanDesaID','trUsulanDesa.UsulanDesaID')
                                                     ->where('trUsulanDesa.trUsulanDesa.TA', \HelperKegiatan::getTahunPerencanaan())
                                                     ->where('trUsulanDesa.PmDesaID',$PmDesaID)
@@ -537,11 +537,24 @@ class AspirasiMusrenKecamatanController extends Controller {
      */
     public function create()
     {          
-        $theme = \Auth::user()->theme;
+        $auth=\Auth::user();
+        $theme = $auth->theme;  
 
         $sumber_dana = SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunPerencanaan(),false);
         $filters=$this->getControllerStateSession('aspirasimusrenkecamatan','filters');   
-        $daftar_kecamatan=KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),false);
+        $roles=$auth->getRoleNames();
+        $daftar_kecamatan=[];
+        switch ($roles[0])
+        {
+            case 'superadmin' :     
+            case 'bapelitbang' :     
+            case 'tapd' :
+                $daftar_kecamatan=KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),false);
+            break;
+            case 'kecamatan':
+                $daftar_kecamatan=\App\Models\UserKecamatan::getKecamatan();                                       
+            break;
+        }
         $daftar_urusan=UrusanModel::getDaftarUrusan(\HelperKegiatan::getRPJMDTahunMulai(),false);
         return view("pages.$theme.musrenbang.aspirasimusrenkecamatan.create")->with(['page_active'=>'aspirasimusrenkecamatan',
                                                                                     'filters'=>$filters,
