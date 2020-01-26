@@ -19,7 +19,7 @@
         <div class="box box-info">
             <div class="box-header with-border">
                 <h3 class="box-title">
-                    <i class="fa fa-search"></i> Pencarian Data
+                    <i class="fa fa-search"></i> PENCARIAN DATA
                 </h3>
             </div>
             {!! Form::open(['action'=>'Setting\PermissionsController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                

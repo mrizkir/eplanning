@@ -21,7 +21,7 @@
     <div class="col-md-12" id="divfilter">
         <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
             <div class="panel-heading">
-                <h5 class="panel-title"><i class="icon-bookmark2 position-left"></i> Filter Data</h5>
+                <h5 class="panel-title"><i class="icon-bookmark2 position-left"></i> FILTER DATA</h5>
                 <div class="heading-elements">                       
                     <ul class="icons-list">
                         <li><a data-action="collapse"></a></li> 
@@ -61,7 +61,7 @@
             <div class="panel-heading">
                 <h5 class="panel-title">
                     <i class="icon-search4 position-left"></i>
-                    Pencarian Data
+                    PENCARIAN DATA
                 </h5>
             </div>
             <div class="panel-body">

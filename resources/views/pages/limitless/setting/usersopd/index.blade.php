@@ -48,7 +48,7 @@
             <div class="panel-heading">
                 <h5 class="panel-title">
                     <i class="icon-search4 position-left"></i>
-                    Pencarian Data
+                    PENCARIAN DATA
                 </h5>
             </div>
             <div class="panel-body">

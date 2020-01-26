@@ -19,7 +19,7 @@
             <div class="box-header with-border">
                 <h3 class="box-title">
                     <i class="fa fa-search"></i> 
-                    Pencarian Data
+                    PENCARIAN DATA
                 </h3>
             </div>
             {!! Form::open(['action'=>'Setting\GlobalSettingController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                

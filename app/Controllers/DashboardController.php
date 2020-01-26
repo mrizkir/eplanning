@@ -17,7 +17,24 @@ class DashboardController extends Controller {
         parent::__construct();
         $this->middleware(['auth']);
     }    
-    
+    /**
+     * filter resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function filter (Request $request) 
+    {
+        $filters=$this->getControllerStateSession('dashboard','filters');
+        if ($request->exists('PmKecamatanID'))
+        {
+            $PmKecamatanID = $request->input('PmKecamatanID')==''?'none':$request->input('PmKecamatanID');
+            $filters['PmKecamatanID']=$PmKecamatanID;
+        }   
+        $this->putControllerStateSession('dashboard','filters',$filters);  
+        return response()->json(['success'=>true],200);         
+
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -86,14 +103,46 @@ class DashboardController extends Controller {
                                                                         ]);    
             break;
             case 'kecamatan' : 
+                //filter
+                if (!$this->checkStateIsExistSession('dashboard','filters')) 
+                {            
+                    $this->putControllerStateSession('dashboard','filters',[
+                                                                        'PmKecamatanID'=>'none',
+                                                                    ]);
+                }        
+                $filters=$this->getControllerStateSession('dashboard','filters');
+                $PmKecamatanID=$filters['PmKecamatanID'];
+                $daftar_kecamatan=\App\Models\UserKecamatan::getKecamatan(); 
+
+                $usulankec = \DB::table('trUsulanKec')
+                                    ->select(\DB::raw('COUNT("UsulanKecID") AS jumlahkegiatan,COALESCE(SUM("NilaiUsulan"),0) AS jumlahpagu'))
+                                    ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                    ->where('PmKecamatanID',$PmKecamatanID)
+                                    ->get()
+                                    ->toArray();
+
                 $data = [
-                    'jumlahkegiatan'=>0,
-                    'pagum'=>0,
-                    'pagup'=>0,
-                    'totalrkpdm'=>0,
-                    'totalrkpdp'=>0,
-                ];                                     
+                    'jumlahkegiatan'=>$usulankec[0]->jumlahkegiatan,
+                    'jumlahpagu'=>$usulankec[0]->jumlahpagu,
+                ];                
+
+                $subquery = \DB::table('trUsulanKec')
+                ->select(\DB::raw('"PmDesaID",SUM("NilaiUsulan") AS jumlahpagu,COUNT("UsulanKecID") AS jumlahkegiatan'))
+                ->where('PmKecamatanID',$PmKecamatanID)
+                ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                ->groupBy('PmDesaID');
+                
+                $rekap_desa = \DB::table('tmPmDesa')
+                                ->select(\DB::raw('"tmPmDesa"."PmDesaID","tmPmDesa"."Nm_Desa",COALESCE(temp.jumlahkegiatan,0) AS jumlahkegiatan,COALESCE(temp.jumlahpagu,0) AS jumlahpagu'))
+                                ->leftJoinSub($subquery,'temp',function($join){
+                                    $join->on('tmPmDesa.PmDesaID','=','temp.PmDesaID');
+                                })
+                                ->where('tmPmDesa.PmKecamatanID',$PmKecamatanID)
+                                ->get();
                 return view("pages.{$theme}.dashboard.indexKecamatan")->with(['page_active'=>'dashboard',
+                                                                                'filters'=>$filters,
+                                                                                'daftar_kecamatan'=>$daftar_kecamatan,
+                                                                                'rekap_desa'=>$rekap_desa,
                                                                                 'data'=>$data
                                                                             ]);    
             break;
@@ -109,8 +158,7 @@ class DashboardController extends Controller {
                                                                             'data'=>$data
                                                                         ]);    
             break;
-        }      
-        
+        }
         
     }    
 }
