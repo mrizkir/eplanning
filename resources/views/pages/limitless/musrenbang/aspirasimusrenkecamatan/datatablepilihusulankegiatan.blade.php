@@ -101,7 +101,7 @@
     <div class="panel-body">
         <div class="alert alert-info alert-styled-left alert-bordered">
             <span class="text-semibold">Info!</span>
-            Belum ada data yang bisa ditampilkan.
+            Belum ada data yang bisa ditampilkan, mungkin disebabkan oleh usulan kegiatan belum di ACC di Musren. Desa; atau juga sudah di inputkan di Musren. Kecamatan.
         </div>
     </div>   
     @endif            
