@@ -101,13 +101,13 @@
                                 <i class='icon-eye'></i>
                             </a>  
                             </li>          
-                        @if (empty($item->UsulanKecID))                                
+                        @if (empty($item->UsulanKecID))   
+                            @if ($item->Privilege==0)
                             <li class="text-primary-600">
                                 <a class="btnEdit" href="{{route('aspirasimusrendesa.edit',['uuid'=>$item->UsulanDesaID])}}" title="Ubah Data Kegiatan">
                                     <i class='icon-pencil7'></i>
                                 </a>  
                             </li>
-                            @if ($item->Privilege==0)
                             <li class="text-danger-600">
                                 <a class="btnDelete" href="javascript:;" title="Hapus Data Kegiatan" data-id="{{$item->UsulanDesaID}}" data-url="{{route('aspirasimusrendesa.index')}}">
                                     <i class='icon-trash'></i>
