@@ -53,8 +53,8 @@ class AspirasiMusrenDesaController extends Controller {
                                                     ->join('tmPmKecamatan','tmPmDesa.PmKecamatanID','tmPmKecamatan.PmKecamatanID')
                                                     ->where('tmPmDesa.PmKecamatanID',$filters['PmKecamatanID'])
                                                     ->where('trUsulanDesa.TA', \HelperKegiatan::getTahunPerencanaan())
-                                                    ->where(['No_usulan'=>(int)$search['isikriteria']])
-                                                    ->orderBy('Prioritas','ASC')
+                                                    ->where(['trUsulanDesa.No_usulan'=>(int)$search['isikriteria']])
+                                                    ->orderBy('trUsulanDesa.Prioritas','ASC')
                                                     ->orderBy($column_order,$direction);
                 break;
                 case 'NamaKegiatan' :
@@ -64,8 +64,8 @@ class AspirasiMusrenDesaController extends Controller {
                                                     ->join('tmPmKecamatan','tmPmDesa.PmKecamatanID','tmPmKecamatan.PmKecamatanID')
                                                     ->where('tmPmDesa.PmKecamatanID',$filters['PmKecamatanID'])
                                                     ->where('trUsulanDesa.TA', \HelperKegiatan::getTahunPerencanaan())
-                                                    ->where('NamaKegiatan', 'ilike', '%' . $search['isikriteria'] . '%')
-                                                    ->orderBy('Prioritas','ASC')                                        
+                                                    ->where('trUsulanDesa.NamaKegiatan', 'ilike', '%' . $search['isikriteria'] . '%')
+                                                    ->orderBy('trUsulanDesa.Prioritas','ASC')                                        
                                                     ->orderBy($column_order,$direction);                                        
                 break;
             }           

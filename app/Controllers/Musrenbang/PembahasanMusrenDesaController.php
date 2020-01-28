@@ -377,9 +377,19 @@ class PembahasanMusrenDesaController extends Controller {
         $theme = \Auth::user()->theme;
 
         $filters=$this->getControllerStateSession('pembahasanmusrendesa','filters');  
-        $data_report=\App\Models\DMaster\DesaModel::find($filters['PmDesaID'])->toArray();
-        $report= new \App\Models\Report\ReportMusrenbangDesaModel ($data_report);
-        $generate_date=date('Y-m-d_H_m_s');
-        return $report->download("laporan_musrenbang_desa_$generate_date.xlsx");
+        if ($filters['PmDesaID'] == 'none' || $filters['PmDesaID']=='')
+        {
+            return view("pages.$theme.musrenbang.pembahasanmusrendesa.error")->with(['page_active'=>'pembahasanmusrendesa', 
+                                                                                                'page_title'=>'PEMBAHASAN MUSRENBANG DESA',
+                                                                                                'errormessage'=>'Mohon filter data desa, untuk di pilih.',
+                                                                                            ]);
+        }
+        else
+        {
+            $data_report=\App\Models\DMaster\DesaModel::find($filters['PmDesaID'])->toArray();
+            $report= new \App\Models\Report\ReportMusrenbangDesaModel ($data_report);
+            $generate_date=date('Y-m-d_H_m_s');
+            return $report->download("laporan_musrenbang_desa_$generate_date.xlsx");
+        }
     }
 }

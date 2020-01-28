@@ -366,11 +366,22 @@ class PembahasanMusrenKecamatanController extends Controller {
     public function printtoexcel ()
     {
         $theme = \Auth::user()->theme;
-
+        
         $filters=$this->getControllerStateSession('pembahasanmusrenkecamatan','filters');  
-        $data_report=\App\Models\DMaster\KecamatanModel::find($filters['PmKecamatanID'])->toArray();
-        $report= new \App\Models\Report\ReportMusrenbangKecamatanModel ($data_report);
-        $generate_date=date('Y-m-d_H_m_s');
-        return $report->download("laporan_musrenbang_kecamatan_$generate_date.xlsx");
+        if ($filters['PmKecamatanID'] == 'none' || $filters['PmKecamatanID']=='')
+        {
+            return view("pages.$theme.musrenbang.pembahasanmusrenkecamatan.error")->with(['page_active'=>'pembahasanmusrenkecamatan', 
+                                                                                                'page_title'=>'PEMBAHASAN MUSRENBANG KECAMATAN',
+                                                                                                'errormessage'=>'Mohon filter data Kecamatan, untuk di pilih.',
+                                                                                            ]);
+        }
+        else
+        {
+            $data_report=\App\Models\DMaster\KecamatanModel::find($filters['PmKecamatanID'])->toArray();
+            $report= new \App\Models\Report\ReportMusrenbangKecamatanModel ($data_report);
+            $generate_date=date('Y-m-d_H_m_s');
+            return $report->download("laporan_musrenbang_kecamatan_$generate_date.xlsx");
+        }
+        
     }
 }

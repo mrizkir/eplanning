@@ -26,6 +26,9 @@
                     <i class="icon-eye"></i>  DATA USULAN KECAMATAN
                 </h5>
                 <div class="heading-elements"> 
+                    <a href="{!!route('aspirasimusrenkecamatan.pilihusulankegiatan')!!}" class="btn btn-success btn-icon heading-btn" title="Tambah Usulan Kegiatan">
+                        <i class="icon-googleplus5"></i>
+                    </a>
                     <a href="{!!route('aspirasimusrenkecamatan.create')!!}" class="btn btn-info btn-icon heading-btn" title="Tambah Usulan Kegiatan">
                         <i class="icon-googleplus5"></i>
                     </a> 
@@ -134,7 +137,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
     $(".btnDelete").click(function(ev) {
-        if (confirm('Apakah Anda ingin menghapus Data AspirasiMusrenKecamatan ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data Aspirasi Musren Kecamatan ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             let token = $('meta[name="csrf-token"]').attr('content');
