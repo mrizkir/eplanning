@@ -403,7 +403,6 @@ class AspirasiMusrenDesaController extends Controller {
         if (!is_null($data) )  
         {            
             return view("pages.$theme.musrenbang.aspirasimusrendesa.show")->with(['page_active'=>'aspirasimusrendesa',
-                                                                                   
                                                                                     'data'=>$data
                                                                                 ]);
         }        

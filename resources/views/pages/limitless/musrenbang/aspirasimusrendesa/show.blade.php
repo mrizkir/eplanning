@@ -29,15 +29,17 @@
                     <a href="{!!route('aspirasimusrendesa.create')!!}" class="btn btn-info btn-icon heading-btn" title="Tambah Kegiatan">
                         <i class="icon-googleplus5"></i>
                     </a>
+                    @if ($data->Privilege==0)
                     <a href="{{route('aspirasimusrendesa.edit',['uuid'=>$data->UsulanDesaID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Kegiatan">
                         <i class="icon-pencil7"></i>
                     </a>
                     <a href="javascript:;" title="Hapus Data Kegiatan" data-id="{{$data->UsulanDesaID}}" data-url="{{route('aspirasimusrendesa.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
-                    </a>
+                    </a>        
+                    @endif
                     <a href="{!!route('aspirasimusrendesa.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
                         <i class="icon-close2"></i>
-                    </a>            
+                    </a>
                 </div>
             </div>
             <div class="panel-body">
