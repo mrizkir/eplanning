@@ -108,7 +108,6 @@ $(document).ready(function () {
             success:function(result)
             { 
                 $('#divdatatable').html(result.datatable);
-                $(".switch").bootstrapSwitch();
             },
             error:function(xhr, status, error){
                 console.log('ERROR');
