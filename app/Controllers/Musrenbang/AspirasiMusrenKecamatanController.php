@@ -281,17 +281,10 @@ class AspirasiMusrenKecamatanController extends Controller {
             $filters['PmKecamatanID']=$PmKecamatanID;
 
             $this->putControllerStateSession('aspirasimusrenkecamatan','filters',$filters);
-        }   
 
-        if ($request->exists('PmDesaID'))
-        {
-            $PmDesaID = $request->input('PmDesaID')==''?'none':$request->input('PmDesaID');
-            $filters['PmDesaID']=$PmDesaID;
-
-            $daftar_desa=DesaModel::getDaftarDesa(\HelperKegiatan::getTahunPerencanaan(),$filters['PmKecamatanID']);
+            $data=$this->populateData(); 
             $view = 'datatable';
-        }       
-
+        }   
         if ($request->exists('PmKecamatanIDPilihUsulan'))
         {
             $PmKecamatanID = $request->input('PmKecamatanIDPilihUsulan')==''?'none':$request->input('PmKecamatanIDPilihUsulan');
