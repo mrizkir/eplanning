@@ -22,6 +22,7 @@ class ReportProgramRKPDPerubahanModel extends ReportModel
     private function  print()  
     {
         $OrgID = $this->dataReport['OrgID'];        
+        $OrgIDRPJMD = $this->dataReport['OrgIDRPJMD'];        
 
         $sheet = $this->spreadsheet->getActiveSheet();        
         $sheet->setTitle ('LAPORAN PROGRAM RKPD TA '.\HelperKegiatan::getTahunPerencanaan());   
@@ -94,8 +95,7 @@ class ReportProgramRKPDPerubahanModel extends ReportModel
         
         $daftar_program=\DB::table('v_organisasi_program')
                             ->select(\DB::raw('"PrgID","Kd_Urusan","Kd_Bidang","OrgCd","kode_program","Kd_Prog","PrgNm","Jns"'))
-                            ->where('OrgID',$OrgID)
-                            ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                            ->where('OrgIDRPJMD',$OrgIDRPJMD)
                             ->orderByRaw('kode_program ASC NULLS FIRST')
                             ->orderBy('Kd_Prog','ASC')
                             ->get();
@@ -112,6 +112,7 @@ class ReportProgramRKPDPerubahanModel extends ReportModel
                                     ->select(\DB::raw('SUM("NilaiUsulan1") AS jumlah_nilaiusulanm,SUM("NilaiUsulan2") AS jumlah_nilaiusulanp,COUNT("RKPDID") AS jumlah_kegiatan'))
                                     ->where('PrgID',$PrgID)                                              
                                     ->where('OrgID',$OrgID)
+                                    ->where('EntryLvl',4)
                                     ->where('TA',\HelperKegiatan::getTahunPerencanaan())                                        
                                     ->first(); 
 
@@ -119,6 +120,7 @@ class ReportProgramRKPDPerubahanModel extends ReportModel
                                 ->select(\DB::raw('COUNT("RKPDID") AS jumlah_kegiatan'))
                                 ->where('PrgID',$PrgID)                                              
                                 ->where('OrgID',$OrgID)
+                                ->where('EntryLvl',4)
                                 ->whereRaw('"NilaiUsulan1"!="NilaiUsulan2"')
                                 ->where('TA',\HelperKegiatan::getTahunPerencanaan())                                        
                                 ->first();      

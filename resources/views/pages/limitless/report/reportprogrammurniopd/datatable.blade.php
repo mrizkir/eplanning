@@ -20,11 +20,9 @@
         </div>
     </div>
     @php
-        $n1 = \HelperKegiatan::getRPJMDTahunMulai()+1;
         $daftar_program=\DB::table('v_organisasi_program')
                             ->select(\DB::raw('"PrgID","Kd_Urusan","Kd_Bidang","OrgCd","kode_program","Kd_Prog","PrgNm","Jns"'))
                             ->where('OrgIDRPJMD',$filters['OrgIDRPJMD'])
-                            ->where('TA',\HelperKegiatan::getRPJMDTahunMulai())
                             ->orderByRaw('kode_program ASC NULLS FIRST')
                             ->orderBy('Kd_Prog','ASC')
                             ->get();
@@ -32,6 +30,9 @@
         
     @endphp
     @if (count($daftar_program) > 0)  
+    <div class="panel-body">
+        NILAI INI BERDASARKAN PEMBAHASAN RKPD
+    </div>
     <div class="table-responsive"> 
         <table id="data" class="table table-xxs table-bordered" style="font-size:11px;padding:0px">
             <thead>
@@ -62,6 +63,7 @@
                                         ->select(\DB::raw('SUM("NilaiUsulan1") AS jumlah_nilaiusulan,COUNT("RKPDID") AS jumlah_kegiatan'))
                                         ->where('PrgID',$PrgID)                                              
                                         ->where('OrgID',$filters['OrgID'])
+                                        ->where('EntryLvl',2)
                                         ->where('TA',HelperKegiatan::getTahunPerencanaan())                                        
                                         ->first();               
             @endphp           

@@ -20,12 +20,19 @@
         </div>
     </div>
     @php
-        $rkpdreport=new \App\Models\Report\ReportProgramRKPDPerubahanModel ([],false);
-        $struktur=$rkpdreport->generateStructure('OrgID',$filters['OrgID'],4);                
-        $total_all_nilai_usulan=0;      
-        $total_all_nilai_setelah=0;  
+        $daftar_program=\DB::table('v_organisasi_program')
+                            ->select(\DB::raw('"PrgID","Kd_Urusan","Kd_Bidang","OrgCd","kode_program","Kd_Prog","PrgNm","Jns"'))
+                            ->where('OrgIDRPJMD',$filters['OrgIDRPJMD'])
+                            ->orderByRaw('kode_program ASC NULLS FIRST')
+                            ->orderBy('Kd_Prog','ASC')
+                            ->get();
+
+        
     @endphp
-    @if (count($struktur) > 0)  
+    @if (count($daftar_program) > 0)  
+    <div class="panel-body">
+        NILAI INI BERDASARKAN PEMBAHASAN RKPD
+    </div>
     <div class="table-responsive"> 
         <table id="data" class="table table-xxs table-bordered" style="font-size:11px;padding:0px">
             <thead>
@@ -53,20 +60,21 @@
                     <th class="text-right">SELISIH</th>
                 </tr>
             </thead>
-            <tbody>                
+            <tbody> 
             @php
                 $total_pagu_m=0;
                 $total_pagu_p=0;
                 $total_jumlah_kegiatan=0;
                 $total_jumlah_kegiatan_p=0;
             @endphp       
-            @foreach ($struktur as $key=>$v){{-- startlooping daftar program --}}
+            @foreach ($daftar_program as $key=>$v){{-- startlooping daftar program --}}
             @php
                 $PrgID=$v->PrgID;                 
                 $daftar_kegiatan = \DB::table('v_rkpd')
                                         ->select(\DB::raw('SUM("NilaiUsulan1") AS jumlah_nilaiusulanm,SUM("NilaiUsulan2") AS jumlah_nilaiusulanp,COUNT("RKPDID") AS jumlah_kegiatan'))
                                         ->where('PrgID',$PrgID)                                              
                                         ->where('OrgID',$filters['OrgID'])
+                                        ->where('EntryLvl',4)
                                         ->where('TA',HelperKegiatan::getTahunPerencanaan())                                        
                                         ->first();                
                                         
@@ -74,6 +82,7 @@
                                         ->select(\DB::raw('COUNT("RKPDID") AS jumlah_kegiatan'))
                                         ->where('PrgID',$PrgID)                                              
                                         ->where('OrgID',$filters['OrgID'])
+                                        ->where('EntryLvl',4)
                                         ->whereRaw('"NilaiUsulan1"!="NilaiUsulan2"')
                                         ->where('TA',HelperKegiatan::getTahunPerencanaan())                                        
                                         ->first();                

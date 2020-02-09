@@ -50,9 +50,10 @@ class ReportProgramPerubahanOPDController extends Controller
         if ($request->exists('OrgID'))
         {
             $OrgID = $request->input('OrgID')==''?'none':$request->input('OrgID');
-            $filters['OrgID']=$OrgID;            
-            $this->putControllerStateSession($this->SessionName,'filters',$filters);
-            
+            $filters['OrgID']=$OrgID;
+            $organisasi=\App\Models\DMaster\OrganisasiModel::find($filters['OrgID']);                  
+            $filters['OrgIDRPJMD']=$organisasi->OrgIDRPJMD;
+            $this->putControllerStateSession($this->SessionName,'filters',$filters);            
             $datatable = view("pages.$theme.report.reportprogramperubahanopd.datatable")->with(['page_active'=>$this->NameOfPage,   
                                                                                             'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),                                                                                                                                    
                                                                                             'filters'=>$filters,                                                                                                                                                        
@@ -73,24 +74,32 @@ class ReportProgramPerubahanOPDController extends Controller
     {  
         $auth = \Auth::user();    
         $theme = $auth->theme;
-        
+        //filter
+        if (!$this->checkStateIsExistSession($this->SessionName,'filters')) 
+        {            
+            $this->putControllerStateSession($this->SessionName,'filters',[
+                                                                            'OrgID'=>'none',
+                                                                            'OrgIDRPJMD'=>'none',
+                                                                        ]);
+        }      
         $filters=$this->getControllerStateSession($this->SessionName,'filters');
-        $roles=$auth->getRoleNames();   
-        
+        $roles=$auth->getRoleNames();          
+         
         switch ($roles[0])
         {
             case 'superadmin' :     
             case 'bapelitbang' :     
             case 'tapd' :     
-                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);                 
+                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);                  
+                
             break;
             case 'opd' :               
-                $daftar_opd=\App\Models\UserOPD::getOPD(); 
+                $daftar_opd=\App\Models\UserOPD::getOPD();  
             break;
         }
         return view("pages.$theme.report.reportprogramperubahanopd.index")->with(['page_active'=>$this->NameOfPage, 
                                                                                 'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
-                                                                                'daftar_opd'=>$daftar_opd,
+                                                                                'daftar_opd'=>$daftar_opd,                                                                                
                                                                                 'filters'=>$filters,
                                                                                 'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
                                                                                 'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),                                                                    
@@ -107,30 +116,30 @@ class ReportProgramPerubahanOPDController extends Controller
 
         $filters=$this->getControllerStateSession($this->SessionName,'filters');  
         $generate_date=date('Y-m-d_H_m_s');
-        $OrgID=$filters['OrgID'];        
+        $OrgID=$filters['OrgID'];                  
         if ($OrgID != 'none'&&$OrgID != ''&&$OrgID != null)       
         {
             $opd = \DB::table('v_urusan_organisasi')
                         ->where('OrgID',$OrgID)->first();  
-            
-            $data_report['OrgID']=$opd->OrgID;
+            $data_report['OrgIDRPJMD']=$opd->OrgIDRPJMD;            
+            $data_report['OrgID']=$opd->OrgID;            
             $data_report['Kd_Urusan']=$opd->Kd_Urusan;
             $data_report['Nm_Urusan']=$opd->Nm_Urusan;
             $data_report['Kd_Bidang']=$opd->Kd_Bidang;
             $data_report['Nm_Bidang']=$opd->Nm_Bidang;
             $data_report['kode_organisasi']=$opd->kode_organisasi;
-            $data_report['OrgNm']=$opd->OrgNm;
+            $data_report['OrgNm']=$opd->OrgNm;            
             $data_report['NamaKepalaSKPD']=$opd->NamaKepalaSKPD;
             $data_report['NIPKepalaSKPD']=$opd->NIPKepalaSKPD;            
             $report= new \App\Models\Report\ReportProgramRKPDPerubahanModel ($data_report);
-            return $report->download("programrkpdp_$generate_date.xlsx");
+            return $report->download("programrkpd_$generate_date.xlsx");
         }
         else
         {
             return view("pages.$theme.report.reportprogramperubahanopd.error")->with(['page_active'=>$this->NameOfPage,
-                                                                                        'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
-                                                                                        'errormessage'=>'Mohon OPD / SKPD untuk di pilih terlebih dahulu. bila sudah terpilih ternyata tidak bisa, berarti saudara tidak diperkenankan menambah kegiatan karena telah dikunci.'
-                                                                                    ]);  
+                                                                    'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
+                                                                    'errormessage'=>'Mohon OPD / SKPD untuk di pilih terlebih dahulu. bila sudah terpilih ternyata tidak bisa, berarti saudara tidak diperkenankan menambah kegiatan karena telah dikunci.'
+                                                                ]);  
         }     
     }
 }

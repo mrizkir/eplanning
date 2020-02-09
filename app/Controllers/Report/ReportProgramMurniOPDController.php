@@ -74,7 +74,14 @@ class ReportProgramMurniOPDController extends Controller
     {  
         $auth = \Auth::user();    
         $theme = $auth->theme;
-        
+        //filter
+        if (!$this->checkStateIsExistSession($this->SessionName,'filters')) 
+        {            
+            $this->putControllerStateSession($this->SessionName,'filters',[
+                                                                            'OrgID'=>'none',
+                                                                            'OrgIDRPJMD'=>'none',
+                                                                        ]);
+        }      
         $filters=$this->getControllerStateSession($this->SessionName,'filters');
         $roles=$auth->getRoleNames();          
          

@@ -76,7 +76,6 @@ class ReportProgramRKPDMurniModel extends ReportModel
         $daftar_program=\DB::table('v_organisasi_program')
                             ->select(\DB::raw('"PrgID","Kd_Urusan","Kd_Bidang","OrgCd","kode_program","Kd_Prog","PrgNm","Jns"'))
                             ->where('OrgIDRPJMD',$OrgIDRPJMD)
-                            ->where('TA',\HelperKegiatan::getRPJMDTahunMulai())
                             ->orderByRaw('kode_program ASC NULLS FIRST')
                             ->orderBy('Kd_Prog','ASC')
                             ->get();
@@ -91,6 +90,7 @@ class ReportProgramRKPDMurniModel extends ReportModel
                                     ->select(\DB::raw('SUM("NilaiUsulan1") AS jumlah_nilaiusulan,COUNT("RKPDID") AS jumlah_kegiatan'))
                                     ->where('PrgID',$PrgID)                                              
                                     ->where('OrgID',$OrgID)
+                                    ->where('EntryLvl',2)
                                     ->where('TA',\HelperKegiatan::getTahunPerencanaan())                                        
                                     ->first(); 
             
