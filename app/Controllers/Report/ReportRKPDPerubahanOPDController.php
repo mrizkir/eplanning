@@ -50,6 +50,16 @@ class ReportRKPDPerubahanOPDController extends Controller
         if ($request->exists('OrgID'))
         {
             $OrgID = $request->input('OrgID')==''?'none':$request->input('OrgID');
+            if ($OrgID == 'none')
+            {
+                $filters['OrgIDRPJMD']='none';
+            }
+            else
+            {
+                $organisasi=\App\Models\DMaster\OrganisasiModel::find($OrgID);
+                $filters['OrgIDRPJMD']=$organisasi->OrgIDRPJMD;
+            }
+
             $filters['OrgID']=$OrgID;
             $filters['SOrgID']='none';
             $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$OrgID);  
@@ -95,6 +105,15 @@ class ReportRKPDPerubahanOPDController extends Controller
         $auth = \Auth::user();    
         $theme = $auth->theme;
         
+        //filter
+        if (!$this->checkStateIsExistSession($this->SessionName,'filters')) 
+        {            
+            $this->putControllerStateSession($this->SessionName,'filters',[
+                                                                            'OrgID'=>'none',
+                                                                            'SOrgID'=>'none',
+                                                                            'OrgIDRPJMD'=>'none'
+                                                                            ]);
+        }        
         $filters=$this->getControllerStateSession($this->SessionName,'filters');
         $roles=$auth->getRoleNames();   
         
@@ -146,6 +165,7 @@ class ReportRKPDPerubahanOPDController extends Controller
         {   
             $unitkerja = \DB::table('v_suborganisasi')
                             ->where('SOrgID',$SOrgID)->first();              
+            $data_report['OrgIDRPJMD']=$unitkerja->OrgIDRPJMD;
             $data_report['OrgID']=$unitkerja->OrgID;
             $data_report['SOrgID']=$SOrgID;
             $data_report['Kd_Urusan']=$unitkerja->Kd_Urusan;
@@ -169,6 +189,7 @@ class ReportRKPDPerubahanOPDController extends Controller
             $opd = \DB::table('v_urusan_organisasi')
                         ->where('OrgID',$OrgID)->first();  
             
+            $data_report['OrgIDRPJMD']=$opd->OrgIDRPJMD;
             $data_report['OrgID']=$opd->OrgID;
             $data_report['SOrgID']=$SOrgID;
             $data_report['Kd_Urusan']=$opd->Kd_Urusan;
