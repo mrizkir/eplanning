@@ -50,6 +50,19 @@
                         </ul>
                     </td>
                 </tr>                
+                <tr>
+                    <td>4</td>
+                    <td>Kegiatan</td>
+                    <td>
+                        <ul class="icons-list">
+                            <li class="text-primary-600">
+                                <a class="btnShow" href="{{route('copydata.copy',['id'=>4])}}" title="Copy Data">
+                                    <i class='icon-copy3'></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>                
             </tbody>
          </table>
     </div>

@@ -79,6 +79,9 @@ class CopyDataController extends Controller
             case 3 ://copy sumber dana
                 $this->copySumberDana();
             break;  
+            case 4 ://copy kegiatan
+                $this->copyKegiatan();
+            break;  
         }
     }
     private function copywilayah ()
@@ -420,4 +423,56 @@ class CopyDataController extends Controller
             echo '<span style="color:red;">'.$e->getMessage().'</span>';
         }
     }
+    private function copyKegiatan ()
+    {
+        $dari_ta= $this->getControllerStateSession('copydata.filters','TA'); 
+        $ke_ta=\HelperKegiatan::getTahunPerencanaan();
+        
+        try 
+        {
+            //copy opd / skpd
+            echo "Hapus Data Daftar Kegiatan TA = $ke_ta <br>";
+
+            \App\Models\DMaster\ProgramKegiatanModel::where('TA',$ke_ta)
+                                                ->delete();
+            echo "--> OK<br>";
+            echo "Salin data Daftar Kegiatan dari TA $dari_ta KE $ke_ta <br>";
+
+            $sql = '
+                INSERT INTO "tmKgt" (
+                    "KgtID", 
+                    "PrgID",
+                    "Kd_Keg",                        
+                    "KgtNm",                        
+                    "Descr",                        
+                    "TA",
+                    "KgtID_Src",
+                    "Locked",
+                    "created_at", 
+                    "updated_at"
+                )
+                SELECT 
+                    REPLACE(SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16),\'-\',\'\') AS "KgtID",
+                    "PrgID",                                                  
+                    "Kd_Keg",                                                  
+                    "KgtNm",                                                  
+                    "Descr",                                                                    
+                    \''.$ke_ta.'\' AS "TA",
+                    "KgtID" AS "KgtID_Src",
+                    "Locked",
+                    NOW() AS created_at,
+                    NOW() AS updated_at
+                FROM
+                    "tmKgt" 
+                WHERE 
+                    "TA"=\''.$dari_ta.'\'
+                ';
+                \DB::statement($sql);
+        }
+        catch (\Exception $e)
+        {
+            echo '<span style="color:red;">'.$e->getMessage().'</span>';
+        }
+    }
+    
 }
