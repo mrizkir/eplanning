@@ -33,7 +33,7 @@ class CreateMusrenkecamatanTable extends Migration
                 $table->tinyInteger('Jeniskeg')->default(0);               
                 $table->tinyInteger('Prioritas');   
                 $table->double('Bobot',3,2)->default(0.00);
-                $table->string('Descr')->nullable();            
+                $table->text('Descr')->nullable();            
                 $table->year('TA');
                 $table->tinyInteger('Privilege')->default(0);
                 $table->boolean('Locked')->default(0);

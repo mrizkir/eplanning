@@ -16,8 +16,8 @@ class CreateSubkegiatanTable extends Migration
             $table->string('SubKgtID',19);
             $table->string('KgtID',19);
             $table->string('Kd_SubKeg',4);
-            $table->string('SubKgtNm');
-            $table->string('Descr')->nullable();
+            $table->text('SubKgtNm');
+            $table->text('Descr')->nullable();
             $table->year('TA');
             $table->string('SubKgtID_Src',19)->nullable();
             $table->boolean('Locked')->default(0);
