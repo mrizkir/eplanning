@@ -38,7 +38,7 @@
                 <div class="form-group">
                     {{Form::label('PrgID','PROGRAM',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::select('PrgID', $daftar_program, '',['class'=>'select','id'=>'PrgID','placeholder' => 'Pick a size...'])}}
+                        {{Form::select('PrgID', $daftar_program, '',['class'=>'select','id'=>'PrgID'])}}
                         {{Form::hidden('Kode_Program','none',['id'=>'Kode_Program'])}}
                     </div>
                 </div>

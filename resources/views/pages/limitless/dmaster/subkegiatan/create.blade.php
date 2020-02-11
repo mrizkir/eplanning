@@ -1,21 +1,21 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    KEGIATAN
+    SUB KEGIATAN
 @endsection
 @section('page_header')
     <i class="icon-code position-left"></i>
     <span class="text-semibold"> 
-        KEGIATAN TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}
-    </span>     
+        SUB KEGIATAN TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}
+    </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.dmaster.programkegiatan.info')
+    @include('pages.limitless.dmaster.subkegiatan.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">MASTERS</a></li>
     <li><a href="#">DATA</a></li>
-    <li><a href="{!!route('programkegiatan.index')!!}">KEGIATAN</a></li>
-    <li class="active">UBAH DATA</li>
+    <li><a href="{!!route('subkegiatan.index')!!}">SUB KEGIATAN</a></li>
+    <li class="active">TAMBAH DATA</li>
 @endsection
 @section('page_content')
 <div class="content">
@@ -23,56 +23,56 @@
         <div class="panel-heading">
             <h5 class="panel-title">
                 <i class="icon-pencil7 position-left"></i> 
-                UBAH DATA
+                TAMBAH DATA
             </h5>
             <div class="heading-elements">
                 <ul class="icons-list">                    
-                    <li>
-                        <a href="{!!route('programkegiatan.index')!!}" data-action="closeredirect" title="keluar"></a>
+                    <li>               
+                        <a href="{!!route('subkegiatan.index')!!}" data-action="closeredirect" title="keluar"></a>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="panel-body">
-            {!! Form::open(['action'=>['DMaster\ProgramKegiatanController@update',$data->KgtID],'method'=>'put','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}        
+            {!! Form::open(['action'=>'DMaster\SubKegiatanController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
                 <div class="form-group">
-                    {{Form::label('PrgID','PROGRAM',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('KgtID','KEGIATAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::select('PrgID', $daftar_program, $data['PrgID'],['class'=>'select','id'=>'PrgID'])}}
-                        {{Form::hidden('Kode_Program','none',['id'=>'Kode_Program'])}}
+                        {{Form::select('KgtID', $daftar_kegiatan, '',['class'=>'select','id'=>'KgtID'])}}
+                        {{Form::hidden('Kode_Kegiatan','none',['id'=>'Kode_Kegiatan'])}}
                     </div>
                 </div>
                 <div class="form-group">
-                    {{Form::label('Kd_Keg','KODE KEGIATAN',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('Kd_SubKeg','KODE SUB KEGIATAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('Kd_Keg',$data['Kd_Keg'],['class'=>'form-control','placeholder'=>'KODE KEGIATAN','maxlength'=>4])}}
+                        {{Form::text('Kd_SubKeg','',['class'=>'form-control','placeholder'=>'KODE SUB KEGIATAN','maxlength'=>4])}}
                     </div>
                 </div>  
                 <div class="form-group">
-                    {{Form::label('KgtNm','NAMA KEGIATAN',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('SubKgtNm','NAMA SUB KEGIATAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::text('KgtNm',$data['KgtNm'],['class'=>'form-control','placeholder'=>'NAMA KEGIATAN'])}}
+                        {{Form::text('SubKgtNm','',['class'=>'form-control','placeholder'=>'NAMA SUB KEGIATAN'])}}
                     </div>
                 </div>
                 <div class="form-group">
                     {{Form::label('Descr','KETERANGAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::textarea('Descr',$data['Descr'],['class'=>'form-control','placeholder'=>'KETERANGAN','rows' => 2, 'cols' => 40])}}
+                        {{Form::textarea('Descr','',['class'=>'form-control','placeholder'=>'KETERANGAN','rows' => 2, 'cols' => 40])}}
                     </div>
                 </div>
                 <div class="form-group">            
                     <div class="col-md-10 col-md-offset-2">                        
-                        {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] )  }}                        
+                        {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}
                     </div>
                 </div>
             {!! Form::close()!!}
         </div>
     </div>
-</div>  
+</div>   
 @endsection
 @section('page_asset_js')
-<script src="{!!asset('themes/limitless/assets/jquery-validation/jquery.validate.min.js')!!}"></script>
-<script src="{!!asset('themes/limitless/assets/jquery-validation/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
+<script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/select2.min.js')!!}"></script>
 <script src="{!!asset('themes/limitless/assets/js/autoNumeric.min.js')!!}"></script>
 @endsection
@@ -81,12 +81,13 @@
 $(document).ready(function () {
     //styling select
     $('.select').select2({
-        placeholder: "PILIH PROGRAM",
+        placeholder: "PILIH KEGIATAN",
         allowClear:true
     });
-    AutoNumeric.multiple(['#Kd_Keg'], {
+    AutoNumeric.multiple(['#Kd_SubKeg'], {
                                         allowDecimalPadding: false,
                                         minimumValue:0,
+                                        lZero:'keep',
                                         maximumValue:9999,
                                         numericPos:true,
                                         decimalPlaces : 0,
@@ -95,68 +96,73 @@ $(document).ready(function () {
                                         unformatOnSubmit: true,
                                         modifyValueOnWheel:false
                                     });  
-                                    $(document).on('change','#PrgID',function(ev) {
+
+    @if(!(count($errors) > 0))
+        $("#frmdata :input").not('[name=KgtID]').prop("disabled", true);
+    @endif
+    $(document).on('change','#KgtID',function(ev) {
         ev.preventDefault();  
-        PrgID=$(this).val();
-        if (PrgID == null || PrgID=='')
+        KgtID=$(this).val();        
+        if (KgtID == null || KgtID=='')
         {
-            $("#frmdata :input").not('[name=PrgID]').prop("disabled", true);
-            $("#Kode_Program").val('none');  
+            $("#frmdata :input").not('[name=KgtID]').prop("disabled", true);
+            $("#Kode_Kegiatan").val('');  
         }
         else
         {
-            $("#frmdata *").prop("disabled", false);   
+            $("#frmdata *").prop("disabled", false);              
             $.ajax({
                 type:'post',
                 url: url_current_page+'/filter',
                 dataType: 'json',
                 data: {
                     "_token": token,
-                    "PrgID": PrgID,
+                    "KgtID": KgtID,
                     "create": true,
                 },
                 success:function(result)
                 {   
-                    $('#Kd_Keg').val(result.Kd_Keg);
-                    const element = AutoNumeric.getAutoNumericElement('#Kd_Keg');
-                    element.set(result.Kd_Keg);   
+                    $('#Kd_SubKeg').val(result.Kd_SubKeg);
+                    const element = AutoNumeric.getAutoNumericElement('#Kd_SubKeg');
+                    element.set(result.Kd_SubKeg);   
                 },
                 error:function(xhr, status, error)
                 {   
                     console.log(parseMessageAjaxEror(xhr, status, error));                           
                 },
-            });                 
+            });            
         }
+        
     });
     $('#frmdata').validate({
         ignore:[],
         rules: {
-            PrgID : {
+            KgtID : {
                 required : true,
             },
-            Kd_Keg : {
-                required: true          
+            Kd_SubKeg : {
+                required: true            
             },
-            KgtNm : {
+            SubKgtNm : {
                 required: true,
                 minlength: 5      
             }
         },
         messages : {
-            PrgID : {
-                required: "Mohon dipilih Program !"
+            KgtID : {
+                required: "Mohon dipilih Kegiatan !"
             },
-            Kd_Keg : {
+            Kd_SubKeg : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 number: "Mohon input dengan tipe data bilangan bulat",
                 maxlength: "Nilai untuk Kode Urusan maksimal 4 digit"
             },
-            KgtNm : {
+            SubKgtNm : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 5 karakter atau lebih."
             }
-        }     
-    });           
+        }        
+    }); 
 });
 </script>
 @endsection

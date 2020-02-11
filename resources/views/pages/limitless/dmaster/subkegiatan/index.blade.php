@@ -1,20 +1,20 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    KEGIATAN
+    SUB KEGIATAN
 @endsection
 @section('page_header')
     <i class="icon-code position-left"></i>
     <span class="text-semibold">
-        KEGIATAN TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}  
+        SUB KEGIATAN TAHUN PERENCANAAN {{HelperKegiatan::getTahunPerencanaan()}}  
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.dmaster.programkegiatan.info')
+    @include('pages.limitless.dmaster.subkegiatan.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">MASTERS</a></li>
     <li><a href="#">DATA</a></li>
-    <li class="active">KEGIATAN</li>
+    <li class="active">SUB KEGIATAN</li>
 @endsection
 @section('page_content')
 <div class="row">
@@ -54,11 +54,11 @@
                 </h5>
             </div>
             <div class="panel-body">
-                {!! Form::open(['action'=>'DMaster\ProgramKegiatanController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
+                {!! Form::open(['action'=>'DMaster\SubKegiatanController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kriteria :</label> 
                         <div class="col-md-10">
-                            {{Form::select('cmbKriteria', ['kode_kegiatan'=>'KODE KEGIATAN','KgtNm'=>'NAMA KEGIATAN'], isset($search['kriteria'])?$search['kriteria']:'kode_kegiatan',['class'=>'form-control'])}}
+                            {{Form::select('cmbKriteria', ['kode_subkegiatan'=>'KODE SUB KEGIATAN','SubKgtNm'=>'NAMA SUB KEGIATAN'], isset($search['kriteria'])?$search['kriteria']:'kode_kegiatan',['class'=>'form-control'])}}
                         </div>
                     </div>
                     <div class="form-group" id="divKriteria">
@@ -80,7 +80,7 @@
         </div>
     </div>       
     <div class="col-md-12" id="divdatatable">
-        @include('pages.limitless.dmaster.programkegiatan.datatable')
+        @include('pages.limitless.dmaster.subkegiatan.datatable')
     </div>
 </div>
 @endsection
@@ -117,7 +117,7 @@ $(document).ready(function () {
         });     
     });
     $("#divdatatable").on("click",".btnDelete", function(){
-        if (confirm('Apakah Anda ingin menghapus Data Program Kegiatan ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data Sub Kegiatan ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             $.ajax({            
@@ -133,7 +133,7 @@ $(document).ready(function () {
                     if (result.success==1){
                         $('#divdatatable').html(result.datatable);                        
                     }else{
-                        console.log("Gagal menghapus data Program Kegiatan dengan id "+id);
+                        console.log("Gagal menghapus data Sub Kegiatan dengan id "+id);
                     }                    
                 },
                 error:function(xhr, status, error){

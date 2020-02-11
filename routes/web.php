@@ -114,6 +114,14 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::get('/dmaster/programkegiatan/paginate/{id}',['uses'=>'DMaster\ProgramKegiatanController@paginate','as'=>'kegiatan.paginate']);              
     Route::post('/dmaster/programkegiatan/changenumberrecordperpage',['uses'=>'DMaster\ProgramKegiatanController@changenumberrecordperpage','as'=>'kegiatan.changenumberrecordperpage']);  
     Route::post('/dmaster/programkegiatan/orderby',['uses'=>'DMaster\ProgramKegiatanController@orderby','as'=>'kegiatan.orderby']);  
+    
+    //masters - data sub kegiatan [data]
+    Route::resource('/dmaster/subkegiatan','DMaster\SubKegiatanController',['parameters'=>['subkegiatan'=>'uuid']]); 
+    Route::post('/dmaster/subkegiatan/search',['uses'=>'DMaster\SubKegiatanController@search','as'=>'subkegiatan.search']);  
+    Route::post('/dmaster/subkegiatan/filter',['uses'=>'DMaster\SubKegiatanController@filter','as'=>'subkegiatan.filter']);              
+    Route::get('/dmaster/subkegiatan/paginate/{id}',['uses'=>'DMaster\SubKegiatanController@paginate','as'=>'subkegiatan.paginate']);              
+    Route::post('/dmaster/subkegiatan/changenumberrecordperpage',['uses'=>'DMaster\SubKegiatanController@changenumberrecordperpage','as'=>'subkegiatan.changenumberrecordperpage']);  
+    Route::post('/dmaster/subkegiatan/orderby',['uses'=>'DMaster\SubKegiatanController@orderby','as'=>'subkegiatan.orderby']);  
    
     //masters - mapping program ke OPD [mapping]
     Route::resource('/dmaster/mappingprogramtoopd','DMaster\MappingProgramToOPDController',[
