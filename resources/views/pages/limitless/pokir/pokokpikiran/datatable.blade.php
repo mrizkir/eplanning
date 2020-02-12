@@ -139,6 +139,10 @@
                             {{$item->PokPirID}}
                         </span> 
                         <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>ORGID:</strong>
+                            {{$item->OrgID}}
+                        </span> 
+                        <span class="label label-warning label-rounded" style="text-transform: none">
                             <strong>KECAMATAN:</strong>
                             {{$item->Nm_Kecamatan}}
                         </span>                        

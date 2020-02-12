@@ -430,7 +430,6 @@ class UsulanRenjaController extends Controller
                                                     ->where('trPokPir.TA', \HelperKegiatan::getTahunPerencanaan())
                                                     ->where('trPokPir.PemilikPokokID',$PemilikPokokID)                                                
                                                     ->whereNull('rinciankegiatan.PokPirID')
-                                                    ->where('trPokPir.Privilege',1)  
                                                     ->where('trPokPir.OrgID',$filters['OrgID'])   
                                                     ->orderBY('trPokPir.Prioritas','ASC')
                                                     ->orderBY('NamaUsulanKegiatan','ASC')
@@ -1311,7 +1310,10 @@ class UsulanRenjaController extends Controller
                     $renja->save();
                 break;                
             }   
-
+            // update Privilege Pokok Pikiran
+            $pokir = \App\Models\Pokir\PokokPikiranModel::find($PokPirID);
+            $pokir->Privilege=1;
+            $pokir->save();
         });
         if ($request->ajax()) 
         {

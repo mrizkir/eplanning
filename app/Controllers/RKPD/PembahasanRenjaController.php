@@ -1147,46 +1147,44 @@ class PembahasanRenjaController extends Controller {
             $RenjaRincID=$request->input('RenjaRincID');                                    
             $rincian_kegiatan=\DB::transaction(function () use ($RenjaRincID) {
                 $rincian_kegiatan = RenjaRincianModel::find($RenjaRincID);               
+                $RenjaID=$rincian_kegiatan->RenjaID;
                 
                 switch ($this->NameOfPage) 
                 {            
                     case 'pembahasanprarenjaopd' :
-                        //check renja id sudah ada belum di RenjaID_Old
+                        //check renja id sudah ada belum di 
                         $old_renja = RenjaModel::select('RenjaID')
-                                        ->where('RenjaID_Src',$rincian_kegiatan->RenjaID)
+                                        ->where('RenjaID_Src',$RenjaID)
                                         ->get()
                                         ->pluck('RenjaID')->toArray();
 
                         if (count($old_renja) > 0)
                         {
-                            $RenjaID=$old_renja[0];
-                            $newRenjaiD=$RenjaID;
-                            $renja = RenjaModel::find($RenjaID);  
-                            $newrenja=$renja;
+                            $newRenjaID=$old_renja[0];
                         }
                         else
                         {
-                            $RenjaID=$rincian_kegiatan->RenjaID;
                             $renja = RenjaModel::find($RenjaID);   
                             $renja->Privilege=1;
                             $renja->save();
-                        }
-                        #new renja
-                        $newRenjaID=uniqid ('uid');
-                        $newrenja = $renja->replicate();
-                        $newrenja->RenjaID = $newRenjaID;
-                        $newrenja->Sasaran_Uraian2 = $newrenja->Sasaran_Uraian1;
-                        $newrenja->Sasaran_Angka2 = $newrenja->Sasaran_Angka1;
-                        $newrenja->Target2 = $newrenja->Target1;
-                        $newrenja->NilaiUsulan2 = $newrenja->NilaiUsulan1;
-                        $newrenja->EntryLvl = 1;
-                        $newrenja->Status = 0;
-                        $newrenja->Privilege = 0;
-                        $newrenja->RenjaID_Src = $RenjaID;
-                        $newrenja->created_at = \Carbon\Carbon::now();
-                        $newrenja->updated_at = \Carbon\Carbon::now();
-                        $newrenja->save();
 
+                            #new renja
+                            $newRenjaID=uniqid ('uid');
+                            $newrenja = $renja->replicate();
+                            $newrenja->RenjaID = $newRenjaID;
+                            $newrenja->Sasaran_Uraian2 = $newrenja->Sasaran_Uraian1;
+                            $newrenja->Sasaran_Angka2 = $newrenja->Sasaran_Angka1;
+                            $newrenja->Target2 = $newrenja->Target1;
+                            $newrenja->NilaiUsulan2 = $newrenja->NilaiUsulan1;
+                            $newrenja->EntryLvl = 1;
+                            $newrenja->Status = 0;
+                            $newrenja->Privilege = 0;
+                            $newrenja->RenjaID_Src = $RenjaID;
+                            $newrenja->created_at = \Carbon\Carbon::now();
+                            $newrenja->updated_at = \Carbon\Carbon::now();
+                            $newrenja->save();
+                            
+                        }
                         $str_rinciankegiatan = '
                             INSERT INTO "trRenjaRinc90" (
                                 "RenjaRincID", 
@@ -1261,9 +1259,12 @@ class PembahasanRenjaController extends Controller {
                                 ("Status"=1 OR "Status"=2) AND
                                 "Privilege"=0             
                         ';
-                        \DB::statement($str_rinciankegiatan);       
+                        \DB::statement($str_rinciankegiatan);     
+
+                        //hapus indikator kinerja  
+                        \DB::statement('DELETE FROM "trRenjaIndikator90" WHERE "RenjaID"=\''.$newRenjaID.'\'');      
                         $str_kinerja='
-                            INSERT INTO "trRenjaIndikator" (
+                            INSERT INTO "trRenjaIndikator90" (
                                 "RenjaIndikatorID", 
                                 "IndikatorKinerjaID",
                                 "RenjaID",
@@ -1285,7 +1286,7 @@ class PembahasanRenjaController extends Controller {
                                 NOW() AS created_at,
                                 NOW() AS updated_at
                             FROM 
-                                "trRenjaIndikator" 
+                                "trRenjaIndikator90" 
                             WHERE 
                                 "RenjaID"=\''.$RenjaID.'\'
                         ';
@@ -1293,6 +1294,14 @@ class PembahasanRenjaController extends Controller {
                         \DB::statement($str_kinerja);
                         RenjaRincianModel::where('RenjaRincID',$RenjaRincID)
                                             ->update(['Privilege'=>1,'updated_at'=>\Carbon\Carbon::now()]);
+
+                        //update NilaiUsulan2
+                        $newRenja = RenjaModel::find($newRenjaID);
+                        $newRenja->NilaiUsulan2 = \DB::table('trRenjaRinc90')
+                                                    ->where('RenjaID',$newRenjaID)
+                                                    ->sum('Jumlah2');
+                        $newRenja->save();
+
                         RenjaIndikatorModel::where('RenjaID',$RenjaID)
                                             ->update(['updated_at'=>\Carbon\Carbon::now()]);
 
@@ -1307,7 +1316,7 @@ class PembahasanRenjaController extends Controller {
                         if (count($old_renja) > 0)
                         {
                             $RenjaID=$old_renja[0];
-                            $newRenjaiD=$RenjaID;
+                            $newRenjaID=$RenjaID;
                             $renja = RenjaModel::find($RenjaID);  
                             $newrenja=$renja;
                         }
@@ -1418,7 +1427,7 @@ class PembahasanRenjaController extends Controller {
                         ';
                         \DB::statement($str_rinciankegiatan);       
                         $str_kinerja='
-                            INSERT INTO "trRenjaIndikator" (
+                            INSERT INTO "trRenjaIndikator90" (
                                 "RenjaIndikatorID", 
                                 "IndikatorKinerjaID",
                                 "RenjaID",
@@ -1440,7 +1449,7 @@ class PembahasanRenjaController extends Controller {
                                 NOW() AS created_at,
                                 NOW() AS updated_at
                             FROM 
-                                "trRenjaIndikator" 
+                                "trRenjaIndikator90" 
                             WHERE 
                                 "RenjaID"=\''.$RenjaID.'\'
                         ';
@@ -1461,7 +1470,7 @@ class PembahasanRenjaController extends Controller {
                         if (count($old_renja) > 0)
                         {
                             $RenjaID=$old_renja[0];
-                            $newRenjaiD=$RenjaID;
+                            $newRenjaID=$RenjaID;
                             $renja = RenjaModel::find($RenjaID);  
                             $newrenja=$renja;
                         }
@@ -1581,7 +1590,7 @@ class PembahasanRenjaController extends Controller {
                         \DB::statement($str_rinciankegiatan);       
 
                         $str_kinerja='
-                            INSERT INTO "trRenjaIndikator" (
+                            INSERT INTO "trRenjaIndikator90" (
                                 "RenjaIndikatorID", 
                                 "IndikatorKinerjaID",
                                 "RenjaID",
@@ -1603,7 +1612,7 @@ class PembahasanRenjaController extends Controller {
                                 NOW() AS created_at,
                                 NOW() AS updated_at
                             FROM 
-                                "trRenjaIndikator" 
+                                "trRenjaIndikator90" 
                             WHERE 
                                 "RenjaID"=\''.$RenjaID.'\'
                         ';
@@ -1625,7 +1634,7 @@ class PembahasanRenjaController extends Controller {
                         if (count($old_renja) > 0)
                         {
                             $RenjaID=$old_renja[0];
-                            $newRenjaiD=$RenjaID;
+                            $newRenjaID=$RenjaID;
                             $renja = RenjaModel::find($RenjaID);  
                             $newrenja=$renja;
                         }
@@ -1637,9 +1646,9 @@ class PembahasanRenjaController extends Controller {
                             $renja->save();
                         }
                         // #new renja
-                        $newRenjaiD=uniqid ('uid');
+                        $newRenjaID=uniqid ('uid');
                         $newrenja = $renja->replicate();
-                        $newrenja->RenjaID = $newRenjaiD;
+                        $newrenja->RenjaID = $newRenjaID;
                         $newrenja->Sasaran_Uraian5 = $newrenja->Sasaran_Uraian4;
                         $newrenja->Sasaran_Angka5 = $newrenja->Sasaran_Angka4;
                         $newrenja->Target5 = $newrenja->Target4;
@@ -1700,7 +1709,7 @@ class PembahasanRenjaController extends Controller {
                             ) 
                             SELECT 
                                 REPLACE(SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16),\'-\',\'\') AS "RenjaRincID",
-                                \''.$newRenjaiD.'\' AS "RenjaID",
+                                \''.$newRenjaID.'\' AS "RenjaID",
                                 "UsulanKecID",
                                 "PMProvID",
                                 "PmKotaID",
@@ -1750,7 +1759,7 @@ class PembahasanRenjaController extends Controller {
                         ';                
                         \DB::statement($str_rinciankegiatan);       
                         $str_kinerja='
-                            INSERT INTO "trRenjaIndikator" (
+                            INSERT INTO "trRenjaIndikator90" (
                                 "RenjaIndikatorID", 
                                 "IndikatorKinerjaID",
                                 "RenjaID",
@@ -1764,7 +1773,7 @@ class PembahasanRenjaController extends Controller {
                             SELECT 
                                 REPLACE(SUBSTRING(CONCAT(\'uid\',uuid_in(md5(random()::text || clock_timestamp()::text)::cstring)) from 1 for 16),\'-\',\'\') AS "RenjaIndikatorID",
                                 "IndikatorKinerjaID",
-                                \''.$newRenjaiD.'\' AS "RenjaID",
+                                \''.$newRenjaID.'\' AS "RenjaID",
                                 "Target_Angka",
                                 "Target_Uraian",
                                 "Descr",
@@ -1772,7 +1781,7 @@ class PembahasanRenjaController extends Controller {
                                 NOW() AS created_at,
                                 NOW() AS updated_at
                             FROM 
-                                "trRenjaIndikator" 
+                                "trRenjaIndikator90" 
                             WHERE 
                                 "RenjaID"=\''.$RenjaID.'\'
                         ';
@@ -1899,7 +1908,7 @@ class PembahasanRenjaController extends Controller {
                         \DB::statement($str_rincianrenja); 
                         
                         $str_kinerja='
-                            INSERT INTO "trRKPDIndikator" (
+                            INSERT INTO "trRKPDIndikator90" (
                                 "RKPDIndikatorID", 
                                 "RKPDID",
                                 "IndikatorKinerjaID",                        
@@ -1921,7 +1930,7 @@ class PembahasanRenjaController extends Controller {
                                 NOW() AS created_at,
                                 NOW() AS updated_at
                             FROM 
-                                "trRenjaIndikator" 
+                                "trRenjaIndikator90" 
                             WHERE 
                                 "RenjaID"=\''.$renja->RenjaID.'\'
                         ';
