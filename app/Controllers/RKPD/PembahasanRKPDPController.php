@@ -642,9 +642,10 @@ class PembahasanRKPDPController extends Controller
                                 ->findOrFail($rkpdid);
             
             
-            $kegiatan=\App\Models\DMaster\ProgramKegiatanModel::select(\DB::raw('"trUrsPrg"."UrsID","trUrsPrg"."PrgID"'))
-                                                                ->join('trUrsPrg','trUrsPrg.PrgID','tmSubKgt.PrgID')
-                                                                ->find($rkpd->KgtID);                                            
+            $kegiatan=\App\Models\DMaster\SubKegiatanModel::select(\DB::raw('"trUrsPrg"."UrsID","trUrsPrg"."PrgID"'))
+                                                                ->join('tmKgt','tmKgt.KgtID','tmSubKgt.KgtID')
+                                                                ->join('trUrsPrg','trUrsPrg.PrgID','tmKgt.PrgID')
+                                                                ->find($rkpd->SubKgtID);                                            
             
             $PrgID=$rkpd->PrgID;          
             $daftar_indikatorkinerja = \DB::table('trIndikatorKinerja')
@@ -733,7 +734,7 @@ class PembahasanRKPDPController extends Controller
             //lokasi
             $daftar_provinsi = ['uidF1847004D8F547BF'=>'KEPULAUAN RIAU'];
             $daftar_kota_kab = ['uidE4829D1F21F44ECA'=>'BINTAN'];        
-            $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),config('eplanning.defaul_kota_atau_kab'),false);
+            $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),config('eplanning.default_kota_atau_kab'),false);
             $nomor_rincian = RKPDRincianModel::where('RKPDID',$rkpdid)->count('No')+1;
             return view("pages.$theme.rkpd.pembahasanrkpdp.create4")->with(['page_active'=>$this->NameOfPage,
                                                                     'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),

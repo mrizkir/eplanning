@@ -79,7 +79,7 @@
         </div>
     </div>
     <div class="panel panel-flat border-top-lg border-top-info border-bottom-info" id="divdatatableindikatorkinerja">
-        @include('pages.limitless.rkpd.usulanprarenjaopd.datatableindikatorkinerja')         
+        @include('pages.limitless.rkpd.usulanrenja.datatableindikatorkinerja')         
     </div>
 </div>   
 @endsection

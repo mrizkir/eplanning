@@ -123,10 +123,10 @@ class UsulanRenjaController extends Controller
     private function populateIndikatorKegiatan($RenjaID)
     {
       
-        $data = RenjaIndikatorModel::join('trIndikatorKinerja','trIndikatorKinerja.IndikatorKinerjaID','trRenjaIndikator90.IndikatorKinerjaID')
-                                                            ->where('RenjaID',$RenjaID)
-                                                            ->get();
-
+        $data = RenjaIndikatorModel::select(\DB::raw('"trRenjaIndikator90"."RenjaIndikatorID","trIndikatorKinerja"."NamaIndikator","trRenjaIndikator90"."Target_Angka","trRenjaIndikator90"."Target_Uraian","trRenjaIndikator90"."TA"'))
+                                    ->join('trIndikatorKinerja','trIndikatorKinerja.IndikatorKinerjaID','trRenjaIndikator90.IndikatorKinerjaID')
+                                    ->where('RenjaID',$RenjaID)
+                                    ->get();
         return $data;
     }
     /**
@@ -675,17 +675,19 @@ class UsulanRenjaController extends Controller
             $OrgID=$filters['OrgID'];
             $SOrgID=$filters['SOrgID'];
 
-            $renja=RenjaModel::select(\DB::raw('"RenjaID","SubKgtID"'))
-                                ->where('OrgID',$OrgID)
-                                ->where('SOrgID',$SOrgID)
-                                ->where('Privilege',0)
-                                ->where('Locked',false)
+            $renja=RenjaModel::select(\DB::raw('"RenjaID","SubKgtID","OrgIDRPJMD"'))
+                                ->join('tmOrg','tmOrg.OrgID','trRenja90.OrgID')
+                                ->where('trRenja90.OrgID',$OrgID)
+                                ->where('trRenja90.SOrgID',$SOrgID)
+                                ->where('trRenja90.Privilege',0)
+                                ->where('trRenja90.Locked',false)
                                 ->findOrFail($renjaid);
             
             
-            $kegiatan=\App\Models\DMaster\ProgramKegiatanModel::select(\DB::raw('"trUrsPrg"."UrsID","trUrsPrg"."PrgID"'))
-                                                                                ->join('trUrsPrg','trUrsPrg.PrgID','tmSubKgt.PrgID')
-                                                                                ->find($renja->SubKgtID);  
+            $kegiatan=\App\Models\DMaster\SubKegiatanModel::select(\DB::raw('"trUrsPrg"."UrsID","trUrsPrg"."PrgID"'))
+                                                                ->join('tmKgt','tmKgt.KgtID','tmSubKgt.KgtID')
+                                                                ->join('trUrsPrg','trUrsPrg.PrgID','tmKgt.PrgID')
+                                                                ->find($renja->SubKgtID);  
             if ($kegiatan == null)
             {
                 $daftar_indikatorkinerja=[];
@@ -697,10 +699,8 @@ class UsulanRenjaController extends Controller
                 $daftar_indikatorkinerja = \DB::table('trIndikatorKinerja')
                                             ->where('UrsID',$UrsID)
                                             ->where('PrgID',$PrgID)
-                                            ->orWhere('OrgID',$OrgID)
-                                            ->orWhere('OrgID2',$OrgID)
-                                            ->orWhere('OrgID3',$OrgID)
-                                            ->where('TA_N',config('eplanning.rpjmd_tahun_mulai'))
+                                            ->where('OrgIDRPJMD',$renja->OrgIDRPJMD)                                           
+                                            ->where('TA',\HelperKegiatan::getRPJMDTahunMulai())
                                             ->WhereNotIn('IndikatorKinerjaID',function($query) use ($renjaid){
                                                 $query->select('IndikatorKinerjaID')
                                                         ->from('trRenjaIndikator90')
@@ -747,9 +747,9 @@ class UsulanRenjaController extends Controller
             $datarinciankegiatan = $this->populateRincianKegiatan($renjaid);
             
             //lokasi
-            $daftar_provinsi = ['uidF1847004D8F547BF'=>'KEPULAUAN RIAU'];
-            $daftar_kota_kab = ['uidE4829D1F21F44ECA'=>'BINTAN'];        
-            $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),config('eplanning.defaul_kota_atau_kab'),false);
+            $daftar_provinsi = ['uid14f25a97c07e'=>'KEPULAUAN RIAU'];
+            $daftar_kota_kab = ['uidca544f415ae2'=>'BINTAN'];        
+            $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),config('eplanning.default_kota_atau_kab'),false);
             $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->count('No')+1;
             return view("pages.$theme.rkpd.usulanrenja.create2")->with(['page_active'=>$this->NameOfPage,
                                                                     'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
@@ -833,7 +833,7 @@ class UsulanRenjaController extends Controller
             //lokasi
             $daftar_provinsi = ['uidF1847004D8F547BF'=>'KEPULAUAN RIAU'];
             $daftar_kota_kab = ['uidE4829D1F21F44ECA'=>'BINTAN'];        
-            $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),config('eplanning.defaul_kota_atau_kab'),false);
+            $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),config('eplanning.default_kota_atau_kab'),false);
             $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->count('No')+1;
             return view("pages.$theme.rkpd.usulanrenja.create4")->with(['page_active'=>$this->NameOfPage,
                                                                     'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
@@ -1878,19 +1878,19 @@ class UsulanRenjaController extends Controller
     public function edit1($id)
     {
         $theme = \Auth::user()->theme;
-
-        $renja = RenjaIndikatorModel::select(\DB::raw('"trRenjaIndikator"."RenjaIndikatorID",
-                                                        "trRenjaIndikator"."IndikatorKinerjaID",
-                                                        "trRenjaIndikator"."RenjaID",
-                                                        "trRenjaIndikator"."Target_Angka",
+        $renja = RenjaIndikatorModel::select(\DB::raw('"trRenjaIndikator90"."RenjaIndikatorID",
+                                                        "trRenjaIndikator90"."IndikatorKinerjaID",
+                                                        "trRenjaIndikator90"."RenjaID",
+                                                        "trRenjaIndikator90"."Target_Angka",
                                                         "Target_Uraian",
-                                                        "trRenjaIndikator"."TA"'))                                   
-                                    ->join('trIndikatorKinerja','trIndikatorKinerja90.IndikatorKinerjaID','trRenjaIndikator.IndikatorKinerjaID')
+                                                        "trRenjaIndikator90"."TA"'))                                   
+                                    ->join('trIndikatorKinerja','trIndikatorKinerja.IndikatorKinerjaID','trRenjaIndikator90.IndikatorKinerjaID')
                                     ->findOrFail($id);        
         if (!is_null($renja) ) 
         {    
             $dataindikator_rpjmd = \App\Models\RPJMD\RpjmdIndikatorKinerjaModel::getIndikatorKinerjaByID($renja->IndikatorKinerjaID,$renja->TA);            
             $dataindikatorkinerja = $this->populateIndikatorKegiatan($renja->RenjaID);
+            
             return view("pages.$theme.rkpd.usulanrenja.edit1")->with(['page_active'=>$this->NameOfPage,
                                                                 'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                 'renja'=>$renja,
@@ -1924,7 +1924,7 @@ class UsulanRenjaController extends Controller
                                                                     "tmPmKota"."Nm_Kota",
                                                                     "tmPmKecamatan"."Nm_Kecamatan",
                                                                     "trRenjaRinc90"."RenjaID",
-                                                                    "v_usulan_pra_renja"."SubKgtNm",
+                                                                    "v_usulan_pra_renja_opd90"."SubKgtNm",
                                                                     "trRenjaRinc90"."No",
                                                                     "trUsulanKec"."NamaKegiatan",
                                                                     "trRenjaRinc90"."Uraian",
@@ -1936,7 +1936,7 @@ class UsulanRenjaController extends Controller
                                                                     "trRenjaRinc90"."Descr",
                                                                     "trRenjaRinc90"."isSKPD",
                                                                     "trRenjaRinc90"."isReses"'))                                            
-                                                    ->join('v_usulan_pra_renja','v_usulan_pra_renja.RenjaID','trRenjaRinc90.RenjaID')
+                                                    ->join('v_usulan_pra_renja_opd90','v_usulan_pra_renja_opd90.RenjaID','trRenjaRinc90.RenjaID')
                                                     ->join('trUsulanKec','trUsulanKec.UsulanKecID','trRenjaRinc90.UsulanKecID')                                                                                        
                                                     ->join('tmPMProv','tmPMProv.PMProvID','trRenjaRinc90.PMProvID')
                                                     ->join('tmPmKota','tmPmKota.PmKotaID','trRenjaRinc90.PmKotaID')

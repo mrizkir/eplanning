@@ -6,7 +6,7 @@ return [
     'tahun_perencanaan'=>env('EPLANNING_TAHUN_PERENCANAAN'),
     'tahun_penyerapan'=>env('EPLANNING_TAHUN_PENYERAPAN'),
     'default_provinsi'=>env('EPLANNING_DEFAULT_PROVINSI'),
-    'defaul_kota_atau_kab'=>env('EPLANNING_DEFAULT_KOTA_KAB'),
+    'default_kota_atau_kab'=>env('EPLANNING_DEFAULT_KOTA_KAB'),
 
     //setting rpjmd
     'rpjmd_visi_id'=>env('EPLANNING_RPJMD_VISI_ID'),

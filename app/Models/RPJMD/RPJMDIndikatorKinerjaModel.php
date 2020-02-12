@@ -111,9 +111,9 @@ class RPJMDIndikatorKinerjaModel extends Model {
         $data_indikator=null;
         if (!is_null($data) )  
         {   
-            $tahun_n=($ta-config('eplanning.rpjmd_tahun_mulai'))+1;
-            $target_n="TargetN$tahun_n";
-            $pagudana_n="PaguDanaN$tahun_n";
+            $tahun_n=($ta-\HelperKegiatan::getRPJMDTahunMulai());
+            $target_n=$tahun_n >0 ?"TargetN$tahun_n":'TargetN1';
+            $pagudana_n=$tahun_n>0?"PaguDanaN$tahun_n":'PaguDanaN1';
             $data_indikator=[
                 'NamaIndikator'=>$data->NamaIndikator,
                 'TargetAngka'=>$data[$target_n],

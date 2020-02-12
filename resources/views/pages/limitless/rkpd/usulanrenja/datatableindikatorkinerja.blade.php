@@ -35,7 +35,7 @@
                 <td>{{$item->NamaIndikator}}</td>
                 <td>{{$item->Target_Angka}}</td>
                 <td>{{$item->Target_Uraian}}</td>                        
-                <td>{{$item->Tahun}} ({{$item->TA}})</td>  
+                <td>{{$item->TA}}</td>  
                 <td>
                     @if ($item->Privilege==0)
                     <span class="label label-flat border-grey text-grey-600 label-icon">
