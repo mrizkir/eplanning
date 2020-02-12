@@ -98,9 +98,9 @@
                                 <div class="col-md-8">
                                     <p class="form-control-static">
                                         @if ($rkpd->Kd_Urusan==null)
-                                            [{{$rkpd->kode_suborganisasi.'.'.$rkpd->Kd_Prog.'.'.$rkpd->Kd_Keg}}] {{$rkpd->KgtNm}}
+                                            [{{$rkpd->kode_suborganisasi.'.'.$rkpd->Kd_Prog.'.'.$rkpd->Kd_SubKeg}}] {{$rkpd->SubKgtNm}}
                                         @else
-                                            [{{$rkpd->kode_kegiatan}}] {{$rkpd->KgtNm}}
+                                            [{{$rkpd->kode_subkegiatan}}] {{$rkpd->SubKgtNm}}
                                         @endif   
                                     </p>
                                 </div>                            

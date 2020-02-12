@@ -93,9 +93,9 @@
                                 <div class="col-md-8">
                                     <p class="form-control-static">
                                         @if ($renja->Kd_Urusan==null)
-                                            [{{$renja->kode_suborganisasi.'.'.$renja->Kd_Prog.'.'.$renja->Kd_Keg}}] {{$renja->KgtNm}}
+                                            [{{$renja->kode_suborganisasi.'.'.$renja->Kd_Prog.'.'.$renja->Kd_SubKeg}}] {{$renja->SubKgtNm}}
                                         @else
-                                            [{{$renja->kode_kegiatan}}] {{$renja->KgtNm}}
+                                            [{{$renja->kode_subkegiatan}}] {{$renja->SubKgtNm}}
                                         @endif   
                                     </p>
                                 </div>                            

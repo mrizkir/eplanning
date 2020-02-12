@@ -12,7 +12,7 @@ class RenjaModel extends Model {
     *
     * @var string
     */
-   protected $table = 'trRenja';
+   protected $table = 'trRenja90';
    /**
     * The attributes that are mass assignable.
     *
@@ -22,7 +22,7 @@ class RenjaModel extends Model {
        'RenjaID', 
        'OrgID',
        'SOrgID',
-       'KgtID',
+       'SubKgtID',
        'SumberDanaID',
        'NamaIndikator',
        'Sasaran_Uraian1',

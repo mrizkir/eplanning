@@ -55,9 +55,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    {{Form::label('KgtID','NAMA KEGIATAN',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('KgtID','NAMA SUB KEGIATAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        <p class="form-control-static">{{$rkpd->KgtNm}}</p>
+                        <p class="form-control-static">{{$rkpd->SubKgtNm}}</p>
                     </div>
                 </div>
                 <div class="form-group">

@@ -74,10 +74,10 @@
                     </div>
                 </div>      
                 <div class="form-group">
-                    {{Form::label('KgtID','NAMA KEGIATAN',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('SubKgtID','NAMA SUB KEGIATAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::select('KgtID', [], '',['class'=>'select','id'=>'KgtID'])}}      
-                        <span class="help-block">Bila kegiatan tidak ada, barangkali sudah di inputkan. Prinsipnya satu kegiatan tidak bisa digunakan oleh OPD/SKPD yang sama.</span>              
+                        {{Form::select('SubKgtID', [], '',['class'=>'select','id'=>'SubKgtID'])}}      
+                        <span class="help-block">Bila kegiatan tidak ada, barangkali sudah di inputkan. Prinsipnya satu sub kegiatan tidak bisa digunakan oleh OPD/SKPD yang sama.</span>              
                     </div>
                 </div>
             </fieldset>
@@ -217,8 +217,8 @@ $(document).ready(function () {
         placeholder: "PILIH NAMA PROGRAM",
         allowClear:true
     });
-    $('#KgtID.select').select2({
-        placeholder: "PILIH NAMA KEGIATAN",
+    $('#SubKgtID.select').select2({
+        placeholder: "PILIH NAMA SUB KEGIATAN",
         allowClear:true
     });    
     $(document).on('change','#PrgID',function(ev) {
@@ -239,7 +239,7 @@ $(document).ready(function () {
                 $.each(daftar_kegiatan,function(key,value){
                     listitems+='<option value="' + key + '">'+value+'</option>';                    
                 });
-                $('#KgtID').html(listitems);
+                $('#SubKgtID').html(listitems);
             },
             error:function(xhr, status, error)
             {   
@@ -257,7 +257,7 @@ $(document).ready(function () {
             PrgID : {
                 required: true
             },
-            KgtID : {
+            SubKgtID : {
                 required: true
             },         
             Sasaran_Angka : {
@@ -298,7 +298,7 @@ $(document).ready(function () {
             PrgID : {
                 required: "Mohon untuk di pilih program nama kegiatan.",                
             },
-            KgtID : {
+            SubKgtID : {
                 required: "Mohon untuk di pilih nama kegiatan.",                
             },
             Sasaran_Angka : {

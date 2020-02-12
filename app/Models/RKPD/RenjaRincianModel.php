@@ -12,7 +12,7 @@ class RenjaRincianModel extends Model {
     *
     * @var string
     */
-    protected $table = 'trRenjaRinc';
+    protected $table = 'trRenjaRinc90';
     /**
     * The attributes that are mass assignable.
     *
@@ -109,14 +109,14 @@ class RenjaRincianModel extends Model {
     public static function getTotalPaguIndikatifByStatusAndOPD ($tahun_perencanaan,$EntryLvl,string $OrgID=null)
     {
         $field = $EntryLvl+1;        
-        $data=\DB::table('trRenjaRinc')
-                ->select(\DB::raw('"trRenjaRinc"."Status",SUM("trRenjaRinc"."Jumlah'.$field.'") AS "Jumlah"'))
-                ->join('trRenja','trRenjaRinc.RenjaID','trRenja.RenjaID')
-                ->where('trRenjaRinc.TA',$tahun_perencanaan)
-                ->where('trRenja.OrgID',$OrgID)
-                ->where('trRenjaRinc.EntryLvl',$EntryLvl)
-                ->groupBy('trRenjaRinc.Status')
-                ->orderBy('trRenjaRinc.Status')
+        $data=\DB::table('trRenjaRinc90')
+                ->select(\DB::raw('"trRenjaRinc90"."Status",SUM("trRenjaRinc90"."Jumlah'.$field.'") AS "Jumlah"'))
+                ->join('trRenja90','trRenjaRinc90.RenjaID','trRenja90.RenjaID')
+                ->where('trRenjaRinc90.TA',$tahun_perencanaan)
+                ->where('trRenja90.OrgID',$OrgID)
+                ->where('trRenjaRinc90.EntryLvl',$EntryLvl)
+                ->groupBy('trRenjaRinc90.Status')
+                ->orderBy('trRenjaRinc90.Status')
                 ->get()
                 ->pluck('Jumlah','Status')
                 ->toArray();
@@ -135,14 +135,14 @@ class RenjaRincianModel extends Model {
     public static function getTotalPaguIndikatifByStatusAndUnitKerja ($tahun_perencanaan,$EntryLvl,string $SOrgID=null)
     {
         $field = $EntryLvl+1; 
-        $data=\DB::table('trRenjaRinc')
-                ->select(\DB::raw('"trRenjaRinc"."Status",SUM("trRenjaRinc"."Jumlah'.$field.'") AS "Jumlah"'))
-                ->join('trRenja','trRenjaRinc.RenjaID','trRenja.RenjaID')
-                ->where('trRenjaRinc.TA',$tahun_perencanaan)
-                ->where('trRenja.SOrgID',$SOrgID)
-                ->where('trRenjaRinc.EntryLvl',$EntryLvl)
-                ->groupBy('trRenjaRinc.Status')
-                ->orderBy('trRenjaRinc.Status')
+        $data=\DB::table('trRenjaRinc90')
+                ->select(\DB::raw('"trRenjaRinc90"."Status",SUM("trRenjaRinc90"."Jumlah'.$field.'") AS "Jumlah"'))
+                ->join('trRenja90','trRenjaRinc90.RenjaID','trRenja90.RenjaID')
+                ->where('trRenjaRinc90.TA',$tahun_perencanaan)
+                ->where('trRenja90.SOrgID',$SOrgID)
+                ->where('trRenjaRinc90.EntryLvl',$EntryLvl)
+                ->groupBy('trRenjaRinc90.Status')
+                ->orderBy('trRenjaRinc90.Status')
                 ->get()
                 ->pluck('Jumlah','Status')
                 ->toArray();

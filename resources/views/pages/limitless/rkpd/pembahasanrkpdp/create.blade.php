@@ -74,7 +74,7 @@
                     </div>
                 </div>      
                 <div class="form-group">
-                    {{Form::label('KgtID','NAMA KEGIATAN',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('KgtID','NAMA SUB KEGIATAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
                         {{Form::select('KgtID', [], '',['class'=>'select','id'=>'KgtID'])}}      
                         <span class="help-block">Bila kegiatan tidak ada, barangkali sudah di inputkan. Prinsipnya satu kegiatan tidak bisa digunakan oleh OPD/SKPD yang sama.</span>              
@@ -217,7 +217,7 @@ $(document).ready(function () {
         allowClear:true
     });
     $('#KgtID.select').select2({
-        placeholder: "PILIH NAMA KEGIATAN",
+        placeholder: "PILIH NAMA SUB KEGIATAN",
         allowClear:true
     }); 
     $(document).on('change','#PrgID',function(ev) {

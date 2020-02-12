@@ -12,7 +12,7 @@ class RKPDIndikatorModel extends Model {
     *
     * @var string
     */
-   protected $table = 'trRKPDIndikator';
+   protected $table = 'trRKPDIndikator90';
    /**
     * The attributes that are mass assignable.
     *

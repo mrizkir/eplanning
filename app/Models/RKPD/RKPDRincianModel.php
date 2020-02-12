@@ -13,7 +13,7 @@ class RKPDRincianModel extends Model {
      *
      * @var string
      */
-    protected $table = 'trRKPDRinc';
+    protected $table = 'trRKPDRinc90';
     /**
      * The attributes that are mass assignable.
      *

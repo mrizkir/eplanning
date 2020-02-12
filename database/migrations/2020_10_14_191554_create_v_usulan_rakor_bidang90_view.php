@@ -69,17 +69,17 @@ class CreateVUsulanRakorBidang90View extends Migration
                 FF."Kd_SubKeg",
                 CASE 
                     WHEN I."UrsID" IS NOT NULL OR  J."KUrsID" IS NOT NULL THEN
-                        CONCAT(J."Kd_Urusan", \'.\',I."Kd_Bidang", \'.\',G."Kd_Prog", \'.\',F."Kd_Keg",FF."Kd_SubKeg")
+                        CONCAT(J."Kd_Urusan", \'.\',I."Kd_Bidang", \'.\',G."Kd_Prog", \'.\',F."Kd_Keg",\'.\',FF."Kd_SubKeg")
                     ELSE
-                        CONCAT(\'0.00.\',G."Kd_Prog", \'.\',F."Kd_Keg",FF."Kd_SubKeg")
+                        CONCAT(\'0.00.\',G."Kd_Prog", \'.\',F."Kd_Keg",\'.\',FF."Kd_SubKeg")
                 END AS kode_subkegiatan,
                 FF."SubKgtNm",
                 K."No",
                 K."Uraian",
-                K."Sasaran_Angka1",
-                K."Sasaran_Uraian1",
-                K."Target1",
-                K."Jumlah1",
+                K."Sasaran_Angka2",
+                K."Sasaran_Uraian2",
+                K."Target2",
+                K."Jumlah2",
                 K."Prioritas",
                 K."Status",
                 A."Status_Indikator",
@@ -106,7 +106,7 @@ class CreateVUsulanRakorBidang90View extends Migration
             LEFT JOIN "tmUrs" I ON H."UrsID"=I."UrsID"
             LEFT JOIN "tmKUrs" J ON J."KUrsID"=I."KUrsID"
 
-            LEFT JOIN "trRenjaRinc" K ON A."RenjaID"=K."RenjaID"
+            LEFT JOIN "trRenjaRinc90" K ON A."RenjaID"=K."RenjaID"
             LEFT JOIN "tmPMProv" L ON K."PMProvID"=L."PMProvID"
             LEFT JOIN "tmPmKota" M ON K."PmKotaID"=M."PmKotaID"
             LEFT JOIN "tmPmKecamatan" N ON K."PmKecamatanID"=N."PmKecamatanID"

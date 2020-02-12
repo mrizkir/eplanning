@@ -59,10 +59,10 @@
                 </div>                            
             </div>
             <div class="form-group">
-                <label class="col-md-2 control-label">NAMA KEGIATAN: </label>
+                <label class="col-md-2 control-label">NAMA SUB KEGIATAN: </label>
                 <div class="col-md-10">
                     <p class="form-control-static">
-                        <span class="label border-left-primary label-striped">{{$rkpd->KgtNm}}</span>
+                        <span class="label border-left-primary label-striped">{{$rkpd->SubKgtNm}}</span>
                     </p>
                 </div>                            
             </div>            
@@ -152,7 +152,7 @@
             <fieldset class="content-group">
                 <legend class="text-bold">GESER RINCIAN INI KE KEGIATAN (RKPD) LAIN (<em>abaikan bila tidak digeser)</em></legend>                   
                 <div class="form-group">
-                    {{Form::label('RKPDID','NAMA KEGIATAN (RKPD)',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('RKPDID','NAMA SUB KEGIATAN (RKPD)',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
                         {{Form::select('RKPDID', $daftar_rkpd, '',['class'=>'select','id'=>'RKPDID'])}} 
                         <span class="help-block">Bila kegiatan muncul beberapa kali, disebabkan 1 Kegiatan memiliki banyak RKPDID</span>                   
@@ -214,7 +214,7 @@ $(document).ready(function () {
                                         });
    
     $('#RKPDID.select').select2({
-        placeholder: "PILIH NAMA KEGIATAN",
+        placeholder: "PILIH NAMA SUB KEGIATAN",
         allowClear:true
     });   
     $('#PMProvID.select').select2({

@@ -319,27 +319,27 @@ class HelperKegiatan {
             case 'usulanprarenjaopd' :
             case 'pembahasanprarenjaopd' :
             case 'reportusulanprarenjaopd' :
-                $dbViewName = 'v_usulan_pra_renja_opd';
+                $dbViewName = 'v_usulan_pra_renja_opd90';
             break;
             case 'usulanrakorbidang' :
             case 'pembahasanrakorbidang' :
-                $dbViewName = 'v_usulan_rakor_bidang';
+                $dbViewName = 'v_usulan_rakor_bidang90';
             break;
             case 'usulanforumopd' :
             case 'pembahasanforumopd' :
-                $dbViewName = 'v_usulan_forum_opd';
+                $dbViewName = 'v_usulan_forum_opd90';
             break;
             case 'usulanmusrenkab' :
             case 'pembahasanmusrenkab' :
-                $dbViewName = 'v_usulan_musren_kab';
+                $dbViewName = 'v_usulan_musren_kab90';
             break;  
             case 'verifikasirenja' :
-                $dbViewName = 'v_verifikasi_renja';
+                $dbViewName = 'v_verifikasi_renja90';
             break;    
             case 'rkpdmurni' :                        
             case 'rkpdperubahan' :
             case 'pembahasanrkpdp' :
-                $dbViewName = 'v_rkpd_rinci';
+                $dbViewName = 'v_rkpd_rinci90';
             break;          
             default :
                 $dbViewName = null;
@@ -360,9 +360,9 @@ class HelperKegiatan {
                                     "RenjaRincID",
                                     "UsulanKecID",
                                     "Nm_Kecamatan",
-                                    "kode_kegiatan",
+                                    "kode_subkegiatan",
                                     "No",
-                                    "KgtNm",
+                                    "SubKgtNm",
                                     "Uraian",
                                     "Sasaran_Angka1" AS "Sasaran_Angka",
                                     "Sasaran_Uraian1" AS "Sasaran_Uraian",
@@ -384,9 +384,9 @@ class HelperKegiatan {
                                     "RenjaRincID",
                                     "UsulanKecID",
                                     "Nm_Kecamatan",
-                                    "kode_kegiatan",
+                                    "kode_subkegiatan",
                                     "No",
-                                    "KgtNm",
+                                    "SubKgtNm",
                                     "Uraian",
                                     "Sasaran_Angka2" AS "Sasaran_Angka",
                                     "Sasaran_Uraian2" AS "Sasaran_Uraian",
@@ -408,9 +408,9 @@ class HelperKegiatan {
                                     "RenjaRincID",
                                     "UsulanKecID",
                                     "Nm_Kecamatan",
-                                    "kode_kegiatan",
+                                    "kode_subkegiatan",
                                     "No",
-                                    "KgtNm",
+                                    "SubKgtNm",
                                     "Uraian",
                                     "Sasaran_Angka3" AS "Sasaran_Angka",
                                     "Sasaran_Uraian3" AS "Sasaran_Uraian",
@@ -433,8 +433,8 @@ class HelperKegiatan {
                                     "UsulanKecID",
                                     "No",
                                     "Nm_Kecamatan",
-                                    "kode_kegiatan",
-                                    "KgtNm",
+                                    "kode_subkegiatan",
+                                    "SubKgtNm",
                                     "Uraian",
                                     "Sasaran_Angka4" AS "Sasaran_Angka",
                                     "Sasaran_Uraian4" AS "Sasaran_Uraian",
@@ -456,8 +456,8 @@ class HelperKegiatan {
                                     "UsulanKecID",
                                     "No",
                                     "Nm_Kecamatan",
-                                    "kode_kegiatan",
-                                    "KgtNm",
+                                    "kode_subkegiatan",
+                                    "SubKgtNm",
                                     "Uraian",
                                     "Sasaran_Angka5" AS "Sasaran_Angka",
                                     "Sasaran_Uraian5" AS "Sasaran_Uraian",
@@ -481,8 +481,8 @@ class HelperKegiatan {
                                     "UsulanKecID",
                                     "No",
                                     "Nm_Kecamatan",
-                                    "kode_kegiatan",
-                                    "KgtNm",
+                                    "kode_subkegiatan",
+                                    "SubKgtNm",
                                     "Uraian",
                                     "Sasaran_Angka1" AS "Sasaran_Angka",
                                     "Sasaran_Uraian1" AS "Sasaran_Uraian",
@@ -505,8 +505,8 @@ class HelperKegiatan {
                                     "UsulanKecID",
                                     "No",
                                     "Nm_Kecamatan",
-                                    "kode_kegiatan",
-                                    "KgtNm",
+                                    "kode_subkegiatan",
+                                    "SubKgtNm",
                                     "Uraian",
                                     "Sasaran_Angka2" AS "Sasaran_Angka",
                                     "Sasaran_Uraian2" AS "Sasaran_Uraian",
@@ -528,8 +528,8 @@ class HelperKegiatan {
                                     "UsulanKecID",
                                     "No",
                                     "Nm_Kecamatan",
-                                    "kode_kegiatan",
-                                    "KgtNm",
+                                    "kode_subkegiatan",
+                                    "SubKgtNm",
                                     "Uraian",
                                     "Sasaran_Angka3" AS "Sasaran_Angka",
                                     "Sasaran_Angka2",
@@ -554,8 +554,8 @@ class HelperKegiatan {
                                     "UsulanKecID",
                                     "No",
                                     "Nm_Kecamatan",
-                                    "kode_kegiatan",
-                                    "KgtNm",
+                                    "kode_subkegiatan",
+                                    "SubKgtNm",
                                     "Uraian",
                                     "Sasaran_Angka4" AS "Sasaran_Angka",
                                     "Sasaran_Angka3",

@@ -13,7 +13,7 @@ class RKPDViewJudulModel extends Model {
      *
      * @var string
      */
-    protected $table = 'v_rkpd';    
+    protected $table = 'v_rkpd90';    
     /**
      * primary key tabel ini.
      *
