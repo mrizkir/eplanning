@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsulanrkpdabpdTable extends Migration
+class CreateUsulanrkpdabpd90Table extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateUsulanrkpdabpdTable extends Migration
      */
     public function up()
     {
-        Schema::create('trRKPD', function (Blueprint $table) {
+        Schema::create('trRKPD90', function (Blueprint $table) {
             $table->string('RKPDID',19);
             $table->string('RenjaID',19)->nullable();
             $table->string('OrgID',19);
             $table->string('SOrgID',19);
-            $table->string('KgtID',19);
+            $table->string('SubKgtID',19);
             $table->string('SumberDanaID',19);                
             $table->text('NamaIndikator');
 
@@ -64,7 +64,7 @@ class CreateUsulanrkpdabpdTable extends Migration
             $table->index('RenjaID');
             $table->index('OrgID');
             $table->index('SOrgID');
-            $table->index('KgtID');
+            $table->index('SubKgtID');
             $table->index('SumberDanaID');
             $table->index('RKPDID_Src');
 
@@ -76,7 +76,7 @@ class CreateUsulanrkpdabpdTable extends Migration
 
             $table->foreign('RKPDID_Src')
                         ->references('RKPDID')
-                        ->on('trRKPD')
+                        ->on('trRKPD90')
                         ->onDelete('set null')
                         ->onUpdate('cascade');        
 
@@ -92,9 +92,9 @@ class CreateUsulanrkpdabpdTable extends Migration
                     ->onDelete('cascade')
                     ->onUpdate('cascade');
 
-            $table->foreign('KgtID')
-                    ->references('KgtID')
-                    ->on('tmKgt')
+            $table->foreign('SubKgtID')
+                    ->references('SubKgtID')
+                    ->on('tmSubKgt')
                     ->onDelete('cascade')
                     ->onUpdate('cascade');
 
@@ -106,7 +106,7 @@ class CreateUsulanrkpdabpdTable extends Migration
 
         });
 
-        Schema::create('trRKPDIndikator', function (Blueprint $table) {
+        Schema::create('trRKPDIndikator90', function (Blueprint $table) {
             $table->string('RKPDIndikatorID',19);            
             $table->string('RKPDID',19);
             $table->string('IndikatorKinerjaID',19);
@@ -128,13 +128,13 @@ class CreateUsulanrkpdabpdTable extends Migration
 
             $table->foreign('RKPDIndikatorID_Src')
                         ->references('RKPDIndikatorID')
-                        ->on('trRKPDIndikator')
+                        ->on('trRKPDIndikator90')
                         ->onDelete('set null')
                         ->onUpdate('cascade');
                 
             $table->foreign('RKPDID')
                     ->references('RKPDID')
-                    ->on('trRKPD')
+                    ->on('trRKPD90')
                     ->onDelete('cascade')
                     ->onUpdate('cascade');
 
@@ -147,7 +147,7 @@ class CreateUsulanrkpdabpdTable extends Migration
 
         });
 
-        Schema::create('trRKPDRinc', function (Blueprint $table) {
+        Schema::create('trRKPDRinc90', function (Blueprint $table) {
                 $table->string('RKPDRincID',19);
                 $table->string('RKPDID',19);
                 $table->string('RenjaRincID',19)->nullable();
@@ -208,13 +208,13 @@ class CreateUsulanrkpdabpdTable extends Migration
 
                 $table->foreign('RKPDRincID_Src')
                         ->references('RKPDRincID')
-                        ->on('trRKPDRinc')
+                        ->on('trRKPDRinc90')
                         ->onDelete('set null')
                         ->onUpdate('cascade');
 
                 $table->foreign('RKPDID')
                         ->references('RKPDID')
-                        ->on('trRKPD')
+                        ->on('trRKPD90')
                         ->onDelete('cascade')
                         ->onUpdate('cascade');
 
@@ -270,8 +270,8 @@ class CreateUsulanrkpdabpdTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('trRKPDRinc');
-        Schema::dropIfExists('trRKPDIndikator');
-        Schema::dropIfExists('trRKPD');
+        Schema::dropIfExists('trRKPDRinc90');
+        Schema::dropIfExists('trRKPDIndikator90');
+        Schema::dropIfExists('trRKPD90');
     }
 }
