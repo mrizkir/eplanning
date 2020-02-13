@@ -1146,6 +1146,7 @@ class PembahasanRenjaController extends Controller {
         {
             $RenjaRincID=$request->input('RenjaRincID');                                    
             $rincian_kegiatan=\DB::transaction(function () use ($RenjaRincID) {
+                
                 $rincian_kegiatan = RenjaRincianModel::find($RenjaRincID);               
                 $RenjaID=$rincian_kegiatan->RenjaID;
                 
@@ -1290,59 +1291,54 @@ class PembahasanRenjaController extends Controller {
                             WHERE 
                                 "RenjaID"=\''.$RenjaID.'\'
                         ';
-
                         \DB::statement($str_kinerja);
-                        RenjaRincianModel::where('RenjaRincID',$RenjaRincID)
-                                            ->update(['Privilege'=>1,'updated_at'=>\Carbon\Carbon::now()]);
-
+                        
                         //update NilaiUsulan2
                         $newRenja = RenjaModel::find($newRenjaID);
                         $newRenja->NilaiUsulan2 = \DB::table('trRenjaRinc90')
                                                     ->where('RenjaID',$newRenjaID)
                                                     ->sum('Jumlah2');
                         $newRenja->save();
-
+                        
+                        RenjaRincianModel::where('RenjaRincID',$RenjaRincID)
+                                            ->update(['Privilege'=>1,'updated_at'=>\Carbon\Carbon::now()]);
                         RenjaIndikatorModel::where('RenjaID',$RenjaID)
                                             ->update(['updated_at'=>\Carbon\Carbon::now()]);
 
                     break; //end pembahasanprarenjaopd
                     case 'pembahasanrakorbidang' :
-                                //check renja id sudah ada belum di RenjaID_Old
+                        //check renja id sudah ada belum di RenjaID_Old
                         $old_renja = RenjaModel::select('RenjaID')
-                                        ->where('RenjaID_Src',$rincian_kegiatan->RenjaID)
+                                        ->where('RenjaID_Src',$RenjaID)
                                         ->get()
                                         ->pluck('RenjaID')->toArray();
 
                         if (count($old_renja) > 0)
                         {
-                            $RenjaID=$old_renja[0];
-                            $newRenjaID=$RenjaID;
-                            $renja = RenjaModel::find($RenjaID);  
-                            $newrenja=$renja;
+                            $newRenjaID=$old_renja[0];
                         }
                         else
                         {
-                            $RenjaID=$rincian_kegiatan->RenjaID;
                             $renja = RenjaModel::find($RenjaID);   
                             $renja->Privilege=1;
                             $renja->save();
-                        }
-                        #new renja
-                        $newRenjaID=uniqid ('uid');
-                        $newrenja = $renja->replicate();
-                        $newrenja->RenjaID = $newRenjaID;
-                        $newrenja->Sasaran_Uraian3 = $newrenja->Sasaran_Uraian2;
-                        $newrenja->Sasaran_Angka3 = $newrenja->Sasaran_Angka2;
-                        $newrenja->Target3 = $newrenja->Target2;
-                        $newrenja->NilaiUsulan3 = $newrenja->NilaiUsulan2;
-                        $newrenja->EntryLvl = 2;
-                        $newrenja->Status = 0;
-                        $newrenja->Privilege = 0;
-                        $newrenja->RenjaID_Src = $RenjaID;
-                        $newrenja->created_at = \Carbon\Carbon::now();
-                        $newrenja->updated_at = \Carbon\Carbon::now();
-                        $newrenja->save();
 
+                            #new renja
+                            $newRenjaID=uniqid ('uid');
+                            $newrenja = $renja->replicate();
+                            $newrenja->RenjaID = $newRenjaID;
+                            $newrenja->Sasaran_Uraian3 = $newrenja->Sasaran_Uraian2;
+                            $newrenja->Sasaran_Angka3 = $newrenja->Sasaran_Angka2;
+                            $newrenja->Target3 = $newrenja->Target2;
+                            $newrenja->NilaiUsulan3 = $newrenja->NilaiUsulan2;
+                            $newrenja->EntryLvl = 2;
+                            $newrenja->Status = 0;
+                            $newrenja->Privilege = 0;
+                            $newrenja->RenjaID_Src = $RenjaID;
+                            $newrenja->created_at = \Carbon\Carbon::now();
+                            $newrenja->updated_at = \Carbon\Carbon::now();
+                            $newrenja->save();
+                        }
                         $str_rinciankegiatan = '
                             INSERT INTO "trRenjaRinc90" (
                                 "RenjaRincID", 
@@ -1425,7 +1421,10 @@ class PembahasanRenjaController extends Controller {
                                 ("Status"=1 OR "Status"=2) AND
                                 "Privilege"=0       
                         ';
-                        \DB::statement($str_rinciankegiatan);       
+                        \DB::statement($str_rinciankegiatan); 
+
+                        //hapus indikator kinerja  
+                        \DB::statement('DELETE FROM "trRenjaIndikator90" WHERE "RenjaID"=\''.$newRenjaID.'\'');      
                         $str_kinerja='
                             INSERT INTO "trRenjaIndikator90" (
                                 "RenjaIndikatorID", 
@@ -1452,51 +1451,54 @@ class PembahasanRenjaController extends Controller {
                                 "trRenjaIndikator90" 
                             WHERE 
                                 "RenjaID"=\''.$RenjaID.'\'
-                        ';
-
+                        ';                        
                         \DB::statement($str_kinerja);
+                        
+                        //update NilaiUsulan3
+                        $newRenja = RenjaModel::find($newRenjaID);
+                        $newRenja->NilaiUsulan3 = \DB::table('trRenjaRinc90')
+                                                    ->where('RenjaID',$newRenjaID)
+                                                    ->sum('Jumlah3');
+                        $newRenja->save();
+                        
                         RenjaRincianModel::where('RenjaRincID',$RenjaRincID)
-                                            ->update(['Privilege'=>1,'updated_at'=>\Carbon\Carbon::now()]);
+                                            ->update(['Privilege'=>1,'updated_at'=>\Carbon\Carbon::now()]);                        
                         RenjaIndikatorModel::where('RenjaID',$RenjaID)
                                             ->update(['updated_at'=>\Carbon\Carbon::now()]);                                            
                     break;
                     case 'pembahasanforumopd' :
                         //check renja id sudah ada belum di RenjaID_Old
                         $old_renja = RenjaModel::select('RenjaID')
-                                        ->where('RenjaID_Src',$rincian_kegiatan->RenjaID)
+                                        ->where('RenjaID_Src',$RenjaID)
                                         ->get()
                                         ->pluck('RenjaID')->toArray();
 
                         if (count($old_renja) > 0)
                         {
-                            $RenjaID=$old_renja[0];
-                            $newRenjaID=$RenjaID;
-                            $renja = RenjaModel::find($RenjaID);  
-                            $newrenja=$renja;
+                            $newRenjaID=$old_renja[0];
                         }
                         else
                         {
-                            $RenjaID=$rincian_kegiatan->RenjaID;
                             $renja = RenjaModel::find($RenjaID);   
                             $renja->Privilege=1;
                             $renja->save();
-                        }
-                        // #new renja
-                        $newRenjaID=uniqid ('uid');
-                        $newrenja = $renja->replicate();
-                        $newrenja->RenjaID = $newRenjaID;
-                        $newrenja->Sasaran_Uraian4 = $newrenja->Sasaran_Uraian3;
-                        $newrenja->Sasaran_Angka4 = $newrenja->Sasaran_Angka3;
-                        $newrenja->Target4 = $newrenja->Target3;
-                        $newrenja->NilaiUsulan4 = $newrenja->NilaiUsulan3;
-                        $newrenja->EntryLvl = 3;
-                        $newrenja->Status = 0;
-                        $newrenja->Privilege = 0;
-                        $newrenja->RenjaID_Src = $RenjaID;
-                        $newrenja->created_at = \Carbon\Carbon::now();
-                        $newrenja->updated_at = \Carbon\Carbon::now();
-                        $newrenja->save();
 
+                            // #new renja
+                            $newRenjaID=uniqid ('uid');
+                            $newrenja = $renja->replicate();
+                            $newrenja->RenjaID = $newRenjaID;
+                            $newrenja->Sasaran_Uraian4 = $newrenja->Sasaran_Uraian3;
+                            $newrenja->Sasaran_Angka4 = $newrenja->Sasaran_Angka3;
+                            $newrenja->Target4 = $newrenja->Target3;
+                            $newrenja->NilaiUsulan4 = $newrenja->NilaiUsulan3;
+                            $newrenja->EntryLvl = 3;
+                            $newrenja->Status = 0;
+                            $newrenja->Privilege = 0;
+                            $newrenja->RenjaID_Src = $RenjaID;
+                            $newrenja->created_at = \Carbon\Carbon::now();
+                            $newrenja->updated_at = \Carbon\Carbon::now();
+                            $newrenja->save();
+                        }
                         $str_rinciankegiatan = '
                             INSERT INTO "trRenjaRinc90" (
                                 "RenjaRincID", 
@@ -1588,7 +1590,9 @@ class PembahasanRenjaController extends Controller {
                                 "Privilege"=0              
                         ';
                         \DB::statement($str_rinciankegiatan);       
-
+                        
+                        //hapus indikator kinerja  
+                        \DB::statement('DELETE FROM "trRenjaIndikator90" WHERE "RenjaID"=\''.$newRenjaID.'\'');      
                         $str_kinerja='
                             INSERT INTO "trRenjaIndikator90" (
                                 "RenjaIndikatorID", 
@@ -1616,8 +1620,15 @@ class PembahasanRenjaController extends Controller {
                             WHERE 
                                 "RenjaID"=\''.$RenjaID.'\'
                         ';
-
                         \DB::statement($str_kinerja);
+                        
+                        //update NilaiUsulan4
+                        $newRenja = RenjaModel::find($newRenjaID);
+                        $newRenja->NilaiUsulan4 = \DB::table('trRenjaRinc90')
+                                                    ->where('RenjaID',$newRenjaID)
+                                                    ->sum('Jumlah4');
+                        $newRenja->save();
+
                         RenjaRincianModel::where('RenjaRincID',$RenjaRincID)
                                             ->update(['Privilege'=>1,'updated_at'=>\Carbon\Carbon::now()]);
                         RenjaIndikatorModel::where('RenjaID',$RenjaID)
@@ -1627,40 +1638,36 @@ class PembahasanRenjaController extends Controller {
                     case 'pembahasanmusrenkab' :
                         //check renja id sudah ada belum di RenjaID_Old
                         $old_renja = RenjaModel::select('RenjaID')
-                                        ->where('RenjaID_Src',$rincian_kegiatan->RenjaID)
+                                        ->where('RenjaID_Src',$RenjaID)
                                         ->get()
                                         ->pluck('RenjaID')->toArray();
 
                         if (count($old_renja) > 0)
                         {
-                            $RenjaID=$old_renja[0];
-                            $newRenjaID=$RenjaID;
-                            $renja = RenjaModel::find($RenjaID);  
-                            $newrenja=$renja;
+                            $newRenjaID=$old_renja[0];
                         }
                         else
                         {
-                            $RenjaID=$rincian_kegiatan->RenjaID;
                             $renja = RenjaModel::find($RenjaID);   
                             $renja->Privilege=1;
                             $renja->save();
-                        }
-                        // #new renja
-                        $newRenjaID=uniqid ('uid');
-                        $newrenja = $renja->replicate();
-                        $newrenja->RenjaID = $newRenjaID;
-                        $newrenja->Sasaran_Uraian5 = $newrenja->Sasaran_Uraian4;
-                        $newrenja->Sasaran_Angka5 = $newrenja->Sasaran_Angka4;
-                        $newrenja->Target5 = $newrenja->Target4;
-                        $newrenja->NilaiUsulan5 = $newrenja->NilaiUsulan4;
-                        $newrenja->EntryLvl = 4;
-                        $newrenja->Status = 0;
-                        $newrenja->Privilege = 0;
-                        $newrenja->RenjaID_Src = $RenjaID;
-                        $newrenja->created_at = \Carbon\Carbon::now();
-                        $newrenja->updated_at = \Carbon\Carbon::now();
-                        $newrenja->save();
 
+                            // #new renja
+                            $newRenjaID=uniqid ('uid');
+                            $newrenja = $renja->replicate();
+                            $newrenja->RenjaID = $newRenjaID;
+                            $newrenja->Sasaran_Uraian5 = $newrenja->Sasaran_Uraian4;
+                            $newrenja->Sasaran_Angka5 = $newrenja->Sasaran_Angka4;
+                            $newrenja->Target5 = $newrenja->Target4;
+                            $newrenja->NilaiUsulan5 = $newrenja->NilaiUsulan4;
+                            $newrenja->EntryLvl = 4;
+                            $newrenja->Status = 0;
+                            $newrenja->Privilege = 0;
+                            $newrenja->RenjaID_Src = $RenjaID;
+                            $newrenja->created_at = \Carbon\Carbon::now();
+                            $newrenja->updated_at = \Carbon\Carbon::now();
+                            $newrenja->save();
+                        }
                         $str_rinciankegiatan = '
                             INSERT INTO "trRenjaRinc90" (
                                 "RenjaRincID", 
@@ -1758,6 +1765,9 @@ class PembahasanRenjaController extends Controller {
                                 "Privilege"=0      
                         ';                
                         \DB::statement($str_rinciankegiatan);       
+
+                        //hapus indikator kinerja  
+                        \DB::statement('DELETE FROM "trRenjaIndikator90" WHERE "RenjaID"=\''.$newRenjaID.'\'');      
                         $str_kinerja='
                             INSERT INTO "trRenjaIndikator90" (
                                 "RenjaIndikatorID", 
@@ -1787,8 +1797,12 @@ class PembahasanRenjaController extends Controller {
                         ';
                         \DB::statement($str_kinerja);
                                     
-                        $newrenja->NilaiUsulan5=RenjaRincianModel::where('RenjaID',$newrenja->RenjaID)->sum('Jumlah5');            
-                        $newrenja->save();
+                        //update NilaiUsulan5
+                        $newRenja = RenjaModel::find($newRenjaID);
+                        $newRenja->NilaiUsulan5 = \DB::table('trRenjaRinc90')
+                                                    ->where('RenjaID',$newRenjaID)
+                                                    ->sum('Jumlah5');
+                        $newRenja->save();
 
                         RenjaRincianModel::where('RenjaRincID',$RenjaRincID)
                                             ->update(['Privilege'=>1,'updated_at'=>\Carbon\Carbon::now()]);
