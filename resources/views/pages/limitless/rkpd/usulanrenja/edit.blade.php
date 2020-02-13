@@ -69,10 +69,16 @@
                     </div>
                 </div>      
                 <div class="form-group">
-                    {{Form::label('KgtID','NAMA SUB KEGIATAN',['class'=>'control-label col-md-2'])}}
+                    {{Form::label('KgtID','NAMA KEGIATAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::select('KgtID', $daftar_kegiatan, $renja->KgtID,['class'=>'select','id'=>'KgtID'])}}
-                        <span class="help-block">Bila kegiatan tidak ada, barangkali sudah di inputkan. Prinsipnya satu sub kegiatan tidak bisa digunakan oleh OPD/SKPD yang sama.</span>              
+                        {{Form::select('KgtID', $daftar_kegiatan, $renja->KgtID,['class'=>'select','id'=>'KgtID'])}}      
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{Form::label('SubKgtID','NAMA SUB KEGIATAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::select('SubKgtID', $daftar_subkegiatan, $renja->KgtID,['class'=>'select','id'=>'SubKgtID'])}}
+                        <span class="help-block">Bila sub kegiatan tidak ada, barangkali sudah di inputkan. Prinsipnya satu sub kegiatan tidak bisa digunakan oleh OPD/SKPD yang sama. Silahkan di REFRESH untuk kembali ke nama sub kegiatan semula</span>              
                     </div>
                 </div>
             </fieldset>                 
@@ -181,6 +187,10 @@ $(document).ready(function () {
         allowClear:true
     });
     $('#KgtID.select').select2({
+        placeholder: "PILIH NAMA KEGIATAN",
+        allowClear:true
+    });   
+    $('#SubKgtID.select').select2({
         placeholder: "PILIH NAMA SUB KEGIATAN",
         allowClear:true
     });   
@@ -242,6 +252,33 @@ $(document).ready(function () {
             },
         });
     });
+    $(document).on('change','#KgtID',function(ev) {
+        ev.preventDefault();
+        KgtID=$(this).val();        
+        $.ajax({
+            type:'post',
+            url: '{{route(Helper::getNameOfPage("pilihusulankegiatan"))}}',
+            dataType: 'json',
+            data: {
+                "_token": token,
+                "edit": true,
+                "KgtID": KgtID,
+            },
+            success:function(result)
+            {   
+                var daftar_subkegiatan = result.daftar_subkegiatan;
+                var listitems='<option></option>';
+                $.each(daftar_subkegiatan,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
+                $('#SubKgtID').html(listitems);
+            },
+            error:function(xhr, status, error)
+            {   
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    });
     $('#frmdata').validate({
         ignore:[],
         rules: {
@@ -251,6 +288,9 @@ $(document).ready(function () {
             PrgID : {
                 required: true
             },
+            SubKgtID : {
+                required: true
+            },         
             KgtID : {
                 required: true
             },         
@@ -291,6 +331,9 @@ $(document).ready(function () {
             },
             KgtID : {
                 required: "Mohon untuk di pilih nama kegiatan.",                
+            },
+            SubKgtID : {
+                required: "Mohon untuk di pilih nama sub kegiatan.",                
             },
             Sasaran_Angka : {
                 required: "Mohon untuk di isi angka sasaran kegiatan.",                

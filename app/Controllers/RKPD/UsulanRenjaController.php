@@ -601,7 +601,30 @@ class UsulanRenjaController extends Controller
             $json_data['PrgID']=$PrgID;
             $json_data['daftar_kegiatan']=$daftar_kegiatan;
         }
-        if ($request->exists('KgtID'))
+        if ($request->exists('KgtID') && $request->exists('create') )
+        {
+            $KgtID = $request->input('KgtID')==''?'none':$request->input('KgtID');
+            $r=\DB::table('v_sub_kegiatan')
+                    ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                    ->where('KgtID',$KgtID)
+                    ->WhereNotIn('SubKgtID',function($query) {
+                        $OrgID=$this->getControllerStateSession($this->SessionName,'filters.OrgID');
+                        $query->select('SubKgtID')
+                                ->from('trRenja90')
+                                ->where('TA', \HelperKegiatan::getTahunPerencanaan())
+                                ->where('OrgID', $OrgID);
+                    }) 
+                    ->get();
+            $daftar_subkegiatan=[];        
+            foreach ($r as $k=>$v)
+            {               
+                $daftar_subkegiatan[$v->SubKgtID]='['.$v->kode_subkegiatan.']. '.$v->SubKgtNm;
+            }            
+            $json_data['success']=true;
+            $json_data['KgtID']=$KgtID;
+            $json_data['daftar_subkegiatan']=$daftar_subkegiatan;
+        }
+        if ($request->exists('KgtID') && $request->exists('edit') )
         {
             $KgtID = $request->input('KgtID')==''?'none':$request->input('KgtID');
             $r=\DB::table('v_sub_kegiatan')
@@ -882,6 +905,7 @@ class UsulanRenjaController extends Controller
         $this->validate($request, [
             'UrsID'=>'required',
             'PrgID'=>'required',
+            'KgtID'=>'required',
             'SubKgtID'=>'required',
             'SumberDanaID'=>'required',
             'Sasaran_Angka'=>'required',
@@ -1760,6 +1784,7 @@ class UsulanRenjaController extends Controller
                                                     "tmUrs"."Nm_Bidang",
                                                     "tmPrg"."PrgID",
                                                     "tmPrg"."PrgNm",
+                                                    "tmSubKgt"."KgtID",
                                                     "tmSubKgt"."SubKgtID",
                                                     "tmSubKgt"."SubKgtNm",
                                                     "trRenja90"."Sasaran_Angka1" AS "Sasaran_Angka",
@@ -1774,7 +1799,8 @@ class UsulanRenjaController extends Controller
                                                     "trRenja90"."SumberDanaID",
                                                     "trRenja90"."Descr"'))
                             ->join('tmSubKgt','tmSubKgt.SubKgtID','trRenja90.SubKgtID')
-                            ->leftJoin('tmPrg','tmPrg.PrgID','tmSubKgt.PrgID')
+                            ->join('tmKgt','tmKgt.KgtID','tmSubKgt.KgtID')
+                            ->leftJoin('tmPrg','tmPrg.PrgID','tmKgt.PrgID')
                             ->leftJoin('trUrsPrg','trUrsPrg.PrgID','tmPrg.PrgID')
                             ->leftJoin('tmUrs','tmUrs.UrsID','trUrsPrg.UrsID')
                             ->findOrFail($id);        
@@ -1786,6 +1812,7 @@ class UsulanRenjaController extends Controller
                                                     "tmUrs"."Nm_Bidang",
                                                     "tmPrg"."PrgID",
                                                     "tmPrg"."PrgNm",
+                                                    "tmSubKgt"."KgtID",
                                                     "tmSubKgt"."SubKgtID",
                                                     "tmSubKgt"."SubKgtNm",
                                                     "trRenja90"."Sasaran_Angka2" AS "Sasaran_Angka",
@@ -1800,7 +1827,8 @@ class UsulanRenjaController extends Controller
                                                     "trRenja90"."SumberDanaID",
                                                     "trRenja90"."Descr"'))
                             ->join('tmSubKgt','tmSubKgt.SubKgtID','trRenja90.SubKgtID')
-                            ->leftJoin('tmPrg','tmPrg.PrgID','tmSubKgt.PrgID')
+                            ->join('tmKgt','tmKgt.KgtID','tmSubKgt.KgtID')
+                            ->leftJoin('tmPrg','tmPrg.PrgID','tmKgt.PrgID')
                             ->leftJoin('trUrsPrg','trUrsPrg.PrgID','tmPrg.PrgID')
                             ->leftJoin('tmUrs','tmUrs.UrsID','trUrsPrg.UrsID')
                             ->findOrFail($id);        
@@ -1812,6 +1840,7 @@ class UsulanRenjaController extends Controller
                                                     "tmUrs"."Nm_Bidang",
                                                     "tmPrg"."PrgID",
                                                     "tmPrg"."PrgNm",
+                                                    "tmSubKgt"."KgtID",
                                                     "tmSubKgt"."SubKgtID",
                                                     "tmSubKgt"."SubKgtNm",
                                                     "trRenja90"."Sasaran_Angka3" AS "Sasaran_Angka",
@@ -1826,6 +1855,8 @@ class UsulanRenjaController extends Controller
                                                     "trRenja90"."SumberDanaID",
                                                     "trRenja90"."Descr"'))
                             ->join('tmSubKgt','tmSubKgt.SubKgtID','trRenja90.SubKgtID')
+                            ->join('tmKgt','tmKgt.KgtID','tmSubKgt.KgtID')
+                            ->leftJoin('tmPrg','tmPrg.PrgID','tmKgt.PrgID')
                             ->leftJoin('tmPrg','tmPrg.PrgID','tmSubKgt.PrgID')
                             ->leftJoin('trUrsPrg','trUrsPrg.PrgID','tmPrg.PrgID')
                             ->leftJoin('tmUrs','tmUrs.UrsID','trUrsPrg.UrsID')
@@ -1838,6 +1869,7 @@ class UsulanRenjaController extends Controller
                                                     "tmUrs"."Nm_Bidang",
                                                     "tmPrg"."PrgID",
                                                     "tmPrg"."PrgNm",
+                                                    "tmSubKgt"."KgtID",
                                                     "tmSubKgt"."SubKgtID",
                                                     "tmSubKgt"."SubKgtNm",
                                                     "trRenja90"."Sasaran_Angka4" AS "Sasaran_Angka",
@@ -1852,6 +1884,8 @@ class UsulanRenjaController extends Controller
                                                     "trRenja90"."SumberDanaID",
                                                     "trRenja90"."Descr"'))
                             ->join('tmSubKgt','tmSubKgt.SubKgtID','trRenja90.SubKgtID')
+                            ->join('tmKgt','tmKgt.KgtID','tmSubKgt.KgtID')
+                            ->leftJoin('tmPrg','tmPrg.PrgID','tmKgt.PrgID')
                             ->leftJoin('tmPrg','tmPrg.PrgID','tmSubKgt.PrgID')
                             ->leftJoin('trUrsPrg','trUrsPrg.PrgID','tmPrg.PrgID')
                             ->leftJoin('tmUrs','tmUrs.UrsID','trUrsPrg.UrsID')
@@ -1867,16 +1901,30 @@ class UsulanRenjaController extends Controller
 
             $UrsID_selected=$renja->UrsID==null?'all':$renja->UrsID;
             $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgramByOPD($organisasi->OrgIDRPJMD,false);
-            $r=\DB::table('v_sub_kegiatan')
+            $r=\DB::table('v_program_kegiatan')
                     ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                     ->where('PrgID',$renja->PrgID)                    
-                    ->orderBy('Kd_SubKeg')
-                    ->orderBy('kode_subkegiatan')
+                    ->orderBy('Kd_Keg')
+                    ->orderBy('kode_kegiatan')
                     ->get();
             $daftar_kegiatan=[];        
             foreach ($r as $k=>$v)
             {
-                $daftar_kegiatan[$v->KgtID]='['.$v->kode_subkegiatan.']. '.$v->SubKgtNm;                
+                $jumlah_subkegiatan=\DB::table('tmSubKgt')
+                                        ->where('KgtID',$v->KgtID)
+                                        ->count();
+                $daftar_kegiatan[$v->KgtID]='['.$v->kode_kegiatan.']. '.$v->KgtNm." ($jumlah_subkegiatan)";
+            }         
+            $r=\DB::table('v_sub_kegiatan')
+                    ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                    ->where('KgtID',$renja->KgtID)                    
+                    ->orderBy('Kd_SubKeg')
+                    ->orderBy('kode_subkegiatan')
+                    ->get();
+            $daftar_subkegiatan=[];        
+            foreach ($r as $k=>$v)
+            {
+                $daftar_subkegiatan[$v->SubKgtID]='['.$v->kode_subkegiatan.']. '.$v->SubKgtNm;                
             }            
             $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunPerencanaan(),false);     
             return view("pages.$theme.rkpd.usulanrenja.edit")->with(['page_active'=>$this->NameOfPage,
@@ -1885,6 +1933,7 @@ class UsulanRenjaController extends Controller
                                                                 'organisasi'=>$organisasi,
                                                                 'daftar_program'=>$daftar_program,
                                                                 'daftar_kegiatan'=>$daftar_kegiatan,
+                                                                'daftar_subkegiatan'=>$daftar_subkegiatan,
                                                                 'UrsID_selected'=>$UrsID_selected,
                                                                 'sumber_dana'=>$sumber_dana
                                                                 ]);
@@ -2873,6 +2922,7 @@ class UsulanRenjaController extends Controller
         $this->validate($request, [           
             'UrsID'=>'required',
             'PrgID'=>'required',
+            'KgtID'=>'required',
             'SubKgtID'=>'required', 
             'SumberDanaID'=>'required',
             'Sasaran_Angka'=>'required',
@@ -2889,7 +2939,7 @@ class UsulanRenjaController extends Controller
         switch ($this->NameOfPage) 
         {            
             case 'usulanprarenjaopd' :
-                $renja->KgtID = $request->input('SubKgtID');
+                $renja->SubKgtID = $request->input('SubKgtID');
                 $renja->SumberDanaID = $request->input('SumberDanaID');
                 $renja->Sasaran_Angka1 = $request->input('Sasaran_Angka');
                 $renja->Sasaran_Uraian1 = $request->input('Sasaran_Uraian');
@@ -2903,7 +2953,7 @@ class UsulanRenjaController extends Controller
                 $renja->save();
             break;
             case 'usulanrakorbidang' :
-                $renja->KgtID = $request->input('SubKgtID');
+                $renja->SubKgtID = $request->input('SubKgtID');
                 $renja->SumberDanaID = $request->input('SumberDanaID');
                 $renja->Sasaran_Angka2 = $request->input('Sasaran_Angka');
                 $renja->Sasaran_Uraian2 = $request->input('Sasaran_Uraian');
@@ -2917,7 +2967,7 @@ class UsulanRenjaController extends Controller
                 $renja->save();
             break;
             case 'usulanforumopd' :
-                $renja->KgtID = $request->input('SubKgtID');
+                $renja->SubKgtID = $request->input('SubKgtID');
                 $renja->SumberDanaID = $request->input('SumberDanaID');
                 $renja->Sasaran_Angka3 = $request->input('Sasaran_Angka');
                 $renja->Sasaran_Uraian3 = $request->input('Sasaran_Uraian');
@@ -2931,7 +2981,7 @@ class UsulanRenjaController extends Controller
                 $renja->save();
             break;
             case 'usulanmusrenkab' :
-                $renja->KgtID = $request->input('SubKgtID');
+                $renja->SubKgtID = $request->input('SubKgtID');
                 $renja->SumberDanaID = $request->input('SumberDanaID');
                 $renja->Sasaran_Angka4 = $request->input('Sasaran_Angka');
                 $renja->Sasaran_Uraian4 = $request->input('Sasaran_Uraian');
