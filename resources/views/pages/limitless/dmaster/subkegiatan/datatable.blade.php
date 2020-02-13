@@ -50,8 +50,8 @@
                     <td>{{$item->kode_subkegiatan}}</td>
                     <td>{{$item->SubKgtNm}}</td>
                     <td>{{$item->KgtNm}}</td>
-                    <td>{{DB::table('trRenja')->where('KgtID',$item->KgtID)->count()}}</td>
-                    <td>{{DB::table('trRKPD')->where('KgtID',$item->KgtID)->count()}}</td>
+                    <td>{{DB::table('trRenja90')->where('SubKgtID',$item->KgtID)->count()}}</td>
+                    <td>{{DB::table('trRKPD90')->where('SubKgtID',$item->KgtID)->count()}}</td>
                     <td>{{$item->TA}}</td>
                     <td>
                         <ul class="icons-list">
