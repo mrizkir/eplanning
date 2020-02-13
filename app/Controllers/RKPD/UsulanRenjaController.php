@@ -585,9 +585,28 @@ class UsulanRenjaController extends Controller
         if ($request->exists('PrgID'))
         {
             $PrgID = $request->input('PrgID')==''?'none':$request->input('PrgID');
+            $r=\DB::table('v_program_kegiatan')
+                    ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                    ->where('PrgID',$PrgID)                     
+                    ->get();
+            $daftar_kegiatan=[];        
+            foreach ($r as $k=>$v)
+            {               
+                $jumlah_subkegiatan=\DB::table('tmSubKgt')
+                                        ->where('KgtID',$v->KgtID)
+                                        ->count();
+                $daftar_kegiatan[$v->KgtID]='['.$v->kode_kegiatan.']. '.$v->KgtNm." ($jumlah_subkegiatan)";
+            }            
+            $json_data['success']=true;
+            $json_data['PrgID']=$PrgID;
+            $json_data['daftar_kegiatan']=$daftar_kegiatan;
+        }
+        if ($request->exists('KgtID'))
+        {
+            $KgtID = $request->input('KgtID')==''?'none':$request->input('KgtID');
             $r=\DB::table('v_sub_kegiatan')
                     ->where('TA',\HelperKegiatan::getTahunPerencanaan())
-                    ->where('PrgID',$PrgID)
+                    ->where('KgtID',$KgtID)
                     ->WhereNotIn('SubKgtID',function($query) {
                         $OrgID=$this->getControllerStateSession($this->SessionName,'filters.OrgID');
                         $query->select('SubKgtID')
@@ -596,14 +615,14 @@ class UsulanRenjaController extends Controller
                                 ->where('OrgID', $OrgID);
                     }) 
                     ->get();
-            $daftar_kegiatan=[];        
+            $daftar_subkegiatan=[];        
             foreach ($r as $k=>$v)
             {               
-                $daftar_kegiatan[$v->SubKgtID]='['.$v->kode_subkegiatan.']. '.$v->SubKgtNm;
+                $daftar_subkegiatan[$v->SubKgtID]='['.$v->kode_subkegiatan.']. '.$v->SubKgtNm;
             }            
             $json_data['success']=true;
-            $json_data['PrgID']=$PrgID;
-            $json_data['daftar_kegiatan']=$daftar_kegiatan;
+            $json_data['KgtID']=$KgtID;
+            $json_data['daftar_subkegiatan']=$daftar_subkegiatan;
         }
         return response()->json($json_data,200);  
     }

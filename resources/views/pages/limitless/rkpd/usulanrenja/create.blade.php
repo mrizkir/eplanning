@@ -74,10 +74,16 @@
                     </div>
                 </div>      
                 <div class="form-group">
+                    {{Form::label('SubKgtID','NAMA KEGIATAN',['class'=>'control-label col-md-2'])}}
+                    <div class="col-md-10">
+                        {{Form::select('KgtID', [], '',['class'=>'select','id'=>'KgtID'])}}      
+                    </div>
+                </div>
+                <div class="form-group">
                     {{Form::label('SubKgtID','NAMA SUB KEGIATAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
                         {{Form::select('SubKgtID', [], '',['class'=>'select','id'=>'SubKgtID'])}}      
-                        <span class="help-block">Bila kegiatan tidak ada, barangkali sudah di inputkan. Prinsipnya satu sub kegiatan tidak bisa digunakan oleh OPD/SKPD yang sama.</span>              
+                        <span class="help-block">Bila sub kegiatan tidak ada, barangkali sudah di inputkan. Prinsipnya satu sub kegiatan tidak bisa digunakan oleh OPD/SKPD yang sama.</span>              
                     </div>
                 </div>
             </fieldset>
@@ -217,6 +223,10 @@ $(document).ready(function () {
         placeholder: "PILIH NAMA PROGRAM",
         allowClear:true
     });
+    $('#KgtID.select').select2({
+        placeholder: "PILIH NAMA KEGIATAN",
+        allowClear:true
+    });    
     $('#SubKgtID.select').select2({
         placeholder: "PILIH NAMA SUB KEGIATAN",
         allowClear:true
@@ -239,6 +249,32 @@ $(document).ready(function () {
                 $.each(daftar_kegiatan,function(key,value){
                     listitems+='<option value="' + key + '">'+value+'</option>';                    
                 });
+                $('#KgtID').html(listitems);
+            },
+            error:function(xhr, status, error)
+            {   
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    });
+    $(document).on('change','#KgtID',function(ev) {
+        ev.preventDefault();
+        KgtID=$(this).val();        
+        $.ajax({
+            type:'post',
+            url: '{{route(Helper::getNameOfPage("pilihusulankegiatan"))}}',
+            dataType: 'json',
+            data: {
+                "_token": token,
+                "KgtID": KgtID,
+            },
+            success:function(result)
+            {   
+                var daftar_subkegiatan = result.daftar_subkegiatan;
+                var listitems='<option></option>';
+                $.each(daftar_subkegiatan,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
                 $('#SubKgtID').html(listitems);
             },
             error:function(xhr, status, error)
@@ -247,7 +283,6 @@ $(document).ready(function () {
             },
         });
     });
-
     $('#frmdata').validate({
         ignore:[],
         rules: {
