@@ -746,8 +746,8 @@ class UsulanRenjaController extends Controller
             $datarinciankegiatan = $this->populateRincianKegiatan($renjaid);
             
             //lokasi
-            $daftar_provinsi = ['uid14f25a97c07e'=>'KEPULAUAN RIAU'];
-            $daftar_kota_kab = ['uidca544f415ae2'=>'BINTAN'];        
+            $daftar_provinsi = ['uide8ee630e554c'=>'KEPULAUAN RIAU'];
+            $daftar_kota_kab = ['uid680eb1b1d0fd'=>'BINTAN'];        
             $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),config('eplanning.default_kota_atau_kab'),false);
             $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->count('No')+1;
             return view("pages.$theme.rkpd.usulanrenja.create2")->with(['page_active'=>$this->NameOfPage,
@@ -793,8 +793,8 @@ class UsulanRenjaController extends Controller
                                                                         ->pluck('NmPk','PemilikPokokID')                                                                        
                                                                         ->toArray();
             //lokasi
-            $PMProvID = 'uidF1847004D8F547BF';
-            $PmKotaID = 'uidE4829D1F21F44ECA';
+            $PMProvID = 'uide8ee630e554c';
+            $PmKotaID = 'uid680eb1b1d0fd';
             return view("pages.$theme.rkpd.usulanrenja.create3")->with(['page_active'=>$this->NameOfPage,
                                                                             'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                             'renja'=>$renja,
@@ -830,8 +830,8 @@ class UsulanRenjaController extends Controller
                                 ->findOrFail($renjaid);            
             $datarinciankegiatan = $this->populateRincianKegiatan($renjaid);            
             //lokasi
-            $daftar_provinsi = ['uidF1847004D8F547BF'=>'KEPULAUAN RIAU'];
-            $daftar_kota_kab = ['uidE4829D1F21F44ECA'=>'BINTAN'];        
+            $daftar_provinsi = ['uide8ee630e554c'=>'KEPULAUAN RIAU'];
+            $daftar_kota_kab = ['uid680eb1b1d0fd'=>'BINTAN'];        
             $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),config('eplanning.default_kota_atau_kab'),false);
             $nomor_rincian = RenjaRincianModel::where('RenjaID',$renjaid)->count('No')+1;
             return view("pages.$theme.rkpd.usulanrenja.create4")->with(['page_active'=>$this->NameOfPage,
@@ -2825,8 +2825,8 @@ class UsulanRenjaController extends Controller
         {               
             $datarinciankegiatan = $this->populateRincianKegiatan($renja->RenjaID);
             //lokasi
-            $daftar_provinsi = ['uidF1847004D8F547BF'=>'KEPULAUAN RIAU'];
-            $daftar_kota_kab = ['uidE4829D1F21F44ECA'=>'BINTAN'];        
+            $daftar_provinsi = ['uide8ee630e554c'=>'KEPULAUAN RIAU'];
+            $daftar_kota_kab = ['uid680eb1b1d0fd'=>'BINTAN'];        
             $daftar_kecamatan=\App\Models\DMaster\KecamatanModel::getDaftarKecamatan(\HelperKegiatan::getTahunPerencanaan(),$renja->PmKotaID,false);
             $daftar_desa=\App\Models\DMaster\DesaModel::getDaftarDesa(\HelperKegiatan::getTahunPerencanaan(),$renja->PmKecamatanID,false);
             return view("pages.$theme.rkpd.usulanrenja.edit4")->with(['page_active'=>$this->NameOfPage,

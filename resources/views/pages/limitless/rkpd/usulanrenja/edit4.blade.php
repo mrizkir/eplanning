@@ -100,7 +100,7 @@
             <div class="form-group">
                 {{Form::label('PmKotaID','KAB. / KOTA',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
-                    {{Form::select('PmKotaID', $daftar_kota_kab,config('eplanning.defaul_kota_atau_kab'),['class'=>'form-control','id'=>'PMProvID'])}}
+                    {{Form::select('PmKotaID', $daftar_kota_kab,config('eplanning.default_kota_atau_kab'),['class'=>'form-control','id'=>'PMProvID'])}}
                 </div>
             </div>  
             <div class="form-group">
