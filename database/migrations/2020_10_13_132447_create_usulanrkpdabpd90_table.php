@@ -70,7 +70,7 @@ class CreateUsulanrkpdabpd90Table extends Migration
 
             $table->foreign('RenjaID')
                         ->references('RenjaID')
-                        ->on('trRenja')
+                        ->on('trRenja90')
                         ->onDelete('cascade')
                         ->onUpdate('cascade');
 
@@ -220,7 +220,7 @@ class CreateUsulanrkpdabpd90Table extends Migration
 
                 $table->foreign('RenjaRincID')
                         ->references('RenjaRincID')
-                        ->on('trRenjaRinc')
+                        ->on('trRenjaRinc90')
                         ->onDelete('cascade')
                         ->onUpdate('cascade');
 

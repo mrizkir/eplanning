@@ -9,6 +9,7 @@ use App\Models\RKPD\RenjaIndikatorModel;
 use App\Models\RKPD\RenjaModel;
 use App\Models\RKPD\RenjaRincianModel;
 use App\Models\RKPD\RKPDModel;
+use App\Models\RKPD\RKPDRincianModel;
 
 class PembahasanRenjaController extends Controller {    
     /**
@@ -1853,7 +1854,7 @@ class PembahasanRenjaController extends Controller {
 
                         //kondisi awal saat di transfer ke RKPD adalah entrillvl = 1 (RKPD)
                         $str_rincianrenja = '
-                            INSERT INTO "trRKPDRinc" (
+                            INSERT INTO "trRKPDRinc90" (
                                 "RKPDRincID",
                                 "RKPDID", 
                                 "PMProvID",
@@ -1918,9 +1919,10 @@ class PembahasanRenjaController extends Controller {
                                 ("Status"=1 OR "Status"=2) AND
                                 "Privilege"=0  
                         ';
-
                         \DB::statement($str_rincianrenja); 
                         
+                        //hapus indikator kinerja  
+                        \DB::statement('DELETE FROM "trRKPDIndikator90" WHERE "RKPDID"=\''.$RKPDID.'\'');
                         $str_kinerja='
                             INSERT INTO "trRKPDIndikator90" (
                                 "RKPDIndikatorID", 
@@ -1948,7 +1950,6 @@ class PembahasanRenjaController extends Controller {
                             WHERE 
                                 "RenjaID"=\''.$renja->RenjaID.'\'
                         ';
-
                         \DB::statement($str_kinerja);
                         
                         //rincian renja finish
