@@ -553,7 +553,7 @@ class RKPDPerubahanController extends Controller
                                 ->where('TA', \HelperKegiatan::getTahunPerencanaan())
                                 ->where('OrgID', $OrgID);
                     }) 
-                    ->orderBy('Kd_SubKeg')
+                    ->orderBy('Kd_Keg')
                     ->orderBy('kode_kegiatan')
                     ->get();
             $daftar_kegiatan=[];        
@@ -642,16 +642,16 @@ class RKPDPerubahanController extends Controller
             $OrgID=$filters['OrgID'];
             $SOrgID=$filters['SOrgID'];
 
-            $rkpd=RKPDModel::select(\DB::raw('"trRKPD"."RKPDID","trRKPD"."KgtID","tmOrg"."OrgIDRPJMD"',"tmSubKgt"."PrgID"))
+            $rkpd=RKPDModel::select(\DB::raw('"trRKPD"."RKPDID","trRKPD"."KgtID","tmOrg"."OrgIDRPJMD"',"tmKgt"."PrgID"))
                                 ->join('tmOrg','tmOrg.OrgID','trRKPD.OrgID')
-                                ->join('tmSubKgt','tmSubKgt.KgtID','trRKPD.KgtID')
+                                ->join('tmKgt','tmKgt.KgtID','trRKPD.KgtID')
                                 ->where('trRKPD.OrgID',$OrgID)
                                 ->where('trRKPD.SOrgID',$SOrgID)
                                 ->findOrFail($rkpdid);
             
             
             $kegiatan=\App\Models\DMaster\SubKegiatanModel::select(\DB::raw('"trUrsPrg"."UrsID","trUrsPrg"."PrgID"'))
-                                                                ->join('trUrsPrg','trUrsPrg.PrgID','tmSubKgt.PrgID')
+                                                                ->join('trUrsPrg','trUrsPrg.PrgID','tmKgt.PrgID')
                                                                 ->find($rkpd->KgtID);
 
             $PrgID=$rkpd->PrgID;          
@@ -1064,7 +1064,7 @@ class RKPDPerubahanController extends Controller
                                             "v_suborganisasi"."SOrgNm",
                                             "v_sub_kegiatan"."Kd_Prog",
                                             "v_sub_kegiatan"."PrgNm",
-                                            "v_sub_kegiatan"."Kd_SubKeg",
+                                            "v_sub_kegiatan"."Kd_Keg",
                                             "v_sub_kegiatan"."kode_kegiatan",
                                             "v_sub_kegiatan"."KgtNm",
                                             "NamaIndikator",
@@ -1129,8 +1129,8 @@ class RKPDPerubahanController extends Controller
                                                     "tmUrs"."Nm_Bidang",
                                                     "tmPrg"."PrgID",
                                                     "tmPrg"."PrgNm",
-                                                    "tmSubKgt"."KgtID",
-                                                    "tmSubKgt"."KgtNm",
+                                                    "tmKgt"."KgtID",
+                                                    "tmKgt"."KgtNm",
                                                     "trRKPD"."Sasaran_Angka3" AS "Sasaran_Angka",
                                                     "trRKPD"."Sasaran_Uraian3" AS "Sasaran_Uraian",
                                                     "trRKPD"."Sasaran_AngkaSetelah",
@@ -1142,8 +1142,8 @@ class RKPDPerubahanController extends Controller
                                                     "trRKPD"."NamaIndikator",
                                                     "trRKPD"."SumberDanaID",
                                                     "trRKPD"."Descr"'))
-                            ->join('tmSubKgt','tmSubKgt.KgtID','trRKPD.KgtID')
-                            ->leftJoin('tmPrg','tmPrg.PrgID','tmSubKgt.PrgID')
+                            ->join('tmKgt','tmKgt.KgtID','trRKPD.KgtID')
+                            ->leftJoin('tmPrg','tmPrg.PrgID','tmKgt.PrgID')
                             ->leftJoin('trUrsPrg','trUrsPrg.PrgID','tmPrg.PrgID')
                             ->leftJoin('tmUrs','tmUrs.UrsID','trUrsPrg.UrsID')
                             ->findOrFail($id);      
@@ -1217,7 +1217,7 @@ class RKPDPerubahanController extends Controller
                                                                     "tmPmKecamatan"."Nm_Kecamatan",
                                                                     "trRKPDRinc"."RKPDID",
                                                                     "trRKPDRinc"."No",
-                                                                    "tmSubKgt"."KgtNm" AS "NamaKegiatan",
+                                                                    "tmKgt"."KgtNm" AS "NamaKegiatan",
                                                                     "trRKPDRinc"."Uraian",
                                                                     "trRKPDRinc"."Sasaran_Angka3" AS "Sasaran_Angka",
                                                                     "trRKPDRinc"."Sasaran_Uraian3" AS "Sasaran_Uraian",
@@ -1228,7 +1228,7 @@ class RKPDPerubahanController extends Controller
                                                                     "trRKPDRinc"."EntryLvl",
                                                                     "trRKPDRinc"."isReses"'))                                            
                                                     ->join('trRKPD','trRKPDRinc.RKPDID','trRKPD.RKPDID')
-                                                    ->join('tmSubKgt','tmSubKgt.KgtID','trRKPD.KgtID')
+                                                    ->join('tmKgt','tmKgt.KgtID','trRKPD.KgtID')
                                                     ->join('trUsulanKec','trUsulanKec.UsulanKecID','trRKPDRinc.UsulanKecID')
                                                     ->join('tmPMProv','tmPMProv.PMProvID','trRKPDRinc.PMProvID')
                                                     ->join('tmPmKota','tmPmKota.PmKotaID','trRKPDRinc.PmKotaID')
@@ -1245,7 +1245,7 @@ class RKPDPerubahanController extends Controller
                                                                     "tmPmKecamatan"."Nm_Kecamatan",
                                                                     "trRKPDRinc"."RKPDID",
                                                                     "trRKPDRinc"."No",
-                                                                    "tmSubKgt"."KgtNm" AS "NamaKegiatan",
+                                                                    "tmKgt"."KgtNm" AS "NamaKegiatan",
                                                                     "trRKPDRinc"."Uraian",
                                                                     "trRKPDRinc"."Sasaran_Angka3" AS "Sasaran_Angka",
                                                                     "trRKPDRinc"."Sasaran_Uraian3" AS "Sasaran_Uraian",
@@ -1256,7 +1256,7 @@ class RKPDPerubahanController extends Controller
                                                                     "trRKPDRinc"."EntryLvl",
                                                                     "trRKPDRinc"."isReses"'))                                            
                                                                 ->join('trRKPD','trRKPDRinc.RKPDID','trRKPD.RKPDID')
-                                                                ->join('tmSubKgt','tmSubKgt.KgtID','trRKPD.KgtID')
+                                                                ->join('tmKgt','tmKgt.KgtID','trRKPD.KgtID')
                                                                 ->join('trUsulanKec','trUsulanKec.UsulanKecID','trRKPDRinc.UsulanKecID')                                                                                        
                                                                 ->join('tmPMProv','tmPMProv.PMProvID','trRKPDRinc.PMProvID')
                                                                 ->join('tmPmKota','tmPmKota.PmKotaID','trRKPDRinc.PmKotaID')
@@ -1269,7 +1269,7 @@ class RKPDPerubahanController extends Controller
                                                                     "tmPmKecamatan"."Nm_Kecamatan",
                                                                     "trRKPDRinc"."RKPDID",
                                                                     "trRKPDRinc"."No",
-                                                                    "tmSubKgt"."KgtNm" AS "NamaKegiatan",
+                                                                    "tmKgt"."KgtNm" AS "NamaKegiatan",
                                                                     "trRKPDRinc"."Uraian",
                                                                     "trRKPDRinc"."Sasaran_Angka3" AS "Sasaran_Angka",
                                                                     "trRKPDRinc"."Sasaran_Uraian3" AS "Sasaran_Uraian",
@@ -1280,7 +1280,7 @@ class RKPDPerubahanController extends Controller
                                                                     "trRKPDRinc"."EntryLvl",
                                                                     "trRKPDRinc"."isReses"'))                                               
                                                                 ->join('trRKPD','trRKPD.RenjaID','trRKPDRinc.RKPDID')
-                                                                ->join('tmSubKgt','tmSubKgt.KgtID','trRKPD.KgtID')
+                                                                ->join('tmKgt','tmKgt.KgtID','trRKPD.KgtID')
                                                                 ->join('trUsulanKec','trUsulanKec.UsulanKecID','trRKPDRinc.UsulanKecID')                                                                                        
                                                                 ->join('tmPMProv','tmPMProv.PMProvID','trRKPDRinc.PMProvID')
                                                                 ->join('tmPmKota','tmPmKota.PmKotaID','trRKPDRinc.PmKotaID')

@@ -442,7 +442,7 @@ class RKPDMurniController extends Controller {
                                             "SOrgNm",
                                             "Kd_Prog",
                                             "PrgNm",
-                                            "Kd_SubKeg",
+                                            "Kd_Keg",
                                             "kode_kegiatan",
                                             "KgtNm",
                                             "NamaIndikator",

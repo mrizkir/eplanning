@@ -65,7 +65,7 @@
                 </div>
             </div>          
             <div class="form-group">
-                {{Form::label('KgtID','NAMA SUB KEGIATAN',['class'=>'control-label col-md-2'])}}
+                {{Form::label('KgtID','NAMA KEGIATAN',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
                     {{Form::select('KgtID', [], '',['class'=>'select','id'=>'KgtID'])}}                    
                 </div>
@@ -198,7 +198,7 @@ $(document).ready(function () {
         allowClear:true
     });
     $('#KgtID.select').select2({
-        placeholder: "PILIH NAMA SUB KEGIATAN",
+        placeholder: "PILIH NAMA KEGIATAN",
         allowClear:true
     });    
     $(document).on('change','#UrsID',function(ev) {
