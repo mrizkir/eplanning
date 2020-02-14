@@ -38,7 +38,7 @@
                             </a>
                         </th>                
                         <th width="400">
-                            <a class="column-sort text-white" id="col-SubKgtNm" data-order="{{$direction}}" href="#">
+                            <a class="column-sort text-white" id="col-KgtNm" data-order="{{$direction}}" href="#">
                                 NAMA SUB KEGIATAN                                                                       
                             </a>
                         </th> 
@@ -77,7 +77,7 @@
                         </td>
                         <td>{{$item->kode_subkegiatan}}</td>
                         <td>
-                            {{ucwords($item->SubKgtNm)}}
+                            {{ucwords($item->KgtNm)}}
                             @if ($item->Status_Indikator==0)
                                 <br>
                                 <span class="label label-flat border-warning text-warning-600">

@@ -62,7 +62,7 @@
                 <label class="col-md-2 control-label">NAMA SUB KEGIATAN: </label>
                 <div class="col-md-10">
                     <p class="form-control-static">
-                        <span class="label border-left-primary label-striped">{{$rkpd->SubKgtNm}}</span>
+                        <span class="label border-left-primary label-striped">{{$rkpd->KgtNm}}</span>
                     </p>
                 </div>                            
             </div>            

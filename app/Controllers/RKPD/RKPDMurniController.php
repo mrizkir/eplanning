@@ -72,7 +72,7 @@ class RKPDMurniController extends Controller {
         $columns=['*'];       
         if (!$this->checkStateIsExistSession('rkpdmurni','orderby')) 
         {            
-           $this->putControllerStateSession('rkpdmurni','orderby',['column_name'=>'kode_subkegiatan','order'=>'asc']);
+           $this->putControllerStateSession('rkpdmurni','orderby',['column_name'=>'kode_kegiatan','order'=>'asc']);
         }
         $column_order=$this->getControllerStateSession('rkpdmurni.orderby','column_name'); 
         $direction=$this->getControllerStateSession('rkpdmurni.orderby','order'); 
@@ -98,20 +98,20 @@ class RKPDMurniController extends Controller {
                                             ->where(['RKPDID'=>$search['isikriteria']])                                                    
                                             ->orderBy($column_order,$direction);                                            
                 break;
-                case 'kode_subkegiatan' :
+                case 'kode_kegiatan' :
                     $data = RKPDViewRincianModel::select(\HelperKegiatan::getField($this->NameOfPage))
                                                 ->where('SOrgID',$SOrgID)                                            
                                                 ->where('TA', \HelperKegiatan::getTahunPerencanaan())    
                                                 ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))                                  
-                                                ->where(['kode_subkegiatan'=>$search['isikriteria']])                                                                                             
+                                                ->where(['kode_kegiatan'=>$search['isikriteria']])                                                                                             
                                                 ->orderBy($column_order,$direction);                                       
                 break;
-                case 'SubKgtNm' :                                                    
+                case 'KgtNm' :                                                    
                     $data = RKPDViewRincianModel::select(\HelperKegiatan::getField($this->NameOfPage))
                                                 ->where('SOrgID',$SOrgID)                                            
                                                 ->where('TA', \HelperKegiatan::getTahunPerencanaan())    
                                                 ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))                                  
-                                                ->where('SubKgtNm', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
+                                                ->where('KgtNm', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                                 ->orderBy($column_order,$direction);                                            
                 break;
                 case 'Uraian' :                     
@@ -176,11 +176,11 @@ class RKPDMurniController extends Controller {
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'col-kode_subkegiatan' :
-                $column_name = 'kode_subkegiatan';
+            case 'col-kode_kegiatan' :
+                $column_name = 'kode_kegiatan';
             break;    
-            case 'col-SubKgtNm' :
-                $column_name = 'SubKgtNm';
+            case 'col-KgtNm' :
+                $column_name = 'KgtNm';
             break;    
             case 'col-Uraian' :
                 $column_name = 'Uraian';
@@ -192,7 +192,7 @@ class RKPDMurniController extends Controller {
                 $column_name = 'Jumlah4';
             break;
             default :
-                $column_name = 'kode_subkegiatan';
+                $column_name = 'kode_kegiatan';
         }
         $this->putControllerStateSession('rkpdmurni','orderby',['column_name'=>$column_name,'order'=>$orderby]);      
 
@@ -443,8 +443,8 @@ class RKPDMurniController extends Controller {
                                             "Kd_Prog",
                                             "PrgNm",
                                             "Kd_SubKeg",
-                                            "kode_subkegiatan",
-                                            "SubKgtNm",
+                                            "kode_kegiatan",
+                                            "KgtNm",
                                             "NamaIndikator",
                                             "Sasaran_Angka1" AS "Sasaran_Angka",
                                             "Sasaran_Uraian1" AS "Sasaran_Uraian",

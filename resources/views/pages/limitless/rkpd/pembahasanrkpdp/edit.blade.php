@@ -75,7 +75,7 @@
                 <div class="form-group">
                     {{Form::label('KgtID','NAMA SUB KEGIATAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        <p class="form-control-static">[{{$rkpd->kode_subkegiatan}}]{{$rkpd->SubKgtNm}}</p>
+                        <p class="form-control-static">[{{$rkpd->kode_subkegiatan}}]{{$rkpd->KgtNm}}</p>
                     </div>
                 </div>
             </fieldset>

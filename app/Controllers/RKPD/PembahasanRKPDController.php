@@ -80,7 +80,7 @@ class PembahasanRKPDController extends Controller
         $columns=['*'];       
         if (!$this->checkStateIsExistSession($this->SessionName,'orderby')) 
         {            
-           $this->putControllerStateSession($this->SessionName,'orderby',['column_name'=>'kode_subkegiatan','order'=>'asc']);
+           $this->putControllerStateSession($this->SessionName,'orderby',['column_name'=>'kode_kegiatan','order'=>'asc']);
         }
         $column_order=$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'); 
         $direction=$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'); 
@@ -114,20 +114,20 @@ class PembahasanRKPDController extends Controller
                                             ->where(['RKPDID'=>$search['isikriteria']])                                                    
                                             ->orderBy($column_order,$direction);                                            
                 break;
-                case 'kode_subkegiatan' :
+                case 'kode_kegiatan' :
                     $data = RKPDViewRincianModel::select(\HelperKegiatan::getField($this->NameOfPage))
                                                 ->where('SOrgID',$SOrgID)                                            
                                                 ->where('TA', \HelperKegiatan::getTahunPerencanaan())    
                                                 ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))                                  
-                                                ->where(['kode_subkegiatan'=>$search['isikriteria']])                                                                                             
+                                                ->where(['kode_kegiatan'=>$search['isikriteria']])                                                                                             
                                                 ->orderBy($column_order,$direction);                                       
                 break;
-                case 'SubKgtNm' :                                                    
+                case 'KgtNm' :                                                    
                     $data = RKPDViewRincianModel::select(\HelperKegiatan::getField($this->NameOfPage))
                                                 ->where('SOrgID',$SOrgID)                                            
                                                 ->where('TA', \HelperKegiatan::getTahunPerencanaan())    
                                                 ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))                                  
-                                                ->where('SubKgtNm', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
+                                                ->where('KgtNm', 'ilike', '%' . $search['isikriteria'] . '%')                                                    
                                                 ->orderBy($column_order,$direction);                                            
                 break;
                 case 'Uraian' :                     
@@ -166,11 +166,11 @@ class PembahasanRKPDController extends Controller
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'col-kode_subkegiatan' :
-                $column_name = 'kode_subkegiatan';
+            case 'col-kode_kegiatan' :
+                $column_name = 'kode_kegiatan';
             break;    
-            case 'col-SubKgtNm' :
-                $column_name = 'SubKgtNm';
+            case 'col-KgtNm' :
+                $column_name = 'KgtNm';
             break;    
             case 'col-Uraian' :
                 $column_name = 'Uraian';
@@ -185,7 +185,7 @@ class PembahasanRKPDController extends Controller
                 $column_name = 'Status';
             break;
             default :
-                $column_name = 'kode_subkegiatan';
+                $column_name = 'kode_kegiatan';
         }
         $this->putControllerStateSession($this->SessionName,'orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
@@ -541,18 +541,18 @@ class PembahasanRKPDController extends Controller
                                 ->where('OrgID', $OrgID);
                     }) 
                     ->orderBy('Kd_SubKeg')
-                    ->orderBy('kode_subkegiatan')
+                    ->orderBy('kode_kegiatan')
                     ->get();
             $daftar_kegiatan=[];        
             foreach ($r as $k=>$v)
             {
                 if ($v->Jns)
                 {
-                    $daftar_kegiatan[$v->KgtID]=$v->kode_subkegiatan.'. '.$v->SubKgtNm;
+                    $daftar_kegiatan[$v->KgtID]=$v->kode_kegiatan.'. '.$v->KgtNm;
                 }
                 else
                 {
-                    $daftar_kegiatan[$v->KgtID]=$v->kode_subkegiatan.'. '.$v->SubKgtNm;
+                    $daftar_kegiatan[$v->KgtID]=$v->kode_kegiatan.'. '.$v->KgtNm;
                 }
                 
             }            
@@ -1032,8 +1032,8 @@ class PembahasanRKPDController extends Controller
                                             "v_sub_kegiatan"."Kd_Prog",
                                             "v_sub_kegiatan"."PrgNm",
                                             "v_sub_kegiatan"."Kd_SubKeg",
-                                            "v_sub_kegiatan"."kode_subkegiatan",
-                                            "v_sub_kegiatan"."SubKgtNm",
+                                            "v_sub_kegiatan"."kode_kegiatan",
+                                            "v_sub_kegiatan"."KgtNm",
                                             "NamaIndikator",
                                             "Sasaran_Angka2" AS "Sasaran_Angka",
                                             "Sasaran_Uraian2" AS "Sasaran_Uraian",
@@ -1098,7 +1098,7 @@ class PembahasanRKPDController extends Controller
                                                     "tmPrg"."PrgID",
                                                     "tmPrg"."PrgNm",
                                                     "tmSubKgt"."KgtID",
-                                                    "tmSubKgt"."SubKgtNm",
+                                                    "tmSubKgt"."KgtNm",
                                                     "trRKPD"."Sasaran_Angka2" AS "Sasaran_Angka",
                                                     "trRKPD"."Sasaran_Uraian2" AS "Sasaran_Uraian",
                                                     "trRKPD"."Sasaran_AngkaSetelah",
@@ -1186,7 +1186,7 @@ class PembahasanRKPDController extends Controller
                                                                     "tmPmKecamatan"."Nm_Kecamatan",
                                                                     "trRKPDRinc"."RKPDID",
                                                                     "trRKPDRinc"."No",
-                                                                    "tmSubKgt"."SubKgtNm" AS "NamaKegiatan",
+                                                                    "tmSubKgt"."KgtNm" AS "NamaKegiatan",
                                                                     "trRKPDRinc"."Uraian",
                                                                     "trRKPDRinc"."Sasaran_Angka2" AS "Sasaran_Angka",
                                                                     "trRKPDRinc"."Sasaran_Uraian2" AS "Sasaran_Uraian",
@@ -1215,7 +1215,7 @@ class PembahasanRKPDController extends Controller
                                                                     "tmPmKecamatan"."Nm_Kecamatan",
                                                                     "trRKPDRinc"."RKPDID",
                                                                     "trRKPDRinc"."No",
-                                                                    "tmSubKgt"."SubKgtNm" AS "NamaKegiatan",
+                                                                    "tmSubKgt"."KgtNm" AS "NamaKegiatan",
                                                                     "trRKPDRinc"."Uraian",
                                                                     "trRKPDRinc"."Sasaran_Angka2" AS "Sasaran_Angka",
                                                                     "trRKPDRinc"."Sasaran_Uraian2" AS "Sasaran_Uraian",
@@ -1240,7 +1240,7 @@ class PembahasanRKPDController extends Controller
                                                                     "tmPmKecamatan"."Nm_Kecamatan",
                                                                     "trRKPDRinc"."RKPDID",
                                                                     "trRKPDRinc"."No",
-                                                                    "tmSubKgt"."SubKgtNm" AS "NamaKegiatan",
+                                                                    "tmSubKgt"."KgtNm" AS "NamaKegiatan",
                                                                     "trRKPDRinc"."Uraian",
                                                                     "trRKPDRinc"."Sasaran_Angka2" AS "Sasaran_Angka",
                                                                     "trRKPDRinc"."Sasaran_Uraian2" AS "Sasaran_Uraian",
@@ -1407,7 +1407,7 @@ class PembahasanRKPDController extends Controller
                                                                     "trRKPDRinc"."PmKecamatanID",
                                                                     "trRKPDRinc"."PmDesaID",
                                                                     "trRKPDRinc"."No",
-                                                                    "tmSubKgt"."SubKgtNm",
+                                                                    "tmSubKgt"."KgtNm",
                                                                     "trRKPDRinc"."Uraian",
                                                                     "trRKPDRinc"."Sasaran_Angka2" AS "Sasaran_Angka",
                                                                     "trRKPDRinc"."Sasaran_Uraian2" AS "Sasaran_Uraian",
@@ -1428,7 +1428,7 @@ class PembahasanRKPDController extends Controller
                                                                     "trRKPDRinc"."PmKecamatanID",
                                                                     "trRKPDRinc"."PmDesaID",
                                                                     "trRKPDRinc"."No",
-                                                                    "tmSubKgt"."SubKgtNm",
+                                                                    "tmSubKgt"."KgtNm",
                                                                     "trRKPDRinc"."Uraian",
                                                                     "trRKPDRinc"."Sasaran_Angka2" AS "Sasaran_Angka",
                                                                     "trRKPDRinc"."Sasaran_Uraian2" AS "Sasaran_Uraian",
@@ -1446,7 +1446,7 @@ class PembahasanRKPDController extends Controller
                                                                                 "trRKPDRinc"."PmKecamatanID",
                                                                                 "trRKPDRinc"."PmDesaID",
                                                                                 "trRKPDRinc"."No",
-                                                                                "tmSubKgt"."SubKgtNm",
+                                                                                "tmSubKgt"."KgtNm",
                                                                                 "trRKPDRinc"."Uraian",
                                                                                 "trRKPDRinc"."Sasaran_Angka2" AS "Sasaran_Angka",
                                                                                 "trRKPDRinc"."Sasaran_Uraian2" AS "Sasaran_Uraian",
