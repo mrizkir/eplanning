@@ -68,7 +68,7 @@
                         </i>
                         <h3 class="h4 mb-2">e-Planning</h3>
                     </a>           
-                    <p class="text-muted mb-0">Permendagri No. 90 Tahun 2019</p>						
+                    <p class="text-muted mb-0">Permendagri No. 86 Tahun 2017</p>						
                 </div>			   		
             </div>         
             <div class="col-lg-3 col-md-6 text-center">
