@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateVRkpdView extends Migration
+class CreateVRkpd90View extends Migration
 {
     /**
      * Run the migrations.
@@ -49,7 +49,7 @@ class CreateVRkpdView extends Migration
                 END AS kode_program,
                 G."PrgNm",
                 G."Jns",
-                A."KgtID",
+                F."KgtID",
                 F."Kd_Keg",
                 CASE 
                     WHEN I."UrsID" IS NOT NULL OR  J."KUrsID" IS NOT NULL THEN
@@ -58,6 +58,7 @@ class CreateVRkpdView extends Migration
                         CONCAT(\'0.00.\',G."Kd_Prog", \'.\',F."Kd_Keg")
                 END AS kode_kegiatan,
                 F."KgtNm",
+                FF."SubKgtID",
                 FF."Kd_SubKeg",
                 CASE 
                     WHEN I."UrsID" IS NOT NULL OR  J."KUrsID" IS NOT NULL THEN
@@ -128,6 +129,6 @@ class CreateVRkpdView extends Migration
      */
     public function down()
     {
-        \DB::statement('DROP VIEW v_rkpd');
+        \DB::statement('DROP VIEW v_rkpd90');
     }
 }
