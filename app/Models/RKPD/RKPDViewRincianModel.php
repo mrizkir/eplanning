@@ -13,7 +13,7 @@ class RKPDViewRincianModel extends Model {
      *
      * @var string
      */
-    protected $table = 'v_rkpd_rinci90';    
+    protected $table = 'v_rkpd_rinci';    
     /**
      * primary key tabel ini.
      *

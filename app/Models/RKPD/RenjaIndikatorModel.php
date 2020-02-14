@@ -12,7 +12,7 @@ class RenjaIndikatorModel extends Model {
     *
     * @var string
     */
-   protected $table = 'trRenjaIndikator90';
+   protected $table = 'trRenjaIndikator';
    /**
     * The attributes that are mass assignable.
     *

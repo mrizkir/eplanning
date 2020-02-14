@@ -47,13 +47,13 @@
                 <tr class="bg-teal-700">
                     <th width="50">NO</th>     
                     <th width="150">
-                        <a class="column-sort text-white" id="col-kode_subkegiatan" data-order="{{$direction}}" href="#">
-                            KODE SUB KEGIATAN                                                                       
+                        <a class="column-sort text-white" id="col-kode_kegiatan" data-order="{{$direction}}" href="#">
+                            KODE KEGIATAN                                                                       
                         </a>
                     </th>                
                     <th width="400">
-                        <a class="column-sort text-white" id="col-SubKgtNm" data-order="{{$direction}}" href="#">
-                            NAMA SUB KEGIATAN                                                                       
+                        <a class="column-sort text-white" id="col-KgtNm" data-order="{{$direction}}" href="#">
+                            NAMA KEGIATAN                                                                       
                         </a>
                     </th> 
                     <th width="300">
@@ -92,9 +92,9 @@
                     <td>
                         {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                     </td>
-                    <td>{{$item->kode_subkegiatan}}</td>
+                    <td>{{$item->kode_kegiatan}}</td>
                     <td>
-                        {{ucwords($item->SubKgtNm)}}
+                        {{ucwords($item->KgtNm)}}
                         @if ($item->Status_Indikator==0)
                             <br>
                             <span class="label label-flat border-warning text-warning-600">

@@ -76,14 +76,8 @@
                 <div class="form-group">
                     {{Form::label('KgtID','NAMA KEGIATAN',['class'=>'control-label col-md-2'])}}
                     <div class="col-md-10">
-                        {{Form::select('KgtID', [], '',['class'=>'select','id'=>'KgtID'])}}      
-                    </div>
-                </div>
-                <div class="form-group">
-                    {{Form::label('SubKgtID','NAMA SUB KEGIATAN',['class'=>'control-label col-md-2'])}}
-                    <div class="col-md-10">
-                        {{Form::select('SubKgtID', [], '',['class'=>'select','id'=>'SubKgtID'])}}      
-                        <span class="help-block">Bila sub kegiatan tidak ada, barangkali sudah di inputkan. Prinsipnya satu sub kegiatan tidak bisa digunakan oleh OPD/SKPD yang sama.</span>              
+                        {{Form::select('KgtID', [], '',['class'=>'select','id'=>'KgtID'])}}  
+                        <span class="help-block">Bila kegiatan tidak ada, barangkali sudah di inputkan. Prinsipnya satu kegiatan tidak bisa digunakan oleh OPD/SKPD yang sama.</span>              
                     </div>
                 </div>
             </fieldset>
@@ -227,10 +221,6 @@ $(document).ready(function () {
         placeholder: "PILIH NAMA KEGIATAN",
         allowClear:true
     });    
-    $('#SubKgtID.select').select2({
-        placeholder: "PILIH NAMA SUB KEGIATAN",
-        allowClear:true
-    });    
     $(document).on('change','#PrgID',function(ev) {
         ev.preventDefault();
         PrgID=$(this).val();        
@@ -257,33 +247,6 @@ $(document).ready(function () {
             },
         });
     });
-    $(document).on('change','#KgtID',function(ev) {
-        ev.preventDefault();
-        KgtID=$(this).val();        
-        $.ajax({
-            type:'post',
-            url: '{{route(Helper::getNameOfPage("pilihusulankegiatan"))}}',
-            dataType: 'json',
-            data: {
-                "_token": token,
-                "create": true,
-                "KgtID": KgtID,
-            },
-            success:function(result)
-            {   
-                var daftar_subkegiatan = result.daftar_subkegiatan;
-                var listitems='<option></option>';
-                $.each(daftar_subkegiatan,function(key,value){
-                    listitems+='<option value="' + key + '">'+value+'</option>';                    
-                });
-                $('#SubKgtID').html(listitems);
-            },
-            error:function(xhr, status, error)
-            {   
-                console.log(parseMessageAjaxEror(xhr, status, error));                           
-            },
-        });
-    });
     $('#frmdata').validate({
         ignore:[],
         rules: {
@@ -292,10 +255,7 @@ $(document).ready(function () {
             },  
             PrgID : {
                 required: true
-            },
-            SubKgtID : {
-                required: true
-            }, 
+            },            
             KgtID : {
                 required: true
             },     
@@ -339,9 +299,6 @@ $(document).ready(function () {
             },
             KgtID : {
                 required: "Mohon untuk di pilih nama kegiatan.",                
-            },
-            SubKgtID : {
-                required: "Mohon untuk di pilih nama sub kegiatan.",                
             },
             Sasaran_Angka : {
                 required: "Mohon untuk di isi angka sasaran kegiatan.",                

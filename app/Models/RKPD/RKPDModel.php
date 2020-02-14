@@ -13,7 +13,7 @@ class RKPDModel extends Model {
      *
      * @var string
      */
-    protected $table = 'trRKPD90';
+    protected $table = 'trRKPD';
     /**
      * The attributes that are mass assignable.
      *
@@ -24,7 +24,7 @@ class RKPDModel extends Model {
         'RenjaID',
         'OrgID',
         'SOrgID',
-        'SubKgtID',
+        'KgtID',
         'SumberDanaID',
         'NamaIndikator',
         'Sasaran_Uraian1',
@@ -84,7 +84,7 @@ class RKPDModel extends Model {
     /**
      * log the changed attributes for all these events 
      */
-    protected static $logAttributes = ['RKPDID', 'SubKgtID', 'RKPDID_Src'];
+    protected static $logAttributes = ['RKPDID', 'KgtID', 'RKPDID_Src'];
     /**
      * log changes to all the $fillable attributes of the model
      */

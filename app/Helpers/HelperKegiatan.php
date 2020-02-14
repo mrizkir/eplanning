@@ -319,27 +319,27 @@ class HelperKegiatan {
             case 'usulanprarenjaopd' :
             case 'pembahasanprarenjaopd' :
             case 'reportusulanprarenjaopd' :
-                $dbViewName = 'v_usulan_pra_renja_opd90';
+                $dbViewName = 'v_usulan_pra_renja_opd';
             break;
             case 'usulanrakorbidang' :
             case 'pembahasanrakorbidang' :
-                $dbViewName = 'v_usulan_rakor_bidang90';
+                $dbViewName = 'v_usulan_rakor_bidang';
             break;
             case 'usulanforumopd' :
             case 'pembahasanforumopd' :
-                $dbViewName = 'v_usulan_forum_opd90';
+                $dbViewName = 'v_usulan_forum_opd';
             break;
             case 'usulanmusrenkab' :
             case 'pembahasanmusrenkab' :
-                $dbViewName = 'v_usulan_musren_kab90';
+                $dbViewName = 'v_usulan_musren_kab';
             break;  
             case 'verifikasirenja' :
-                $dbViewName = 'v_verifikasi_renja90';
+                $dbViewName = 'v_verifikasi_renja';
             break;    
             case 'rkpdmurni' :                        
             case 'rkpdperubahan' :
             case 'pembahasanrkpdp' :
-                $dbViewName = 'v_rkpd_rinci90';
+                $dbViewName = 'v_rkpd_rinci';
             break;          
             default :
                 $dbViewName = null;
