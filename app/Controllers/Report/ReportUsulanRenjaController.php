@@ -156,6 +156,15 @@ class ReportUsulanRenjaController extends Controller {
         return $data;
     }
     /**
+     * collect OPD data from resources for index view
+     *
+     * @return resources
+     */
+    public function populateDataOPD ()
+    {
+
+    }
+    /**
      * collect data from resources for index view
      *
      * @return resources
@@ -452,78 +461,96 @@ class ReportUsulanRenjaController extends Controller {
         $auth = \Auth::user();    
         $theme = $auth->theme;
 
-        //filter
-        if (!$this->checkStateIsExistSession($this->SessionName,'filters')) 
-        {            
-            $this->putControllerStateSession($this->SessionName,'filters',[
-                                                                            'OrgID'=>'none',
-                                                                            'SOrgID'=>'none',
-                                                                            ]);
-        }      
-        $filters=$this->getControllerStateSession($this->SessionName,'filters');
         $roles=$auth->getRoleNames();
-        $daftar_unitkerja=array();           
         switch ($roles[0])
         {
             case 'superadmin' :     
             case 'bapelitbang' :
-            case 'tapd' :     
-                $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);                  
-                if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
-                {
-                    $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$filters['OrgID']);        
-                }    
+            case 'tapd' :  
+                $daftar_opd=\DB::table('v_urusan_organisasi')
+                                ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                ->orderBy('kode_organisasi','ASC')
+                                ->get();
+
             break;
-            case 'opd' :
-                $daftar_opd=\App\Models\UserOPD::getOPD();      
-                if (count($daftar_opd) > 0)
-                {                    
-                    if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
-                    {
-                        $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$filters['OrgID']);        
-                    }  
-                }      
-                else
-                {
-                    $filters['OrgID']='none';
-                    $filters['SOrgID']='none';
-                    $this->putControllerStateSession($this->SessionName,'filters',$filters);
-
-                    return view("pages.$theme.report.reportusulanrenja.error")->with(['page_active'=>$this->NameOfPage, 
-                                                                                        'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
-                                                                                        'errormessage'=>'Anda Tidak Diperkenankan Mengakses Halaman ini, karena Sudah dikunci oleh BAPELITBANG',
-                                                                                        ]);
-                }       
-            break;
-
         }
-        $search=$this->getControllerStateSession($this->SessionName,'search'); 
-        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession($this->SessionName);
-        $data = $this->populateData($currentpage);
-        if ($currentpage > $data->lastPage())
-        {            
-            $data = $this->populateData($data->lastPage());
-        }
-
-        $this->setCurrentPageInsideSession($this->SessionName,$data->currentPage());
-        $paguanggaranopd=\App\Models\DMaster\PaguAnggaranOPDModel::select('Jumlah1')
-                                                                    ->where('OrgID',$filters['OrgID'])                                                    
-                                                                    ->value('Jumlah1');
-        
         return view("pages.$theme.report.reportusulanrenja.index")->with(['page_active'=>$this->NameOfPage, 
                                                                         'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),                                                                            
                                                                         'label_transfer'=>$this->LabelTransfer,
                                                                         'daftar_opd'=>$daftar_opd,
-                                                                        'daftar_unitkerja'=>$daftar_unitkerja,
-                                                                        'filters'=>$filters,
-                                                                        'search'=>$this->getControllerStateSession($this->SessionName,'search'),
-                                                                        'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                                        'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
-                                                                        'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
-                                                                        'paguanggaranopd'=>$paguanggaranopd,
-                                                                        'totalpaguindikatifopd'=>RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['OrgID']),
-                                                                        'totalpaguindikatifunitkerja' => RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['SOrgID']),            
-                                                                        'data'=>$data]);             
+                                                                    ]);
+        // //filter
+        // if (!$this->checkStateIsExistSession($this->SessionName,'filters')) 
+        // {            
+        //     $this->putControllerStateSession($this->SessionName,'filters',[
+        //                                                                     'OrgID'=>'none',
+        //                                                                     'SOrgID'=>'none',
+        //                                                                     ]);
+        // }      
+        // $filters=$this->getControllerStateSession($this->SessionName,'filters');
+        // $roles=$auth->getRoleNames();
+        // $daftar_unitkerja=array();           
+        // switch ($roles[0])
+        // {
+        //     case 'superadmin' :     
+        //     case 'bapelitbang' :
+        //     case 'tapd' :     
+        //         $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);                  
+        //         if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
+        //         {
+        //             $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$filters['OrgID']);        
+        //         }    
+        //     break;
+        //     case 'opd' :
+        //         $daftar_opd=\App\Models\UserOPD::getOPD();      
+        //         if (count($daftar_opd) > 0)
+        //         {                    
+        //             if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
+        //             {
+        //                 $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$filters['OrgID']);        
+        //             }  
+        //         }      
+        //         else
+        //         {
+        //             $filters['OrgID']='none';
+        //             $filters['SOrgID']='none';
+        //             $this->putControllerStateSession($this->SessionName,'filters',$filters);
+
+        //             return view("pages.$theme.report.reportusulanrenja.error")->with(['page_active'=>$this->NameOfPage, 
+        //                                                                                 'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
+        //                                                                                 'errormessage'=>'Anda Tidak Diperkenankan Mengakses Halaman ini, karena Sudah dikunci oleh BAPELITBANG',
+        //                                                                                 ]);
+        //         }       
+        //     break;
+
+        // }
+        // $search=$this->getControllerStateSession($this->SessionName,'search'); 
+        // $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession($this->SessionName);
+        // $data = $this->populateData($currentpage);
+        // if ($currentpage > $data->lastPage())
+        // {            
+        //     $data = $this->populateData($data->lastPage());
+        // }
+
+        // $this->setCurrentPageInsideSession($this->SessionName,$data->currentPage());
+        // $paguanggaranopd=\App\Models\DMaster\PaguAnggaranOPDModel::select('Jumlah1')
+        //                                                             ->where('OrgID',$filters['OrgID'])                                                    
+        //                                                             ->value('Jumlah1');
+        
+        // return view("pages.$theme.report.reportusulanrenja.index")->with(['page_active'=>$this->NameOfPage, 
+        //                                                                 'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),                                                                            
+        //                                                                 'label_transfer'=>$this->LabelTransfer,
+        //                                                                 'daftar_opd'=>$daftar_opd,
+        //                                                                 'daftar_unitkerja'=>$daftar_unitkerja,
+        //                                                                 'filters'=>$filters,
+        //                                                                 'search'=>$this->getControllerStateSession($this->SessionName,'search'),
+        //                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+        //                                                                 'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+        //                                                                 'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
+        //                                                                 'paguanggaranopd'=>$paguanggaranopd,
+        //                                                                 'totalpaguindikatifopd'=>RenjaRincianModel::getTotalPaguIndikatifByStatusAndOPD(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['OrgID']),
+        //                                                                 'totalpaguindikatifunitkerja' => RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['SOrgID']),            
+        //                                                                 'data'=>$data]);             
     }
     /**
      * Display the specified resource.
