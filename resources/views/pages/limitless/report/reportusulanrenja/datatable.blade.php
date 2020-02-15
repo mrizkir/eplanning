@@ -20,13 +20,53 @@
                             JUMLAH PROGRAM
                         </a>                                             
                     </th>                           
+                    <th width="100" class="text-left">
+                        <a class="column-sort text-white" href="#">
+                            JUMLAH KEGIATAN
+                        </a>                                             
+                    </th>                           
+                    <th width="100" class="text-left">
+                        <a class="column-sort text-white" href="#">
+                            TOTAL PAGU
+                        </a>                                             
+                    </th>                           
                 </tr>
             </thead>
             <tbody>                    
-            @foreach ($daftar_opd as $k=>$item)
-                    @php
-                        $OrgID=$item->OrgID;
-                    @endphp
+            @foreach ($daftar_opd as $k=>$item)                
+                @php
+                $OrgID=$item->OrgID;
+                switch ($page_active)
+                {
+                    case 'reportusulanprarenjaopd' :
+                        $jumlah_program = \DB::table('trRenja')
+                                            ->join('tmKgt','trRenja.KgtID','tmKgt.KgtID')
+                                            ->where('OrgID',$OrgID)
+                                            ->where('EntryLvl',0)
+                                            ->count(\DB::raw('DISTINCT("PrgID")'));
+
+                        $renja = \DB::table('trRenja')
+                                            ->select(\DB::raw('
+                                                                COUNT("KgtID") AS jumlah_kegiatan,
+                                                                COALESCE(SUM("NilaiUsulan1"),0) AS jumlah_pagu
+                                                            '))
+                                            ->where('OrgID',$OrgID)
+                                            ->where('EntryLvl',0)
+                                            ->get();
+                        
+                        $jumlah_kegiatan = $renja[0]->jumlah_kegiatan;
+                        $jumlah_pagu = $renja[0]->jumlah_pagu;
+                        
+                        \DB::table('trRekapPaguIndikatifOPD')
+                                ->where('OrgID',$OrgID)
+                                ->update([
+                                            'jumlah_program1'=>$jumlah_program,
+                                            'jumlah_kegiatan1'=>$jumlah_kegiatan,
+                                            'prarenja1'=>$jumlah_pagu,
+                                        ]);
+                    break;
+                }
+                @endphp
                 <tr>
                     <td>
                         {{$k+1}}
@@ -38,23 +78,13 @@
                         {{$item->OrgNm}}
                     </td>                
                     <td>
-                        @php
-                        switch ($page_active)
-                        {
-                            case 'reportusulanprarenjaopd' :
-                                $jumlah_program = \DB::table('trRenja')
-                                                    ->join('tmKgt','trRenja.KgtID','tmKgt.KgtID')
-                                                    ->where('OrgID',$OrgID)
-                                                    ->where('EntryLvl',0)
-                                                    ->count(\DB::raw('DISTINCT("PrgID")'));
-
-                                \DB::table('trRekapPaguIndikatifOPD')
-                                        ->where('OrgID',$OrgID)
-                                        ->update('jumlah_program1',$jumlah_program1);
-                            break;
-                        }
-                        @endphp
                         {{$jumlah_program}}
+                    </td>                
+                    <td>
+                        {{$jumlah_kegiatan}}
+                    </td>                
+                    <td>
+                        {{$jumlah_pagu}}
                     </td>                
                 </tr>
             @endforeach                    
