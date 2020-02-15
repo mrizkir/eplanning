@@ -152,8 +152,8 @@ $(document).ready(function () {
                                         });
     AutoNumeric.multiple(['#Target'], {
                                             allowDecimalPadding: false,
-                                            minimumValue:0.00,
-                                            maximumValue:100.00,
+                                            minimumValue:0,
+                                            maximumValue:99999999999,
                                             numericPos:true,
                                             decimalPlaces : 2,
                                             digitGroupSeparator : '',

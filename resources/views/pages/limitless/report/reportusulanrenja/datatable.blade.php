@@ -15,10 +15,18 @@
                             NAMA OPD
                         </a>                                             
                     </th>                           
+                    <th width="100" class="text-left">
+                        <a class="column-sort text-white" href="#">
+                            JUMLAH PROGRAM
+                        </a>                                             
+                    </th>                           
                 </tr>
             </thead>
             <tbody>                    
             @foreach ($daftar_opd as $k=>$item)
+                    @php
+                        $OrgID=$item->OrgID;
+                    @endphp
                 <tr>
                     <td>
                         {{$k+1}}
@@ -28,6 +36,25 @@
                     </td>
                     <td>
                         {{$item->OrgNm}}
+                    </td>                
+                    <td>
+                        @php
+                        switch ($page_active)
+                        {
+                            case 'reportusulanprarenjaopd' :
+                                $jumlah_program = \DB::table('trRenja')
+                                                    ->join('tmKgt','trRenja.KgtID','tmKgt.KgtID')
+                                                    ->where('OrgID',$OrgID)
+                                                    ->where('EntryLvl',0)
+                                                    ->count(\DB::raw('DISTINCT("PrgID")'));
+
+                                \DB::table('trRekapPaguIndikatifOPD')
+                                        ->where('OrgID',$OrgID)
+                                        ->update('jumlah_program1',$jumlah_program1);
+                            break;
+                        }
+                        @endphp
+                        {{$jumlah_program}}
                     </td>                
                 </tr>
             @endforeach                    

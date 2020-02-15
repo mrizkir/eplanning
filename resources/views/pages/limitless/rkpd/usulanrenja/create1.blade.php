@@ -120,7 +120,7 @@ $(document).ready(function () {
         allowClear:true
     });  
     AutoNumeric.multiple(['#Target_Angka'], {
-        allowDecimalPadding: false,
+                                            allowDecimalPadding: false,
                                             minimumValue:0.00,
                                             maximumValue:99999999999.00,
                                             numericPos:true,
