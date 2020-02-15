@@ -81,14 +81,14 @@
                 </div>
             </div>        
             <div class="form-group">
-                {{Form::label('Sasaran_Angka','SASARAN KEGIATAN',['class'=>'control-label col-md-2'])}}
+                {{Form::label('Sasaran_Angka','SASARAN URAIAN KEGIATAN',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
                     <div class="row">
                         <div class="col-md-6">
-                            {{Form::text('Sasaran_Angka',Helper::formatAngka($renja->Sasaran_Angka),['class'=>'form-control','placeholder'=>'ANGKA SASARAN'])}}
+                            {{Form::text('Sasaran_Angka',Helper::formatAngka($renja->Sasaran_Angka),['class'=>'form-control','placeholder'=>'VOLUME'])}}
                         </div>
                         <div class="col-md-6">
-                            {{Form::textarea('Sasaran_Uraian',$renja->Sasaran_Uraian,['class'=>'form-control','placeholder'=>'URAIAN SASARAN','rows'=>3,'id'=>'Sasaran_Uraian'])}}
+                            {{Form::textarea('Sasaran_Uraian',$renja->Sasaran_Uraian,['class'=>'form-control','placeholder'=>'SATUAN','rows'=>3,'id'=>'Sasaran_Uraian'])}}
                         </div>
                     </div>
                 </div>
@@ -96,7 +96,7 @@
             <div class="form-group">
                 {{Form::label('Target','TARGET (%)',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
-                    {{Form::text('Target',Helper::formatAngka($renja->Target),['class'=>'form-control','placeholder'=>'TARGET'])}}
+                    {{Form::text('Target',Helper::formatAngka($renja->Target),['class'=>'form-control','placeholder'=>'TARGET (%)'])}}
                 </div>
             </div>
             <div class="form-group">
@@ -152,8 +152,8 @@ $(document).ready(function () {
                                         });
     AutoNumeric.multiple(['#Target'], {
                                             allowDecimalPadding: false,
-                                            minimumValue:0,
-                                            maximumValue:99999999999,
+                                            minimumValue:0.00,
+                                            maximumValue:101.00,
                                             numericPos:true,
                                             decimalPlaces : 2,
                                             digitGroupSeparator : '',
