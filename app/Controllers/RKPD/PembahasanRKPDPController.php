@@ -642,7 +642,7 @@ class PembahasanRKPDPController extends Controller
                                 ->findOrFail($rkpdid);
             
             
-            $kegiatan=\App\Models\DMaster\SubKegiatanModel::select(\DB::raw('"trUrsPrg"."UrsID","trUrsPrg"."PrgID"'))
+            $kegiatan=\App\Models\DMaster\ProgramKegiatanModel::select(\DB::raw('"trUrsPrg"."UrsID","trUrsPrg"."PrgID"'))
                                                                 ->join('tmKgt','tmKgt.KgtID','tmKgt.KgtID')
                                                                 ->join('trUrsPrg','trUrsPrg.PrgID','tmKgt.PrgID')
                                                                 ->find($rkpd->KgtID);                                            
