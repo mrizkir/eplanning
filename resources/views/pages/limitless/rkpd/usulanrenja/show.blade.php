@@ -111,6 +111,12 @@
                                     </p>
                                 </div>                            
                             </div>  
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>INDIKATOR KINERJA KEGIATAN: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{Helper::formatAngka($renja->NamaIndikator)}}</p>
+                                </div>                            
+                            </div>
                         </div>                        
                     </div>
                     <div class="col-md-6">
@@ -122,37 +128,33 @@
                                 </div>                            
                             </div>   
                             <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>TARGET (%): </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{Helper::formatAngka($renja->Target)}}%</p>
+                                </div>                            
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>PAGU DANA (N-1): </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{Helper::formatUang($renja->NilaiSebelum)}}</p>
+                                </div>                            
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>KEBUTUHAN DANA INDIKATIF (N): </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static" id="pNilaiUsulan">{{Helper::formatUang($renja->NilaiUsulan)}}</p>                                                                   
+                                </div>                            
+                            </div>  
+                            <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>SASARAN KEGIATAN (N+1): </strong></label>
                                 <div class="col-md-8">
                                     <p class="form-control-static">{{Helper::formatAngka($renja->Sasaran_AngkaSetelah)}} {{$renja->Sasaran_UraianSetelah}}</p>
                                 </div>                            
-                            </div>   
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>TARGET (%): </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::formatAngka($renja->Target)}}</p>
-                                </div>                            
                             </div>
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>NILAI (TA-1 / TA / TA+1): </strong></label>
+                                <label class="col-md-4 control-label"><strong>KEBUTUHAN DANA INDIKATIF (N+1): </strong></label>
                                 <div class="col-md-8">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <p class="form-control-static">{{Helper::formatUang($renja->NilaiSebelum)}}</p>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <p class="form-control-static" id="pNilaiUsulan">{{Helper::formatUang($renja->NilaiUsulan)}}</p>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <p class="form-control-static">{{Helper::formatUang($renja->NilaiSetelah)}}</p>
-                                        </div>
-                                    </div>                                    
-                                </div>                            
-                            </div>  
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>INDIKATOR KEGIATAN: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{$renja->NamaIndikator}}</p>
+                                    <p class="form-control-static">{{Helper::formatUang($renja->NilaiSetelah)}}</p>
                                 </div>                            
                             </div>  
                             <div class="form-group">
