@@ -84,7 +84,7 @@
                         {{$jumlah_kegiatan}}
                     </td>                
                     <td>
-                        {{$jumlah_pagu}}
+                        {{Helper::formatUang($jumlah_pagu)}}
                     </td>                
                 </tr>
             @endforeach                    
