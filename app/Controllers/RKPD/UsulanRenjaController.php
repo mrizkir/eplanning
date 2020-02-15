@@ -683,7 +683,7 @@ class UsulanRenjaController extends Controller
                                 ->findOrFail($renjaid);
             
             
-            $kegiatan=\App\Models\DMasterProgramKegiatanModel::select(\DB::raw('"trUrsPrg"."UrsID","trUrsPrg"."PrgID"'))
+            $kegiatan=\App\Models\DMaster\ProgramKegiatanModel::select(\DB::raw('"trUrsPrg"."UrsID","trUrsPrg"."PrgID"'))
                                                                 ->join('trUrsPrg','trUrsPrg.PrgID','tmKgt.PrgID')
                                                                 ->find($renja->KgtID);  
             if ($kegiatan == null)
