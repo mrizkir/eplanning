@@ -185,6 +185,15 @@ class UsulanRenjaController extends Controller
                                     ->orderBy('Prioritas','ASC')
                                     ->orderBy($column_order,$direction);                                        
                 break;
+                case 'KgtID' :
+                    $data = \DB::table(\HelperKegiatan::getViewName($this->NameOfPage))
+                                ->select(\HelperKegiatan::getField($this->NameOfPage))
+                                ->where(['KgtID'=>$search['isikriteria']])                                                    
+                                ->where('SOrgID',$SOrgID)
+                                ->where('TA', \HelperKegiatan::getTahunPerencanaan())
+                                ->orderBy('Prioritas','ASC')
+                                ->orderBy($column_order,$direction); 
+                break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }

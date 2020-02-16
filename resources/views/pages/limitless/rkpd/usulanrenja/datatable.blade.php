@@ -215,6 +215,10 @@
                             <strong>RENJARINCID:</strong>
                             {{$item->RenjaRincID}}
                         </span>
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>KGTID:</strong>
+                            {{$item->KgtID}}
+                        </span>
                         <span class="label label-warning label-rounded">
                             <strong>KET:</strong>
                             {{empty($item->Descr)?'-':$item->Descr}}
