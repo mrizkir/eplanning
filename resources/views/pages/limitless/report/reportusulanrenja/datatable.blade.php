@@ -117,6 +117,14 @@
                         {{Helper::formatUang($jumlah_pagu)}}
                     </td>             
                 </tr>
+                <tr class="text-center info">
+                    <td colspan="10">                   
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>ORGID:</strong>
+                            {{$item->OrgID}}
+                        </span>
+                    </td>
+                </tr>
             @endforeach                    
             </tbody>           
         </table>               
