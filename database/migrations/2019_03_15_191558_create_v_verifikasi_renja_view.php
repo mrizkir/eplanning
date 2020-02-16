@@ -58,6 +58,7 @@ class CreateVVerifikasiRenjaView extends Migration
                 END AS kode_program,
                 G."PrgNm",
                 G."Jns",
+                F."KgtID",
                 F."Kd_Keg",
                 CASE 
                     WHEN I."UrsID" IS NOT NULL OR  J."KUrsID" IS NOT NULL THEN
