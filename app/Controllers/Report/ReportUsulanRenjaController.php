@@ -472,6 +472,22 @@ class ReportUsulanRenjaController extends Controller {
                                 ->orderBy('kode_organisasi','ASC')
                                 ->get();
 
+            break;  
+            case 'opd' :
+                $daftar_opd=\DB::table('usersopd')
+                                ->join('v_urusan_organisasi','v_urusan_organisasi.OrgID','usersopd.OrgID')
+                                ->where('id',$auth->id)  
+                                ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                ->orderBy('kode_organisasi','ASC')
+                                ->get();
+                
+                if (!count($daftar_opd) > 0)
+                {
+                    return view("pages.$theme.report.reportusulanrenja.error")->with(['page_active'=>$this->NameOfPage, 
+                                                                                        'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
+                                                                                        'errormessage'=>'Anda Tidak Diperkenankan Mengakses Halaman ini, karena Sudah dikunci oleh BAPELITBANG',
+                                                                                        ]);
+                }       
             break;
         }
         return view("pages.$theme.report.reportusulanrenja.index")->with(['page_active'=>$this->NameOfPage, 
