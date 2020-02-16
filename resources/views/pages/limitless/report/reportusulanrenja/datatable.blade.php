@@ -1,5 +1,8 @@
 <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">    
     @if (count($daftar_opd) > 0)
+    <div class="panel-body">
+        Catatan: Jumlah kegiatan dihitung berdasarkan kegiatan yang sudah ada uraiannya.
+    </div>
     <div class="table-responsive">
         <table id="data" class="table table-striped table-hover">
             <thead>
