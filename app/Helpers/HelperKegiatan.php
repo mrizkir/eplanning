@@ -357,6 +357,7 @@ class HelperKegiatan {
             case 'pembahasanprarenjaopd' :
             case 'reportusulanprarenjaopd' :
                 $rawSql = \DB::raw('"RenjaID",                                    
+                                    "KgtID",
                                     "RenjaRincID",
                                     "UsulanKecID",
                                     "Nm_Kecamatan",
@@ -381,6 +382,7 @@ class HelperKegiatan {
             case 'usulanrakorbidang' :
             case 'pembahasanrakorbidang' :
                 $rawSql = \DB::raw('"RenjaID",
+                                    "KgtID",
                                     "RenjaRincID",
                                     "UsulanKecID",
                                     "Nm_Kecamatan",
@@ -405,6 +407,7 @@ class HelperKegiatan {
             case 'usulanforumopd' :
             case 'pembahasanforumopd' :
                 $rawSql = \DB::raw('"RenjaID",
+                                    "KgtID",
                                     "RenjaRincID",
                                     "UsulanKecID",
                                     "Nm_Kecamatan",
@@ -429,6 +432,7 @@ class HelperKegiatan {
             case 'usulanmusrenkab' :
             case 'pembahasanmusrenkab' :
                 $rawSql = \DB::raw('"RenjaID",
+                                    "KgtID",
                                     "RenjaRincID",
                                     "UsulanKecID",
                                     "No",
@@ -452,6 +456,7 @@ class HelperKegiatan {
             break;
             case 'verifikasirenja' :
                 $rawSql = \DB::raw('"RenjaID",
+                                    "KgtID",
                                     "RenjaRincID",
                                     "UsulanKecID",
                                     "No",
