@@ -114,7 +114,7 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><strong>INDIKATOR KINERJA KEGIATAN: </strong></label>
                                 <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::formatAngka($renja->NamaIndikator)}}</p>
+                                    <p class="form-control-static">{{$renja->NamaIndikator}}</p>
                                 </div>                            
                             </div>
                         </div>                        
