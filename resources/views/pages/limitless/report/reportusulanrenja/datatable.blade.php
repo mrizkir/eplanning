@@ -56,12 +56,13 @@
                                             ->count(\DB::raw('DISTINCT("PrgID")'));
 
                         $renja = \DB::table('trRenja')
+                                            ->join('trRenjaRinc','trRenjaRinc.RenjaID','trRenja.RenjaID')
                                             ->select(\DB::raw('
-                                                                COUNT("KgtID") AS jumlah_kegiatan,
-                                                                COALESCE(SUM("NilaiUsulan1"),0) AS jumlah_pagu
+                                                                COUNT(DISTINCT("KgtID")) AS jumlah_kegiatan,
+                                                                COALESCE(SUM("Jumlah1"),0) AS jumlah_pagu
                                                             '))
                                             ->where('OrgID',$OrgID)
-                                            ->where('EntryLvl',0)
+                                            ->where('trRenja.EntryLvl',0)
                                             ->get();
                         
                         $jumlah_kegiatan = $renja[0]->jumlah_kegiatan;
