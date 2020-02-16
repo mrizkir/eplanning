@@ -24,12 +24,22 @@
                         <a class="column-sort text-white" href="#">
                             JUMLAH KEGIATAN
                         </a>                                             
+                    </th>                      
+                    <th width="100" class="text-left">
+                        <a class="column-sort text-white" href="#">
+                            JUMLAH POKIR TERAKOMODIR
+                        </a>                                             
                     </th>                           
+                    <th width="100" class="text-left">
+                        <a class="column-sort text-white" href="#">
+                            JUMLAH USULAN MUSREN. KEC. TERAKOMODIR
+                        </a>                                             
+                    </th>      
                     <th width="100" class="text-left">
                         <a class="column-sort text-white" href="#">
                             TOTAL PAGU
                         </a>                                             
-                    </th>                           
+                    </th>
                 </tr>
             </thead>
             <tbody>                    
@@ -64,6 +74,20 @@
                                             'jumlah_kegiatan1'=>$jumlah_kegiatan,
                                             'prarenja1'=>$jumlah_pagu,
                                         ]);
+
+                        $renja = \DB::table('trRenjaRinc')
+                                            ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')
+                                            ->select(\DB::raw('
+                                                                COUNT("PokPirID") AS jumlah_pokir,
+                                                                COUNT("UsulanKecID") AS jumlah_usulan_kec
+                                                            '))
+                                            ->where('OrgID',$OrgID)
+                                            ->where('trRenjaRinc.EntryLvl',0)
+                                            ->get();
+
+                        $jumlah_pokir = $renja[0]->jumlah_pokir;
+                        $jumlah_usulan_kec = $renja[0]->jumlah_usulan_kec;
+                        
                     break;
                 }
                 @endphp
@@ -82,10 +106,16 @@
                     </td>                
                     <td>
                         {{$jumlah_kegiatan}}
-                    </td>                
+                    </td>  
+                    <td>
+                        {{$jumlah_pokir}}
+                    </td>             
+                    <td>
+                        {{$jumlah_usulan_kec}}
+                    </td>  
                     <td>
                         {{Helper::formatUang($jumlah_pagu)}}
-                    </td>                
+                    </td>             
                 </tr>
             @endforeach                    
             </tbody>           
