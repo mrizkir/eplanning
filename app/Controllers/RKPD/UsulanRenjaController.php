@@ -598,11 +598,11 @@ class UsulanRenjaController extends Controller
                     ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                     ->where('PrgID',$PrgID)             
                     ->WhereNotIn('KgtID',function($query) {
-                        $OrgID=$this->getControllerStateSession($this->SessionName,'filters.OrgID');
+                        $SOrgID=$this->getControllerStateSession($this->SessionName,'filters.SOrgID');
                         $query->select('KgtID')
                                 ->from('trRenja')
                                 ->where('TA', \HelperKegiatan::getTahunPerencanaan())
-                                ->where('OrgID', $OrgID);
+                                ->where('SOrgID', $SOrgID);
                     })         
                     ->get();
             $daftar_kegiatan=[];        
