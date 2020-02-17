@@ -19,6 +19,7 @@ class CreateVUsulanPraRenjaOPDView extends Migration
                 K."RenjaRincID",
                 A."OrgID",
                 A."SOrgID",
+                A."SumberDanaID",
                 CONCAT(E."Kd_Urusan",  \'.\', D."Kd_Bidang",\'.\', B."OrgCd") AS kode_organisasi,
                 B."OrgNm",
                 CONCAT(E."Kd_Urusan",\'.\',D."Kd_Bidang",\'.\',B."OrgCd",\'.\',C."SOrgCd") kode_suborganisasi,
@@ -68,14 +69,20 @@ class CreateVUsulanPraRenjaOPDView extends Migration
                 END AS kode_kegiatan,
                 F."KgtNm",
                 K."No",
+                A."NamaIndikator",
                 K."Uraian",
                 K."Sasaran_Angka1",
                 K."Sasaran_Uraian1",
                 K."Target1",
                 K."Jumlah1",
+                A."Sasaran_AngkaSetelah",
+                A."Sasaran_UraianSetelah",
+                A."NilaiSebelum",
+                A."NilaiSetelah",
                 K."Prioritas",
                 K."Status",
                 A."Status_Indikator",
+                P."Nm_SumberDana",
                 K."EntryLvl",
                 K."Privilege",
                 A."Locked",
@@ -103,6 +110,8 @@ class CreateVUsulanPraRenjaOPDView extends Migration
             LEFT JOIN "tmPmKota" M ON K."PmKotaID"=M."PmKotaID"
             LEFT JOIN "tmPmKecamatan" N ON K."PmKecamatanID"=N."PmKecamatanID"
             LEFT JOIN "tmPmDesa" O ON K."PmDesaID"=O."PmDesaID"
+            LEFT JOIN "tmSumberDana" P ON A."SumberDanaID"=P."SumberDanaID"
+
             WHERE
                 A."EntryLvl"=0
             ORDER BY

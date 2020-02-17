@@ -44,7 +44,11 @@ class ReportModel extends Model
                                         GROUP BY B."PrgID"
                                     ) t
                                 WHERE 
-                                v."PrgID"=t."PrgID"
+                                    v."PrgID"=t."PrgID"
+                                ORDER BY
+                                    v."Kd_Urusan"::int ASC NULLS FIRST,
+                                    v."Kd_Bidang"::int ASC NULLS FIRST,
+                                    v."Kd_Prog"::int ASC
                         ');                            
         $bp=$urusan_program;
         $p=$urusan_program;

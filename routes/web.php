@@ -659,7 +659,8 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/report/rkpd/reportusulanprarenjaopd/changenumberrecordperpage',['uses'=>'Report\ReportUsulanRenjaController@changenumberrecordperpage','as'=>'reportusulanprarenjaopd.changenumberrecordperpage']);  
     Route::post('/report/rkpd/reportusulanprarenjaopd/orderby',['uses'=>'Report\ReportUsulanRenjaController@orderby','as'=>'reportusulanprarenjaopd.orderby']);
 
-    Route::get('/report/rkpd/reportusulanprarenjaopd/printtoexcel',['uses'=>'Report\ReportUsulanRenjaController@printtoexcel','as'=>'reportusulanprarenjaopd.printtoexcel']);  
+    Route::get('/report/rkpd/reportusulanprarenjaopd/printtoexcel/{uuid}',['uses'=>'Report\ReportUsulanRenjaController@printtoexcel','as'=>'reportusulanprarenjaopd.printtoexcel']);  
+    Route::get('/report/rkpd/reportusulanprarenjaopd/printtoexceldetail{uuid}',['uses'=>'Report\ReportUsulanRenjaController@printtoexceldetail','as'=>'reportusulanprarenjaopd.printtoexceldetail']);  
     
     //Report - RENCANA KERJA OPD / SKPD - RKPD MURNI PER OPD   
     Route::resource('/report/rkpd/reportrkpdmurniopd','Report\ReportRKPDMurniOPDController',[

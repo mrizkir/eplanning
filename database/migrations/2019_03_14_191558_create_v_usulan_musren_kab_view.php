@@ -19,6 +19,7 @@ class CreateVUsulanMusrenKabView extends Migration
                 K."RenjaRincID",
                 A."OrgID",
                 A."SOrgID",
+                A."SumberDanaID",
                 CONCAT(E."Kd_Urusan",  \'.\', D."Kd_Bidang",\'.\', B."OrgCd") AS kode_organisasi,
                 B."OrgNm",
                 CONCAT(E."Kd_Urusan",\'.\',D."Kd_Bidang",\'.\',B."OrgCd",\'.\',C."SOrgCd") kode_suborganisasi,
@@ -67,15 +68,21 @@ class CreateVUsulanMusrenKabView extends Migration
                         CONCAT(\'0.00.\',G."Kd_Prog", \'.\',F."Kd_Keg")
                 END AS kode_kegiatan,
                 F."KgtNm",
+                A."NamaIndikator",
                 K."No",
                 K."Uraian",
                 K."Sasaran_Angka4",
                 K."Sasaran_Uraian4",
                 K."Target4",
                 K."Jumlah4",
+                A."Sasaran_AngkaSetelah",
+                A."Sasaran_UraianSetelah",
+                A."NilaiSebelum",
+                A."NilaiSetelah",
                 K."Prioritas",
                 K."Status",
                 A."Status_Indikator",
+                P."Nm_SumberDana",
                 K."EntryLvl",
                 K."Privilege",
                 A."Locked",
@@ -103,6 +110,8 @@ class CreateVUsulanMusrenKabView extends Migration
             LEFT JOIN "tmPmKota" M ON K."PmKotaID"=M."PmKotaID"
             LEFT JOIN "tmPmKecamatan" N ON K."PmKecamatanID"=N."PmKecamatanID"
             LEFT JOIN "tmPmDesa" O ON K."PmDesaID"=O."PmDesaID"
+            LEFT JOIN "tmSumberDana" P ON A."SumberDanaID"=P."SumberDanaID"
+
             WHERE
                 A."EntryLvl"=3
             ORDER BY

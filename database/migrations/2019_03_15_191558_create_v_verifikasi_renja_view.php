@@ -19,6 +19,7 @@ class CreateVVerifikasiRenjaView extends Migration
                 K."RenjaRincID",
                 A."OrgID",
                 A."SOrgID",
+                A."SumberDanaID",
                 CONCAT(E."Kd_Urusan",  \'.\', D."Kd_Bidang",\'.\', B."OrgCd") AS kode_organisasi,
                 B."OrgNm",
                 CONCAT(E."Kd_Urusan",\'.\',D."Kd_Bidang",\'.\',B."OrgCd",\'.\',C."SOrgCd") kode_suborganisasi,
@@ -67,6 +68,7 @@ class CreateVVerifikasiRenjaView extends Migration
                         CONCAT(\'0.00.\',G."Kd_Prog", \'.\',F."Kd_Keg")
                 END AS kode_kegiatan,
                 F."KgtNm",
+                A."NamaIndikator",
                 K."No",
                 K."Uraian",
                 K."Sasaran_Angka1",
@@ -92,6 +94,7 @@ class CreateVVerifikasiRenjaView extends Migration
                 K."Prioritas",
                 K."Status",
                 A."Status_Indikator",
+                P."Nm_SumberDana",
                 K."EntryLvl",
                 K."Privilege",
                 A."Locked",
@@ -119,6 +122,8 @@ class CreateVVerifikasiRenjaView extends Migration
             LEFT JOIN "tmPmKota" M ON K."PmKotaID"=M."PmKotaID"
             LEFT JOIN "tmPmKecamatan" N ON K."PmKecamatanID"=N."PmKecamatanID"
             LEFT JOIN "tmPmDesa" O ON K."PmDesaID"=O."PmDesaID"
+            LEFT JOIN "tmSumberDana" P ON A."SumberDanaID"=P."SumberDanaID"
+            
             WHERE
                 A."EntryLvl"=4
             ORDER BY

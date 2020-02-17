@@ -43,6 +43,7 @@
                             TOTAL PAGU
                         </a>                                             
                     </th>
+                    <th width="120">AKSI</th>
                 </tr>
             </thead>
             <tbody>                    
@@ -120,6 +121,30 @@
                     <td>
                         {{Helper::formatUang($jumlah_pagu)}}
                     </td>             
+                    <td>
+                        <ul class="icons-list">
+                            <li class="dropdown text-teal-600">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="icon-cog7"></i>
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-right" style="font-size:8px">
+                                    <li>
+                                        <a href="{!!route(Helper::getNameOfPage('printtoexcel'),['uuid'=>$item->OrgID])!!}" title="Cetak Laporan">                                        
+                                            <i class="icon-printer"></i>                                        
+                                            PRINT 
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{!!route(Helper::getNameOfPage('printtoexceldetail'),['uuid'=>$item->OrgID])!!}" title="Cetak Laporan">                                        
+                                            <i class="icon-printer"></i>                                        
+                                            PRINT RINCIAN
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </td>
                 </tr>
                 <tr class="text-center info">
                     <td colspan="10">                   
