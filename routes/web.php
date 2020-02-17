@@ -108,12 +108,12 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/dmaster/program/reorderkegiatan',['uses'=>'DMaster\ProgramController@reorderkegiatan','as'=>'program.reorderkegiatan']);  
     
     //masters - data program kegiatan [data]
-    Route::resource('/dmaster/programkegiatan','DMaster\ProgramKegiatanController',['parameters'=>['kegiatan'=>'uuid']]); 
-    Route::post('/dmaster/programkegiatan/search',['uses'=>'DMaster\ProgramKegiatanController@search','as'=>'kegiatan.search']);  
-    Route::post('/dmaster/programkegiatan/filter',['uses'=>'DMaster\ProgramKegiatanController@filter','as'=>'kegiatan.filter']);              
-    Route::get('/dmaster/programkegiatan/paginate/{id}',['uses'=>'DMaster\ProgramKegiatanController@paginate','as'=>'kegiatan.paginate']);              
-    Route::post('/dmaster/programkegiatan/changenumberrecordperpage',['uses'=>'DMaster\ProgramKegiatanController@changenumberrecordperpage','as'=>'kegiatan.changenumberrecordperpage']);  
-    Route::post('/dmaster/programkegiatan/orderby',['uses'=>'DMaster\ProgramKegiatanController@orderby','as'=>'kegiatan.orderby']);  
+    Route::resource('/dmaster/programkegiatan','DMaster\ProgramKegiatanController',['parameters'=>['programkegiatan'=>'uuid']]); 
+    Route::post('/dmaster/programkegiatan/search',['uses'=>'DMaster\ProgramKegiatanController@search','as'=>'programkegiatan.search']);  
+    Route::post('/dmaster/programkegiatan/filter',['uses'=>'DMaster\ProgramKegiatanController@filter','as'=>'programkegiatan.filter']);              
+    Route::get('/dmaster/programkegiatan/paginate/{id}',['uses'=>'DMaster\ProgramKegiatanController@paginate','as'=>'programkegiatan.paginate']);              
+    Route::post('/dmaster/programkegiatan/changenumberrecordperpage',['uses'=>'DMaster\ProgramKegiatanController@changenumberrecordperpage','as'=>'programkegiatan.changenumberrecordperpage']);  
+    Route::post('/dmaster/programkegiatan/orderby',['uses'=>'DMaster\ProgramKegiatanController@orderby','as'=>'programkegiatan.orderby']);  
     
     //masters - mapping program ke OPD [mapping]
     Route::resource('/dmaster/mappingprogramtoopd','DMaster\MappingProgramToOPDController',[
