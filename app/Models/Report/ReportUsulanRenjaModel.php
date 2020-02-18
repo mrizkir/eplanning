@@ -312,7 +312,7 @@ class ReportUsulanRenjaModel extends ReportModel
                                 $nama_indikator=$renja->NamaIndikator;
                                 $sheet->setCellValue("G$row",$nama_indikator); 
                                 $sheet->setCellValue("H$row",'Kab. Bintan'); 
-                                $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($renja->Sasaran_Angka1) . ' '.$renja->Sasaran_Uraian1)));                                     
+                                $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($renja->Sasaran_Angka) . ' '.$renja->Sasaran_Uraian)));                                     
                                 $sheet->setCellValue("J$row",0); //nilai ini akan di isi oleh dibawah
                                 $sheet->setCellValue("K$row",$renja->Nm_SumberDana); 
                                 $sheet->setCellValue("L$row",$renja->Descr); 
