@@ -28,6 +28,7 @@ class UsersOPDController extends Controller {
     {        
         $data = \App\Models\UserOPD::where('id',$userid)
                                     ->where('ta',\HelperKegiatan::getTahunPerencanaan())
+                                    ->orderBy('OrgNm','ASC')
                                     ->get();
         return $data;
     }
