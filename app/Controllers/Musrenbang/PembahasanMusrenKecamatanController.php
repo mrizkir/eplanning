@@ -378,6 +378,7 @@ class PembahasanMusrenKecamatanController extends Controller {
         else
         {
             $data_report=\App\Models\DMaster\KecamatanModel::find($filters['PmKecamatanID'])->toArray();
+            $data_report['mode']='bypmkecamatanid';
             $report= new \App\Models\Report\ReportMusrenbangKecamatanModel ($data_report);
             $generate_date=date('Y-m-d_H_m_s');
             return $report->download("laporan_musrenbang_kecamatan_$generate_date.xlsx");

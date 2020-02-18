@@ -651,10 +651,8 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::resource('/report/musren/reportkegiatanmusrenkecopd','Report\ReportKegiatanMusrenKecOPDController',[
                                                                 'parameters'=>['reportkegiatanmusrenkecopd'=>'uuid'],
                                                                 'only'=>['index','show']
-                                                            ]); 
-
+                                                            ]);
     Route::get('/report/musren/reportkegiatanmusrenkecopd/printtoexcel/{uuid}',['uses'=>'Report\ReportKegiatanMusrenKecOPDController@printtoexcel','as'=>'reportkegiatanmusrenkecopd.printtoexcel']);  
-    Route::get('/report/musren/reportkegiatanmusrenkecopd/printtoexceldetail{uuid}',['uses'=>'Report\ReportKegiatanMusrenKecOPDController@printtoexceldetail','as'=>'reportkegiatanmusrenkecopd.printtoexceldetail']);  
     
     //Report - USULAN RENCANA KERJA OPD / SKPD  
     Route::resource('/report/renja/reportusulanprarenjaopd','Report\ReportUsulanRenjaController',[
