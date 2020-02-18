@@ -4,7 +4,7 @@ namespace App\Models\Report;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
-use App\Models\RKPD\RKPDViewJudulModel;
+use App\Models\RKPD\RenjaModel;
 
 class ReportUsulanRenjaModel extends ReportModel
 {   
@@ -128,7 +128,7 @@ class ReportUsulanRenjaModel extends ReportModel
         $sheet->getStyle("A7:N9")->applyFromArray($styleArray);
         $sheet->getStyle("A7:N9")->getAlignment()->setWrapText(true);
         
-        $struktur = $this->generateStructure($field,$id,1);
+        $struktur = $this->generateStructureRenja($field,$id,$this->dataReport['EntryLvl']);
         $row=10;
         $total_pagu=0;        
         $total_nilai_setelah=0;        
@@ -185,9 +185,11 @@ class ReportUsulanRenjaModel extends ReportModel
                         foreach ($daftar_kegiatan as $v4) 
                         {
                             $renja = \DB::table(\HelperKegiatan::getViewName($this->dataReport['NameOfPage']))
+                                                ->select(\HelperKegiatan::getField($this->dataReport['NameOfPage']))
                                                 ->where('KgtID',$v4->KgtID)                                                
                                                 ->where($field,$id)
                                                 ->first();
+                                                
                             $sheet->getStyle("A$row:N$row")->applyFromArray($styleArrayKegiatan);
                             $sheet->setCellValue("A$row",0);
                             $sheet->setCellValue("B$row",'00');
@@ -197,8 +199,8 @@ class ReportUsulanRenjaModel extends ReportModel
                             $nama_indikator=$renja->NamaIndikator;
                             $sheet->setCellValue("G$row",$nama_indikator); 
                             $sheet->setCellValue("H$row",'Kab. Bintan'); 
-                            $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($renja->Sasaran_Angka2) . ' '.$renja->Sasaran_Uraian2))); 
-                            $sheet->setCellValue("J$row",\Helper::formatUang($renja->NilaiUsulan2)); 
+                            $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($renja->Sasaran_Angka) . ' '.$renja->Sasaran_Uraian))); 
+                            $sheet->setCellValue("J$row",\Helper::formatUang($renja->Jumlah)); 
                             $sheet->setCellValue("K$row",$renja->Nm_SumberDana); 
                             $sheet->setCellValue("L$row",$renja->Descr); 
                             $sheet->setCellValue("M$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($renja->Sasaran_AngkaSetelah).' '.$renja->Sasaran_UraianSetelah))); 
@@ -210,7 +212,7 @@ class ReportUsulanRenjaModel extends ReportModel
                             $row+=1;  
                             $no=1;
                             $rincian_kegiatan = \DB::table(\HelperKegiatan::getViewName($this->dataReport['NameOfPage']))
-                                                ->select(\HelperKegiatan::getField($this->NameOfPage))                                                
+                                                ->select(\HelperKegiatan::getField($this->dataReport['NameOfPage']))                                                
                                                 ->where('KgtID',$v4->KgtID)
                                                 ->where('PrgID',$v3['PrgID'])
                                                 ->where($field,$id)

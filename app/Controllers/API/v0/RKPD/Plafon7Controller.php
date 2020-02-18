@@ -39,7 +39,7 @@ class Plafon7Controller extends Controller {
         $data = $this->generateData ('OrgID',$id);
         return response()->json($data,200); 
     }   
-    private function generateStructure($field,$id)
+    private function generateStructureRKPD($field,$id)
     {
         $urusan_program = \DB::select('   
                                 SELECT 
@@ -124,7 +124,7 @@ class Plafon7Controller extends Controller {
     private function generateData ($field,$id)  
     {   
         $data=[];
-        $struktur = $this->generateStructure("OrgID",$id);        
+        $struktur = $this->generateStructureRKPD("OrgID",$id);        
         foreach ($struktur as $Kd_Urusan=>$v1)
         {        
             if ($Kd_Urusan == 0)

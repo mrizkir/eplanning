@@ -462,6 +462,16 @@
                     <div class="dropdown-content-body">
                         <div class="row">
                             <div class="col-md-3">
+                                <span class="menu-heading underlined bg-blue-300" style="padding:10px"><i class="icon-file-empty"></i> MUSRENBANG</span>
+                                <ul class="menu-list">
+                                    <li{!!Helper::isMenuActive ($page_active,'reportkegiatanmusrenkecopd',' class="active"')!!}>
+                                        <a href="{{route('reportkegiatanmusrenkecopd.index')}}" title="Report Usulan Kegiatan Musren. Kec. di OPD">
+                                            <i class="icon-file-empty"></i> KEGIATAN MUSREN. KEC. DI OPD</span>
+                                        </a>
+                                    </li>                                    
+                                </ul>   
+                            </div>
+                            <div class="col-md-3">
                                 <span class="menu-heading underlined bg-blue-300" style="padding:10px"><i class="icon-file-empty"></i> RENCANA KERJA OPD / SKPD</span>
                                 <ul class="menu-list">
                                     <li{!!Helper::isMenuActive ($page_active,'reportusulanprarenjaopd',' class="active"')!!}>

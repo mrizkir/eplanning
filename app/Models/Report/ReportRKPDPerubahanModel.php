@@ -346,7 +346,7 @@ class ReportRKPDPerubahanModel extends ReportModel
         $sheet->getStyle("A7:O9")->applyFromArray($styleArray);
         $sheet->getStyle("A7:O9")->getAlignment()->setWrapText(true);
 
-        $struktur = $this->generateStructure($field,$id,4);
+        $struktur = $this->generateStructureRKPD($field,$id,4);
         $row=10;
         $total_pagu=0;        
         $total_pagu_setelah=0;

@@ -127,7 +127,7 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
         $sheet->getStyle("A7:N9")->applyFromArray($styleArray);
         $sheet->getStyle("A7:N9")->getAlignment()->setWrapText(true);
         
-        $struktur = $this->generateStructure($field,$id,2);
+        $struktur = $this->generateStructureRKPD($field,$id,2);
         $row=10;
         $total_pagu=0;        
         $total_nilai_setelah=0;        

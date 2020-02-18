@@ -21,7 +21,7 @@
     </div>
     @php
         $rkpdreport=new \App\Models\Report\ReportRKPDMurniModel ([],false);
-        $struktur=$rkpdreport->generateStructure('OrgID',$filters['OrgID'],1);                
+        $struktur=$rkpdreport->generateStructureRKPD('OrgID',$filters['OrgID'],1);                
         $total_all_nilai_usulan=0;      
         $total_all_nilai_setelah=0;  
     @endphp

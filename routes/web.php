@@ -646,6 +646,12 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/workflow/rkpd/pembahasanrkpdp/orderby',['uses'=>'RKPD\PembahasanRKPDPController@orderby','as'=>'pembahasanrkpdp.orderby']);
     Route::get('/workflow/rkpd/pembahasanrkpdp/printtoexcel',['uses'=>'RKPD\PembahasanRKPDPController@printtoexcel','as'=>'pembahasanrkpdp.printtoexcel']);
     Route::get('/workflow/rkpd/pembahasanrkpdp/printtopdf',['uses'=>'RKPD\PembahasanRKPDPController@printtopdf','as'=>'pembahasanrkpdp.printtopdf']);
+    
+    //Report - USULAN KEGIATAN MUSREN. KEC. DI  OPD  
+    Route::resource('/report/rkpd/reportkegiatanmusrenkecopd','Report\ReportKegiatanMusrenKecOPD',[
+                                                                'parameters'=>['reportkegiatanmusrenkecopd'=>'uuid'],
+                                                                'only'=>['index']
+                                                            ]); 
 
     //Report - USULAN RENCANA KERJA OPD / SKPD  
     Route::resource('/report/rkpd/reportusulanprarenjaopd','Report\ReportUsulanRenjaController',[
@@ -655,8 +661,6 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
 
     Route::post('/report/rkpd/reportusulanprarenjaopd/search',['uses'=>'Report\ReportUsulanRenjaController@search','as'=>'reportusulanprarenjaopd.search']);              
     Route::post('/report/rkpd/reportusulanprarenjaopd/filter',['uses'=>'Report\ReportUsulanRenjaController@filter','as'=>'reportusulanprarenjaopd.filter']);                  
-    Route::get('/report/rkpd/reportusulanprarenjaopd/paginate/{id}',['uses'=>'Report\ReportUsulanRenjaController@paginate','as'=>'reportusulanprarenjaopd.paginate']);              
-    Route::post('/report/rkpd/reportusulanprarenjaopd/changenumberrecordperpage',['uses'=>'Report\ReportUsulanRenjaController@changenumberrecordperpage','as'=>'reportusulanprarenjaopd.changenumberrecordperpage']);  
     Route::post('/report/rkpd/reportusulanprarenjaopd/orderby',['uses'=>'Report\ReportUsulanRenjaController@orderby','as'=>'reportusulanprarenjaopd.orderby']);
 
     Route::get('/report/rkpd/reportusulanprarenjaopd/printtoexcel/{uuid}',['uses'=>'Report\ReportUsulanRenjaController@printtoexcel','as'=>'reportusulanprarenjaopd.printtoexcel']);  

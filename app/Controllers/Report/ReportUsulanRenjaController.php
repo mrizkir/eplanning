@@ -942,7 +942,7 @@ class ReportUsulanRenjaController extends Controller {
                 break;
             }
             $report= new \App\Models\Report\ReportUsulanRenjaModel ($data_report);
-            return $report->download($filename);
+            // return $report->download($filename);
         }
         else
         {
