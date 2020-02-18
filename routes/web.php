@@ -648,23 +648,22 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::get('/workflow/rkpd/pembahasanrkpdp/printtopdf',['uses'=>'RKPD\PembahasanRKPDPController@printtopdf','as'=>'pembahasanrkpdp.printtopdf']);
     
     //Report - USULAN KEGIATAN MUSREN. KEC. DI  OPD  
-    Route::resource('/report/rkpd/reportkegiatanmusrenkecopd','Report\ReportKegiatanMusrenKecOPD',[
+    Route::resource('/report/musren/reportkegiatanmusrenkecopd','Report\ReportKegiatanMusrenKecOPDController',[
                                                                 'parameters'=>['reportkegiatanmusrenkecopd'=>'uuid'],
-                                                                'only'=>['index']
+                                                                'only'=>['index','show']
                                                             ]); 
 
+    Route::get('/report/musren/reportkegiatanmusrenkecopd/printtoexcel/{uuid}',['uses'=>'Report\ReportKegiatanMusrenKecOPDController@printtoexcel','as'=>'reportkegiatanmusrenkecopd.printtoexcel']);  
+    Route::get('/report/musren/reportkegiatanmusrenkecopd/printtoexceldetail{uuid}',['uses'=>'Report\ReportKegiatanMusrenKecOPDController@printtoexceldetail','as'=>'reportkegiatanmusrenkecopd.printtoexceldetail']);  
+    
     //Report - USULAN RENCANA KERJA OPD / SKPD  
-    Route::resource('/report/rkpd/reportusulanprarenjaopd','Report\ReportUsulanRenjaController',[
+    Route::resource('/report/renja/reportusulanprarenjaopd','Report\ReportUsulanRenjaController',[
                                                                 'parameters'=>['reportusulanprarenjaopd'=>'id'],
-                                                                'only'=>['index']
+                                                                'only'=>['index','show']
                                                             ]);                   
 
-    Route::post('/report/rkpd/reportusulanprarenjaopd/search',['uses'=>'Report\ReportUsulanRenjaController@search','as'=>'reportusulanprarenjaopd.search']);              
-    Route::post('/report/rkpd/reportusulanprarenjaopd/filter',['uses'=>'Report\ReportUsulanRenjaController@filter','as'=>'reportusulanprarenjaopd.filter']);                  
-    Route::post('/report/rkpd/reportusulanprarenjaopd/orderby',['uses'=>'Report\ReportUsulanRenjaController@orderby','as'=>'reportusulanprarenjaopd.orderby']);
-
-    Route::get('/report/rkpd/reportusulanprarenjaopd/printtoexcel/{uuid}',['uses'=>'Report\ReportUsulanRenjaController@printtoexcel','as'=>'reportusulanprarenjaopd.printtoexcel']);  
-    Route::get('/report/rkpd/reportusulanprarenjaopd/printtoexceldetail{uuid}',['uses'=>'Report\ReportUsulanRenjaController@printtoexceldetail','as'=>'reportusulanprarenjaopd.printtoexceldetail']);  
+    Route::get('/report/renja/reportusulanprarenjaopd/printtoexcel/{uuid}',['uses'=>'Report\ReportUsulanRenjaController@printtoexcel','as'=>'reportusulanprarenjaopd.printtoexcel']);  
+    Route::get('/report/renja/reportusulanprarenjaopd/printtoexceldetail{uuid}',['uses'=>'Report\ReportUsulanRenjaController@printtoexceldetail','as'=>'reportusulanprarenjaopd.printtoexceldetail']);  
     
     //Report - RENCANA KERJA OPD / SKPD - RKPD MURNI PER OPD   
     Route::resource('/report/rkpd/reportrkpdmurniopd','Report\ReportRKPDMurniOPDController',[

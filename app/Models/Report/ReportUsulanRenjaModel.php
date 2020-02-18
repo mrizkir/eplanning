@@ -299,8 +299,8 @@ class ReportUsulanRenjaModel extends ReportModel
                             foreach ($daftar_kegiatan as $v4) 
                             {                                
                                 $renja = \DB::table(\HelperKegiatan::getViewName($this->dataReport['NameOfPage']))
+                                                ->select(\HelperKegiatan::getField($this->dataReport['NameOfPage']))
                                                 ->where('KgtID',$v4->KgtID)
-                                                ->where('EntryLvl',$this->dataReport['EntryLvl'])
                                                 ->where($field,$id)
                                                 ->first();
                                 $sheet->getStyle("A$row:N$row")->applyFromArray($styleArrayKegiatan);
