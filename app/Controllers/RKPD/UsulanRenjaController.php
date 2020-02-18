@@ -619,7 +619,7 @@ class UsulanRenjaController extends Controller
     public function pilihindikatorkinerja(Request $request)
     {
         $IndikatorKinerjaID = $request->input('IndikatorKinerjaID');
-        $json_data=\App\Models\RPJMD\RpjmdIndikatorKinerjaModel::getIndikatorKinerjaByID($IndikatorKinerjaID,\HelperKegiatan::getTahunPerencanaan());
+        $json_data=\App\Models\RPJMD\RPJMDIndikatorKinerjaModel::getIndikatorKinerjaByID($IndikatorKinerjaID,\HelperKegiatan::getTahunPerencanaan());
         if (is_null($json_data))
         {
             $json_data=[
@@ -1900,7 +1900,7 @@ class UsulanRenjaController extends Controller
                                     ->findOrFail($id);        
         if (!is_null($renja) ) 
         {    
-            $dataindikator_rpjmd = \App\Models\RPJMD\RpjmdIndikatorKinerjaModel::getIndikatorKinerjaByID($renja->IndikatorKinerjaID,$renja->TA);            
+            $dataindikator_rpjmd = \App\Models\RPJMD\RPJMDIndikatorKinerjaModel::getIndikatorKinerjaByID($renja->IndikatorKinerjaID,$renja->TA);            
             $dataindikatorkinerja = $this->populateIndikatorKegiatan($renja->RenjaID);
             
             return view("pages.$theme.rkpd.usulanrenja.edit1")->with(['page_active'=>$this->NameOfPage,
