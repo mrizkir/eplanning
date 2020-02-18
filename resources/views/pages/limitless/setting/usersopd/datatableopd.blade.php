@@ -10,6 +10,9 @@
             <thead>
                 <tr class="bg-teal-700">
                     <th width="50">                      
+                        NO                                     
+                    </th>                     
+                    <th width="50">                      
                         ID                                     
                     </th>                     
                     <th width="70">                        
@@ -26,6 +29,7 @@
             <tbody>                    
             @foreach ($dataopd as $key=>$item)
                 <tr>                   
+                    <td>{{$key+1}}</td>
                     <td>{{$item->useropd}}</td>
                     <td>{{$item->ta}}</td>  
                     <td>{{$item->OrgNm}}</td> 
