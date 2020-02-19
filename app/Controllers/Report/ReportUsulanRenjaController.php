@@ -115,6 +115,12 @@ class ReportUsulanRenjaController extends Controller {
                     
                     $filename="usulanprarenja_$generate_date.xlsx";
                 break;
+                case 'reportrakorbidang' :
+                    $data_report['sheetname']='RAKOR Bidang';
+                    $data_report['EntryLvl']=1;
+                    
+                    $filename="rakorbidang_$generate_date.xlsx";
+                break;
             }
             $report= new \App\Models\Report\ReportUsulanRenjaModel ($data_report);
             return $report->download($filename);
@@ -155,9 +161,15 @@ class ReportUsulanRenjaController extends Controller {
                     
                     $filename="usulanprarenja_$generate_date.xlsx";
                 break;
+                case 'reportrakorbidang' :
+                    $data_report['sheetname']='RAKOR Bidang';
+                    $data_report['EntryLvl']=1;
+                    
+                    $filename="rakorbidang_$generate_date.xlsx";
+                break;
             }
             $report= new \App\Models\Report\ReportUsulanRenjaModel ($data_report);
-            // return $report->download($filename);
+            return $report->download($filename);
         }
         else
         {

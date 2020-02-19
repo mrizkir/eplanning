@@ -221,6 +221,9 @@ class HelperKegiatan {
             case 'usulanrakorbidang' :
                 $pagetitle = 'USULAN RAKOR BIDANG';
             break;
+            case 'reportrakorbidang' :
+                $pagetitle = 'LAPORAN RAKOR BIDANG';
+            break;
             case 'usulanforumopd' :
                 $pagetitle = 'USULAN FORUM OPD / SKPD';
             break;
@@ -323,6 +326,7 @@ class HelperKegiatan {
             break;
             case 'usulanrakorbidang' :
             case 'pembahasanrakorbidang' :
+            case 'reportrakorbidang' :
                 $dbViewName = 'v_usulan_rakor_bidang';
             break;
             case 'usulanforumopd' :
@@ -387,6 +391,7 @@ class HelperKegiatan {
             break;
             case 'usulanrakorbidang' :
             case 'pembahasanrakorbidang' :
+            case 'reportrakorbidang' :
                 $rawSql = \DB::raw('"RenjaID",
                                     "KgtID",
                                     "RenjaRincID",

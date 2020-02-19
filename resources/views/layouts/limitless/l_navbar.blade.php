@@ -480,7 +480,7 @@
                                         </a>
                                     </li> 
                                     <li{!!Helper::isMenuActive ($page_active,'reportrakorbidang',' class="active"')!!}>
-                                        <a href="#">
+                                        <a href="{{route('reportrakorbidang.index')}}" title="Report Rakor Bidang OPD">
                                             <i class="icon-file-empty"></i> RAKOR BIDANG</span>
                                         </a>
                                     </li>
