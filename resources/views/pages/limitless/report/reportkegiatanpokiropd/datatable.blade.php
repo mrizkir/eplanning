@@ -20,7 +20,7 @@
                     </th>                   
                     <th width="100" class="text-left">
                         <a class="column-sort text-white" href="#">
-                            JUMLAH KEGIATAN MUSREN
+                            JUMLAH KEGIATAN POKIR
                         </a>                                             
                     </th>                                          
                     <th width="120">AKSI</th>
@@ -30,9 +30,9 @@
             @foreach ($daftar_opd as $k=>$item)                
                 @php
                 $OrgID=$item->OrgID;
-                $jumlah_musren = \DB::table('trUsulanKec')
+                $jumlah_musren = \DB::table('trPokPir')
                                 ->where('OrgID',$OrgID)
-                                ->count('UsulanKecID');
+                                ->count('PokPirID');
                 @endphp
                 <tr>
                     <td>
@@ -56,7 +56,7 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-right" style="font-size:8px">
                                     <li>
-                                        <a href="{!!route('reportkegiatanmusrenkecopd.printtoexcel',['uuid'=>$item->OrgID])!!}" title="Cetak Laporan">                                        
+                                        <a href="{!!route('reportkegiatanpokiropd.printtoexcel',['uuid'=>$item->OrgID])!!}" title="Cetak Laporan">                                        
                                             <i class="icon-printer"></i>                                        
                                             PRINT 
                                         </a>

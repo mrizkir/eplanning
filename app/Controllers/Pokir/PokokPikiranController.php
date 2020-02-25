@@ -644,6 +644,7 @@ class PokokPikiranController extends Controller {
         }   
         else
         {
+            $data_report['mode']='bypemilikpokokid';
             $generate_date=date('Y-m-d_H_m_s');        
             $report= new \App\Models\Report\ReportPokokPikiranModel ($data_report);
             return $report->download("pokokpikiran_$generate_date.xlsx");

@@ -648,11 +648,18 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::get('/workflow/rkpd/pembahasanrkpdp/printtopdf',['uses'=>'RKPD\PembahasanRKPDPController@printtopdf','as'=>'pembahasanrkpdp.printtopdf']);
     
     //Report - USULAN KEGIATAN MUSREN. KEC. DI  OPD  
-    Route::resource('/report/musren/reportkegiatanmusrenkecopd','Report\ReportKegiatanMusrenKecOPDController',[
+    Route::resource('/report/aspirasi/reportkegiatanmusrenkecopd','Report\ReportKegiatanMusrenKecOPDController',[
                                                                 'parameters'=>['reportkegiatanmusrenkecopd'=>'uuid'],
                                                                 'only'=>['index','show']
                                                             ]);
-    Route::get('/report/musren/reportkegiatanmusrenkecopd/printtoexcel/{uuid}',['uses'=>'Report\ReportKegiatanMusrenKecOPDController@printtoexcel','as'=>'reportkegiatanmusrenkecopd.printtoexcel']);  
+    Route::get('/report/aspirasi/reportkegiatanmusrenkecopd/printtoexcel/{uuid}',['uses'=>'Report\ReportKegiatanMusrenKecOPDController@printtoexcel','as'=>'reportkegiatanmusrenkecopd.printtoexcel']);  
+    
+    //Report - USULAN KEGIATAN POKIR DI  OPD  
+    Route::resource('/report/aspirasi/reportkegiatanpokiropd','Report\ReportKegiatanPokirOPDController',[
+                                                                'parameters'=>['reportkegiatanpokiropd'=>'uuid'],
+                                                                'only'=>['index','show']
+                                                            ]);
+    Route::get('/report/aspirasi/reportkegiatanpokiropd/printtoexcel/{uuid}',['uses'=>'Report\ReportKegiatanPokirOPDController@printtoexcel','as'=>'reportkegiatanpokiropd.printtoexcel']);  
     
     //Report - USULAN RENCANA KERJA OPD / SKPD  [pra renja]
     Route::resource('/report/renja/reportusulanprarenjaopd','Report\ReportUsulanRenjaController',[
