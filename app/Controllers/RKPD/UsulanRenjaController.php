@@ -443,6 +443,7 @@ class UsulanRenjaController extends Controller
                                                     ->orderBY('trPokPir.Prioritas','ASC')
                                                     ->orderBY('NamaUsulanKegiatan','ASC')
                                                     ->get(); 
+            $daftar_pokir=[];
             foreach ($data as $v)
             {
                 $daftar_pokir[$v->PokPirID]=$v->PokPirID.' - '.$v->NamaUsulanKegiatan;
@@ -2620,7 +2621,8 @@ class UsulanRenjaController extends Controller
                                                                     "trRenjaRinc"."isSKPD",
                                                                     "trRenjaRinc"."isReses"'))
                                                                 ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')                                                        
-                                                                ->where('trRenja.SOrgID',$SOrgID)->findOrFail($id)
+                                                                ->where('trRenja.SOrgID',$SOrgID)
+                                                                ->findOrFail($id)
                                             :RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                                 "trRenjaRinc"."RenjaID",
                                                                                 "trRenjaRinc"."PmKecamatanID",
@@ -2768,7 +2770,7 @@ class UsulanRenjaController extends Controller
                 }
             break;
             case 'usulanmusrenkab' :
-                    switch ($roles[0])
+                switch ($roles[0])
                 {
                     case 'superadmin' :
                         $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
