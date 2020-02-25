@@ -1932,6 +1932,8 @@ class UsulanRenjaController extends Controller
                 switch ($roles[0])
                 {
                     case 'superadmin' :
+                    case 'bapelitbang' :
+                    case 'tapd' :
                         $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                     "tmPMProv"."Nm_Prov",
                                                                     "tmPmKota"."Nm_Kota",
@@ -2013,6 +2015,8 @@ class UsulanRenjaController extends Controller
                 switch ($roles[0])
                 {
                     case 'superadmin' :
+                    case 'bapelitbang' :
+                    case 'tapd' :
                         $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                     "tmPMProv"."Nm_Prov",
                                                                     "tmPmKota"."Nm_Kota",
@@ -2091,6 +2095,8 @@ class UsulanRenjaController extends Controller
                 switch ($roles[0])
                 {
                     case 'superadmin' :
+                    case 'bapelitbang' :
+                    case 'tapd' :
                         $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                     "tmPMProv"."Nm_Prov",
                                                                     "tmPmKota"."Nm_Kota",
@@ -2170,6 +2176,8 @@ class UsulanRenjaController extends Controller
                 switch ($roles[0])
                 {
                     case 'superadmin' :
+                    case 'bapelitbang' :
+                    case 'tapd' :
                         $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                     "tmPMProv"."Nm_Prov",
                                                                     "tmPmKota"."Nm_Kota",
@@ -2278,6 +2286,8 @@ class UsulanRenjaController extends Controller
                 switch ($roles[0])
                 {
                     case 'superadmin' :
+                    case 'bapelitbang' :
+                    case 'tapd' :
                         $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                     "trRenjaRinc"."RenjaID",
                                                                     "trRenjaRinc"."No",
@@ -2347,6 +2357,8 @@ class UsulanRenjaController extends Controller
                 switch ($roles[0])
                 {
                     case 'superadmin' :
+                    case 'bapelitbang' :
+                    case 'tapd' :
                         $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                     "trRenjaRinc"."RenjaID",
                                                                     "trRenjaRinc"."No",
@@ -2416,6 +2428,8 @@ class UsulanRenjaController extends Controller
                 switch ($roles[0])
                 {
                     case 'superadmin' :
+                    case 'bapelitbang' :
+                    case 'tapd' :
                         $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                     "trRenjaRinc"."RenjaID",
                                                                     "trRenjaRinc"."No",
@@ -2485,6 +2499,8 @@ class UsulanRenjaController extends Controller
                 switch ($roles[0])
                 {
                     case 'superadmin' :
+                    case 'bapelitbang' :
+                    case 'tapd' :
                         $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                     "trRenjaRinc"."RenjaID",
                                                                     "trRenjaRinc"."No",
@@ -2583,6 +2599,8 @@ class UsulanRenjaController extends Controller
                 switch ($roles[0])
                 {
                     case 'superadmin' :
+                    case 'bapelitbang' :
+                    case 'tapd' :
                         $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                     "v_usulan_pra_renja_opd"."kode_kegiatan", 
                                                                     "v_usulan_pra_renja_opd"."KgtNm", 
@@ -2644,10 +2662,12 @@ class UsulanRenjaController extends Controller
                     break;
                 }                        
             break;
-            case 'usulanrakorbidang' :
+            case 'usulanrakorbidang' :            
                 switch ($roles[0])
                 {
                     case 'superadmin' :
+                    case 'bapelitbang' :
+                    case 'tapd' :
                         $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                     "trRenjaRinc"."RenjaID",
                                                                     "trRenjaRinc"."PmKecamatanID",
@@ -2712,6 +2732,8 @@ class UsulanRenjaController extends Controller
                 switch ($roles[0])
                 {
                     case 'superadmin' :
+                    case 'bapelitbang' :
+                    case 'tapd' :
                         $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                     "trRenjaRinc"."RenjaID",
                                                                     "trRenjaRinc"."PmKecamatanID",
@@ -2773,6 +2795,8 @@ class UsulanRenjaController extends Controller
                 switch ($roles[0])
                 {
                     case 'superadmin' :
+                    case 'bapelitbang' :
+                    case 'tapd' :
                         $renja = RenjaRincianModel::select(\DB::raw('"trRenjaRinc"."RenjaRincID",
                                                                     "trRenjaRinc"."RenjaID",
                                                                     "trRenjaRinc"."PmKecamatanID",
