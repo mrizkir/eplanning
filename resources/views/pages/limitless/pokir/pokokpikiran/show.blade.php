@@ -162,6 +162,9 @@
                                 UNIT KERJA
                             </th> 
                             <th>
+                                DALAM KEGIATAN
+                            </th> 
+                            <th>
                                 PAGU DANA
                             </th> 
                         </tr>
@@ -199,6 +202,7 @@
                             </td>
                             <td>{{$item->OrgNm}}</td>
                             <td>{{$item->SOrgNm}}</td>
+                            <td>{{$item->KgtNm}}</td>
                             <td>{{Helper::formatUang($pagudana)}}</td>                            
                         </tr>
                         <tr class="text-center info">
