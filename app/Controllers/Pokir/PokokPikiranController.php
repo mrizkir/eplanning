@@ -474,12 +474,22 @@ class PokokPikiranController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $data = PokokPikiranModel::findOrFail($id);
+        $data = PokokPikiranModel::select(\DB::raw('"trPokPir".*,"tmPmKecamatan"."Nm_Kecamatan","tmPmDesa"."Nm_Desa"'))
+                                    ->leftJoin('tmPmKecamatan','tmPmKecamatan.PmKecamatanID','trPokPir.PmKecamatanID')
+                                    ->leftJoin('tmPmDesa','tmPmDesa.PmDesaID','trPokPir.PmDesaID')
+                                    ->findOrFail($id);
+        // dd($data);
         if (!is_null($data) )  
         {
-            return view("pages.$theme.pokir.pokokpikiran.show")->with(['page_active'=>'pokokpikiran',
-                                                                        
-                                                                        'data'=>$data
+            $PokPirID=$data->PokPirID;
+            $data_tracking = \DB::table('v_renja_rincian')
+                                ->where('PokPirID',$PokPirID)
+                                ->orderBy('EntryLvl','desc')
+                                ->get();
+                                            
+            return view("pages.$theme.pokir.pokokpikiran.show")->with(['page_active'=>'pokokpikiran',                                                                        
+                                                                        'data'=>$data,
+                                                                        'data_tracking'=>$data_tracking
                                                                     ]);
         }        
     }

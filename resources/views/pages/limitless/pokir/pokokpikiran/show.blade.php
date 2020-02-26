@@ -96,6 +96,137 @@
             </div>
         </div>
     </div>
+    <div class="col-md-12">
+        <div class="panel panel-flat border-top-info border-bottom-info">
+            <div class="panel-heading">
+                <h5 class="panel-title"> 
+                    <i class="icon-eye"></i>  LOKASI
+                </h5>
+                <div class="heading-elements">   
+                    
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="row">                                      
+                    <div class="col-md-6">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>KECAMATAN: </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->Nm_Kecamatan}}</p>
+                                </div>                            
+                            </div>    
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>DESA </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->Nm_Desa}}</p>
+                                </div>                            
+                            </div> 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><strong>LOKASI </strong></label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{$data->Lokasi}}</p>
+                                </div>                            
+                            </div>   
+                        </div>                        
+                    </div>
+                    <div class="col-md-6">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="panel panel-flat border-top-info border-bottom-info">
+            <div class="panel-heading">
+                <h5 class="panel-title"> 
+                    <i class="icon-eye"></i>  TRACKING
+                </h5>
+                <div class="heading-elements">   
+                    
+                </div>
+            </div>
+            @if (count($data_tracking) > 0)           
+            <div class="table-responsive"> 
+                <table id="data" class="table table-striped table-hover">
+                    <thead>
+                        <tr class="bg-teal-700">
+                            <th>
+                                NAMA TAHAPAN  
+                            </th> 
+                            <th>
+                                OPD / SKPD
+                            </th> 
+                            <th>
+                                UNIT KERJA
+                            </th> 
+                            <th>
+                                PAGU DANA
+                            </th> 
+                        </tr>
+                    </thead>
+                    <tbody>                    
+                    @foreach ($data_tracking as $key=>$item)
+                        @php
+                            switch($item->EntryLvl)
+                            {
+                                case 0 :
+                                    $tahapan = 'PRA RENJA';
+                                    $pagudana=$item->Jumlah1;
+                                break;
+                                case 1 :
+                                    $tahapan = 'RAKOR BIDANG';
+                                    $pagudana=$item->Jumlah2;
+                                break;
+                                case 3 :
+                                    $tahapan = 'FORUM OPD';
+                                    $pagudana=$item->Jumlah3;
+                                break;
+                                case 4 :
+                                    $tahapan = 'MUSRENBANG KABUPATEN';
+                                    $pagudana=$item->Jumlah4;
+                                break;
+                                case 5 :
+                                    $tahapan = 'VERIFIKASI RENCANA KERJA (FINAL)';
+                                    $pagudana=$item->Jumlah5;
+                                break;
+                            }
+                        @endphp
+                        <tr>                                              
+                            <td>
+                                {{$tahapan}}
+                            </td>
+                            <td>{{$item->OrgNm}}</td>
+                            <td>{{$item->SOrgNm}}</td>
+                            <td>{{Helper::formatUang($pagudana)}}</td>                            
+                        </tr>
+                        <tr class="text-center info">
+                            <td colspan="11">                                        
+                                <span class="label label-warning label-rounded" style="text-transform: none">
+                                    <strong>CREATED:</strong>
+                                    {{Helper::tanggal('d/m/Y H:m',$data->created_at)}}
+                                </span>                        
+                                <span class="label label-warning label-rounded" style="text-transform: none">
+                                    <strong>UPDATED:</strong>
+                                    {{Helper::tanggal('d/m/Y H:m',$data->updated_at)}}
+                                </span>
+                            </td>
+                        </tr>
+                    @endforeach                    
+                    </tbody>
+                </table>               
+            </div>
+            @else
+            <div class="panel-body">
+                <div class="alert alert-info alert-styled-left alert-bordered">
+                    <span class="text-semibold">Info!</span>
+                    Pokok Pikiran ini belum di Akomodir oleh OPD / SKPD
+                </div>
+            </div>   
+            @endif        
+        </div>
+    </div>
 </div>
 @endsection
 @section('page_custom_js')
