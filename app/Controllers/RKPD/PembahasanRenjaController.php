@@ -1188,7 +1188,7 @@ class PembahasanRenjaController extends Controller {
     public function transfer(Request $request)
     {
         $theme = \Auth::user()->theme;
-
+        $filters=$this->getControllerStateSession($this->SessionName,'filters');
         if ($request->exists('RenjaRincID') && $request->input('RenjaRincID')!='')
         {
             $RenjaRincID=$request->input('RenjaRincID');                                    
@@ -2024,6 +2024,7 @@ class PembahasanRenjaController extends Controller {
                 $datatable = view("pages.$theme.rkpd.pembahasanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
                                                                                         'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),                                                                            
                                                                                         'label_transfer'=>$this->LabelTransfer,
+                                                                                        'filters'=>$filters,
                                                                                         'search'=>$this->getControllerStateSession($this->SessionName,'search'),
                                                                                         'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                         'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
