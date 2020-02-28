@@ -1014,7 +1014,8 @@ class PembahasanRenjaController extends Controller {
     public function update(Request $request, $id)
     {
         $theme = \Auth::user()->theme;
-
+        $filters=$this->getControllerStateSession($this->SessionName,'filters');
+        
         $pembahasanmusrenkab = RenjaRincianModel::find($id);        
         $pembahasanmusrenkab->Status = $request->input('Status');
         $pembahasanmusrenkab->save();
@@ -1038,6 +1039,7 @@ class PembahasanRenjaController extends Controller {
             $datatable = view("pages.$theme.rkpd.pembahasanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
                                                                                     'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),                                                                            
                                                                                     'label_transfer'=>$this->LabelTransfer,
+                                                                                    'filters'=>$filters,
                                                                                     'search'=>$this->getControllerStateSession($this->SessionName,'search'),
                                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                     'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
