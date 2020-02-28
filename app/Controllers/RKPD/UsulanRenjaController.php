@@ -3311,7 +3311,7 @@ class UsulanRenjaController extends Controller
         $rinciankegiatan->RenjaID=$RenjaID;
         $rinciankegiatan->No = \DB::table('trRenjaRinc')
                                 ->where('RenjaID',$RenjaID)
-                                ->max('No');
+                                ->max('No')+1;
         $rinciankegiatan->save();
 
         if ($request->ajax()) 
