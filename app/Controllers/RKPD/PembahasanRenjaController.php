@@ -167,7 +167,9 @@ class PembahasanRenjaController extends Controller {
      */
     public function populateData ($currentpage=1) 
     {        
-        $columns=['*'];       
+        $columns=['*'];      
+        $filters=$this->getControllerStateSession($this->SessionName,'filters');
+
         if (!$this->checkStateIsExistSession($this->SessionName,'orderby')) 
         {            
            $this->putControllerStateSession($this->SessionName,'orderby',['column_name'=>'kode_kegiatan','order'=>'asc']);
@@ -179,10 +181,9 @@ class PembahasanRenjaController extends Controller {
         {            
             $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
         }
-        $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');
-        
+        $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
           
-        $SOrgID= $this->getControllerStateSession(\Helper::getNameOfPage('filters'),'SOrgID');        
+        $SOrgID= $filters['SOrgID'];        
 
         if ($this->checkStateIsExistSession($this->SessionName,'search')) 
         {
@@ -219,8 +220,7 @@ class PembahasanRenjaController extends Controller {
                                 ->orderBy('Prioritas','ASC')
                                 ->orderBy($column_order,$direction);                                        
                 break;
-            }           
-            $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
+            }                         
         }
         else
         {
@@ -230,9 +230,15 @@ class PembahasanRenjaController extends Controller {
                         ->whereNotNull('RenjaRincID')       
                         ->where('TA', \HelperKegiatan::getTahunPerencanaan())                                            
                         ->orderBy('Prioritas','ASC')
-                        ->orderBy($column_order,$direction)                                            
-                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);             
-        }        
+                        ->orderBy($column_order,$direction);
+            
+        }    
+        $statusTransfer = $filters['statusTransfer'];
+        if ($statusTransfer > 0)
+        {
+            $data->where('Privilege',$statusTransfer);
+        }
+        $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);   
         $data->setPath(route(\Helper::getNameOfPage('index')));          
         return $data;
     }
@@ -403,6 +409,7 @@ class PembahasanRenjaController extends Controller {
             $datatable = view("pages.$theme.rkpd.pembahasanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
                                                                                     'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage), 
                                                                                     'label_transfer'=>$this->LabelTransfer,                                                                       
+                                                                                    'filters'=>$filters,
                                                                                     'search'=>$this->getControllerStateSession($this->SessionName,'search'),
                                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                     'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
@@ -436,6 +443,7 @@ class PembahasanRenjaController extends Controller {
                                                                                     'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                                     'label_transfer'=>$this->LabelTransfer,
                                                                                     'search'=>$this->getControllerStateSession($this->SessionName,'search'),
+                                                                                    'filters'=>$filters,
                                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                     'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
                                                                                     'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
@@ -444,6 +452,30 @@ class PembahasanRenjaController extends Controller {
             $totalpaguindikatifunitkerja = RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['SOrgID']);            
                                                                                     
             $json_data = ['success'=>true,'totalpaguindikatifunitkerja'=>$totalpaguindikatifunitkerja,'datatable'=>$datatable];    
+        }
+        // //index        
+        if ($request->exists('statusTransfer'))
+        {
+            $statusTransfer = $request->input('statusTransfer')==''?'none':$request->input('statusTransfer');
+            $filters['statusTransfer']=$statusTransfer;
+            $this->putControllerStateSession($this->SessionName,'filters',$filters);
+            $this->setCurrentPageInsideSession($this->SessionName,1);
+
+            $data = $this->populateData();
+
+            $datatable = view("pages.$theme.rkpd.pembahasanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
+                                                                                    'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
+                                                                                    'label_transfer'=>$this->LabelTransfer,
+                                                                                    'search'=>$this->getControllerStateSession($this->SessionName,'search'),
+                                                                                    'filters'=>$filters,
+                                                                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                    'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                                                    'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
+                                                                                    'data'=>$data])->render(); 
+                                                                                    
+            $totalpaguindikatifunitkerja = RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(\HelperKegiatan::getTahunPerencanaan(),\HelperKegiatan::getLevelEntriByName($this->NameOfPage),$filters['SOrgID']);            
+                                                                                    
+            $json_data = ['success'=>true,'totalpaguindikatifunitkerja'=>$totalpaguindikatifunitkerja,'datatable'=>$datatable]; 
         }
         return $json_data;
     }    
@@ -463,7 +495,8 @@ class PembahasanRenjaController extends Controller {
             $this->putControllerStateSession($this->SessionName,'filters',[
                                                                             'OrgID'=>'none',
                                                                             'SOrgID'=>'none',
-                                                                            ]);
+                                                                            'statusTransfer'=>-1,
+                                                                        ]);
         }      
         $filters=$this->getControllerStateSession($this->SessionName,'filters');
         $roles=$auth->getRoleNames();

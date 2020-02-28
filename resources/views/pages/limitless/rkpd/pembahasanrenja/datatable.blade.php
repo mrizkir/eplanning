@@ -4,30 +4,9 @@
             <h6 class="panel-title">DAFTAR RINCIAN KEGIATAN</h6>
         </div>
         <div class="heading-elements">
-            {!! Form::open(['url'=>'#','method'=>'post','class'=>'heading-form','id'=>'frmheading','name'=>'frmheading'])!!} 
+            {!! Form::open(['url'=>'#','method'=>'post','class'=>'heading-form','id'=>'frmheading','name'=>'frmheading'])!!}                     
                 <div class="form-group">
-                    <label class="checkbox-inline checkbox-right checkbox-switch checkbox-switch-sm">
-                        DRAFT
-                        <input id="chkDraft" name="chkDraft" type="checkbox" class="switch" data-on-text="ON" data-off-text="OFF" data-size="small" checked="checked">
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label class="checkbox-inline checkbox-right checkbox-switch checkbox-switch-sm">
-                        SETUJU
-                        <input id="chkSetuju" name="chkSetuju" type="checkbox" class="switch" data-on-text="ON" data-off-text="OFF" data-size="small" checked="checked">
-                    </label>
-                </div>                                               
-                <div class="form-group">
-                    <label class="checkbox-inline checkbox-right checkbox-switch checkbox-switch-sm">
-                        SETUJU DG. CATATAN
-                        <input id="chkSetujuDgCatatan" name="chkSetujuDgCatatan" type="checkbox" class="switch" data-on-text="ON" data-off-text="OFF" data-size="small" checked="checked">
-                    </label>
-                </div>                
-                <div class="form-group">
-                    <label class="checkbox-inline checkbox-right checkbox-switch checkbox-switch-sm">
-                        PENDING
-                        <input id="chkPending" name="chkName" type="checkbox" class="switch" data-on-text="ON" data-off-text="OFF" data-size="small" checked="checked">
-                    </label>
+                    {!!Form::select('statusTransfer',['-1'=>'SELURUH','0'=>'BELUM DITRANSFER','1'=>'SUDAH DITRANSFER'],$filters['statusTransfer'],['id'=>'statusTransfer','class'=>'form-control','style'=>'width:220px'])!!}                        
                 </div>                
                 <div class="form-group">
                     {!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control','style'=>'width:70px'])!!}                        

@@ -240,6 +240,28 @@ $(document).ready(function () {
             },
         });     
     });
+    $(document).on('change','#statusTransfer',function(ev) {
+        ev.preventDefault();   
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/filter',
+            dataType: 'json',
+            data: {                
+                "_token": token,
+                "statusTransfer": $('#statusTransfer').val(),
+            },
+            success:function(result)
+            { 
+                $('#divdatatable').html(result.datatable);
+                $(".switch").bootstrapSwitch();  
+                formatPaguTotalIndikatifUnitKerja(result.totalpaguindikatifunitkerja);
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });     
+    });
     $("#divdatatable").on('click','.ubahstatus',function(ev) {
         ev.preventDefault();
         var RenjaRincID = $(this).attr("data-id");
