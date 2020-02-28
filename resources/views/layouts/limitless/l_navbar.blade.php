@@ -490,7 +490,7 @@
                                         </a>
                                     </li>
                                     <li{!!Helper::isMenuActive ($page_active,'reportforumopd',' class="active"')!!}>
-                                        <a href="#">
+                                        <a href="{{route('reportforumopd.index')}}">
                                             <i class="icon-file-empty"></i> FORUM OPD</span>
                                         </a>
                                     </li>

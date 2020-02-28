@@ -128,6 +128,9 @@ class HelperKegiatan {
             case 'usulanmusrenkab' :
                 $level = 3;
             break;
+            case 'verifikasirenja' :
+                $level = 4;
+            break;
             case 'pembahasanprarenjaopd' :
                 $level = 0;
             break;
@@ -139,10 +142,7 @@ class HelperKegiatan {
             break;
             case 'pembahasanmusrenkab' :
                 $level = 3;
-            break;
-            case 'verifikasirenja' :
-                $level = 4;
-            break;
+            break;            
             case 'rkpdmurni' :
                 $level = 1;
             break;
@@ -226,6 +226,9 @@ class HelperKegiatan {
             break;
             case 'usulanforumopd' :
                 $pagetitle = 'USULAN FORUM OPD / SKPD';
+            break;
+            case 'reportforumopd' :
+                $pagetitle = 'LAPORAN FORUM OPD / SKPD';
             break;
             case 'usulanmusrenkab' :
                 $pagetitle = 'USULAN MUSRENBANG KABUPATEN';

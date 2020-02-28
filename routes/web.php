@@ -399,9 +399,11 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::put('/workflow/rkpd/usulanprarenjaopd/update2/{uuid}',['uses'=>'RKPD\UsulanRenjaController@update2','as'=>'usulanprarenjaopd.update2']);  
     Route::put('/workflow/rkpd/usulanprarenjaopd/update3/{uuid}',['uses'=>'RKPD\UsulanRenjaController@update3','as'=>'usulanprarenjaopd.update3']); 
     Route::put('/workflow/rkpd/usulanprarenjaopd/update4/{uuid}',['uses'=>'RKPD\UsulanRenjaController@update4','as'=>'usulanprarenjaopd.update4']); 
+    Route::put('/workflow/rkpd/usulanprarenjaopd/geserrincian/{uuid}',['uses'=>'RKPD\UsulanRenjaController@geserrincian','as'=>'usulanprarenjaopd.geserrincian']); 
     Route::get('/workflow/rkpd/usulanprarenjaopd/showrincian/{uuid}',['uses'=>'RKPD\UsulanRenjaController@showrincian','as'=>'usulanprarenjaopd.showrincian']); 
     Route::post('/workflow/rkpd/usulanprarenjaopd/search',['uses'=>'RKPD\UsulanRenjaController@search','as'=>'usulanprarenjaopd.search']);  
     Route::post('/workflow/rkpd/usulanprarenjaopd/filter',['uses'=>'RKPD\UsulanRenjaController@filter','as'=>'usulanprarenjaopd.filter']);                  
+    Route::post('/workflow/rkpd/usulanprarenjaopd/filtershowrincian',['uses'=>'RKPD\UsulanRenjaController@filtershowrincian','as'=>'usulanprarenjaopd.filtershowrincian']);                  
     Route::get('/workflow/rkpd/usulanprarenjaopd/paginate/{id}',['uses'=>'RKPD\UsulanRenjaController@paginate','as'=>'usulanprarenjaopd.paginate']);              
     Route::post('/workflow/rkpd/usulanprarenjaopd/changenumberrecordperpage',['uses'=>'RKPD\UsulanRenjaController@changenumberrecordperpage','as'=>'usulanprarenjaopd.changenumberrecordperpage']);  
     Route::post('/workflow/rkpd/usulanprarenjaopd/orderby',['uses'=>'RKPD\UsulanRenjaController@orderby','as'=>'usulanprarenjaopd.orderby']);    
@@ -438,9 +440,11 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::put('/workflow/rkpd/usulanrakorbidang/update2/{uuid}',['uses'=>'RKPD\UsulanRenjaController@update2','as'=>'usulanrakorbidang.update2']);  
     Route::put('/workflow/rkpd/usulanrakorbidang/update3/{uuid}',['uses'=>'RKPD\UsulanRenjaController@update3','as'=>'usulanrakorbidang.update3']); 
     Route::put('/workflow/rkpd/usulanrakorbidang/update4/{uuid}',['uses'=>'RKPD\UsulanRenjaController@update4','as'=>'usulanrakorbidang.update4']); 
+    Route::put('/workflow/rkpd/usulanrakorbidang/geserrincian/{uuid}',['uses'=>'RKPD\UsulanRenjaController@geserrincian','as'=>'usulanrakorbidang.geserrincian']); 
     Route::get('/workflow/rkpd/usulanrakorbidang/showrincian/{uuid}',['uses'=>'RKPD\UsulanRenjaController@showrincian','as'=>'usulanrakorbidang.showrincian']); 
     Route::post('/workflow/rkpd/usulanrakorbidang/search',['uses'=>'RKPD\UsulanRenjaController@search','as'=>'usulanrakorbidang.search']);  
     Route::post('/workflow/rkpd/usulanrakorbidang/filter',['uses'=>'RKPD\UsulanRenjaController@filter','as'=>'usulanrakorbidang.filter']);                  
+    Route::post('/workflow/rkpd/usulanrakorbidang/filtershowrincian',['uses'=>'RKPD\UsulanRenjaController@filtershowrincian','as'=>'usulanrakorbidang.filtershowrincian']);                  
     Route::get('/workflow/rkpd/usulanrakorbidang/paginate/{id}',['uses'=>'RKPD\UsulanRenjaController@paginate','as'=>'usulanrakorbidang.paginate']);              
     Route::post('/workflow/rkpd/usulanrakorbidang/changenumberrecordperpage',['uses'=>'RKPD\UsulanRenjaController@changenumberrecordperpage','as'=>'usulanrakorbidang.changenumberrecordperpage']);  
     Route::post('/workflow/rkpd/usulanrakorbidang/orderby',['uses'=>'RKPD\UsulanRenjaController@orderby','as'=>'usulanrakorbidang.orderby']);
@@ -477,9 +481,11 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::put('/workflow/rkpd/usulanforumopd/update2/{uuid}',['uses'=>'RKPD\UsulanRenjaController@update2','as'=>'usulanforumopd.update2']);  
     Route::put('/workflow/rkpd/usulanforumopd/update3/{uuid}',['uses'=>'RKPD\UsulanRenjaController@update3','as'=>'usulanforumopd.update3']); 
     Route::put('/workflow/rkpd/usulanforumopd/update4/{uuid}',['uses'=>'RKPD\UsulanRenjaController@update4','as'=>'usulanforumopd.update4']); 
+    Route::put('/workflow/rkpd/usulanforumopd/geserrincian/{uuid}',['uses'=>'RKPD\UsulanRenjaController@geserrincian','as'=>'usulanforumopd.geserrincian']); 
     Route::get('/workflow/rkpd/usulanforumopd/showrincian/{uuid}',['uses'=>'RKPD\UsulanRenjaController@showrincian','as'=>'usulanforumopd.showrincian']); 
     Route::post('/workflow/rkpd/usulanforumopd/search',['uses'=>'RKPD\UsulanRenjaController@search','as'=>'usulanforumopd.search']);  
     Route::post('/workflow/rkpd/usulanforumopd/filter',['uses'=>'RKPD\UsulanRenjaController@filter','as'=>'usulanforumopd.filter']);                  
+    Route::post('/workflow/rkpd/usulanforumopd/filtershowrincian',['uses'=>'RKPD\UsulanRenjaController@filtershowrincian','as'=>'usulanforumopd.filtershowrincian']);                  
     Route::get('/workflow/rkpd/usulanforumopd/paginate/{id}',['uses'=>'RKPD\UsulanRenjaController@paginate','as'=>'usulanforumopd.paginate']);              
     Route::post('/workflow/rkpd/usulanforumopd/changenumberrecordperpage',['uses'=>'RKPD\UsulanRenjaController@changenumberrecordperpage','as'=>'usulanforumopd.changenumberrecordperpage']);  
     Route::post('/workflow/rkpd/usulanforumopd/orderby',['uses'=>'RKPD\UsulanRenjaController@orderby','as'=>'usulanforumopd.orderby']);
@@ -516,9 +522,11 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::put('/workflow/musrenbang/usulanmusrenkab/update2/{uuid}',['uses'=>'RKPD\UsulanRenjaController@update2','as'=>'usulanmusrenkab.update2']);  
     Route::put('/workflow/musrenbang/usulanmusrenkab/update3/{uuid}',['uses'=>'RKPD\UsulanRenjaController@update3','as'=>'usulanmusrenkab.update3']); 
     Route::put('/workflow/musrenbang/usulanmusrenkab/update4/{uuid}',['uses'=>'RKPD\UsulanRenjaController@update4','as'=>'usulanmusrenkab.update4']); 
-    Route::get('/workflow/rkpd/usulanmusrenkab/showrincian/{uuid}',['uses'=>'RKPD\UsulanRenjaController@showrincian','as'=>'usulanmusrenkab.showrincian']); 
+    Route::put('/workflow/musrenbang/usulanmusrenkab/geserrincian/{uuid}',['uses'=>'RKPD\UsulanRenjaController@geserrincian','as'=>'usulanmusrenkab.geserrincian']); 
+    Route::get('/workflow/musrenbang/usulanmusrenkab/showrincian/{uuid}',['uses'=>'RKPD\UsulanRenjaController@showrincian','as'=>'usulanmusrenkab.showrincian']); 
     Route::post('/workflow/musrenbang/usulanmusrenkab/search',['uses'=>'RKPD\UsulanRenjaController@search','as'=>'usulanmusrenkab.search']);  
     Route::post('/workflow/musrenbang/usulanmusrenkab/filter',['uses'=>'RKPD\UsulanRenjaController@filter','as'=>'usulanmusrenkab.filter']);                  
+    Route::post('/workflow/musrenbang/usulanmusrenkab/filtershowrincian',['uses'=>'RKPD\UsulanRenjaController@filtershowrincian','as'=>'usulanmusrenkab.filtershowrincian']);                  
     Route::get('/workflow/musrenbang/usulanmusrenkab/paginate/{id}',['uses'=>'RKPD\UsulanRenjaController@paginate','as'=>'usulanmusrenkab.paginate']);              
     Route::post('/workflow/musrenbang/usulanmusrenkab/changenumberrecordperpage',['uses'=>'RKPD\UsulanRenjaController@changenumberrecordperpage','as'=>'usulanmusrenkab.changenumberrecordperpage']);  
     Route::post('/workflow/musrenbang/usulanmusrenkab/orderby',['uses'=>'RKPD\UsulanRenjaController@orderby','as'=>'usulanmusrenkab.orderby']);
@@ -539,9 +547,11 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::resource('/workflow/rkpd/verifikasirenja','RKPD\PembahasanRenjaController',['parameters'=>['verifikasirenja'=>'uuid'],
                                                                                                               'only'=>['index','edit','update','show']]); 
     Route::put('/workflow/rkpd/verifikasirenja/update2/{uuid}',['uses'=>'RKPD\PembahasanRenjaController@update2','as'=>'verifikasirenja.update2']);  
+    Route::put('/workflow/rkpd/verifikasirenja/geserrincian/{uuid}',['uses'=>'RKPD\PembahasanRenjaController@geserrincian','as'=>'verifikasirenja.geserrincian']);  
     Route::get('/workflow/rkpd/verifikasirenja/showrincian/{uuid}',['uses'=>'RKPD\PembahasanRenjaController@showrincian','as'=>'verifikasirenja.showrincian']); 
     Route::post('/workflow/rkpd/verifikasirenja/search',['uses'=>'RKPD\PembahasanRenjaController@search','as'=>'verifikasirenja.search']);  
     Route::post('/workflow/rkpd/verifikasirenja/filter',['uses'=>'RKPD\PembahasanRenjaController@filter','as'=>'verifikasirenja.filter']);              
+    Route::post('/workflow/rkpd/verifikasirenja/filtershowrincian',['uses'=>'RKPD\PembahasanRenjaController@filtershowrincian','as'=>'verifikasirenja.filtershowrincian']);                  
     Route::get('/workflow/rkpd/verifikasirenja/paginate/{id}',['uses'=>'RKPD\PembahasanRenjaController@paginate','as'=>'verifikasirenja.paginate']);              
     Route::post('/workflow/rkpd/verifikasirenja/changenumberrecordperpage',['uses'=>'RKPD\PembahasanRenjaController@changenumberrecordperpage','as'=>'verifikasirenja.changenumberrecordperpage']);  
     Route::post('/workflow/rkpd/verifikasirenja/orderby',['uses'=>'RKPD\PembahasanRenjaController@orderby','as'=>'verifikasirenja.orderby']);  
@@ -678,6 +688,15 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
 
     Route::get('/report/renja/reportrakorbidang/printtoexcel/{uuid}',['uses'=>'Report\ReportUsulanRenjaController@printtoexcel','as'=>'reportrakorbidang.printtoexcel']);  
     Route::get('/report/renja/reportrakorbidang/printtoexceldetail{uuid}',['uses'=>'Report\ReportUsulanRenjaController@printtoexceldetail','as'=>'reportrakorbidang.printtoexceldetail']);  
+    
+    //Report - USULAN RENCANA KERJA OPD / SKPD  [rakor bidang]
+    Route::resource('/report/renja/reportforumopd','Report\ReportUsulanRenjaController',[
+                                                                'parameters'=>['reportforumopd'=>'id'],
+                                                                'only'=>['index','show']
+                                                            ]);                   
+
+    Route::get('/report/renja/reportforumopd/printtoexcel/{uuid}',['uses'=>'Report\ReportUsulanRenjaController@printtoexcel','as'=>'reportforumopd.printtoexcel']);  
+    Route::get('/report/renja/reportforumopd/printtoexceldetail{uuid}',['uses'=>'Report\ReportUsulanRenjaController@printtoexceldetail','as'=>'reportforumopd.printtoexceldetail']);  
     
     //Report - RENCANA KERJA OPD / SKPD - RKPD MURNI PER OPD   
     Route::resource('/report/rkpd/reportrkpdmurniopd','Report\ReportRKPDMurniOPDController',[

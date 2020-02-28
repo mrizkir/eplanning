@@ -476,6 +476,50 @@ class UsulanRenjaController extends Controller
         return response()->json($json_data,200);  
     }
     /**
+     * filter resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function filtershowrincian(Request $request) 
+    {
+        $auth = \Auth::user();    
+        $theme = $auth->theme;
+
+        $filters=$this->getControllerStateSession($this->SessionName,'filters');
+        $daftar_unitkerja=[];
+        $json_data = [];
+
+        //show rincian
+        if ($request->exists('OrgID'))
+        {
+            $OrgID = $request->input('OrgID')==''?'none':$request->input('OrgID');
+            $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$OrgID);  
+         
+            $json_data = ['success'=>true,'daftar_unitkerja'=>$daftar_unitkerja];
+        } 
+        //show rincian
+        if ($request->exists('SOrgID'))
+        {
+            $SOrgID = $request->input('SOrgID')==''?'none':$request->input('SOrgID');
+            $daftar_renja = [];                        
+            $q = \DB::table('trRenja')
+                        ->select(\DB::raw('"trRenja"."RenjaID","v_program_kegiatan"."kode_kegiatan","v_program_kegiatan"."KgtNm"'))
+                        ->join('v_program_kegiatan','v_program_kegiatan.KgtID','trRenja.KgtID')
+                        ->where('trRenja.SOrgID',$SOrgID)
+                        ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))
+                        ->orderBy('v_program_kegiatan.KgtNm','ASC')
+                        ->get();
+            
+            foreach ($q as $k=>$v)
+            {
+                $daftar_renja[$v->RenjaID]='['.$v->kode_kegiatan.'] '.$v->KgtNm .' ('.$v->RenjaID.')';
+            } 
+            $json_data = ['success'=>true,'daftar_renja'=>$daftar_renja];            
+        } 
+        return response()->json($json_data,200);  
+    }
+    /**
      * search resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -1650,7 +1694,9 @@ class UsulanRenjaController extends Controller
      */
     public function showrincian($id)
     {
-        $theme = \Auth::user()->theme;
+        $auth = \Auth::user();    
+        $theme = $auth->theme;
+
         switch ($this->NameOfPage) 
         {            
             case 'usulanprarenjaopd' :
@@ -1725,11 +1771,54 @@ class UsulanRenjaController extends Controller
        
         if (!is_null($data) )  
         {            
+            $filters=$this->getControllerStateSession($this->SessionName,'filters');
+            
+            $roles=$auth->getRoleNames();   
+            $daftar_unitkerja=[];           
+            $daftar_renja=[''=>''];           
+            switch ($roles[0])
+            {
+                case 'superadmin' :     
+                case 'bapelitbang' :     
+                case 'tapd' :     
+                    $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);                  
+                    if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
+                    {
+                        $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$filters['OrgID']);                              
+                    }    
+                break;
+                case 'opd' :               
+                    $daftar_opd=\App\Models\UserOPD::getOPD();                      
+                    if (count($daftar_opd) > 0)
+                    {                    
+                        if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
+                        {
+                            $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$filters['OrgID']);                                    
+                        }  
+                    }                                
+                break;
+            }
+            $q = \DB::table('trRenja')
+                        ->select(\DB::raw('"trRenja"."RenjaID","v_program_kegiatan"."kode_kegiatan","v_program_kegiatan"."KgtNm"'))
+                        ->join('v_program_kegiatan','v_program_kegiatan.KgtID','trRenja.KgtID')
+                        ->where('trRenja.SOrgID',$filters['SOrgID'])
+                        ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))
+                        ->orderBy('v_program_kegiatan.KgtNm','ASC')
+                        ->get();
+            
+            foreach ($q as $k=>$v)
+            {
+                $daftar_renja[$v->RenjaID]='['.$v->kode_kegiatan.'] '.$v->KgtNm .' ('.$v->RenjaID.')';
+            } 
             return view("pages.$theme.rkpd.usulanrenja.showrincian")->with(['page_active'=>$this->NameOfPage,
-                                                                'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
-                                                                'renja'=>$data,
-                                                                'item'=>$data
-                                                            ]);
+                                                                                'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
+                                                                                'renja'=>$data,
+                                                                                'filters'=>$filters,
+                                                                                'daftar_opd'=>$daftar_opd,
+                                                                                'daftar_unitkerja'=>$daftar_unitkerja,
+                                                                                'daftar_renja'=>$daftar_renja,
+                                                                                'item'=>$data
+                                                                            ]);
         }          
     }
     /**
@@ -3204,6 +3293,38 @@ class UsulanRenjaController extends Controller
             return redirect(route(\Helper::getNameOfPage('show'),['uuid'=>$rinciankegiatan->RenjaID]))->with('success','Data Rincian kegiatan telah berhasil disimpan.');
         } 
     }  
+    /**
+     * Geser Rincian
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function geserrincian(Request $request,$id)
+    {
+        $rinciankegiatan = RenjaRincianModel::find($id); 
+        $old_renjaid = $rinciankegiatan->RenjaID;       
+        $this->validate($request, [
+            'RenjaID'=>'required',                  
+        ]);
+        $RenjaID=$request->input('RenjaID');
+        $rinciankegiatan->RenjaID=$RenjaID;
+        $rinciankegiatan->No = \DB::table('trRenjaRinc')
+                                ->where('RenjaID',$RenjaID)
+                                ->max('No');
+        $rinciankegiatan->save();
+
+        if ($request->ajax()) 
+        {
+            return response()->json([
+                'success'=>true,
+                'message'=>'Rincian Kegiatan ini telah berhasil digeser.'
+            ]);
+        }
+        else
+        {
+            return redirect(route(\Helper::getNameOfPage('show'),['uuid'=>$old_renjaid]))->with('success','Data Rincian kegiatan telah berhasil digeser.');
+        } 
+    }
     /**
      * Remove the specified resource from storage.
      *
