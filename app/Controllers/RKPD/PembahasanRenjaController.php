@@ -234,7 +234,7 @@ class PembahasanRenjaController extends Controller {
             
         }    
         $statusTransfer = $filters['statusTransfer'];
-        if ($statusTransfer > 0)
+        if ($statusTransfer >= 0)
         {
             $data->where('Privilege',$statusTransfer);
         }
