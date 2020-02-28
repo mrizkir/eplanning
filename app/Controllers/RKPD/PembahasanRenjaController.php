@@ -251,6 +251,8 @@ class PembahasanRenjaController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
+        $filters=$this->getControllerStateSession($this->SessionName,'filters');
+
         $numberRecordPerPage = $request->input('numberRecordPerPage');
         $this->putControllerStateSession('global_controller','numberRecordPerPage',$numberRecordPerPage);
         
@@ -261,6 +263,7 @@ class PembahasanRenjaController extends Controller {
                                                                                 'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                                 'label_transfer'=>$this->LabelTransfer,
                                                                                 'search'=>$this->getControllerStateSession($this->SessionName,'search'),
+                                                                                'filters'=>$filters,
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                 'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
                                                                                 'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
@@ -275,6 +278,8 @@ class PembahasanRenjaController extends Controller {
     public function orderby (Request $request) 
     {
         $theme = \Auth::user()->theme;
+
+        $filters=$this->getControllerStateSession($this->SessionName,'filters');
 
         $orderby = $request->input('orderby') == 'asc'?'desc':'asc';
         $column=$request->input('column_name');
@@ -314,6 +319,7 @@ class PembahasanRenjaController extends Controller {
                                                                                 'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                                 'label_transfer'=>$this->LabelTransfer,
                                                                                 'search'=>$this->getControllerStateSession($this->SessionName,'search'),
+                                                                                'filters'=>$filters,
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                 'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
                                                                                 'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
@@ -331,12 +337,15 @@ class PembahasanRenjaController extends Controller {
     {
         $theme = \Auth::user()->theme;
 
+        $filters=$this->getControllerStateSession($this->SessionName,'filters');
+
         $this->setCurrentPageInsideSession($this->SessionName,$id);
         $data=$this->populateData($id);
         $datatable = view("pages.$theme.rkpd.pembahasanrenja.datatable")->with(['page_active'=>$this->NameOfPage, 
                                                                                 'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                                 'label_transfer'=>$this->LabelTransfer,
                                                                                 'search'=>$this->getControllerStateSession($this->SessionName,'search'),
+                                                                                'filters'=>$filters,
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                 'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
                                                                                 'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
@@ -353,6 +362,8 @@ class PembahasanRenjaController extends Controller {
     public function search (Request $request) 
     {
         $theme = \Auth::user()->theme;
+
+        $filters=$this->getControllerStateSession($this->SessionName,'filters');
 
         $action = $request->input('action');
         if ($action == 'reset') 
@@ -372,6 +383,7 @@ class PembahasanRenjaController extends Controller {
                                                                                 'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),                                                            
                                                                                 'label_transfer'=>$this->LabelTransfer,
                                                                                 'search'=>$this->getControllerStateSession($this->SessionName,'search'),
+                                                                                'filters'=>$filters,
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                 'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
                                                                                 'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
@@ -391,6 +403,7 @@ class PembahasanRenjaController extends Controller {
         $theme = $auth->theme;
 
         $filters=$this->getControllerStateSession($this->SessionName,'filters');
+
         $daftar_unitkerja=[];
         $json_data = [];
         
