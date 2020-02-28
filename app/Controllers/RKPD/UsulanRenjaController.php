@@ -430,6 +430,7 @@ class UsulanRenjaController extends Controller
 
             $subquery = \DB::table('trRenjaRinc')
                             ->select('PokPirID')
+                            ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName())
                             ->where('TA',\HelperKegiatan::getTahunPerencanaan());
 
             $data=\App\Models\Pokir\PokokPikiranModel::select('trPokPir.*')
