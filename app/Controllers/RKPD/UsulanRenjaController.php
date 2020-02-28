@@ -3302,29 +3302,29 @@ class UsulanRenjaController extends Controller
      */
     public function geserrincian(Request $request,$id)
     {
-        $rinciankegiatan = RenjaRincianModel::find($id); 
-        $old_renjaid = $rinciankegiatan->RenjaID;       
-        $this->validate($request, [
-            'RenjaID'=>'required',                  
-        ]);
-        $RenjaID=$request->input('RenjaID');
-        $rinciankegiatan->RenjaID=$RenjaID;
-        $rinciankegiatan->No = \DB::table('trRenjaRinc')
-                                ->where('RenjaID',$RenjaID)
-                                ->max('No')+1;
-        $rinciankegiatan->save();
+        // $rinciankegiatan = RenjaRincianModel::find($id); 
+        // $old_renjaid = $rinciankegiatan->RenjaID;       
+        // $this->validate($request, [
+        //     'RenjaID'=>'required',                  
+        // ]);
+        // $RenjaID=$request->input('RenjaID');
+        // $rinciankegiatan->RenjaID=$RenjaID;
+        // $rinciankegiatan->No = \DB::table('trRenjaRinc')
+        //                         ->where('RenjaID',$RenjaID)
+        //                         ->max('No')+1;
+        // $rinciankegiatan->save();
 
-        if ($request->ajax()) 
-        {
-            return response()->json([
-                'success'=>true,
-                'message'=>'Rincian Kegiatan ini telah berhasil digeser.'
-            ]);
-        }
-        else
-        {
-            return redirect(route(\Helper::getNameOfPage('show'),['uuid'=>$old_renjaid]))->with('success','Data Rincian kegiatan telah berhasil digeser.');
-        } 
+        // if ($request->ajax()) 
+        // {
+        //     return response()->json([
+        //         'success'=>true,
+        //         'message'=>'Rincian Kegiatan ini telah berhasil digeser.'
+        //     ]);
+        // }
+        // else
+        // {
+        //     return redirect(route(\Helper::getNameOfPage('show'),['uuid'=>$old_renjaid]))->with('success','Data Rincian kegiatan telah berhasil digeser.');
+        // } 
     }
     /**
      * Remove the specified resource from storage.
