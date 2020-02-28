@@ -182,15 +182,15 @@
                                     $tahapan = 'RAKOR BIDANG';
                                     $pagudana=$item->Jumlah2;
                                 break;
-                                case 3 :
+                                case 2 :
                                     $tahapan = 'FORUM OPD';
                                     $pagudana=$item->Jumlah3;
                                 break;
-                                case 4 :
+                                case 3 :
                                     $tahapan = 'MUSRENBANG KABUPATEN';
                                     $pagudana=$item->Jumlah4;
                                 break;
-                                case 5 :
+                                case 4 :
                                     $tahapan = 'VERIFIKASI RENCANA KERJA (FINAL)';
                                     $pagudana=$item->Jumlah5;
                                 break;
