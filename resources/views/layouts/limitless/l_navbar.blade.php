@@ -495,7 +495,7 @@
                                         </a>
                                     </li>
                                     <li{!!Helper::isMenuActive ($page_active,'reportmusrenkab',' class="active"')!!}>
-                                        <a href="#">
+                                        <a href="{{route('reportmusrenkab.index')}}">
                                             <i class="icon-file-empty"></i> MUSRENBANG KABUPATEN</span>
                                         </a>
                                     </li>

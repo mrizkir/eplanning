@@ -127,6 +127,12 @@ class ReportUsulanRenjaController extends Controller {
                     
                     $filename="forumopd_$generate_date.xlsx";
                 break;
+                case 'reportmusrenkab' :
+                    $data_report['sheetname']='Musren Kab';
+                    $data_report['EntryLvl']=3;
+                    
+                    $filename="musrenkab_$generate_date.xlsx";
+                break;
             }
             $report= new \App\Models\Report\ReportUsulanRenjaModel ($data_report);
             return $report->download($filename);
@@ -172,6 +178,18 @@ class ReportUsulanRenjaController extends Controller {
                     $data_report['EntryLvl']=1;
                     
                     $filename="rakorbidang_$generate_date.xlsx";
+                break;
+                case 'reportforumopd' :
+                    $data_report['sheetname']='Forum OPD';
+                    $data_report['EntryLvl']=2;
+                    
+                    $filename="forumopd_$generate_date.xlsx";
+                break;
+                case 'reportmusrenkab' :
+                    $data_report['sheetname']='Musren Kab';
+                    $data_report['EntryLvl']=3;
+                    
+                    $filename="musrenkab_$generate_date.xlsx";
                 break;
             }
             $report= new \App\Models\Report\ReportUsulanRenjaModel ($data_report);
