@@ -1907,7 +1907,6 @@ class UsulanRenjaController extends Controller
                                                     "trRenja"."Descr"'))
                             ->join('tmKgt','tmKgt.KgtID','trRenja.KgtID')
                             ->leftJoin('tmPrg','tmPrg.PrgID','tmKgt.PrgID')
-                            ->leftJoin('tmPrg','tmPrg.PrgID','tmKgt.PrgID')
                             ->leftJoin('trUrsPrg','trUrsPrg.PrgID','tmPrg.PrgID')
                             ->leftJoin('tmUrs','tmUrs.UrsID','trUrsPrg.UrsID')
                             ->findOrFail($id);        
@@ -1933,7 +1932,6 @@ class UsulanRenjaController extends Controller
                                                     "trRenja"."SumberDanaID",
                                                     "trRenja"."Descr"'))
                             ->join('tmKgt','tmKgt.KgtID','trRenja.KgtID')
-                            ->leftJoin('tmPrg','tmPrg.PrgID','tmKgt.PrgID')
                             ->leftJoin('tmPrg','tmPrg.PrgID','tmKgt.PrgID')
                             ->leftJoin('trUrsPrg','trUrsPrg.PrgID','tmPrg.PrgID')
                             ->leftJoin('tmUrs','tmUrs.UrsID','trUrsPrg.UrsID')
