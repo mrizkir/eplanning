@@ -105,7 +105,7 @@
                                             ->join('trRenjaRinc','trRenjaRinc.RenjaID','trRenja.RenjaID')
                                             ->select(\DB::raw('
                                                                 COUNT(DISTINCT("KgtID")) AS jumlah_kegiatan,
-                                                                COALESCE(SUM("Jumlah1"),0) AS jumlah_pagu
+                                                                COALESCE(SUM("Jumlah2"),0) AS jumlah_pagu
                                                             '))
                                             ->where('OrgID',$OrgID)
                                             ->where('trRenja.EntryLvl',1)
@@ -147,7 +147,7 @@
                                             ->join('trRenjaRinc','trRenjaRinc.RenjaID','trRenja.RenjaID')
                                             ->select(\DB::raw('
                                                                 COUNT(DISTINCT("KgtID")) AS jumlah_kegiatan,
-                                                                COALESCE(SUM("Jumlah1"),0) AS jumlah_pagu
+                                                                COALESCE(SUM("Jumlah3"),0) AS jumlah_pagu
                                                             '))
                                             ->where('OrgID',$OrgID)
                                             ->where('trRenja.EntryLvl',2)
@@ -189,7 +189,7 @@
                                             ->join('trRenjaRinc','trRenjaRinc.RenjaID','trRenja.RenjaID')
                                             ->select(\DB::raw('
                                                                 COUNT(DISTINCT("KgtID")) AS jumlah_kegiatan,
-                                                                COALESCE(SUM("Jumlah1"),0) AS jumlah_pagu
+                                                                COALESCE(SUM("Jumlah4"),0) AS jumlah_pagu
                                                             '))
                                             ->where('OrgID',$OrgID)
                                             ->where('trRenja.EntryLvl',3)
