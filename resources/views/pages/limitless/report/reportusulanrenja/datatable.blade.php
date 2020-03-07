@@ -40,7 +40,7 @@
                     </th>      
                     <th width="100" class="text-left">
                         <a class="column-sort text-white" href="#">
-                            TOTAL PAGU
+                            TOTAL PAGU DIENTRI
                         </a>                                             
                     </th>
                     <th width="100" class="text-left">
