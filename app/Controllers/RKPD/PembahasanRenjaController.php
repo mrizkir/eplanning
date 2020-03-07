@@ -1760,6 +1760,7 @@ class PembahasanRenjaController extends Controller {
                                 "Prioritas",
                                 "Descr",
                                 "TA",
+                                "RenjaRincID_Src",
                                 "created_at", 
                                 "updated_at"
                             ) 
@@ -1805,6 +1806,7 @@ class PembahasanRenjaController extends Controller {
                                 "Prioritas",
                                 "Descr",
                                 "TA",
+                                "RenjaRincID" AS "RenjaID_Src",
                                 NOW() AS created_at,
                                 NOW() AS updated_at
                             FROM 
