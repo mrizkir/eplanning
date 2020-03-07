@@ -707,6 +707,15 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::get('/report/renja/reportmusrenkab/printtoexcel/{uuid}',['uses'=>'Report\ReportUsulanRenjaController@printtoexcel','as'=>'reportmusrenkab.printtoexcel']);  
     Route::get('/report/renja/reportmusrenkab/printtoexceldetail{uuid}',['uses'=>'Report\ReportUsulanRenjaController@printtoexceldetail','as'=>'reportmusrenkab.printtoexceldetail']);  
     
+    //Report - USULAN RENCANA KERJA OPD / SKPD  [verifikasi tapd]
+    Route::resource('/report/renja/reportverifikasitapd','Report\ReportUsulanRenjaController',[
+                                                                'parameters'=>['reportverifikasitapd'=>'id'],
+                                                                'only'=>['index','show']
+                                                            ]);                   
+
+    Route::get('/report/renja/reportverifikasitapd/printtoexcel/{uuid}',['uses'=>'Report\ReportUsulanRenjaController@printtoexcel','as'=>'reportverifikasitapd.printtoexcel']);  
+    Route::get('/report/renja/reportverifikasitapd/printtoexceldetail{uuid}',['uses'=>'Report\ReportUsulanRenjaController@printtoexceldetail','as'=>'reportverifikasitapd.printtoexceldetail']);  
+    
     //Report - RENCANA KERJA OPD / SKPD - RKPD MURNI PER OPD   
     Route::resource('/report/rkpd/reportrkpdmurniopd','Report\ReportRKPDMurniOPDController',[
                                                                 'parameters'=>['reportrkpdmurniopd'=>'id'],

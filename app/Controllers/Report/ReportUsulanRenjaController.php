@@ -133,6 +133,12 @@ class ReportUsulanRenjaController extends Controller {
                     
                     $filename="musrenkab_$generate_date.xlsx";
                 break;
+                case 'reportverifikasitapd' :
+                    $data_report['sheetname']='Verifikasi TAPD';
+                    $data_report['EntryLvl']=4;
+                    
+                    $filename="verifikasitapd_$generate_date.xlsx";
+                break;
             }
             $report= new \App\Models\Report\ReportUsulanRenjaModel ($data_report);
             return $report->download($filename);
@@ -190,6 +196,12 @@ class ReportUsulanRenjaController extends Controller {
                     $data_report['EntryLvl']=3;
                     
                     $filename="musrenkab_$generate_date.xlsx";
+                break;
+                case 'reportverifikasitapd' :
+                    $data_report['sheetname']='Verifikasi TAPD';
+                    $data_report['EntryLvl']=4;
+                    
+                    $filename="verifikasitapd_$generate_date.xlsx";
                 break;
             }
             $report= new \App\Models\Report\ReportUsulanRenjaModel ($data_report);

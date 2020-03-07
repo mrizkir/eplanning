@@ -240,7 +240,7 @@ class HelperKegiatan {
             case 'reportmusrenkab' :
                 $pagetitle = 'LAPORAN MUSRENBANG KABUPATEN';
             break;
-            case 'reportmusrenkab' :
+            case 'reportverifikasitapd' :
                 $pagetitle = 'LAPORAN VERIFIKASI TAPD';
             break;
             

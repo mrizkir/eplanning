@@ -220,6 +220,48 @@
                         $jumlah_usulan_kec = $renja[0]->jumlah_usulan_kec;
                         
                     break;
+                    case 'reportverifikasitapd' :
+                        $jumlah_program = \DB::table('trRenja')
+                                            ->join('tmKgt','trRenja.KgtID','tmKgt.KgtID')
+                                            ->where('OrgID',$OrgID)
+                                            ->where('EntryLvl',4)
+                                            ->count(\DB::raw('DISTINCT("PrgID")'));
+
+                        $renja = \DB::table('trRenja')
+                                            ->join('trRenjaRinc','trRenjaRinc.RenjaID','trRenja.RenjaID')
+                                            ->select(\DB::raw('
+                                                                COUNT(DISTINCT("KgtID")) AS jumlah_kegiatan,
+                                                                COALESCE(SUM("Jumlah5"),0) AS jumlah_pagu
+                                                            '))
+                                            ->where('OrgID',$OrgID)
+                                            ->where('trRenja.EntryLvl',4)
+                                            ->get();
+                        
+                        $jumlah_kegiatan = $renja[0]->jumlah_kegiatan;
+                        $jumlah_pagu = $renja[0]->jumlah_pagu;
+                        
+                        \DB::table('trRekapPaguIndikatifOPD')
+                                ->where('OrgID',$OrgID)
+                                ->update([
+                                            'jumlah_program2'=>$jumlah_program,
+                                            'jumlah_kegiatan2'=>$jumlah_kegiatan,
+                                            'rakorbidang1'=>$jumlah_pagu,
+                                        ]);
+
+                        $renja = \DB::table('trRenjaRinc')
+                                            ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')
+                                            ->select(\DB::raw('
+                                                                COUNT("PokPirID") AS jumlah_pokir,
+                                                                COUNT("UsulanKecID") AS jumlah_usulan_kec
+                                                            '))
+                                            ->where('OrgID',$OrgID)
+                                            ->where('trRenjaRinc.EntryLvl',4)
+                                            ->get();
+
+                        $jumlah_pokir = $renja[0]->jumlah_pokir;
+                        $jumlah_usulan_kec = $renja[0]->jumlah_usulan_kec;
+                        
+                    break;
                 }
                 @endphp
                 <tr>

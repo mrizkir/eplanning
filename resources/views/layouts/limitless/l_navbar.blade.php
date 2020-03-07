@@ -500,7 +500,7 @@
                                         </a>
                                     </li>
                                     <li{!!Helper::isMenuActive ($page_active,'reportverifikasitapd',' class="active"')!!}>
-                                        <a href="#">
+                                        <a href="{{route('reportverifikasitapd.index')}}">
                                             <i class="icon-file-empty"></i> VERIFIKASI TAPD</span>
                                         </a>
                                     </li>
