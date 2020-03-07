@@ -51,11 +51,15 @@
                     <th width="120">AKSI</th>
                 </tr>
             </thead>
-            <tbody>                    
+            <tbody>   
+            @php
+                $total_pagu_penetapan=0;    
+                $total_pagu_unit=0;  
+            @endphp
             @foreach ($daftar_opd as $k=>$item)                
                 @php
                 $OrgID=$item->OrgID;
-                $pagu_penetapan=$item->Jumlah1;                
+                $pagu_penetapan=$item->Jumlah1;                                
                 switch ($page_active)
                 {
                     case 'reportusulanprarenjaopd' :
@@ -269,6 +273,8 @@
                         
                     break;
                 }
+                $total_pagu_penetapan+=$pagu_penetapan;
+                $total_pagu_unit+=$jumlah_pagu;
                 if ($jumlah_pagu == $pagu_penetapan)
                 {
                     $color='success';
@@ -304,10 +310,10 @@
                     <td>
                         {{$jumlah_usulan_kec}}
                     </td>  
-                    <td>
+                    <td class="text-right">
                         {{Helper::formatUang($jumlah_pagu)}}
                     </td>             
-                    <td>
+                    <td class="text-right">
                         <span class="label label-{{$color}} label-rounded" style="text-transform: none">                            
                             {{Helper::formatUang($pagu_penetapan)}}
                         </span>                        
@@ -346,7 +352,21 @@
                     </td>
                 </tr>
             @endforeach                    
-            </tbody>           
+            </tbody>    
+            <tfoot class="bg-info-300">
+                <tr>
+                    <td class="text-right" colspan="7">
+                        <strong>TOTAL</strong>
+                    </td>
+                    <td class="text-right">
+                        <strong>{{Helper::formatUang($total_pagu_unit)}}</strong>
+                    </td class="text-right">
+                    <td class="text-right">
+                        <strong>{{Helper::formatUang($total_pagu_penetapan)}}</strong>
+                    </td>
+                    <td>&nbsp;</td>
+                </tr>
+            </tfoot>
         </table>               
     </div>
     @else
