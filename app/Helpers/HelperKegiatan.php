@@ -132,7 +132,7 @@ class HelperKegiatan {
                 $level = 3;
             break;
             case 'verifikasirenja' :
-            case 'reportverifikasirenja' :
+            case 'reportverifikasitapd' :
                 $level = 4;
             break;
             case 'pembahasanprarenjaopd' :
@@ -353,7 +353,7 @@ class HelperKegiatan {
                 $dbViewName = 'v_usulan_musren_kab';
             break;  
             case 'verifikasirenja' :
-            case 'reportverifikasirenja' :
+            case 'reportverifikasitapd' :
                 $dbViewName = 'v_verifikasi_renja';
             break;    
             case 'rkpdmurni' :                        
@@ -502,7 +502,7 @@ class HelperKegiatan {
                                     "Descr"');
             break;
             case 'verifikasirenja' :
-            case 'reportverifikasirenja' :
+            case 'reportverifikasitapd' :
                 $rawSql = \DB::raw('"RenjaID",
                                     "KgtID",
                                     "RenjaRincID",
