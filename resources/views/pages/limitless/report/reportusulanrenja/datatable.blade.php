@@ -43,6 +43,11 @@
                             TOTAL PAGU
                         </a>                                             
                     </th>
+                    <th width="100" class="text-left">
+                        <a class="column-sort text-white" href="#">
+                            PAGU PENETAPAN
+                        </a>                                             
+                    </th>
                     <th width="120">AKSI</th>
                 </tr>
             </thead>
@@ -50,6 +55,7 @@
             @foreach ($daftar_opd as $k=>$item)                
                 @php
                 $OrgID=$item->OrgID;
+                $pagu_penetapan=$item->Jumlah1;                
                 switch ($page_active)
                 {
                     case 'reportusulanprarenjaopd' :
@@ -263,8 +269,20 @@
                         
                     break;
                 }
+                if ($jumlah_pagu == $pagu_penetapan)
+                {
+                    $color='success';
+                }
+                elseif ($jumlah_pagu < $pagu_penetapan)
+                {
+                    $color='warning';
+                }
+                else 
+                {
+                    $color='danger';
+                }
                 @endphp
-                <tr>
+                <tr class="{{$color}}">
                     <td>
                         {{$k+1}}
                     </td>
@@ -288,6 +306,9 @@
                     </td>  
                     <td>
                         {{Helper::formatUang($jumlah_pagu)}}
+                    </td>             
+                    <td>
+                        {{Helper::formatUang($pagu_penetapan)}}
                     </td>             
                     <td>
                         <ul class="icons-list">

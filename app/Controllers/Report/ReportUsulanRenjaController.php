@@ -49,16 +49,20 @@ class ReportUsulanRenjaController extends Controller {
             case 'bapelitbang' :
             case 'tapd' :  
                 $daftar_opd=\DB::table('v_urusan_organisasi')
-                                ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                ->select(\DB::raw('v_urusan_organisasi."OrgID",v_urusan_organisasi.kode_organisasi,v_urusan_organisasi."OrgNm","tmPaguAnggaranOPD"."Jumlah1","tmPaguAnggaranOPD"."Jumlah2"'))
+                                ->leftJoin('tmPaguAnggaranOPD','tmPaguAnggaranOPD.OrgID','v_urusan_organisasi.OrgID')
+                                ->where('v_urusan_organisasi.TA',\HelperKegiatan::getTahunPerencanaan())
                                 ->orderBy('kode_organisasi','ASC')
                                 ->get();
 
             break;  
             case 'opd' :
                 $daftar_opd=\DB::table('usersopd')
+                                ->select(\DB::raw('v_urusan_organisasi."OrgID",v_urusan_organisasi.kode_organisasi,v_urusan_organisasi."OrgNm","tmPaguAnggaranOPD"."Jumlah1",,"tmPaguAnggaranOPD"."Jumlah2"'))
                                 ->join('v_urusan_organisasi','v_urusan_organisasi.OrgID','usersopd.OrgID')
+                                ->leftJoin('tmPaguAnggaranOPD','tmPaguAnggaranOPD.OrgID','v_urusan_organisasi.OrgID')
                                 ->where('id',$auth->id)  
-                                ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                ->where('v_urusan_organisasi.TA',\HelperKegiatan::getTahunPerencanaan())
                                 ->orderBy('kode_organisasi','ASC')
                                 ->get();
                 

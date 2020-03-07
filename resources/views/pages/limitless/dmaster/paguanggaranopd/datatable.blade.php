@@ -77,6 +77,7 @@
                 </tr>
             @endforeach                    
             </tbody>
+            
         </table>               
     </div>
     <div class="panel-body border-top-info text-center" id="paginations">
