@@ -309,15 +309,15 @@
                     </td>             
                     <td>
                         {{$jumlah_usulan_kec}}
-                    </td>  
-                    <td class="text-right">
-                        {{Helper::formatUang($jumlah_pagu)}}
-                    </td>             
+                    </td>                      
                     <td class="text-right">
                         <span class="label label-{{$color}} label-rounded" style="text-transform: none">                            
-                            {{Helper::formatUang($pagu_penetapan)}}
+                            {{Helper::formatUang($jumlah_pagu)}}
                         </span>                        
-                    </td>             
+                    </td>  
+                    <td class="text-right">
+                        <strong>{{Helper::formatUang($pagu_penetapan)}}</strong>
+                    </td>                        
                     <td>
                         <ul class="icons-list">
                             <li class="dropdown text-teal-600">
