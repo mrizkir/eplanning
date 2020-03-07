@@ -282,7 +282,7 @@
                     $color='danger';
                 }
                 @endphp
-                <tr class="{{$color}}">
+                <tr>
                     <td>
                         {{$k+1}}
                     </td>
@@ -308,7 +308,9 @@
                         {{Helper::formatUang($jumlah_pagu)}}
                     </td>             
                     <td>
-                        {{Helper::formatUang($pagu_penetapan)}}
+                        <span class="label label-{{$color}} label-rounded" style="text-transform: none">                            
+                            {{Helper::formatUang($pagu_penetapan)}}
+                        </span>                        
                     </td>             
                     <td>
                         <ul class="icons-list">
