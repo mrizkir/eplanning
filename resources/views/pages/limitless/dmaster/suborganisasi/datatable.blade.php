@@ -76,7 +76,7 @@
                     </td>
                 </tr>
 				<tr class="text-center info">
-                    <td colspan="6">
+                    <td colspan="7">
                         <span class="label label-warning label-rounded" style="text-transform: none">
                             <strong>SOrgID:</strong>
                             {{$item->SOrgID}}
