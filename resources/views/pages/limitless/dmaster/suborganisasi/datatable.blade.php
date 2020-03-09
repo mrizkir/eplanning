@@ -33,6 +33,9 @@
                         </a>                                             
                     </th> 
                     <th>
+                        OPD / SKPD
+                    </th> 
+                    <th>
                         <a class="column-sort text-white" id="col-Nm_Urusan" data-order="{{$direction}}" href="#">
                             URUSAN
                         </a>                                             
@@ -49,6 +52,7 @@
                     </td>                  
                     <td>{{$item->kode_suborganisasi}}</td>
                     <td>{{$item->SOrgNm}}</td>
+                    <td>{{$item->OrgNm}}</td>
                     <td>{{$item->Nm_Urusan}}</td>
                     <td>{{$item->TA}}</td>
                     <td>
@@ -80,6 +84,10 @@
                         <span class="label label-warning label-rounded" style="text-transform: none">
                             <strong>ORGID:</strong>
                             {{$item->OrgID}}
+                        </span> 
+                        <span class="label label-warning label-rounded" style="text-transform: none">
+                            <strong>ORGIDRPJMD:</strong>
+                            {{$item->OrgIDRPJMD}}
                         </span> 
                         <span class="label label-warning label-rounded" style="text-transform: none">
                             <strong>CREATED:</strong>
