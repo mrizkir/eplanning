@@ -58,7 +58,7 @@ class ReportUsulanRenjaController extends Controller {
             break;  
             case 'opd' :
                 $daftar_opd=\DB::table('usersopd')
-                                ->select(\DB::raw('v_urusan_organisasi."OrgID",v_urusan_organisasi.kode_organisasi,v_urusan_organisasi."OrgNm","tmPaguAnggaranOPD"."Jumlah1",,"tmPaguAnggaranOPD"."Jumlah2"'))
+                                ->select(\DB::raw('v_urusan_organisasi."OrgID",v_urusan_organisasi.kode_organisasi,v_urusan_organisasi."OrgNm","tmPaguAnggaranOPD"."Jumlah1","tmPaguAnggaranOPD"."Jumlah2"'))
                                 ->join('v_urusan_organisasi','v_urusan_organisasi.OrgID','usersopd.OrgID')
                                 ->leftJoin('tmPaguAnggaranOPD','tmPaguAnggaranOPD.OrgID','v_urusan_organisasi.OrgID')
                                 ->where('id',$auth->id)  
