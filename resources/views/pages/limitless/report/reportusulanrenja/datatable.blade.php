@@ -55,6 +55,7 @@
             @php
                 $total_pagu_penetapan=0;    
                 $total_pagu_unit=0;  
+                $status_kegiatan=$filters['status_kegiatan'];
             @endphp
             @foreach ($daftar_opd as $k=>$item)                
                 @php
@@ -81,14 +82,6 @@
                         
                         $jumlah_kegiatan = $renja[0]->jumlah_kegiatan;
                         $jumlah_pagu = $renja[0]->jumlah_pagu;
-                        
-                        \DB::table('trRekapPaguIndikatifOPD')
-                                ->where('OrgID',$OrgID)
-                                ->update([
-                                            'jumlah_program1'=>$jumlah_program,
-                                            'jumlah_kegiatan1'=>$jumlah_kegiatan,
-                                            'prarenja1'=>$jumlah_pagu,
-                                        ]);
 
                         $renja = \DB::table('trRenjaRinc')
                                             ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')
@@ -102,6 +95,17 @@
 
                         $jumlah_pokir = $renja[0]->jumlah_pokir;
                         $jumlah_usulan_kec = $renja[0]->jumlah_usulan_kec;
+
+                        if  ($status_kegiatan == 1 || $status_kegiatan == 2)
+                        {
+                            \DB::table('trRekapPaguIndikatifOPD')
+                                    ->where('OrgID',$OrgID)
+                                    ->update([
+                                                'jumlah_program1'=>$jumlah_program,
+                                                'jumlah_kegiatan1'=>$jumlah_kegiatan,
+                                                'prarenja1'=>$jumlah_pagu,
+                                            ]);
+                        }                        
                         
                     break;
                     case 'reportrakorbidang' :
@@ -124,14 +128,6 @@
                         $jumlah_kegiatan = $renja[0]->jumlah_kegiatan;
                         $jumlah_pagu = $renja[0]->jumlah_pagu;
                         
-                        \DB::table('trRekapPaguIndikatifOPD')
-                                ->where('OrgID',$OrgID)
-                                ->update([
-                                            'jumlah_program2'=>$jumlah_program,
-                                            'jumlah_kegiatan2'=>$jumlah_kegiatan,
-                                            'rakorbidang1'=>$jumlah_pagu,
-                                        ]);
-
                         $renja = \DB::table('trRenjaRinc')
                                             ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')
                                             ->select(\DB::raw('
@@ -144,6 +140,17 @@
 
                         $jumlah_pokir = $renja[0]->jumlah_pokir;
                         $jumlah_usulan_kec = $renja[0]->jumlah_usulan_kec;
+
+                        if  ($status_kegiatan == 1 || $status_kegiatan == 2)
+                        {
+                            \DB::table('trRekapPaguIndikatifOPD')
+                                    ->where('OrgID',$OrgID)
+                                    ->update([
+                                                'jumlah_program2'=>$jumlah_program,
+                                                'jumlah_kegiatan2'=>$jumlah_kegiatan,
+                                                'rakorbidang1'=>$jumlah_pagu,
+                                            ]);
+                        }
                         
                     break;
                     case 'reportforumopd' :
@@ -153,6 +160,7 @@
                                             ->where('EntryLvl',2)
                                             ->count(\DB::raw('DISTINCT("PrgID")'));
 
+                        
                         $renja = \DB::table('trRenja')
                                             ->join('trRenjaRinc','trRenjaRinc.RenjaID','trRenja.RenjaID')
                                             ->select(\DB::raw('
@@ -166,14 +174,6 @@
                         $jumlah_kegiatan = $renja[0]->jumlah_kegiatan;
                         $jumlah_pagu = $renja[0]->jumlah_pagu;
                         
-                        \DB::table('trRekapPaguIndikatifOPD')
-                                ->where('OrgID',$OrgID)
-                                ->update([
-                                            'jumlah_program2'=>$jumlah_program,
-                                            'jumlah_kegiatan2'=>$jumlah_kegiatan,
-                                            'rakorbidang1'=>$jumlah_pagu,
-                                        ]);
-
                         $renja = \DB::table('trRenjaRinc')
                                             ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')
                                             ->select(\DB::raw('
@@ -187,6 +187,17 @@
                         $jumlah_pokir = $renja[0]->jumlah_pokir;
                         $jumlah_usulan_kec = $renja[0]->jumlah_usulan_kec;
                         
+                        if  ($status_kegiatan == 1 || $status_kegiatan == 2)
+                        {
+                            \DB::table('trRekapPaguIndikatifOPD')
+                                    ->where('OrgID',$OrgID)
+                                    ->update([
+                                                'jumlah_program2'=>$jumlah_program,
+                                                'jumlah_kegiatan2'=>$jumlah_kegiatan,
+                                                'rakorbidang1'=>$jumlah_pagu,
+                                            ]);
+                        }
+
                     break;
                     case 'reportmusrenkab' :
                         $jumlah_program = \DB::table('trRenja')
@@ -206,16 +217,8 @@
                                             ->get();
                         
                         $jumlah_kegiatan = $renja[0]->jumlah_kegiatan;
-                        $jumlah_pagu = $renja[0]->jumlah_pagu;
+                        $jumlah_pagu = $renja[0]->jumlah_pagu;                        
                         
-                        \DB::table('trRekapPaguIndikatifOPD')
-                                ->where('OrgID',$OrgID)
-                                ->update([
-                                            'jumlah_program2'=>$jumlah_program,
-                                            'jumlah_kegiatan2'=>$jumlah_kegiatan,
-                                            'rakorbidang1'=>$jumlah_pagu,
-                                        ]);
-
                         $renja = \DB::table('trRenjaRinc')
                                             ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')
                                             ->select(\DB::raw('
@@ -228,6 +231,17 @@
 
                         $jumlah_pokir = $renja[0]->jumlah_pokir;
                         $jumlah_usulan_kec = $renja[0]->jumlah_usulan_kec;
+
+                        if  ($status_kegiatan == 1 || $status_kegiatan == 2)
+                        {
+                            \DB::table('trRekapPaguIndikatifOPD')
+                                    ->where('OrgID',$OrgID)
+                                    ->update([
+                                                'jumlah_program2'=>$jumlah_program,
+                                                'jumlah_kegiatan2'=>$jumlah_kegiatan,
+                                                'rakorbidang1'=>$jumlah_pagu,
+                                            ]);
+                        }
                         
                     break;
                     case 'reportverifikasitapd' :
@@ -250,14 +264,6 @@
                         $jumlah_kegiatan = $renja[0]->jumlah_kegiatan;
                         $jumlah_pagu = $renja[0]->jumlah_pagu;
                         
-                        \DB::table('trRekapPaguIndikatifOPD')
-                                ->where('OrgID',$OrgID)
-                                ->update([
-                                            'jumlah_program2'=>$jumlah_program,
-                                            'jumlah_kegiatan2'=>$jumlah_kegiatan,
-                                            'rakorbidang1'=>$jumlah_pagu,
-                                        ]);
-
                         $renja = \DB::table('trRenjaRinc')
                                             ->join('trRenja','trRenja.RenjaID','trRenjaRinc.RenjaID')
                                             ->select(\DB::raw('
@@ -271,6 +277,17 @@
                         $jumlah_pokir = $renja[0]->jumlah_pokir;
                         $jumlah_usulan_kec = $renja[0]->jumlah_usulan_kec;
                         
+                        if  ($status_kegiatan == 1 || $status_kegiatan == 2)
+                        {
+                            \DB::table('trRekapPaguIndikatifOPD')
+                                    ->where('OrgID',$OrgID)
+                                    ->update([
+                                                'jumlah_program2'=>$jumlah_program,
+                                                'jumlah_kegiatan2'=>$jumlah_kegiatan,
+                                                'rakorbidang1'=>$jumlah_pagu,
+                                            ]);
+                        }
+
                     break;
                 }
                 $total_pagu_penetapan+=$pagu_penetapan;

@@ -676,7 +676,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
                                                                 'parameters'=>['reportusulanprarenjaopd'=>'id'],
                                                                 'only'=>['index','show']
                                                             ]);                   
-
+    Route::post('/report/renja/reportusulanprarenjaopd/filter',['uses'=>'Report\ReportUsulanRenjaController@filter','as'=>'reportusulanprarenjaopd.filter']);                  
     Route::get('/report/renja/reportusulanprarenjaopd/printtoexcel/{uuid}',['uses'=>'Report\ReportUsulanRenjaController@printtoexcel','as'=>'reportusulanprarenjaopd.printtoexcel']);  
     Route::get('/report/renja/reportusulanprarenjaopd/printtoexceldetail{uuid}',['uses'=>'Report\ReportUsulanRenjaController@printtoexceldetail','as'=>'reportusulanprarenjaopd.printtoexceldetail']);  
    
@@ -685,7 +685,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
                                                                 'parameters'=>['reportrakorbidang'=>'id'],
                                                                 'only'=>['index','show']
                                                             ]);                   
-
+    Route::post('/report/renja/reportrakorbidang/filter',['uses'=>'Report\ReportUsulanRenjaController@filter','as'=>'reportrakorbidang.filter']);                  
     Route::get('/report/renja/reportrakorbidang/printtoexcel/{uuid}',['uses'=>'Report\ReportUsulanRenjaController@printtoexcel','as'=>'reportrakorbidang.printtoexcel']);  
     Route::get('/report/renja/reportrakorbidang/printtoexceldetail{uuid}',['uses'=>'Report\ReportUsulanRenjaController@printtoexceldetail','as'=>'reportrakorbidang.printtoexceldetail']);  
     
@@ -694,16 +694,17 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
                                                                 'parameters'=>['reportforumopd'=>'id'],
                                                                 'only'=>['index','show']
                                                             ]);                   
-
+    Route::post('/report/renja/reportforumopd/filter',['uses'=>'Report\ReportUsulanRenjaController@filter','as'=>'reportforumopd.filter']);                  
     Route::get('/report/renja/reportforumopd/printtoexcel/{uuid}',['uses'=>'Report\ReportUsulanRenjaController@printtoexcel','as'=>'reportforumopd.printtoexcel']);  
     Route::get('/report/renja/reportforumopd/printtoexceldetail{uuid}',['uses'=>'Report\ReportUsulanRenjaController@printtoexceldetail','as'=>'reportforumopd.printtoexceldetail']);  
+    
     
     //Report - USULAN RENCANA KERJA OPD / SKPD  [musrenbang kabupaten]
     Route::resource('/report/renja/reportmusrenkab','Report\ReportUsulanRenjaController',[
                                                                 'parameters'=>['reportmusrenkab'=>'id'],
                                                                 'only'=>['index','show']
                                                             ]);                   
-
+    Route::post('/report/renja/reportmusrenkab/filter',['uses'=>'Report\ReportUsulanRenjaController@filter','as'=>'reportmusrenkab.filter']);                  
     Route::get('/report/renja/reportmusrenkab/printtoexcel/{uuid}',['uses'=>'Report\ReportUsulanRenjaController@printtoexcel','as'=>'reportmusrenkab.printtoexcel']);  
     Route::get('/report/renja/reportmusrenkab/printtoexceldetail{uuid}',['uses'=>'Report\ReportUsulanRenjaController@printtoexceldetail','as'=>'reportmusrenkab.printtoexceldetail']);  
     
@@ -712,7 +713,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
                                                                 'parameters'=>['reportverifikasitapd'=>'id'],
                                                                 'only'=>['index','show']
                                                             ]);                   
-
+    Route::post('/report/renja/reportverifikasitapd/filter',['uses'=>'Report\ReportUsulanRenjaController@filter','as'=>'reportverifikasitapd.filter']);                  
     Route::get('/report/renja/reportverifikasitapd/printtoexcel/{uuid}',['uses'=>'Report\ReportUsulanRenjaController@printtoexcel','as'=>'reportverifikasitapd.printtoexcel']);  
     Route::get('/report/renja/reportverifikasitapd/printtoexceldetail{uuid}',['uses'=>'Report\ReportUsulanRenjaController@printtoexceldetail','as'=>'reportverifikasitapd.printtoexceldetail']);  
     
@@ -721,7 +722,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
                                                                 'parameters'=>['reportrkpdmurniopd'=>'id'],
                                                                 'only'=>['index']
                                                             ]);                   
-
+    Route::post('/report/renja/reportverifikasitapd/filter',['uses'=>'Report\ReportUsulanRenjaController@filter','as'=>'reportverifikasitapd.filter']);                  
     Route::post('/report/rkpd/reportrkpdmurniopd/search',['uses'=>'Report\ReportRKPDMurniOPDController@search','as'=>'reportrkpdmurniopd.search']);              
     Route::post('/report/rkpd/reportrkpdmurniopd/filter',['uses'=>'Report\ReportRKPDMurniOPDController@filter','as'=>'reportrkpdmurniopd.filter']);                  
     Route::get('/report/rkpd/reportrkpdmurniopd/printtoexcel',['uses'=>'Report\ReportRKPDMurniOPDController@printtoexcel','as'=>'reportrkpdmurniopd.printtoexcel']);  

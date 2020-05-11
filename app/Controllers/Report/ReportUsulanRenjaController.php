@@ -31,18 +31,13 @@ class ReportUsulanRenjaController extends Controller {
         }
         //set nama session 
         $this->SessionName=$this->getNameForSession();    
-    }     
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request) 
+    } 
+    public function populateData ()
     {
         $auth = \Auth::user();    
-        $theme = $auth->theme;
-
         $roles=$auth->getRoleNames();
+        
+        $daftar_opd=[];
         switch ($roles[0])
         {
             case 'superadmin' :     
@@ -53,8 +48,8 @@ class ReportUsulanRenjaController extends Controller {
                                 ->leftJoin('tmPaguAnggaranOPD','tmPaguAnggaranOPD.OrgID','v_urusan_organisasi.OrgID')
                                 ->where('v_urusan_organisasi.TA',\HelperKegiatan::getTahunPerencanaan())
                                 ->orderBy('kode_organisasi','ASC')
-                                ->get();
-
+                                ->get(); 
+                
             break;  
             case 'opd' :
                 $daftar_opd=\DB::table('usersopd')
@@ -64,21 +59,68 @@ class ReportUsulanRenjaController extends Controller {
                                 ->where('id',$auth->id)  
                                 ->where('v_urusan_organisasi.TA',\HelperKegiatan::getTahunPerencanaan())
                                 ->orderBy('kode_organisasi','ASC')
-                                ->get();
-                
-                if (!count($daftar_opd) > 0)
-                {
-                    return view("pages.$theme.report.reportusulanrenja.error")->with(['page_active'=>$this->NameOfPage, 
-                                                                                        'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
-                                                                                        'errormessage'=>'Anda Tidak Diperkenankan Mengakses Halaman ini, karena Sudah dikunci oleh BAPELITBANG',
-                                                                                        ]);
-                }       
+                                ->get(); 
+
             break;
+        }        
+        return $daftar_opd;
+    }    
+    /**
+     * filter resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function filter(Request $request) 
+    {
+        $auth = \Auth::user();    
+        $theme = $auth->theme;
+
+        $filters=$this->getControllerStateSession($this->SessionName,'filters');
+        //index
+        if ($request->exists('status_kegiatan'))
+        {
+            $status = $request->input('status_kegiatan');
+            $filters['status_kegiatan']=$status;
+
+            $this->putControllerStateSession($this->SessionName,'filters',$filters);
+
+            $daftar_opd=$this->populateData();
+           
+            return view("pages.$theme.report.reportusulanrenja.datatable")->with([
+                                                                                    'page_active'=>$this->NameOfPage, 
+                                                                                    'daftar_opd'=>$daftar_opd,                                                                                    
+                                                                                    'filters'=>$filters,
+                                                                                ])->render();       
         }
+    }
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request) 
+    {
+        $auth = \Auth::user();    
+        $theme = $auth->theme;
+        //filter
+        if (!$this->checkStateIsExistSession($this->SessionName,'filters')) 
+        {            
+            $this->putControllerStateSession($this->SessionName,'filters',[
+                                                                            'status_kegiatan'=>-1,                                                                            
+                                                                        ]);
+        }  
+        $daftar_opd=$this->populateData();
+        $filters=$this->getControllerStateSession($this->SessionName,'filters');
+        
+        $status_kegiatan['none']='SELURUH STATUS KEGIATAN';
+        $status_kegiatan=$status_kegiatan+\HelperKegiatan::getStatusKegiatan();
         return view("pages.$theme.report.reportusulanrenja.index")->with(['page_active'=>$this->NameOfPage, 
                                                                         'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),                                                                            
+                                                                        'filters'=>$filters,
                                                                         'label_transfer'=>$this->LabelTransfer,
                                                                         'daftar_opd'=>$daftar_opd,
+                                                                        'status_kegiatan'=>$status_kegiatan
                                                                     ]);            
     }
     /**
@@ -103,6 +145,7 @@ class ReportUsulanRenjaController extends Controller {
                         ->where('OrgID',$id)->first();  
         if (!is_null($organisasi))
         {
+            $filters=$this->getControllerStateSession($this->SessionName,'filters');
             $data_report['NameOfPage']=$this->NameOfPage;
             $data_report['OrgID']=$id;
             $data_report['OrgNm']=$organisasi->OrgNm;
@@ -110,7 +153,7 @@ class ReportUsulanRenjaController extends Controller {
             $data_report['NamaKepalaSKPD']=$organisasi->NamaKepalaSKPD;
             $data_report['NIPKepalaSKPD']=$organisasi->NIPKepalaSKPD; 
             $data_report['SOrgID']='none';
-
+            $data_report['status_kegiatan']=$filters['status_kegiatan'];
             switch ($this->NameOfPage) 
             {            
                 case 'reportusulanprarenjaopd' :
