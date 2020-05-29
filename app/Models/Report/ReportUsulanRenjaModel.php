@@ -22,7 +22,9 @@ class ReportUsulanRenjaModel extends ReportModel
     {
         $OrgID = $this->dataReport['OrgID'];
         $SOrgID = $this->dataReport['SOrgID'];
+        $status_kegiatan=$this->dataReport['status_kegiatan'];
         $sheetname = $this->dataReport['sheetname'];
+        
         if ($SOrgID == 'none' || $SOrgID == '')
         {
             $field = 'OrgID';
@@ -159,6 +161,7 @@ class ReportUsulanRenjaModel extends ReportModel
                                                 ->where('PrgID',$v3['PrgID'])
                                                 ->where('EntryLvl',$this->dataReport['EntryLvl'])                                               
                                                 ->where($field,$id)
+                                                ->where('Status',$status_kegiatan)
                                                 ->groupBy('trRenja.KgtID')
                                                 ->groupBy('tmKgt.Kd_Keg')
                                                 ->groupBy('tmKgt.KgtNm')
@@ -216,6 +219,7 @@ class ReportUsulanRenjaModel extends ReportModel
                                                 ->where('KgtID',$v4->KgtID)
                                                 ->where('PrgID',$v3['PrgID'])
                                                 ->where($field,$id)
+                                                ->where('Status',$status_kegiatan)
                                                 ->orderByRaw('"No"::int ASC')
                                                 ->get();
                             
@@ -273,6 +277,7 @@ class ReportUsulanRenjaModel extends ReportModel
                                                 ->join('tmKgt','tmKgt.KgtID','trRenja.KgtID')
                                                 ->where('PrgID',$v3['PrgID'])
                                                 ->where('EntryLvl',$this->dataReport['EntryLvl'])
+                                                ->where('Status',$status_kegiatan)
                                                 ->groupBy('trRenja.KgtID')
                                                 ->groupBy('tmKgt.Kd_Keg')
                                                 ->groupBy('tmKgt.KgtNm')
@@ -325,6 +330,7 @@ class ReportUsulanRenjaModel extends ReportModel
                                                     ->select(\HelperKegiatan::getField($this->dataReport['NameOfPage']))                                                
                                                     ->where('KgtID',$v4->KgtID)
                                                     ->where('PrgID',$v3['PrgID'])
+                                                    ->where('Status',$status_kegiatan)
                                                     ->where($field,$id)
                                                     ->orderByRaw('"No"::int ASC')
                                                     ->get();
