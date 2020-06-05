@@ -56,14 +56,14 @@ $(document).ready(function () {
         $.ajax({
             type:'post',
             url: url_current_page +'/filter',
-            dataType: 'json',
+            dataType: 'html',
             data: {                
                 "_token": token,
                 "status_kegiatan": $('#cmbStatusKegiatan').val(),
             },
             success:function(result)
             { 
-                console.log(result);
+                $('#divdatatable').html(result);                
             },
             error:function(xhr, status, error){
                 console.log(xhr);

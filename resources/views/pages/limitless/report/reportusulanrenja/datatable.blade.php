@@ -68,7 +68,7 @@
                                             ->join('tmKgt','trRenja.KgtID','tmKgt.KgtID')
                                             ->where('OrgID',$OrgID)
                                             ->where('EntryLvl',0)
-                                            ->where('Status',$status_kegiatan)
+                                            ->where('trRenja.Status',$status_kegiatan)
                                             ->count(\DB::raw('DISTINCT("PrgID")'));
 
                         $renja = \DB::table('trRenja')
@@ -78,7 +78,7 @@
                                                                 COALESCE(SUM("Jumlah1"),0) AS jumlah_pagu
                                                             '))
                                             ->where('OrgID',$OrgID)
-                                            ->where('Status',$status_kegiatan)
+                                            ->where('trRenja.Status',$status_kegiatan)
                                             ->where('trRenja.EntryLvl',0)
                                             ->get();
                         
@@ -116,7 +116,7 @@
                                             ->join('tmKgt','trRenja.KgtID','tmKgt.KgtID')
                                             ->where('OrgID',$OrgID)
                                             ->where('EntryLvl',1)
-                                            ->where('Status',$status_kegiatan)
+                                            ->where('trRenja.Status',$status_kegiatan)
                                             ->count(\DB::raw('DISTINCT("PrgID")'));
 
                         $renja = \DB::table('trRenja')
@@ -126,7 +126,7 @@
                                                                 COALESCE(SUM("Jumlah2"),0) AS jumlah_pagu
                                                             '))
                                             ->where('OrgID',$OrgID)
-                                            ->where('Status',$status_kegiatan)
+                                            ->where('trRenja.Status',$status_kegiatan)
                                             ->where('trRenja.EntryLvl',1)
                                             ->get();
                         
@@ -164,7 +164,7 @@
                                             ->join('tmKgt','trRenja.KgtID','tmKgt.KgtID')
                                             ->where('OrgID',$OrgID)
                                             ->where('EntryLvl',2)
-                                            ->where('Status',$status_kegiatan)
+                                            ->where('trRenja.Status',$status_kegiatan)
                                             ->count(\DB::raw('DISTINCT("PrgID")'));
 
                         
@@ -175,7 +175,7 @@
                                                                 COALESCE(SUM("Jumlah3"),0) AS jumlah_pagu
                                                             '))
                                             ->where('OrgID',$OrgID)
-                                            ->where('Status',$status_kegiatan)
+                                            ->where('trRenja.Status',$status_kegiatan)
                                             ->where('trRenja.EntryLvl',2)
                                             ->get();
                         
@@ -213,7 +213,7 @@
                                             ->join('tmKgt','trRenja.KgtID','tmKgt.KgtID')
                                             ->where('OrgID',$OrgID)
                                             ->where('EntryLvl',3)
-                                            ->where('Status',$status_kegiatan)
+                                            ->where('trRenja.Status',$status_kegiatan)
                                             ->count(\DB::raw('DISTINCT("PrgID")'));
 
                         $renja = \DB::table('trRenja')
@@ -223,7 +223,7 @@
                                                                 COALESCE(SUM("Jumlah4"),0) AS jumlah_pagu
                                                             '))
                                             ->where('OrgID',$OrgID)
-                                            ->where('Status',$status_kegiatan)
+                                            ->where('trRenja.Status',$status_kegiatan)
                                             ->where('trRenja.EntryLvl',3)
                                             ->get();
                         
@@ -261,7 +261,7 @@
                                             ->join('tmKgt','trRenja.KgtID','tmKgt.KgtID')
                                             ->where('OrgID',$OrgID)
                                             ->where('EntryLvl',4)
-                                            ->where('Status',$status_kegiatan)
+                                            ->where('trRenja.Status',$status_kegiatan)
                                             ->count(\DB::raw('DISTINCT("PrgID")'));
 
                         $renja = \DB::table('trRenja')
@@ -271,7 +271,7 @@
                                                                 COALESCE(SUM("Jumlah5"),0) AS jumlah_pagu
                                                             '))
                                             ->where('OrgID',$OrgID)
-                                            ->where('Status',$status_kegiatan)
+                                            ->where('trRenja.Status',$status_kegiatan)
                                             ->where('trRenja.EntryLvl',4)
                                             ->get();
                         
