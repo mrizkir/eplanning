@@ -92,7 +92,7 @@
                                                                 COUNT("UsulanKecID") AS jumlah_usulan_kec
                                                             '))
                                             ->where('OrgID',$OrgID)
-                                            ->where('trRenja.Status',$status_kegiatan)
+                                            ->where('trRenjaRinc.Status',$status_kegiatan)
                                             ->where('trRenjaRinc.EntryLvl',0)
                                             ->get();
 
@@ -140,7 +140,7 @@
                                                                 COUNT("UsulanKecID") AS jumlah_usulan_kec
                                                             '))
                                             ->where('OrgID',$OrgID)
-                                            ->where('trRenja.Status',$status_kegiatan)
+                                            ->where('trRenjaRinc.Status',$status_kegiatan)
                                             ->where('trRenjaRinc.EntryLvl',1)
                                             ->get();
 
@@ -189,7 +189,7 @@
                                                                 COUNT("UsulanKecID") AS jumlah_usulan_kec
                                                             '))
                                             ->where('OrgID',$OrgID)
-                                            ->where('trRenja.Status',$status_kegiatan)
+                                            ->where('trRenjaRinc.Status',$status_kegiatan)
                                             ->where('trRenjaRinc.EntryLvl',2)
                                             ->get();
 
@@ -237,7 +237,7 @@
                                                                 COUNT("UsulanKecID") AS jumlah_usulan_kec
                                                             '))
                                             ->where('OrgID',$OrgID)
-                                            ->where('trRenja.Status',$status_kegiatan)
+                                            ->where('trRenjaRinc.Status',$status_kegiatan)
                                             ->where('trRenjaRinc.EntryLvl',3)
                                             ->get();
 
@@ -285,7 +285,7 @@
                                                                 COUNT("UsulanKecID") AS jumlah_usulan_kec
                                                             '))
                                             ->where('OrgID',$OrgID)
-                                            ->where('trRenja.Status',$status_kegiatan)
+                                            ->where('trRenjaRinc.Status',$status_kegiatan)
                                             ->where('trRenjaRinc.EntryLvl',4)
                                             ->get();
 

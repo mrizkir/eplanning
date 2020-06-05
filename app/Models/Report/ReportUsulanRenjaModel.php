@@ -189,7 +189,7 @@ class ReportUsulanRenjaModel extends ReportModel
                         {
                             $renja = \DB::table(\HelperKegiatan::getViewName($this->dataReport['NameOfPage']))
                                                 ->select(\HelperKegiatan::getField($this->dataReport['NameOfPage']))
-                                                ->where('KgtID',$v4->KgtID)                                                
+                                                ->where('KgtID',$v4->KgtID)                                                                                                                                            
                                                 ->where($field,$id)
                                                 ->first();
                                                 
@@ -218,6 +218,7 @@ class ReportUsulanRenjaModel extends ReportModel
                                                 ->select(\HelperKegiatan::getField($this->dataReport['NameOfPage']))                                                
                                                 ->where('KgtID',$v4->KgtID)
                                                 ->where('PrgID',$v3['PrgID'])
+                                                ->where('Status',$status_kegiatan)  
                                                 ->where($field,$id)                                                
                                                 ->orderByRaw('"No"::int ASC')
                                                 ->get();
@@ -328,7 +329,8 @@ class ReportUsulanRenjaModel extends ReportModel
                                 $rincian_kegiatan = \DB::table(\HelperKegiatan::getViewName($this->dataReport['NameOfPage']))
                                                     ->select(\HelperKegiatan::getField($this->dataReport['NameOfPage']))                                                
                                                     ->where('KgtID',$v4->KgtID)
-                                                    ->where('PrgID',$v3['PrgID'])                                                    
+                                                    ->where('PrgID',$v3['PrgID'])    
+                                                    ->where('Status',$status_kegiatan)                                                  
                                                     ->where($field,$id)
                                                     ->orderByRaw('"No"::int ASC')
                                                     ->get();

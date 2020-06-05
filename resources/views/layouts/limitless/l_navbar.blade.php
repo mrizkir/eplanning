@@ -479,6 +479,7 @@
                             <div class="col-md-3">
                                 <span class="menu-heading underlined bg-blue-300" style="padding:10px"><i class="icon-file-empty"></i> RENCANA KERJA OPD / SKPD</span>
                                 <ul class="menu-list">
+                                    <li class="dropdown-header">BERDASARKAN KEGIATAN</li>
                                     <li{!!Helper::isMenuActive ($page_active,'reportusulanprarenjaopd',' class="active"')!!}>
                                         <a href="{{route('reportusulanprarenjaopd.index')}}" title="Report Usulan Pra Renja OPD">
                                             <i class="icon-file-empty"></i> PRA RENJA</span>
