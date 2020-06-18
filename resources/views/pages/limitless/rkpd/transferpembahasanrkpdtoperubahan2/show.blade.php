@@ -1,11 +1,11 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    TRANSFER RKPD MURNI --> PEMBAHASAN
+TRANSFER PEMBAHASAN RKPD MURNI --> RKPD PERUBAHAN
 @endsection
 @section('page_header')
     <i class="icon-office position-left"></i>
     <span class="text-semibold"> 
-        TRANSFER RKPD MURNI --> PEMBAHASAN TAHUN {{HelperKegiatan::getTahunPerencanaan()}}
+        TRANSFER PEMBAHASAN RKPD MURNI --> RKPD PERUBAHAN TAHUN {{HelperKegiatan::getTahunPerencanaan()}}  
     </span>     
 @endsection
 @section('page_info')
@@ -14,7 +14,7 @@
 @section('page_breadcrumb')
     <li><a href="#">RKPD</a></li>
     <li><a href="#">TRANSFER</a></li>
-    <li><a href="{!!route('transferpembahasanrkpdtoperubahan2.index')!!}">TRANSFER RKPD MURNI --> PEMBAHASAN</a></li>
+    <li><a href="{!!route('transferpembahasanrkpdtoperubahan2.index')!!}">TRANSFER PEMBAHASAN RKPD MURNI --> RKPD PERUBAHAN</a></li>
     <li class="active">DETAIL DATA</li>
 @endsection
 @section('page_content')
@@ -23,7 +23,7 @@
         <div class="panel panel-flat border-top-info border-bottom-info">
             <div class="panel-heading">
                 <h5 class="panel-title"> 
-                    <i class="icon-eye"></i>  DATA TRANSFER RKPD MURNI --> PEMBAHASAN
+                    <i class="icon-eye"></i>  TRANSFER PEMBAHASAN RKPD MURNI --> RKPD PERUBAHAN TAHUN 
                 </h5>
                 <div class="heading-elements">                       
                     <a href="{!!route('transferpembahasanrkpdtoperubahan2.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
