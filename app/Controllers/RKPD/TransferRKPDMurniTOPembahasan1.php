@@ -381,7 +381,7 @@ class TransferRKPDMurniTOPembahasan1 extends Controller {
                                                 }
                                             });
 
-        echo "<br><br> TRANSFER DATA RKPD ENTRY LEVEL 1 SELESAI DAN SUKSES";
+        echo "<br><br> TRANSFER DATA RKPD ENTRY LEVEL 1 KE 2 SELESAI DAN SUKSES";
     }
     /**
      * transfer ke entrylvl2 dengan cara menghapus data didalam entrylvl2

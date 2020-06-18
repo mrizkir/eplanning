@@ -1,11 +1,11 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    TRANSFER RKPD MURNI --> PEMBAHASAN
+    TRANSFER PEMBAHASAN RKPD MURNI --> RKPD PERUBAHAN
 @endsection
 @section('page_header')
     <i class="icon-office position-left"></i>
     <span class="text-semibold">
-        TRANSFER RKPD MURNI --> PEMBAHASAN TAHUN {{HelperKegiatan::getTahunPerencanaan()}}  
+        TRANSFER PEMBAHASAN RKPD MURNI --> RKPD PERUBAHAN TAHUN {{HelperKegiatan::getTahunPerencanaan()}}  
     </span>
 @endsection
 @section('page_info')
@@ -14,7 +14,7 @@
 @section('page_breadcrumb')
     <li><a href="#">RKPD</a></li>
     <li><a href="#">TRANSFER DATA</a></li>
-    <li class="active"> TRANSFER RKPD MURNI --> PEMBAHASANI</li>
+    <li class="active"> TRANSFER PEMBAHASAN RKPD MURNI --> RKPD PERUBAHAN</li>
 @endsection
 @section('page_content')
 <div class="row">

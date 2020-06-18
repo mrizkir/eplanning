@@ -537,7 +537,7 @@ class PembahasanRKPDPController extends Controller
         if ($request->exists('PrgID'))
         {
             $PrgID = $request->input('PrgID')==''?'none':$request->input('PrgID');
-            $r=\DB::table('v_sub_kegiatan')
+            $r=\DB::table('v_program_kegiatan')
                     ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                     ->where('PrgID',$PrgID)
                     ->WhereNotIn('KgtID',function($query) {
@@ -1059,19 +1059,19 @@ class PembahasanRKPDPController extends Controller
         {                        
             case 'pembahasanrkpdp' :
                 $rkpd = RKPDModel::select(\DB::raw('"trRKPD"."RKPDID",
-                                            "v_sub_kegiatan"."Kd_Urusan",
-                                            "v_sub_kegiatan"."Nm_Urusan",
-                                            "v_sub_kegiatan"."Kd_Bidang",
-                                            "v_sub_kegiatan"."Nm_Bidang",
+                                            "v_program_kegiatan"."Kd_Urusan",
+                                            "v_program_kegiatan"."Nm_Urusan",
+                                            "v_program_kegiatan"."Kd_Bidang",
+                                            "v_program_kegiatan"."Nm_Bidang",
                                             "v_suborganisasi"."kode_organisasi",
                                             "v_suborganisasi"."OrgNm",
                                             "v_suborganisasi"."kode_suborganisasi",
                                             "v_suborganisasi"."SOrgNm",
-                                            "v_sub_kegiatan"."Kd_Prog",
-                                            "v_sub_kegiatan"."PrgNm",
-                                            "v_sub_kegiatan"."Kd_Keg",
-                                            "v_sub_kegiatan"."kode_kegiatan",
-                                            "v_sub_kegiatan"."KgtNm",
+                                            "v_program_kegiatan"."Kd_Prog",
+                                            "v_program_kegiatan"."PrgNm",
+                                            "v_program_kegiatan"."Kd_Keg",
+                                            "v_program_kegiatan"."kode_kegiatan",
+                                            "v_program_kegiatan"."KgtNm",
                                             "NamaIndikator",
                                             "Sasaran_Angka4" AS "Sasaran_Angka",
                                             "Sasaran_Uraian4" AS "Sasaran_Uraian",
@@ -1089,7 +1089,7 @@ class PembahasanRKPDPController extends Controller
                                             "trRKPD"."updated_at"
                                             '))
                             ->join('v_suborganisasi','v_suborganisasi.SOrgID','trRKPD.SOrgID')                       
-                            ->join('v_sub_kegiatan','v_sub_kegiatan.KgtID','trRKPD.KgtID')     
+                            ->join('v_program_kegiatan','v_program_kegiatan.KgtID','trRKPD.KgtID')
                             ->join('tmSumberDana','tmSumberDana.SumberDanaID','trRKPD.SumberDanaID')
                             ->findOrFail($id);
             break;                
@@ -1131,12 +1131,12 @@ class PembahasanRKPDPController extends Controller
             case 'pembahasanrkpdp' :                
                 $rkpd = RKPDModel::select(\DB::raw('"trRKPD"."RKPDID",
                                                     "trRKPD"."SOrgID",
-                                                    "v_sub_kegiatan"."Kd_Bidang",
-                                                    "v_sub_kegiatan"."Nm_Bidang",
-                                                    "v_sub_kegiatan"."kode_program",
-                                                    "v_sub_kegiatan"."PrgNm",
-                                                    "v_sub_kegiatan"."kode_kegiatan",
-                                                    "v_sub_kegiatan"."KgtNm",
+                                                    "v_program_kegiatan"."Kd_Bidang",
+                                                    "v_program_kegiatan"."Nm_Bidang",
+                                                    "v_program_kegiatan"."kode_program",
+                                                    "v_program_kegiatan"."PrgNm",
+                                                    "v_program_kegiatan"."kode_kegiatan",
+                                                    "v_program_kegiatan"."KgtNm",
                                                     "trRKPD"."Sasaran_Angka4" AS "Sasaran_Angka",
                                                     "trRKPD"."Sasaran_Uraian4" AS "Sasaran_Uraian",
                                                     "trRKPD"."Sasaran_AngkaSetelah",
@@ -1148,7 +1148,7 @@ class PembahasanRKPDPController extends Controller
                                                     "trRKPD"."NamaIndikator",
                                                     "trRKPD"."SumberDanaID",
                                                     "trRKPD"."Descr"'))
-                            ->join('v_sub_kegiatan','v_sub_kegiatan.KgtID','v_sub_kegiatan.KgtID')
+                            ->join('v_program_kegiatan','v_program_kegiatan.KgtID','trRKPD.KgtID')
                             ->findOrFail($id);      
                 
             break;                     

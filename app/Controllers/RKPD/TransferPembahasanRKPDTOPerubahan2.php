@@ -239,15 +239,15 @@ class TransferPembahasanRKPDTOPerubahan2 extends Controller {
      */
     private function transfer1 ($OrgID)
     {
-        // \App\Models\RKPD\RKPDModel::where('EntryLvl',3)
-        //                             ->where('OrgID',$OrgID)
-        //                             ->delete();
+        \App\Models\RKPD\RKPDModel::where('EntryLvl',3)
+                                    ->where('OrgID',$OrgID)
+                                    ->delete();
 
-        echo "Hapus Pembahasan RKPD Murni Entrly Level ke 2 untuk OrgID = $OrgID <br>";
+        echo "Hapus Pembahasan RKPD Murni Entrly Level ke 3 untuk OrgID = $OrgID <br>";
         echo "Berhasil <br><br>";
         
         $data = \App\Models\RKPD\RKPDModel::where('OrgID',$OrgID)
-                                            ->where('EntryLvl',100)
+                                            ->where('EntryLvl',2)
                                             ->chunk(25, function ($rkpd){
                                                 $tanggal_posting=\Carbon\Carbon::now();
                                                 foreach ($rkpd as $old) {
@@ -256,35 +256,22 @@ class TransferPembahasanRKPDTOPerubahan2 extends Controller {
                                                     $newRKPDID=uniqid ('uid');
                                                     $new=$old->replicate();
                                                     $new->RKPDID=$newRKPDID;
-                                                    $new->Sasaran_Uraian1=$new->Sasaran_Uraian1;
-                                                    $new->Sasaran_Uraian2=0;
-                                                    $new->Sasaran_Uraian3=0;
-                                                    $new->Sasaran_Uraian4=0;
-                                                    $new->Sasaran_Angka1=$new->Sasaran_Angka1;
-                                                    $new->Sasaran_Angka2=0;
-                                                    $new->Sasaran_Angka3=0;
-                                                    $new->Sasaran_Angka4=0;
-                                                    $new->NilaiUsulan1=$new->NilaiUsulan1;                                                            
-                                                    $new->NilaiUsulan2=0;                                                            
-                                                    $new->NilaiUsulan3=0;                                                            
-                                                    $new->NilaiUsulan4=0;                                                            
-                                                    $new->Target1=$new->Target1;          
-                                                    $new->Target2=0;          
-                                                    $new->Target3=0;          
-                                                    $new->Target4=0;          
+                                                    $new->Sasaran_Uraian3=$new->Sasaran_Uraian2;
+                                                    $new->Sasaran_Angka3=$new->Sasaran_Angka2;
+                                                    $new->NilaiUsulan3=$new->NilaiUsulan2;                                                            
+                                                    $new->Target3=$new->Target2;          
                                                     $new->Tgl_Posting=$tanggal_posting;                                                  
-                                                    $new->EntryLvl=1;
-                                                    $new->Privilege=1;                                                                                                                        
-                                                    $new->Status=1;                                                                                                                        
+                                                    $new->EntryLvl=3;
+                                                    $new->Privilege=0;                                                                                                                        
                                                     $new->RKPDID_Src=$oldRKPDID;                                                            
                                                     $new->created_at=$tanggal_posting;                                                            
                                                     $new->updated_at=$tanggal_posting;                                                            
-                                                    $new->RKPDID_Src=$oldRKPDID;                                                            
+                                                    $new->RKPDID_Src=$oldRKPDID;                                                                                                                       
                                                     $new->save();
-
+                                                    
                                                     $old->Privilege=1;
                                                     $old->save();
-
+                                                    
                                                     $str_rincianrkpd = '
                                                         INSERT INTO "trRKPDRinc" (
                                                             "RKPDRincID",
@@ -365,8 +352,8 @@ class TransferPembahasanRKPDTOPerubahan2 extends Controller {
                                                             "Descr",
                                                             "TA",
                                                             1 AS "Status", 
-                                                            1 AS "EntryLvl",
-                                                            1 AS "Privilege",  
+                                                            3 AS "EntryLvl",
+                                                            0 AS "Privilege",  
                                                             NOW() AS created_at,
                                                             NOW() AS updated_at
                                                         FROM 
@@ -409,7 +396,7 @@ class TransferPembahasanRKPDTOPerubahan2 extends Controller {
                                                 }
                                             });
 
-        echo "<br><br> TRANSFER DATA RKPD ENTRY LEVEL 1 SELESAI DAN SUKSES";
+        echo "<br><br> TRANSFER DATA RKPD ENTRY LEVEL 2 KE 3 SELESAI DAN SUKSES";
     }
     /**
      * transfer ke entrylvl2 dengan cara menghapus data didalam entrylvl2

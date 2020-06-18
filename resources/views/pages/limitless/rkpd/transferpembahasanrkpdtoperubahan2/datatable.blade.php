@@ -46,10 +46,10 @@
                     <td>{{$item->kode_organisasi}}</td>
                     <td>{{$item->OrgNm}}</td>
                     <td>{{$item->Nm_Urusan}}</td>
-                    <td>{{DB::table('trRKPD')->where('OrgID',$item->OrgID)->where('EntryLvl',100)->count()}}</td>
-                    <td>{{DB::table('trRKPD')->where('OrgID',$item->OrgID)->where('EntryLvl',100)->count()}}</td>
-                    <td>{{Helper::formatUang(DB::table('trRKPD')->where('OrgID',$item->OrgID)->where('EntryLvl',100)->sum('NilaiUsulan3'))}}</td>
-                    <td>{{Helper::formatUang(DB::table('trRKPD')->where('OrgID',$item->OrgID)->where('EntryLvl',100)->sum('NilaiUsulan4'))}}</td>
+                    <td>{{DB::table('trRKPD')->where('OrgID',$item->OrgID)->where('EntryLvl',2)->count()}}</td>
+                    <td>{{DB::table('trRKPD')->where('OrgID',$item->OrgID)->where('EntryLvl',3)->count()}}</td>
+                    <td>{{Helper::formatUang(DB::table('trRKPD')->where('OrgID',$item->OrgID)->where('EntryLvl',3)->sum('NilaiUsulan2'))}}</td>
+                    <td>{{Helper::formatUang(DB::table('trRKPD')->where('OrgID',$item->OrgID)->where('EntryLvl',3)->sum('NilaiUsulan3'))}}</td>
                     <td>{{$item->TA}}</td>
                     <td>
                         <ul class="icons-list">

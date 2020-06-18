@@ -530,7 +530,7 @@ class PembahasanRKPDController extends Controller
         if ($request->exists('PrgID') && $request->exists('create'))
         {
             $PrgID = $request->input('PrgID')==''?'none':$request->input('PrgID');
-            $r=\DB::table('v_sub_kegiatan')
+            $r=\DB::table('v_program_kegiatan')
                     ->where('TA',\HelperKegiatan::getTahunPerencanaan())
                     ->where('PrgID',$PrgID)
                     ->WhereNotIn('KgtID',function($query) {

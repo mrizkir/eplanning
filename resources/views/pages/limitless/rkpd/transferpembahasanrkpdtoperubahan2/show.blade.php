@@ -99,7 +99,7 @@
                 <div class="form-group">            
                     <div class="col-md-2">                        
                         {{ Form::button('<b><i class="icon-arrow-up-right2 "></i></b> TRANSFER', ['type' => 'submit', 'class' => 'btn btn-danger btn-labeled btn-xs','name'=>'btnTransfer','value'=>1] ) }}                        
-                        <span class="help-block">Transfer dengan menghapus data EntryLvl2</span>              
+                        <span class="help-block">Transfer dengan menghapus data EntryLvl3</span>              
                     </div>
                     {{-- <div class="col-md-2">                        
                         {{ Form::button('<b><i class="icon-arrow-up-right2 "></i></b> TRANSFER', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs','name'=>'btnTransfer','value'=>2] ) }}                        
