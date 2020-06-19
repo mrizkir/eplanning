@@ -23,7 +23,7 @@ TRANSFER PEMBAHASAN RKPD MURNI --> RKPD PERUBAHAN
         <div class="panel panel-flat border-top-info border-bottom-info">
             <div class="panel-heading">
                 <h5 class="panel-title"> 
-                    <i class="icon-eye"></i>  TRANSFER PEMBAHASAN RKPD MURNI --> RKPD PERUBAHAN TAHUN 
+                    <i class="icon-eye"></i>  TRANSFER PEMBAHASAN RKPD MURNI --> RKPD PERUBAHAN 
                 </h5>
                 <div class="heading-elements">                       
                     <a href="{!!route('transferpembahasanrkpdtoperubahan2.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
