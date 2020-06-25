@@ -269,9 +269,14 @@
                                             <i class="icon-strategy"></i> KEGIATAN <span class="text-violet"><strong>[5]</strong></span>
                                         </a>    
                                     </li>
+                                    <li{!!Helper::isMenuActive ($page_active,'subkegiatan',' class="active"')!!}>
+                                        <a href="{{route('subkegiatan.index')}}" title="Data Sub Kegiatan">
+                                            <i class="icon-strategy"></i> SUB KEGIATAN <span class="text-violet"><strong>[6]</strong></span>
+                                        </a>    
+                                    </li>
                                     <li{!!Helper::isMenuActive ($page_active,'renstraprogramkegiatanpendanaan',' class="active"')!!}>
                                         <a href="{{route('renstraprogramkegiatanpendanaan.index')}}">
-                                            <i class="icon-strategy"></i> PRG., KEG., DAN PENDANAAN <span class="text-violet"><strong>[6]</strong></span>
+                                            <i class="icon-strategy"></i> PRG., KEG., DAN PENDANAAN <span class="text-violet"><strong>[7]</strong></span>
                                         </a>
                                     </li>
                                 </ul>
