@@ -1357,8 +1357,7 @@ class RKPDPerubahanController extends Controller
                                                                                     "trRKPDRinc"."Sasaran_Angka3" AS "Sasaran_Angka",
                                                                                     "trRKPDRinc"."Sasaran_Uraian3" AS "Sasaran_Uraian",
                                                                                     "trRKPDRinc"."Target3" AS "Target",
-                                                                                    "trRKPDRinc"."NilaiUsulan3" AS "Jumlah",
-                                                                                    "trRKPDRinc"."Prioritas",
+                                                                                    "trRKPDRinc"."NilaiUsulan3" AS "Jumlah",                                                                                    
                                                                                     "trRKPDRinc"."Descr",
                                                                                     "trRKPDRinc"."isSKPD",
                                                                                     "trRKPDRinc"."isReses"'))                                            
@@ -1376,8 +1375,7 @@ class RKPDPerubahanController extends Controller
                                                                                     "trRKPDRinc"."Sasaran_Angka3" AS "Sasaran_Angka",
                                                                                     "trRKPDRinc"."Sasaran_Uraian3" AS "Sasaran_Uraian",
                                                                                     "trRKPDRinc"."Target3" AS "Target",
-                                                                                    "trRKPDRinc"."NilaiUsulan3" AS "Jumlah",
-                                                                                    "trRKPDRinc"."Prioritas",
+                                                                                    "trRKPDRinc"."NilaiUsulan3" AS "Jumlah",                                                                                    
                                                                                     "trRKPDRinc"."Descr",
                                                                                     "trRKPDRinc"."isSKPD",
                                                                                     "trRKPDRinc"."isReses"'))                                            
