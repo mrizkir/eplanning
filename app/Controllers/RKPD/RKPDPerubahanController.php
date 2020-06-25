@@ -891,8 +891,7 @@ class RKPDPerubahanController extends Controller
             'Sasaran_Angka'=>'required',
             'Sasaran_Uraian'=>'required',
             'Target'=>'required',
-            'Jumlah'=>'required',
-            'Prioritas' => 'required'            
+            'Jumlah'=>'required',            
         ]);
         \DB::transaction(function () use ($request) {
             $rkpdid=$request->input('RKPDID');            
@@ -936,8 +935,7 @@ class RKPDPerubahanController extends Controller
                         'Target3' => $request->input('Target'),                       
                         'NilaiUsulan1' => 0,                       
                         'NilaiUsulan2' => 0,                       
-                        'NilaiUsulan3' => $request->input('Jumlah'),                       
-                        'Prioritas' => $request->input('Prioritas'),  
+                        'NilaiUsulan3' => $request->input('Jumlah'),                                               
                         'Tgl_Posting' => $tanggal_posting,                       
                         'isReses' => true,     
                         'isReses_Uraian' => '['.$pokok_pikiran->Kd_PK . '] '.$pokok_pikiran->NmPk,
@@ -1357,8 +1355,7 @@ class RKPDPerubahanController extends Controller
                                                                                     "trRKPDRinc"."Sasaran_Angka3" AS "Sasaran_Angka",
                                                                                     "trRKPDRinc"."Sasaran_Uraian3" AS "Sasaran_Uraian",
                                                                                     "trRKPDRinc"."Target3" AS "Target",
-                                                                                    "trRKPDRinc"."NilaiUsulan3" AS "Jumlah",
-                                                                                    "trRKPDRinc"."Prioritas",
+                                                                                    "trRKPDRinc"."NilaiUsulan3" AS "Jumlah",                                                                                
                                                                                     "trRKPDRinc"."Descr",
                                                                                     "trRKPDRinc"."isSKPD",
                                                                                     "trRKPDRinc"."isReses"'))                                            
@@ -1376,8 +1373,7 @@ class RKPDPerubahanController extends Controller
                                                                                     "trRKPDRinc"."Sasaran_Angka3" AS "Sasaran_Angka",
                                                                                     "trRKPDRinc"."Sasaran_Uraian3" AS "Sasaran_Uraian",
                                                                                     "trRKPDRinc"."Target3" AS "Target",
-                                                                                    "trRKPDRinc"."NilaiUsulan3" AS "Jumlah",
-                                                                                    "trRKPDRinc"."Prioritas",
+                                                                                    "trRKPDRinc"."NilaiUsulan3" AS "Jumlah",                                                                                    
                                                                                     "trRKPDRinc"."Descr",
                                                                                     "trRKPDRinc"."isSKPD",
                                                                                     "trRKPDRinc"."isReses"'))                                            
