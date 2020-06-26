@@ -150,7 +150,7 @@
                     </td>
                     <td class="text-right">{{Helper::formatUang($total_pagu_m)}}</td> 
                     <td class="text-right">{{Helper::formatUang($total_pagu_p)}}</td>
-                    <td class="text-right">{{Helper::formatUang($total_pagu_p-$total_pagu_p)}}</td>
+                    <td class="text-right">{{Helper::formatUang($total_pagu_p-$total_pagu_m)}}</td>
                     <td></td>
                 </tr>
             </tfoot>
