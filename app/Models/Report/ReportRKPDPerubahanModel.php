@@ -143,9 +143,10 @@ class ReportRKPDPerubahanModel extends ReportModel
         foreach ($daftar_program as $v)
         {
             $PrgID=$v->PrgID;         
-            $daftar_kegiatan = RKPDViewJudulModel::select(\DB::raw('"kode_kegiatan","KgtNm","Sasaran_Angka1","Sasaran_Uraian2","Target1","Target2","NilaiUsulan1","NilaiUsulan2","Sasaran_AngkaSetelah","Sasaran_UraianSetelah","NilaiSetelah","Nm_SumberDana","Descr"'))
+            $daftar_kegiatan = RKPDViewJudulModel::select(\DB::raw('"kode_kegiatan","KgtNm","Sasaran_Angka2","Sasaran_Uraian3","Target2","Target3","NilaiUsulan2","NilaiUsulan3","Sasaran_AngkaSetelah","Sasaran_UraianSetelah","NilaiSetelah","Nm_SumberDana","Descr"'))
                                             ->where('PrgID',$PrgID)      
-                                            ->where('OrgID',$OrgID);
+                                            ->where('OrgID',$OrgID)
+                                            ->where('EntryLvl',3);
             $daftar_kegiatan = ($SOrgID == 'none' || $SOrgID == '') ?
                                                                     $daftar_kegiatan->where('TA',\HelperKegiatan::getTahunPerencanaan())
                                                                                     ->orderBy('kode_kegiatan','ASC')       
@@ -165,8 +166,8 @@ class ReportRKPDPerubahanModel extends ReportModel
                 $sheet->mergeCells ("A$row:F$row");
                 $sheet->setCellValue("A$row",$kode_program);
                 $sheet->setCellValue("G$row",$PrgNm);
-                $totalpagueachprogramM= $daftar_kegiatan->sum('NilaiUsulan1');      
-                $totalpagueachprogramP= $daftar_kegiatan->sum('NilaiUsulan2');                      
+                $totalpagueachprogramM= $daftar_kegiatan->sum('NilaiUsulan2');      
+                $totalpagueachprogramP= $daftar_kegiatan->sum('NilaiUsulan3');                      
                 $sheet->setCellValue("M$row",\Helper::formatUang($totalpagueachprogramM)); 
                 $sheet->setCellValue("N$row",\Helper::formatUang($totalpagueachprogramP)); 
                 $sheet->setCellValue("O$row",\Helper::formatUang($totalpagueachprogramP-$totalpagueachprogramM)); 
@@ -177,18 +178,18 @@ class ReportRKPDPerubahanModel extends ReportModel
                     $sheet->mergeCells ("A$row:F$row");
                     $sheet->setCellValue("A$row",$n['kode_kegiatan']);                     
                     $sheet->setCellValue("G$row",$n['KgtNm']); 
-                    $sheet->setCellValue("H$row",\Helper::formatAngka($n['Sasaran_Angka1']) . ' '.$n['Sasaran_Uraian1']); 
-                    $sheet->setCellValue("I$row",\Helper::formatAngka($n['Sasaran_Angka2']) . ' '.$n['Sasaran_Uraian2']); 
+                    $sheet->setCellValue("H$row",\Helper::formatAngka($n['Sasaran_Angka2']) . ' '.$n['Sasaran_Uraian2']); 
+                    $sheet->setCellValue("I$row",\Helper::formatAngka($n['Sasaran_Angka3']) . ' '.$n['Sasaran_Uraian3']); 
                     $sheet->setCellValue("J$row",'Kab. Bintan'); 
-                    $sheet->setCellValue("K$row",\Helper::formatUang($n['Target2'])); 
+                    $sheet->setCellValue("K$row",\Helper::formatUang($n['Target3'])); 
                     $sheet->setCellValue("L$row",$n['Nm_SumberDana']); 
-                    $sheet->setCellValue("M$row",\Helper::formatUang($n['NilaiUsulan1'])); 
-                    $sheet->setCellValue("N$row",\Helper::formatUang($n['NilaiUsulan2'])); 
-                    $sheet->setCellValue("O$row",\Helper::formatUang($n['NilaiUsulan2']-$n['NilaiUsulan1'])); 
+                    $sheet->setCellValue("M$row",\Helper::formatUang($n['NilaiUsulan2'])); 
+                    $sheet->setCellValue("N$row",\Helper::formatUang($n['NilaiUsulan3'])); 
+                    $sheet->setCellValue("O$row",\Helper::formatUang($n['NilaiUsulan3']-$n['NilaiUsulan2'])); 
                     $sheet->setCellValue("P$row",$n['Descr']); 
 
-                    $total_pagu_m+=$n['NilaiUsulan1'];
-                    $total_pagu_p+=$n['NilaiUsulan2'];
+                    $total_pagu_m+=$n['NilaiUsulan2'];
+                    $total_pagu_p+=$n['NilaiUsulan3'];
                     $row+=1;
                 }
             }

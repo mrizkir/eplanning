@@ -74,12 +74,13 @@
             @php
                 $PrgID=$v->PrgID;                 
                 $daftar_kegiatan = \DB::table('v_rkpd')
-                                        ->select(\DB::raw('"RKPDID","Kd_Urusan","Kd_Bidang","OrgCd","Kd_Prog","Kd_Keg","kode_kegiatan","KgtNm","Sasaran_Angka1","Sasaran_Angka2","Sasaran_Uraian1","Sasaran_Uraian2","Target1","Target2","NilaiUsulan1","NilaiUsulan2","Sasaran_AngkaSetelah","Sasaran_UraianSetelah","NilaiSetelah","Nm_SumberDana","Descr"'))
+                                        ->select(\DB::raw('"RKPDID","Kd_Urusan","Kd_Bidang","OrgCd","Kd_Prog","Kd_Keg","kode_kegiatan","KgtNm","Sasaran_Angka2","Sasaran_Angka3","Sasaran_Uraian2","Sasaran_Uraian3","Target2","Target3","NilaiUsulan2","NilaiUsulan3","Sasaran_AngkaSetelah","Sasaran_UraianSetelah","NilaiSetelah","Nm_SumberDana","Descr"'))
                                         ->where('PrgID',$PrgID)      
                                         ->where('OrgID',$filters['OrgID'])
                                         ->where('TA',HelperKegiatan::getTahunPerencanaan())
+                                        ->where('EntryLvl',3)
                                         ->orderBy('kode_kegiatan','ASC')       
-                                        ->get();
+                                        ->get();                
             @endphp
             @if (isset($daftar_kegiatan[0]))  
             <tr class="bg-warning-300">
@@ -91,8 +92,8 @@
                 <td>{{$v->PrgNm}}</td>
                 <td colspan="4"></td>
                 @php
-                    $totalpagueachprogramM= $daftar_kegiatan->sum('NilaiUsulan1');      
-                    $totalpagueachprogramP= $daftar_kegiatan->sum('NilaiUsulan2');   
+                    $totalpagueachprogramM= $daftar_kegiatan->sum('NilaiUsulan2');      
+                    $totalpagueachprogramP= $daftar_kegiatan->sum('NilaiUsulan3');   
                 @endphp
                 <td>{{Helper::formatUang($totalpagueachprogramM)}}</td>
                 <td>{{Helper::formatUang($totalpagueachprogramP)}}</td>
@@ -109,20 +110,20 @@
                     <td rowspan="2">
                         {{ucwords($item->KgtNm)}}                           
                     </td> 
-                    <td rowspan="2">{{Helper::formatAngka($item->Sasaran_Angka2)}} {{$item->Sasaran_Uraian2}}</td>                      
+                    <td rowspan="2">{{Helper::formatAngka($item->Sasaran_Angka3)}} {{$item->Sasaran_Uraian3}}</td>                      
                     <td rowspan="2">
                         KAB. BINTAN
                     </td>
                     <td rowspan="2">{{$item->Nm_SumberDana}}</td>
-                    <td rowspan="2">{{$item->Target2}}</td>
+                    <td rowspan="2">{{$item->Target3}}</td>
                     <td class="text-right" rowspan="2">
-                        <span class="">{{Helper::formatuang($item->NilaiUsulan1)}}</span>                    
+                        <span class="">{{Helper::formatuang($item->NilaiUsulan2)}}</span>                    
                     </td>       
                     <td class="text-right" rowspan="2">
-                        <span class="text-info">{{Helper::formatuang($item->NilaiUsulan2)}}</span>
+                        <span class="text-info">{{Helper::formatuang($item->NilaiUsulan3)}}</span>
                     </td>                             
                     <td class="text-right" rowspan="2">
-                        <span class="">{{Helper::formatuang($item->NilaiUsulan2-$item->NilaiUsulan1)}}</span>
+                        <span class="">{{Helper::formatuang($item->NilaiUsulan3-$item->NilaiUsulan2)}}</span>
                     </td>                             
                     <td rowspan="2">{{$item->Descr}}</td>
                 </tr>           
@@ -132,8 +133,8 @@
                     </td>
                 </tr>
                 @php
-                    $total_pagu_m+=$item->NilaiUsulan1;
-                    $total_pagu_p+=$item->NilaiUsulan2;;
+                    $total_pagu_m+=$item->NilaiUsulan2;
+                    $total_pagu_p+=$item->NilaiUsulan3;;
                 @endphp
             @endforeach      
             {{-- end looping daftar kegiatan --}}
