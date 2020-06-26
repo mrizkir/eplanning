@@ -594,6 +594,8 @@ class HelperKegiatan {
             case 'rkpdperubahan' :
                 $rawSql = \DB::raw('"RKPDRincID",
                                     "RKPDID",
+                                    "PrgID",
+                                    "KgtID",
                                     "UsulanKecID",
                                     "No",
                                     "Nm_Kecamatan",
