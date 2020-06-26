@@ -66,7 +66,14 @@
                 </div>
             </div>
             <div class="form-group">
-                {{Form::label('Jumlah','NILAI USULAN',['class'=>'control-label col-md-2'])}}
+                {{Form::label('JumlahApbdMurni','NILAI APBD MURNI',['class'=>'control-label col-md-2'])}}
+                <div class="col-md-10">
+                    {{Form::text('JumlahApbdMurni',$rkpd->Jumlah,['class'=>'form-control','placeholder'=>'NILAI APBD MURNI SESIA DPA'])}}
+                    <span class="help-block">Ubah nilai ini bila tidak sesuai dengan DPA Murni.</span>                             
+                </div>
+            </div>            
+            <div class="form-group">
+                {{Form::label('Jumlah','NILAI USULAN PERUBAHAN',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
                     {{Form::text('Jumlah',$rkpd->Jumlah,['class'=>'form-control','placeholder'=>'NILAI USULAN'])}}
                 </div>
@@ -158,7 +165,7 @@ $(document).ready(function () {
                                             modifyValueOnWheel:false
                                         });
 
-    AutoNumeric.multiple(['#Jumlah'],{
+    AutoNumeric.multiple(['#Jumlah','#JumlahApbdMurni'],{
                                             allowDecimalPadding: false,
                                             decimalCharacter: ",",
                                             digitGroupSeparator: ".",
@@ -252,6 +259,9 @@ $(document).ready(function () {
             Sasaran_Uraian : {
                 required: true
             },
+            JumlahApbdMurni : {
+                required: true
+            },
             Jumlah : {
                 required: true
             },
@@ -277,6 +287,9 @@ $(document).ready(function () {
             },
             Target : {
                 required: "Mohon untuk di isi target rincian kegiatan."
+            },
+            JumlahApbdMurni : {
+                required: "Mohon untuk di isi nilai rincian kegiatan sesuai dengan dpa murni."
             },
             Jumlah : {
                 required: "Mohon untuk di isi nilai usulan rincian kegiatan."
