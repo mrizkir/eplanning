@@ -79,18 +79,18 @@
                         </i>
                         <h3 class="h4 mb-2">e-Budgeting</h3>
                     </a>            
-                    <p class="text-muted mb-0">Deskripsi e-Budgeting</p>
+                    <p class="text-muted mb-0">Sistem Informasi Penganggaran</p>
                 </div>
             </div>  
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="mt-5">
-                    <a href="#">
+                    <a href="https://simdaperencanaan.bintankab.go.id">
                         <i class="fas fa-4x fa-a text-primary mb-4">
                             <img src="{!!asset('/themes/frontend/img/portfolio/handshake.png')!!}" alt="">
                         </i>
-                        <h3 class="h4 mb-2">e-Simda</h3>
+                        <h3 class="h4 mb-2">SIMDA INTEGRATED</h3>
                     </a>            
-                    <p class="text-muted mb-0">Deskripsi e-Simda</p>
+                    <p class="text-muted mb-0">Simda Integrated</p>
                 </div>
             </div>  
             <div class="col-lg-3 col-md-6 text-center">						
