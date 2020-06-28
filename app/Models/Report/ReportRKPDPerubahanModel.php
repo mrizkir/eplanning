@@ -75,69 +75,65 @@ class ReportRKPDPerubahanModel extends ReportModel
             $sheet->setCellValue('E5',': '.$this->dataReport['OrgNm']. ' ['.$this->dataReport['kode_organisasi'].']'); 
         }
 
-        $sheet->mergeCells ('A7:F8');
+        $sheet->mergeCells ('A7:E8');
         $sheet->setCellValue('A7','KODE'); 
+        $sheet->mergeCells ('F7:F8');
+        $sheet->setCellValue('F7','URUSAN/BIDANG URUSAN PEMERINTAH DAERAH DAN PROGRAM/KEGIATAN'); 
         $sheet->mergeCells ('G7:G8');
-        $sheet->setCellValue('G7','BIDANG URUSAN PEMERINTAH DAERAH DAN PROGRAM/KEGIATAN'); 
-        $sheet->mergeCells ('H7:I7');
-        $sheet->setCellValue('H7','SASARAN'); 
-        $sheet->mergeCells ('J7:J8');
-        $sheet->setCellValue('J7','LOKASI');         
-        $sheet->mergeCells ('K7:K8');
-        $sheet->setCellValue('K7','TARGET (%)');
+        $sheet->setCellValue('G7','INDIKATOR KINERJA PROGRAM/KEGIATAN'); 
+        $sheet->mergeCells ('H7:K7');
+        $sheet->setCellValue('H7','RENCANA TAHUN '.\HelperKegiatan::getTahunPerencanaan());         
         $sheet->mergeCells ('L7:L8');
-        $sheet->setCellValue('L7','SUMBER DANA');
-        $sheet->mergeCells ('M7:O7');
-        $sheet->setCellValue('M7','INDIKASI TA(n)');
-        $sheet->mergeCells ('P7:P8');
-        $sheet->setCellValue('P7','KETERANGAN');
-
-        $sheet->setCellValue('H8','SEBELUM'); 
-        $sheet->setCellValue('I8','SESUDAH'); 
-
-        $sheet->setCellValue('M8','SEBELUM'); 
-        $sheet->setCellValue('N8','SESUDAH'); 
-        $sheet->setCellValue('O8','SELISIH'); 
-
-        $sheet->mergeCells ('A9:F9');
+        $sheet->setCellValue('L7','CATATAN PENTING');
+        $sheet->mergeCells ('M7:N7');
+        $sheet->setCellValue('M7','PERUBAHAN');
+        
+        $sheet->setCellValue('H8','LOKASI'); 
+        $sheet->setCellValue('I8','TARGET CAPAIAN KINERJA'); 
+        $sheet->setCellValue('J8','KEBUTUHAN DANA/PAGU INDIKATIF'); 
+        $sheet->setCellValue('K8','SUMBER DANA');         
+        $sheet->setCellValue('M8','TARGET CAPAIAN KINERJA'); 
+        $sheet->setCellValue('N8','KEBUTUHAN DANA/PAGU INDIKATIF'); 
+        
         $sheet->setCellValue('A9',1); 
-        $sheet->setCellValue('G9',2); 
-        $sheet->setCellValue('H9',3); 
-        $sheet->setCellValue('I9',4); 
-        $sheet->setCellValue('J9',5); 
-        $sheet->setCellValue('K9',6); 
-        $sheet->setCellValue('L9',7); 
-        $sheet->setCellValue('M9',9); 
-        $sheet->setCellValue('N9',9); 
-        $sheet->setCellValue('O9',10); 
-        $sheet->setCellValue('P9',11);
+        $sheet->setCellValue('B9',2); 
+        $sheet->setCellValue('C9',3); 
+        $sheet->setCellValue('D9',4); 
+        $sheet->setCellValue('E9',5); 
+        $sheet->setCellValue('F9',6); 
+        $sheet->setCellValue('G9',7); 
+        $sheet->setCellValue('H9',9); 
+        $sheet->setCellValue('I9',9); 
+        $sheet->setCellValue('J9',10); 
+        $sheet->setCellValue('K9',11); 
+        $sheet->setCellValue('L9',12); 
+        $sheet->setCellValue('M9',13); 
+        $sheet->setCellValue('N9',14); 
 
         $sheet->getColumnDimension('A')->setWidth(5);
         $sheet->getColumnDimension('B')->setWidth(5);
         $sheet->getColumnDimension('C')->setWidth(5);
         $sheet->getColumnDimension('D')->setWidth(5);
         $sheet->getColumnDimension('E')->setWidth(5);
-        $sheet->getColumnDimension('F')->setWidth(5);
-
-        $sheet->getColumnDimension('G')->setWidth(40);
+        $sheet->getColumnDimension('F')->setWidth(40);        
+        $sheet->getColumnDimension('G')->setWidth(30);
         $sheet->getColumnDimension('H')->setWidth(20);
-        $sheet->getColumnDimension('I')->setWidth(20);
+        $sheet->getColumnDimension('I')->setWidth(30);
         $sheet->getColumnDimension('J')->setWidth(20);
-        $sheet->getColumnDimension('K')->setWidth(17);
-        $sheet->getColumnDimension('L')->setWidth(12);
-        $sheet->getColumnDimension('M')->setWidth(17);
-        $sheet->getColumnDimension('N')->setWidth(17);
-        $sheet->getColumnDimension('O')->setWidth(17);
-        $sheet->getColumnDimension('P')->setWidth(17);
+        $sheet->getColumnDimension('K')->setWidth(15);
+        $sheet->getColumnDimension('L')->setWidth(23);
+        $sheet->getColumnDimension('M')->setWidth(30);
+        $sheet->getColumnDimension('N')->setWidth(20);
+        
         $styleArray=array( 
             'font' => array('bold' => true,'size'=>'9'),
             'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
                                'vertical'=>Alignment::HORIZONTAL_CENTER),
             'borders' => array('allBorders' => array('borderStyle' =>Border::BORDER_THIN))
         );                
-        $sheet->getStyle("A7:P9")->applyFromArray($styleArray);
-        $sheet->getStyle("A7:P9")->getAlignment()->setWrapText(true);
-
+        $sheet->getStyle("A7:N9")->applyFromArray($styleArray);
+        $sheet->getStyle("A7:N9")->getAlignment()->setWrapText(true);
+        
         $struktur = $this->generateStructureRKPD($field,$id,1);
         
         $row=10;
@@ -211,8 +207,8 @@ class ReportRKPDPerubahanModel extends ReportModel
                             $nama_indikator=$rkpd->NamaIndikator;
                             $sheet->setCellValue("G$row",$nama_indikator); 
                             $sheet->setCellValue("H$row",'Kab. Bintan'); 
-                            $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_Angka2) . ' '.$rkpd->Sasaran_Uraian2))); 
-                            $sheet->setCellValue("J$row",\Helper::formatUang($rkpd->NilaiUsulan2)); 
+                            $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_Angka3) . ' '.$rkpd->Sasaran_Uraian3))); 
+                            $sheet->setCellValue("J$row",\Helper::formatUang($rkpd->NilaiUsulan3)); 
                             $sheet->setCellValue("K$row",$rkpd->Nm_SumberDana); 
                             $sheet->setCellValue("L$row",$rkpd->Descr); 
                             $sheet->setCellValue("M$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_AngkaSetelah).' '.$rkpd->Sasaran_UraianSetelah))); 
@@ -227,10 +223,10 @@ class ReportRKPDPerubahanModel extends ReportModel
                             $rincian_kegiatan = \DB::table('v_rkpd_rinci')
                                                 ->select(\DB::raw('
                                                                 "Uraian",
-                                                                "Sasaran_Angka2",
-                                                                "Sasaran_Uraian2",
-                                                                "Target2",
-                                                                "NilaiUsulan2",
+                                                                "Sasaran_Angka3",
+                                                                "Sasaran_Uraian3",
+                                                                "Target3",
+                                                                "NilaiUsulan3",
                                                                 "Nm_SumberDana",                                                                
                                                                 "Lokasi",
                                                                 "Descr"
@@ -255,13 +251,13 @@ class ReportRKPDPerubahanModel extends ReportModel
                                 $sheet->setCellValue("G$row",$nama_indikator); 
                                 // $sheet->setCellValue("H$row",$v5->Lokasi); 
                                 $sheet->setCellValue("H$row",'Kab. Bintan'); 
-                                $sasaran_angka=\Helper::formatAngka($v5->Sasaran_Angka2);
-                                $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', $sasaran_angka.' '.$v5->Sasaran_Uraian2)));                                     
-                                $sheet->setCellValue("J$row",\Helper::formatUang($v5->NilaiUsulan2)); 
+                                $sasaran_angka=\Helper::formatAngka($v5->Sasaran_Angka3);
+                                $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', $sasaran_angka.' '.$v5->Sasaran_Uraian3)));                                     
+                                $sheet->setCellValue("J$row",\Helper::formatUang($v5->NilaiUsulan3)); 
                                 $sheet->setCellValue("K$row",$v5->Nm_SumberDana); 
                                 $sheet->setCellValue("L$row",$v5->Descr); 
-                                $total_pagu+=$v5->NilaiUsulan2;                                                           
-                                $totaleachkegiatan+=$v5->NilaiUsulan2;
+                                $total_pagu+=$v5->NilaiUsulan3;                                                           
+                                $totaleachkegiatan+=$v5->NilaiUsulan3;
                                 $no+=1;
                                 $row+=1;
                             }
@@ -347,10 +343,10 @@ class ReportRKPDPerubahanModel extends ReportModel
                                 $rincian_kegiatan = \DB::table('v_rkpd_rinci')
                                                     ->select(\DB::raw('
                                                                     "Uraian",
-                                                                    "Sasaran_Angka2",
-                                                                    "Sasaran_Uraian2",
-                                                                    "Target2",
-                                                                    "NilaiUsulan2",
+                                                                    "Sasaran_Angka3",
+                                                                    "Sasaran_Uraian3",
+                                                                    "Target3",
+                                                                    "NilaiUsulan3",
                                                                     "Nm_SumberDana",
                                                                     "Lokasi",
                                                                     "Descr"
@@ -378,15 +374,15 @@ class ReportRKPDPerubahanModel extends ReportModel
                                     $sheet->setCellValue("G$row",$nama_indikator); 
                                     // $sheet->setCellValue("H$row",$v5->Lokasi); 
                                     $sheet->setCellValue("H$row",'Kab. Bintan'); 
-                                    $sasaran_angka=\Helper::formatAngka($v5->Sasaran_Angka2);
-                                    $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', $sasaran_angka.' '.$v5->Sasaran_Uraian2)));                                                                        
-                                    $sheet->setCellValue("J$row",\Helper::formatUang($v5->NilaiUsulan2)); 
+                                    $sasaran_angka=\Helper::formatAngka($v5->Sasaran_Angka3);
+                                    $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', $sasaran_angka.' '.$v5->Sasaran_Uraian3)));                                                                        
+                                    $sheet->setCellValue("J$row",\Helper::formatUang($v5->NilaiUsulan3)); 
                                     $sheet->setCellValue("K$row",$v5->Nm_SumberDana); 
                                     $sheet->setCellValue("L$row",$v5->Descr); 
                                     $sheet->setCellValue("M$row",\Helper::formatAngka($rkpd->Sasaran_AngkaSetelah).' '.$rkpd->Sasaran_UraianSetelah); 
                                     $sheet->setCellValue("N$row",\Helper::formatUang($rkpd->NilaiSetelah)); 
-                                    $total_pagu+=$v5->NilaiUsulan2;
-                                    $totaleachkegiatan+=$v5->NilaiUsulan2;                                    
+                                    $total_pagu+=$v5->NilaiUsulan3;
+                                    $totaleachkegiatan+=$v5->NilaiUsulan3;                                    
                                     $no+=1;
                                     $row+=1;
                                 }                                   
@@ -401,44 +397,46 @@ class ReportRKPDPerubahanModel extends ReportModel
             }
         }
         
-        // $sheet->setCellValue("L$row",'TOTAL'); 
-        // $sheet->setCellValue("M$row",\Helper::formatUang($total_pagu_m)); 
-        // $sheet->setCellValue("N$row",\Helper::formatUang($total_pagu_p)); 
-        // $sheet->setCellValue("O$row",\Helper::formatUang($total_pagu_p-$total_pagu_m)); 
-        
-        // $row=$row-1;
-        // $styleArray=array(								
-        //     'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
-        //                        'vertical'=>Alignment::HORIZONTAL_CENTER),
-        //     'borders' => array('allBorders' => array('borderStyle' =>Border::BORDER_THIN))
-        // );        																			 
-        // $sheet->getStyle("A10:P$row")->applyFromArray($styleArray);
-        // $sheet->getStyle("A10:P$row")->getAlignment()->setWrapText(true);      
-        
-        // $styleArray=array(								
-        //     'alignment' => array('horizontal'=>Alignment::HORIZONTAL_LEFT)
-        // );																					 
-        // $sheet->getStyle("G10:G$row")->applyFromArray($styleArray);
-        // $sheet->getStyle("I10:J$row")->applyFromArray($styleArray);
+        $sheet->getStyle("A$row:N$row")->applyFromArray($styleArrayKegiatan);  
+        $sheet->getRowDimension($row)->setRowHeight(30);
+        $sheet->mergeCells("A$row:H$row"); 
+        $sheet->setCellValue("I$row",'TOTAL'); 
+        $sheet->setCellValue("J$row",\Helper::formatUang($total_pagu));       
+        $sheet->mergeCells("K$row:M$row"); 
+        $sheet->setCellValue("N$row",\Helper::formatUang($total_nilai_setelah));    
 
-        // $row=$row+1;
-        // $styleArray=array(								
-        //     'alignment' => array('horizontal'=>Alignment::HORIZONTAL_RIGHT)
-        // );																					 
-        // $sheet->getStyle("M10:O$row")->applyFromArray($styleArray);
+        $styleArray=array(								
+            'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
+                               'vertical'=>Alignment::HORIZONTAL_CENTER),
+            'borders' => array('allBorders' => array('borderStyle' =>Border::BORDER_THIN))
+        );        																			 
+        $sheet->getStyle("A10:N$row")->applyFromArray($styleArray);
+        $sheet->getStyle("A10:N$row")->getAlignment()->setWrapText(true);      
+        
+        $styleArray=array(								
+            'alignment' => array('horizontal'=>Alignment::HORIZONTAL_LEFT)
+        );																					 
+        $sheet->getStyle("F10:G$row")->applyFromArray($styleArray);
 
-        // $row+=3;
-        // $sheet->setCellValue("H$row",'BANDAR SRI BENTAN, '.\Helper::tanggal('d F Y'));
-        // $row+=1;        
-        // $sheet->setCellValue("H$row",'KEPALA DINAS');                                          
-        // $row+=1;        
-        // $sheet->setCellValue("H$row",strtoupper($this->dataReport['OrgNm']));                                          
+        $styleArray=array(								
+            'alignment' => array('horizontal'=>Alignment::HORIZONTAL_RIGHT)
+        );																					 
+        $sheet->getStyle("J10:J$row")->applyFromArray($styleArray);
+        $sheet->getStyle("N10:N$row")->applyFromArray($styleArray); 
+
+        $row+=3;
+        $sheet->setCellValue("H$row",'BANDAR SRI BENTAN, '.\Helper::tanggal('d F Y'));
+        $row+=1;        
+        $sheet->setCellValue("H$row",'KEPALA ');                                          
+        $row+=1;        
+        $sheet->setCellValue("H$row",strtoupper($this->dataReport['OrgNm']));                                          
                 
-        // $row+=5;
-        // $sheet->setCellValue("H$row",$this->dataReport['NamaKepalaSKPD']);
-        // $row+=1;                
+        $row+=5;
+        $sheet->setCellValue("H$row",$this->dataReport['NamaKepalaSKPD']);
+        $row+=1;                
         
-        // $sheet->setCellValue("H$row",'NIP.'.$this->dataReport['NamaKepalaSKPD']);
+        $sheet->setCellValue("H$row",'NIP.'.$this->dataReport['NIPKepalaSKPD']);
+
     }   
     private function printPembahasanRKPDP()  
     {
