@@ -68,7 +68,7 @@
             <div class="form-group">
                 {{Form::label('JumlahApbdMurni','NILAI APBD MURNI',['class'=>'control-label col-md-2'])}}
                 <div class="col-md-10">
-                    {{Form::text('JumlahApbdMurni',$rkpd->Jumlah,['class'=>'form-control','placeholder'=>'NILAI APBD MURNI SESIA DPA'])}}
+                    {{Form::text('JumlahApbdMurni',$rkpd->JumlahApbdMurni,['class'=>'form-control','placeholder'=>'NILAI APBD MURNI SESIA DPA'])}}
                     <span class="help-block">Ubah nilai ini bila tidak sesuai dengan DPA Murni.</span>                             
                 </div>
             </div>            
