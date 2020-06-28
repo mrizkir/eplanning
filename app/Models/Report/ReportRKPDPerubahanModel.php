@@ -437,7 +437,7 @@ class ReportRKPDPerubahanModel extends ReportModel
         $sheet->mergeCells("K$row:L$row"); 
         $sheet->setCellValue("M$row",\Helper::formatUang($total_pagu_kolom_m));    
         $sheet->setCellValue("N$row",\Helper::formatUang($total_pagu_kolom_n));    
-        $sheet->setCellValue("O$row",\Helper::formatUang($total_pagu_kolom_n-$total_pagu_kolom_n));    
+        $sheet->setCellValue("O$row",\Helper::formatUang($total_pagu_kolom_n-$total_pagu_kolom_m));    
 
         $styleArray=array(								
             'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
