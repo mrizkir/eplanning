@@ -29,8 +29,16 @@ class ReportRKPDPerubahanModel extends ReportModel
     {
         $OrgID = $this->dataReport['OrgID'];
         $SOrgID = $this->dataReport['SOrgID'];
-        $OrgIDRPJMD = $this->dataReport['OrgIDRPJMD'];
-
+        if ($SOrgID == 'none' || $SOrgID == '')
+        {
+            $field = 'OrgID';
+            $id = $OrgID;
+        }
+        else
+        {
+            $field = 'SOrgID';
+            $id = $SOrgID;
+        }         
         $sheet = $this->spreadsheet->getActiveSheet();        
         $sheet->setTitle ('LAPORAN RKPD-P TA '.\HelperKegiatan::getTahunPerencanaan());   
         
@@ -130,108 +138,307 @@ class ReportRKPDPerubahanModel extends ReportModel
         $sheet->getStyle("A7:P9")->applyFromArray($styleArray);
         $sheet->getStyle("A7:P9")->getAlignment()->setWrapText(true);
 
-        $daftar_program=\DB::table('v_organisasi_program')
-                            ->select(\DB::raw('"PrgID","kode_program","Kd_Prog","PrgNm","Jns"'))
-                            ->where('OrgIDRPJMD',$OrgIDRPJMD)
-                            ->orderByRaw('kode_program ASC NULLS FIRST')
-                            ->orderBy('Kd_Prog','ASC')
-                            ->get();
-                
+        $struktur = $this->generateStructureRKPD($field,$id,1);
+        
         $row=10;
-        $total_pagu_m=0;
-        $total_pagu_p=0;
-        foreach ($daftar_program as $v)
-        {
-            $PrgID=$v->PrgID;         
-            $daftar_kegiatan = RKPDViewJudulModel::select(\DB::raw('"kode_kegiatan","KgtNm","Sasaran_Angka2","Sasaran_Uraian3","Target2","Target3","NilaiUsulan2","NilaiUsulan3","Sasaran_AngkaSetelah","Sasaran_UraianSetelah","NilaiSetelah","Nm_SumberDana","Descr"'))
-                                            ->where('PrgID',$PrgID)      
-                                            ->where('OrgID',$OrgID)
-                                            ->where('EntryLvl',3);
-            $daftar_kegiatan = ($SOrgID == 'none' || $SOrgID == '') ?
-                                                                    $daftar_kegiatan->where('TA',\HelperKegiatan::getTahunPerencanaan())
-                                                                                    ->orderBy('kode_kegiatan','ASC')       
-                                                                                    ->get()
-                                                                    :
-                                                                    $daftar_kegiatan->where('TA',\HelperKegiatan::getTahunPerencanaan())
-                                                                                    ->where('SOrgID',$SOrgID)
-                                                                                    ->orderBy('kode_kegiatan','ASC')       
-                                                                                    ->get();
-                                            
-                                            
-            if (isset($daftar_kegiatan[0])) 
-            {   
-                $kode_program=$v->kode_program==''?$this->dataReport['kode_organisasi'].'.'.$v->Kd_Prog:$v->kode_program;
-                $PrgNm=$v->PrgNm;     
-                $sheet->getStyle("A$row:P$row")->getFont()->setBold(true);                                
-                $sheet->mergeCells ("A$row:F$row");
-                $sheet->setCellValue("A$row",$kode_program);
-                $sheet->setCellValue("G$row",$PrgNm);
-                $totalpagueachprogramM= $daftar_kegiatan->sum('NilaiUsulan2');      
-                $totalpagueachprogramP= $daftar_kegiatan->sum('NilaiUsulan3');                      
-                $sheet->setCellValue("M$row",\Helper::formatUang($totalpagueachprogramM)); 
-                $sheet->setCellValue("N$row",\Helper::formatUang($totalpagueachprogramP)); 
-                $sheet->setCellValue("O$row",\Helper::formatUang($totalpagueachprogramP-$totalpagueachprogramM)); 
-                $sheet->setCellValue("P$row",'');
-                $row+=1;
-                foreach ($daftar_kegiatan as $n) 
-                {
-                    $sheet->mergeCells ("A$row:F$row");
-                    $sheet->setCellValue("A$row",$n['kode_kegiatan']);                     
-                    $sheet->setCellValue("G$row",$n['KgtNm']); 
-                    $sheet->setCellValue("H$row",\Helper::formatAngka($n['Sasaran_Angka2']) . ' '.$n['Sasaran_Uraian2']); 
-                    $sheet->setCellValue("I$row",\Helper::formatAngka($n['Sasaran_Angka3']) . ' '.$n['Sasaran_Uraian3']); 
-                    $sheet->setCellValue("J$row",'Kab. Bintan'); 
-                    $sheet->setCellValue("K$row",\Helper::formatUang($n['Target3'])); 
-                    $sheet->setCellValue("L$row",$n['Nm_SumberDana']); 
-                    $sheet->setCellValue("M$row",\Helper::formatUang($n['NilaiUsulan2'])); 
-                    $sheet->setCellValue("N$row",\Helper::formatUang($n['NilaiUsulan3'])); 
-                    $sheet->setCellValue("O$row",\Helper::formatUang($n['NilaiUsulan3']-$n['NilaiUsulan2'])); 
-                    $sheet->setCellValue("P$row",$n['Descr']); 
+        $total_pagu=0;        
+        $total_nilai_setelah=0;        
 
-                    $total_pagu_m+=$n['NilaiUsulan2'];
-                    $total_pagu_p+=$n['NilaiUsulan3'];
-                    $row+=1;
+        $styleArrayProgram=array( 
+                        'font' => array('bold' => true),                                                           
+                    );       
+        $styleArrayKegiatan=array( 
+                        'font' => array('bold' => true),                                                           
+                    );       
+        
+        foreach ($struktur as $Kd_Urusan=>$v1)
+        {
+            $sheet->getRowDimension($row)->setRowHeight(28);
+            $sheet->getStyle("A$row:N$row")->applyFromArray($styleArrayProgram);
+            $sheet->setCellValue("A$row",$Kd_Urusan);
+            $sheet->mergeCells("B$row:E$row");                
+            $sheet->setCellValue("F$row",$v1['Nm_Urusan']);
+            $sheet->mergeCells("F$row:N$row");                
+            if ($Kd_Urusan == 0)
+            {
+                $program=$v1['program'];
+                $row+=1;
+                foreach ($program as $v3)
+                {   
+                    $daftar_kegiatan = \DB::table('trRKPD')
+                                                ->select(\DB::raw('"trRKPD"."KgtID","tmKgt"."Kd_Keg","tmKgt"."KgtNm"'))
+                                                ->join('tmKgt','tmKgt.KgtID','trRKPD.KgtID')
+                                                ->where('PrgID',$v3['PrgID'])
+                                                ->where('EntryLvl',3)                                               
+                                                ->where($field,$id)
+                                                ->groupBy('trRKPD.KgtID')
+                                                ->groupBy('tmKgt.Kd_Keg')
+                                                ->groupBy('tmKgt.KgtNm')
+                                                ->orderByRaw('"tmKgt"."Kd_Keg"::int ASC')
+                                                ->get();
+
+                    if (count($daftar_kegiatan)  > 0)
+                    {
+                        $Kd_Prog = $v3['Kd_Prog'];
+                        $sheet->getRowDimension($row)->setRowHeight(28);
+                        $sheet->getStyle("A$row:N$row")->applyFromArray($styleArrayProgram);
+
+                        $sheet->setCellValue("A$row",0);
+                        $sheet->setCellValue("B$row",'00');
+                        $sheet->setCellValue("C$row",$Kd_Prog);
+                        $sheet->mergeCells("D$row:E$row");
+                        $sheet->setCellValue("F$row",$v3['PrgNm']);        
+                        $sheet->mergeCells("F$row:I$row");                
+                        $sheet->mergeCells("K$row:M$row");       
+                        $row_program=$row;
+                        $totaleachprogram = 0;
+                        $totaleachprogram_setelah=0;
+                        $row+=1;
+                        foreach ($daftar_kegiatan as $v4) 
+                        {
+                            $rkpd = \DB::table('v_rkpd')
+                                                ->where('KgtID',$v4->KgtID)
+                                                ->where('EntryLvl',3)
+                                                ->where($field,$id)
+                                                ->first();
+
+                            $sheet->getStyle("A$row:N$row")->applyFromArray($styleArrayKegiatan);
+                            $sheet->setCellValue("A$row",0);
+                            $sheet->setCellValue("B$row",'00');
+                            $sheet->setCellValue("C$row",$Kd_Prog);
+                            $sheet->setCellValue("D$row",$v4->Kd_Keg);                            
+                            $sheet->setCellValue("F$row",$v4->KgtNm); 
+                            $nama_indikator=$rkpd->NamaIndikator;
+                            $sheet->setCellValue("G$row",$nama_indikator); 
+                            $sheet->setCellValue("H$row",'Kab. Bintan'); 
+                            $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_Angka2) . ' '.$rkpd->Sasaran_Uraian2))); 
+                            $sheet->setCellValue("J$row",\Helper::formatUang($rkpd->NilaiUsulan2)); 
+                            $sheet->setCellValue("K$row",$rkpd->Nm_SumberDana); 
+                            $sheet->setCellValue("L$row",$rkpd->Descr); 
+                            $sheet->setCellValue("M$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_AngkaSetelah).' '.$rkpd->Sasaran_UraianSetelah))); 
+                            $sheet->setCellValue("N$row",\Helper::formatUang($rkpd->NilaiSetelah)); 
+                            $total_nilai_setelah+=$rkpd->NilaiSetelah;  
+                            $totaleachprogram_setelah+=$rkpd->NilaiSetelah;
+
+                            $row_kegiatan=$row;
+                            $row+=1;  
+                            $no=1;
+
+                            $rincian_kegiatan = \DB::table('v_rkpd_rinci')
+                                                ->select(\DB::raw('
+                                                                "Uraian",
+                                                                "Sasaran_Angka2",
+                                                                "Sasaran_Uraian2",
+                                                                "Target2",
+                                                                "NilaiUsulan2",
+                                                                "Nm_SumberDana",                                                                
+                                                                "Lokasi",
+                                                                "Descr"
+                                                            ')
+                                                )                                                
+                                                ->where('EntryLvl',3)
+                                                ->where('KgtID',$v4->KgtID)
+                                                ->where('PrgID',$v3['PrgID'])
+                                                ->where($field,$id)
+                                                ->orderByRaw('"No"::int ASC')
+                                                ->get();
+                            
+                            $totaleachkegiatan = 0;
+                            foreach ($rincian_kegiatan as $v5)
+                            {
+                                $sheet->setCellValue("A$row",0);
+                                $sheet->setCellValue("B$row",'00');
+                                $sheet->setCellValue("C$row",$Kd_Prog);
+                                $sheet->setCellValue("D$row",$v4->Kd_Keg);                             
+                                $sheet->setCellValue("E$row",$no);                            
+                                $sheet->setCellValue("F$row",$v5->Uraian);    
+                                $sheet->setCellValue("G$row",$nama_indikator); 
+                                // $sheet->setCellValue("H$row",$v5->Lokasi); 
+                                $sheet->setCellValue("H$row",'Kab. Bintan'); 
+                                $sasaran_angka=\Helper::formatAngka($v5->Sasaran_Angka2);
+                                $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', $sasaran_angka.' '.$v5->Sasaran_Uraian2)));                                     
+                                $sheet->setCellValue("J$row",\Helper::formatUang($v5->NilaiUsulan2)); 
+                                $sheet->setCellValue("K$row",$v5->Nm_SumberDana); 
+                                $sheet->setCellValue("L$row",$v5->Descr); 
+                                $total_pagu+=$v5->NilaiUsulan2;                                                           
+                                $totaleachkegiatan+=$v5->NilaiUsulan2;
+                                $no+=1;
+                                $row+=1;
+                            }
+                            $sheet->setCellValue("J$row_kegiatan",\Helper::formatUang($totaleachkegiatan)); 
+                            $totaleachprogram+=$totaleachkegiatan; 
+                        }
+                        $sheet->setCellValue("J$row_program",\Helper::formatUang($totaleachprogram));                                 
+                        $sheet->setCellValue("N$row_program",\Helper::formatUang($totaleachprogram_setelah)); 
+                    }
                 }
             }
-        }        
-        $sheet->setCellValue("L$row",'TOTAL'); 
-        $sheet->setCellValue("M$row",\Helper::formatUang($total_pagu_m)); 
-        $sheet->setCellValue("N$row",\Helper::formatUang($total_pagu_p)); 
-        $sheet->setCellValue("O$row",\Helper::formatUang($total_pagu_p-$total_pagu_m)); 
-        
-        $row=$row-1;
-        $styleArray=array(								
-            'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
-                               'vertical'=>Alignment::HORIZONTAL_CENTER),
-            'borders' => array('allBorders' => array('borderStyle' =>Border::BORDER_THIN))
-        );        																			 
-        $sheet->getStyle("A10:P$row")->applyFromArray($styleArray);
-        $sheet->getStyle("A10:P$row")->getAlignment()->setWrapText(true);      
-        
-        $styleArray=array(								
-            'alignment' => array('horizontal'=>Alignment::HORIZONTAL_LEFT)
-        );																					 
-        $sheet->getStyle("G10:G$row")->applyFromArray($styleArray);
-        $sheet->getStyle("I10:J$row")->applyFromArray($styleArray);
+            else
+            {
+                $bidang_pemerintahan=$v1['bidang_pemerintahan'];
+                $row+=1;
+                foreach ($bidang_pemerintahan as $Kd_Bidang=>$v2)
+                {
+                    $sheet->getRowDimension($row)->setRowHeight(28);
+                    $sheet->getStyle("A$row:N$row")->applyFromArray($styleArrayProgram);
+                    $sheet->setCellValue("A$row",$Kd_Urusan);
+                    $sheet->setCellValue("B$row",$Kd_Bidang);
+                    $sheet->mergeCells("C$row:E$row");
+                    $sheet->setCellValue("F$row",$v2['Nm_Bidang']);
+                    $sheet->mergeCells("F$row:N$row");
+                    $program=$v2['program'];
+                    $row+=1;
+                    foreach ($program as $v3)
+                    {
+                        $daftar_kegiatan = \DB::table('trRKPD')
+                                                ->select(\DB::raw('"trRKPD"."KgtID","tmKgt"."Kd_Keg","tmKgt"."KgtNm"'))
+                                                ->join('tmKgt','tmKgt.KgtID','trRKPD.KgtID')
+                                                ->where('PrgID',$v3['PrgID'])
+                                                ->where('EntryLvl',3)
+                                                ->groupBy('trRKPD.KgtID')
+                                                ->groupBy('tmKgt.Kd_Keg')
+                                                ->groupBy('tmKgt.KgtNm')
+                                                ->where($field,$id)
+                                                ->orderByRaw('"tmKgt"."Kd_Keg"::int ASC')
+                                                ->get();
+                        if (count($daftar_kegiatan)  > 0)
+                        {   
+                            $Kd_Prog = $v3['Kd_Prog'];
+                            $sheet->getRowDimension($row)->setRowHeight(28);
+                            $sheet->getStyle("A$row:N$row")->applyFromArray($styleArrayProgram);
+                            
+                            $sheet->setCellValue("A$row",$Kd_Urusan);
+                            $sheet->setCellValue("B$row",$Kd_Bidang);
+                            $sheet->setCellValue("C$row",$Kd_Prog);
+                            $sheet->mergeCells("D$row:E$row");
+                            $sheet->setCellValue("F$row",$v3['PrgNm']); 
+                            $sheet->mergeCells("F$row:I$row");                
+                            $sheet->mergeCells("K$row:M$row");          
+                            $row_program=$row;
+                            $totaleachprogram = 0;             
+                            $totaleachprogram_setelah=0;
+                            $row+=1; 
+                            foreach ($daftar_kegiatan as $v4) 
+                            {                                
+                                $rkpd = \DB::table('v_rkpd')
+                                                ->where('KgtID',$v4->KgtID)
+                                                ->where('EntryLvl',3)
+                                                ->where($field,$id)
+                                                ->first();
+                                
+                                $sheet->getStyle("A$row:N$row")->applyFromArray($styleArrayKegiatan);
+                                $sheet->setCellValue("A$row",$Kd_Urusan);
+                                $sheet->setCellValue("B$row",$Kd_Bidang);
+                                $sheet->setCellValue("C$row",$Kd_Prog);
+                                $sheet->setCellValue("D$row",$v4->Kd_Keg);                            
+                                $sheet->setCellValue("F$row",$v4->KgtNm); 
+                                $nama_indikator=$rkpd->NamaIndikator;
+                                $sheet->setCellValue("G$row",$nama_indikator); 
+                                $sheet->setCellValue("H$row",'Kab. Bintan'); 
+                                $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_Angka1) . ' '.$rkpd->Sasaran_Uraian1)));                                     
+                                $sheet->setCellValue("J$row",0); //nilai ini akan di isi oleh dibawah
+                                $sheet->setCellValue("K$row",$rkpd->Nm_SumberDana); 
+                                $sheet->setCellValue("L$row",$rkpd->Descr); 
+                                $sheet->setCellValue("M$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_AngkaSetelah).' '.$rkpd->Sasaran_UraianSetelah))); 
+                                $sheet->setCellValue("N$row",\Helper::formatUang($rkpd->NilaiSetelah)); 
+                                $total_nilai_setelah+=$rkpd->NilaiSetelah;  
+                                $totaleachprogram_setelah+=$rkpd->NilaiSetelah;
+                                
+                                $rincian_kegiatan = \DB::table('v_rkpd_rinci')
+                                                    ->select(\DB::raw('
+                                                                    "Uraian",
+                                                                    "Sasaran_Angka2",
+                                                                    "Sasaran_Uraian2",
+                                                                    "Target2",
+                                                                    "NilaiUsulan2",
+                                                                    "Nm_SumberDana",
+                                                                    "Lokasi",
+                                                                    "Descr"
+                                                                ')
+                                                    )                                                
+                                                    ->where('EntryLvl',3)
+                                                    ->where('KgtID',$v4->KgtID)
+                                                    ->where('PrgID',$v3['PrgID'])
+                                                    ->where($field,$id)
+                                                    ->orderByRaw('"No"::int ASC')
+                                                    ->get();
 
-        $row=$row+1;
-        $styleArray=array(								
-            'alignment' => array('horizontal'=>Alignment::HORIZONTAL_RIGHT)
-        );																					 
-        $sheet->getStyle("M10:O$row")->applyFromArray($styleArray);
+                                $row_kegiatan=$row;
+                                $no=1;                                
+                                $row+=1;
+                                $totaleachkegiatan = 0;
+                                foreach ($rincian_kegiatan as $v5)
+                                {                     
+                                    $sheet->setCellValue("A$row",$Kd_Urusan);
+                                    $sheet->setCellValue("B$row",$Kd_Bidang);
+                                    $sheet->setCellValue("C$row",$Kd_Prog);
+                                    $sheet->setCellValue("D$row",$v4->Kd_Keg);                                 
+                                    $sheet->setCellValue("E$row",$no);                            
+                                    $sheet->setCellValue("F$row",$v5->Uraian);    
+                                    $sheet->setCellValue("G$row",$nama_indikator); 
+                                    // $sheet->setCellValue("H$row",$v5->Lokasi); 
+                                    $sheet->setCellValue("H$row",'Kab. Bintan'); 
+                                    $sasaran_angka=\Helper::formatAngka($v5->Sasaran_Angka2);
+                                    $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', $sasaran_angka.' '.$v5->Sasaran_Uraian2)));                                                                        
+                                    $sheet->setCellValue("J$row",\Helper::formatUang($v5->NilaiUsulan2)); 
+                                    $sheet->setCellValue("K$row",$v5->Nm_SumberDana); 
+                                    $sheet->setCellValue("L$row",$v5->Descr); 
+                                    $sheet->setCellValue("M$row",\Helper::formatAngka($rkpd->Sasaran_AngkaSetelah).' '.$rkpd->Sasaran_UraianSetelah); 
+                                    $sheet->setCellValue("N$row",\Helper::formatUang($rkpd->NilaiSetelah)); 
+                                    $total_pagu+=$v5->NilaiUsulan2;
+                                    $totaleachkegiatan+=$v5->NilaiUsulan2;                                    
+                                    $no+=1;
+                                    $row+=1;
+                                }                                   
+                                $sheet->setCellValue("J$row_kegiatan",\Helper::formatUang($totaleachkegiatan)); 
+                                $totaleachprogram+=$totaleachkegiatan;
+                            }
+                            $sheet->setCellValue("J$row_program",\Helper::formatUang($totaleachprogram));
+                            $sheet->setCellValue("N$row_program",\Helper::formatUang($totaleachprogram_setelah));
+                        }                        
+                    }
+                }
+            }
+        }
+        
+        // $sheet->setCellValue("L$row",'TOTAL'); 
+        // $sheet->setCellValue("M$row",\Helper::formatUang($total_pagu_m)); 
+        // $sheet->setCellValue("N$row",\Helper::formatUang($total_pagu_p)); 
+        // $sheet->setCellValue("O$row",\Helper::formatUang($total_pagu_p-$total_pagu_m)); 
+        
+        // $row=$row-1;
+        // $styleArray=array(								
+        //     'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
+        //                        'vertical'=>Alignment::HORIZONTAL_CENTER),
+        //     'borders' => array('allBorders' => array('borderStyle' =>Border::BORDER_THIN))
+        // );        																			 
+        // $sheet->getStyle("A10:P$row")->applyFromArray($styleArray);
+        // $sheet->getStyle("A10:P$row")->getAlignment()->setWrapText(true);      
+        
+        // $styleArray=array(								
+        //     'alignment' => array('horizontal'=>Alignment::HORIZONTAL_LEFT)
+        // );																					 
+        // $sheet->getStyle("G10:G$row")->applyFromArray($styleArray);
+        // $sheet->getStyle("I10:J$row")->applyFromArray($styleArray);
 
-        $row+=3;
-        $sheet->setCellValue("H$row",'BANDAR SRI BENTAN, '.\Helper::tanggal('d F Y'));
-        $row+=1;        
-        $sheet->setCellValue("H$row",'KEPALA DINAS');                                          
-        $row+=1;        
-        $sheet->setCellValue("H$row",strtoupper($this->dataReport['OrgNm']));                                          
+        // $row=$row+1;
+        // $styleArray=array(								
+        //     'alignment' => array('horizontal'=>Alignment::HORIZONTAL_RIGHT)
+        // );																					 
+        // $sheet->getStyle("M10:O$row")->applyFromArray($styleArray);
+
+        // $row+=3;
+        // $sheet->setCellValue("H$row",'BANDAR SRI BENTAN, '.\Helper::tanggal('d F Y'));
+        // $row+=1;        
+        // $sheet->setCellValue("H$row",'KEPALA DINAS');                                          
+        // $row+=1;        
+        // $sheet->setCellValue("H$row",strtoupper($this->dataReport['OrgNm']));                                          
                 
-        $row+=5;
-        $sheet->setCellValue("H$row",$this->dataReport['NamaKepalaSKPD']);
-        $row+=1;                
+        // $row+=5;
+        // $sheet->setCellValue("H$row",$this->dataReport['NamaKepalaSKPD']);
+        // $row+=1;                
         
-        $sheet->setCellValue("H$row",'NIP.'.$this->dataReport['NamaKepalaSKPD']);
+        // $sheet->setCellValue("H$row",'NIP.'.$this->dataReport['NamaKepalaSKPD']);
     }   
     private function printPembahasanRKPDP()  
     {
