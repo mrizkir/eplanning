@@ -230,6 +230,7 @@ class ReportRKPDPerubahanModel extends ReportModel
                                                                 "Sasaran_Angka3",
                                                                 "Sasaran_Uraian3",
                                                                 "Target3",
+                                                                "NilaiUsulan2",
                                                                 "NilaiUsulan3",
                                                                 "Nm_SumberDana",                                                                
                                                                 "Lokasi",
@@ -260,6 +261,9 @@ class ReportRKPDPerubahanModel extends ReportModel
                                 $sheet->setCellValue("J$row",\Helper::formatUang($v5->NilaiUsulan3)); 
                                 $sheet->setCellValue("K$row",$v5->Nm_SumberDana); 
                                 $sheet->setCellValue("L$row",$v5->Descr); 
+                                $sheet->setCellValue("M$row",\Helper::formatUang($v5->NilaiUsulan2)); 
+                                $sheet->setCellValue("N$row",\Helper::formatUang($v5->NilaiUsulan3)); 
+                                $sheet->setCellValue("O$row",\Helper::formatUang($v5->NilaiUsulan3-$v5->NilaiUsulan2)); 
                                 $total_pagu+=$v5->NilaiUsulan3;                                                           
                                 $totaleachkegiatan+=$v5->NilaiUsulan3;
                                 $no+=1;
@@ -351,6 +355,7 @@ class ReportRKPDPerubahanModel extends ReportModel
                                                                     "Sasaran_Angka3",
                                                                     "Sasaran_Uraian3",
                                                                     "Target3",
+                                                                    "NilaiUsulan2",
                                                                     "NilaiUsulan3",
                                                                     "Nm_SumberDana",
                                                                     "Lokasi",
@@ -384,9 +389,9 @@ class ReportRKPDPerubahanModel extends ReportModel
                                     $sheet->setCellValue("J$row",\Helper::formatUang($v5->NilaiUsulan3)); 
                                     $sheet->setCellValue("K$row",$v5->Nm_SumberDana); 
                                     $sheet->setCellValue("L$row",$v5->Descr); 
-                                    $sheet->setCellValue("M$row",\Helper::formatUang($rkpd->NilaiUsulan2)); 
-                                    $sheet->setCellValue("N$row",\Helper::formatUang($rkpd->NilaiUsulan3)); 
-                                    $sheet->setCellValue("O$row",\Helper::formatUang($rkpd->NilaiUsulan3-$rkpd->NilaiUsulan2)); 
+                                    $sheet->setCellValue("M$row",\Helper::formatUang($v5->NilaiUsulan2)); 
+                                    $sheet->setCellValue("N$row",\Helper::formatUang($v5->NilaiUsulan3)); 
+                                    $sheet->setCellValue("O$row",\Helper::formatUang($v5->NilaiUsulan3-$v5->NilaiUsulan2)); 
                                     $total_pagu+=$v5->NilaiUsulan3;
                                     $totaleachkegiatan+=$v5->NilaiUsulan3;                                    
                                     $no+=1;
