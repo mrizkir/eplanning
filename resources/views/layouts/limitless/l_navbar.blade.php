@@ -423,7 +423,7 @@
                             <i class="icon-arrow-down16"></i>PEMBAHASAN MUSRENBANG KAB. {{HelperKegiatan::getTahunPerencanaan()}} <span class="text-violet"><strong>[8]</strong></span>
                         </a>
                     </li>
-                    @hasrole('superadmin|bapelitbang|tapd')
+                    @hasrole('superadmin|bapelitbang|tapd|opd')
                     <li{!!Helper::isMenuActive ($page_active,'verifikasirenja',' class="active"')!!}>
                         <a href="{{route('verifikasirenja.index')}}" title="verifikasi tapd">
                             <i class="icon-arrow-down16"></i>VERIFIKASI TAPD {{HelperKegiatan::getTahunPerencanaan()}} <span class="text-violet"><strong>[9]</strong></span>
