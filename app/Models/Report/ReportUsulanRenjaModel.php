@@ -18,7 +18,7 @@ class ReportUsulanRenjaModel extends ReportModel
             $this->print();             
         }        
     }    
-    private function  print()  
+    private function print()  
     {
         $OrgID = $this->dataReport['OrgID'];
         $SOrgID = $this->dataReport['SOrgID'];

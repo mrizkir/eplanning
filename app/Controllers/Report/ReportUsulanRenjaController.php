@@ -210,6 +210,7 @@ class ReportUsulanRenjaController extends Controller {
                         ->where('OrgID',$id)->first();  
         if (!is_null($organisasi))
         {
+            $filters=$this->getControllerStateSession($this->SessionName,'filters');
             $data_report['NameOfPage']=$this->NameOfPage;
             $data_report['OrgID']=$id;
             $data_report['OrgNm']=$organisasi->OrgNm;
@@ -217,6 +218,7 @@ class ReportUsulanRenjaController extends Controller {
             $data_report['NamaKepalaSKPD']=$organisasi->NamaKepalaSKPD;
             $data_report['NIPKepalaSKPD']=$organisasi->NIPKepalaSKPD; 
             $data_report['SOrgID']='none';
+            $data_report['status_kegiatan']=$filters['status_kegiatan'];
 
             switch ($this->NameOfPage) 
             {            
