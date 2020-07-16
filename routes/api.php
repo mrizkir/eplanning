@@ -84,25 +84,25 @@ Route::group (['prefix'=>'v0'],function() {
     Route::resource('/rkpd/plafon5','API\v0\RKPD\Plafon5Controller',['names'=>'api-v0-rkpd-plafon5',
                                                                     'parameters'=>['plafon5'=>'uuid'],
                                                                     'only'=>['index','show']]);
+
     /**
      * RKPD Pembahasan Murni
      */
-    Route::resource('/rkpd/plafon7','API\v0\RKPD\Plafon7Controller',['names'=>'api-v0-rkpd-plafon6',
-                                                                    'parameters'=>['plafon7'=>'uuid'],
+    Route::resource('/rkpd/plafon6','API\v0\RKPD\Plafon6Controller',['names'=>'api-v0-rkpd-plafon6',
+                                                                    'parameters'=>['plafon6'=>'uuid'],
                                                                     'only'=>['index','show']]);
-                                                                    
     /**
      * RKPD Perubahan
      */
-    Route::resource('/rkpd/plafon6','API\v0\RKPD\Plafon6Controller',['names'=>'api-v0-rkpd-plafon6',
-                                                                    'parameters'=>['plafon6'=>'uuid'],
+    Route::resource('/rkpd/plafon7','API\v0\RKPD\Plafon7Controller',['names'=>'api-v0-rkpd-plafon7',
+                                                                    'parameters'=>['plafon7'=>'uuid'],
                                                                     'only'=>['index','show']]);
 
     /**
-     * RKPD Perubahan
+     * RKPD Pembayaran Perubahan
      */
-    Route::resource('/rkpd/plafon6','API\v0\RKPD\Plafon6Controller',['names'=>'api-v0-rkpd-plafon6',
-                                                                    'parameters'=>['plafon6'=>'uuid'],
+    Route::resource('/rkpd/plafon8','API\v0\RKPD\Plafon8Controller',['names'=>'api-v0-rkpd-plafon8',
+                                                                    'parameters'=>['plafon8'=>'uuid'],
                                                                     'only'=>['index','show']]);
 
 
