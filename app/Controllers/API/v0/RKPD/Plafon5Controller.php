@@ -49,8 +49,9 @@ class Plafon5Controller extends Controller {
                         "EntryLvl"
                     '))
                     ->where('TA',$ta)
-                    ->where('EntryLvl',2)
+                    ->where('EntryLvl',1)
                     ->get();
+                    
         return response()->json($data,200); 
     }     
        
