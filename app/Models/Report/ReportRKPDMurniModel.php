@@ -198,8 +198,8 @@ class ReportRKPDMurniModel extends ReportModel
                             $nama_indikator=$rkpd->NamaIndikator;
                             $sheet->setCellValue("G$row",$nama_indikator); 
                             $sheet->setCellValue("H$row",'Kab. Bintan'); 
-                            $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_Angka2) . ' '.$rkpd->Sasaran_Uraian2))); 
-                            $sheet->setCellValue("J$row",\Helper::formatUang($rkpd->NilaiUsulan2)); 
+                            $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_Angka1) . ' '.$rkpd->Sasaran_Uraian1))); 
+                            $sheet->setCellValue("J$row",\Helper::formatUang($rkpd->NilaiUsulan1)); 
                             $sheet->setCellValue("K$row",$rkpd->Nm_SumberDana); 
                             $sheet->setCellValue("L$row",$rkpd->Descr); 
                             $sheet->setCellValue("M$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_AngkaSetelah).' '.$rkpd->Sasaran_UraianSetelah))); 
@@ -213,10 +213,10 @@ class ReportRKPDMurniModel extends ReportModel
                             $rincian_kegiatan = \DB::table('v_rkpd_rinci')
                                                 ->select(\DB::raw('
                                                                 "Uraian",
-                                                                "Sasaran_Angka2",
-                                                                "Sasaran_Uraian2",
-                                                                "Target2",
-                                                                "NilaiUsulan2",
+                                                                "Sasaran_Angka1",
+                                                                "Sasaran_Uraian1",
+                                                                "Target1",
+                                                                "NilaiUsulan1",
                                                                 "Nm_SumberDana",                                                                
                                                                 "Lokasi",
                                                                 "Descr"
@@ -241,13 +241,13 @@ class ReportRKPDMurniModel extends ReportModel
                                 $sheet->setCellValue("G$row",$nama_indikator); 
                                 // $sheet->setCellValue("H$row",$v5->Lokasi); 
                                 $sheet->setCellValue("H$row",'Kab. Bintan'); 
-                                $sasaran_angka=\Helper::formatAngka($v5->Sasaran_Angka2);
-                                $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', $sasaran_angka.' '.$v5->Sasaran_Uraian2)));                                     
-                                $sheet->setCellValue("J$row",\Helper::formatUang($v5->NilaiUsulan2)); 
+                                $sasaran_angka=\Helper::formatAngka($v5->Sasaran_Angka1);
+                                $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', $sasaran_angka.' '.$v5->Sasaran_Uraian1)));                                     
+                                $sheet->setCellValue("J$row",\Helper::formatUang($v5->NilaiUsulan1)); 
                                 $sheet->setCellValue("K$row",$v5->Nm_SumberDana); 
                                 $sheet->setCellValue("L$row",$v5->Descr); 
-                                $total_pagu+=$v5->NilaiUsulan2;                                                           
-                                $totaleachkegiatan+=$v5->NilaiUsulan2;
+                                $total_pagu+=$v5->NilaiUsulan1;                                                           
+                                $totaleachkegiatan+=$v5->NilaiUsulan1;
                                 $no+=1;
                                 $row+=1;
                             }
@@ -333,10 +333,10 @@ class ReportRKPDMurniModel extends ReportModel
                                 $rincian_kegiatan = \DB::table('v_rkpd_rinci')
                                                     ->select(\DB::raw('
                                                                     "Uraian",
-                                                                    "Sasaran_Angka2",
-                                                                    "Sasaran_Uraian2",
-                                                                    "Target2",
-                                                                    "NilaiUsulan2",
+                                                                    "Sasaran_Angka1",
+                                                                    "Sasaran_Uraian1",
+                                                                    "Target1",
+                                                                    "NilaiUsulan1",
                                                                     "Nm_SumberDana",
                                                                     "Lokasi",
                                                                     "Descr"
@@ -364,15 +364,15 @@ class ReportRKPDMurniModel extends ReportModel
                                     $sheet->setCellValue("G$row",$nama_indikator); 
                                     // $sheet->setCellValue("H$row",$v5->Lokasi); 
                                     $sheet->setCellValue("H$row",'Kab. Bintan'); 
-                                    $sasaran_angka=\Helper::formatAngka($v5->Sasaran_Angka2);
-                                    $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', $sasaran_angka.' '.$v5->Sasaran_Uraian2)));                                                                        
-                                    $sheet->setCellValue("J$row",\Helper::formatUang($v5->NilaiUsulan2)); 
+                                    $sasaran_angka=\Helper::formatAngka($v5->Sasaran_Angka1);
+                                    $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', $sasaran_angka.' '.$v5->Sasaran_Uraian1)));                                                                        
+                                    $sheet->setCellValue("J$row",\Helper::formatUang($v5->NilaiUsulan1)); 
                                     $sheet->setCellValue("K$row",$v5->Nm_SumberDana); 
                                     $sheet->setCellValue("L$row",$v5->Descr); 
                                     $sheet->setCellValue("M$row",\Helper::formatAngka($rkpd->Sasaran_AngkaSetelah).' '.$rkpd->Sasaran_UraianSetelah); 
                                     $sheet->setCellValue("N$row",\Helper::formatUang($rkpd->NilaiSetelah)); 
-                                    $total_pagu+=$v5->NilaiUsulan2;
-                                    $totaleachkegiatan+=$v5->NilaiUsulan2;                                    
+                                    $total_pagu+=$v5->NilaiUsulan1;
+                                    $totaleachkegiatan+=$v5->NilaiUsulan1;                                    
                                     $no+=1;
                                     $row+=1;
                                 }                                   

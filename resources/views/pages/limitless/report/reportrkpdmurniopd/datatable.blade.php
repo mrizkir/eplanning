@@ -92,7 +92,7 @@
                                                     ->where('PrgID',$v3['PrgID'])
                                                     ->where('EntryLvl',1)                                               
                                                     ->where('OrgID',$filters['OrgID'])
-                                                    ->sum('NilaiUsulan2');
+                                                    ->sum('NilaiUsulan1');
                                 @endphp
                                 <tr class="program">
                                     <td>0</td>
@@ -114,10 +114,10 @@
                                         $rincian_kegiatan = \DB::table('v_rkpd_rinci')
                                                         ->select(\DB::raw('
                                                                         "Uraian",
-                                                                        "Sasaran_Angka2",
-                                                                        "Sasaran_Uraian2",
-                                                                        "Target2",
-                                                                        "NilaiUsulan2",
+                                                                        "Sasaran_Angka1",
+                                                                        "Sasaran_Uraian1",
+                                                                        "Target1",
+                                                                        "NilaiUsulan1",
                                                                         "Nm_SumberDana",
                                                                         "Lokasi",
                                                                         "Descr"
@@ -129,7 +129,7 @@
                                                         ->where('OrgID',$filters['OrgID'])
                                                         ->orderByRaw('"No"::int ASC')
                                                         ->get();
-                                        $total_rincian = $rincian_kegiatan->sum('NilaiUsulan2');
+                                        $total_rincian = $rincian_kegiatan->sum('NilaiUsulan1');
                                         $no=1;
                                     @endphp
                                     <tr>
@@ -141,8 +141,8 @@
                                         <td colspan="2">{{$v4->KgtNm}}</td>            
                                         <td>{{$rkpd->NamaIndikator}}</td>
                                         <td>Kab. Bintan</td>
-                                        <td>{{trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_Angka2) . ' '.$rkpd->Sasaran_Uraian2))}}</td>
-                                        <td class="text-right">{{Helper::formatUang($rkpd->NilaiUsulan2)}}</td>
+                                        <td>{{trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_Angka1) . ' '.$rkpd->Sasaran_Uraian1))}}</td>
+                                        <td class="text-right">{{Helper::formatUang($rkpd->NilaiUsulan1)}}</td>
                                         <td>{{$rkpd->Nm_SumberDana}}</td>
                                         <td>{{$rkpd->Descr}}</td>
                                         <td>{{trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_AngkaSetelah).' '.$rkpd->Sasaran_UraianSetelah))}}</td>
@@ -158,7 +158,7 @@
                                             <td colspan="2">{{$v5->Uraian}}</td>            
                                             <td>{{$rkpd->NamaIndikator}}</td>
                                             <td>Kab. Bintan</td>
-                                            <td>{{trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($v5->Sasaran_Angka2) . ' '.$v5->Sasaran_Uraian2))}}</td>
+                                            <td>{{trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($v5->Sasaran_Angka1) . ' '.$v5->Sasaran_Uraian1))}}</td>
                                             <td class="text-right">{{Helper::formatUang($total_rincian)}}</td>
                                             <td>{{$v5->Nm_SumberDana}}</td>
                                             <td>{{$v5->Descr}}</td>
@@ -208,7 +208,7 @@
                                                     ->where('PrgID',$v3['PrgID'])
                                                     ->where('EntryLvl',1)                                               
                                                     ->where('OrgID',$filters['OrgID'])
-                                                    ->sum('NilaiUsulan2');
+                                                    ->sum('NilaiUsulan1');
                                     @endphp
                                     <tr class="program">
                                         <td>{{$Kd_Urusan}}</td>
@@ -229,10 +229,10 @@
                                             $rincian_kegiatan = \DB::table('v_rkpd_rinci')
                                                             ->select(\DB::raw('
                                                                             "Uraian",
-                                                                            "Sasaran_Angka2",
-                                                                            "Sasaran_Uraian2",
-                                                                            "Target2",
-                                                                            "NilaiUsulan2",
+                                                                            "Sasaran_Angka1",
+                                                                            "Sasaran_Uraian1",
+                                                                            "Target1",
+                                                                            "NilaiUsulan1",
                                                                             "Nm_SumberDana",
                                                                             "Lokasi",
                                                                             "Descr"
@@ -244,7 +244,7 @@
                                                             ->where('OrgID',$filters['OrgID'])
                                                             ->orderByRaw('"No"::int ASC')
                                                             ->get();
-                                            $total_rincian = $rincian_kegiatan->sum('NilaiUsulan2');
+                                            $total_rincian = $rincian_kegiatan->sum('NilaiUsulan1');
                                             $total_all_nilai_setelah+=$rkpd->NilaiSetelah;
                                             $no=1;                        
                                         @endphp
@@ -257,7 +257,7 @@
                                             <td colspan="2">{{$v4->KgtNm}}</td>            
                                             <td>{{$rkpd->NamaIndikator}}</td>
                                             <td>Kab. Bintan</td>
-                                            <td>{{trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_Angka2) . ' '.$rkpd->Sasaran_Uraian2))}}</td>
+                                            <td>{{trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_Angka1) . ' '.$rkpd->Sasaran_Uraian1))}}</td>
                                             <td class="text-right">{{Helper::formatUang($total_rincian)}}</td>
                                             <td>{{$rkpd->Nm_SumberDana}}</td>
                                             <td>{{$rkpd->Descr}}</td>
@@ -274,15 +274,15 @@
                                                 <td colspan="2">{{$v5->Uraian}}</td>            
                                                 <td>{{$rkpd->NamaIndikator}}</td>
                                                 <td>Kab. Bintan</td>
-                                                <td>{{trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($v5->Sasaran_Angka2) . ' '.$v5->Sasaran_Uraian2))}}</td>
-                                                <td class="text-right">{{Helper::formatUang($v5->NilaiUsulan2)}}</td>
+                                                <td>{{trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($v5->Sasaran_Angka1) . ' '.$v5->Sasaran_Uraian1))}}</td>
+                                                <td class="text-right">{{Helper::formatUang($v5->NilaiUsulan1)}}</td>
                                                 <td>{{$v5->Nm_SumberDana}}</td>
                                                 <td>{{$v5->Descr}}</td>
                                                 <td>{{trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_AngkaSetelah).' '.$rkpd->Sasaran_UraianSetelah))}}</td>
                                                 <td class="text-right">{{Helper::formatUang($rkpd->NilaiSetelah)}}</td>
                                             </tr>
                                             @php
-                                                $total_all_nilai_usulan+=$v5->NilaiUsulan2;                                            
+                                                $total_all_nilai_usulan+=$v5->NilaiUsulan1;                                            
                                                 $no+=1;
                                             @endphp
                                         @endforeach{{-- end looping rincian kegiatan --}}      
