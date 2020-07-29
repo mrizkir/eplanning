@@ -385,7 +385,7 @@ class RekapPaguIndikatifOPDController extends Controller {
                 $data = \DB::table('trRKPD')
                             ->select(\DB::raw('"OrgID", SUM("NilaiUsulan1") AS jumlah,COUNT("RKPDID") AS jumlahkegiatan'))
                             ->where('TA',$ta)
-                            ->where('EntryLvl',2)
+                            ->where('EntryLvl',1)
                             ->groupBy('OrgID')->get();
                
                 foreach ($data as $v)
@@ -400,7 +400,7 @@ class RekapPaguIndikatifOPDController extends Controller {
                 $data = \DB::table('v_rkpd')
                             ->select(\DB::raw('"OrgID", COUNT("PrgID") AS jumlahprogram'))
                             ->where('TA',$ta)
-                            ->where('EntryLvl',2)
+                            ->where('EntryLvl',1)
                             ->groupBy('OrgID')
                             ->groupBy('PrgID')
                             ->get();

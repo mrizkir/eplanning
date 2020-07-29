@@ -127,10 +127,10 @@ class DashboardController extends Controller {
                 ];                
 
                 $subquery = \DB::table('trUsulanKec')
-                ->select(\DB::raw('"PmDesaID",SUM("NilaiUsulan") AS jumlahpagu,COUNT("UsulanKecID") AS jumlahkegiatan'))
-                ->where('PmKecamatanID',$PmKecamatanID)
-                ->where('TA',\HelperKegiatan::getTahunPerencanaan())
-                ->groupBy('PmDesaID');
+                            ->select(\DB::raw('"PmDesaID",SUM("NilaiUsulan") AS jumlahpagu,COUNT("UsulanKecID") AS jumlahkegiatan'))
+                            ->where('PmKecamatanID',$PmKecamatanID)
+                            ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                            ->groupBy('PmDesaID');
                 
                 $rekap_desa = \DB::table('tmPmDesa')
                                 ->select(\DB::raw('"tmPmDesa"."PmDesaID","tmPmDesa"."Nm_Desa",COALESCE(temp.jumlahkegiatan,0) AS jumlahkegiatan,COALESCE(temp.jumlahpagu,0) AS jumlahpagu'))
