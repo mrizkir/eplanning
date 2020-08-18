@@ -717,6 +717,19 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::get('/report/renja/reportverifikasitapd/printtoexcel/{uuid}',['uses'=>'Report\ReportUsulanRenjaController@printtoexcel','as'=>'reportverifikasitapd.printtoexcel']);  
     Route::get('/report/renja/reportverifikasitapd/printtoexceldetail{uuid}',['uses'=>'Report\ReportUsulanRenjaController@printtoexceldetail','as'=>'reportverifikasitapd.printtoexceldetail']);  
     
+    //Report - DAFTAR URAIAN SELURUH RENJA
+    Route::resource('/report/renja/reportdaftaruraian','Report\ReportDaftarUraianController',[
+                                                                'parameters'=>['reportdaftaruraian'=>'id'],
+                                                                'only'=>['index','show']
+                                                            ]);         
+    Route::post('/report/renja/reportdaftaruraian/search',['uses'=>'Report\ReportDaftarUraianController@search','as'=>'reportdaftaruraian.search']);  
+    Route::post('/report/renja/reportdaftaruraian/filter',['uses'=>'Report\ReportDaftarUraianController@filter','as'=>'reportdaftaruraian.filter']);                  
+    Route::get('/report/renja/reportdaftaruraian/paginate/{id}',['uses'=>'Report\ReportDaftarUraianController@paginate','as'=>'reportdaftaruraian.paginate']);              
+    Route::post('/report/renja/reportdaftaruraian/changenumberrecordperpage',['uses'=>'Report\ReportDaftarUraianController@changenumberrecordperpage','as'=>'reportdaftaruraian.changenumberrecordperpage']);  
+    Route::post('/report/renja/reportdaftaruraian/orderby',['uses'=>'Report\ReportDaftarUraianController@orderby','as'=>'usulanprarenjaopd.orderby']);    
+    Route::get('/report/renja/reportdaftaruraian/printtoexcel/{uuid}',['uses'=>'Report\ReportDaftarUraianController@printtoexcel','as'=>'reportdaftaruraian.printtoexcel']);  
+    Route::get('/report/renja/reportdaftaruraian/printtoexceldetail{uuid}',['uses'=>'Report\ReportDaftarUraianController@printtoexceldetail','as'=>'reportdaftaruraian.printtoexceldetail']);  
+    
     //Report - RENCANA KERJA OPD / SKPD - RKPD MURNI PER OPD   
     Route::resource('/report/rkpd/reportrkpdmurniopd','Report\ReportRKPDMurniOPDController',[
                                                                 'parameters'=>['reportrkpdmurniopd'=>'id'],

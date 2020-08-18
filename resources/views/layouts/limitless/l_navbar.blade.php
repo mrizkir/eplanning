@@ -505,6 +505,12 @@
                                             <i class="icon-file-empty"></i> VERIFIKASI TAPD</span>
                                         </a>
                                     </li>
+                                    <li class="dropdown-header">BERDASARKAN URAIAN</li>
+                                    <li{!!Helper::isMenuActive ($page_active,'reportdaftaruraian',' class="active"')!!}>
+                                        <a href="{{route('reportdaftaruraian.index')}}">
+                                            <i class="icon-file-empty"></i> DAFTAR URAIAN</span>
+                                        </a>
+                                    </li>
                                 </ul>   
                             </div>
                             <div class="col-md-3">
