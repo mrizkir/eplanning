@@ -543,8 +543,8 @@
                                             <i class="icon-file-empty"></i> RKPD PERUBAHAN OPD</span>
                                         </a>
                                     </li> 
-                                    <li{!!Helper::isMenuActive ($page_active,'reportpembahasanrkpdperubahanopd',' class="active"')!!}>
-                                        <a href="{{route('reportrkpdperubahanopd.index')}}">
+                                    <li{!!Helper::isMenuActive ($page_active,'reportpembahasanrkpdpopd',' class="active"')!!}>
+                                        <a href="{{route('reportpembahasanrkpdpopd.index')}}">
                                             <i class="icon-file-empty"></i> PEMBAHASAN RKPD PERUBAHAN OPD</span>
                                         </a>
                                     </li> 

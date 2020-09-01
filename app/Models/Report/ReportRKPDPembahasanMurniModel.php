@@ -321,7 +321,7 @@ class ReportRKPDPembahasanMurniModel extends ReportModel
                                 $nama_indikator=$rkpd->NamaIndikator;
                                 $sheet->setCellValue("G$row",$nama_indikator); 
                                 $sheet->setCellValue("H$row",'Kab. Bintan'); 
-                                $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_Angka1) . ' '.$rkpd->Sasaran_Uraian1)));                                     
+                                $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_Angka2) . ' '.$rkpd->Sasaran_Uraian2)));                                     
                                 $sheet->setCellValue("J$row",0); //nilai ini akan di isi oleh dibawah
                                 $sheet->setCellValue("K$row",$rkpd->Nm_SumberDana); 
                                 $sheet->setCellValue("L$row",$rkpd->Descr); 

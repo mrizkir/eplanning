@@ -778,7 +778,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/report/rkpd/reportprogrammurniopd/filter',['uses'=>'Report\ReportProgramMurniOPDController@filter','as'=>'reportprogrammurniopd.filter']);                  
     Route::get('/report/rkpd/reportprogrammurniopd/printtoexcel',['uses'=>'Report\ReportProgramMurniOPDController@printtoexcel','as'=>'reportprogrammurniopd.printtoexcel']);  
 
-    //Report - RENCANA KERJA OPD / SKPD - PROGRAM RKPD MURNI PER OPD
+    //Report - RKPD PERUBAHAN PER OPD
     Route::resource('/report/rkpd/reportrkpdperubahanopd','Report\ReportRKPDPerubahanOPDController',[
                                                                                                         'parameters'=>['reportrkpdperubahanopd'=>'id'],
                                                                                                         'only'=>['index']
@@ -787,6 +787,16 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/report/rkpd/reportrkpdperubahanopd/search',['uses'=>'Report\ReportRKPDPerubahanOPDController@search','as'=>'reportrkpdperubahanopd.search']);              
     Route::post('/report/rkpd/reportrkpdperubahanopd/filter',['uses'=>'Report\ReportRKPDPerubahanOPDController@filter','as'=>'reportrkpdperubahanopd.filter']);                  
     Route::get('/report/rkpd/reportrkpdperubahanopd/printtoexcel',['uses'=>'Report\ReportRKPDPerubahanOPDController@printtoexcel','as'=>'reportrkpdperubahanopd.printtoexcel']);  
+    
+    //Report - PEMBAHASAN RKPD PERUBAHAN PER OPD
+    Route::resource('/report/rkpd/reportpembahasanrkpdpopd','Report\ReportPembahasanRKPDPOPDController',[
+                                                                                                        'parameters'=>['reportpembahasanrkpdpopd'=>'id'],
+                                                                                                        'only'=>['index']
+                                                                                                    ]);                   
+    
+    Route::post('/report/rkpd/reportpembahasanrkpdpopd/search',['uses'=>'Report\ReportPembahasanRKPDPOPDController@search','as'=>'reportpembahasanrkpdpopd.search']);              
+    Route::post('/report/rkpd/reportpembahasanrkpdpopd/filter',['uses'=>'Report\ReportPembahasanRKPDPOPDController@filter','as'=>'reportpembahasanrkpdpopd.filter']);                  
+    Route::get('/report/rkpd/reportpembahasanrkpdpopd/printtoexcel',['uses'=>'Report\ReportPembahasanRKPDPOPDController@printtoexcel','as'=>'reportpembahasanrkpdpopd.printtoexcel']);  
 
     //Report - RENCANA KERJA OPD / SKPD - PROGRAM RKPD PERUBAHAN PER OPD
     Route::resource('/report/rkpd/reportprogramperubahanopd','Report\ReportProgramPerubahanOPDController',[
