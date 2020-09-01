@@ -29,10 +29,10 @@
                             URUSAN
                         </a>                                             
                     </th>
-                    <th width="100">JUMLAH RINCIAN PEMBAHASAN RKPD MURNI (ENTRLY LEVEL 2)</th>
-                    <th width="100">JUMLAH RINCIAN RKPD PERUBAHAN (ENTRLY LEVEL 3)</th>
-                    <th width="100">PAGU RINCIAN PEMBAHASAN RKPD MURNI (ENTRLY LEVEL 2)</th>
-                    <th width="100">PAGU RINCIAN RKPD PERUBAHAN (ENTRLY LEVEL 3)</th>
+                    <th width="100">JUMLAH RINCIAN RKPDP (ENTRLY LEVEL 3)</th>
+                    <th width="100">JUMLAH RINCIAN PEMBAHASAN RKPDP (ENTRLY LEVEL 4)</th>
+                    <th width="100">PAGU RINCIAN PEMBAHASAN RKPDP (ENTRLY LEVEL 3)</th>
+                    <th width="100">PAGU RINCIAN PEMBAHASAN RKPDP (ENTRLY LEVEL 4)</th>
                     <th width="70">TA</th>
                     <th width="100">AKSI</th>
                 </tr>
@@ -46,15 +46,15 @@
                     <td>{{$item->kode_organisasi}}</td>
                     <td>{{$item->OrgNm}}</td>
                     <td>{{$item->Nm_Urusan}}</td>
-                    <td>{{DB::table('trRKPD')->where('OrgID',$item->OrgID)->where('EntryLvl',2)->count()}}</td>
                     <td>{{DB::table('trRKPD')->where('OrgID',$item->OrgID)->where('EntryLvl',3)->count()}}</td>
-                    <td>{{Helper::formatUang(DB::table('trRKPD')->where('OrgID',$item->OrgID)->where('EntryLvl',2)->sum('NilaiUsulan2'))}}</td>
+                    <td>{{DB::table('trRKPD')->where('OrgID',$item->OrgID)->where('EntryLvl',4)->count()}}</td>
                     <td>{{Helper::formatUang(DB::table('trRKPD')->where('OrgID',$item->OrgID)->where('EntryLvl',3)->sum('NilaiUsulan3'))}}</td>
+                    <td>{{Helper::formatUang(DB::table('trRKPD')->where('OrgID',$item->OrgID)->where('EntryLvl',4)->sum('NilaiUsulan4'))}}</td>
                     <td>{{$item->TA}}</td>
                     <td>
                         <ul class="icons-list">
                             <li class="text-primary-600">
-                                <a class="btnShow" href="{{route('transferpembahasanrkpdtoperubahan2.show',['uuid'=>$item->OrgID])}}" title="Detail Data Organisasi">
+                                <a class="btnShow" href="{{route('transfertkpdptopembahasanrkpdp.show',['uuid'=>$item->OrgID])}}" title="Detail Data Organisasi">
                                     <i class='icon-eye'></i>
                                 </a>  
                             </li>

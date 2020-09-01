@@ -314,6 +314,14 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/rkpd/transferpembahasanrkpdtoperubahan2/changenumberrecordperpage',['uses'=>'RKPD\TransferPembahasanRKPDTOPerubahan2@changenumberrecordperpage','as'=>'transferpembahasanrkpdtoperubahan2.changenumberrecordperpage']);  
     Route::post('/rkpd/transferpembahasanrkpdtoperubahan2/orderby',['uses'=>'RKPD\TransferPembahasanRKPDTOPerubahan2@orderby','as'=>'transferpembahasanrkpdtoperubahan2.orderby']);
     
+    //RKPD - Transfer RKPD Perubahan ke Pembahasan RKPD [rkpd]
+    Route::resource('/rkpd/transfertkpdptopembahasanrkpdp','RKPD\TransferRKPDPTOPembahasanRKPDP',['parameters'=>['transfertkpdptopembahasanrkpdp'=>'uuid'],
+                                                                                                              'only'=>['index','store','destroy','show']]);
+    Route::post('/rkpd/transfertkpdptopembahasanrkpdp/search',['uses'=>'RKPD\TransferRKPDPTOPembahasanRKPDP@search','as'=>'transfertkpdptopembahasanrkpdp.search']); 
+    Route::get('/rkpd/transfertkpdptopembahasanrkpdp/paginate/{id}',['uses'=>'RKPD\TransferRKPDPTOPembahasanRKPDP@paginate','as'=>'transfertkpdptopembahasanrkpdp.paginate']);              
+    Route::post('/rkpd/transfertkpdptopembahasanrkpdp/changenumberrecordperpage',['uses'=>'RKPD\TransferRKPDPTOPembahasanRKPDP@changenumberrecordperpage','as'=>'transfertkpdptopembahasanrkpdp.changenumberrecordperpage']);  
+    Route::post('/rkpd/transfertkpdptopembahasanrkpdp/orderby',['uses'=>'RKPD\TransferRKPDPTOPembahasanRKPDP@orderby','as'=>'transfertkpdptopembahasanrkpdp.orderby']);
+    
     //Aspirasi - Pemilik Bansos dan Hibah
     Route::resource('/aspirasi/pemilikbansoshibah','Aspirasi\PemilikBansosHibahController',['parameters'=>['pemilikbansoshibah'=>'uuid']]);        
     Route::post('/aspirasi/pemilikbansoshibah/search',['uses'=>'Aspirasi\PemilikBansosHibahController@search','as'=>'pemilikbansoshibah.search']); 

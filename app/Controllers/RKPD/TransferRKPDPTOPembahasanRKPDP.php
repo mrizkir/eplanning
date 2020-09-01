@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Models\DMaster\OrganisasiModel;
 
-class TransferPembahasanRKPDTOPerubahan2 extends Controller {
+class TransferRKPDPTOPembahasanRKPDP extends Controller {
      /**
      * Membuat sebuah objek
      *
@@ -25,21 +25,21 @@ class TransferPembahasanRKPDTOPerubahan2 extends Controller {
     public function populateData ($currentpage=1) 
     {        
         $columns=['*'];       
-        if (!$this->checkStateIsExistSession('transferpembahasanrkpdtoperubahan2','orderby')) 
+        if (!$this->checkStateIsExistSession('transfertkpdptopembahasanrkpdp','orderby')) 
         {            
-           $this->putControllerStateSession('transferpembahasanrkpdtoperubahan2','orderby',['column_name'=>'kode_organisasi','order'=>'asc']);
+           $this->putControllerStateSession('transfertkpdptopembahasanrkpdp','orderby',['column_name'=>'kode_organisasi','order'=>'asc']);
         }
-        $column_order=$this->getControllerStateSession('transferpembahasanrkpdtoperubahan2.orderby','column_name'); 
-        $direction=$this->getControllerStateSession('transferpembahasanrkpdtoperubahan2.orderby','order'); 
+        $column_order=$this->getControllerStateSession('transfertkpdptopembahasanrkpdp.orderby','column_name'); 
+        $direction=$this->getControllerStateSession('transfertkpdptopembahasanrkpdp.orderby','order'); 
 
         if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
         {            
             $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
         }
         $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
-        if ($this->checkStateIsExistSession('transferpembahasanrkpdtoperubahan2','search')) 
+        if ($this->checkStateIsExistSession('transfertkpdptopembahasanrkpdp','search')) 
         {
-            $search=$this->getControllerStateSession('transferpembahasanrkpdtoperubahan2','search');
+            $search=$this->getControllerStateSession('transfertkpdptopembahasanrkpdp','search');
             switch ($search['kriteria']) 
             {
                 case 'kode_organisasi' :
@@ -64,7 +64,7 @@ class TransferPembahasanRKPDTOPerubahan2 extends Controller {
                                 ->orderBy($column_order,$direction)
                                 ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
-        $data->setPath(route('transferpembahasanrkpdtoperubahan2.index'));
+        $data->setPath(route('transfertkpdptopembahasanrkpdp.index'));
         return $data;
     }
     /**
@@ -79,14 +79,14 @@ class TransferPembahasanRKPDTOPerubahan2 extends Controller {
         $numberRecordPerPage = $request->input('numberRecordPerPage');
         $this->putControllerStateSession('global_controller','numberRecordPerPage',$numberRecordPerPage);
         
-        $this->setCurrentPageInsideSession('transferpembahasanrkpdtoperubahan2',1);
+        $this->setCurrentPageInsideSession('transfertkpdptopembahasanrkpdp',1);
         $data=$this->populateData();
 
-        $datatable = view("pages.$theme.rkpd.transferpembahasanrkpdtoperubahan2.datatable")->with(['page_active'=>'transferpembahasanrkpdtoperubahan2',
-                                                                                'search'=>$this->getControllerStateSession('transferpembahasanrkpdtoperubahan2','search'),
+        $datatable = view("pages.$theme.rkpd.transfertkpdptopembahasanrkpdp.datatable")->with(['page_active'=>'transfertkpdptopembahasanrkpdp',
+                                                                                'search'=>$this->getControllerStateSession('transfertkpdptopembahasanrkpdp','search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                                'column_order'=>$this->getControllerStateSession('transferpembahasanrkpdtoperubahan2.orderby','column_name'),
-                                                                                'direction'=>$this->getControllerStateSession('transferpembahasanrkpdtoperubahan2.orderby','order'),
+                                                                                'column_order'=>$this->getControllerStateSession('transfertkpdptopembahasanrkpdp.orderby','column_name'),
+                                                                                'direction'=>$this->getControllerStateSession('transfertkpdptopembahasanrkpdp.orderby','order'),
                                                                                 'data'=>$data])->render();      
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
     }
@@ -115,20 +115,20 @@ class TransferPembahasanRKPDTOPerubahan2 extends Controller {
             default :
                 $column_name = 'kode_organisasi';
         }
-        $this->putControllerStateSession('transferpembahasanrkpdtoperubahan2','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
+        $this->putControllerStateSession('transfertkpdptopembahasanrkpdp','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
-        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('transferpembahasanrkpdtoperubahan2'); 
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('transfertkpdptopembahasanrkpdp'); 
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage())
         {            
             $data = $this->populateData($data->lastPage());
         }
 
-        $datatable = view("pages.$theme.rkpd.transferpembahasanrkpdtoperubahan2.datatable")->with(['page_active'=>'transferpembahasanrkpdtoperubahan2',
-                                                            'search'=>$this->getControllerStateSession('transferpembahasanrkpdtoperubahan2','search'),
+        $datatable = view("pages.$theme.rkpd.transfertkpdptopembahasanrkpdp.datatable")->with(['page_active'=>'transfertkpdptopembahasanrkpdp',
+                                                            'search'=>$this->getControllerStateSession('transfertkpdptopembahasanrkpdp','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('transferpembahasanrkpdtoperubahan2.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('transferpembahasanrkpdtoperubahan2.orderby','order'),
+                                                            'column_order'=>$this->getControllerStateSession('transfertkpdptopembahasanrkpdp.orderby','column_name'),
+                                                            'direction'=>$this->getControllerStateSession('transfertkpdptopembahasanrkpdp.orderby','order'),
                                                             'data'=>$data])->render();     
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
@@ -143,13 +143,13 @@ class TransferPembahasanRKPDTOPerubahan2 extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $this->setCurrentPageInsideSession('transferpembahasanrkpdtoperubahan2',$id);
+        $this->setCurrentPageInsideSession('transfertkpdptopembahasanrkpdp',$id);
         $data=$this->populateData($id);
-        $datatable = view("pages.$theme.rkpd.transferpembahasanrkpdtoperubahan2.datatable")->with(['page_active'=>'transferpembahasanrkpdtoperubahan2',
-                                                                            'search'=>$this->getControllerStateSession('transferpembahasanrkpdtoperubahan2','search'),
+        $datatable = view("pages.$theme.rkpd.transfertkpdptopembahasanrkpdp.datatable")->with(['page_active'=>'transfertkpdptopembahasanrkpdp',
+                                                                            'search'=>$this->getControllerStateSession('transfertkpdptopembahasanrkpdp','search'),
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                            'column_order'=>$this->getControllerStateSession('transferpembahasanrkpdtoperubahan2.orderby','column_name'),
-                                                                            'direction'=>$this->getControllerStateSession('transferpembahasanrkpdtoperubahan2.orderby','order'),
+                                                                            'column_order'=>$this->getControllerStateSession('transfertkpdptopembahasanrkpdp.orderby','column_name'),
+                                                                            'direction'=>$this->getControllerStateSession('transfertkpdptopembahasanrkpdp.orderby','order'),
                                                                             'data'=>$data])->render(); 
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
@@ -167,22 +167,22 @@ class TransferPembahasanRKPDTOPerubahan2 extends Controller {
         $action = $request->input('action');
         if ($action == 'reset') 
         {
-            $this->destroyControllerStateSession('transferpembahasanrkpdtoperubahan2','search');
+            $this->destroyControllerStateSession('transfertkpdptopembahasanrkpdp','search');
         }
         else
         {
             $kriteria = $request->input('cmbKriteria');
             $isikriteria = $request->input('txtKriteria');
-            $this->putControllerStateSession('transferpembahasanrkpdtoperubahan2','search',['kriteria'=>$kriteria,'isikriteria'=>$isikriteria]);
+            $this->putControllerStateSession('transfertkpdptopembahasanrkpdp','search',['kriteria'=>$kriteria,'isikriteria'=>$isikriteria]);
         }      
-        $this->setCurrentPageInsideSession('transferpembahasanrkpdtoperubahan2',1);
+        $this->setCurrentPageInsideSession('transfertkpdptopembahasanrkpdp',1);
         $data=$this->populateData();
 
-        $datatable = view("pages.$theme.rkpd.transferpembahasanrkpdtoperubahan2.datatable")->with(['page_active'=>'transferpembahasanrkpdtoperubahan2',                                                            
-                                                            'search'=>$this->getControllerStateSession('transferpembahasanrkpdtoperubahan2','search'),
+        $datatable = view("pages.$theme.rkpd.transfertkpdptopembahasanrkpdp.datatable")->with(['page_active'=>'transfertkpdptopembahasanrkpdp',                                                            
+                                                            'search'=>$this->getControllerStateSession('transfertkpdptopembahasanrkpdp','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('transferpembahasanrkpdtoperubahan2.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('transferpembahasanrkpdtoperubahan2.orderby','order'),
+                                                            'column_order'=>$this->getControllerStateSession('transfertkpdptopembahasanrkpdp.orderby','column_name'),
+                                                            'direction'=>$this->getControllerStateSession('transfertkpdptopembahasanrkpdp.orderby','order'),
                                                             'data'=>$data])->render();      
         
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
@@ -196,20 +196,20 @@ class TransferPembahasanRKPDTOPerubahan2 extends Controller {
     {                
         $theme = \Auth::user()->theme;
 
-        $search=$this->getControllerStateSession('transferpembahasanrkpdtoperubahan2','search');
-        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('transferpembahasanrkpdtoperubahan2'); 
+        $search=$this->getControllerStateSession('transfertkpdptopembahasanrkpdp','search');
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('transfertkpdptopembahasanrkpdp'); 
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage())
         {            
             $data = $this->populateData($data->lastPage());
         }
-        $this->setCurrentPageInsideSession('transferpembahasanrkpdtoperubahan2',$data->currentPage());
+        $this->setCurrentPageInsideSession('transfertkpdptopembahasanrkpdp',$data->currentPage());
         
-        return view("pages.$theme.rkpd.transferpembahasanrkpdtoperubahan2.index")->with(['page_active'=>'transferpembahasanrkpdtoperubahan2',
-                                                                                    'search'=>$this->getControllerStateSession('transferpembahasanrkpdtoperubahan2','search'),
+        return view("pages.$theme.rkpd.transfertkpdptopembahasanrkpdp.index")->with(['page_active'=>'transfertkpdptopembahasanrkpdp',
+                                                                                    'search'=>$this->getControllerStateSession('transfertkpdptopembahasanrkpdp','search'),
                                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                                                    'column_order'=>$this->getControllerStateSession('transferpembahasanrkpdtoperubahan2.orderby','column_name'),
-                                                                                    'direction'=>$this->getControllerStateSession('transferpembahasanrkpdtoperubahan2.orderby','order'),
+                                                                                    'column_order'=>$this->getControllerStateSession('transfertkpdptopembahasanrkpdp.orderby','column_name'),
+                                                                                    'direction'=>$this->getControllerStateSession('transfertkpdptopembahasanrkpdp.orderby','order'),
                                                                                     'data'=>$data]);               
     }    
     /**
@@ -239,15 +239,15 @@ class TransferPembahasanRKPDTOPerubahan2 extends Controller {
      */
     private function transfer1 ($OrgID)
     {
-        \App\Models\RKPD\RKPDModel::where('EntryLvl',3)
+        \App\Models\RKPD\RKPDModel::where('EntryLvl',4)
                                     ->where('OrgID',$OrgID)
                                     ->delete();
 
-        echo "Hapus Pembahasan RKPD Murni Entrly Level ke 3 untuk OrgID = $OrgID <br>";
+        echo "Hapus Pembahasan RKPD Perubahan Entrly Level ke 4 untuk OrgID = $OrgID <br>";
         echo "Berhasil <br><br>";
         
         $data = \App\Models\RKPD\RKPDModel::where('OrgID',$OrgID)
-                                            ->where('EntryLvl',2)
+                                            ->where('EntryLvl',3)
                                             ->chunk(25, function ($rkpd){
                                                 $tanggal_posting=\Carbon\Carbon::now();
                                                 foreach ($rkpd as $old) {
@@ -256,12 +256,12 @@ class TransferPembahasanRKPDTOPerubahan2 extends Controller {
                                                     $newRKPDID=uniqid ('uid');
                                                     $new=$old->replicate();
                                                     $new->RKPDID=$newRKPDID;
-                                                    $new->Sasaran_Uraian3=$new->Sasaran_Uraian2;
-                                                    $new->Sasaran_Angka3=$new->Sasaran_Angka2;
-                                                    $new->NilaiUsulan3=$new->NilaiUsulan2;                                                            
-                                                    $new->Target3=$new->Target2;          
+                                                    $new->Sasaran_Uraian4=$new->Sasaran_Uraian3;
+                                                    $new->Sasaran_Angka4=$new->Sasaran_Angka3;
+                                                    $new->NilaiUsulan4=$new->NilaiUsulan3;                                                            
+                                                    $new->Target4=$new->Target3;          
                                                     $new->Tgl_Posting=$tanggal_posting;                                                  
-                                                    $new->EntryLvl=3;
+                                                    $new->EntryLvl=4;
                                                     $new->Privilege=0;                                                                                                                        
                                                     $new->RKPDID_Src=$oldRKPDID;                                                            
                                                     $new->created_at=$tanggal_posting;                                                            
@@ -331,20 +331,20 @@ class TransferPembahasanRKPDTOPerubahan2 extends Controller {
                                                             "No",
                                                             "Sasaran_Uraian1",
                                                             "Sasaran_Uraian2",
-                                                            "Sasaran_Uraian2" AS "Sasaran_Uraian3",
-                                                            \'-\' AS "Sasaran_Uraian4",
+                                                            "Sasaran_Uraian3",
+                                                            "Sasaran_Uraian3" AS "Sasaran_Uraian4",                                                            
                                                             "Sasaran_Angka1",        
                                                             "Sasaran_Angka2",        
-                                                            "Sasaran_Angka2" AS "Sasaran_Angka3",        
-                                                            0 AS "Sasaran_Angka4",        
+                                                            "Sasaran_Angka3",        
+                                                            "Sasaran_Angka3" AS "Sasaran_Angka4",                                                                          
                                                             "NilaiUsulan1",       
                                                             "NilaiUsulan2",       
-                                                            "NilaiUsulan2" AS "NilaiUsulan3",       
-                                                            0 AS "NilaiUsulan4",       
+                                                            "NilaiUsulan3",       
+                                                            "NilaiUsulan3" AS "NilaiUsulan4",                                                                        
                                                             "Target1",                                             
                                                             "Target2",                                             
-                                                            "Target2" AS "Target3",                                             
-                                                            0 AS "Target4",                                             
+                                                            "Target3",                                             
+                                                            "Target3" AS "Target4",                                                                                                                                                
                                                             \''.$tanggal_posting.'\' AS Tgl_Posting,
                                                             "isReses",
                                                             "isReses_Uraian",
@@ -352,7 +352,7 @@ class TransferPembahasanRKPDTOPerubahan2 extends Controller {
                                                             "Descr",
                                                             "TA",
                                                             1 AS "Status", 
-                                                            3 AS "EntryLvl",
+                                                            4 AS "EntryLvl",
                                                             0 AS "Privilege",  
                                                             NOW() AS created_at,
                                                             NOW() AS updated_at
@@ -396,22 +396,22 @@ class TransferPembahasanRKPDTOPerubahan2 extends Controller {
                                                 }
                                             });
 
-        echo "<br><br> TRANSFER DATA RKPD ENTRY LEVEL 2 KE 3 SELESAI DAN SUKSES";
+        echo "<br><br> TRANSFER DATA RKPD ENTRY LEVEL 3 KE 4 SELESAI DAN SUKSES";
     }
     /**
-     * transfer ke entrylvl23dengan cara menghapus data didalam entrylvl3
+     * transfer ke entrylvl2 dengan cara menghapus data didalam entrylvl2
      */
     private function transfer2 ($OrgID)
     {
-        // \App\Models\RKPD\RKPDModel::where('EntryLvl',3)
+        // \App\Models\RKPD\RKPDModel::where('EntryLvl',4)
         //                             ->where('OrgID',$OrgID)
         //                             ->where('NilaiUsulan1','>',0)
         //                             ->delete();
 
-        // echo "Hapus Pembahasan RKPD Murni Entrly Level ke 3 untuk OrgID = $OrgID <br>";
+        // echo "Hapus Pembahasan RKPD Perubahan Entrly Level ke 2 untuk OrgID = $OrgID <br>";
         // echo "Berhasil <br><br>";
         // $data = \App\Models\RKPD\RKPDModel::where('OrgID',$OrgID)
-        //                                     ->where('EntryLvl',2)
+        //                                     ->where('EntryLvl',1)
         //                                     ->chunk(25, function ($rkpd){
         //                                         $tanggal_posting=\Carbon\Carbon::now();
         //                                         foreach ($rkpd as $old) {
@@ -564,7 +564,7 @@ class TransferPembahasanRKPDTOPerubahan2 extends Controller {
  
         if (!is_null($data) )  
         {
-            return view("pages.$theme.rkpd.transferpembahasanrkpdtoperubahan2.show")->with(['page_active'=>'transferpembahasanrkpdtoperubahan2',
+            return view("pages.$theme.rkpd.transfertkpdptopembahasanrkpdp.show")->with(['page_active'=>'transfertkpdptopembahasanrkpdp',
                                                     'data'=>$data
                                                     ]);
         }        
