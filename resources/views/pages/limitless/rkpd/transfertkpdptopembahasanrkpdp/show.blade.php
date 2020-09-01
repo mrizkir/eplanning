@@ -9,12 +9,12 @@
     </span>     
 @endsection
 @section('page_info')
-    @include('pages.limitless.rkpd.transfertkpdptopembahasanrkpdp.info')
+    @include('pages.limitless.rkpd.transferrkpdptopembahasanrkpdp.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">RKPD</a></li>
     <li><a href="#">TRANSFER</a></li>
-    <li><a href="{!!route('transfertkpdptopembahasanrkpdp.index')!!}">TRANSFER RKPD PERUBAHAN --> PEMBAHASAN RKPD PERUBAHAN</a></li>
+    <li><a href="{!!route('transferrkpdptopembahasanrkpdp.index')!!}">TRANSFER RKPD PERUBAHAN --> PEMBAHASAN RKPD PERUBAHAN</a></li>
     <li class="active">DETAIL DATA</li>
 @endsection
 @section('page_content')
@@ -26,7 +26,7 @@
                     <i class="icon-eye"></i>  TRANSFER RKPD PERUBAHAN --> PEMBAHASAN RKPD PERUBAHAN 
                 </h5>
                 <div class="heading-elements">                       
-                    <a href="{!!route('transfertkpdptopembahasanrkpdp.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
+                    <a href="{!!route('transferrkpdptopembahasanrkpdp.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
                         <i class="icon-close2"></i>
                     </a>            
                 </div>
@@ -94,7 +94,7 @@
             </div>
         </div>  
         <div class="panel-body">
-            {!! Form::open(['action'=>'RKPD\transfertkpdptopembahasanrkpdp@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}
+            {!! Form::open(['action'=>'RKPD\transferrkpdptopembahasanrkpdp@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}
                 {{Form::hidden('OrgID', $data->OrgID,['id'=>'OrgID'])}}  
                 <div class="form-group">            
                     <div class="col-md-2">                        

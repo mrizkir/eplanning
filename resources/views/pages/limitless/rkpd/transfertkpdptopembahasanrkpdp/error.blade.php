@@ -9,12 +9,12 @@
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.rkpd.transfertkpdptopembahasanrkpdp.info')
+    @include('pages.limitless.rkpd.transferrkpdptopembahasanrkpdp.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">RKPD</a></li>
     <li><a href="#">TRANSFER DATA</a></li>
-    <li><a href="{!!route('transfertkpdptopembahasanrkpdp.index')!!}">TRANSFER PEMBAHASAN RKPD MURNI --> RKPD PERUBAHAN</a></li>
+    <li><a href="{!!route('transferrkpdptopembahasanrkpdp.index')!!}">TRANSFER PEMBAHASAN RKPD MURNI --> RKPD PERUBAHAN</a></li>
     <li class="active">ERROR</li>
 @endsection
 @section('page_content')

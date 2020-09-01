@@ -9,7 +9,7 @@
     </span>
 @endsection
 @section('page_info')
-    @include('pages.limitless.rkpd.transfertkpdptopembahasanrkpdp.info')
+    @include('pages.limitless.rkpd.transferrkpdptopembahasanrkpdp.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="#">RKPD</a></li>
@@ -53,7 +53,7 @@
         </div>
     </div>       
     <div class="col-md-12" id="divdatatable">
-        @include('pages.limitless.rkpd.transfertkpdptopembahasanrkpdp.datatable')
+        @include('pages.limitless.rkpd.transferrkpdptopembahasanrkpdp.datatable')
     </div>
 </div>
 @endsection

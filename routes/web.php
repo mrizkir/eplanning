@@ -315,12 +315,12 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/rkpd/transferpembahasanrkpdtoperubahan2/orderby',['uses'=>'RKPD\TransferPembahasanRKPDTOPerubahan2@orderby','as'=>'transferpembahasanrkpdtoperubahan2.orderby']);
     
     //RKPD - Transfer RKPD Perubahan ke Pembahasan RKPD [rkpd]
-    Route::resource('/rkpd/transfertkpdptopembahasanrkpdp','RKPD\TransferRKPDPTOPembahasanRKPDP',['parameters'=>['transfertkpdptopembahasanrkpdp'=>'uuid'],
+    Route::resource('/rkpd/transferrkpdptopembahasanrkpdp','RKPD\TransferRKPDPTOPembahasanRKPDP',['parameters'=>['transferrkpdptopembahasanrkpdp'=>'uuid'],
                                                                                                               'only'=>['index','store','destroy','show']]);
-    Route::post('/rkpd/transfertkpdptopembahasanrkpdp/search',['uses'=>'RKPD\TransferRKPDPTOPembahasanRKPDP@search','as'=>'transfertkpdptopembahasanrkpdp.search']); 
-    Route::get('/rkpd/transfertkpdptopembahasanrkpdp/paginate/{id}',['uses'=>'RKPD\TransferRKPDPTOPembahasanRKPDP@paginate','as'=>'transfertkpdptopembahasanrkpdp.paginate']);              
-    Route::post('/rkpd/transfertkpdptopembahasanrkpdp/changenumberrecordperpage',['uses'=>'RKPD\TransferRKPDPTOPembahasanRKPDP@changenumberrecordperpage','as'=>'transfertkpdptopembahasanrkpdp.changenumberrecordperpage']);  
-    Route::post('/rkpd/transfertkpdptopembahasanrkpdp/orderby',['uses'=>'RKPD\TransferRKPDPTOPembahasanRKPDP@orderby','as'=>'transfertkpdptopembahasanrkpdp.orderby']);
+    Route::post('/rkpd/transferrkpdptopembahasanrkpdp/search',['uses'=>'RKPD\TransferRKPDPTOPembahasanRKPDP@search','as'=>'transferrkpdptopembahasanrkpdp.search']); 
+    Route::get('/rkpd/transferrkpdptopembahasanrkpdp/paginate/{id}',['uses'=>'RKPD\TransferRKPDPTOPembahasanRKPDP@paginate','as'=>'transferrkpdptopembahasanrkpdp.paginate']);              
+    Route::post('/rkpd/transferrkpdptopembahasanrkpdp/changenumberrecordperpage',['uses'=>'RKPD\TransferRKPDPTOPembahasanRKPDP@changenumberrecordperpage','as'=>'transferrkpdptopembahasanrkpdp.changenumberrecordperpage']);  
+    Route::post('/rkpd/transferrkpdptopembahasanrkpdp/orderby',['uses'=>'RKPD\TransferRKPDPTOPembahasanRKPDP@orderby','as'=>'transferrkpdptopembahasanrkpdp.orderby']);
     
     //Aspirasi - Pemilik Bansos dan Hibah
     Route::resource('/aspirasi/pemilikbansoshibah','Aspirasi\PemilikBansosHibahController',['parameters'=>['pemilikbansoshibah'=>'uuid']]);        

@@ -302,8 +302,8 @@
                                             <i class="icon-strategy"></i> PEMBASAHAN RKPD --> RKPD PERUBAHAN </span>
                                         </a>
                                     </li>                                
-                                    <li{!!Helper::isMenuActive ($page_active,'transfertkpdptopembahasanrkpdp',' class="active"')!!}>
-                                        <a href="{{route('transfertkpdptopembahasanrkpdp.index')}}">
+                                    <li{!!Helper::isMenuActive ($page_active,'transferrkpdptopembahasanrkpdp',' class="active"')!!}>
+                                        <a href="{{route('transferrkpdptopembahasanrkpdp.index')}}">
                                             <i class="icon-strategy"></i> RKPDP --> PEMBAHASAN RKPDP </span>
                                         </a>
                                     </li>                                
