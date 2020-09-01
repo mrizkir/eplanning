@@ -94,7 +94,7 @@
             </div>
         </div>  
         <div class="panel-body">
-            {!! Form::open(['action'=>'RKPD\transferrkpdptopembahasanrkpdp@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}
+            {!! Form::open(['action'=>'RKPD\TransferRKPDPTOPembahasanRKPDP@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}
                 {{Form::hidden('OrgID', $data->OrgID,['id'=>'OrgID'])}}  
                 <div class="form-group">            
                     <div class="col-md-2">                        
