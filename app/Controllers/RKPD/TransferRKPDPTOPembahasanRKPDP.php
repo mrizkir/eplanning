@@ -25,21 +25,21 @@ class TransferRKPDPTOPembahasanRKPDP extends Controller {
     public function populateData ($currentpage=1) 
     {        
         $columns=['*'];       
-        if (!$this->checkStateIsExistSession('transfertkpdptopembahasanrkpdp','orderby')) 
+        if (!$this->checkStateIsExistSession('transferrkpdptopembahasanrkpdp','orderby')) 
         {            
-           $this->putControllerStateSession('transfertkpdptopembahasanrkpdp','orderby',['column_name'=>'kode_organisasi','order'=>'asc']);
+           $this->putControllerStateSession('transferrkpdptopembahasanrkpdp','orderby',['column_name'=>'kode_organisasi','order'=>'asc']);
         }
-        $column_order=$this->getControllerStateSession('transfertkpdptopembahasanrkpdp.orderby','column_name'); 
-        $direction=$this->getControllerStateSession('transfertkpdptopembahasanrkpdp.orderby','order'); 
+        $column_order=$this->getControllerStateSession('transferrkpdptopembahasanrkpdp.orderby','column_name'); 
+        $direction=$this->getControllerStateSession('transferrkpdptopembahasanrkpdp.orderby','order'); 
 
         if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
         {            
             $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
         }
         $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
-        if ($this->checkStateIsExistSession('transfertkpdptopembahasanrkpdp','search')) 
+        if ($this->checkStateIsExistSession('transferrkpdptopembahasanrkpdp','search')) 
         {
-            $search=$this->getControllerStateSession('transfertkpdptopembahasanrkpdp','search');
+            $search=$this->getControllerStateSession('transferrkpdptopembahasanrkpdp','search');
             switch ($search['kriteria']) 
             {
                 case 'kode_organisasi' :
@@ -64,7 +64,7 @@ class TransferRKPDPTOPembahasanRKPDP extends Controller {
                                 ->orderBy($column_order,$direction)
                                 ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
-        $data->setPath(route('transfertkpdptopembahasanrkpdp.index'));
+        $data->setPath(route('transferrkpdptopembahasanrkpdp.index'));
         return $data;
     }
     /**
@@ -79,14 +79,14 @@ class TransferRKPDPTOPembahasanRKPDP extends Controller {
         $numberRecordPerPage = $request->input('numberRecordPerPage');
         $this->putControllerStateSession('global_controller','numberRecordPerPage',$numberRecordPerPage);
         
-        $this->setCurrentPageInsideSession('transfertkpdptopembahasanrkpdp',1);
+        $this->setCurrentPageInsideSession('transferrkpdptopembahasanrkpdp',1);
         $data=$this->populateData();
 
-        $datatable = view("pages.$theme.rkpd.transfertkpdptopembahasanrkpdp.datatable")->with(['page_active'=>'transfertkpdptopembahasanrkpdp',
-                                                                                'search'=>$this->getControllerStateSession('transfertkpdptopembahasanrkpdp','search'),
+        $datatable = view("pages.$theme.rkpd.transferrkpdptopembahasanrkpdp.datatable")->with(['page_active'=>'transferrkpdptopembahasanrkpdp',
+                                                                                'search'=>$this->getControllerStateSession('transferrkpdptopembahasanrkpdp','search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                                'column_order'=>$this->getControllerStateSession('transfertkpdptopembahasanrkpdp.orderby','column_name'),
-                                                                                'direction'=>$this->getControllerStateSession('transfertkpdptopembahasanrkpdp.orderby','order'),
+                                                                                'column_order'=>$this->getControllerStateSession('transferrkpdptopembahasanrkpdp.orderby','column_name'),
+                                                                                'direction'=>$this->getControllerStateSession('transferrkpdptopembahasanrkpdp.orderby','order'),
                                                                                 'data'=>$data])->render();      
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
     }
@@ -115,20 +115,20 @@ class TransferRKPDPTOPembahasanRKPDP extends Controller {
             default :
                 $column_name = 'kode_organisasi';
         }
-        $this->putControllerStateSession('transfertkpdptopembahasanrkpdp','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
+        $this->putControllerStateSession('transferrkpdptopembahasanrkpdp','orderby',['column_name'=>$column_name,'order'=>$orderby]);        
 
-        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('transfertkpdptopembahasanrkpdp'); 
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('transferrkpdptopembahasanrkpdp'); 
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage())
         {            
             $data = $this->populateData($data->lastPage());
         }
 
-        $datatable = view("pages.$theme.rkpd.transfertkpdptopembahasanrkpdp.datatable")->with(['page_active'=>'transfertkpdptopembahasanrkpdp',
-                                                            'search'=>$this->getControllerStateSession('transfertkpdptopembahasanrkpdp','search'),
+        $datatable = view("pages.$theme.rkpd.transferrkpdptopembahasanrkpdp.datatable")->with(['page_active'=>'transferrkpdptopembahasanrkpdp',
+                                                            'search'=>$this->getControllerStateSession('transferrkpdptopembahasanrkpdp','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('transfertkpdptopembahasanrkpdp.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('transfertkpdptopembahasanrkpdp.orderby','order'),
+                                                            'column_order'=>$this->getControllerStateSession('transferrkpdptopembahasanrkpdp.orderby','column_name'),
+                                                            'direction'=>$this->getControllerStateSession('transferrkpdptopembahasanrkpdp.orderby','order'),
                                                             'data'=>$data])->render();     
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
@@ -143,13 +143,13 @@ class TransferRKPDPTOPembahasanRKPDP extends Controller {
     {
         $theme = \Auth::user()->theme;
 
-        $this->setCurrentPageInsideSession('transfertkpdptopembahasanrkpdp',$id);
+        $this->setCurrentPageInsideSession('transferrkpdptopembahasanrkpdp',$id);
         $data=$this->populateData($id);
-        $datatable = view("pages.$theme.rkpd.transfertkpdptopembahasanrkpdp.datatable")->with(['page_active'=>'transfertkpdptopembahasanrkpdp',
-                                                                            'search'=>$this->getControllerStateSession('transfertkpdptopembahasanrkpdp','search'),
+        $datatable = view("pages.$theme.rkpd.transferrkpdptopembahasanrkpdp.datatable")->with(['page_active'=>'transferrkpdptopembahasanrkpdp',
+                                                                            'search'=>$this->getControllerStateSession('transferrkpdptopembahasanrkpdp','search'),
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                            'column_order'=>$this->getControllerStateSession('transfertkpdptopembahasanrkpdp.orderby','column_name'),
-                                                                            'direction'=>$this->getControllerStateSession('transfertkpdptopembahasanrkpdp.orderby','order'),
+                                                                            'column_order'=>$this->getControllerStateSession('transferrkpdptopembahasanrkpdp.orderby','column_name'),
+                                                                            'direction'=>$this->getControllerStateSession('transferrkpdptopembahasanrkpdp.orderby','order'),
                                                                             'data'=>$data])->render(); 
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
@@ -167,22 +167,22 @@ class TransferRKPDPTOPembahasanRKPDP extends Controller {
         $action = $request->input('action');
         if ($action == 'reset') 
         {
-            $this->destroyControllerStateSession('transfertkpdptopembahasanrkpdp','search');
+            $this->destroyControllerStateSession('transferrkpdptopembahasanrkpdp','search');
         }
         else
         {
             $kriteria = $request->input('cmbKriteria');
             $isikriteria = $request->input('txtKriteria');
-            $this->putControllerStateSession('transfertkpdptopembahasanrkpdp','search',['kriteria'=>$kriteria,'isikriteria'=>$isikriteria]);
+            $this->putControllerStateSession('transferrkpdptopembahasanrkpdp','search',['kriteria'=>$kriteria,'isikriteria'=>$isikriteria]);
         }      
-        $this->setCurrentPageInsideSession('transfertkpdptopembahasanrkpdp',1);
+        $this->setCurrentPageInsideSession('transferrkpdptopembahasanrkpdp',1);
         $data=$this->populateData();
 
-        $datatable = view("pages.$theme.rkpd.transfertkpdptopembahasanrkpdp.datatable")->with(['page_active'=>'transfertkpdptopembahasanrkpdp',                                                            
-                                                            'search'=>$this->getControllerStateSession('transfertkpdptopembahasanrkpdp','search'),
+        $datatable = view("pages.$theme.rkpd.transferrkpdptopembahasanrkpdp.datatable")->with(['page_active'=>'transferrkpdptopembahasanrkpdp',                                                            
+                                                            'search'=>$this->getControllerStateSession('transferrkpdptopembahasanrkpdp','search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('transfertkpdptopembahasanrkpdp.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('transfertkpdptopembahasanrkpdp.orderby','order'),
+                                                            'column_order'=>$this->getControllerStateSession('transferrkpdptopembahasanrkpdp.orderby','column_name'),
+                                                            'direction'=>$this->getControllerStateSession('transferrkpdptopembahasanrkpdp.orderby','order'),
                                                             'data'=>$data])->render();      
         
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
@@ -196,20 +196,20 @@ class TransferRKPDPTOPembahasanRKPDP extends Controller {
     {                
         $theme = \Auth::user()->theme;
 
-        $search=$this->getControllerStateSession('transfertkpdptopembahasanrkpdp','search');
-        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('transfertkpdptopembahasanrkpdp'); 
+        $search=$this->getControllerStateSession('transferrkpdptopembahasanrkpdp','search');
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('transferrkpdptopembahasanrkpdp'); 
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage())
         {            
             $data = $this->populateData($data->lastPage());
         }
-        $this->setCurrentPageInsideSession('transfertkpdptopembahasanrkpdp',$data->currentPage());
+        $this->setCurrentPageInsideSession('transferrkpdptopembahasanrkpdp',$data->currentPage());
         
-        return view("pages.$theme.rkpd.transfertkpdptopembahasanrkpdp.index")->with(['page_active'=>'transfertkpdptopembahasanrkpdp',
-                                                                                    'search'=>$this->getControllerStateSession('transfertkpdptopembahasanrkpdp','search'),
+        return view("pages.$theme.rkpd.transferrkpdptopembahasanrkpdp.index")->with(['page_active'=>'transferrkpdptopembahasanrkpdp',
+                                                                                    'search'=>$this->getControllerStateSession('transferrkpdptopembahasanrkpdp','search'),
                                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                                                    'column_order'=>$this->getControllerStateSession('transfertkpdptopembahasanrkpdp.orderby','column_name'),
-                                                                                    'direction'=>$this->getControllerStateSession('transfertkpdptopembahasanrkpdp.orderby','order'),
+                                                                                    'column_order'=>$this->getControllerStateSession('transferrkpdptopembahasanrkpdp.orderby','column_name'),
+                                                                                    'direction'=>$this->getControllerStateSession('transferrkpdptopembahasanrkpdp.orderby','order'),
                                                                                     'data'=>$data]);               
     }    
     /**
@@ -564,7 +564,7 @@ class TransferRKPDPTOPembahasanRKPDP extends Controller {
  
         if (!is_null($data) )  
         {
-            return view("pages.$theme.rkpd.transfertkpdptopembahasanrkpdp.show")->with(['page_active'=>'transfertkpdptopembahasanrkpdp',
+            return view("pages.$theme.rkpd.transferrkpdptopembahasanrkpdp.show")->with(['page_active'=>'transferrkpdptopembahasanrkpdp',
                                                     'data'=>$data
                                                     ]);
         }        
