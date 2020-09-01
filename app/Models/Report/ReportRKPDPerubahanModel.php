@@ -422,7 +422,7 @@ class ReportRKPDPerubahanModel extends ReportModel
                             $sheet->setCellValue("J$row_program",\Helper::formatUang($totaleachprogram_kolom_j));
                             $sheet->setCellValue("M$row_program",\Helper::formatUang($totaleachprogram_kolom_m));
                             $sheet->setCellValue("N$row_program",\Helper::formatUang($totaleachprogram_kolom_n));
-                            $sheet->setCellValue("O$row_program",\Helper::formatUang($totaleachprogram_kolom_n-$totaleachprogram_kolom_n));
+                            $sheet->setCellValue("O$row_program",\Helper::formatUang($totaleachprogram_kolom_n-$totaleachprogram_kolom_m));
                         }                        
                     }
                 }
@@ -840,6 +840,7 @@ class ReportRKPDPerubahanModel extends ReportModel
                                 $totaleachkegiatan_kolom_j = 0;
                                 $totaleachkegiatan_kolom_m = 0;
                                 $totaleachkegiatan_kolom_n = 0;
+                                $totaleachkegiatan_kolom_o = 0;
                                 foreach ($rincian_kegiatan as $v5)
                                 {                     
                                     $sheet->setCellValue("A$row",$Kd_Urusan);
@@ -853,35 +854,40 @@ class ReportRKPDPerubahanModel extends ReportModel
                                     $sheet->setCellValue("H$row",'Kab. Bintan'); 
                                     $sasaran_angka=\Helper::formatAngka($v5->Sasaran_Angka3);
                                     $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', $sasaran_angka.' '.$v5->Sasaran_Uraian3)));                                                                        
-                                    $sheet->setCellValue("J$row",\Helper::formatUang($v5->NilaiUsulan3)); 
+                                    $sheet->setCellValue("J$row",\Helper::formatUang($v5->NilaiUsulan4)); 
                                     $sheet->setCellValue("K$row",$v5->Nm_SumberDana); 
                                     $sheet->setCellValue("L$row",$v5->Descr); 
                                     $sheet->setCellValue("M$row",\Helper::formatUang($v5->NilaiUsulan2)); 
                                     $sheet->setCellValue("N$row",\Helper::formatUang($v5->NilaiUsulan3)); 
-                                    $sheet->setCellValue("O$row",\Helper::formatUang($v5->NilaiUsulan3-$v5->NilaiUsulan2)); 
-                                    $total_pagu_kolom_j+=$v5->NilaiUsulan3;
+                                    $sheet->setCellValue("O$row",\Helper::formatUang($v5->NilaiUsulan4-$v5->NilaiUsulan2)); 
+                                    $total_pagu_kolom_j+=$v5->NilaiUsulan4;
                                     $total_pagu_kolom_m+=$v5->NilaiUsulan2;
                                     $total_pagu_kolom_n+=$v5->NilaiUsulan3;
+                                    $total_pagu_kolom_o+=$v5->NilaiUsulan4;
 
-                                    $totaleachkegiatan_kolom_j+=$v5->NilaiUsulan3;
+                                    $totaleachkegiatan_kolom_j+=$v5->NilaiUsulan4;
                                     $totaleachkegiatan_kolom_m+=$v5->NilaiUsulan2;
                                     $totaleachkegiatan_kolom_n+=$v5->NilaiUsulan3;                                  
+                                    $totaleachkegiatan_kolom_o+=$v5->NilaiUsulan4;                                  
                                     $no+=1;
                                     $row+=1;
                                 }                                   
                                 $sheet->setCellValue("J$row_kegiatan",\Helper::formatUang($totaleachkegiatan_kolom_j)); 
                                 $sheet->setCellValue("M$row_kegiatan",\Helper::formatUang($totaleachkegiatan_kolom_m)); 
                                 $sheet->setCellValue("N$row_kegiatan",\Helper::formatUang($totaleachkegiatan_kolom_n)); 
-                                $sheet->setCellValue("O$row_kegiatan",\Helper::formatUang($totaleachkegiatan_kolom_n-$totaleachkegiatan_kolom_m));                             
+                                $sheet->setCellValue("O$row_kegiatan",\Helper::formatUang($totaleachkegiatan_kolom_o)); 
+                                $sheet->setCellValue("P$row_kegiatan",\Helper::formatUang($totaleachkegiatan_kolom_o-$totaleachkegiatan_kolom_m));                             
 
                                 $totaleachprogram_kolom_j+=$totaleachkegiatan_kolom_j;
                                 $totaleachprogram_kolom_m+=$totaleachkegiatan_kolom_m;
                                 $totaleachprogram_kolom_n+=$totaleachkegiatan_kolom_n;
+                                $totaleachprogram_kolom_o+=$totaleachkegiatan_kolom_o;
                             }
                             $sheet->setCellValue("J$row_program",\Helper::formatUang($totaleachprogram_kolom_j));
                             $sheet->setCellValue("M$row_program",\Helper::formatUang($totaleachprogram_kolom_m));
                             $sheet->setCellValue("N$row_program",\Helper::formatUang($totaleachprogram_kolom_n));
-                            $sheet->setCellValue("O$row_program",\Helper::formatUang($totaleachprogram_kolom_n-$totaleachprogram_kolom_n));
+                            $sheet->setCellValue("O$row_program",\Helper::formatUang($totaleachprogram_kolom_o));
+                            $sheet->setCellValue("P$row_program",\Helper::formatUang($totaleachprogram_kolom_n-$totaleachprogram_kolom_m));
                         }                        
                     }
                 }
