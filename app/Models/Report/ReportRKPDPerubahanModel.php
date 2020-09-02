@@ -731,7 +731,8 @@ class ReportRKPDPerubahanModel extends ReportModel
                             $sheet->setCellValue("J$row_kegiatan",\Helper::formatUang($totaleachkegiatan_kolom_j)); 
                             $sheet->setCellValue("M$row_kegiatan",\Helper::formatUang($totaleachkegiatan_kolom_m)); 
                             $sheet->setCellValue("N$row_kegiatan",\Helper::formatUang($totaleachkegiatan_kolom_n)); 
-                            $sheet->setCellValue("O$row_kegiatan",\Helper::formatUang($totaleachkegiatan_kolom_o-$totaleachkegiatan_kolom_m));                             
+                            $sheet->setCellValue("O$row_kegiatan",\Helper::formatUang($totaleachkegiatan_kolom_o)); 
+                            $sheet->setCellValue("P$row_kegiatan",\Helper::formatUang($totaleachkegiatan_kolom_o-$totaleachkegiatan_kolom_m));                             
 
                             $totaleachprogram_kolom_j+=$totaleachkegiatan_kolom_j;
                             $totaleachprogram_kolom_m+=$totaleachkegiatan_kolom_m;
@@ -741,7 +742,8 @@ class ReportRKPDPerubahanModel extends ReportModel
                         $sheet->setCellValue("J$row_program",\Helper::formatUang($totaleachprogram_kolom_j));                                                         
                         $sheet->setCellValue("M$row_program",\Helper::formatUang($totaleachprogram_kolom_m)); 
                         $sheet->setCellValue("N$row_program",\Helper::formatUang($totaleachprogram_kolom_n)); 
-                        $sheet->setCellValue("O$row_program",\Helper::formatUang($totaleachprogram_kolom_o-$totaleachprogram_kolom_m)); 
+                        $sheet->setCellValue("O$row_program",\Helper::formatUang($totaleachprogram_kolom_o)); 
+                        $sheet->setCellValue("P$row_program",\Helper::formatUang($totaleachprogram_kolom_o-$totaleachprogram_kolom_m)); 
                     }
                 }
             }
