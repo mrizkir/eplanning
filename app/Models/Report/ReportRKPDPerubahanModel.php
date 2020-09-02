@@ -663,7 +663,7 @@ class ReportRKPDPerubahanModel extends ReportModel
                             $nama_indikator=$rkpd->NamaIndikator;
                             $sheet->setCellValue("G$row",$nama_indikator); 
                             $sheet->setCellValue("H$row",'Kab. Bintan'); 
-                            $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_Angka3) . ' '.$rkpd->Sasaran_Uraian3))); 
+                            $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', \Helper::formatAngka($rkpd->Sasaran_Angka4) . ' '.$rkpd->Sasaran_Uraian4))); 
                             $sheet->setCellValue("J$row",\Helper::formatUang($rkpd->NilaiUsulan4)); 
                             $sheet->setCellValue("K$row",$rkpd->Nm_SumberDana); 
                             $sheet->setCellValue("L$row",$rkpd->Descr);                            
@@ -889,7 +889,7 @@ class ReportRKPDPerubahanModel extends ReportModel
                             $sheet->setCellValue("M$row_program",\Helper::formatUang($totaleachprogram_kolom_m));
                             $sheet->setCellValue("N$row_program",\Helper::formatUang($totaleachprogram_kolom_n));
                             $sheet->setCellValue("O$row_program",\Helper::formatUang($totaleachprogram_kolom_o));
-                            $sheet->setCellValue("P$row_program",\Helper::formatUang($totaleachprogram_kolom_n-$totaleachprogram_kolom_m));
+                            $sheet->setCellValue("P$row_program",\Helper::formatUang($totaleachprogram_kolom_o-$totaleachprogram_kolom_m));
                         }                        
                     }
                 }
