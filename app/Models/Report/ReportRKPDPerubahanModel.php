@@ -654,7 +654,7 @@ class ReportRKPDPerubahanModel extends ReportModel
                                                 ->where($field,$id)
                                                 ->first();
 
-                            $sheet->getStyle("A$row:N$row")->applyFromArray($styleArrayKegiatan);
+                            $sheet->getStyle("A$row:P$row")->applyFromArray($styleArrayKegiatan);
                             $sheet->setCellValue("A$row",0);
                             $sheet->setCellValue("B$row",'00');
                             $sheet->setCellValue("C$row",$Kd_Prog);
@@ -802,7 +802,7 @@ class ReportRKPDPerubahanModel extends ReportModel
                                                 ->where($field,$id)
                                                 ->first();
                                 
-                                $sheet->getStyle("A$row:N$row")->applyFromArray($styleArrayKegiatan);
+                                $sheet->getStyle("A$row:P$row")->applyFromArray($styleArrayKegiatan);
                                 $sheet->setCellValue("A$row",$Kd_Urusan);
                                 $sheet->setCellValue("B$row",$Kd_Bidang);
                                 $sheet->setCellValue("C$row",$Kd_Prog);
@@ -898,7 +898,7 @@ class ReportRKPDPerubahanModel extends ReportModel
             }
         }
         
-        $sheet->getStyle("A$row:N$row")->applyFromArray($styleArrayKegiatan);  
+        $sheet->getStyle("A$row:P$row")->applyFromArray($styleArrayKegiatan);  
         $sheet->getRowDimension($row)->setRowHeight(30);
         $sheet->mergeCells("A$row:H$row"); 
         $sheet->setCellValue("I$row",'TOTAL'); 
