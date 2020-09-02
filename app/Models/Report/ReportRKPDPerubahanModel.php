@@ -817,11 +817,12 @@ class ReportRKPDPerubahanModel extends ReportModel
                                 $rincian_kegiatan = \DB::table('v_rkpd_rinci')
                                                     ->select(\DB::raw('
                                                                     "Uraian",
-                                                                    "Sasaran_Angka3",
-                                                                    "Sasaran_Uraian3",
-                                                                    "Target3",
+                                                                    "Sasaran_Angka4",
+                                                                    "Sasaran_Uraian4",
+                                                                    "Target4",
                                                                     "NilaiUsulan2",
                                                                     "NilaiUsulan3",
+                                                                    "NilaiUsulan4",
                                                                     "Nm_SumberDana",
                                                                     "Lokasi",
                                                                     "Descr"
@@ -852,14 +853,15 @@ class ReportRKPDPerubahanModel extends ReportModel
                                     $sheet->setCellValue("G$row",$nama_indikator); 
                                     $sheet->setCellValue("H$row",$v5->Lokasi); 
                                     $sheet->setCellValue("H$row",'Kab. Bintan'); 
-                                    $sasaran_angka=\Helper::formatAngka($v5->Sasaran_Angka3);
-                                    $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', $sasaran_angka.' '.$v5->Sasaran_Uraian3)));                                                                        
+                                    $sasaran_angka=\Helper::formatAngka($v5->Sasaran_Angka4);
+                                    $sheet->setCellValue("I$row",trim(preg_replace('/[\t\n\r\s]+/', ' ', $sasaran_angka.' '.$v5->Sasaran_Uraian4)));                                                                        
                                     $sheet->setCellValue("J$row",\Helper::formatUang($v5->NilaiUsulan4)); 
                                     $sheet->setCellValue("K$row",$v5->Nm_SumberDana); 
                                     $sheet->setCellValue("L$row",$v5->Descr); 
                                     $sheet->setCellValue("M$row",\Helper::formatUang($v5->NilaiUsulan2)); 
                                     $sheet->setCellValue("N$row",\Helper::formatUang($v5->NilaiUsulan3)); 
-                                    $sheet->setCellValue("O$row",\Helper::formatUang($v5->NilaiUsulan4-$v5->NilaiUsulan2)); 
+                                    $sheet->setCellValue("O$row",\Helper::formatUang($v5->NilaiUsulan4)); 
+                                    $sheet->setCellValue("P$row",\Helper::formatUang($v5->NilaiUsulan4-$v5->NilaiUsulan2)); 
                                     $total_pagu_kolom_j+=$v5->NilaiUsulan4;
                                     $total_pagu_kolom_m+=$v5->NilaiUsulan2;
                                     $total_pagu_kolom_n+=$v5->NilaiUsulan3;
