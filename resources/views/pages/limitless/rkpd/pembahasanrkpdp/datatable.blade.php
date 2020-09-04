@@ -61,12 +61,12 @@
                         TARGET (%)                        
                     </th> 
                     <th width="150" class="text-right">
-                        <a class="column-sort text-white" id="col-NilaiUsulan1" data-order="{{$direction}}" href="#">
+                        <a class="column-sort text-white" id="col-NilaiUsulan3" data-order="{{$direction}}" href="#">
                             NILAI USULAN<br>RKPDP
                         </a>                                             
                     </th>          
                     <th class="text-right">
-                        <a class="column-sort text-white" id="col-NilaiUsulan2" data-order="{{$direction}}" href="#">
+                        <a class="column-sort text-white" id="col-NilaiUsulan4" data-order="{{$direction}}" href="#">
                             NILAI USULAN<br>PEMNBAHASAN RKPDP
                         </a>
                     </th>                         

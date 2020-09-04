@@ -65,10 +65,10 @@
                 <td>{{Helper::formatAngka($item->Sasaran_Angka)}} {{ucwords($item->Sasaran_Uraian)}}</td>
                 <td>{{$item->Target}}</td>               
                 <td class="text-right">
-                    <span class="text-success">{{Helper::formatuang($item->Jumlah2)}}</span><br>                
+                    <span class="text-success">{{Helper::formatuang($item->Jumlah3)}}</span><br>                
                 </td>  
                 <td class="text-right">                    
-                    <span class="text-danger">{{Helper::formatuang($item->Jumlah3)}}</span>
+                    <span class="text-danger">{{Helper::formatuang($item->Jumlah4)}}</span>
                 </td>  
                 <td>
                     @include('layouts.limitless.l_status_kegiatan')
@@ -138,8 +138,8 @@
         </tbody>
         <tfoot>
             @php
-                $jumlah=$datarinciankegiatan->sum('Jumlah2');
-                $jumlah2=$datarinciankegiatan->sum('Jumlah3');
+                $jumlah=$datarinciankegiatan->sum('Jumlah3');
+                $jumlah2=$datarinciankegiatan->sum('Jumlah4');
             @endphp
             <tr class="bg-grey-300" style="font-weight:bold">
                 <td colspan="4" class="text-right">TOTAL</td>

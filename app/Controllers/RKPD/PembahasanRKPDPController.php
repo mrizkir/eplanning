@@ -41,8 +41,8 @@ class PembahasanRKPDPController extends Controller
                                                             "trRKPDRinc"."Sasaran_Uraian4" AS "Sasaran_Uraian",
                                                             "trRKPDRinc"."Target4" AS "Target",
                                                             "trRKPDRinc"."NilaiUsulan1" AS "Jumlah",
-                                                            "trRKPDRinc"."NilaiUsulan2" AS "Jumlah2",
-                                                            "trRKPDRinc"."NilaiUsulan4" AS "Jumlah3",
+                                                            "trRKPDRinc"."NilaiUsulan3" AS "Jumlah3",
+                                                            "trRKPDRinc"."NilaiUsulan4" AS "Jumlah4",
                                                             "trRKPDRinc"."Status",
                                                             "trRKPDRinc"."Privilege",
                                                             "trRKPDRinc"."EntryLvl",
@@ -1793,7 +1793,7 @@ class PembahasanRKPDPController extends Controller
                 {            
                     case 'pembahasanrkpdp' :
                         $rkpd->NilaiUsulan4=RKPDRincianModel::where('RKPDID',$rkpd->RKPDID)->sum('NilaiUsulan4');  
-                        $NilaiUsulan=$rkpd->NilaiUsulan2;          
+                        $NilaiUsulan=$rkpd->NilaiUsulan4;          
                     break;                    
                 }   
                 $rkpd->save();
@@ -1811,7 +1811,7 @@ class PembahasanRKPDPController extends Controller
                                     'datarinciankegiatan'=>$data])
                                 ->render();     
                 
-                return response()->json(['success'=>true,'NilaiUsulan2'=>$NilaiUsulan,'datatable'=>$datatable],200); 
+                return response()->json(['success'=>true,'NilaiUsulan4'=>$NilaiUsulan,'datatable'=>$datatable],200); 
             }
             else
             {
