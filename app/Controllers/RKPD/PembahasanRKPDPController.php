@@ -187,10 +187,7 @@ class PembahasanRKPDPController extends Controller
             break; 
             case 'col-status' :
                 $column_name = 'status';
-            break;
-            case 'col-Prioritas' :
-                $column_name = 'Prioritas';
-            break;
+            break;            
             default :
                 $column_name = 'kode_kegiatan';
         }
@@ -936,8 +933,7 @@ class PembahasanRKPDPController extends Controller
                         'NilaiUsulan1' => 0,                       
                         'NilaiUsulan2' => 0,                       
                         'NilaiUsulan3' => 0,                       
-                        'NilaiUsulan4' => $request->input('Jumlah'),                       
-                        'Prioritas' => $request->input('Prioritas'),  
+                        'NilaiUsulan4' => $request->input('Jumlah'),                                               
                         'Tgl_Posting' => $tanggal_posting,                       
                         'isReses' => true,     
                         'isReses_Uraian' => '['.$pokok_pikiran->Kd_PK . '] '.$pokok_pikiran->NmPk,
@@ -1364,8 +1360,7 @@ class PembahasanRKPDPController extends Controller
                                                                                     "trRKPDRinc"."Sasaran_Angka4" AS "Sasaran_Angka",
                                                                                     "trRKPDRinc"."Sasaran_Uraian4" AS "Sasaran_Uraian",
                                                                                     "trRKPDRinc"."Target4" AS "Target",
-                                                                                    "trRKPDRinc"."NilaiUsulan4" AS "Jumlah",
-                                                                                    "trRKPDRinc"."Prioritas",
+                                                                                    "trRKPDRinc"."NilaiUsulan4" AS "Jumlah",                                                                                    
                                                                                     "trRKPDRinc"."Descr",
                                                                                     "trRKPDRinc"."isSKPD",
                                                                                     "trRKPDRinc"."isReses"'))                                            
@@ -1383,8 +1378,7 @@ class PembahasanRKPDPController extends Controller
                                                                                     "trRKPDRinc"."Sasaran_Angka4" AS "Sasaran_Angka",
                                                                                     "trRKPDRinc"."Sasaran_Uraian4" AS "Sasaran_Uraian",
                                                                                     "trRKPDRinc"."Target4" AS "Target",
-                                                                                    "trRKPDRinc"."NilaiUsulan4" AS "Jumlah",
-                                                                                    "trRKPDRinc"."Prioritas",
+                                                                                    "trRKPDRinc"."NilaiUsulan4" AS "Jumlah",                                                                                    
                                                                                     "trRKPDRinc"."Descr",
                                                                                     "trRKPDRinc"."isSKPD",
                                                                                     "trRKPDRinc"."isReses"'))                                            
